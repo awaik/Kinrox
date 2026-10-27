@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" fill="none" role="img" aria-labelledby="t">
+<title id="t">A person lies on a couch holding an iPhone. Behind the couch a MacBook and a projector throw a movie onto the wall.</title>
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="0" y2="470" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#0b0706"/><stop offset="1" stop-color="#070504"/>
+  </linearGradient>
+  <linearGradient id="floor" x1="0" y1="470" x2="0" y2="600" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#140d0a"/><stop offset="1" stop-color="#020101"/>
+  </linearGradient>
+  <radialGradient id="spill" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(280 190) scale(470 290)">
+    <stop stop-color="#FF7A2E" stop-opacity=".36"/>
+    <stop offset=".5" stop-color="#E8231A" stop-opacity=".12"/>
+    <stop offset="1" stop-color="#E8231A" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="floorGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(290 486) scale(360 46)">
+    <stop stop-color="#FF7A2E" stop-opacity=".22"/><stop offset="1" stop-color="#FF7A2E" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="beam" x1="662" y1="0" x2="526" y2="0" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FFE2B0" stop-opacity=".62"/><stop offset="1" stop-color="#FFB25C" stop-opacity=".07"/>
+  </linearGradient>
+  <linearGradient id="beamWide" x1="662" y1="0" x2="40" y2="0" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FFE2B0" stop-opacity=".16"/><stop offset=".35" stop-color="#FFB25C" stop-opacity=".04"/><stop offset="1" stop-color="#FFB25C" stop-opacity="0"/>
+  </linearGradient>
+  <radialGradient id="flare" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(662 302) scale(30)">
+    <stop stop-color="#FFF3DC" stop-opacity=".95"/><stop offset=".35" stop-color="#FFB25C" stop-opacity=".45"/><stop offset="1" stop-color="#FF5A1F" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="couch" x1="418" y1="0" x2="942" y2="0" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#45221a"/><stop offset=".45" stop-color="#26150f"/><stop offset="1" stop-color="#150d0a"/>
+  </linearGradient>
+  <linearGradient id="couchBack" x1="446" y1="0" x2="914" y2="0" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#2b1610"/><stop offset="1" stop-color="#100907"/>
+  </linearGradient>
+  <linearGradient id="blanket" x1="556" y1="400" x2="740" y2="470" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#7a321c"/><stop offset=".55" stop-color="#4a1f14"/><stop offset="1" stop-color="#26110b"/>
+  </linearGradient>
+  <radialGradient id="phoneGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(780 404) scale(58)">
+    <stop stop-color="#FFA23A" stop-opacity=".55"/><stop offset=".45" stop-color="#FF5A1F" stop-opacity=".18"/><stop offset="1" stop-color="#FF5A1F" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="phoneScreen" x1="0" y1="-11" x2="0" y2="11" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FFB25C"/><stop offset="1" stop-color="#FF5A1F"/>
+  </linearGradient>
+  <linearGradient id="macScreen" x1="0" y1="250" x2="0" y2="312" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#1B0F2B"/><stop offset=".45" stop-color="#5E1A2E"/><stop offset=".75" stop-color="#E8541F"/><stop offset="1" stop-color="#2A0F1B"/>
+  </linearGradient>
+  <radialGradient id="macGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(786 282) scale(70 54)">
+    <stop stop-color="#FF7A2E" stop-opacity=".2"/><stop offset="1" stop-color="#FF7A2E" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="fire" x1="0" y1="0" x2="1" y2="0">
+    <stop stop-color="#E8241A"/><stop offset=".55" stop-color="#FF591F"/><stop offset="1" stop-color="#FFA33B"/>
+  </linearGradient>
+  <!-- Ember Dusk still from Figma (Media/Video Still/Ember Dusk). -->
+  <linearGradient id="ed-sky" x1="0" y1="0" x2="0" y2="810" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#1B0F2B"/><stop offset="0.38" stop-color="#5E1A2E"/><stop offset="0.62" stop-color="#E8541F"/><stop offset="0.72" stop-color="#FFB25C"/>
+  </linearGradient>
+  <radialGradient id="ed-sun" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(936 504) scale(270)">
+    <stop stop-color="#FFE2B0" stop-opacity="0.85"/><stop offset="1" stop-color="#FFB25C" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="ed-haze" x1="0" y1="468" x2="0" y2="576" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FFB25C" stop-opacity="0"/><stop offset="1" stop-color="#E8541F" stop-opacity="0.35"/>
+  </linearGradient>
+  <linearGradient id="scrimTop" x1="0" y1="0" x2="0" y2="150" gradientUnits="userSpaceOnUse">
+    <stop stop-opacity=".55"/><stop offset="1" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="scrimBottom" x1="0" y1="489" x2="0" y2="810" gradientUnits="userSpaceOnUse">
+    <stop stop-opacity="0"/><stop offset="1" stop-opacity=".72"/>
+  </linearGradient>
+  <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="bloom" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="18"/></filter>
+  <!-- Person as rounded strokes; drawn twice for a warm rim light from the screen. -->
+  <g id="person" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="870" cy="407" r="18" fill="currentColor" stroke="none"/>
+    <path d="M858 418L846 428" stroke-width="15"/>
+    <path d="M722 452Q784 448 842 432" stroke-width="36"/>
+    <circle cx="840" cy="434" r="19" fill="currentColor" stroke="none"/>
+    <path d="M834 442Q808 458 798 451L783 416" stroke-width="13"/>
+    <path d="M722 456L600 456" stroke-width="30"/>
+    <ellipse cx="552" cy="449" rx="10" ry="7" transform="rotate(-20 552 449)" fill="currentColor" stroke="none"/>
+    <ellipse cx="549" cy="462" rx="10" ry="6" transform="rotate(-8 549 462)" fill="currentColor" stroke="none"/>
+  </g>
+</defs>
+
+<!-- Room -->
+<rect width="1200" height="470" fill="url(#wall)"/>
+<rect y="470" width="1200" height="130" fill="url(#floor)"/>
+<rect y="468" width="1200" height="2" fill="#1d1411"/>
+<rect width="1200" height="470" fill="url(#spill)"/>
+<rect y="440" width="1200" height="100" fill="url(#floorGlow)"/>
+
+<!-- Projected movie -->
+<rect x="28" y="38" width="504" height="294" rx="6" fill="#FF7A2E" opacity=".35" filter="url(#bloom)"/>
+<rect x="34" y="44" width="492" height="282" rx="4" fill="#120d0c"/>
+<svg x="40" y="50" width="480" height="270" viewBox="0 0 1440 810" preserveAspectRatio="none">
+  <path d="M0 0H1440V810H0Z" fill="url(#ed-sky)"/>
+  <circle cx="936" cy="504" r="270" fill="url(#ed-sun)"/>
+  <circle cx="936" cy="504" r="70.2" fill="#FFE2B0"/>
+  <path d="M0 504L162 423L288 468L423 369L576 450L684 405L810 477L972 396L1134 468L1278 387L1440 450V810H0V504Z" fill="#4A1426"/>
+  <path d="M0 468H1440V576H0Z" fill="url(#ed-haze)"/>
+  <path d="M0 576L126 522L270 567L414 504L558 576L720 531L882 585L1044 522L1206 576L1350 540L1440 567V810H0V576Z" fill="#2A0F1B"/>
+  <path d="M0 648L180 603L342 648L504 612L684 666L882 621L1062 670.5L1242 630L1440 666V810H0V648Z" fill="#160A10"/>
+  <path d="M0 720L234 693L468 729L720 702L972 738L1206 711L1440 733.5V810H0V720Z" fill="#070407"/>
+  <rect width="1440" height="150" fill="url(#scrimTop)"/>
+  <rect y="489" width="1440" height="321" fill="url(#scrimBottom)"/>
+  <!-- Kinrox overlay: status chip and Liquid Glass controls -->
+  <rect x="1216" y="15" width="203" height="32" rx="16" fill="#FFF6EC" fill-opacity=".1" stroke="#FFF6EC" stroke-opacity=".2" stroke-width="2"/>
+  <circle cx="1236" cy="31" r="6" fill="#4ADE80"/>
+  <rect x="1252" y="26" width="148" height="10" rx="5" fill="#F7EFE4" opacity=".7"/>
+  <rect x="339" y="653" width="760" height="124" rx="32" fill="#0A0808" fill-opacity=".5" stroke="#FFF6EC" stroke-opacity=".26" stroke-width="2"/>
+  <rect x="363" y="676" width="44" height="10" rx="5" fill="#F7EFE4" opacity=".85"/>
+  <rect x="422" y="679" width="586" height="5" rx="2.5" fill="#FFF6EC" fill-opacity=".18"/>
+  <rect x="422" y="679" width="306" height="5" rx="2.5" fill="#F7F0E3" fill-opacity=".3"/>
+  <rect x="422" y="679" width="212" height="5" rx="2.5" fill="url(#fire)"/>
+  <circle cx="634" cy="681.5" r="9" fill="#F7EFE4"/>
+  <rect x="1024" y="676" width="50" height="10" rx="5" fill="#F7EFE4" opacity=".5"/>
+  <circle cx="719" cy="731" r="28" fill="#F7EFE4"/>
+  <rect x="707" y="719" width="8" height="24" rx="2" fill="#0E0C0B"/>
+  <rect x="723" y="719" width="8" height="24" rx="2" fill="#0E0C0B"/>
+  <path d="M651 721v20M667 721l-13 10 13 10z" stroke="#F7EFE4" stroke-width="3" fill="#F7EFE4" stroke-linejoin="round"/>
+  <path d="M787 721v20M771 721l13 10-13 10z" stroke="#F7EFE4" stroke-width="3" fill="#F7EFE4" stroke-linejoin="round"/>
+  <rect x="378" y="722" width="14" height="18" rx="3" fill="#F7EFE4" opacity=".85"/>
+  <rect x="409" y="729" width="96" height="4" rx="2" fill="#FFF6EC" fill-opacity=".18"/>
+  <rect x="409" y="729" width="67" height="4" rx="2" fill="#F7EFE4"/>
+  <circle cx="476" cy="731" r="7" fill="#F7EFE4"/>
+  <circle cx="967" cy="731" r="8" fill="#F7EFE4" opacity=".75"/>
+  <circle cx="1011" cy="731" r="8" fill="#F7EFE4" opacity=".75"/>
+  <circle cx="1055" cy="731" r="8" fill="#F7EFE4" opacity=".75"/>
+</svg>
+
+<!-- Projector light -->
+<path d="M662 297L662 307L40 320L40 50Z" fill="url(#beamWide)" style="mix-blend-mode:screen"/>
+<path d="M662 296L662 308L526 324L526 46Z" fill="url(#beam)" style="mix-blend-mode:screen"/>
+<g fill="#FFE2B0">
+  <circle cx="612" cy="190" r="1.6" opacity=".7"/><circle cx="590" cy="254" r="1.2" opacity=".55"/>
+  <circle cx="634" cy="236" r="1" opacity=".6"/><circle cx="566" cy="132" r="1.4" opacity=".45"/>
+  <circle cx="548" cy="296" r="1.1" opacity=".5"/><circle cx="604" cy="300" r="1.3" opacity=".5"/>
+  <circle cx="575" cy="210" r="0.9" opacity=".6"/><circle cx="640" cy="276" r="1.2" opacity=".7"/>
+  <circle cx="556" cy="88" r="1" opacity=".35"/><circle cx="622" cy="158" r="0.8" opacity=".5"/>
+</g>
+
+<!-- Side table with MacBook and projector -->
+<rect x="642" y="327" width="7" height="160" fill="#100a08"/>
+<rect x="826" y="327" width="7" height="160" fill="#0c0807"/>
+<rect x="630" y="318" width="214" height="10" rx="3" fill="#1e1512"/>
+<rect x="630" y="318" width="214" height="2" rx="1" fill="#4a3127" opacity=".8"/>
+<path d="M747 319C742 333 736 333 731 313" stroke="#2c211d" stroke-width="2.5" stroke-linecap="round"/>
+<rect x="656" y="314" width="10" height="5" rx="1.5" fill="#1a1311"/>
+<rect x="714" y="314" width="10" height="5" rx="1.5" fill="#1a1311"/>
+<rect x="650" y="282" width="82" height="34" rx="8" fill="#2a201c"/>
+<rect x="656" y="284" width="70" height="3" rx="1.5" fill="#5b463c" opacity=".7"/>
+<path d="M704 296h20M704 302h20M704 308h20" stroke="#120d0b" stroke-width="2" stroke-linecap="round"/>
+<circle cx="662" cy="302" r="30" fill="url(#flare)"/>
+<circle cx="664" cy="302" r="11" fill="#0b0807" stroke="#5a463d" stroke-width="2"/>
+<circle cx="663" cy="302" r="6" fill="#FFE9C7"/>
+<ellipse cx="786" cy="282" rx="70" ry="54" fill="url(#macGlow)"/>
+<path d="M752 250L814 246L816 312L754 314Z" fill="#1b1513"/>
+<path d="M756 254L810 250.5L812 308.5L758 310.5Z" fill="url(#macScreen)"/>
+<path d="M767 297l12-9 8 5 11-10 12 9v16l-43 1z" fill="#2A0F1B" opacity=".9"/>
+<circle cx="790" cy="291" r="5" fill="#FFE2B0" opacity=".85"/>
+<path d="M745 315L823 312L832 319L738 322Z" fill="#3a302b"/>
+<path d="M745 315L823 312" stroke="#6b5b52" stroke-width="1"/>
+
+<!-- Couch -->
+<ellipse cx="680" cy="546" rx="300" ry="16" fill="#000" opacity=".7" filter="url(#soft)"/>
+<rect x="446" y="392" width="468" height="94" rx="26" fill="url(#couchBack)"/>
+<rect x="452" y="398" width="456" height="2" rx="1" fill="#FF8A4A" opacity=".12"/>
+<rect x="440" y="500" width="480" height="32" rx="10" fill="#120b09"/>
+<rect x="458" y="530" width="10" height="14" rx="2" fill="#0a0605"/>
+<rect x="892" y="530" width="10" height="14" rx="2" fill="#0a0605"/>
+<rect x="452" y="466" width="456" height="42" rx="14" fill="url(#couch)"/>
+<rect x="456" y="466" width="440" height="3" rx="1.5" fill="#FF8A4A" opacity=".2"/>
+<rect x="888" y="430" width="54" height="102" rx="22" fill="#170e0b"/>
+<ellipse cx="872" cy="446" rx="36" ry="16" fill="#2c1b15"/>
+<ellipse cx="866" cy="440" rx="28" ry="5" fill="#FF8A4A" opacity=".08"/>
+
+<!-- Person -->
+<ellipse cx="780" cy="404" rx="58" ry="58" fill="url(#phoneGlow)"/>
+<use href="#person" color="#FF8A4A" opacity=".55" transform="translate(-2.5 -2)"/>
+<use href="#person" color="#0b0706"/>
+<circle cx="856" cy="404" r="5" fill="#FF8A4A" opacity=".16"/>
+<path d="M554 470C552 455 566 443 590 434C614 425 634 411 656 413C684 416 708 432 738 439L746 470Z" fill="url(#blanket)"/>
+<path d="M598 440C620 448 642 452 668 450M630 424C650 434 676 440 704 444" stroke="#2a120c" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+<path d="M556 466C564 448 586 434 616 424" stroke="#FF9A5A" stroke-width="2" stroke-linecap="round" opacity=".35"/>
+<rect x="418" y="430" width="54" height="102" rx="22" fill="url(#couch)"/>
+<rect x="424" y="432" width="42" height="3" rx="1.5" fill="#FF8A4A" opacity=".22"/>
+
+<!-- iPhone in hand and the signal it sends -->
+<g transform="translate(781 404) rotate(-14)">
+  <rect x="-8" y="-13" width="16" height="26" rx="3.5" fill="#141010"/>
+  <rect x="-6.5" y="-11.5" width="13" height="23" rx="2.5" fill="url(#phoneScreen)"/>
+  <circle cx="0" cy="1" r="3.2" fill="#FFF3DC"/>
+</g>
+<g stroke="#FFA23A" stroke-width="3" stroke-linecap="round">
+  <path d="M775.1 376.2A12 12 0 0 1 788.9 376.2" opacity=".95"/>
+  <path d="M770 368.8A21 21 0 0 1 794 368.8" opacity=".65"/>
+  <path d="M764.8 361.4A30 30 0 0 1 799.2 361.4" opacity=".35"/>
+</g>
+<circle cx="781" cy="404" r="31" stroke="#FFA23A" stroke-opacity=".55" stroke-width="1.5" stroke-dasharray="3 5"/>
+<path d="M811 396L960 318" stroke="#FFA23A" stroke-opacity=".4" stroke-width="1.5" stroke-dasharray="3 5" stroke-linecap="round"/>
+</svg>

@@ -131,6 +131,14 @@ reports `2.5.0` — libmpv client API version. Headers reside in
 Library validation is temporarily disabled for Homebrew dylibs. Mac distribution
 via Developer ID, notarization, and DMG is scheduled for M6.
 
+## Design
+
+All design work is done in Figma file
+[Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U):
+[01 · UI v1 — Player & Remote](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=0-1)
+and [02 · M4 — Connection & states](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=13-352).
+Tokens from the file live in `Shared/Design/KinroxTheme.swift` and `Resources/Branding.xcassets`.
+
 ## Logo and Icons
 
 Master logo is stored in
@@ -167,6 +175,20 @@ For sensitive vulnerability reports, follow [SECURITY.md](SECURITY.md).
 Keep signing settings, certificates, private keys, `.env` files, generated
 projects, and build artifacts out of commits. The repository includes a signing
 template; each developer supplies their own ignored local configuration.
+
+## Landing Site
+
+`site/` holds the GitHub Pages landing in English and Russian: plain HTML and CSS,
+no build step, no analytics. Preview locally:
+
+```sh
+python3 -m http.server 8080 --directory site
+```
+
+Workflow `.github/workflows/pages.yml` deploys it on every push to `main` that touches `site/`
+(enable Settings → Pages → Source: GitHub Actions once). Refresh remote screenshots with
+`./Scripts/capture-landing-screenshots.sh` after building RemoteiOS for a booted simulator.
+Details — [site/README.md](site/README.md).
 
 ## Runbooks
 

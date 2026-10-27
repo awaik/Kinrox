@@ -13,7 +13,8 @@
 > M4 completed in scope M4.1–M4.4. By owner decision 2026-10-27 `kinrox-cli` (former M4.5) moved to [a separate optional task](docs/TODO/05-kinrox-cli.md); its absence does not block M6 or app release.
 > M5 implemented 2026-10-27: real remote, Bonjour, Keychain, control, and reconnection. Automated tests passed; owner confirmed manual checklist of Mac + physical iPhone: "Double-checked everything, everything works." Results and remaining limitations — [M5 Report](docs/runbooks/M5-VERIFICATION.md). Changes ready for review; M6 not yet started.
 > Tasks for contributors (M3, M4, localization, updates) — in [docs/TODO](docs/TODO/).
-> Design is maintained in Figma file [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U), see Section 3.5.
+> All design work is done in Figma file [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U) (owner decision 2026-10-27), see Section 3.5.
+> Landing site added 2026-10-27: static GitHub Pages site in `site/` (English + Russian), deployed by `.github/workflows/pages.yml`; see Section 3.6.
 > Open questions are compiled in Section 11. Until closed, proposals marked "proposal" are non-final.
 
 Legend:
@@ -215,9 +216,15 @@ Kinrox/
 │           ├── RemoteProtocolTests/
 │           └── RemoteTransportTests/
 ├── docs/runbooks/                # build, signing, and verification runbooks
+├── site/                         # static landing page for GitHub Pages (3.6)
+│   ├── index.html                # English, default
+│   ├── ru/index.html             # Russian
+│   └── assets/                   # css, js, Figma icons and stills, remote screenshots
+├── .github/workflows/pages.yml   # deploys site/ to GitHub Pages
 ├── Scripts/
 │   ├── check-env.sh              # environment verification script
 │   ├── generate.sh               # project generator
+│   ├── capture-landing-screenshots.sh # remote screenshots for site/
 │   └── bundle-libmpv.sh          # dylib packaging in .app (M6)
 └── Vendor/                       # compiled dylibs for M6, in .gitignore
 ```
@@ -257,9 +264,37 @@ When opened via remote, path is resolved on Mac without sending filesystem paths
 
 ### 3.5. Design (Figma)
 
-Design is maintained in Figma file [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U).
+All design work for Kinrox — Mac player, iPhone remote, and the landing site — is done in one Figma file,
+[Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U) (owner decision 2026-10-27).
+The file is the source of truth for layouts, texts in mockups, components, and tokens; code follows it.
+
+| Page | Contents |
+|---|---|
+| [01 · UI v1 — Player & Remote](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=0-1) | Cover with principles, palette and type; Mac player screens (M2); iPhone remote screens (M5); component library |
+| [02 · M4 — Connection & states](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=13-352) | Remote settings on Mac, "Connect iPhone" window, search hints, local network denied, wrong code, reconnecting, connection failed, nothing playing, incompatible version |
+
+Working with the file:
+- new screens and states are designed in this file before implementation; existing pages follow `NN · <milestone> — <topic>`;
+- mockup copy in Figma is currently Russian; app source strings stay English (Section 9);
+- for the Figma MCP server: page ids `0:1` and `13:352`, component library in section `3:2`.
+
 Design tokens reside in `Shared/Design/KinroxTheme.swift` and `Resources/Branding.xcassets`.
 Liquid Glass aesthetic with fallback materials on pre-macOS 26 systems. System fonts: SF Pro and SF Pro Rounded.
+
+### 3.6. Landing Site
+
+Static page in `site/`, published to GitHub Pages by `.github/workflows/pages.yml`
+(repository Settings → Pages → Source: GitHub Actions). No build step, frameworks, external fonts,
+analytics, or cookies, in line with principle 4. English is the default page, Russian lives in `site/ru/`.
+
+- First screen states the pain: getting up to pause a movie playing from a MacBook on a projector.
+  The hero illustration `site/assets/img/scene.svg` shows a person on a couch with an iPhone,
+  a MacBook and a projector; the real remote screenshot sits next to it.
+- iPhone screenshots are captured from the real app in demo mode by `Scripts/capture-landing-screenshots.sh`.
+- Mac screens are HTML recreations of Figma frames 5:23 and 6:215 using real localized app strings.
+- Icons and video stills are exported from the Figma component library.
+- Claims on the page must match shipped behavior. Until M6 the page links to source and releases on GitHub
+  instead of a download. Details — [site/README.md](site/README.md).
 
 ---
 
@@ -504,6 +539,9 @@ xcodebuild -workspace Kinrox.xcworkspace -scheme RemoteiOS -configuration Debug 
 
 # Formatting
 xcrun swift-format lint --strict --recursive PlayerMac RemoteiOS Packages Shared
+
+# Landing site preview
+python3 -m http.server 8080 --directory site
 ```
 
 ### 8.1. Installing Remote on iPhone with Personal Apple ID

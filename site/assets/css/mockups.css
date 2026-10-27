@@ -1,0 +1,367 @@
+/* Device frames and HTML recreations of Figma screens.
+   Mac screens follow "Mac / Player — Playing" (5:23) and "Pairing Dialog" (6:215);
+   one design pixel equals var(--u), so the window scales with its container. */
+
+/* iPhone frame around a real simulator screenshot (1206 × 2622). */
+.iphone {
+  container-type: inline-size;
+  width: var(--w, 320px);
+}
+
+.iphone-body {
+  position: relative;
+  padding: 3.1cqw;
+  border-radius: 16.5cqw;
+  background: linear-gradient(150deg, #47403b 0%, #1a1614 22%, #0d0b0a 60%, #3a332e 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 246, 236, 0.16),
+    inset 0 0 0 2.2cqw #050404,
+    0 50px 100px -30px rgba(0, 0, 0, 0.9),
+    0 30px 90px -40px rgba(255, 90, 31, 0.45);
+}
+
+.iphone-body img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1206 / 2622;
+  border-radius: 13.4cqw;
+  background: #000;
+}
+
+/* Mac window */
+.mac-wrap {
+  container-type: inline-size;
+  width: 100%;
+}
+
+.mac {
+  --u: calc(100cqw / 1440);
+  position: relative;
+  aspect-ratio: 1440 / 810;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: calc(18 * var(--u));
+  background: #000;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
+  font-size: calc(14 * var(--u));
+  line-height: 1.4;
+}
+
+.mac > * {
+  position: absolute;
+}
+
+.mac-video {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mac-scrim-top {
+  inset: 0 0 auto;
+  height: calc(150 * var(--u));
+  background: linear-gradient(rgba(0, 0, 0, 0.55), transparent);
+}
+
+.mac-scrim-bottom {
+  inset: auto 0 0;
+  height: calc(321 * var(--u));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+}
+
+.mac-dim {
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.mac-lights {
+  left: calc(19 * var(--u));
+  top: calc(19 * var(--u));
+  width: calc(52 * var(--u));
+  height: calc(12 * var(--u));
+}
+
+.mac-title {
+  left: 50%;
+  top: calc(13 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(2 * var(--u));
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.mac-title b {
+  font-size: calc(14 * var(--u));
+  line-height: calc(20 * var(--u));
+  font-weight: 510;
+}
+
+.mac-title span {
+  font-size: calc(12 * var(--u));
+  line-height: calc(16 * var(--u));
+  font-weight: 510;
+  color: var(--text-2);
+}
+
+.mac-chip {
+  right: calc(20 * var(--u));
+  top: calc(15 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--u));
+  padding: calc(7 * var(--u)) calc(14 * var(--u)) calc(7 * var(--u)) calc(12 * var(--u));
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: var(--glass);
+  font-size: calc(12 * var(--u));
+  line-height: calc(16 * var(--u));
+  font-weight: 510;
+  white-space: nowrap;
+}
+
+.mac-chip .dot {
+  width: calc(8 * var(--u));
+  height: calc(8 * var(--u));
+}
+
+.mac-hover {
+  left: calc(729.5 * var(--u));
+  top: calc(615 * var(--u));
+  padding: calc(5 * var(--u)) calc(10 * var(--u));
+  border: 1px solid var(--stroke-glass);
+  border-radius: calc(10 * var(--u));
+  background: rgba(15, 13, 13, 0.55);
+  font: 500 calc(13 * var(--u)) / calc(16 * var(--u)) var(--font-rounded);
+  font-variant-numeric: tabular-nums;
+}
+
+.mac-controls {
+  left: calc(339 * var(--u));
+  top: calc(653 * var(--u));
+  width: calc(760 * var(--u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(14 * var(--u));
+  padding: calc(20 * var(--u)) calc(24 * var(--u)) calc(16 * var(--u));
+  border: 1px solid var(--stroke-glass);
+  border-radius: calc(32 * var(--u));
+  background: rgba(10, 8, 8, 0.32);
+  -webkit-backdrop-filter: blur(calc(14 * var(--u))) saturate(140%);
+  backdrop-filter: blur(calc(14 * var(--u))) saturate(140%);
+  box-shadow: 0 calc(24 * var(--u)) calc(64 * var(--u)) calc(-8 * var(--u)) rgba(0, 0, 0, 0.45);
+}
+
+.mac-scrub {
+  display: flex;
+  align-items: center;
+  gap: calc(14 * var(--u));
+  font: 500 calc(13 * var(--u)) / calc(16 * var(--u)) var(--font-rounded);
+  font-variant-numeric: tabular-nums;
+}
+
+.mac-scrub .dim {
+  color: var(--text-2);
+}
+
+.mac-track {
+  position: relative;
+  flex: 1;
+  height: calc(16 * var(--u));
+}
+
+.mac-track i {
+  position: absolute;
+  left: 0;
+  top: calc(6 * var(--u));
+  height: calc(4 * var(--u));
+  border-radius: calc(2 * var(--u));
+}
+
+.mac-track .base { width: 100%; background: var(--glass-strong); }
+.mac-track .buf { width: 52%; background: rgba(247, 240, 227, 0.28); }
+.mac-track .prog { width: 36%; background: var(--fire); }
+
+.mac-track .mark {
+  left: 58%;
+  top: calc(3 * var(--u));
+  width: calc(2 * var(--u));
+  height: calc(10 * var(--u));
+  border-radius: calc(1 * var(--u));
+  background: var(--text-2);
+}
+
+.mac-track .knob {
+  left: calc(36% - 7 * var(--u));
+  top: calc(1 * var(--u));
+  width: calc(14 * var(--u));
+  height: calc(14 * var(--u));
+  border-radius: 50%;
+  background: var(--text);
+  box-shadow: 0 calc(8 * var(--u)) calc(28 * var(--u)) rgba(255, 89, 31, 0.55);
+}
+
+.mac-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.mac-buttons .grp {
+  display: flex;
+  align-items: center;
+}
+
+.mac-buttons .vol {
+  flex: 1;
+  gap: calc(6 * var(--u));
+}
+
+.mac-buttons .transport {
+  gap: calc(18 * var(--u));
+}
+
+.mac-buttons .actions {
+  flex: 1;
+  justify-content: flex-end;
+  gap: calc(4 * var(--u));
+}
+
+.mac-ib {
+  display: grid;
+  place-items: center;
+  width: calc(40 * var(--u));
+  height: calc(40 * var(--u));
+  font-size: calc(20 * var(--u));
+}
+
+.mac-pp {
+  display: grid;
+  place-items: center;
+  width: calc(56 * var(--u));
+  height: calc(56 * var(--u));
+  border-radius: 50%;
+  background: var(--text);
+  color: var(--bg-canvas);
+  font-size: calc(24 * var(--u));
+  box-shadow: 0 calc(6 * var(--u)) calc(24 * var(--u)) rgba(255, 89, 31, 0.35);
+}
+
+.mac-vslider {
+  position: relative;
+  width: calc(96 * var(--u));
+  height: calc(16 * var(--u));
+  background: linear-gradient(var(--text), var(--text)) 0 50% / 70% calc(4 * var(--u)) no-repeat,
+    linear-gradient(var(--glass-strong), var(--glass-strong)) 0 50% / 100% calc(4 * var(--u)) no-repeat;
+  border-radius: calc(2 * var(--u));
+}
+
+.mac-vslider::after {
+  content: "";
+  position: absolute;
+  left: calc(70% - 6 * var(--u));
+  top: calc(2 * var(--u));
+  width: calc(12 * var(--u));
+  height: calc(12 * var(--u));
+  border-radius: 50%;
+  background: var(--text);
+}
+
+/* Pairing dialog (460 × 424 design units, centered on the Mac window). */
+.mac-pair {
+  left: calc(490 * var(--u));
+  top: calc(193 * var(--u));
+  width: calc(460 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(36 * var(--u)) calc(36 * var(--u)) calc(28 * var(--u));
+  border: 1px solid var(--stroke-glass);
+  border-radius: calc(34 * var(--u));
+  background: rgba(15, 13, 13, 0.45);
+  -webkit-backdrop-filter: blur(calc(14 * var(--u))) saturate(140%);
+  backdrop-filter: blur(calc(14 * var(--u))) saturate(140%);
+  box-shadow: 0 calc(24 * var(--u)) calc(64 * var(--u)) calc(-8 * var(--u)) rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+
+.mac-pair .badge {
+  display: grid;
+  place-items: center;
+  width: calc(64 * var(--u));
+  height: calc(64 * var(--u));
+  border-radius: calc(22 * var(--u));
+  background: var(--fire);
+  font-size: calc(30 * var(--u));
+  box-shadow: 0 calc(8 * var(--u)) calc(28 * var(--u)) rgba(255, 89, 31, 0.55);
+}
+
+.mac-pair h4 {
+  margin: calc(20 * var(--u)) 0 0;
+  font-size: calc(22 * var(--u));
+  line-height: calc(28 * var(--u));
+  font-weight: 650;
+  font-stretch: 125%;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: calc(-0.2 * var(--u));
+  white-space: nowrap;
+}
+
+.mac-pair p {
+  margin-top: calc(8 * var(--u));
+  max-width: calc(300 * var(--u));
+  font-size: calc(14 * var(--u));
+  line-height: calc(20 * var(--u));
+  color: var(--text-2);
+}
+
+.mac-pin {
+  display: flex;
+  gap: calc(8 * var(--u));
+  margin-top: calc(24 * var(--u));
+}
+
+.mac-pin span {
+  display: grid;
+  place-items: center;
+  width: calc(52 * var(--u));
+  height: calc(68 * var(--u));
+  border: 1px solid var(--hairline);
+  border-radius: calc(16 * var(--u));
+  background: var(--glass);
+  font: 600 calc(36 * var(--u)) / calc(52 * var(--u)) var(--font-rounded);
+  letter-spacing: calc(-1 * var(--u));
+}
+
+.mac-pin span:nth-child(3) {
+  margin-right: calc(16 * var(--u));
+}
+
+.mac-timer {
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--u));
+  margin-top: calc(16 * var(--u));
+  font-size: calc(12 * var(--u));
+  line-height: calc(16 * var(--u));
+  font-weight: 510;
+  color: var(--text-2);
+}
+
+.mac-timer img {
+  width: calc(14 * var(--u));
+  height: calc(14 * var(--u));
+}
+
+.mac-pair .decline {
+  width: 100%;
+  margin-top: calc(28 * var(--u));
+  padding: calc(12 * var(--u)) calc(22 * var(--u));
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: var(--glass);
+  font-size: calc(14 * var(--u));
+  line-height: calc(20 * var(--u));
+  font-weight: 510;
+}
