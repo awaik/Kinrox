@@ -1,0 +1,15 @@
+MACOSX_DEPLOYMENT_TARGET = 14.0
+IPHONEOS_DEPLOYMENT_TARGET = 17.0
+SWIFT_VERSION = 6.0
+SWIFT_STRICT_CONCURRENCY = complete
+ARCHS = arm64
+MARKETING_VERSION = 0.1.0
+CURRENT_PROJECT_VERSION = 1
+DEVELOPMENT_TEAM =
+KINROX_BUNDLE_ID_PREFIX = app.kinrox
+
+// M0 has no App Intents: skip extracting missing metadata.
+LM_SKIP_METADATA_EXTRACTION = YES
+
+// Personal signing parameters are optional for M0 and not committed to git.
+#include? "Signing.local.xcconfig"

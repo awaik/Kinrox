@@ -1,0 +1,9 @@
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = -
+ENABLE_HARDENED_RUNTIME = YES
+ENABLE_APP_SANDBOX = NO
+
+#include "MPV.xcconfig"
+
+// Shared and personal settings are included after platform values.
+#include "Shared.xcconfig"

@@ -1,0 +1,137 @@
+[
+  {
+    "mode": 0,
+    "hello": {
+      "v": 1,
+      "id": "00112233-4455-6677-8899-AABBCCDDEE01",
+      "type": "hello",
+      "body": {
+        "minVersion": 1,
+        "maxVersion": 3,
+        "deviceId": "00112233-4455-6677-8899-AABBCCDDEE04",
+        "deviceName": "iPhone Remote",
+        "appVersion": "1.0"
+      }
+    },
+    "helloAck": {
+      "v": 1,
+      "id": "00112233-4455-6677-8899-AABBCCDDEE02",
+      "type": "helloAck",
+      "body": {
+        "version": 1,
+        "serverId": "00112233-4455-6677-8899-AABBCCDDEE05",
+        "serverName": "Mac é",
+        "needsPairing": true,
+        "serverPublicKey": "3p7bfXt9wbTTW2HC7OQ1Nz+DQ8hbeGdNrfx+FG+IK08=",
+        "nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    "keyMessage": {
+      "v": 1,
+      "id": "00112233-4455-6677-8899-AABBCCDDEE03",
+      "type": "pairRequest",
+      "body": {
+        "clientPublicKey": "hSDwCYkwp1R0i33ctD73Wg2/Og0mOBr066SpjqqbTmo="
+      }
+    },
+    "pairProofId": "00112233-4455-6677-8899-AABBCCDDEE06",
+    "finish": {
+      "v": 1,
+      "id": "00112233-4455-6677-8899-AABBCCDDEE07",
+      "type": "paired",
+      "body": {
+        "serverProof": "QoELQPFIw1nUngkE4Maaw3H7DG0y4GqdYgyC6hltEuE=",
+        "token": "ICEiIyQlJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj8="
+      }
+    },
+    "command": {
+      "v": 1,
+      "id": "00112233-4455-6677-8899-AABBCCDDEE08",
+      "type": "requestState",
+      "body": {}
+    },
+    "clientPrivate": "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a",
+    "serverPrivate": "5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb",
+    "sharedSecret": "4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742",
+    "pin": "004219",
+    "token": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+    "transcript": "6b696e726f782f76312f7472616e73637269707400000000000100112233445566778899aabbccddee01000000010000000300112233445566778899aabbccddee040000000d6950686f6e652052656d6f746500000003312e300000000100112233445566778899aabbccddee020000000100112233445566778899aabbccddee05000000074d61632065cc8101de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f0000000100112233445566778899aabbccddee038520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a",
+    "hash": "aac6d7a05e05432fa142c39b4c5f7a17cb9647367183f281878372f1d6242ea4",
+    "c2s": "63d049bf3526ba939a409bd2953ebb96708919dea4434d4b619cad6af6b34832",
+    "s2c": "10e3ded0dcdd3eb0d1f53e669bfb8baf0ce2933487b6bfa1a4b44555ce7de479",
+    "confirmation": "583a004ea3a5d2f171e579ee8847548e8193b10ae85401e2c1473ec08d34f065",
+    "proofKey": "0ede6865094132bd455d226fb7b817a856375902441108b89da80b9a0ec21bcb",
+    "clientProof": "1445408d1cb0e02108f37bbfbad8f4df402dd1dc94e60a4e694f51294a09f938",
+    "serverProof": "42810b40f148c359d49e0904e0c69ac371fb0c6d32e06a9d620c82ea196d12e1",
+    "clientFrame": "00000000000000000000000025ecad2104bdb31faf50c31294a0c8042cd04e3b3ef72b788fe5a26fe1f62524d7c00f3a0c4a40f797ce6dc1a46b3532922c3bf45941353aa94a34af1b87b99c44830872d00a7acb7db7456acb8cd06dd3e1273aac74de6c6d34bfb3621f0dbd3395d3",
+    "serverFrame": "000000000000000000000000cad3059cd641388741a4eddad9525b44236547f1b4fe4ad420b7168ffa07eef6e87cf3ec0ca725e7b7137ea019a94fd8684e5be81114fb554a5006fef19f23785b66b57a17ba691836808cfbef9930fcf75a8cf6f358d78d409bb24227b06fd093df440bb3c889fc59ff8c1bfa000bf5d663bd843ce2d03460c857967bc1c5a82b3b65208f5bc745f5433d8bdb268760528844e7edd2fc9afc8ce911a858cfa3d4a7cdce7d3639d34ff1eed000ea63e8b8f0cb3bd4c163da7322d54b06120753a9e7c2759ed4ff6b1b06ab8ffc74296c"
+  },
+  {
+    "mode": 1,
+    "hello": {
+      "v": 1,
+      "id": "00112233-4455-6677-8899-AABBCCDDEE01",
+      "type": "hello",
+      "body": {
+        "minVersion": 1,
+        "maxVersion": 3,
+        "deviceId": "00112233-4455-6677-8899-AABBCCDDEE04",
+        "deviceName": "iPhone Remote",
+        "appVersion": "1.0"
+      }
+    },
+    "helloAck": {
+      "v": 1,
+      "id": "00112233-4455-6677-8899-AABBCCDDEE02",
+      "type": "helloAck",
+      "body": {
+        "version": 1,
+        "serverId": "00112233-4455-6677-8899-AABBCCDDEE05",
+        "serverName": "Mac é",
+        "needsPairing": false,
+        "serverPublicKey": "3p7bfXt9wbTTW2HC7OQ1Nz+DQ8hbeGdNrfx+FG+IK08=",
+        "nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    "keyMessage": {
+      "v": 1,
+      "id": "00112233-4455-6677-8899-AABBCCDDEE03",
+      "type": "auth",
+      "body": {
+        "clientPublicKey": "hSDwCYkwp1R0i33ctD73Wg2/Og0mOBr066SpjqqbTmo=",
+        "deviceId": "00112233-4455-6677-8899-AABBCCDDEE04",
+        "proof": "1KvuiP0hP3lZKmbNLDz3usE3/BpYr4uzmUR9p5V5G7Y="
+      }
+    },
+    "pairProofId": "00112233-4455-6677-8899-AABBCCDDEE06",
+    "finish": {
+      "v": 1,
+      "id": "00112233-4455-6677-8899-AABBCCDDEE07",
+      "type": "authOk",
+      "body": {
+        "serverProof": "7Wq7qHi9DxwjxU70goBn+AauPcY/cuLFesRGbFe0X5M="
+      }
+    },
+    "command": {
+      "v": 1,
+      "id": "00112233-4455-6677-8899-AABBCCDDEE08",
+      "type": "requestState",
+      "body": {}
+    },
+    "clientPrivate": "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a",
+    "serverPrivate": "5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb",
+    "sharedSecret": "4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742",
+    "pin": "004219",
+    "token": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+    "transcript": "6b696e726f782f76312f7472616e73637269707400010000000100112233445566778899aabbccddee01000000010000000300112233445566778899aabbccddee040000000d6950686f6e652052656d6f746500000003312e300000000100112233445566778899aabbccddee020000000100112233445566778899aabbccddee05000000074d61632065cc8100de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f0000000100112233445566778899aabbccddee038520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a",
+    "hash": "f349ac8c3369597791112aa9e5bb5b07df87e5d782795d6797e499c4bfda8318",
+    "c2s": "20ff5ef298b159b728d5821d76b78bc30e4c6e39880f0bb458ca50873a9bb711",
+    "s2c": "5972ad4e33d7056b00188635f8c477bc7fc25d175d37e781148645f05257b272",
+    "confirmation": "ceafcc7abc6734c161d18e830e447feeb0ed3b66b6bb17d3838bfb7ec7ba8146",
+    "proofKey": "7e2cf14e8e6ef2b1ce03c4c1e947037b2509f245a613ca9351f1f8370b356676",
+    "clientProof": "d4abee88fd213f79592a66cd2c3cf7bac137fc1a58af8bb399447da795791bb6",
+    "serverProof": "ed6abba878bd0f1c23c54ef4828067f806ae3dc63f72e2c57ac4466c57b45f93",
+    "clientFrame": "000000000000000000000000836b9713ce302ea7e7b5dedc0d04473297e51ee7c0f31989ebddf762b782b93b89dad1be5b12afdc5b07dbd550212c234131862e8190a5f02b61f4d79a6d322592f36d9400419f31d0fb47cc1c8628f132b75d247928cc1955354de91bbf6de9d1deba",
+    "serverFrame": "000000000000000000000000e5e9847686afc5a04539d7ab0acb48ab146152a62e197659e78a765b65d94b0a6a9d7b5eb8501acf4a65512f36264fcddc4648db551d29c5a1a0f3a435a4fdaf99f97df9e0f341c1a175c3fb8cc672aeb0353466979e0603fbd265c2356fcbea779d320143875f6ea314bdeac8083cc3533d8301d7ac72cb7ebefd4820220359bbd09ef0a7113d929adc972481513f2a953b7baf1213d76d0d"
+  }
+]

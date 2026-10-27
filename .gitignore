@@ -1,0 +1,39 @@
+# macOS and Xcode user state
+.DS_Store
+xcuserdata/
+*.xcuserstate
+
+# Generated projects, dependencies, and build output
+DerivedData/
+.build/
+.swiftpm/
+Vendor/
+*.xcodeproj/
+build/
+dist/
+*.app/
+*.xcarchive/
+*.xcresult/
+*.dmg
+*.ipa
+*.dSYM/
+*.log
+__pycache__/
+*.py[cod]
+
+# Local configuration and credentials
+*.local.xcconfig
+.env
+.env.*
+!.env.example
+*.p8
+*.p12
+*.pfx
+*.key
+*.pem
+*.cer
+*.mobileprovision
+*.provisionprofile
+*.keychain
+*.keychain-db
+

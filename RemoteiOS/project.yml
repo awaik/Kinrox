@@ -1,0 +1,56 @@
+name: RemoteiOS
+options:
+  developmentLanguage: en
+  minimumXcodeGenVersion: 2.46.0
+  deploymentTarget:
+    iOS: "17.0"
+configFiles:
+  Debug: ../Config/RemoteiOS.xcconfig
+  Release: ../Config/RemoteiOS.xcconfig
+packages:
+  RemoteProtocol:
+    path: ../Packages/RemoteProtocol
+targets:
+  RemoteiOS:
+    type: application
+    platform: iOS
+    sources:
+      - RemoteiOS
+      - ../Resources/Branding.xcassets
+      - ../Resources/Localization
+      - ../Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(KINROX_BUNDLE_ID_PREFIX).remote
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+        INFOPLIST_FILE: RemoteiOS/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    dependencies:
+      - package: RemoteProtocol
+        product: RemoteProtocol
+      - package: RemoteProtocol
+        product: RemoteTransport
+  RemoteiOSTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [RemoteiOSTests, ../SharedTests]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(KINROX_BUNDLE_ID_PREFIX).remote.tests
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: RemoteiOS
+      - package: RemoteProtocol
+        product: RemoteProtocol
+      - package: RemoteProtocol
+        product: RemoteTransport
+schemes:
+  RemoteiOS:
+    build:
+      targets:
+        RemoteiOS: all
+    test:
+      targets: [RemoteiOSTests]

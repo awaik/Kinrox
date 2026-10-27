@@ -1,0 +1,56 @@
+name: PlayerMac
+options:
+  developmentLanguage: en
+  minimumXcodeGenVersion: 2.46.0
+  deploymentTarget:
+    macOS: "14.0"
+configFiles:
+  Debug: ../Config/PlayerMac.xcconfig
+  Release: ../Config/PlayerMac.xcconfig
+packages:
+  RemoteProtocol:
+    path: ../Packages/RemoteProtocol
+targets:
+  PlayerMac:
+    type: application
+    platform: macOS
+    productName: Kinrox
+    sources:
+      - PlayerMac
+      - ../Resources/Branding.xcassets
+      - ../Resources/Localization
+      - ../Shared
+    settings:
+      base:
+        PRODUCT_NAME: Kinrox
+        PRODUCT_BUNDLE_IDENTIFIER: $(KINROX_BUNDLE_ID_PREFIX).player
+        INFOPLIST_FILE: PlayerMac/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SWIFT_OBJC_BRIDGING_HEADER: PlayerMac/MPVKit/PlayerMac-Bridging-Header.h
+        CODE_SIGN_ENTITLEMENTS: PlayerMac/PlayerMac.entitlements
+    dependencies:
+      - package: RemoteProtocol
+        product: RemoteProtocol
+      - package: RemoteProtocol
+        product: RemoteTransport
+  PlayerMacTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [PlayerMacTests, ../SharedTests]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(KINROX_BUNDLE_ID_PREFIX).player.tests
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: PlayerMac
+      - package: RemoteProtocol
+        product: RemoteProtocol
+      - package: RemoteProtocol
+        product: RemoteTransport
+schemes:
+  PlayerMac:
+    build:
+      targets:
+        PlayerMac: all
+    test:
+      targets: [PlayerMacTests]

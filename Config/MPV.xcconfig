@@ -1,0 +1,5 @@
+// Local development M1–M5; packaging libraries into app bundle is M6.
+HEADER_SEARCH_PATHS = $(inherited) /opt/homebrew/include
+LIBRARY_SEARCH_PATHS = $(inherited) /opt/homebrew/lib
+OTHER_LDFLAGS = $(inherited) -lmpv -framework OpenGL
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) GL_SILENCE_DEPRECATION=1

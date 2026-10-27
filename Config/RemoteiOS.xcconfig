@@ -1,0 +1,4 @@
+CODE_SIGN_STYLE = Automatic
+
+// Shared and personal settings are included after platform values.
+#include "Shared.xcconfig"

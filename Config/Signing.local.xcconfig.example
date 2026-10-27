@@ -1,0 +1,13 @@
+// Starting with M4.4 Mac uses Data Protection Keychain: team and macOS profile required.
+// Copy to Signing.local.xcconfig, keeping your personal settings.
+// Profile retrieval via Xcode is documented in docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md.
+// Value is set only locally; development team identifier is not committed.
+// DEVELOPMENT_TEAM =
+// KINROX_BUNDLE_ID_PREFIX = org.example.kinrox
+// Do not set common PRODUCT_BUNDLE_IDENTIFIER: app and test suffixes differ.
+// CODE_SIGN_STYLE[sdk=iphoneos*] = Automatic
+// For Mac without changing iOS signing, set SDK condition:
+// DEVELOPMENT_TEAM[sdk=macosx*] =
+// Automatic signing creates Apple Development identity and macOS profile:
+// CODE_SIGN_STYLE[sdk=macosx*] = Automatic
+// CODE_SIGN_IDENTITY[sdk=macosx*] = Apple Development
