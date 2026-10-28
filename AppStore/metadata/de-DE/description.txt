@@ -1,0 +1,16 @@
+Der Film läuft auf dem Mac. Die Fernbedienung liegt in deiner Hand.
+
+Mit Kinrox Remote steuerst du den Kinrox-Videoplayer auf deinem Mac vom iPhone aus. Bleib auf dem Sofa, wenn du pausieren, eine Szene wiederholen oder den Ton leiser stellen möchtest.
+
+• Wiedergabe starten und pausieren.
+• 10 oder 30 Sekunden vor- und zurückspringen oder eine Stelle auf der Zeitleiste wählen.
+• Lautstärke und Vollbildmodus auf dem Mac steuern.
+• Zum vorherigen oder nächsten Video im aktuellen Ordner wechseln.
+• Verfügbare Dateien aus der Liste zuletzt geöffneter Dateien auf dem Mac öffnen.
+• Kinrox-Player im Netzwerk finden und per sechsstelligen Code koppeln.
+
+Die Verbindung ist verschlüsselt und bleibt im lokalen Netzwerk. Ohne Konto, Cloud-Dienst, Werbung oder Analysefunktionen. Eine interaktive Demo zeigt die Steuerung auch ohne verbundenen Mac.
+
+Erfordert iOS 17 oder neuer und Kinrox auf einem kompatiblen Mac. Beide Geräte müssen im selben lokalen Netzwerk sein; erlaube den Zugriff darauf. Die App ist eine Fernbedienung für Kinrox und spielt oder streamt keine Videos auf dem iPhone.
+
+Mac-Player und Einrichtung: https://awaik.github.io/Kinrox/

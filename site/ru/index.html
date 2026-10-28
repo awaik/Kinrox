@@ -28,7 +28,7 @@
   <script>document.documentElement.classList.add("js")</script>
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Kinrox","applicationCategory":"MultimediaApplication","operatingSystem":"macOS 14+, iOS 17+","license":"https://www.gnu.org/licenses/gpl-3.0.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://awaik.github.io/Kinrox/ru/","inLanguage":"ru"}
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Kinrox","applicationCategory":"MultimediaApplication","softwareVersion":"0.1.0","downloadUrl":"https://github.com/awaik/Kinrox/releases/download/v0.1.0/Kinrox-0.1.0-arm64.dmg","operatingSystem":"macOS 14+, iOS 17+","license":"https://www.gnu.org/licenses/gpl-3.0.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://awaik.github.io/Kinrox/ru/","inLanguage":"ru"}
   </script>
 </head>
 <body>
@@ -59,10 +59,10 @@
       <h1 class="display">Хватит вставать <span class="fire-text">ради паузы.</span></h1>
       <p class="lead">Kinrox показывает любое видео на Mac, а iPhone становится его пультом. MacBook — у проектора, вы — на диване: пауза, назад на 10 секунд, потише или следующая серия, не вылезая из-под пледа.</p>
       <div class="hero-actions">
-        <a class="btn btn-fire" href="#open-source">Попробовать Kinrox</a>
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.1.0/Kinrox-0.1.0-arm64.dmg">Скачать для Mac</a>
         <a class="btn btn-glass" href="#how">Как это работает</a>
       </div>
-      <p class="hero-meta"><span>Без аккаунтов</span><span>Без облака</span><span>Работает по вашему Wi‑Fi</span></p>
+      <p class="hero-meta"><span>v0.1.0 · macOS 14+ · Apple Silicon</span><span>Без аккаунтов</span><span>Без облака</span><span>Работает по вашему Wi‑Fi</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -268,12 +268,12 @@
           <p class="lead">Kinrox написан на Swift 6 и SwiftUI поверх libmpv. Весь код плеера, пульта и протокола — на GitHub.</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Плеер для Mac — работает</li>
-            <li><i class="ic ic-check"></i>Пульт для iPhone — работает</li>
-            <li class="soon"><i class="ic ic-history"></i>Подписанный DMG для Mac — в работе</li>
+            <li><i class="ic ic-check"></i>Пульт для iPhone — сборка из исходников</li>
+            <li><i class="ic ic-check"></i>Mac v0.1.0 — DMG с подписью и проверкой Apple</li>
             <li class="soon"><i class="ic ic-history"></i>Пульт в App Store — в планах</li>
           </ul>
           <div class="oss-actions">
-            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox">Открыть на GitHub</a>
+            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.1.0/Kinrox-0.1.0-arm64.dmg">Скачать для Mac</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Релизы</a>
           </div>
         </div>
@@ -323,7 +323,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <h2 class="display" id="final-title">Устраивайтесь. <span class="fire-text">Кино начинается.</span></h2>
       <p class="lead">Kinrox для Mac и iPhone. Бесплатно, с открытым кодом и специально для вечеров с кино.</p>
       <div class="hero-actions">
-        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox">Kinrox на GitHub</a>
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.1.0/Kinrox-0.1.0-arm64.dmg">Скачать для Mac</a>
         <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Сообщить о проблеме</a>
       </div>
     </div>
@@ -335,6 +335,8 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
     <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
     <span>Свободное ПО по лицензии GPL‑3.0. Не связано с Apple.</span>
     <nav class="footer-links" aria-label="Подвал">
+      <a href="../privacy/">Конфиденциальность</a>
+      <a href="../support/">Поддержка</a>
       <a href="https://github.com/awaik/Kinrox">Исходный код</a>
       <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">Лицензия</a>
       <a href="https://github.com/awaik/Kinrox/issues">Задачи</a>

@@ -18,11 +18,13 @@ No cloud, user accounts, analytics, or telemetry.
 
 ## Project Status
 
-This is a source release of an in-development project. The Mac player and real
-iPhone remote are implemented through M5; verification results and remaining
-limitations are recorded in the [M5 report](docs/runbooks/M5-VERIFICATION.md).
-Standalone libmpv bundling, Developer ID distribution, notarization, and DMG
-creation are planned for M6. Development builds currently load libmpv from Homebrew.
+The Mac player and real iPhone remote are implemented through M5. The first
+standalone Mac release is **0.1.0**, for Apple Silicon and macOS 14+:
+[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.1.0/Kinrox-0.1.0-arm64.dmg)
+or read the [release notes](docs/releases/0.1.0.md).
+The installer bundles libmpv and its dependencies, is Developer ID signed, and
+is notarized by Apple. Homebrew is only needed for the default development setup.
+The iPhone App Store release remains separate; the remote can be built from source.
 
 The `kinrox-cli` executable is a stub; its implementation is an
 [optional task](docs/TODO/05-kinrox-cli.md). Track selection, network streams,
@@ -34,8 +36,10 @@ Architecture and roadmap are in [AGENTS.md](AGENTS.md).
 Requires Xcode 26.5, Swift 6, and XcodeGen 2.46.0 or newer. Minimum deployment
 targets — macOS 14 and iOS 17. Builds target arm64.
 Player requires libmpv and headers in `/opt/homebrew`, test media requires ffmpeg.
-Scripts do not install dependencies automatically. Current Homebrew libmpv is built for macOS 26:
-macOS 14 support must be validated with standalone compiled libraries in M6.
+Scripts do not install dependencies automatically. Current Homebrew libmpv is built for macOS 26.
+Distribution instead uses pinned portable libraries; see the
+[release runbook](docs/runbooks/RUNBOOK-RELEASE.md). Runtime testing in this session
+was on macOS 26.5.2; minimum-version checks cover every bundled Mach-O library.
 
 Install the command-line dependencies if they are not already available:
 
@@ -126,10 +130,11 @@ For custom Bundle IDs, specify `KINROX_BUNDLE_ID_PREFIX` in personal config;
 app and test suffixes remain intact, common `PRODUCT_BUNDLE_IDENTIFIER` is not required.
 `Config/MPV.xcconfig` is linked to Mac project; MPVKit resides inside PlayerMac.
 The verified development setup uses mpv 0.41.0. `pkg-config --modversion mpv`
-reports `2.5.0` — libmpv client API version. Headers reside in
-`/opt/homebrew/include/mpv`. Dylibs are currently loaded from Homebrew; bundling is M6.
-Library validation is temporarily disabled for Homebrew dylibs. Mac distribution
-via Developer ID, notarization, and DMG is scheduled for M6.
+reports `2.5.0` — libmpv client API version. Development headers reside in
+`/opt/homebrew/include/mpv`. Library validation is disabled for development with
+Homebrew dylibs. Distribution uses pinned libraries, signs every dylib with the
+same Developer ID, and keeps library validation enabled. See the
+[release runbook](docs/runbooks/RUNBOOK-RELEASE.md).
 
 ## Design
 
@@ -179,7 +184,9 @@ template; each developer supplies their own ignored local configuration.
 ## Landing Site
 
 `site/` holds the GitHub Pages landing in English and Russian: plain HTML and CSS,
-no build step, no analytics. Preview locally:
+no build step, no analytics. It also includes [privacy](site/privacy/index.html)
+and [support](site/support/index.html) pages linked from the landing and iPhone app.
+Preview locally:
 
 ```sh
 python3 -m http.server 8080 --directory site

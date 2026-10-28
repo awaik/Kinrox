@@ -5,6 +5,8 @@ Static landing page published with GitHub Pages by
 no frameworks, no external fonts, scripts, analytics or cookies.
 
 - `index.html` — English (default), `ru/index.html` — Russian.
+- `privacy/index.html` — privacy policy; `support/index.html` — setup and support.
+  Both are linked from the landing footers and iPhone Settings.
 - `assets/css/` — `base.css` (tokens, nav, buttons), `hero.css` (first screen), `mockups.css` (iPhone frame,
   Mac window and pairing dialog), `sections.css` (page sections).
 - `assets/js/main.js` — optional scroll reveal and sticky-nav state.
@@ -47,10 +49,19 @@ open http://localhost:8080/
 
 ## Publishing
 
+Mac download buttons point to the versioned GitHub Release asset
+`releases/download/v0.1.0/Kinrox-0.1.0-arm64.dmg`. Publish and verify that asset
+before deploying these pages. Update both languages, the visible version, and
+the JSON-LD download/version fields together. The iPhone App Store release is
+still planned separately. Distribution steps are in
+[`RUNBOOK-RELEASE.md`](../docs/runbooks/RUNBOOK-RELEASE.md).
+
 1. Push the repository to GitHub.
 2. Settings → Pages → Source: **GitHub Actions**.
 3. Every push to `main` that touches `site/` redeploys the page.
 
 Absolute URLs assume the repository `github.com/awaik/Kinrox` and the address
 `https://awaik.github.io/Kinrox/`. If the repository lives elsewhere, replace both strings in
-`index.html` and `ru/index.html` (canonical, hreflang, Open Graph and GitHub links).
+`index.html`, `ru/index.html`, `privacy/index.html`, and `support/index.html`
+(canonical, hreflang, Open Graph and GitHub links). Update App Store metadata and
+the iPhone's support/privacy URLs at the same time.

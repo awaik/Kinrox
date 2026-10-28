@@ -1,0 +1,59 @@
+{
+  "app_name": "Kinrox Remote",
+  "primary_locale": "en-US",
+  "bundle_id": "app.kinrox.remote",
+  "status": "prepared_locally_not_uploaded",
+  "locales": {
+    "en-US": "en",
+    "en-GB": "en",
+    "en-CA": "en",
+    "en-AU": "en",
+    "ru": "ru",
+    "es-ES": "es",
+    "es-MX": "es",
+    "fr-FR": "fr",
+    "fr-CA": "fr",
+    "de-DE": "de",
+    "pt-BR": "pt",
+    "pt-PT": "pt",
+    "it": "it",
+    "zh-Hans": "zh-Hans",
+    "zh-Hant": "zh-Hant",
+    "ja": "ja",
+    "ko": "ko",
+    "ar-SA": "ar",
+    "hi": "hi",
+    "bn-BD": "bn",
+    "ur-PK": "ur",
+    "id": "id",
+    "ms": "ms",
+    "vi": "vi",
+    "th": "th",
+    "tr": "tr",
+    "pl": "pl",
+    "uk": "uk",
+    "nl-NL": "nl",
+    "ro": "ro",
+    "el": "el",
+    "cs": "cs",
+    "sv": "sv",
+    "hu": "hu",
+    "he": "he"
+  },
+  "unsupported_store_languages": {
+    "fa": "No Persian metadata locale in Apple’s published list; app and screenshot translations retained."
+  },
+  "screenshots_per_locale": 5,
+  "screenshot_sizes": [
+    [
+      1206,
+      2622
+    ],
+    [
+      1320,
+      2868
+    ]
+  ],
+  "language_review": "Authored translations; native-language editorial review pending.",
+  "source": "https://developer.apple.com/documentation/appstoreconnectapi/managing-metadata-in-your-app-by-using-locale-shortcodes"
+}

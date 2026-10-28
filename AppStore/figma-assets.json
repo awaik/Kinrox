@@ -1,0 +1,42 @@
+[
+  {
+    "source": "en/recents.png",
+    "success": true,
+    "imageHash": "a9d19673efb4273ea0e2fdde39b97af149d0283f",
+    "sizeBytes": 550339,
+    "contentType": "image/png",
+    "placedOnNodeId": "25:306"
+  },
+  {
+    "source": "en/pairing.png",
+    "success": true,
+    "imageHash": "9dd2175feec365bc2704eb4456f70be2daa3ad3a",
+    "sizeBytes": 350030,
+    "contentType": "image/png",
+    "placedOnNodeId": "25:307"
+  },
+  {
+    "source": "ru/remote.png",
+    "success": true,
+    "imageHash": "377f1f41c7c09fd51de42faf2b6a999e1703e5d5",
+    "sizeBytes": 616743,
+    "contentType": "image/png",
+    "placedOnNodeId": "25:308"
+  },
+  {
+    "source": "ru/recents.png",
+    "success": true,
+    "imageHash": "c20be8c351b510d804f91a831da6860e02f4d374",
+    "sizeBytes": 551647,
+    "contentType": "image/png",
+    "placedOnNodeId": "25:305"
+  },
+  {
+    "source": "ru/pairing.png",
+    "success": true,
+    "imageHash": "1a15565819ef192f45bc7247fa7b1fe8a7c51cb7",
+    "sizeBytes": 354484,
+    "contentType": "image/png",
+    "placedOnNodeId": "25:304"
+  }
+]

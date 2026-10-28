@@ -1,0 +1,16 @@
+Film běží na Macu. Ovladač máte v ruce.
+
+Kinrox Remote ovládá přehrávač videa Kinrox na Macu z vašeho iPhonu. Zůstaňte na pohovce, když chcete film pozastavit, zopakovat scénu nebo ztlumit zvuk.
+
+• Spusťte a pozastavte přehrávání.
+• Přeskočte o 10 nebo 30 sekund vpřed či zpět nebo vyberte místo na časové ose.
+• Upravte hlasitost a přepněte Mac na celou obrazovku.
+• Přejděte na předchozí nebo další video v aktuální složce.
+• Otevřete dostupné soubory ze seznamu posledních souborů na Macu.
+• Najděte přehrávače Kinrox v síti a spárujte je šestimístným kódem.
+
+Spojení je šifrované a probíhá v místní síti. Bez účtu, cloudu, reklam a analýzy používání. Interaktivní ukázka umožňuje vyzkoušet ovládání před připojením Macu.
+
+Vyžaduje iOS 17 nebo novější a spuštěný Kinrox na kompatibilním Macu. Připojte obě zařízení ke stejné místní síti a povolte k ní přístup. Aplikace je ovladač pro Kinrox; na iPhonu nepřehrává ani nestreamuje video.
+
+Přehrávač pro Mac a nastavení: https://awaik.github.io/Kinrox/

@@ -1,0 +1,21 @@
+Kinrox 0.1.0 — third-party software
+
+Kinrox is GPL-3.0-only. Third-party components retain their own licenses.
+Complete license notices are included in ThirdPartyLicenses beside this file.
+
+This release bundles libmpv 0.41.0, FFmpeg 9.0.1, and their dependencies from
+the IINA project's official arm64 dependency release, iina-1.5.0-release:
+https://github.com/iina/deps-buildscripts/releases/tag/iina-1.5.0-release
+Build scripts and patches: f86d54276547df6d14104583ea604af67433f1e1.
+
+BundledLibraries.json lists the libraries and hashes before relocation/signing.
+DependencySources.json identifies the source archives, revisions, and hashes.
+Mach-O dependency paths are relocated inside Kinrox.app and the binaries are
+signed with Kinrox's Developer ID. No IINA application code or artwork is used.
+
+Corresponding source archives, build recipes, and patches are provided alongside
+the installer at https://github.com/awaik/Kinrox/releases/tag/v0.1.0 as
+Kinrox-0.1.0-dependency-sources.tar.gz. Kinrox's own source is available in that
+release and at https://github.com/awaik/Kinrox.
+
+Thanks to the mpv, FFmpeg, IINA, and dependency maintainers.

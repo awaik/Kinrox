@@ -1,0 +1,16 @@
+Film jest na Macu. Pilot — w Twojej dłoni.
+
+Kinrox Remote pozwala sterować odtwarzaczem wideo Kinrox na Macu z iPhone’a. Zostań na kanapie, gdy chcesz wstrzymać film, powtórzyć scenę lub ściszyć dźwięk.
+
+• Uruchamiaj i wstrzymuj odtwarzanie.
+• Przeskakuj o 10 lub 30 sekund w przód i w tył lub wybieraj moment na osi czasu.
+• Zmieniaj głośność i włączaj pełny ekran na Macu.
+• Przechodź do poprzedniego lub następnego filmu w bieżącym folderze.
+• Otwieraj dostępne pliki z listy ostatnio używanych na Macu.
+• Wyszukuj odtwarzacze Kinrox w sieci i paruj je sześciocyfrowym kodem.
+
+Połączenie jest szyfrowane i działa w sieci lokalnej. Bez konta, chmury, reklam i analityki. Interaktywne demo pozwala poznać sterowanie przed podłączeniem Maca.
+
+Wymaga iOS 17 lub nowszego oraz Kinrox uruchomionego na zgodnym Macu. Połącz oba urządzenia z tą samą siecią lokalną i zezwól na dostęp. Aplikacja jest pilotem do Kinrox — nie odtwarza ani nie przesyła wideo na iPhonie.
+
+Odtwarzacz na Maca i konfiguracja: https://awaik.github.io/Kinrox/

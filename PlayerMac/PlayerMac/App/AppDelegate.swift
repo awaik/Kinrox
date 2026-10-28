@@ -137,6 +137,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     nowPlaying = controller
                 }
             } catch {
+                FileHandle.standardError.write(Data("KINROX_PLAYER_FAILED: \(error)\n".utf8))
                 let alert = NSAlert(error: error)
                 alert.messageText = L10n.text("Failed to start player")
                 alert.runModal()
@@ -146,6 +147,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         playerWindow?.showWindow(nil)
         playerWindow?.window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+        // The release verifier requires this only after the real engine, render
+        // context, and window have been created successfully.
+        FileHandle.standardError.write(Data("KINROX_PLAYER_READY\n".utf8))
     }
 
     private func close(_ model: PlayerViewModel) {

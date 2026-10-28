@@ -1,0 +1,1 @@
+video,přehrávač,film,pohovka,hlasitost,wifi,ovladač

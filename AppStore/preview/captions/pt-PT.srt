@@ -1,0 +1,28 @@
+1
+00:00:00,000 --> 00:00:04,000
+Noite de cinema.
+Tudo à mão.
+
+2
+00:00:04,000 --> 00:00:09,000
+Aquela cena.
+Mais uma vez.
+
+3
+00:00:09,000 --> 00:00:13,000
+Fique
+à vontade.
+
+4
+00:00:13,000 --> 00:00:18,000
+O próximo filme.
+A um toque.
+
+5
+00:00:18,000 --> 00:00:23,000
+Um código.
+Tudo ligado.
+
+6
+00:00:23,000 --> 00:00:27,000
+Requer Kinrox para Mac · Mesma rede local

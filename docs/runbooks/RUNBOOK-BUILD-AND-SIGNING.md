@@ -43,14 +43,16 @@ The path must be the first application argument.
 
 `PlayerMac.xcconfig` includes `MPV.xcconfig` before shared/local configs.
 Bridging header is configured only for the application. iOS does not link libmpv.
-The Homebrew library is used locally; portable bundling occurs in M6.
+The Homebrew library is used locally; the [release workflow](RUNBOOK-RELEASE.md)
+uses pinned portable libraries and bundles the full dependency graph.
 Current Homebrew dylib specifies minimum OS 26.0: linker issues a warning when targeted at macOS 14.0.
 Do not silence this warning or treat such builds as validated on macOS 14.
 
 App Sandbox is disabled in v1 by owner decision 2026-10-26.
 Homebrew dylibs use `com.apple.security.cs.disable-library-validation`.
 Hardened Runtime is configured, but Xcode disables it under ad-hoc signing.
-Developer ID distribution and notarization are scheduled for M6.
+Developer ID distribution and notarization are handled by `Scripts/build-release.sh`.
+The distribution app keeps library validation enabled and has no Homebrew runtime dependency.
 
 Logs: Console.app or
 `log stream --level info --predicate 'subsystem == "app.kinrox.player"'`.

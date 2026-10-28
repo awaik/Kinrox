@@ -1,0 +1,16 @@
+A film a Macen. A távirányító a kezedben.
+
+A Kinrox Remote segítségével iPhone-ról vezérelheted a Macen futó Kinrox videólejátszót. Maradj a kanapén, ha megállítanád a filmet, újranéznél egy jelenetet vagy halkítanál.
+
+• Indítsd el és szüneteltesd a lejátszást.
+• Ugorj 10 vagy 30 másodpercet előre vagy hátra, vagy válassz időpontot az idővonalon.
+• Állítsd a hangerőt és a teljes képernyőt a Macen.
+• Lépj az aktuális mappa előző vagy következő videójára.
+• Nyisd meg a Mac legutóbbi fájljainak listájából az elérhető fájlokat.
+• Keresd meg a hálózaton a Kinrox lejátszókat, és párosíts hatjegyű kóddal.
+
+A kapcsolat titkosított, és a helyi hálózaton marad. Nincs fiók, felhőszolgáltatás, hirdetés vagy használati elemzés. Az interaktív bemutatóval Mac csatlakoztatása nélkül is kipróbálhatod a vezérlést.
+
+iOS 17 vagy újabb és kompatibilis Macen futó Kinrox szükséges. Csatlakoztasd mindkét eszközt ugyanahhoz a helyi hálózathoz, és engedélyezd a hozzáférést. Ez az app a Kinrox távirányítója; nem játszik le és nem streamel videót az iPhone-on.
+
+Mac-lejátszó és beállítás: https://awaik.github.io/Kinrox/

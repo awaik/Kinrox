@@ -1,0 +1,1 @@
+video,speler,film,bank,volume,wifi,afspelen

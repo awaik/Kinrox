@@ -1,0 +1,16 @@
+Filmul rulează pe Mac. Telecomanda e în mâna ta.
+
+Kinrox Remote îți permite să controlezi playerul video Kinrox de pe Mac folosind iPhone-ul. Rămâi pe canapea când vrei să pui pauză, să revezi o scenă sau să reduci volumul.
+
+• Pornește și întrerupe redarea.
+• Sari înainte sau înapoi cu 10 ori 30 de secunde sau alege un moment pe bara de redare.
+• Reglează volumul și activează ecranul complet pe Mac.
+• Treci la videoclipul anterior sau următor din dosarul curent.
+• Deschide fișierele disponibile din lista de fișiere recente a Mac-ului.
+• Găsește playere Kinrox în rețea și asociază-le cu un cod de șase cifre.
+
+Conexiunea este criptată și rămâne în rețeaua locală. Fără cont, servicii cloud, reclame sau analiză a utilizării. Un demo interactiv îți permite să încerci comenzile înainte de a conecta un Mac.
+
+Necesită iOS 17 sau ulterior și Kinrox pornit pe un Mac compatibil. Conectează ambele dispozitive la aceeași rețea locală și permite accesul. Aplicația este o telecomandă pentru Kinrox; nu redă și nu transmite video pe iPhone.
+
+Player pentru Mac și configurare: https://awaik.github.io/Kinrox/

@@ -1,0 +1,16 @@
+O filme está no Mac. O controle está na sua mão.
+
+Com o Kinrox Remote, você controla o reprodutor de vídeo Kinrox no Mac pelo iPhone. Fique no sofá quando quiser pausar, rever uma cena ou diminuir o volume.
+
+• Inicie e pause a reprodução.
+• Avance ou volte 10 ou 30 segundos, ou escolha um ponto na barra de reprodução.
+• Ajuste o volume e ative a tela cheia no Mac.
+• Vá para o vídeo anterior ou seguinte da pasta atual.
+• Abra os arquivos disponíveis na lista de recentes do Mac.
+• Encontre reprodutores Kinrox na rede e emparelhe com um código de seis dígitos.
+
+A conexão é criptografada e funciona na rede local. Sem conta, serviço de nuvem, anúncios ou análise de uso. Uma demonstração interativa permite explorar os controles antes de conectar um Mac.
+
+Requer iOS 17 ou posterior e Kinrox aberto em um Mac compatível. Conecte os dois dispositivos à mesma rede local e permita o acesso a ela. Este app é um controle para Kinrox: não reproduz nem transmite vídeos no iPhone.
+
+Reprodutor para Mac e configuração: https://awaik.github.io/Kinrox/

@@ -1,0 +1,16 @@
+Film Mac’te. Kumanda elinizde.
+
+Kinrox Remote, Mac’inizdeki Kinrox video oynatıcısını iPhone’dan kontrol etmenizi sağlar. Filmi duraklatmak, bir sahneyi tekrar izlemek veya sesi kısmak için kanepeden kalkmayın.
+
+• Oynatın ve duraklatın.
+• 10 veya 30 saniye ileri ya da geri atlayın veya zaman çizelgesinde bir an seçin.
+• Mac’in sesini ayarlayın ve tam ekranı açıp kapatın.
+• Geçerli klasördeki önceki veya sonraki videoya geçin.
+• Mac’in son dosyalar listesindeki kullanılabilir dosyaları açın.
+• Ağdaki Kinrox oynatıcılarını bulun ve altı haneli kodla eşleştirin.
+
+Bağlantı şifrelidir ve yerel ağda kalır. Hesap, bulut hizmeti, reklam veya kullanım analizi yoktur. Etkileşimli demo, Mac bağlamadan önce kontrolleri denemenizi sağlar.
+
+iOS 17 veya sonrası ve uyumlu bir Mac’te çalışan Kinrox gerekir. İki cihazı aynı yerel ağa bağlayın ve ağ erişimine izin verin. Bu uygulama Kinrox için bir kumandadır; iPhone’da video oynatmaz veya akışı sağlamaz.
+
+Mac oynatıcısı ve kurulum: https://awaik.github.io/Kinrox/

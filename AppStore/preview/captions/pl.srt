@@ -1,0 +1,28 @@
+1
+00:00:00,000 --> 00:00:04,000
+Wieczór filmowy.
+Pilot pod ręką.
+
+2
+00:00:04,000 --> 00:00:09,000
+Ta scena.
+Jeszcze raz.
+
+3
+00:00:09,000 --> 00:00:13,000
+Usiądź
+wygodnie.
+
+4
+00:00:13,000 --> 00:00:18,000
+Następny film.
+Jedno stuknięcie.
+
+5
+00:00:18,000 --> 00:00:23,000
+Jeden kod.
+Gotowe.
+
+6
+00:00:23,000 --> 00:00:27,000
+Wymaga Kinrox na Macu · Ta sama sieć lokalna

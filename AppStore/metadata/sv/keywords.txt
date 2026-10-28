@@ -1,0 +1,1 @@
+video,spelare,film,soffa,volym,wifi,uppspelning

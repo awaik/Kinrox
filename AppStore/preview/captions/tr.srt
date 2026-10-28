@@ -1,0 +1,28 @@
+1
+00:00:00,000 --> 00:00:04,000
+Film gecesi.
+Her şey elinizde.
+
+2
+00:00:04,000 --> 00:00:09,000
+O sahne.
+Bir kez daha.
+
+3
+00:00:09,000 --> 00:00:13,000
+Arkanıza
+yaslanın.
+
+4
+00:00:13,000 --> 00:00:18,000
+Sıradaki film.
+Bir dokunuşla.
+
+5
+00:00:18,000 --> 00:00:23,000
+Tek kod.
+Bağlantı hazır.
+
+6
+00:00:23,000 --> 00:00:27,000
+Mac’te Kinrox gerekir · Aynı yerel ağ

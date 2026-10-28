@@ -1,0 +1,16 @@
+Le film est sur le Mac. La télécommande est dans votre main.
+
+Kinrox Remote vous permet de piloter le lecteur vidéo Kinrox sur votre Mac depuis votre iPhone. Restez sur le canapé pour mettre en pause, revoir une scène ou baisser le son.
+
+• Lancez et mettez en pause la lecture.
+• Avancez ou reculez de 10 ou 30 secondes, ou choisissez un instant sur la barre de lecture.
+• Réglez le volume et activez le plein écran sur le Mac.
+• Passez à la vidéo précédente ou suivante du dossier actuel.
+• Ouvrez les fichiers disponibles dans la liste des fichiers récents du Mac.
+• Découvrez les lecteurs Kinrox sur le réseau et associez-les avec un code à six chiffres.
+
+La connexion est chiffrée et reste sur le réseau local. Sans compte, service cloud, publicité ni analyse d’utilisation. Une démo interactive permet de découvrir les commandes avant de connecter un Mac.
+
+Nécessite iOS 17 ou version ultérieure et Kinrox ouvert sur un Mac compatible. Connectez les deux appareils au même réseau local et autorisez son accès. Cette app est une télécommande pour Kinrox : elle ne lit ni ne diffuse de vidéos sur l’iPhone.
+
+Lecteur Mac et configuration : https://awaik.github.io/Kinrox/

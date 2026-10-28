@@ -1,0 +1,16 @@
+Filem pada Mac. Alat kawalan di tangan anda.
+
+Kinrox Remote membolehkan anda mengawal pemain video Kinrox pada Mac daripada iPhone. Kekal di sofa apabila mahu menjeda, menonton semula adegan atau memperlahankan bunyi.
+
+• Main dan jeda video.
+• Langkau ke depan atau belakang sebanyak 10 atau 30 saat, atau pilih masa pada bar main balik.
+• Laraskan kelantangan dan tukar mod skrin penuh pada Mac.
+• Pergi ke video sebelumnya atau seterusnya dalam folder semasa.
+• Buka fail yang tersedia dalam senarai terkini pada Mac.
+• Temui pemain Kinrox dalam rangkaian dan gandingkan dengan kod enam digit.
+
+Peranti berkomunikasi melalui sambungan disulitkan dalam rangkaian setempat. Tanpa akaun, perkhidmatan awan, iklan atau analisis penggunaan. Demo interaktif membolehkan anda mencuba kawalan sebelum menyambungkan Mac.
+
+Memerlukan iOS 17 atau lebih baharu dan Kinrox yang berjalan pada Mac serasi. Sambungkan kedua-dua peranti ke rangkaian setempat yang sama dan benarkan akses. Aplikasi ini ialah alat kawalan untuk Kinrox; ia tidak memainkan atau menstrim video pada iPhone.
+
+Pemain Mac dan persediaan: https://awaik.github.io/Kinrox/

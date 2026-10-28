@@ -1,0 +1,16 @@
+De film staat op je Mac. De afstandsbediening ligt in je hand.
+
+Met Kinrox Remote bedien je de Kinrox-videospeler op je Mac vanaf je iPhone. Blijf op de bank als je wilt pauzeren, een scène opnieuw wilt zien of het geluid zachter wilt zetten.
+
+• Start en pauzeer het afspelen.
+• Spring 10 of 30 seconden vooruit of terug, of kies een moment op de tijdlijn.
+• Regel het volume en schakel volledig scherm in op de Mac.
+• Ga naar de vorige of volgende video in de huidige map.
+• Open beschikbare bestanden uit de recente lijst op je Mac.
+• Vind Kinrox-spelers op het netwerk en koppel met een zescijferige code.
+
+De verbinding is versleuteld en blijft op het lokale netwerk. Zonder account, clouddienst, advertenties of gebruiksanalyse. Met een interactieve demo probeer je de bediening voordat je een Mac verbindt.
+
+Vereist iOS 17 of nieuwer en Kinrox op een geschikte Mac. Verbind beide apparaten met hetzelfde lokale netwerk en sta toegang toe. Deze app is een afstandsbediening voor Kinrox en speelt of streamt geen video op je iPhone.
+
+Mac-speler en installatie: https://awaik.github.io/Kinrox/

@@ -1,0 +1,1 @@
+video,oynatıcı,film,kanepe,ses,wifi,kumanda

@@ -1,5 +1,7 @@
-// Local development M1–M5; packaging libraries into app bundle is M6.
-HEADER_SEARCH_PATHS = $(inherited) /opt/homebrew/include
-LIBRARY_SEARCH_PATHS = $(inherited) /opt/homebrew/lib
+// Development defaults; the release script supplies pinned, portable libraries.
+KINROX_MPV_INCLUDE_DIR = /opt/homebrew/include
+KINROX_MPV_LIBRARY_DIR = /opt/homebrew/lib
+HEADER_SEARCH_PATHS = $(inherited) $(KINROX_MPV_INCLUDE_DIR)
+LIBRARY_SEARCH_PATHS = $(inherited) $(KINROX_MPV_LIBRARY_DIR)
 OTHER_LDFLAGS = $(inherited) -lmpv -framework OpenGL
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) GL_SILENCE_DEPRECATION=1

@@ -1,0 +1,16 @@
+Phim trên Mac. Điều khiển trong tay bạn.
+
+Kinrox Remote cho phép bạn điều khiển trình phát video Kinrox trên Mac từ iPhone. Không cần rời ghế sofa để tạm dừng, xem lại một cảnh hay giảm âm lượng.
+
+• Phát và tạm dừng.
+• Tua tiến hoặc lùi 10 hay 30 giây, hoặc chọn thời điểm trên thanh phát.
+• Điều chỉnh âm lượng và chuyển chế độ toàn màn hình trên Mac.
+• Chuyển sang video trước hoặc tiếp theo trong thư mục hiện tại.
+• Mở các tệp còn khả dụng trong danh sách gần đây trên Mac.
+• Tìm trình phát Kinrox trong mạng và ghép đôi bằng mã sáu chữ số.
+
+Các thiết bị giao tiếp qua kết nối được mã hóa trong mạng nội bộ. Không tài khoản, dịch vụ đám mây, quảng cáo hay phân tích sử dụng. Bản demo tương tác giúp bạn thử các nút điều khiển trước khi kết nối Mac.
+
+Cần iOS 17 trở lên và Kinrox đang chạy trên Mac tương thích. Kết nối hai thiết bị vào cùng mạng nội bộ và cho phép truy cập Mạng cục bộ. Đây là ứng dụng điều khiển Kinrox; không phát hay truyền video trên iPhone.
+
+Trình phát Mac và thiết lập: https://awaik.github.io/Kinrox/

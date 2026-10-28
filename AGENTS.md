@@ -11,7 +11,8 @@
 > M4.3 implemented 2026-10-26 after M4.2 review: Bonjour, Network.framework WebSocket, secure exchange, heartbeat, and local subnet enforcement. Player integration — M4.4; [M4.3 Report](docs/runbooks/M4.3-VERIFICATION.md).
 > M4.4 implemented 2026-10-27: server connected to player, remote preferences and real PIN, tokens in Data Protection Keychain. Team signing with macOS profile configured, pairing and revocation verified. Results and limitations — [M4.4 Report](docs/runbooks/M4.4-VERIFICATION.md). M4 accepted by owner task assignment for M5 on 2026-10-27; transition authorized.
 > M4 completed in scope M4.1–M4.4. By owner decision 2026-10-27 `kinrox-cli` (former M4.5) moved to [a separate optional task](docs/TODO/05-kinrox-cli.md); its absence does not block M6 or app release.
-> M5 implemented 2026-10-27: real remote, Bonjour, Keychain, control, and reconnection. Automated tests passed; owner confirmed manual checklist of Mac + physical iPhone: "Double-checked everything, everything works." Results and remaining limitations — [M5 Report](docs/runbooks/M5-VERIFICATION.md). Changes ready for review; M6 not yet started.
+> M5 implemented 2026-10-27: real remote, Bonjour, Keychain, control, and reconnection. Automated tests passed; owner confirmed manual checklist of Mac + physical iPhone: "Double-checked everything, everything works." Results and remaining limitations — [M5 Report](docs/runbooks/M5-VERIFICATION.md).
+> M6 release workflow implemented 2026-10-28: pinned portable libmpv dependencies, Developer ID export, library signing, notarization, stapling, DMG, dependency sources, and checksums. First Mac version: 0.1.0, Apple Silicon, macOS 14+. Procedure and validation boundaries — [release runbook](docs/runbooks/RUNBOOK-RELEASE.md), [release notes](docs/releases/0.1.0.md). iPhone App Store publication is separate.
 > Tasks for contributors (M3, M4, localization, updates) — in [docs/TODO](docs/TODO/).
 > All design work is done in Figma file [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U) (owner decision 2026-10-27), see Section 3.5.
 > Landing site added 2026-10-27: static GitHub Pages site in `site/` (English + Russian), deployed by `.github/workflows/pages.yml`; see Section 3.6.
@@ -40,7 +41,7 @@ Legend:
 | ffmpeg | 9.0.2 (Homebrew `9.0.2_1`), upgraded as dependency of mpv; built with `--enable-gpl --enable-version3` |
 | Python | Homebrew `python3` switched to 3.15.1 on mpv dependency installation; replaced files preserved by Homebrew in `~/Library/Caches/Homebrew/Backup` |
 | pkg-config | 2.5.1, `/opt/homebrew/bin/pkg-config` |
-| git | 2.51.2. Local repository, sole branch `main`; changes left uncommitted for review, no remote configured |
+| git | 2.51.2. Sole branch `main`; changes left uncommitted for review. Remote `origin` — public [github.com/awaik/Kinrox](https://github.com/awaik/Kinrox) (created 2026-10-28), landing at [awaik.github.io/Kinrox](https://awaik.github.io/Kinrox/) |
 | XcodeGen, Tuist, xcbeautify, SwiftLint | XcodeGen 2.46.0 installed by owner; others not installed |
 | macOS Firewall | disabled (may be enabled on user machines, see 6.8) |
 | Code Signing | M0: Sign to Run Locally for Mac, simulator for iOS; device team and distribution team not yet finalized |
@@ -225,7 +226,7 @@ Kinrox/
 │   ├── check-env.sh              # environment verification script
 │   ├── generate.sh               # project generator
 │   ├── capture-landing-screenshots.sh # remote screenshots for site/
-│   └── bundle-libmpv.sh          # dylib packaging in .app (M6)
+│   └── bundle-libmpv.py          # verified dylib packaging in .app (M6)
 └── Vendor/                       # compiled dylibs for M6, in .gitignore
 ```
 
@@ -293,8 +294,8 @@ analytics, or cookies, in line with principle 4. English is the default page, Ru
 - iPhone screenshots are captured from the real app in demo mode by `Scripts/capture-landing-screenshots.sh`.
 - Mac screens are HTML recreations of Figma frames 5:23 and 6:215 using real localized app strings.
 - Icons and video stills are exported from the Figma component library.
-- Claims on the page must match shipped behavior. Until M6 the page links to source and releases on GitHub
-  instead of a download. Details — [site/README.md](site/README.md).
+- Claims on the page must match shipped behavior. Mac download buttons target the versioned GitHub
+  Release DMG; publish and verify the asset before the page. Details — [site/README.md](site/README.md).
 
 ---
 
@@ -509,7 +510,7 @@ Implements Figma layout [Kinrox — Design](https://www.figma.com/design/vvWQ5IQ
 - Completed 2026-10-27: Real remote app, Bonjour discovery, PIN pairing, full playback controls, reconnection resilience, Keychain storage.
 
 ### M6. libmpv Bundling and Distribution
-- Upcoming: Bundle libmpv and dependencies into `Kinrox.app`, Developer ID signing, notarization, DMG creation.
+- Implemented 2026-10-28: portable arm64 libmpv and 43 dependent dylibs, Developer ID signing with library validation, app/DMG notarization and stapling, source archives, and download links. Runtime verification on macOS 26.5.2; macOS 14 remains the minimum deployment target, without a separate macOS 14 manual test in this session.
 
 ---
 
@@ -578,5 +579,5 @@ Full text is located in [LICENSE](LICENSE).
 - Target architectures: Apple Silicon (arm64) primary; Intel x86_64 deferred.
 
 ### Technical Risks
-- Homebrew libmpv deployment target warning resolved during M6 packaging.
+- Release builds use pinned portable libmpv dependencies. Default Homebrew development libraries still require macOS 26; do not use them in the macOS 14 distribution bundle.
 - Local Network permission prompts on iOS require explicit Info.plist keys.

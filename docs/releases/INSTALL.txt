@@ -1,0 +1,14 @@
+Kinrox 0.1.0 for Mac
+
+Requires an Apple Silicon Mac running macOS 14 Sonoma or later.
+
+Drag Kinrox.app to Applications, then open it from Applications.
+Open a local video with Command-O or drag the video into the player.
+Homebrew, Xcode, and a separate mpv installation are not required.
+
+The application is Developer ID signed and notarized by Apple.
+The companion iPhone remote is available as source; App Store publication
+is planned separately. The Mac player works without the remote.
+
+Source, licenses, release notes, and issues:
+https://github.com/awaik/Kinrox

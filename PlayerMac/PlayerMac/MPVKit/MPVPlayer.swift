@@ -20,6 +20,13 @@ final class MPVPlayer: PlayerEngine {
                 ("input-default-bindings", "no"), ("input-vo-keyboard", "no"),
                 ("input-media-keys", "no"), ("osc", "no"), ("ytdl", "no"),
                 ("load-scripts", "no"), ("config", "no"), ("volume-max", "100"),
+                // load-scripts disables user scripts, but built-ins have separate
+                // switches. Their LuaJIT code is unnecessary for Kinrox's native UI
+                // and cannot run under Hardened Runtime without executable-memory exemptions.
+                ("load-stats-overlay", "no"), ("load-console", "no"),
+                ("load-auto-profiles", "no"), ("load-select", "no"),
+                ("load-positioning", "no"), ("load-commands", "no"),
+                ("load-context-menu", "no"),
                 ("video-timing-offset", "0"),
             ]
             for (name, value) in options {

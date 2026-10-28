@@ -1,0 +1,1 @@
+Ponte cómodo. Controla la pausa, la reproducción y el volumen del Mac desde tu iPhone. Requiere Kinrox para Mac en la misma red local.

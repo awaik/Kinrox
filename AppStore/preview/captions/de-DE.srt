@@ -1,0 +1,28 @@
+1
+00:00:00,000 --> 00:00:04,000
+Filmabend.
+Alles in Reichweite.
+
+2
+00:00:04,000 --> 00:00:09,000
+Die Szene.
+Noch einmal.
+
+3
+00:00:09,000 --> 00:00:13,000
+Mach es dir
+bequem.
+
+4
+00:00:13,000 --> 00:00:18,000
+Der nächste Film.
+Ein Fingertipp.
+
+5
+00:00:18,000 --> 00:00:23,000
+Ein Code.
+Schon verbunden.
+
+6
+00:00:23,000 --> 00:00:27,000
+Benötigt Kinrox auf dem Mac · Gleiches lokales Netzwerk

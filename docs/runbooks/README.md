@@ -22,6 +22,8 @@ reflect previous planning rather than current acceptance criteria.
 | Verify player server, UI, signing, and Data Protection Keychain | [M4.4 Verification](M4.4-VERIFICATION.md) |
 | Verify real remote, Keychain, and iPhone testing boundaries | [M5 Verification](M5-VERIFICATION.md) |
 | Review remote review findings and regression coverage | [M5 Review](M5-REVIEW.md) |
+| Build, sign, notarize, verify, and publish a standalone Mac installer | [Mac Release](RUNBOOK-RELEASE.md) |
+| Inspect release packaging, startup regression, and validation boundaries | [M6 Verification](M6-VERIFICATION.md) |
 | Evaluate external code reviews and apply justified corrections | [Code Review Process](RUNBOOK-REVIEW.md) |
 
-When modifying commands, configuration, or acceptance criteria, update the corresponding runbook in the same task. M5 changes are ready for review; bundling libmpv belongs to M6.
+When modifying commands, configuration, or acceptance criteria, update the corresponding runbook in the same task. Mac distribution uses the M6 release workflow; the iPhone App Store release remains separate.

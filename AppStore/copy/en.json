@@ -1,0 +1,14 @@
+{
+  "subtitle": "Your Mac movie remote",
+  "promotional_text": "Settle in. Pause, skip and adjust the volume on your Mac from your iPhone. Requires Kinrox for Mac on the same local network.",
+  "keywords": "video,player,movie,sofa,volume,playback,local,wifi,controller",
+  "description": "Your movie is on the Mac. Your remote is in your hand.\n\nKinrox Remote lets you control the Kinrox video player on your Mac from your iPhone. Stay on the sofa when you need to pause, replay a moment or turn the volume down.\n\n• Play and pause.\n• Jump backward or forward by 10 or 30 seconds, or scrub to a specific moment.\n• Adjust volume and toggle fullscreen on your Mac.\n• Move to the previous or next video in the current folder.\n• Open available files from your Mac’s recent list.\n• Discover nearby Kinrox players and pair with a six-digit code.\n\nYour devices communicate over the local network through an encrypted connection. No account, cloud service, advertising or analytics. An interactive demo lets you explore the controls before connecting a Mac.\n\nRequires an iPhone with iOS 17 or later and Kinrox running on a compatible Mac. Connect both devices to the same local network and allow Local Network access. This app is a remote for Kinrox; it does not play or stream video on your iPhone.\n\nMac player and setup: https://awaik.github.io/Kinrox/",
+  "screenshots": [
+    ["Movie night.\nWithin reach.", "Control Kinrox on your Mac.\nRight from your iPhone."],
+    ["Catch that\nmoment again.", "Jump back or ahead by 10 or 30 seconds.\nScrub to the part you want."],
+    ["Set the mood.\nFrom your seat.", "Adjust the volume. Go fullscreen.\nKeep your Mac within reach."],
+    ["Your next film.\nOne tap away.", "Open an available recent file\non your Mac from your iPhone."],
+    ["One code.\nYou’re connected.", "Pair on the same local network.\nNo account. Encrypted connection."]
+  ],
+  "requirement": "Requires Kinrox for Mac · Same local network"
+}

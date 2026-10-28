@@ -49,6 +49,12 @@ struct SettingsView: View {
                     LabeledContent(L10n.text("Protocol"), value: "v\(Version.current)")
                     Text(L10n.text("Local network only. No accounts or cloud."))
                         .foregroundStyle(Palette.textSecondary)
+                    Link(
+                        L10n.text("Privacy Policy"),
+                        destination: URL(string: "https://awaik.github.io/Kinrox/privacy/")!)
+                    Link(
+                        L10n.text("Support"),
+                        destination: URL(string: "https://awaik.github.io/Kinrox/support/")!)
                 }
             }
             .scrollContentBackground(.hidden).background(Palette.elevated)
