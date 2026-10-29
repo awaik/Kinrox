@@ -120,7 +120,7 @@ final class RemoteServerHarness {
         return try #require(reply(to: header.id))
     }
 
-    private func reply(to id: UUID) -> Message? {
+    func reply(to id: UUID) -> Message? {
         messages.first {
             switch $0 {
             case .ack(_, let body): body.replyTo == id

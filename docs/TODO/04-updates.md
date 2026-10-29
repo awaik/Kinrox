@@ -1,9 +1,13 @@
 # Task 11.13 — Player Updates for Web Downloads
 
-> **Status:** Pending owner decision regarding option choice in [AGENTS.md](../../AGENTS.md).
-> Recommended baseline: Sparkle 2.
+> **Status:** Option A (Sparkle 2) chosen and implemented 2026-10-29 after owner approval of
+> [Figma page 05](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=48-304).
+> The HTTPS feed request is an approved exception to principle 4. Results and remaining
+> checks — [Updates Verification](../runbooks/UPDATES-VERIFICATION.md).
+> **Released:** Mac 0.3.0 (build 5), 2026-10-30. Users of 0.2.0 install this
+> first checker build manually once. The EdDSA key and encrypted backup are described
+> in the [release runbook](../runbooks/RUNBOOK-RELEASE.md#update-signing-key).
 > **Assignee:** Agent or developer. **Review & commit:** Owner.
-> **When:** Alongside or after milestone M6 — Sparkle requires signed and notarized builds.
 
 ## Purpose
 
@@ -19,9 +23,14 @@ The remote is updated via App Store. The Mac player is distributed from the webs
 
 Principles prohibit telemetry and cloud reliance. Options A & B require a explicit policy exception for HTTPS update feed queries without transmitting user diagnostics (`SUEnableSystemProfiling = NO`).
 
+The owner granted this exception on 2026-10-29 for the Sparkle appcast only.
+
 ## Implementation Checklist
 
-1. Package integration via SPM in `project.yml`.
-2. Controller configuration in `AppDelegate.swift` and `KinroxPlayerApp.swift`.
-3. Menu item "Check for Updates…" under Application menu.
-4. Release signing and notarization verification scripts.
+1. ✅ Package integration via SPM in `project.yml` (Sparkle 2.10.1, pinned).
+2. ✅ Controller in `Updates/SparkleUpdater.swift`, started from `AppDelegate.swift`;
+   gentle reminders feed the welcome banner and paused-player pill.
+3. ✅ Menu item "Check for Updates…" under the Application menu, with a version badge.
+4. ✅ Release signing of Sparkle helpers, EdDSA appcast item, and packaging checks.
+5. ✅ EdDSA key (2026-10-29); public key in `Config/Updates.xcconfig`.
+6. ✅ First Developer ID release (0.3.0) with a published `site/appcast.xml`.

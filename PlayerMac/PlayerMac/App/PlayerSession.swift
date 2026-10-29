@@ -10,6 +10,7 @@ final class PlayerSession {
     var isOpenPanelShown = false
     let recents: RecentFilesStore
     let pairing = PairingCenter()
+    let updates = UpdateCenter()
 
     init(recents: RecentFilesStore) {
         self.recents = recents
@@ -22,5 +23,6 @@ final class PlayerSession {
     var trackShortcutsAllowed: Bool {
         !isOpenPanelShown && model?.trackController.presentation == nil
             && model?.trackController.isChoosingFile != true
+            && model?.isScreensaverEngaged != true
     }
 }

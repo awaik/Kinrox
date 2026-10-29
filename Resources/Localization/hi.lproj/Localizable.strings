@@ -234,3 +234,39 @@
 "Track %@" = "ट्रैक %@";
 "Track type" = "ट्रैक का प्रकार";
 "Try another language, release group or filename." = "कोई दूसरी भाषा, रिलीज़ समूह या फ़ाइल का नाम आज़माएँ।";
+"A new version of Kinrox is available" = "Kinrox का नया संस्करण उपलब्ध है";
+"You have %@. It takes about a minute; recents and settings are kept." = "आपके पास %@ है। इसमें लगभग एक मिनट लगेगा; हाल की फ़ाइलें और सेटिंग्स बनी रहेंगी।";
+"What's New" = "नया क्या है";
+"Update" = "अपडेट करें";
+"Hide update reminder" = "अपडेट रिमाइंडर छिपाएँ";
+"Kinrox %@ is available" = "Kinrox %@ उपलब्ध है";
+"Check for Updates…" = "अपडेट जाँचें…";
+"%@ available" = "%@ उपलब्ध";
+
+/* Project information and public links. */
+"About Kinrox" = "Kinrox के बारे में";
+"Kinrox Website" = "Kinrox वेबसाइट";
+"Source Code (GitHub)" = "सोर्स कोड (GitHub)";
+"License: %@" = "लाइसेंस: %@";
+"Report an Issue" = "समस्या की रिपोर्ट करें";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox, GNU GPL v3 लाइसेंस के तहत उपलब्ध ओपन-सोर्स सॉफ़्टवेयर है।";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "स्क्रीनसेवर";
+"Screensavers" = "स्क्रीनसेवर";
+"Paused" = "रुका हुआ";
+"On %@" = "%@ पर";
+"Matrix is running on %@" = "%@ पर Matrix चल रहा है";
+"Falling green code. No sound." = "गिरता हुआ हरा कोड। कोई आवाज़ नहीं।";
+"Active on Mac. No sound." = "Mac पर चालू है। कोई आवाज़ नहीं।";
+"Starting pauses the movie. Your position is preserved." = "शुरू करने पर फ़िल्म रुक जाएगी। प्लेबैक की स्थिति बनी रहेगी।";
+"%@ · Paused at %@" = "%@ · %@ पर रुका हुआ";
+"Turn On Matrix" = "Matrix चालू करें";
+"Turn Off Matrix" = "Matrix बंद करें";
+"On Mac: Esc exits the screensaver." = "Mac पर: Esc से स्क्रीनसेवर बंद करें।";
+"The movie stays paused." = "फ़िल्म रुकी रहेगी।";
+"Update Kinrox on Mac to use screensavers." = "स्क्रीनसेवर इस्तेमाल करने के लिए Mac पर Kinrox अपडेट करें।";
+"Esc — exit" = "Esc — बाहर निकलें";
+"Esc — exit · Movie paused" = "Esc — बाहर निकलें · फ़िल्म रुकी है";
+"Matrix screensaver. Press Escape to exit." = "Matrix स्क्रीनसेवर। बाहर निकलने के लिए Escape दबाएँ।";
+"The movie could not be paused. Try again." = "फ़िल्म रोकी नहीं जा सकी। फिर से कोशिश करें।";

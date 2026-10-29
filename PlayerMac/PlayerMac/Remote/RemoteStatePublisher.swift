@@ -30,7 +30,9 @@ final class RemoteStatePublisher {
                 PlayerState(
                     title: state.title, position: previous.position, duration: state.duration,
                     paused: state.paused, volume: state.volume, fullscreen: state.fullscreen,
-                    hasMedia: state.hasMedia, canNext: state.canNext, canPrevious: state.canPrevious
+                    hasMedia: state.hasMedia, canNext: state.canNext,
+                    canPrevious: state.canPrevious,
+                    screensaver: state.screensaver
                 ) == previous
             } ?? false
         if immediate || !positionOnly || time - lastTime >= 0.5 {

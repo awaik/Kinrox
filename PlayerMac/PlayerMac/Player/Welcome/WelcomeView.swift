@@ -6,6 +6,7 @@ struct WelcomeView: View {
     let recents: RecentFilesStore?
     let actions: PlayerActions
     var remote: RemoteServer? = nil
+    var updates: UpdateCenter? = nil
     var connectPhone: () -> Void = {}
     @State private var showsAll = false
 
@@ -13,6 +14,10 @@ struct WelcomeView: View {
     private static let cardWidth: CGFloat = 240
     private static let cardSpacing: CGFloat = 24
     private var items: [RecentItem] { recents?.items ?? [] }
+    private var update: AvailableUpdate? {
+        guard let updates, updates.showsReminder else { return nil }
+        return updates.available
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -31,10 +36,17 @@ struct WelcomeView: View {
                     .allowsHitTesting(false)
                 ScrollView {
                     VStack(spacing: 0) {
+                        if let updates, let update {
+                            // Figma page 05: banner follows the recent-files grid width.
+                            UpdateBanner(center: updates, update: update)
+                                .frame(maxWidth: 1032)
+                                .padding(.bottom, 40)
+                                .transition(.move(edge: .top).combined(with: .opacity))
+                        }
                         hero
                         if !items.isEmpty {
                             recentSection(width: geometry.size.width - 80)
-                                .padding(.top, 64)
+                                .padding(.top, update == nil ? 64 : 48)
                         }
                         Text(L10n.text("Space — pause   ·   ← → — 5s   ·   F — full screen"))
                             .font(KinroxFont.caption)
@@ -42,7 +54,8 @@ struct WelcomeView: View {
                             .padding(.top, 56)
                     }
                     .padding(.horizontal, 40)
-                    .padding(.top, 72)
+                    .padding(.top, update == nil ? 72 : 64)
+                    .animation(.spring(duration: 0.4), value: update)
                     .padding(.bottom, 24)
                     .frame(maxWidth: .infinity, minHeight: geometry.size.height)
                 }

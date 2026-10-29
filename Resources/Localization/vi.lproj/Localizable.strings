@@ -234,3 +234,39 @@
 "Track %@" = "Bản %@";
 "Track type" = "Loại bản";
 "Try another language, release group or filename." = "Thử ngôn ngữ, nhóm phát hành hoặc tên tệp khác.";
+"A new version of Kinrox is available" = "Đã có phiên bản Kinrox mới";
+"You have %@. It takes about a minute; recents and settings are kept." = "Bạn đang dùng %@. Mất khoảng một phút; mục gần đây và cài đặt được giữ nguyên.";
+"What's New" = "Có gì mới";
+"Update" = "Cập nhật";
+"Hide update reminder" = "Ẩn lời nhắc cập nhật";
+"Kinrox %@ is available" = "Đã có Kinrox %@";
+"Check for Updates…" = "Kiểm tra cập nhật…";
+"%@ available" = "Có %@";
+
+/* Project information and public links. */
+"About Kinrox" = "Giới thiệu Kinrox";
+"Kinrox Website" = "Trang web Kinrox";
+"Source Code (GitHub)" = "Mã nguồn (GitHub)";
+"License: %@" = "Giấy phép: %@";
+"Report an Issue" = "Báo cáo sự cố";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox là phần mềm mã nguồn mở được cấp phép theo GNU GPL v3.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Trình bảo vệ màn hình";
+"Screensavers" = "Trình bảo vệ màn hình";
+"Paused" = "Đã tạm dừng";
+"On %@" = "Trên %@";
+"Matrix is running on %@" = "Matrix đang chạy trên %@";
+"Falling green code. No sound." = "Mã xanh rơi xuống. Không có âm thanh.";
+"Active on Mac. No sound." = "Đang chạy trên Mac. Không có âm thanh.";
+"Starting pauses the movie. Your position is preserved." = "Khi bật, phim sẽ tạm dừng và giữ nguyên vị trí phát.";
+"%@ · Paused at %@" = "%@ · Tạm dừng tại %@";
+"Turn On Matrix" = "Bật Matrix";
+"Turn Off Matrix" = "Tắt Matrix";
+"On Mac: Esc exits the screensaver." = "Trên Mac: nhấn Esc để thoát trình bảo vệ màn hình.";
+"The movie stays paused." = "Phim vẫn tạm dừng.";
+"Update Kinrox on Mac to use screensavers." = "Cập nhật Kinrox trên Mac để dùng trình bảo vệ màn hình.";
+"Esc — exit" = "Esc — thoát";
+"Esc — exit · Movie paused" = "Esc — thoát · Phim đã tạm dừng";
+"Matrix screensaver. Press Escape to exit." = "Trình bảo vệ màn hình Matrix. Nhấn Escape để thoát.";
+"The movie could not be paused. Try again." = "Không thể tạm dừng phim. Hãy thử lại.";

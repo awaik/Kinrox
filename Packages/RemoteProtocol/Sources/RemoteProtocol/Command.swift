@@ -12,10 +12,12 @@ public enum Command: Codable, Sendable, Equatable {
     case openRecent(itemId: UUID)
     case toggleFullscreen
     case setFullscreen(fullscreen: Bool)
+    case setScreensaver(screensaver: Screensaver)
 
     public enum Kind: String, Codable, Sendable, CaseIterable {
         case togglePause, setPaused, seekRelative, seekAbsolute, setVolume
         case next, previous, openRecent, toggleFullscreen, setFullscreen
+        case setScreensaver
     }
 
     public var kind: Kind {
@@ -30,11 +32,12 @@ public enum Command: Codable, Sendable, Equatable {
         case .openRecent: .openRecent
         case .toggleFullscreen: .toggleFullscreen
         case .setFullscreen: .setFullscreen
+        case .setScreensaver: .setScreensaver
         }
     }
 
     private enum CodingKeys: String, CodingKey {
-        case kind, paused, seconds, volume, itemId, fullscreen
+        case kind, paused, seconds, volume, itemId, fullscreen, screensaver
     }
 
     public init(from decoder: any Decoder) throws {
@@ -59,6 +62,9 @@ public enum Command: Codable, Sendable, Equatable {
         case .toggleFullscreen: self = .toggleFullscreen
         case .setFullscreen:
             self = .setFullscreen(fullscreen: try container.decode(Bool.self, forKey: .fullscreen))
+        case .setScreensaver:
+            self = .setScreensaver(
+                screensaver: try container.decode(Screensaver.self, forKey: .screensaver))
         }
         try validate()
     }
@@ -74,6 +80,8 @@ public enum Command: Codable, Sendable, Equatable {
         case .setVolume(let volume): try container.encode(volume, forKey: .volume)
         case .openRecent(let itemId): try container.encode(itemId, forKey: .itemId)
         case .setFullscreen(let fullscreen): try container.encode(fullscreen, forKey: .fullscreen)
+        case .setScreensaver(let screensaver):
+            try container.encode(screensaver, forKey: .screensaver)
         case .togglePause, .next, .previous, .toggleFullscreen: break
         }
     }

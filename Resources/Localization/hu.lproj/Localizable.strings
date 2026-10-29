@@ -234,3 +234,39 @@
 "Track %@" = "%@. sáv";
 "Track type" = "Sávtípus";
 "Try another language, release group or filename." = "Próbáljon másik nyelvet, kiadói csoportot vagy fájlnevet.";
+"A new version of Kinrox is available" = "Elérhető a Kinrox új verziója";
+"You have %@. It takes about a minute; recents and settings are kept." = "Ön a(z) %@ verziót használja. Nagyjából egy percig tart; a legutóbbi fájlok és a beállítások megmaradnak.";
+"What's New" = "Újdonságok";
+"Update" = "Frissítés";
+"Hide update reminder" = "Frissítési emlékeztető elrejtése";
+"Kinrox %@ is available" = "Elérhető a Kinrox %@";
+"Check for Updates…" = "Frissítések keresése…";
+"%@ available" = "%@ elérhető";
+
+/* Project information and public links. */
+"About Kinrox" = "A Kinrox névjegye";
+"Kinrox Website" = "Kinrox weboldal";
+"Source Code (GitHub)" = "Forráskód (GitHub)";
+"License: %@" = "Licenc: %@";
+"Report an Issue" = "Hiba jelentése";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "A Kinrox a GNU GPL v3 licenc alatt terjesztett nyílt forráskódú szoftver.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Képernyővédő";
+"Screensavers" = "Képernyővédők";
+"Paused" = "Szüneteltetve";
+"On %@" = "Ezen: %@";
+"Matrix is running on %@" = "A Matrix ezen fut: %@";
+"Falling green code. No sound." = "Hulló zöld kód. Hang nélkül.";
+"Active on Mac. No sound." = "Aktív a Macen. Hang nélkül.";
+"Starting pauses the movie. Your position is preserved." = "Indításkor a film szünetel. A lejátszási pozíció megmarad.";
+"%@ · Paused at %@" = "%@ · Szüneteltetve itt: %@";
+"Turn On Matrix" = "Matrix bekapcsolása";
+"Turn Off Matrix" = "Matrix kikapcsolása";
+"On Mac: Esc exits the screensaver." = "Macen: az Esc bezárja a képernyővédőt.";
+"The movie stays paused." = "A film szüneteltetve marad.";
+"Update Kinrox on Mac to use screensavers." = "A képernyővédőkhöz frissítsd a Kinroxot a Macen.";
+"Esc — exit" = "Esc — kilépés";
+"Esc — exit · Movie paused" = "Esc — kilépés · A film szünetel";
+"Matrix screensaver. Press Escape to exit." = "Matrix képernyővédő. A kilépéshez nyomd meg az Escape billentyűt.";
+"The movie could not be paused. Try again." = "Nem sikerült szüneteltetni a filmet. Próbáld újra.";

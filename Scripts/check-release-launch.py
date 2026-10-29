@@ -2,6 +2,7 @@
 """Catch startup crashes that notarization/static signature checks cannot detect."""
 
 import argparse
+import os
 import plistlib
 import subprocess
 import tempfile
@@ -31,7 +32,9 @@ def check(app):
 
 
 def check_process(app, binary, diagnostics):
-    process = subprocess.Popen([str(binary)], stdout=subprocess.DEVNULL, stderr=diagnostics)
+    process = subprocess.Popen(
+        [str(binary)], stdout=subprocess.DEVNULL, stderr=diagnostics,
+        env={**os.environ, "KINROX_RELEASE_SMOKE_TEST": "1"})
     try:
         deadline = time.monotonic() + 5
         while time.monotonic() < deadline:
@@ -51,6 +54,9 @@ def check_process(app, binary, diagnostics):
             raise RuntimeError("Release loaded a Homebrew dependency")
         if str(app / "Contents/Frameworks/libmpv.2.dylib") not in loaded:
             raise RuntimeError("Bundled libmpv was not loaded")
+        sparkle = app / "Contents/Frameworks/Sparkle.framework/Versions/B/Sparkle"
+        if sparkle.exists() and str(sparkle) not in loaded:
+            raise RuntimeError("Bundled Sparkle was not loaded")
         print("PASS: player initialized with Hardened Runtime, bundled libmpv, and no exemptions")
     finally:
         if process.poll() is None:

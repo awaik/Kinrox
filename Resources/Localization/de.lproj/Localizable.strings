@@ -234,3 +234,39 @@
 "Track %@" = "Spur %@";
 "Track type" = "Spurtyp";
 "Try another language, release group or filename." = "Versuche eine andere Sprache, Release-Gruppe oder einen anderen Dateinamen.";
+"A new version of Kinrox is available" = "Eine neue Version von Kinrox ist verfügbar";
+"You have %@. It takes about a minute; recents and settings are kept." = "Du hast %@. Das dauert etwa eine Minute; Verlauf und Einstellungen bleiben erhalten.";
+"What's New" = "Neuerungen";
+"Update" = "Aktualisieren";
+"Hide update reminder" = "Update-Hinweis ausblenden";
+"Kinrox %@ is available" = "Kinrox %@ ist verfügbar";
+"Check for Updates…" = "Nach Updates suchen…";
+"%@ available" = "%@ verfügbar";
+
+/* Project information and public links. */
+"About Kinrox" = "Über Kinrox";
+"Kinrox Website" = "Kinrox-Website";
+"Source Code (GitHub)" = "Quellcode (GitHub)";
+"License: %@" = "Lizenz: %@";
+"Report an Issue" = "Problem melden";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox ist Open-Source-Software unter der GNU GPL v3.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Bildschirmschoner";
+"Screensavers" = "Bildschirmschoner";
+"Paused" = "Pausiert";
+"On %@" = "Auf %@";
+"Matrix is running on %@" = "Matrix läuft auf %@";
+"Falling green code. No sound." = "Fallender grüner Code. Ohne Ton.";
+"Active on Mac. No sound." = "Auf dem Mac aktiv. Ohne Ton.";
+"Starting pauses the movie. Your position is preserved." = "Beim Start wird der Film pausiert. Die Position bleibt erhalten.";
+"%@ · Paused at %@" = "%@ · Pausiert bei %@";
+"Turn On Matrix" = "Matrix einschalten";
+"Turn Off Matrix" = "Matrix ausschalten";
+"On Mac: Esc exits the screensaver." = "Auf dem Mac: Esc beendet den Bildschirmschoner.";
+"The movie stays paused." = "Der Film bleibt pausiert.";
+"Update Kinrox on Mac to use screensavers." = "Aktualisiere Kinrox auf dem Mac, um Bildschirmschoner zu nutzen.";
+"Esc — exit" = "Esc — beenden";
+"Esc — exit · Movie paused" = "Esc — beenden · Film pausiert";
+"Matrix screensaver. Press Escape to exit." = "Matrix-Bildschirmschoner. Zum Beenden Escape drücken.";
+"The movie could not be paused. Try again." = "Der Film konnte nicht pausiert werden. Versuche es erneut.";

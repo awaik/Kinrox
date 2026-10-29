@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import RemoteProtocol
 
 /// Mac in Players list.
 struct MacPlayer: Identifiable, Hashable, Sendable {
@@ -30,6 +31,7 @@ struct RemotePlaybackState: Equatable, Sendable {
     var fullscreen: Bool
     var hasMedia: Bool
     var receivedAt: Date
+    var screensaver = Screensaver.off
 
     func position(at date: Date) -> Double {
         guard !paused, hasMedia else { return position }
@@ -113,13 +115,18 @@ final class RemoteDemoStore {
     var canNext: Bool { currentIndex.map { $0 + 1 < playable.count } ?? false }
     var canPrevious: Bool { currentIndex.map { $0 > 0 } ?? false }
 
-    func togglePause() { mutate { $0.paused.toggle() } }
+    func togglePause() {
+        guard state.screensaver == .off else { return }
+        mutate { $0.paused.toggle() }
+    }
 
     func seek(by seconds: Double) {
+        guard state.screensaver == .off else { return }
         mutate { $0.position = min($0.duration, max(0, $0.position + seconds)) }
     }
 
     func seek(to seconds: Double) {
+        guard state.screensaver == .off else { return }
         mutate { $0.position = min($0.duration, max(0, seconds)) }
     }
 
@@ -129,14 +136,22 @@ final class RemoteDemoStore {
     }
 
     func toggleFullscreen() { mutate { $0.fullscreen.toggle() } }
+    func setScreensaver(_ value: Screensaver) {
+        mutate {
+            $0.screensaver = value
+            if value == .matrix { $0.paused = true }
+        }
+    }
 
     func next() {
-        guard let index = currentIndex, index + 1 < playable.count else { return }
+        guard state.screensaver == .off, let index = currentIndex, index + 1 < playable.count else {
+            return
+        }
         play(playable[index + 1])
     }
 
     func previous() {
-        guard let index = currentIndex, index > 0 else { return }
+        guard state.screensaver == .off, let index = currentIndex, index > 0 else { return }
         play(playable[index - 1])
     }
 
@@ -160,6 +175,7 @@ final class RemoteDemoStore {
             $0.position = 0
             $0.paused = false
             $0.hasMedia = true
+            $0.screensaver = .off
         }
     }
 

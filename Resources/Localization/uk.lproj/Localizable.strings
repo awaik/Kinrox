@@ -234,3 +234,39 @@
 "Track %@" = "Доріжка %@";
 "Track type" = "Тип доріжки";
 "Try another language, release group or filename." = "Спробуйте іншу мову, озвучення або назву файлу.";
+"A new version of Kinrox is available" = "Доступна нова версія Kinrox";
+"You have %@. It takes about a minute; recents and settings are kept." = "У вас %@. Це займе близько хвилини, недавні файли й налаштування збережуться.";
+"What's New" = "Що нового";
+"Update" = "Оновити";
+"Hide update reminder" = "Сховати нагадування про оновлення";
+"Kinrox %@ is available" = "Доступна Kinrox %@";
+"Check for Updates…" = "Перевірити оновлення…";
+"%@ available" = "доступна %@";
+
+/* Project information and public links. */
+"About Kinrox" = "Про Kinrox";
+"Kinrox Website" = "Сайт Kinrox";
+"Source Code (GitHub)" = "Вихідний код (GitHub)";
+"License: %@" = "Ліцензія: %@";
+"Report an Issue" = "Повідомити про помилку";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox — програма з відкритим вихідним кодом під ліцензією GNU GPL v3.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Заставка";
+"Screensavers" = "Заставки";
+"Paused" = "На паузі";
+"On %@" = "На екрані %@";
+"Matrix is running on %@" = "Matrix працює на %@";
+"Falling green code. No sound." = "Зелений код, що падає. Без звуку.";
+"Active on Mac. No sound." = "Увімкнено на Mac. Без звуку.";
+"Starting pauses the movie. Your position is preserved." = "Під час запуску фільм буде на паузі. Позиція збережеться.";
+"%@ · Paused at %@" = "%@ · На паузі на %@";
+"Turn On Matrix" = "Увімкнути Matrix";
+"Turn Off Matrix" = "Вимкнути Matrix";
+"On Mac: Esc exits the screensaver." = "На Mac: Esc — вийти із заставки.";
+"The movie stays paused." = "Фільм залишиться на паузі.";
+"Update Kinrox on Mac to use screensavers." = "Оновіть Kinrox на Mac, щоб використовувати заставки.";
+"Esc — exit" = "Esc — вийти";
+"Esc — exit · Movie paused" = "Esc — вийти · Фільм на паузі";
+"Matrix screensaver. Press Escape to exit." = "Заставка Matrix. Натисніть Escape для виходу.";
+"The movie could not be paused. Try again." = "Не вдалося поставити фільм на паузу. Спробуйте ще раз.";

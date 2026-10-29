@@ -26,6 +26,7 @@ enum FixtureSamples {
         .togglePause, .setPaused(paused: true), .seekRelative(seconds: -30),
         .seekAbsolute(seconds: 1234.5), .setVolume(volume: 40), .next, .previous,
         .openRecent(itemId: itemId), .toggleFullscreen, .setFullscreen(fullscreen: false),
+        .setScreensaver(screensaver: .matrix),
     ]
 
     static let all: [FixtureSample] =

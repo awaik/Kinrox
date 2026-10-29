@@ -4,10 +4,11 @@ ENABLE_HARDENED_RUNTIME = YES
 ENABLE_APP_SANDBOX = NO
 
 #include "MPV.xcconfig"
+#include "Updates.xcconfig"
 
 // Shared and personal settings are included after platform values.
 #include "Shared.xcconfig"
 
 // Mac releases advance independently of the companion iPhone app.
-MARKETING_VERSION = 0.2.0
-CURRENT_PROJECT_VERSION = 4
+MARKETING_VERSION = 0.3.0
+CURRENT_PROJECT_VERSION = 5

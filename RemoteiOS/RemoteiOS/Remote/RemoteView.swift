@@ -7,6 +7,7 @@ struct RemoteView: View {
     let switchMode: () -> Void
     @State private var showsRecents = false
     @State private var showsSettings = false
+    @State private var showsScreensavers = false
     @State private var taps = 0
 
     private var state: PlayerState { store.state }
@@ -47,6 +48,27 @@ struct RemoteView: View {
         .sheet(isPresented: $showsRecents) { RecentSheet(store: store) }
         .sheet(isPresented: $showsSettings) {
             SettingsView(store: store, switchMode: switchMode)
+        }
+        .navigationDestination(isPresented: $showsScreensavers) {
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: 16) {
+                        ConnectionStatusView(store: store)
+                        ScreensaverControls(store: store)
+                    }
+                    .frame(minHeight: max(0, geometry.size.height - 16))
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 8)
+                }
+            }
+            .background(EmberBackdrop())
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .principal) { header } }
+            .onChange(of: state.screensaver, initial: true) { _, new in
+                // Observe on the visible destination: SwiftUI may suspend updates
+                // to the remote beneath it. Active Matrix occupies the remote itself.
+                if new == .matrix { showsScreensavers = false }
+            }
         }
         .alert(
             "Kinrox",
@@ -91,7 +113,9 @@ struct RemoteView: View {
 
     @ViewBuilder
     private func content(position: Double) -> some View {
-        if state.hasMedia {
+        if state.screensaver == .matrix {
+            ScreensaverControls(store: store)
+        } else if state.hasMedia {
             controls(position: position)
         } else {
             VStack(spacing: 16) {
@@ -106,6 +130,7 @@ struct RemoteView: View {
                     showsRecents = true
                 }
                 .frame(maxWidth: 220)
+                screensaverEntry
                 Spacer()
             }
             .frame(maxWidth: .infinity)
@@ -117,7 +142,8 @@ struct RemoteView: View {
         let gestureEpoch = store.epoch
         return VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 6) {
-                Text(L10n.text("Now Playing")).overlineStyle(Palette.ember)
+                Text(state.paused ? L10n.text("Paused") : L10n.text("Now Playing"))
+                    .overlineStyle(Palette.ember)
                 Text(state.title)
                     .font(KinroxFont.titleLarge(26))
                     .foregroundStyle(Palette.textPrimary)
@@ -189,8 +215,28 @@ struct RemoteView: View {
             }
             .padding(.top, 12)
             .padding(.bottom, 8)
+            screensaverEntry.padding(.top, 4)
         }
         .padding(.top, 12)
+    }
+
+    private var screensaverEntry: some View {
+        Button {
+            showsScreensavers = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "play.rectangle")
+                Text(L10n.text("Screensavers"))
+                Spacer()
+                Image(systemName: "chevron.right").font(.caption.weight(.semibold))
+            }
+            .font(KinroxFont.bodyStrong)
+            .foregroundStyle(Palette.textPrimary)
+            .padding(.horizontal, 18)
+            .frame(maxWidth: .infinity, minHeight: 56)
+            .kinroxGlass(in: Capsule(), interactive: true)
+        }
+        .buttonStyle(PressableStyle())
     }
 
     private var transport: some View {

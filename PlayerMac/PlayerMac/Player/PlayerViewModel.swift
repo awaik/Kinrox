@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import RemoteProtocol
 
 @MainActor @Observable
 final class PlayerViewModel {
@@ -22,15 +23,26 @@ final class PlayerViewModel {
     private(set) var playbackVolume: Double = 100
     var errorMessage: String?
     let trackController: TrackController
+    private(set) var screensaver = Screensaver.off
+    private(set) var isStartingScreensaver = false
+    let screensaverPresentation = ScreensaverPresentation()
+    @ObservationIgnored private var screensaverPauseTask: Task<Void, Never>?
+    @ObservationIgnored private var screensaverStartCompletions: [(Bool) -> Void] = []
+    var isScreensaverEngaged: Bool { screensaver != .off || isStartingScreensaver }
     /// Auto-advance to next folder file at video end.
     @ObservationIgnored var autoAdvance = true
     @ObservationIgnored var onToggleFullscreen: (() -> Void)?
     @ObservationIgnored var onSetFullscreen: ((Bool) -> Void)?
     @ObservationIgnored let engine: any PlayerEngine
     @ObservationIgnored let recents: RecentFilesStore?
-    @ObservationIgnored private let playlistProvider: @Sendable (URL) -> FolderPlaylist
+    @ObservationIgnored private let playlistProvider: (@Sendable (URL) -> FolderPlaylist)?
+    @ObservationIgnored private let folderDependencies: FolderMonitor.Dependencies
+    @ObservationIgnored private let usesSnapshotProvider: Bool
     @ObservationIgnored private var eventTask: Task<Void, Never>?
-    @ObservationIgnored private var playlistTask: Task<Void, Never>?
+    @ObservationIgnored private var folderMonitor: FolderMonitor?
+    @ObservationIgnored private var folderGeneration = UUID()
+    @ObservationIgnored private(set) var eofTask: Task<Void, Never>?
+    @ObservationIgnored private var eofGeneration = UUID()
     @ObservationIgnored private var lastPositionUpdate = -Double.infinity
     @ObservationIgnored private var latestPosition: Double = 0
     private var endReached = false
@@ -58,12 +70,15 @@ final class PlayerViewModel {
 
     init(
         engine: any PlayerEngine, recents: RecentFilesStore? = nil,
-        playlistProvider: @escaping @Sendable (URL) -> FolderPlaylist = FolderPlaylist.scan
+        folderDependencies: FolderMonitor.Dependencies? = nil,
+        playlistProvider: (@Sendable (URL) -> FolderPlaylist)? = nil
     ) {
         self.engine = engine
         trackController = TrackController(engine: engine)
         self.recents = recents
         self.playlistProvider = playlistProvider
+        self.folderDependencies = folderDependencies ?? .init()
+        usesSnapshotProvider = playlistProvider != nil && folderDependencies == nil
         let events = engine.events
         eventTask = Task { [weak self] in
             for await event in events {
@@ -73,9 +88,11 @@ final class PlayerViewModel {
         }
     }
 
-    deinit {
+    isolated deinit {
+        screensaverPauseTask?.cancel()
         eventTask?.cancel()
-        playlistTask?.cancel()
+        folderMonitor?.stop()
+        eofTask?.cancel()
     }
 
     /// Video reached end and rests on last frame (keep-open).
@@ -89,6 +106,8 @@ final class PlayerViewModel {
     @discardableResult
     func open(url: URL) -> Bool {
         guard !isClosing else { return false }
+        stopScreensaver()
+        cancelEOFRefresh()
         errorMessage = nil
         do {
             try engine.load(url: url)
@@ -106,20 +125,44 @@ final class PlayerViewModel {
     }
 
     private func updatePlaylist(for url: URL) {
-        // Neighboring file from same playlist does not require new folder read.
-        if let playlist, let index = playlist.index(of: url) {
-            self.playlist = FolderPlaylist(items: playlist.items, current: playlist.items[index])
+        let folder = URL(
+            fileURLWithPath: VideoFiles.key(url.deletingLastPathComponent()), isDirectory: true)
+        if folderMonitor?.folder == folder {
+            if let playlist { self.playlist = FolderPlaylist(items: playlist.items, current: url) }
             return
         }
+        stopFolderMonitor()
         playlist = nil
-        playlistTask?.cancel()
-        let provider = playlistProvider
-        playlistTask = Task { [weak self] in
-            let scanned = await Task.detached(priority: .utility) { provider(url) }.value
-            guard let self, !Task.isCancelled, self.currentURL == url else { return }
-            self.playlist = scanned
+        let generation = folderGeneration
+        var dependencies = folderDependencies
+        if let playlistProvider {
+            // Legacy snapshot providers own their filesystem, which may be entirely virtual.
+            dependencies.scan = { _ in playlistProvider(url).items }
+            if usesSnapshotProvider { dependencies.watch = { _ in AsyncStream { _ in } } }
+        }
+        folderMonitor = FolderMonitor(folder: folder, dependencies: dependencies) {
+            [weak self] result in
+            guard let self, self.folderGeneration == generation, !self.isClosing,
+                let current = self.currentURL
+            else { return }
+            let items: [URL]
+            switch result {
+            case .success(let scanned): items = scanned
+            case .failure:
+                guard self.playlist == nil else { return }
+                items = []
+            }
+            let updated = FolderPlaylist(items: items, current: current)
+            guard updated != self.playlist else { return }
+            self.playlist = updated
             self.notifyPlayback()
         }
+    }
+
+    private func stopFolderMonitor() {
+        folderGeneration = UUID()
+        folderMonitor?.stop()
+        folderMonitor = nil
     }
 
     func receive(_ event: PlaybackEvent) {
@@ -148,11 +191,13 @@ final class PlayerViewModel {
             errorMessage = error
             if error != nil { clearCurrentFile() }
         case .failure(let error):
+            if isStartingScreensaver { stopScreensaver() }
             isLoading = false
             requestedPause = nil
             replayPending = false
             errorMessage = error
         case .shutdown:
+            stopScreensaver()
             trackController.close()
             resetMedia()
             clearCurrentFile()
@@ -173,6 +218,8 @@ final class PlayerViewModel {
             self.paused = paused
             if requestedPause == paused { requestedPause = nil }
             if paused { position = latestPosition }
+            if paused, isStartingScreensaver { activateMatrix() }
+            if !paused, screensaver == .matrix { setPaused(true) }
         case (.endReached, .flag(let reached)):
             let wasReached = endReached
             endReached = reached
@@ -213,12 +260,40 @@ final class PlayerViewModel {
     }
 
     private func advanceAfterEnd() {
-        // With keep-open last file stays on last frame.
-        guard autoAdvance, hasMedia, let next = playlist?.next else { return }
-        open(url: next)
+        guard !isScreensaverEngaged, autoAdvance, hasMedia,
+            let url = currentURL, let monitor = folderMonitor
+        else {
+            return
+        }
+        if let next = playlist?.next, !monitor.isDirty,
+            usesSnapshotProvider || folderDependencies.isReachable(next)
+        {
+            open(url: next)
+            return
+        }
+        cancelEOFRefresh()
+        let generation = eofGeneration
+        eofTask = Task { [weak self] in
+            let items = await monitor.refresh()
+            guard let self, !Task.isCancelled, self.eofGeneration == generation else { return }
+            self.eofTask = nil
+            // Use this check's snapshot even if another publication wins the actor scheduling race.
+            guard let items, self.autoAdvance, self.isAtEnd, !self.replayPending,
+                !self.isClosing, !self.isScreensaverEngaged, self.currentURL == url,
+                let next = FolderPlaylist(items: items, current: url).next
+            else { return }
+            self.open(url: next)
+        }
+    }
+
+    func cancelEOFRefresh() {
+        eofGeneration = UUID()
+        eofTask?.cancel()
+        eofTask = nil
     }
 
     private func resetMedia() {
+        cancelEOFRefresh()
         title = ""
         position = 0
         latestPosition = 0
@@ -234,21 +309,87 @@ final class PlayerViewModel {
     }
 
     func shutdown() async {
+        stopScreensaver()
         trackController.close()
         isClosing = true
+        cancelEOFRefresh()
+        stopFolderMonitor()
         notifyPlayback(.shutdown)
         eventTask?.cancel()
         eventTask = nil
-        playlistTask?.cancel()
-        playlistTask = nil
         await engine.shutdown()
         resetMedia()
         clearCurrentFile()
     }
 
     private func clearCurrentFile() {
+        cancelEOFRefresh()
+        stopFolderMonitor()
         currentURL = nil
         playlist = nil
-        playlistTask?.cancel()
+    }
+
+    /// Only expose the animation after mpv confirms the pause; preserve position and fullscreen.
+    @discardableResult
+    func startMatrix(completion: ((Bool) -> Void)? = nil) -> Bool {
+        guard !isClosing, !isLoading else {
+            completion?(false)
+            return false
+        }
+        if screensaver == .matrix {
+            completion?(true)
+            return true
+        }
+        if let completion { screensaverStartCompletions.append(completion) }
+        guard !isStartingScreensaver else { return true }
+        cancelEOFRefresh()
+        trackController.presentation = nil
+        if !hasMedia || (paused && requestedPause != false) {
+            activateMatrix()
+            return true
+        }
+        isStartingScreensaver = true
+        guard setPaused(true) else {
+            stopScreensaver()
+            return false
+        }
+        screensaverPauseTask = Task { [weak self] in
+            do { try await Task.sleep(for: .seconds(5)) } catch { return }
+            guard let self, !Task.isCancelled, self.isStartingScreensaver else { return }
+            self.stopScreensaver()
+            self.errorMessage = L10n.text("The movie could not be paused. Try again.")
+        }
+        return true
+    }
+
+    private func activateMatrix() {
+        screensaverPauseTask?.cancel()
+        screensaverPauseTask = nil
+        isStartingScreensaver = false
+        screensaver = .matrix
+        screensaverPresentation.start()
+        let completions = takeScreensaverStartCompletions()
+        notifyPlayback()
+        for completion in completions { completion(true) }
+    }
+
+    @discardableResult
+    func stopScreensaver() -> Bool {
+        screensaverPauseTask?.cancel()
+        screensaverPauseTask = nil
+        let changed = isScreensaverEngaged
+        isStartingScreensaver = false
+        screensaver = .off
+        screensaverPresentation.stop()
+        let completions = takeScreensaverStartCompletions()
+        if changed { notifyPlayback() }
+        for completion in completions { completion(false) }
+        return true
+    }
+
+    private func takeScreensaverStartCompletions() -> [(Bool) -> Void] {
+        let completions = screensaverStartCompletions
+        screensaverStartCompletions.removeAll()
+        return completions
     }
 }

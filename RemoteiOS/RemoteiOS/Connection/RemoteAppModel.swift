@@ -88,11 +88,14 @@ final class RemoteAppModel {
     }
 
     var controlsEnabled: Bool { connectionState == .connected && hasState }
+    var supportsScreensavers: Bool { hasState && state.screensaver != nil }
     var canNext: Bool { controlsEnabled && state.hasMedia && state.canNext }
     var canPrevious: Bool { controlsEnabled && state.hasMedia && state.canPrevious }
     var position: Double {
         guard controlsEnabled else { return frozenPosition }
-        let elapsed = !state.paused && state.hasMedia ? max(0, scheduler.now - receivedAt) : 0
+        let elapsed =
+            !state.paused && state.hasMedia && state.screensaver != .matrix
+            ? max(0, scheduler.now - receivedAt) : 0
         return min(state.duration, max(0, state.position + elapsed))
     }
 

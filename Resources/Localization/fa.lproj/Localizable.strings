@@ -234,3 +234,39 @@
 "Track %@" = "ترک %@";
 "Track type" = "نوع ترک";
 "Try another language, release group or filename." = "زبان، گروه انتشار یا نام فایل دیگری را امتحان کنید.";
+"A new version of Kinrox is available" = "نسخهٔ جدید Kinrox در دسترس است";
+"You have %@. It takes about a minute; recents and settings are kept." = "نسخهٔ شما %@ است. حدود یک دقیقه طول می‌کشد؛ فایل‌های اخیر و تنظیمات حفظ می‌شوند.";
+"What's New" = "تازه‌ها";
+"Update" = "به‌روزرسانی";
+"Hide update reminder" = "پنهان کردن یادآوری به‌روزرسانی";
+"Kinrox %@ is available" = "Kinrox %@ در دسترس است";
+"Check for Updates…" = "بررسی به‌روزرسانی‌ها…";
+"%@ available" = "%@ در دسترس";
+
+/* Project information and public links. */
+"About Kinrox" = "دربارهٔ Kinrox";
+"Kinrox Website" = "وب‌سایت Kinrox";
+"Source Code (GitHub)" = "کد منبع (GitHub)";
+"License: %@" = "مجوز: %@";
+"Report an Issue" = "گزارش مشکل";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox نرم‌افزاری متن‌باز است که تحت مجوز GNU GPL v3 منتشر می‌شود.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "محافظ صفحه";
+"Screensavers" = "محافظ‌های صفحه";
+"Paused" = "مکث‌شده";
+"On %@" = "روی %@";
+"Matrix is running on %@" = "Matrix روی %@ در حال اجراست";
+"Falling green code. No sound." = "کد سبز در حال ریزش. بدون صدا.";
+"Active on Mac. No sound." = "روی Mac فعال است. بدون صدا.";
+"Starting pauses the movie. Your position is preserved." = "با شروع، فیلم مکث می‌شود و موقعیت پخش حفظ می‌شود.";
+"%@ · Paused at %@" = "%@ · مکث در %@";
+"Turn On Matrix" = "روشن کردن Matrix";
+"Turn Off Matrix" = "خاموش کردن Matrix";
+"On Mac: Esc exits the screensaver." = "در Mac: با Esc از محافظ صفحه خارج شوید.";
+"The movie stays paused." = "فیلم در حالت مکث می‌ماند.";
+"Update Kinrox on Mac to use screensavers." = "برای استفاده از محافظ صفحه، Kinrox را در Mac به‌روز کنید.";
+"Esc — exit" = "Esc — خروج";
+"Esc — exit · Movie paused" = "Esc — خروج · فیلم مکث شده";
+"Matrix screensaver. Press Escape to exit." = "محافظ صفحه Matrix. برای خروج Escape را فشار دهید.";
+"The movie could not be paused. Try again." = "مکث فیلم ممکن نشد. دوباره تلاش کنید.";

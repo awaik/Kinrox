@@ -234,3 +234,39 @@
 "Track %@" = "Spoor %@";
 "Track type" = "Spoortype";
 "Try another language, release group or filename." = "Probeer een andere taal, releasegroep of bestandsnaam.";
+"A new version of Kinrox is available" = "Er is een nieuwe versie van Kinrox";
+"You have %@. It takes about a minute; recents and settings are kept." = "Je hebt %@. Het duurt ongeveer een minuut; recente bestanden en instellingen blijven behouden.";
+"What's New" = "Wat is er nieuw";
+"Update" = "Werk bij";
+"Hide update reminder" = "Verberg updateherinnering";
+"Kinrox %@ is available" = "Kinrox %@ is beschikbaar";
+"Check for Updates…" = "Controleer op updates…";
+"%@ available" = "%@ beschikbaar";
+
+/* Project information and public links. */
+"About Kinrox" = "Over Kinrox";
+"Kinrox Website" = "Kinrox-website";
+"Source Code (GitHub)" = "Broncode (GitHub)";
+"License: %@" = "Licentie: %@";
+"Report an Issue" = "Een probleem melden";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox is opensourcesoftware onder de GNU GPL v3-licentie.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Schermbeveiliging";
+"Screensavers" = "Schermbeveiligingen";
+"Paused" = "Gepauzeerd";
+"On %@" = "Op %@";
+"Matrix is running on %@" = "Matrix is actief op %@";
+"Falling green code. No sound." = "Vallende groene code. Zonder geluid.";
+"Active on Mac. No sound." = "Actief op de Mac. Zonder geluid.";
+"Starting pauses the movie. Your position is preserved." = "Bij het starten wordt de film gepauzeerd. De positie blijft behouden.";
+"%@ · Paused at %@" = "%@ · Gepauzeerd op %@";
+"Turn On Matrix" = "Matrix inschakelen";
+"Turn Off Matrix" = "Matrix uitschakelen";
+"On Mac: Esc exits the screensaver." = "Op de Mac: Esc sluit de schermbeveiliging.";
+"The movie stays paused." = "De film blijft gepauzeerd.";
+"Update Kinrox on Mac to use screensavers." = "Werk Kinrox op de Mac bij om schermbeveiligingen te gebruiken.";
+"Esc — exit" = "Esc — afsluiten";
+"Esc — exit · Movie paused" = "Esc — afsluiten · Film gepauzeerd";
+"Matrix screensaver. Press Escape to exit." = "Matrix-schermbeveiliging. Druk op Escape om af te sluiten.";
+"The movie could not be paused. Try again." = "De film kon niet worden gepauzeerd. Probeer het opnieuw.";

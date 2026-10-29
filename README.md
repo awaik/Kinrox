@@ -13,25 +13,38 @@ No cloud, user accounts, analytics, or telemetry.
 - Mac audio/subtitle selection, recursive discovery of external tracks, folder search,
   and remembered preferences for the next episode.
 - System media keys and Now Playing integration.
+- Mac update reminders through Sparkle 2 (from 0.3.0): a banner on
+  the welcome screen and a pill on pause. Scheduled checks read the public HTTPS
+  appcast daily without unique identifiers or a system profile; updates download
+  when the user chooses to install them.
 - iPhone discovery over Bonjour, six-digit PIN pairing, encrypted commands,
   Keychain token storage, and reconnection.
 - Remote playback, seeking, volume, fullscreen, and recent-file controls.
+- Matrix screensaver on Mac, with controls in companion builds that support screensavers:
+  falling green code, movie pause on activation, and Esc to exit.
 - Shared localization in 30 languages with English fallback.
 
 ## Project Status
 
 The Mac player and real iPhone remote are implemented through M5. The current
-standalone Mac release is **0.2.0**, for Apple Silicon and macOS 14+:
-[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.2.0/Kinrox-0.2.0-arm64.dmg)
-or read the [release notes](docs/releases/0.2.0.md).
+standalone Mac release is **0.3.0**, for Apple Silicon and macOS 14+:
+[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg)
+or read the [release notes](docs/releases/0.3.0.md).
 The installer bundles libmpv and its dependencies, is Developer ID signed, and
 is notarized by Apple. Homebrew is only needed for the default development setup.
+Users of Mac 0.2.0 or earlier install 0.3.0 manually once to enable future update reminders.
 The iPhone App Store release remains separate; the remote can be built from source.
 
 The `kinrox-cli` executable is a stub; its implementation is an
 [optional task](docs/TODO/05-kinrox-cli.md). Network streams,
 custom playlists, and playback position memory are outside the initial scope.
 Architecture and roadmap are in [AGENTS.md](AGENTS.md).
+
+The player also updates the current folder playlist as videos appear
+or disappear, including Next/Previous availability on the iPhone. Temporary download suffixes (`.part`, `.crdownload`, `.!qB`)
+are excluded until renamed to a video filename. If a downloader writes directly
+to the final filename, Kinrox cannot determine whether that download is complete.
+A video arriving after the final EOF check enables Next without starting playback.
 
 ## Requirements
 
@@ -98,6 +111,11 @@ Open a video via **⌘O**, drag it into the window, or drop onto the Dock icon.
 Keybindings: Space — pause, ←/→ — 5s, ⇧←/⇧→ — 30s, ↑/↓ — volume,
 ⌘←/⌘→ — adjacent file in folder, F or double-click — fullscreen.
 Use the caption-bubble button or the **Audio** / **Subtitles** menus to select tracks.
+Choose **Screensaver → Matrix** to show falling code over the player. A playing
+movie pauses first. The exit hint disappears after three seconds; **Esc** exits
+Matrix while preserving the movie's paused position and fullscreen state.
+The iPhone remote has a **Screensavers** section with start/stop controls.
+See [screensaver verification](docs/runbooks/SCREENSAVER-VERIFICATION.md).
 **⌃⌘A** and **⌃⌘S** cycle audio and subtitles. **All files in folder** shows external
 tracks from every nested folder, including unmatched files and other episodes.
 Choose a common search folder when audio and subtitles are outside the video's folder.

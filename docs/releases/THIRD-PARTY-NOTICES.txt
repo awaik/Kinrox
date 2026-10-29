@@ -1,4 +1,4 @@
-Kinrox 0.1.0 — third-party software
+Kinrox @KINROX_VERSION@ — third-party software
 
 Kinrox is GPL-3.0-only. Third-party components retain their own licenses.
 Complete license notices are included in ThirdPartyLicenses beside this file.
@@ -14,8 +14,13 @@ Mach-O dependency paths are relocated inside Kinrox.app and the binaries are
 signed with Kinrox's Developer ID. No IINA application code or artwork is used.
 
 Corresponding source archives, build recipes, and patches are provided alongside
-the installer at https://github.com/awaik/Kinrox/releases/tag/v0.1.0 as
-Kinrox-0.1.0-dependency-sources.tar.gz. Kinrox's own source is available in that
+the installer at https://github.com/awaik/Kinrox/releases/tag/v@KINROX_VERSION@ as
+Kinrox-@KINROX_VERSION@-dependency-sources.tar.gz. Kinrox's own source is available in that
 release and at https://github.com/awaik/Kinrox.
 
-Thanks to the mpv, FFmpeg, IINA, and dependency maintainers.
+Starting with 0.3.0, Kinrox also embeds Sparkle 2.10.1 (Sparkle.framework) to check
+for and install player updates: https://sparkle-project.org. Sparkle is MIT-licensed
+and includes BSD-, MIT-, and zlib-licensed components; the full notice is in
+ThirdPartyLicenses/Sparkle-LICENSE.txt. Sparkle is used unmodified.
+
+Thanks to the mpv, FFmpeg, IINA, Sparkle, and dependency maintainers.

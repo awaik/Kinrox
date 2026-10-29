@@ -22,10 +22,11 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
     private let onClose: (PlayerViewModel) -> Void
     private var desiredFullscreen: Bool?
     private var fullscreenTransition = false
+    private var escapeMonitor: Any?
 
     init(
         recents: RecentFilesStore? = nil, pairing: PairingCenter? = nil,
-        remote: RemoteServer? = nil,
+        remote: RemoteServer? = nil, updates: UpdateCenter? = nil,
         actions: PlayerActions = PlayerActions(),
         onClose: @escaping (PlayerViewModel) -> Void
     ) throws {
@@ -59,11 +60,29 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
         window.contentView = NSHostingView(
             rootView: PlayerView(
                 model: model, recents: recents, pairing: pairing, remote: remote,
-                videoLayer: engine.videoLayer, actions: actions, chrome: chrome))
+                updates: updates, videoLayer: engine.videoLayer, actions: actions, chrome: chrome))
         window.center()
+        escapeMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+            [weak self, weak pairing] event in
+            let consumed = MainActor.assumeIsolated {
+                guard let self, event.window === self.window, event.keyCode == 53,
+                    self.window?.attachedSheet == nil, pairing?.prompt == nil,
+                    self.model.isScreensaverEngaged,
+                    event.modifierFlags.intersection([.command, .control, .option, .shift]).isEmpty
+                else { return false }
+                self.model.stopScreensaver()
+                return true
+            }
+            // Consume the first Esc before AppKit exits native fullscreen.
+            return consumed ? nil : event
+        }
     }
 
     required init?(coder: NSCoder) { nil }
+
+    isolated deinit {
+        if let escapeMonitor { NSEvent.removeMonitor(escapeMonitor) }
+    }
 
     private static func setTrafficLights(visible: Bool, in window: NSWindow?) {
         guard let window else { return }
@@ -118,6 +137,8 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
     }
 
     func windowWillClose(_ notification: Notification) {
+        if let escapeMonitor { NSEvent.removeMonitor(escapeMonitor) }
+        escapeMonitor = nil
         window?.contentView = nil
         onClose(model)
     }

@@ -28,7 +28,7 @@
   <script>document.documentElement.classList.add("js")</script>
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Kinrox","applicationCategory":"MultimediaApplication","softwareVersion":"0.2.0","downloadUrl":"https://github.com/awaik/Kinrox/releases/download/v0.2.0/Kinrox-0.2.0-arm64.dmg","operatingSystem":"macOS 14+, iOS 17+","license":"https://www.gnu.org/licenses/gpl-3.0.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://awaik.github.io/Kinrox/ru/","inLanguage":"ru"}
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Kinrox","applicationCategory":"MultimediaApplication","softwareVersion":"0.3.0","downloadUrl":"https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg","operatingSystem":"macOS 14+, iOS 17+","license":"https://www.gnu.org/licenses/gpl-3.0.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://awaik.github.io/Kinrox/ru/","inLanguage":"ru"}
   </script>
 </head>
 <body>
@@ -59,10 +59,10 @@
       <h1 class="display">Хватит вставать <span class="fire-text">ради паузы.</span></h1>
       <p class="lead">Kinrox показывает любое видео на Mac, а iPhone становится его пультом. MacBook — у проектора, вы — на диване: пауза, назад на 10 секунд, потише или следующая серия, не вылезая из-под пледа.</p>
       <div class="hero-actions">
-        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.2.0/Kinrox-0.2.0-arm64.dmg">Скачать для Mac</a>
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Скачать для Mac</a>
         <a class="btn btn-glass" href="#how">Как это работает</a>
       </div>
-      <p class="hero-meta"><span>v0.2.0 · macOS 14+ · Apple Silicon</span><span>Без аккаунтов</span><span>Без облака</span><span>Работает по вашему Wi‑Fi</span></p>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Без аккаунтов</span><span>Без облака</span><span>Работает по вашему Wi‑Fi</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -231,7 +231,7 @@
       <div class="section-head" data-reveal>
         <span class="overline">Приватность</span>
         <h2 class="display" id="privacy-title">Что происходит в гостиной, остаётся в гостиной.</h2>
-        <p class="lead">У Kinrox нет серверов. Mac и iPhone общаются напрямую — и только друг с другом.</p>
+        <p class="lead">Mac и iPhone передают команды напрямую по локальной сети. Ваши видео остаются на Mac.</p>
       </div>
       <div class="cards-2">
         <article class="card" data-reveal>
@@ -248,7 +248,7 @@
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
           <h3>Без аккаунтов и телеметрии</h3>
-          <p>Регистрироваться не нужно, наружу ничего не отправляется. На этом сайте тоже нет аналитики и cookie.</p>
+          <p>Без регистрации и аналитики использования. Mac ежедневно проверяет обновления без уникальных идентификаторов и сведений о системе. На сайте нет аналитики и cookie.</p>
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
@@ -269,11 +269,11 @@
           <ul class="status">
             <li><i class="ic ic-check"></i>Плеер для Mac — работает</li>
             <li><i class="ic ic-check"></i>Пульт для iPhone — сборка из исходников</li>
-            <li><i class="ic ic-check"></i>Mac v0.2.0 — DMG с подписью и проверкой Apple</li>
+            <li><i class="ic ic-check"></i>Mac v0.3.0 — DMG с подписью и проверкой Apple</li>
             <li class="soon"><i class="ic ic-history"></i>Пульт в App Store — в планах</li>
           </ul>
           <div class="oss-actions">
-            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.2.0/Kinrox-0.2.0-arm64.dmg">Скачать для Mac</a>
+            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Скачать для Mac</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Релизы</a>
           </div>
         </div>
@@ -306,7 +306,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
         <h2 class="display" id="faq-title">Вопросы</h2>
       </div>
       <div class="faq" data-reveal>
-        <details><summary>Нужен ли интернет?</summary><p>Нет. Mac и iPhone должны быть в одной сети Wi‑Fi — и всё. Kinrox не выходит в интернет.</p></details>
+        <details><summary>Нужен ли интернет?</summary><p>Воспроизведение и пульт работают без интернета, если Mac и iPhone находятся в одной сети Wi‑Fi. Mac использует HTTPS для ежедневной проверки обновлений и скачивает новую версию, когда вы выбираете установку.</p></details>
         <details><summary>Работает с телевизором, а не только с проектором?</summary><p>Да. Kinrox показывает видео там, куда выводит изображение Mac: на проектор, телевизор по HDMI или экран, подключённый через AirPlay.</p></details>
         <details><summary>Какие Mac и iPhone поддерживаются?</summary><p>Mac на Apple silicon с macOS 14 Sonoma или новее и iPhone с iOS 17 или новее. Mac на Intel пока не поддерживаются.</p></details>
         <details><summary>Может ли несколько iPhone управлять одним Mac?</summary><p>Да. Каждый iPhone подключается один раз по своему коду, одновременно на связи может быть до четырёх пультов. Любой из них можно отключить в настройках плеера.</p></details>
@@ -323,7 +323,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <h2 class="display" id="final-title">Устраивайтесь. <span class="fire-text">Кино начинается.</span></h2>
       <p class="lead">Kinrox для Mac и iPhone. Бесплатно, с открытым кодом и специально для вечеров с кино.</p>
       <div class="hero-actions">
-        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.2.0/Kinrox-0.2.0-arm64.dmg">Скачать для Mac</a>
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Скачать для Mac</a>
         <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Сообщить о проблеме</a>
       </div>
     </div>

@@ -6,6 +6,7 @@ struct PlayerView: View {
     let recents: RecentFilesStore?
     let pairing: PairingCenter?
     var remote: RemoteServer? = nil
+    var updates: UpdateCenter? = nil
     let videoLayer: VideoLayer
     let actions: PlayerActions
     let chrome: WindowChrome
@@ -14,7 +15,7 @@ struct PlayerView: View {
     @State private var showsConnect = false
 
     private var canHideControls: Bool {
-        model.hasMedia && !model.paused && !model.isAtEnd
+        !model.isScreensaverEngaged && model.hasMedia && !model.paused && !model.isAtEnd
             && model.errorMessage == nil && pairing?.prompt == nil && !showsConnect
             && model.trackController.presentation == nil && !model.trackController.isChoosingFile
     }
@@ -29,10 +30,11 @@ struct PlayerView: View {
                 .onTapGesture(count: 2) { model.toggleFullscreen() }
             content
                 .accessibilityHidden(model.trackController.presentation != nil)
+            if model.screensaver == .matrix { MatrixScreensaverView(model: model) }
             if model.hasMedia, model.trackController.presentation != nil, pairing?.prompt == nil {
                 TrackPanelsOverlay(controller: model.trackController)
             }
-            if showsConnect, let remote, pairing?.prompt == nil {
+            if showsConnect, !model.isScreensaverEngaged, let remote, pairing?.prompt == nil {
                 ConnectPhoneView(remote: remote) { showsConnect = false }
             }
             if let pairing, let prompt = pairing.prompt {
@@ -48,7 +50,11 @@ struct PlayerView: View {
         .onChange(of: model.hasMedia || model.isLoading) { _, active in
             if active { showsConnect = false }
         }
+        .onChange(of: model.isScreensaverEngaged) { _, engaged in
+            if engaged { showsConnect = false }
+        }
         .onContinuousHover { phase in
+            guard !model.isScreensaverEngaged else { return }
             switch phase {
             case .active: overlay.activity()
             case .ended: overlay.pointerLeft()
@@ -66,7 +72,7 @@ struct PlayerView: View {
         }
         .onChange(of: canHideControls, initial: true) { _, canHide in overlay.canHide = canHide }
         .onDisappear { overlay.canHide = false }
-        .onChange(of: overlay.isVisible || !model.hasMedia, initial: true) { _, visible in
+        .onChange(of: controlsVisible, initial: true) { _, visible in
             chrome.setControlsVisible(visible)
         }
         .onChange(of: model.displayTitle, initial: true) { _, title in chrome.setTitle(title) }
@@ -86,9 +92,12 @@ struct PlayerView: View {
 
     @ViewBuilder
     private var content: some View {
-        if model.hasMedia {
+        if model.screensaver == .matrix {
+            EmptyView()
+        } else if model.hasMedia {
             PlaybackOverlay(
-                model: model, recents: recents, remote: remote, overlay: overlay, actions: actions
+                model: model, recents: recents, remote: remote, updates: updates, overlay: overlay,
+                actions: actions
             )
             .opacity(overlay.isVisible ? 1 : 0)
             .allowsHitTesting(overlay.isVisible)
@@ -101,11 +110,15 @@ struct PlayerView: View {
                 .kinroxGlass(in: Capsule())
         } else {
             WelcomeView(
-                recents: recents, actions: actions, remote: remote,
+                recents: recents, actions: actions, remote: remote, updates: updates,
                 connectPhone: { showsConnect = true }
             )
             .transition(.opacity)
         }
+    }
+
+    private var controlsVisible: Bool {
+        model.screensaver == .off && (overlay.isVisible || !model.hasMedia)
     }
 }
 
@@ -114,6 +127,7 @@ private struct PlaybackOverlay: View {
     let model: PlayerViewModel
     let recents: RecentFilesStore?
     let remote: RemoteServer?
+    let updates: UpdateCenter?
     let overlay: OverlayController
     let actions: PlayerActions
 
@@ -135,12 +149,21 @@ private struct PlaybackOverlay: View {
                 TitleHeader(title: model.displayTitle, caption: model.playlistCaption)
                     .padding(.top, 14)
                     .padding(.horizontal, 96)
+                if let updates, let update = updates.available,
+                    updates.showsPill(paused: model.paused)
+                {
+                    // Below the remote chip when it is shown, so narrow windows never overlap.
+                    UpdatePill(center: updates, update: update)
+                        .padding(.top, remote?.controllerText == nil ? 20 : 52)
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                }
                 Spacer(minLength: 0)
                 ControlsBar(model: model, recents: recents, overlay: overlay, actions: actions)
                     .frame(maxWidth: 760)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 28)
             }
+            .animation(.spring(duration: 0.35), value: updates?.showsPill(paused: model.paused))
             if let text = remote?.controllerText {
                 VStack {
                     HStack {

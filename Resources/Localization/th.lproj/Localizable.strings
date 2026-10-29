@@ -234,3 +234,39 @@
 "Track %@" = "แทร็ก %@";
 "Track type" = "ประเภทแทร็ก";
 "Try another language, release group or filename." = "ลองภาษา กลุ่มผู้เผยแพร่ หรือชื่อไฟล์อื่น";
+"A new version of Kinrox is available" = "มี Kinrox เวอร์ชันใหม่แล้ว";
+"You have %@. It takes about a minute; recents and settings are kept." = "คุณใช้เวอร์ชัน %@ อยู่ ใช้เวลาประมาณหนึ่งนาที รายการล่าสุดและการตั้งค่าจะยังคงอยู่";
+"What's New" = "มีอะไรใหม่";
+"Update" = "อัปเดต";
+"Hide update reminder" = "ซ่อนการแจ้งเตือนอัปเดต";
+"Kinrox %@ is available" = "มี Kinrox %@ แล้ว";
+"Check for Updates…" = "ตรวจหาอัปเดต…";
+"%@ available" = "มี %@";
+
+/* Project information and public links. */
+"About Kinrox" = "เกี่ยวกับ Kinrox";
+"Kinrox Website" = "เว็บไซต์ Kinrox";
+"Source Code (GitHub)" = "ซอร์สโค้ด (GitHub)";
+"License: %@" = "สัญญาอนุญาต: %@";
+"Report an Issue" = "รายงานปัญหา";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox เป็นซอฟต์แวร์โอเพนซอร์สภายใต้สัญญาอนุญาต GNU GPL v3";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "โปรแกรมรักษาหน้าจอ";
+"Screensavers" = "โปรแกรมรักษาหน้าจอ";
+"Paused" = "หยุดชั่วคราว";
+"On %@" = "บน %@";
+"Matrix is running on %@" = "Matrix กำลังทำงานบน %@";
+"Falling green code. No sound." = "โค้ดสีเขียวตกลงมา ไม่มีเสียง";
+"Active on Mac. No sound." = "ทำงานบน Mac ไม่มีเสียง";
+"Starting pauses the movie. Your position is preserved." = "เมื่อเปิด ภาพยนตร์จะหยุดชั่วคราวและคงตำแหน่งการเล่นไว้";
+"%@ · Paused at %@" = "%@ · หยุดชั่วคราวที่ %@";
+"Turn On Matrix" = "เปิด Matrix";
+"Turn Off Matrix" = "ปิด Matrix";
+"On Mac: Esc exits the screensaver." = "บน Mac: กด Esc เพื่อออกจากโปรแกรมรักษาหน้าจอ";
+"The movie stays paused." = "ภาพยนตร์จะยังคงหยุดชั่วคราว";
+"Update Kinrox on Mac to use screensavers." = "อัปเดต Kinrox บน Mac เพื่อใช้โปรแกรมรักษาหน้าจอ";
+"Esc — exit" = "Esc — ออก";
+"Esc — exit · Movie paused" = "Esc — ออก · ภาพยนตร์หยุดชั่วคราว";
+"Matrix screensaver. Press Escape to exit." = "โปรแกรมรักษาหน้าจอ Matrix กด Escape เพื่อออก";
+"The movie could not be paused. Try again." = "หยุดภาพยนตร์ชั่วคราวไม่ได้ โปรดลองอีกครั้ง";

@@ -11,10 +11,12 @@ public struct PlayerState: Codable, Sendable, Equatable {
     public var hasMedia: Bool
     public var canNext: Bool
     public var canPrevious: Bool
+    public var screensaver: Screensaver?
 
     public init(
         title: String, position: Double, duration: Double, paused: Bool, volume: Double,
-        fullscreen: Bool, hasMedia: Bool, canNext: Bool, canPrevious: Bool
+        fullscreen: Bool, hasMedia: Bool, canNext: Bool, canPrevious: Bool,
+        screensaver: Screensaver? = nil
     ) {
         self.title = title
         self.position = position
@@ -25,6 +27,7 @@ public struct PlayerState: Codable, Sendable, Equatable {
         self.hasMedia = hasMedia
         self.canNext = canNext
         self.canPrevious = canPrevious
+        self.screensaver = screensaver
     }
 }
 

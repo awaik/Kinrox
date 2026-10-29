@@ -19,7 +19,8 @@ struct PlayerCommandsTests {
         model.open(url: url)
         model.receive(.started)
         model.receive(.loaded)
-        for _ in 0..<200 where model.playlist?.current != url { await Task.yield() }
+        let deadline = ContinuousClock.now.advanced(by: .seconds(5))
+        while model.playlist?.current != url, ContinuousClock.now < deadline { await Task.yield() }
     }
 
     @Test("Without file commands send nothing to engine")

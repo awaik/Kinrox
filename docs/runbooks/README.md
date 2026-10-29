@@ -25,7 +25,11 @@ reflect previous planning rather than current acceptance criteria.
 | Build, sign, notarize, verify, and publish a standalone Mac installer | [Mac Release](RUNBOOK-RELEASE.md) |
 | Inspect release packaging, startup regression, and validation boundaries | [M6 Verification](M6-VERIFICATION.md) |
 | Inspect the Mac 0.2.0 release checks and installer checksums | [0.2.0 Verification](0.2.0-VERIFICATION.md) |
+| Inspect the Mac 0.3.0 release checks and installer checksums | [0.3.0 Verification](0.3.0-VERIFICATION.md) |
 | Verify Mac track selection and recursive audio/subtitle discovery | [Tracks Verification](TRACKS-VERIFICATION.md) |
+| Verify Sparkle update reminders, appcast signing, and update packaging | [Updates Verification](UPDATES-VERIFICATION.md) |
+| Verify Matrix animation, pause/exit behavior, and remote start/stop | [Screensaver Verification](SCREENSAVER-VERIFICATION.md) |
 | Evaluate external code reviews and apply justified corrections | [Code Review Process](RUNBOOK-REVIEW.md) |
+| Record bug investigations, evidence, and correction plans | [Research Notes](../RESEARCHES/README.md) |
 
 When modifying commands, configuration, or acceptance criteria, update the corresponding runbook in the same task. Mac distribution uses the M6 release workflow; the iPhone App Store release remains separate.

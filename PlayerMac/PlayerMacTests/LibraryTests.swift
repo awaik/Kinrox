@@ -24,6 +24,42 @@ private struct TempFolder {
 
 @Suite("Folder playlist")
 struct FolderPlaylistTests {
+    @Test("A video published after opening updates navigation without playback commands")
+    @MainActor
+    func discoversPublishedEpisode() async throws {
+        let folder = try TempFolder()
+        defer { folder.remove() }
+        let first = try folder.file("Episode 1.mkv")
+        let engine = FakePlayerEngine()
+        let recents = RecentFilesStore(fileURL: folder.url.appendingPathComponent("recent.json")) {
+            _ in
+        }
+        let model = PlayerViewModel(engine: engine, recents: recents)
+        model.open(url: first)
+        model.receive(.started)
+        model.receive(.loaded)
+        model.receive(.property(.position, .number(42)))
+        model.receive(.property(.paused, .flag(true)))
+        for _ in 0..<200 where model.playlist == nil {
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        #expect(model.playlist?.count == 1)
+        #expect(!model.canNext)
+        let commands = engine.commands
+        let recentItems = recents.items
+        let second = try folder.file("Episode 2.mkv")
+        for _ in 0..<200 where !model.canNext {
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        #expect(model.canNext)
+        #expect(model.playlist?.next.map(VideoFiles.key) == VideoFiles.key(second))
+        #expect(model.playlistCaption == "1 of 2 · \(folder.url.lastPathComponent)")
+        #expect(model.currentURL == first && model.position == 42 && model.paused)
+        #expect(engine.commands == commands)
+        #expect(recents.items == recentItems)
+        await model.shutdown()
+    }
+
     @Test("Symlink transition preserves prepared playlist without rescan")
     @MainActor
     func symlinkPlaylistSwitch() async throws {
@@ -38,7 +74,7 @@ struct FolderPlaylistTests {
             FolderPlaylist(items: [first, second], current: url)
         }
         model.open(url: first)
-        for _ in 0..<200 where model.playlist == nil { await Task.yield() }
+        try await waitForFolder { model.playlist != nil }
         #expect(model.playlist?.index == 0)
         model.open(url: linked)
         #expect(model.playlist?.index == 1)
@@ -151,7 +187,7 @@ struct RecentFilesStoreTests {
         }
         model.open(url: files[0])
         finishLoad()
-        for _ in 0..<200 where model.playlist == nil { await Task.yield() }
+        try await waitForFolder { model.playlist != nil }
         model.next()
         #expect(systemRecents == [files[0]])
         finishLoad()

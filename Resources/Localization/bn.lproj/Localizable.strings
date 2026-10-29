@@ -234,3 +234,39 @@
 "Track %@" = "ট্র্যাক %@";
 "Track type" = "ট্র্যাকের ধরন";
 "Try another language, release group or filename." = "অন্য ভাষা, রিলিজ গ্রুপ বা ফাইলের নাম দিয়ে চেষ্টা করুন।";
+"A new version of Kinrox is available" = "Kinrox-এর নতুন সংস্করণ পাওয়া যাচ্ছে";
+"You have %@. It takes about a minute; recents and settings are kept." = "আপনার কাছে %@ আছে। প্রায় এক মিনিট লাগবে; সাম্প্রতিক ফাইল ও সেটিংস থেকে যাবে।";
+"What's New" = "নতুন কী আছে";
+"Update" = "আপডেট করুন";
+"Hide update reminder" = "আপডেটের রিমাইন্ডার লুকান";
+"Kinrox %@ is available" = "Kinrox %@ পাওয়া যাচ্ছে";
+"Check for Updates…" = "আপডেট খুঁজুন…";
+"%@ available" = "%@ পাওয়া যাচ্ছে";
+
+/* Project information and public links. */
+"About Kinrox" = "Kinrox সম্পর্কে";
+"Kinrox Website" = "Kinrox ওয়েবসাইট";
+"Source Code (GitHub)" = "সোর্স কোড (GitHub)";
+"License: %@" = "লাইসেন্স: %@";
+"Report an Issue" = "সমস্যা জানান";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox হলো GNU GPL v3 লাইসেন্সের অধীনে প্রকাশিত ওপেন-সোর্স সফটওয়্যার।";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "স্ক্রিনসেভার";
+"Screensavers" = "স্ক্রিনসেভার";
+"Paused" = "বিরতিতে";
+"On %@" = "%@-এ";
+"Matrix is running on %@" = "%@-এ Matrix চলছে";
+"Falling green code. No sound." = "নিচে নামতে থাকা সবুজ কোড। কোনো শব্দ নেই।";
+"Active on Mac. No sound." = "Mac-এ চালু আছে। কোনো শব্দ নেই।";
+"Starting pauses the movie. Your position is preserved." = "চালু করলে সিনেমা বিরতিতে যাবে। প্লেব্যাকের অবস্থান বজায় থাকবে।";
+"%@ · Paused at %@" = "%@ · %@-এ বিরতিতে";
+"Turn On Matrix" = "Matrix চালু করুন";
+"Turn Off Matrix" = "Matrix বন্ধ করুন";
+"On Mac: Esc exits the screensaver." = "Mac-এ: Esc দিয়ে স্ক্রিনসেভার বন্ধ করুন।";
+"The movie stays paused." = "সিনেমা বিরতিতে থাকবে।";
+"Update Kinrox on Mac to use screensavers." = "স্ক্রিনসেভার ব্যবহার করতে Mac-এ Kinrox আপডেট করুন।";
+"Esc — exit" = "Esc — বের হন";
+"Esc — exit · Movie paused" = "Esc — বের হন · সিনেমা বিরতিতে";
+"Matrix screensaver. Press Escape to exit." = "Matrix স্ক্রিনসেভার। বের হতে Escape চাপুন।";
+"The movie could not be paused. Try again." = "সিনেমা থামানো যায়নি। আবার চেষ্টা করুন।";

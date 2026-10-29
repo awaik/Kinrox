@@ -234,3 +234,39 @@
 "Track %@" = "Pista %@";
 "Track type" = "Tipo de pista";
 "Try another language, release group or filename." = "Prueba otro idioma, grupo de publicación o nombre de archivo.";
+"A new version of Kinrox is available" = "Hay una nueva versión de Kinrox";
+"You have %@. It takes about a minute; recents and settings are kept." = "Tienes la %@. Tarda alrededor de un minuto; se conservan los recientes y los ajustes.";
+"What's New" = "Novedades";
+"Update" = "Actualizar";
+"Hide update reminder" = "Ocultar aviso de actualización";
+"Kinrox %@ is available" = "Kinrox %@ disponible";
+"Check for Updates…" = "Buscar actualizaciones…";
+"%@ available" = "%@ disponible";
+
+/* Project information and public links. */
+"About Kinrox" = "Acerca de Kinrox";
+"Kinrox Website" = "Sitio web de Kinrox";
+"Source Code (GitHub)" = "Código fuente (GitHub)";
+"License: %@" = "Licencia: %@";
+"Report an Issue" = "Informar de un problema";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox es software de código abierto bajo la licencia GNU GPL v3.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Salvapantallas";
+"Screensavers" = "Salvapantallas";
+"Paused" = "En pausa";
+"On %@" = "En %@";
+"Matrix is running on %@" = "Matrix está activo en %@";
+"Falling green code. No sound." = "Código verde que cae. Sin sonido.";
+"Active on Mac. No sound." = "Activo en el Mac. Sin sonido.";
+"Starting pauses the movie. Your position is preserved." = "Al iniciar, la película se pausa. Se conserva la posición.";
+"%@ · Paused at %@" = "%@ · En pausa en %@";
+"Turn On Matrix" = "Activar Matrix";
+"Turn Off Matrix" = "Desactivar Matrix";
+"On Mac: Esc exits the screensaver." = "En el Mac: Esc cierra el salvapantallas.";
+"The movie stays paused." = "La película sigue en pausa.";
+"Update Kinrox on Mac to use screensavers." = "Actualiza Kinrox en el Mac para usar salvapantallas.";
+"Esc — exit" = "Esc — salir";
+"Esc — exit · Movie paused" = "Esc — salir · Película en pausa";
+"Matrix screensaver. Press Escape to exit." = "Salvapantallas Matrix. Pulsa Escape para salir.";
+"The movie could not be paused. Try again." = "No se pudo pausar la película. Inténtalo de nuevo.";

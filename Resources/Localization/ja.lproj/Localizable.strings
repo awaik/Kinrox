@@ -234,3 +234,39 @@
 "Track %@" = "トラック %@";
 "Track type" = "トラックの種類";
 "Try another language, release group or filename." = "別の言語、リリースグループ、ファイル名を試してください。";
+"A new version of Kinrox is available" = "Kinrox の新しいバージョンがあります";
+"You have %@. It takes about a minute; recents and settings are kept." = "現在のバージョンは %@ です。約 1 分で完了し、最近の項目と設定はそのまま残ります。";
+"What's New" = "新機能";
+"Update" = "アップデート";
+"Hide update reminder" = "アップデートの通知を隠す";
+"Kinrox %@ is available" = "Kinrox %@ が利用可能です";
+"Check for Updates…" = "アップデートを確認…";
+"%@ available" = "%@ が利用可能";
+
+/* Project information and public links. */
+"About Kinrox" = "Kinroxについて";
+"Kinrox Website" = "Kinroxのウェブサイト";
+"Source Code (GitHub)" = "ソースコード（GitHub）";
+"License: %@" = "ライセンス：%@";
+"Report an Issue" = "問題を報告";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "KinroxはGNU GPL v3ライセンスのオープンソースソフトウェアです。";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "スクリーンセーバー";
+"Screensavers" = "スクリーンセーバー";
+"Paused" = "一時停止中";
+"On %@" = "%@ の画面";
+"Matrix is running on %@" = "%@ で Matrix が動作中";
+"Falling green code. No sound." = "降り注ぐ緑のコード。音はありません。";
+"Active on Mac. No sound." = "Mac で動作中。音はありません。";
+"Starting pauses the movie. Your position is preserved." = "開始すると動画は一時停止し、再生位置が保持されます。";
+"%@ · Paused at %@" = "%@ · %@ で一時停止";
+"Turn On Matrix" = "Matrix を開始";
+"Turn Off Matrix" = "Matrix を停止";
+"On Mac: Esc exits the screensaver." = "Mac：Esc キーでスクリーンセーバーを終了します。";
+"The movie stays paused." = "動画は一時停止のままです。";
+"Update Kinrox on Mac to use screensavers." = "スクリーンセーバーを使うには Mac の Kinrox を更新してください。";
+"Esc — exit" = "Esc — 終了";
+"Esc — exit · Movie paused" = "Esc — 終了 · 動画は一時停止中";
+"Matrix screensaver. Press Escape to exit." = "Matrix スクリーンセーバー。Escape キーで終了します。";
+"The movie could not be paused. Try again." = "動画を一時停止できませんでした。もう一度お試しください。";

@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 /// Application menu. Unmodified keys (space, arrows, F) operate through menu items,
@@ -9,7 +10,25 @@ struct PlayerCommands: Commands {
     private var model: PlayerViewModel? { session.model }
 
     var body: some Commands {
+        CommandGroup(replacing: .appInfo) {
+            Button(L10n.text("About Kinrox")) { AboutPanel.show() }
+        }
+        CommandGroup(after: .appInfo) {
+            if session.updates.isEnabled { UpdateMenuItem(updates: session.updates) }
+        }
+        CommandGroup(replacing: .help) {
+            ForEach(ProjectLink.allCases) { link in
+                Button(link.title) { NSWorkspace.shared.open(link.url) }
+            }
+        }
         TrackCommands(session: session)
+        CommandMenu(L10n.text("Screensaver")) {
+            Button("Matrix") { model?.startMatrix() }
+                .disabled(
+                    model == nil || model?.isLoading == true || session.isOpenPanelShown
+                        || session.pairing.prompt != nil
+                        || model?.trackController.isChoosingFile == true)
+        }
         CommandGroup(replacing: .newItem) {
             Button(L10n.text("Open File…")) { delegate.openFile() }
                 .keyboardShortcut("o", modifiers: .command)
@@ -67,5 +86,20 @@ struct PlayerCommands: Commands {
         Button(title) { model?.seek(by: seconds) }
             .keyboardShortcut(key, modifiers: modifiers)
             .disabled(!session.canControl)
+    }
+}
+
+/// Kinrox → Check for Updates…, with the pending version as a badge (Figma page 05).
+private struct UpdateMenuItem: View {
+    let updates: UpdateCenter
+
+    var body: some View {
+        Button {
+            updates.checkForUpdates()
+        } label: {
+            Label(L10n.text("Check for Updates…"), systemImage: "arrow.up.circle")
+        }
+        .disabled(!updates.canCheckForUpdates)
+        .badge(updates.available.map { Text(L10n.format("%@ available", $0.version)) })
     }
 }

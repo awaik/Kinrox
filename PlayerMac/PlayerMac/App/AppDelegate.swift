@@ -12,6 +12,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var isTerminating = false
     private var receivedOpenRequest = false
     private var nowPlaying: NowPlayingController?
+    private var updater: SparkleUpdater?
 
     private var isRunningTests: Bool {
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
@@ -31,6 +32,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         showPlayer()
         remote.start()
+        updater = SparkleUpdater(center: session.updates)
         // Launch from terminal: Kinrox /full/path/to/video.mkv.
         if !receivedOpenRequest, let url = Self.launchURL(arguments: CommandLine.arguments) {
             open(url)
@@ -123,6 +125,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             do {
                 playerWindow = try PlayerWindowController(
                     recents: session.recents, pairing: session.pairing, remote: session.remote,
+                    updates: session.updates,
                     actions: PlayerActions(
                         openFile: { [weak self] in self?.openFile() },
                         openRecent: { [weak self] item in self?.openRecent(item) },

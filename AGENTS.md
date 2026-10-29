@@ -14,7 +14,9 @@
 > M5 implemented 2026-10-27: real remote, Bonjour, Keychain, control, and reconnection. Automated tests passed; owner confirmed manual checklist of Mac + physical iPhone: "Double-checked everything, everything works." Results and remaining limitations — [M5 Report](docs/runbooks/M5-VERIFICATION.md).
 > M6 release workflow implemented 2026-10-28: pinned portable libmpv dependencies, Developer ID export, library signing, notarization, stapling, DMG, dependency sources, and checksums. First Mac version: 0.1.0, Apple Silicon, macOS 14+. Procedure and validation boundaries — [release runbook](docs/runbooks/RUNBOOK-RELEASE.md), [release notes](docs/releases/0.1.0.md). iPhone App Store publication is separate.
 > Mac track selection implemented 2026-10-29 after owner approval of Figma page 04: audio/subtitle selectors, recursive external-track discovery, search scope, and folder preferences. Included in Mac release 0.2.0, build 4, requested by the owner on 2026-10-29. Checks — [Tracks Verification](docs/runbooks/TRACKS-VERIFICATION.md); [release notes](docs/releases/0.2.0.md).
+> Mac update reminders implemented 2026-10-29 after owner approval of Figma page 05: Sparkle 2 with gentle reminders — welcome banner, paused-player pill, and "Check for Updates…" with a version badge; Sparkle's standard windows download and install. The HTTPS appcast is an approved exception to principle 4. Released in Mac 0.3.0 (build 5) on 2026-10-30; users of earlier versions install this first checker build manually once. Checks — [Updates Verification](docs/runbooks/UPDATES-VERIFICATION.md).
 > Tasks for contributors (M3, M4, localization, updates) — in [docs/TODO](docs/TODO/).
+> Matrix screensaver implemented 2026-10-29 after owner approval of Figma page 07: Mac Screensaver → Matrix, animated falling code, pause before activation, Esc exit, and iPhone start/stop controls. The exit hint appears once for 3 seconds per activation. Released in Mac 0.3.0 (build 5); checks — [Screensaver Verification](docs/runbooks/SCREENSAVER-VERIFICATION.md).
 > All design work is done in Figma file [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U) (owner decision 2026-10-27), see Section 3.5.
 > Landing site added 2026-10-27: static GitHub Pages site in `site/` (English + Russian), deployed by `.github/workflows/pages.yml`; see Section 3.6.
 > Open questions are compiled in Section 11. Until closed, proposals marked "proposal" are non-final.
@@ -76,6 +78,8 @@ ls /opt/homebrew/include/mpv             # client.h render.h render_gl.h stream_
 2. Minimalist UI: everything not essential for viewing is hidden or omitted.
 3. Remote as first-class product component: network discovery, PIN pairing, instant feedback.
 4. Local network exclusively. No cloud, user accounts, analytics, or telemetry.
+   Sole exception (owner decision 2026-10-29): the Mac player's Sparkle update check reads
+   the HTTPS appcast at most once a day, without identifiers or system profile.
 
 **Comparison with IINA and VLC.**
 
@@ -104,12 +108,14 @@ Kinrox does not attempt to replicate IINA's feature breadth (filters, plugins, c
 | Recent Files | Up to 20 entries, stored as security-scoped bookmarks (see 3.4); synced with system menu "Open Recent" via `NSDocumentController.noteNewRecentDocumentURL(_:)` |
 | Next / Previous File | Playlist from video files in same directory, natural Finder sort order ("2" before "10"); ⌘←/⌘→ and controls bar buttons. Auto-advances to next file upon finish; on final item player remains on last frame, and "Play" restarts from beginning (owner decision 2026-10-26) |
 | System Media Keys | `MPRemoteCommandCenter` + `MPNowPlayingInfoCenter` (Section 5) |
+| Screensaver | `Screensaver → Matrix`: falling green code replaces the video after mpv confirms pause. Esc exits without resuming or leaving fullscreen. The hint appears only for the first 3 seconds; mouse movement does not restore it. Also works without media. Owner approved 2026-10-29. |
 | Remote Control | Protocol server (Section 6) |
+| Updates | Sparkle 2: a daily background check; reminder banner on the welcome screen, compact pill only on pause, "Check for Updates…" with a version badge; Sparkle's windows download, verify, and install. Owner approved 2026-10-29; see [verification](docs/runbooks/UPDATES-VERIFICATION.md). |
 | Audio and Subtitles | Embedded and external tracks, subtitles Off, native Audio/Subtitles menus, and control-bar selector. Recursive discovery under the video folder by default; selectable common root, searchable full list, manual file loading, and per-folder preferences. Owner approved 2026-10-29; see [verification](docs/runbooks/TRACKS-VERIFICATION.md). |
 
 ### 2.2. iPhone Remote
 
-Discovery of players on local network, PIN pairing, controls: pause, ±10/±30s, scrub to position, volume, next/previous file, open from recents, fullscreen. Detailed in Section 6.
+Discovery of players on local network, PIN pairing, controls: pause, ±10/±30s, scrub to position, volume, next/previous file, open from recents, fullscreen, and Matrix screensaver start/stop. Detailed in Section 6.
 
 ### 2.3. Excluded from v1
 
@@ -160,12 +166,14 @@ Kinrox/
 │   └── Branding.xcassets         # logo and design tokens (bg/*, text/*, accent/* …) for both apps
 ├── Shared/                       # Swift files compiled into both applications
 │   ├── Design/KinroxTheme.swift  # Palette, KinroxFont, kinroxGlass — Figma tokens (3.5)
+│   ├── ProjectLink.swift         # localized website, source, license, support, issues, and privacy links
 │   └── TimeFormat.swift          # "0:42:15", "−1:15:48"
 ├── Config/
 │   ├── Shared.xcconfig           # common settings, OS deployment targets, Swift 6
 │   ├── PlayerMac.xcconfig        # Mac signing + shared settings
 │   ├── RemoteiOS.xcconfig        # iOS automatic signing + shared settings
 │   ├── MPV.xcconfig              # libmpv search paths and library flags
+│   ├── Updates.xcconfig          # Sparkle feed URL and EdDSA public key
 │   ├── Signing.local.xcconfig.example # local template
 │   └── Signing.local.xcconfig    # signing team, NOT committed (.gitignore)
 ├── PlayerMac/
@@ -189,6 +197,7 @@ Kinrox/
 │   │   ├── NowPlaying/           # MPRemoteCommandCenter, MPNowPlayingInfoCenter
 │   │   ├── Remote/               # PairingCodeView, PairingCenter, RemoteServer, Keychain store
 │   │   ├── Library/              # RecentFilesStore, FolderPlaylist, VideoFiles
+│   │   ├── Updates/              # UpdateCenter, SparkleUpdater, update banner and pill
 │   │   ├── Resources/            # Assets.xcassets, Localizable.xcstrings
 │   │   ├── Info.plist
 │   │   └── PlayerMac.entitlements
@@ -218,17 +227,20 @@ Kinrox/
 │       └── Tests/
 │           ├── RemoteProtocolTests/
 │           └── RemoteTransportTests/
+├── docs/RESEARCHES/              # research evidence, bug investigations, and correction plans
 ├── docs/runbooks/                # build, signing, and verification runbooks
 ├── site/                         # static landing page for GitHub Pages (3.6)
 │   ├── index.html                # English, default
 │   ├── ru/index.html             # Russian
+│   ├── appcast.xml               # Sparkle update feed for the Mac player
 │   └── assets/                   # css, js, Figma icons and stills, remote screenshots
 ├── .github/workflows/pages.yml   # deploys site/ to GitHub Pages
 ├── Scripts/
 │   ├── check-env.sh              # environment verification script
 │   ├── generate.sh               # project generator
 │   ├── capture-landing-screenshots.sh # remote screenshots for site/
-│   └── bundle-libmpv.py          # verified dylib packaging in .app (M6)
+│   ├── bundle-libmpv.py          # verified dylib packaging in .app (M6)
+│   └── update-appcast.py         # EdDSA-signed appcast item for a Mac release
 └── Vendor/                       # compiled dylibs for M6, in .gitignore
 ```
 
@@ -246,6 +258,7 @@ Kinrox/
 - **Code Signing:** M0–M3 used ad-hoc signing (`-`). M4.4+ requires Apple Development team signing with macOS provisioning profile to support Data Protection Keychain. iOS simulator builds without developer team. Personal overrides reside in `Config/Signing.local.xcconfig` (git-ignored).
 - **Application Sandbox:** Disabled in v1 for PlayerMac (`com.apple.security.app-sandbox = false`) by owner decision 2026-10-26, permitting arbitrary local file access without complex bookmark hierarchies. Hardened Runtime enabled. RemoteiOS runs sandboxed per iOS rules.
 - **Distribution:** PlayerMac distributed as notarized DMG from official site; RemoteiOS via App Store.
+- **Mac updates — decided (2026-10-29): Sparkle 2** (`exactVersion` in `project.yml`). Gentle reminders show Kinrox's own banner and pill; Sparkle's standard windows handle download, EdDSA and code-signature checks, and installation. The feed is `site/appcast.xml` on GitHub Pages; enclosures are GitHub Release DMGs. Builds without `KINROX_UPDATE_PUBLIC_KEY` have no updater and make no requests.
 - **UI Localization:** English (`en`) remains the base and fallback language. Both apps support 30 system-selected locales (owner request, 2026-10-27); see [localization scope](docs/TODO/03-localization.md).
 
 ### 3.4. Recent Files
@@ -276,11 +289,18 @@ The file is the source of truth for layouts, texts in mockups, components, and t
 | [01 · UI v1 — Player & Remote](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=0-1) | Cover with principles, palette and type; Mac player screens (M2); iPhone remote screens (M5); component library |
 | [02 · M4 — Connection & states](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=13-352) | Remote settings on Mac, "Connect iPhone" window, search hints, local network denied, wrong code, reconnecting, connection failed, nothing playing, incompatible version |
 | [04 · Tracks — Audio & subtitles](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=30-304) | Mac entry point, audio/subtitle panels, recursive file browser, native menus, folder scope, scanning/empty/error states |
+| [05 · Updates — Update banner](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=48-304) | Welcome-screen update banner, paused-player pill, Kinrox menu item, Sparkle flow states and display rules (approved 2026-10-29) |
+| [06 · About — Project links](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=60-304) | Native Mac About credits and Help menu, iPhone Settings/About: website, GitHub, GPL-3.0-only license, support, issues, and privacy links (owner requested 2026-10-29) |
+| [07 · Screensaver — Matrix](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=63-304) | Mac menu and animation, iPhone entry/ready/active/paused states; approved 2026-10-29 with a one-shot 3-second exit hint (`67:491`) |
 
 Working with the file:
 - new screens and states are designed in this file before implementation; existing pages follow `NN · <milestone> — <topic>`;
 - mockup copy in Figma is currently Russian; app source strings stay English (Section 9);
-- for the Figma MCP server: page ids `0:1` and `13:352`, component library in section `3:2`.
+- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, and `63:304`; component library in section `3:2`.
+
+Project information links share one destination catalog in both apps and open in
+the system browser only when activated. The Mac Help menu replaces the unavailable
+default Help Book command; its native About panel retains the app icon and version.
 
 Design tokens reside in `Shared/Design/KinroxTheme.swift` and `Resources/Branding.xcassets`.
 Liquid Glass aesthetic with fallback materials on pre-macOS 26 systems. System fonts: SF Pro and SF Pro Rounded.
@@ -429,6 +449,13 @@ Control Center "Now Playing" and keyboard media keys (⏯︎, ⏭︎, ⏮︎) co
   - `error`: protocol or application errors;
   - `bye`: clean disconnection.
 
+Screensaver support is an additive v1 extension: `state.screensaver` is optional
+(`off` or `matrix`), and `setScreensaver` carries the requested value. A missing
+state field identifies an older Mac, so the new remote disables start/stop and
+offers an update explanation. Old clients ignore the additional state field.
+The Mac publishes an active screensaver only after mpv confirms the movie is paused;
+an acknowledgement alone never changes the remote's displayed state.
+
 ### 6.4. PIN Pairing
 
 - 6-digit random decimal code generated via `SystemRandomNumberGenerator`.
@@ -563,7 +590,7 @@ See [signing runbook](docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md#real-iphone) fo
 5. Max file length is 500 lines. Split large files logically.
 6. Verify changes with unit and integration tests before handoff.
 7. Set playback volume to 0 within Kinrox during test media verifications; do not touch Mac system volume.
-8. Local network operations exclusively; no external internet queries, telemetry, or analytics.
+8. Local network operations exclusively; no external internet queries, telemetry, or analytics. The sole runtime exception is the Mac player's approved Sparkle appcast check (principle 4).
 
 ---
 
@@ -578,7 +605,7 @@ Full text is located in [LICENSE](LICENSE).
 ## 11. Open Questions and Risks
 
 ### Owner Decisions
-- Update distribution mechanism (Option A: Sparkle 2 recommended).
+- Update distribution mechanism — decided 2026-10-29: Sparkle 2 (Option A). EdDSA signing key created by the owner on 2026-10-29 ([runbook](docs/runbooks/RUNBOOK-RELEASE.md#update-signing-key)); first shipped in Mac 0.3.0 on 2026-10-30.
 - Target architectures: Apple Silicon (arm64) primary; Intel x86_64 deferred.
 
 ### Technical Risks

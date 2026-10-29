@@ -10,6 +10,10 @@ configFiles:
 packages:
   RemoteProtocol:
     path: ../Packages/RemoteProtocol
+  # Update framework (owner decision 2026-10-29). Pinned for reproducible releases.
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    exactVersion: 2.10.1
 targets:
   PlayerMac:
     type: application
@@ -33,6 +37,8 @@ targets:
         product: RemoteProtocol
       - package: RemoteProtocol
         product: RemoteTransport
+      - package: Sparkle
+        product: Sparkle
   PlayerMacTests:
     type: bundle.unit-test
     platform: macOS

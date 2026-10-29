@@ -20,13 +20,14 @@ extension PlayerViewModel {
 
     @discardableResult
     func togglePause() -> Bool {
-        guard canControl else { return false }
+        guard canControl, !isScreensaverEngaged else { return false }
         return setPaused(isAtEnd && !replayPending ? false : !(requestedPause ?? paused))
     }
 
     @discardableResult
     func setPaused(_ paused: Bool) -> Bool {
-        guard canControl else { return false }
+        cancelEOFRefresh()
+        guard canControl, paused || !isScreensaverEngaged else { return false }
         return perform {
             if !paused, isAtEnd, !replayPending {
                 try engine.seek(absolute: 0)
@@ -39,13 +40,15 @@ extension PlayerViewModel {
 
     @discardableResult
     func seek(by seconds: Double) -> Bool {
-        guard canControl else { return false }
+        cancelEOFRefresh()
+        guard canControl, !isScreensaverEngaged else { return false }
         return perform { try engine.seek(relative: seconds) }
     }
 
     @discardableResult
     func seek(to seconds: Double) -> Bool {
-        guard canControl else { return false }
+        cancelEOFRefresh()
+        guard canControl, !isScreensaverEngaged else { return false }
         let upper = duration > 0 ? duration : seconds
         return perform { try engine.seek(absolute: min(max(0, seconds), upper)) }
     }
@@ -63,13 +66,13 @@ extension PlayerViewModel {
 
     @discardableResult
     func next() -> Bool {
-        guard let url = playlist?.next else { return false }
+        guard !isScreensaverEngaged, let url = playlist?.next else { return false }
         return open(url: url)
     }
 
     @discardableResult
     func previous() -> Bool {
-        guard let url = playlist?.previous else { return false }
+        guard !isScreensaverEngaged, let url = playlist?.previous else { return false }
         return open(url: url)
     }
 

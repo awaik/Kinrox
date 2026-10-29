@@ -234,3 +234,39 @@
 "Track %@" = "Spår %@";
 "Track type" = "Spårtyp";
 "Try another language, release group or filename." = "Prova ett annat språk, en annan utgivningsgrupp eller ett annat filnamn.";
+"A new version of Kinrox is available" = "En ny version av Kinrox finns";
+"You have %@. It takes about a minute; recents and settings are kept." = "Du har %@. Det tar ungefär en minut; senaste filer och inställningar behålls.";
+"What's New" = "Nyheter";
+"Update" = "Uppdatera";
+"Hide update reminder" = "Dölj uppdateringspåminnelse";
+"Kinrox %@ is available" = "Kinrox %@ finns tillgänglig";
+"Check for Updates…" = "Sök efter uppdateringar…";
+"%@ available" = "%@ finns";
+
+/* Project information and public links. */
+"About Kinrox" = "Om Kinrox";
+"Kinrox Website" = "Kinrox webbplats";
+"Source Code (GitHub)" = "Källkod (GitHub)";
+"License: %@" = "Licens: %@";
+"Report an Issue" = "Rapportera ett problem";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox är programvara med öppen källkod under licensen GNU GPL v3.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Skärmsläckare";
+"Screensavers" = "Skärmsläckare";
+"Paused" = "Pausad";
+"On %@" = "På %@";
+"Matrix is running on %@" = "Matrix körs på %@";
+"Falling green code. No sound." = "Fallande grön kod. Utan ljud.";
+"Active on Mac. No sound." = "Aktiv på Mac. Utan ljud.";
+"Starting pauses the movie. Your position is preserved." = "När du startar pausas filmen. Uppspelningspositionen behålls.";
+"%@ · Paused at %@" = "%@ · Pausad vid %@";
+"Turn On Matrix" = "Slå på Matrix";
+"Turn Off Matrix" = "Stäng av Matrix";
+"On Mac: Esc exits the screensaver." = "På Mac: Esc stänger skärmsläckaren.";
+"The movie stays paused." = "Filmen förblir pausad.";
+"Update Kinrox on Mac to use screensavers." = "Uppdatera Kinrox på Mac för att använda skärmsläckare.";
+"Esc — exit" = "Esc — avsluta";
+"Esc — exit · Movie paused" = "Esc — avsluta · Filmen pausad";
+"Matrix screensaver. Press Escape to exit." = "Matrix-skärmsläckare. Tryck på Escape för att avsluta.";
+"The movie could not be paused. Try again." = "Det gick inte att pausa filmen. Försök igen.";

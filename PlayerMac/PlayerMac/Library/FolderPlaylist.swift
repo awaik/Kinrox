@@ -30,20 +30,25 @@ struct FolderPlaylist: Equatable, Sendable {
 
     /// Reads folder synchronously: invoke off main thread.
     static func scan(for url: URL) -> FolderPlaylist {
-        let folder = url.deletingLastPathComponent()
+        FolderPlaylist(
+            items: (try? scanItems(in: url.deletingLastPathComponent())) ?? [], current: url)
+    }
+
+    /// A failed enumeration must not replace the last valid live snapshot.
+    static func scanItems(in folder: URL) throws -> [URL] {
         let keys: [URLResourceKey] = [.isRegularFileKey]
-        let contents =
-            (try? FileManager.default.contentsOfDirectory(
-                at: folder, includingPropertiesForKeys: keys, options: [.skipsHiddenFiles])) ?? []
+        let contents = try FileManager.default.contentsOfDirectory(
+            at: folder, includingPropertiesForKeys: keys, options: [.skipsHiddenFiles])
         let videos = contents.filter { item in
             let regular = (try? item.resourceValues(forKeys: Set(keys)).isRegularFile) ?? false
             return regular && VideoFiles.isVideo(item)
         }
-        return FolderPlaylist(items: videos.sorted(by: finderOrder), current: url)
+        return videos.sorted(by: finderOrder)
     }
 
     static func finderOrder(_ lhs: URL, _ rhs: URL) -> Bool {
-        lhs.lastPathComponent.localizedStandardCompare(rhs.lastPathComponent) == .orderedAscending
+        let order = lhs.lastPathComponent.localizedStandardCompare(rhs.lastPathComponent)
+        return order == .orderedSame ? lhs.path < rhs.path : order == .orderedAscending
     }
 
     func index(of url: URL) -> Int? {

@@ -234,3 +234,39 @@
 "Track %@" = "רצועה %@";
 "Track type" = "סוג הרצועה";
 "Try another language, release group or filename." = "נסו שפה, קבוצת הפצה או שם קובץ אחרים.";
+"A new version of Kinrox is available" = "גרסה חדשה של Kinrox זמינה";
+"You have %@. It takes about a minute; recents and settings are kept." = "הגרסה שלך היא %@. העדכון נמשך כדקה; הקבצים האחרונים וההגדרות יישמרו.";
+"What's New" = "מה חדש";
+"Update" = "עדכון";
+"Hide update reminder" = "הסתרת תזכורת העדכון";
+"Kinrox %@ is available" = "Kinrox %@ זמינה";
+"Check for Updates…" = "בדיקת עדכונים…";
+"%@ available" = "%@ זמינה";
+
+/* Project information and public links. */
+"About Kinrox" = "אודות Kinrox";
+"Kinrox Website" = "אתר Kinrox";
+"Source Code (GitHub)" = "קוד מקור (GitHub)";
+"License: %@" = "רישיון: %@";
+"Report an Issue" = "דיווח על בעיה";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox היא תוכנת קוד פתוח המופצת תחת רישיון GNU GPL v3.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "שומר מסך";
+"Screensavers" = "שומרי מסך";
+"Paused" = "מושהה";
+"On %@" = "ב־%@";
+"Matrix is running on %@" = "Matrix פועל ב־%@";
+"Falling green code. No sound." = "קוד ירוק נופל. ללא קול.";
+"Active on Mac. No sound." = "פעיל ב־Mac. ללא קול.";
+"Starting pauses the movie. Your position is preserved." = "ההפעלה משהה את הסרט ושומרת את מיקום הצפייה.";
+"%@ · Paused at %@" = "%@ · מושהה ב־%@";
+"Turn On Matrix" = "הפעלת Matrix";
+"Turn Off Matrix" = "כיבוי Matrix";
+"On Mac: Esc exits the screensaver." = "ב־Mac: מקש Esc סוגר את שומר המסך.";
+"The movie stays paused." = "הסרט נשאר מושהה.";
+"Update Kinrox on Mac to use screensavers." = "יש לעדכן את Kinrox ב־Mac כדי להשתמש בשומרי מסך.";
+"Esc — exit" = "Esc — יציאה";
+"Esc — exit · Movie paused" = "Esc — יציאה · הסרט מושהה";
+"Matrix screensaver. Press Escape to exit." = "שומר המסך Matrix. לחיצה על Escape ליציאה.";
+"The movie could not be paused. Try again." = "לא ניתן היה להשהות את הסרט. נסו שוב.";

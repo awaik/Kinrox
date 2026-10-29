@@ -268,17 +268,20 @@ final class RemoteServer {
             guard connections[id] != nil else { return }
             switch message {
             case .command(let header, let command):
-                let response: Message
-                if let code = execute(command) {
-                    response = .error(
-                        .init(),
-                        .init(
-                            replyTo: header.id, code: code,
-                            message: Self.message(for: code)))
-                } else {
-                    response = .ack(.init(), .init(replyTo: header.id))
+                // Capture this connection's outbox, never a replacement after reconnect.
+                execute(command) { [weak outbox = outboxes[id]] code in
+                    let response: Message
+                    if let code {
+                        response = .error(
+                            .init(),
+                            .init(
+                                replyTo: header.id, code: code,
+                                message: Self.message(for: code)))
+                    } else {
+                        response = .ack(.init(), .init(replyTo: header.id))
+                    }
+                    outbox?.enqueue(response)
                 }
-                outboxes[id]?.enqueue(response)
             case .requestState:
                 outboxes[id]?.enqueue(.state(.init(), snapshot))
             default: break
@@ -302,7 +305,8 @@ final class RemoteServer {
             paused: !hasMedia || model?.paused == true || model?.isAtEnd == true,
             volume: model?.playbackVolume ?? 100, fullscreen: model?.isFullscreen ?? false,
             hasMedia: hasMedia, canNext: hasMedia && model?.canNext == true,
-            canPrevious: hasMedia && model?.canPrevious == true)
+            canPrevious: hasMedia && model?.canPrevious == true,
+            screensaver: model?.screensaver ?? .off)
     }
 
     private var recentSnapshot: [RemoteProtocol.RecentItem] {

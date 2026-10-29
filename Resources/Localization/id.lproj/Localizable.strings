@@ -234,3 +234,39 @@
 "Track %@" = "Trek %@";
 "Track type" = "Jenis trek";
 "Try another language, release group or filename." = "Coba bahasa, grup rilis, atau nama berkas lain.";
+"A new version of Kinrox is available" = "Versi baru Kinrox tersedia";
+"You have %@. It takes about a minute; recents and settings are kept." = "Versi Anda %@. Butuh sekitar satu menit; berkas terbaru dan pengaturan tetap tersimpan.";
+"What's New" = "Yang Baru";
+"Update" = "Perbarui";
+"Hide update reminder" = "Sembunyikan pengingat pembaruan";
+"Kinrox %@ is available" = "Kinrox %@ tersedia";
+"Check for Updates…" = "Periksa Pembaruan…";
+"%@ available" = "%@ tersedia";
+
+/* Project information and public links. */
+"About Kinrox" = "Tentang Kinrox";
+"Kinrox Website" = "Situs Web Kinrox";
+"Source Code (GitHub)" = "Kode Sumber (GitHub)";
+"License: %@" = "Lisensi: %@";
+"Report an Issue" = "Laporkan Masalah";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox adalah perangkat lunak sumber terbuka berlisensi GNU GPL v3.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Screensaver";
+"Screensavers" = "Screensaver";
+"Paused" = "Dijeda";
+"On %@" = "Di %@";
+"Matrix is running on %@" = "Matrix berjalan di %@";
+"Falling green code. No sound." = "Kode hijau berjatuhan. Tanpa suara.";
+"Active on Mac. No sound." = "Aktif di Mac. Tanpa suara.";
+"Starting pauses the movie. Your position is preserved." = "Saat dimulai, film dijeda. Posisi pemutaran tetap tersimpan.";
+"%@ · Paused at %@" = "%@ · Dijeda pada %@";
+"Turn On Matrix" = "Nyalakan Matrix";
+"Turn Off Matrix" = "Matikan Matrix";
+"On Mac: Esc exits the screensaver." = "Di Mac: Esc menutup screensaver.";
+"The movie stays paused." = "Film tetap dijeda.";
+"Update Kinrox on Mac to use screensavers." = "Perbarui Kinrox di Mac untuk menggunakan screensaver.";
+"Esc — exit" = "Esc — keluar";
+"Esc — exit · Movie paused" = "Esc — keluar · Film dijeda";
+"Matrix screensaver. Press Escape to exit." = "Screensaver Matrix. Tekan Escape untuk keluar.";
+"The movie could not be paused. Try again." = "Film tidak dapat dijeda. Coba lagi.";

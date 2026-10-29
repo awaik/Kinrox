@@ -8,6 +8,55 @@ import Testing
 @Suite("libmpv: real playback", .serialized, .timeLimit(.minutes(1)))
 @MainActor
 struct MPVPlaybackTests {
+    @Test("Live publication preserves pause, advances at EOF, and leaves later downloads stopped")
+    func liveFolderPlayback() async throws {
+        let folder = try LivePlaylistFolder()
+        defer { folder.remove() }
+        let source = try media("h264.mkv")
+        let first = folder.url.appendingPathComponent("Episode 1.mkv")
+        let second = folder.url.appendingPathComponent("Episode 2.mkv")
+        let temporary = second.appendingPathExtension("part")
+        try FileManager.default.copyItem(at: source, to: first)
+        let player = try MPVPlayer()
+        let model = PlayerViewModel(engine: player)
+        let window = window(for: player)
+        do {
+            try player.setVolume(0)
+            model.open(url: first)
+            try await waitUntil { model.hasMedia && model.position > 0.3 && model.playlist != nil }
+            #expect(!model.canNext)
+            model.setPaused(true)
+            try await waitUntil { model.paused }
+            let position = model.position
+            try FileManager.default.copyItem(at: source, to: temporary)
+            #expect(FolderPlaylist.scan(for: first).count == 1)
+            try FileManager.default.moveItem(at: temporary, to: second)
+            try await waitUntil { model.canNext }
+            #expect(model.currentURL == first && model.paused && model.position == position)
+            #expect(model.playbackVolume == 0)
+            model.seek(to: model.duration - 0.4)
+            model.setPaused(false)
+            try await waitUntil {
+                model.currentURL?.lastPathComponent == second.lastPathComponent && !model.isLoading
+            }
+            try await waitUntil { model.position > 0.3 }
+            model.seek(to: model.duration - 0.4)
+            try await waitUntil { model.isAtEnd && model.eofTask == nil }
+            try FileManager.default.copyItem(
+                at: source, to: folder.url.appendingPathComponent("Episode 3.mkv"))
+            try await waitUntil { model.canNext }
+            #expect(
+                model.currentURL?.lastPathComponent == second.lastPathComponent && model.isAtEnd)
+            #expect(model.playbackVolume == 0)
+        } catch {
+            window.orderOut(nil)
+            await model.shutdown()
+            throw error
+        }
+        window.orderOut(nil)
+        await model.shutdown()
+    }
+
     @Test("Rapid setFullscreen calls preserve last command after native animation")
     func queuedFullscreen() async throws {
         let controller = try PlayerWindowController { _ in }

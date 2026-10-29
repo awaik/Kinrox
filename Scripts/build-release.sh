@@ -12,6 +12,13 @@ BUILD_NUMBER="${2:?Usage: build-release.sh VERSION BUILD_NUMBER}"
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Invalid version" >&2; exit 1; }
 [[ "$BUILD_NUMBER" =~ ^[1-9][0-9]*$ ]] || { echo "Invalid build number" >&2; exit 1; }
 RELEASE_DIR="$PROJECT_ROOT/dist/$VERSION-build$BUILD_NUMBER"
+[[ -f "docs/releases/$VERSION.md" ]] || { echo "Write docs/releases/$VERSION.md first" >&2; exit 1; }
+python3 Scripts/update-appcast.py --check --appcast site/appcast.xml \
+    --version "$VERSION" --build "$BUILD_NUMBER"
+# xcconfig values spell `//` as `/$()/`; remove the empty expansion to get the key.
+UPDATE_KEY="$(sed -n 's/^KINROX_UPDATE_PUBLIC_KEY = //p' Config/Updates.xcconfig | sed 's/\$()//g')"
+[[ "$UPDATE_KEY" =~ ^[A-Za-z0-9+/]{43}=$ ]] || {
+    echo "Set KINROX_UPDATE_PUBLIC_KEY in Config/Updates.xcconfig (Sparkle generate_keys)" >&2; exit 1; }
 [[ ! -e "$RELEASE_DIR" ]] || { echo "Refusing to overwrite $RELEASE_DIR" >&2; exit 1; }
 mkdir -p "$RELEASE_DIR"
 VENDOR_DIR="$PROJECT_ROOT/Vendor/iina-1.5.0"
@@ -36,9 +43,22 @@ xcodebuild -workspace Kinrox.xcworkspace -scheme PlayerMac -configuration Releas
     "CODE_SIGN_IDENTITY=Apple Development" "PROVISIONING_PROFILE_SPECIFIER=" "PROVISIONING_PROFILE=" \
     "KINROX_MPV_INCLUDE_DIR=$VENDOR_DIR/include" "KINROX_MPV_LIBRARY_DIR=$VENDOR_DIR/lib" \
     archive > "$RELEASE_DIR/archive.log" 2>&1
+SPARKLE_TOOLS="$RELEASE_DIR/DerivedData/SourcePackages/artifacts/sparkle/Sparkle"
+# The appcast signature must verify against the key shipped in Info.plist.
+[[ "$("$SPARKLE_TOOLS/bin/generate_keys" -p)" == "$UPDATE_KEY" ]] || {
+    echo "Keychain EdDSA key does not match KINROX_UPDATE_PUBLIC_KEY" >&2; exit 1; }
 xcodebuild -exportArchive -archivePath "$RELEASE_DIR/Kinrox.xcarchive" \
     -exportPath "$RELEASE_DIR/export" -exportOptionsPlist "$RELEASE_DIR/ExportOptions.plist" \
     -allowProvisioningUpdates > "$RELEASE_DIR/export.log" 2>&1
+# Updates need the owner's EdDSA public key and the HTTPS feed (Config/Updates.xcconfig).
+python3 - "$RELEASE_DIR/export/Kinrox.app/Contents/Info.plist" "$UPDATE_KEY" <<'PY'
+import plistlib, sys
+from urllib.parse import urlparse
+info = plistlib.load(open(sys.argv[1], 'rb'))
+assert info.get('SUPublicEDKey') == sys.argv[2], 'Info.plist EdDSA key differs from Config/Updates.xcconfig'
+assert urlparse(info.get('SUFeedURL', '')).scheme == 'https', 'Update feed must use HTTPS'
+assert info.get('SUEnableSystemProfiling') is False, 'System profiling must stay disabled'
+PY
 
 mkdir "$RELEASE_DIR/dmg-root"
 APP="$RELEASE_DIR/dmg-root/Kinrox.app"
@@ -47,7 +67,9 @@ python3 Scripts/bundle-libmpv.py "$RELEASE_DIR/export/Kinrox.app" \
 cp LICENSE "$APP/Contents/Resources/LICENSE.txt"
 cp -R "$VENDOR_DIR/licenses" "$APP/Contents/Resources/ThirdPartyLicenses"
 cp "$VENDOR_DIR/corresponding-source/manifest.json" "$APP/Contents/Resources/DependencySources.json"
-cp docs/releases/THIRD-PARTY-NOTICES.txt "$APP/Contents/Resources/THIRD-PARTY-NOTICES.txt"
+sed "s/@KINROX_VERSION@/$VERSION/g" docs/releases/THIRD-PARTY-NOTICES.txt \
+    > "$APP/Contents/Resources/THIRD-PARTY-NOTICES.txt"
+cp "$SPARKLE_TOOLS/LICENSE" "$APP/Contents/Resources/ThirdPartyLicenses/Sparkle-LICENSE.txt"
 
 # Preserve the distribution app identifier and team; all libraries receive the
 # same signature, so the development library-validation exemption is unnecessary.
@@ -64,6 +86,15 @@ p.write_bytes(plistlib.dumps(d))
 PY
 for library in "$APP"/Contents/Frameworks/*.dylib; do
     codesign --force --sign "$APPLE_SIGNING_IDENTITY" --options runtime --timestamp "$library"
+done
+# Sparkle's helpers are signed inside-out, as Sparkle documents for manual signing.
+SPARKLE="$APP/Contents/Frameworks/Sparkle.framework"
+codesign --force --sign "$APPLE_SIGNING_IDENTITY" --options runtime --timestamp \
+    "$SPARKLE/Versions/B/XPCServices/Installer.xpc"
+codesign --force --sign "$APPLE_SIGNING_IDENTITY" --options runtime --timestamp \
+    --preserve-metadata=entitlements "$SPARKLE/Versions/B/XPCServices/Downloader.xpc"
+for item in "$SPARKLE/Versions/B/Autoupdate" "$SPARKLE/Versions/B/Updater.app" "$SPARKLE"; do
+    codesign --force --sign "$APPLE_SIGNING_IDENTITY" --options runtime --timestamp "$item"
 done
 codesign --force --sign "$APPLE_SIGNING_IDENTITY" --options runtime --timestamp \
     --entitlements "$RELEASE_DIR/entitlements.plist" "$APP"
@@ -103,4 +134,8 @@ tar -czf "$RELEASE_DIR/Kinrox-$VERSION-dependency-sources.tar.gz" \
     -C "$VENDOR_DIR" corresponding-source
 (cd "$RELEASE_DIR" && shasum -a 256 "Kinrox-$VERSION-arm64.dmg" \
     "Kinrox-$VERSION-dependency-sources.tar.gz" > SHA256SUMS.txt)
+# EdDSA-signed appcast entry; sign_update reads the private key from the login Keychain.
+python3 Scripts/update-appcast.py --appcast site/appcast.xml --output "$RELEASE_DIR/appcast.xml" \
+    --version "$VERSION" --build "$BUILD_NUMBER" --dmg "$DMG" \
+    --sign-update "$SPARKLE_TOOLS/bin/sign_update" --notes "docs/releases/$VERSION.md"
 echo "Prepared notarized release in $RELEASE_DIR; publication is a separate step."

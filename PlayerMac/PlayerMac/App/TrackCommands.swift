@@ -19,6 +19,7 @@ private struct TrackMenuContent: View {
     private var enabled: Bool {
         controller?.isReady == true && controller?.isChoosingFile == false
             && !session.isOpenPanelShown && session.pairing.prompt == nil
+            && session.model?.isScreensaverEngaged != true
     }
 
     var body: some View {

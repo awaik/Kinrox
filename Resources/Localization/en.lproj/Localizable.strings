@@ -234,3 +234,39 @@
 "Track %@" = "Track %@";
 "Track type" = "Track type";
 "Try another language, release group or filename." = "Try another language, release group or filename.";
+"A new version of Kinrox is available" = "A new version of Kinrox is available";
+"You have %@. It takes about a minute; recents and settings are kept." = "You have %@. It takes about a minute; recents and settings are kept.";
+"What's New" = "What's New";
+"Update" = "Update";
+"Hide update reminder" = "Hide update reminder";
+"Kinrox %@ is available" = "Kinrox %@ is available";
+"Check for Updates…" = "Check for Updates…";
+"%@ available" = "%@ available";
+
+/* Project information and public links. */
+"About Kinrox" = "About Kinrox";
+"Kinrox Website" = "Kinrox Website";
+"Source Code (GitHub)" = "Source Code (GitHub)";
+"License: %@" = "License: %@";
+"Report an Issue" = "Report an Issue";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox is open-source software licensed under the GNU GPL v3.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Screensaver";
+"Screensavers" = "Screensavers";
+"Paused" = "Paused";
+"On %@" = "On %@";
+"Matrix is running on %@" = "Matrix is running on %@";
+"Falling green code. No sound." = "Falling green code. No sound.";
+"Active on Mac. No sound." = "Active on Mac. No sound.";
+"Starting pauses the movie. Your position is preserved." = "Starting pauses the movie. Your position is preserved.";
+"%@ · Paused at %@" = "%@ · Paused at %@";
+"Turn On Matrix" = "Turn On Matrix";
+"Turn Off Matrix" = "Turn Off Matrix";
+"On Mac: Esc exits the screensaver." = "On Mac: Esc exits the screensaver.";
+"The movie stays paused." = "The movie stays paused.";
+"Update Kinrox on Mac to use screensavers." = "Update Kinrox on Mac to use screensavers.";
+"Esc — exit" = "Esc — exit";
+"Esc — exit · Movie paused" = "Esc — exit · Movie paused";
+"Matrix screensaver. Press Escape to exit." = "Matrix screensaver. Press Escape to exit.";
+"The movie could not be paused. Try again." = "The movie could not be paused. Try again.";

@@ -234,3 +234,39 @@
 "Track %@" = "Κομμάτι %@";
 "Track type" = "Τύπος κομματιού";
 "Try another language, release group or filename." = "Δοκιμάστε άλλη γλώσσα, ομάδα έκδοσης ή όνομα αρχείου.";
+"A new version of Kinrox is available" = "Υπάρχει νέα έκδοση του Kinrox";
+"You have %@. It takes about a minute; recents and settings are kept." = "Έχετε την %@. Διαρκεί περίπου ένα λεπτό· τα πρόσφατα και οι ρυθμίσεις διατηρούνται.";
+"What's New" = "Τι νέο υπάρχει";
+"Update" = "Ενημέρωση";
+"Hide update reminder" = "Απόκρυψη υπενθύμισης ενημέρωσης";
+"Kinrox %@ is available" = "Το Kinrox %@ είναι διαθέσιμο";
+"Check for Updates…" = "Έλεγχος για ενημερώσεις…";
+"%@ available" = "Διαθέσιμη η %@";
+
+/* Project information and public links. */
+"About Kinrox" = "Σχετικά με το Kinrox";
+"Kinrox Website" = "Ιστότοπος Kinrox";
+"Source Code (GitHub)" = "Πηγαίος κώδικας (GitHub)";
+"License: %@" = "Άδεια χρήσης: %@";
+"Report an Issue" = "Αναφορά προβλήματος";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Το Kinrox είναι λογισμικό ανοικτού κώδικα με άδεια GNU GPL v3.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Προφύλαξη οθόνης";
+"Screensavers" = "Προφυλάξεις οθόνης";
+"Paused" = "Σε παύση";
+"On %@" = "Στο %@";
+"Matrix is running on %@" = "Το Matrix εκτελείται στο %@";
+"Falling green code. No sound." = "Πράσινος κώδικας που πέφτει. Χωρίς ήχο.";
+"Active on Mac. No sound." = "Ενεργό στο Mac. Χωρίς ήχο.";
+"Starting pauses the movie. Your position is preserved." = "Η έναρξη θέτει την ταινία σε παύση. Η θέση αναπαραγωγής διατηρείται.";
+"%@ · Paused at %@" = "%@ · Σε παύση στο %@";
+"Turn On Matrix" = "Ενεργοποίηση Matrix";
+"Turn Off Matrix" = "Απενεργοποίηση Matrix";
+"On Mac: Esc exits the screensaver." = "Στο Mac: το Esc κλείνει την προφύλαξη οθόνης.";
+"The movie stays paused." = "Η ταινία παραμένει σε παύση.";
+"Update Kinrox on Mac to use screensavers." = "Ενημερώστε το Kinrox στο Mac για να χρησιμοποιήσετε προφυλάξεις οθόνης.";
+"Esc — exit" = "Esc — έξοδος";
+"Esc — exit · Movie paused" = "Esc — έξοδος · Ταινία σε παύση";
+"Matrix screensaver. Press Escape to exit." = "Προφύλαξη οθόνης Matrix. Πατήστε Escape για έξοδο.";
+"The movie could not be paused. Try again." = "Δεν ήταν δυνατή η παύση της ταινίας. Δοκιμάστε ξανά.";

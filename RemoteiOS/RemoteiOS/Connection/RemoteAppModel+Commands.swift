@@ -19,7 +19,9 @@ extension RemoteAppModel {
                 connectionLost(.invalidMessage)
                 return
             }
-            if self.state.title != state.title || !state.hasMedia { scrubTarget = nil }
+            if self.state.title != state.title || !state.hasMedia || state.screensaver == .matrix {
+                scrubTarget = nil
+            }
             self.state = state
             receivedAt = scheduler.now
             frozenPosition = min(state.duration, state.position)
@@ -105,6 +107,14 @@ extension RemoteAppModel {
     func next() { if canNext { send(.next) } }
     func previous() { if canPrevious { send(.previous) } }
     func toggleFullscreen() { send(.toggleFullscreen) }
+    func setScreensaver(_ value: Screensaver, completion: @escaping (Bool) -> Void) {
+        guard supportsScreensavers else {
+            commandError = L10n.text("Update Kinrox on Mac to use screensavers.")
+            completion(false)
+            return
+        }
+        send(.setScreensaver(screensaver: value), completion: completion)
+    }
     func open(_ item: RecentItem, completion: @escaping (Bool) -> Void) {
         guard item.available else {
             commandError = L10n.text("File not found on Mac.")

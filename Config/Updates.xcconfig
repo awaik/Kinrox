@@ -1,0 +1,9 @@
+// Sparkle 2 update feed for the Mac player (owner decision 2026-10-29, AGENTS.md 3.3).
+// The appcast is published with the landing site; enclosures point to GitHub Releases.
+// `$()` keeps `//` from starting an xcconfig comment.
+KINROX_UPDATE_FEED_URL = https:/$()/awaik.github.io/Kinrox/appcast.xml
+
+// EdDSA public key printed by Sparkle's `generate_keys`. The private key stays in the
+// owner's login Keychain (created 2026-10-29). While empty, the player hides update UI;
+// build-release.sh refuses to build a release without it. Write `//` as `/$()/`.
+KINROX_UPDATE_PUBLIC_KEY = QdbC0J7Lh67vjd/$()/ZXcNBjz4aUt8UmJfV5fC5EP6uwI=

@@ -234,3 +234,39 @@
 "Track %@" = "Faixa %@";
 "Track type" = "Tipo de faixa";
 "Try another language, release group or filename." = "Tente outro idioma, grupo de lançamento ou nome de arquivo.";
+"A new version of Kinrox is available" = "Há uma nova versão do Kinrox";
+"You have %@. It takes about a minute; recents and settings are kept." = "Você tem a %@. Leva cerca de um minuto; os recentes e os ajustes são mantidos.";
+"What's New" = "Novidades";
+"Update" = "Atualizar";
+"Hide update reminder" = "Ocultar lembrete de atualização";
+"Kinrox %@ is available" = "Kinrox %@ disponível";
+"Check for Updates…" = "Procurar atualizações…";
+"%@ available" = "%@ disponível";
+
+/* Project information and public links. */
+"About Kinrox" = "Sobre o Kinrox";
+"Kinrox Website" = "Site do Kinrox";
+"Source Code (GitHub)" = "Código-fonte (GitHub)";
+"License: %@" = "Licença: %@";
+"Report an Issue" = "Relatar um problema";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "O Kinrox é um software de código aberto sob a licença GNU GPL v3.";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "Protetor de tela";
+"Screensavers" = "Protetores de tela";
+"Paused" = "Em pausa";
+"On %@" = "Em %@";
+"Matrix is running on %@" = "Matrix está ativo em %@";
+"Falling green code. No sound." = "Código verde caindo. Sem som.";
+"Active on Mac. No sound." = "Ativo no Mac. Sem som.";
+"Starting pauses the movie. Your position is preserved." = "Ao iniciar, o filme é pausado. A posição é mantida.";
+"%@ · Paused at %@" = "%@ · Em pausa em %@";
+"Turn On Matrix" = "Ativar Matrix";
+"Turn Off Matrix" = "Desativar Matrix";
+"On Mac: Esc exits the screensaver." = "No Mac: Esc fecha o protetor de tela.";
+"The movie stays paused." = "O filme permanece em pausa.";
+"Update Kinrox on Mac to use screensavers." = "Atualize o Kinrox no Mac para usar protetores de tela.";
+"Esc — exit" = "Esc — sair";
+"Esc — exit · Movie paused" = "Esc — sair · Filme em pausa";
+"Matrix screensaver. Press Escape to exit." = "Protetor de tela Matrix. Pressione Escape para sair.";
+"The movie could not be paused. Try again." = "Não foi possível pausar o filme. Tente novamente.";

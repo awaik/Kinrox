@@ -65,6 +65,52 @@ class BundlingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Refusing to overwrite"):
             bundler.bundle(self.source, self.libraries, self.source)
 
+    def add_framework(self):
+        """Xcode-embedded framework such as Sparkle, resolved through @rpath."""
+        name = "@rpath/Fake.framework/Versions/A/Fake"
+        framework = self.source / "Contents/Frameworks/Fake.framework"
+        version = framework / "Versions/A"
+        (version / "Resources").mkdir(parents=True)
+        (version / "Resources/Info.plist").write_bytes(plistlib.dumps({
+            "CFBundleExecutable": "Fake", "CFBundleIdentifier": "app.kinrox.tests.fake",
+            "CFBundlePackageType": "FMWK"}))
+        self.compile("int fake(void) { return 3; }", version / "Fake",
+                     "-dynamiclib", "-install_name", name)
+        (framework / "Versions/Current").symlink_to("A")
+        (framework / "Fake").symlink_to("Versions/Current/Fake")
+        (framework / "Resources").symlink_to("Versions/Current/Resources")
+        self.compile("extern int mpv(void); extern int fake(void);"
+                     "int main(void) { return mpv() + fake() == 10 ? 0 : 1; }",
+                     self.source / "Contents/MacOS/Example", str(self.libraries / "libmpv.2.dylib"),
+                     str(version / "Fake"), "-rpath", "@executable_path/../Frameworks")
+        return version / "Fake"
+
+    def test_embedded_framework_is_preserved(self):
+        framework = self.add_framework()
+        original = framework.read_bytes()
+        output = self.directory / "Framework.app"
+        bundler.bundle(self.source, self.libraries, output)
+        self.assertEqual(bundler.verify(output), 2)
+        copied = output / "Contents/Frameworks/Fake.framework/Versions/A/Fake"
+        self.assertEqual(copied.read_bytes(), original)
+        binary = output / "Contents/MacOS/Example"
+        self.assertIn("@rpath/Fake.framework/Versions/A/Fake", bundler.dependencies(binary))
+        self.assertTrue((output / "Contents/Frameworks/Fake.framework/Fake").is_symlink())
+        for path in [*(output / "Contents/Frameworks").glob("*.dylib"),
+                     output / "Contents/Frameworks/Fake.framework", binary]:
+            subprocess.run(["codesign", "--force", "--sign", "-", str(path)], check=True,
+                           capture_output=True)
+        subprocess.run([str(binary)], cwd="/", env={"PATH": "/usr/bin:/bin"}, check=True)
+
+    def test_missing_embedded_framework_is_rejected(self):
+        framework = self.add_framework()
+        output = self.directory / "Broken.app"
+        bundler.bundle(self.source, self.libraries, output)
+        (output / "Contents/Frameworks/Fake.framework/Versions/A/Fake").unlink()
+        with self.assertRaisesRegex(ValueError, "Unresolved embedded framework"):
+            bundler.verify(output)
+        self.assertTrue(framework.is_file())
+
     def test_newer_os_dependency_is_rejected(self):
         info = self.source / "Contents/Info.plist"
         data = plistlib.loads(info.read_bytes())

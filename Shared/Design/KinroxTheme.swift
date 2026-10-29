@@ -18,6 +18,8 @@ public enum Palette {
     public static let flame = Color("accent/flame")
     public static let crimson = Color("accent/crimson")
     public static let online = Color("state/online")
+    public static let matrixCode = Color("screensaver/matrix-code")
+    public static let matrixHead = Color("screensaver/matrix-head")
 
     public static let bgDeep = Color("bg/deep")
     public static let bgPanel = Color("bg/panel")

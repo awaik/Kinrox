@@ -35,6 +35,26 @@ When updating upstream build recipes, review and update this lock explicitly.
 Artifacts remain in ignored `Vendor/`. Existing mismatched files are rejected,
 and incomplete downloads are preserved for inspection.
 
+## Update Signing Key
+
+Sparkle 2 verifies every update with an EdDSA key ([details](UPDATES-VERIFICATION.md)).
+The owner creates it once; agents do not create or export credentials. After
+`./Scripts/generate.sh` and any build that resolves packages:
+
+```sh
+DerivedData/SourcePackages/artifacts/sparkle/Sparkle/bin/generate_keys   # login Keychain
+```
+
+Put the printed public key into `KINROX_UPDATE_PUBLIC_KEY` in `Config/Updates.xcconfig`,
+writing any `//` as `/$()/` (xcconfig comment syntax). The key was created on
+2026-10-29. Its backup follows the owner's secret escrow policy: an age-encrypted copy in
+the private `awaik/ops-secrets` repository (`secrets/kinrox-release.enc.env`, restore
+steps in `restore/kinrox-release.md` there). Never write the private key to a plaintext
+file; after a rotation, re-archive it in the same task. Losing the private key means installed players
+can no longer accept updates; a changed key must ship in a release signed with the old one.
+`build-release.sh` refuses to run without the public key and verifies that the Keychain
+key matches it before notarization.
+
 ## Build, Sign, and Notarize
 
 Set `APPLE_TEAM_ID`, `APPLE_SIGNING_IDENTITY` (the certificate's SHA-1 from
@@ -45,6 +65,17 @@ Then run:
 ./Scripts/build-release.sh 0.2.0 4
 ```
 
+Write `docs/releases/<version>.md` first: it becomes the release notes in Sparkle's
+window. Relative links resolve against `docs/releases/` at the matching `v<version>`
+repository tag. Marketing versions (`major.minor.patch`) and positive integer build
+numbers must both increase beyond every item in the appcast; Sparkle compares builds.
+The script checks the feed before creating the release directory or invoking build
+and notarization tools. To run only this local, read-only preflight:
+
+```sh
+python3 Scripts/update-appcast.py --check --appcast site/appcast.xml --version 0.3.0 --build 5
+```
+
 The script refuses to reuse an existing `dist/<version>-build<build>` directory. It archives
 using automatic Apple Development signing with the explicit `APPLE_TEAM_ID`,
 clearing local manual profile overrides. It exports with Developer ID signing so Xcode obtains
@@ -52,10 +83,18 @@ the distribution profile for Data Protection Keychain. It embeds the full libmpv
 dependency graph, verifies architecture and deployment versions, removes external
 load paths, and signs libraries before signing the app. Library validation remains
 enabled. A real signed-app startup regression runs before submission and rejects
-JIT/executable-memory exemptions or Homebrew libraries. Kinrox disables mpv's
+JIT/executable-memory exemptions or Homebrew libraries. The verifier sets
+`KINROX_RELEASE_SMOKE_TEST=1`, which prevents Sparkle initialization and changes to
+its saved update preferences while retaining framework loading checks. The bundled
+third-party notice substitutes the requested release version into its title and
+corresponding-source download links. Kinrox disables mpv's
 built-in Lua scripts as well as user scripts: they are not used by the native UI.
+Sparkle's Installer, Downloader, Autoupdate, and Updater helpers are re-signed
+inside-out with the same identity, Hardened Runtime, and timestamp before the app.
 Both the app and final DMG are notarized and stapled; Gatekeeper, signatures,
 and the disk-image checksum are checked before the script reports success.
+Finally `update-appcast.py` signs the DMG with `sign_update` (login Keychain) and
+writes `dist/<version>-build<build>/appcast.xml`: `site/appcast.xml` plus the new item.
 
 The startup check requires `KINROX_PLAYER_READY` on stderr after engine, render
 context, and window initialization. A live process blocked in an initialization
@@ -81,10 +120,20 @@ Never publish local signing files, Xcode archives, provisioning logs, or credent
    Include a source snapshot if the release is not represented completely by its tag.
 6. Publish both landing pages with the direct versioned asset URL. Check the live
    English and Russian pages and anonymously download the asset to verify its hash.
+7. Only after the DMG is public, copy `dist/<version>-build<build>/appcast.xml` to
+   `site/appcast.xml` and deploy Pages. Check that the live feed lists the new item
+   and that its enclosure URL downloads the published DMG.
+8. With the first release that contains the update checker (0.3.0), update the claims
+   that Kinrox never connects to the internet: the FAQ and "No accounts, no telemetry"
+   copy in `site/index.html` and `site/ru/index.html`, and `site/privacy/index.html`.
+   The Mac player now requests `https://awaik.github.io/Kinrox/appcast.xml` once a day
+   without identifiers; video and remote traffic stay on the local network.
+   Users of 0.2.0 must download that release manually once.
 
 When one commit contains both the release source and landing changes, use
 `[skip ci]` in that commit to hold the Pages deployment until the release assets
 are public. Then dispatch `pages.yml` manually for `main` and verify the successful
 deployment references that same commit. Run all local checks before publishing.
 
-No iPhone App Store upload or automatic Mac update mechanism is part of this release.
+No iPhone App Store upload is part of this release. Mac updates use Sparkle 2 from
+release 0.3.0 on; earlier versions have no updater.

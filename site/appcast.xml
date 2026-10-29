@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+  <channel>
+    <title>Kinrox</title>
+    <link>https://awaik.github.io/Kinrox/</link>
+    <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
+    <language>en</language>
+  </channel>
+</rss>

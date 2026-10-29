@@ -38,6 +38,7 @@ class ArchiveSigningTests(unittest.TestCase):
             (root / "Scripts").mkdir()
             script = root / "Scripts/build-release.sh"
             script.write_bytes((ROOT / "Scripts/build-release.sh").read_bytes())
+            (root / "Scripts/update-appcast.py").write_bytes((ROOT / "Scripts/update-appcast.py").read_bytes())
             commands = {
                 "Scripts/generate.sh": "#!/bin/sh\nexit 0\n",
                 "bin/xcrun": "#!/bin/sh\nexit 0\n",
@@ -46,9 +47,13 @@ class ArchiveSigningTests(unittest.TestCase):
                 "bin/xcodebuild": '#!' + sys.executable + '\nimport json, sys\nfrom pathlib import Path\n'
                                  'Path("archive-args.json").write_text(json.dumps(sys.argv[1:]))\nsys.exit(73)\n',
             }
+            commands["docs/releases/0.1.0.md"] = "# Kinrox 0.1.0\n"
+            commands["site/appcast.xml"] = '<rss version="2.0"><channel><title>Kinrox</title></channel></rss>'
+            # A real key may contain `//`, which xcconfig files must spell as `/$()/`.
+            commands["Config/Updates.xcconfig"] = "KINROX_UPDATE_PUBLIC_KEY = AA/$()/" + "A" * 39 + "=\n"
             for name, contents in commands.items():
                 path = root / name
-                path.parent.mkdir(exist_ok=True)
+                path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(contents)
                 path.chmod(0o755)
             result = subprocess.run(["bash", str(script), "0.1.0", "99"], capture_output=True,
@@ -57,10 +62,55 @@ class ArchiveSigningTests(unittest.TestCase):
                                          "NOTARYTOOL_PROFILE": "fixture"})
             self.assertEqual(result.returncode, 73, result.stderr)
             arguments = json.loads((root / "archive-args.json").read_text())
+            # The archive happens before Sparkle tools exist; the key preflight already passed.
             for required in ["archive", "DEVELOPMENT_TEAM=RELEASETEAM", "CODE_SIGN_STYLE=Automatic",
                              "CODE_SIGN_IDENTITY=Apple Development", "PROVISIONING_PROFILE_SPECIFIER=",
                              "PROVISIONING_PROFILE="]:
                 self.assertIn(required, arguments)
+
+
+class AppcastPreflightTests(unittest.TestCase):
+    def test_conflicting_feed_fails_before_artifacts_or_external_tools(self):
+        for version, build in [("0.2.1", "6"), ("0.3.0", "6"), ("0.4.0", "5")]:
+            with self.subTest(version=version, build=build), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                (root / "Scripts").mkdir()
+                for script in ["build-release.sh", "update-appcast.py"]:
+                    (root / "Scripts" / script).write_bytes((ROOT / "Scripts" / script).read_bytes())
+                (root / "site").mkdir()
+                feed = root / "site/appcast.xml"
+                feed.write_text('<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">'
+                                '<channel><item><sparkle:version>5</sparkle:version>'
+                                '<sparkle:shortVersionString>0.3.0</sparkle:shortVersionString>'
+                                '</item></channel></rss>')
+                before = feed.read_bytes()
+                (root / "docs/releases").mkdir(parents=True)
+                (root / f"docs/releases/{version}.md").write_text(f"# Kinrox {version}\n")
+                (root / "Config").mkdir()
+                (root / "Config/Updates.xcconfig").write_text("KINROX_UPDATE_PUBLIC_KEY = " + "A" * 43 + "=\n")
+                (root / "bin").mkdir()
+                # Guard the first expensive step and every external executable reached later.
+                commands = {
+                    "Scripts/prepare-release-dependencies.py":
+                        'from pathlib import Path\nPath("unexpected-tool").touch()\nraise SystemExit(73)\n',
+                    "bin/python3": '#!/bin/sh\nexec ' + shlex.quote(sys.executable) + ' "$@"\n',
+                }
+                for name in ["Scripts/generate.sh", "bin/xcrun", "bin/xcodebuild"]:
+                    commands[name] = '#!/bin/sh\ntouch unexpected-tool\nexit 73\n'
+                for name, contents in commands.items():
+                    path = root / name
+                    path.write_text(contents)
+                    path.chmod(0o755)
+                result = subprocess.run(["bash", str(root / "Scripts/build-release.sh"), version, build],
+                                        capture_output=True, text=True,
+                                        env={**os.environ, "PATH": str(root / "bin") + os.pathsep + os.environ["PATH"],
+                                             "APPLE_TEAM_ID": "FIXTURE", "APPLE_SIGNING_IDENTITY": "fixture",
+                                             "NOTARYTOOL_PROFILE": "fixture"})
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("must be newer", result.stderr)
+                self.assertFalse((root / "dist").exists())
+                self.assertFalse((root / "unexpected-tool").exists())
+                self.assertEqual(feed.read_bytes(), before)
 
 
 class SourceTests(unittest.TestCase):
@@ -104,7 +154,7 @@ class SourceTests(unittest.TestCase):
 
 
 class StartupTests(unittest.TestCase):
-    def check_startup(self, diagnostic, entitlements=None):
+    def check_startup(self, diagnostic, entitlements=None, inspect_launch=None):
         with tempfile.TemporaryDirectory() as directory:
             app = Path(directory) / "Kinrox.app"
             (app / "Contents").mkdir(parents=True)
@@ -114,6 +164,8 @@ class StartupTests(unittest.TestCase):
             process.stderr = io.BytesIO(diagnostic)
 
             def start(*args, **kwargs):
+                if inspect_launch:
+                    inspect_launch(args, kwargs)
                 if hasattr(kwargs["stderr"], "write"):
                     kwargs["stderr"].write(diagnostic)
                     kwargs["stderr"].flush()
@@ -134,6 +186,12 @@ class StartupTests(unittest.TestCase):
     def test_alive_process_with_loaded_library_but_no_ready_signal_fails(self):
         with self.assertRaisesRegex(RuntimeError, "initialization"):
             self.check_startup(b"Failed to start player\n")
+
+    def test_smoke_launch_disables_updater_before_initialization(self):
+        def inspect(args, kwargs):
+            self.assertEqual(kwargs.get("env", {}).get("KINROX_RELEASE_SMOKE_TEST"), "1")
+            self.assertEqual(len(args[0]), 1)  # No media or stored-default overrides.
+        self.check_startup(b"KINROX_PLAYER_READY\n", inspect_launch=inspect)
 
     def test_ready_player_passes(self):
         self.check_startup(b"KINROX_PLAYER_READY\n")

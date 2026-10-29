@@ -234,3 +234,39 @@
 "Track %@" = "軌道 %@";
 "Track type" = "軌道類型";
 "Try another language, release group or filename." = "請嘗試其他語言、發布組或檔名。";
+"A new version of Kinrox is available" = "Kinrox 有新版本可用";
+"You have %@. It takes about a minute; recents and settings are kept." = "目前版本為 %@。更新約需一分鐘，最近播放和設定都會保留。";
+"What's New" = "新功能";
+"Update" = "更新";
+"Hide update reminder" = "隱藏更新提醒";
+"Kinrox %@ is available" = "Kinrox %@ 已推出";
+"Check for Updates…" = "檢查更新項目…";
+"%@ available" = "%@ 可用";
+
+/* Project information and public links. */
+"About Kinrox" = "關於 Kinrox";
+"Kinrox Website" = "Kinrox 網站";
+"Source Code (GitHub)" = "原始碼（GitHub）";
+"License: %@" = "授權條款：%@";
+"Report an Issue" = "回報問題";
+"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox 是依 GNU GPL v3 授權條款發布的開放原始碼軟體。";
+
+/* Matrix screensaver — Figma page 07. */
+"Screensaver" = "螢幕保護程式";
+"Screensavers" = "螢幕保護程式";
+"Paused" = "已暫停";
+"On %@" = "在 %@ 上";
+"Matrix is running on %@" = "Matrix 正在 %@ 上執行";
+"Falling green code. No sound." = "落下的綠色程式碼。無聲音。";
+"Active on Mac. No sound." = "正在 Mac 上執行。無聲音。";
+"Starting pauses the movie. Your position is preserved." = "啟動時將暫停影片，並保留播放位置。";
+"%@ · Paused at %@" = "%@ · 暫停於 %@";
+"Turn On Matrix" = "開啟 Matrix";
+"Turn Off Matrix" = "關閉 Matrix";
+"On Mac: Esc exits the screensaver." = "在 Mac 上：按 Esc 結束螢幕保護程式。";
+"The movie stays paused." = "影片將保持暫停。";
+"Update Kinrox on Mac to use screensavers." = "請更新 Mac 上的 Kinrox 以使用螢幕保護程式。";
+"Esc — exit" = "Esc — 結束";
+"Esc — exit · Movie paused" = "Esc — 結束 · 影片已暫停";
+"Matrix screensaver. Press Escape to exit." = "Matrix 螢幕保護程式。按 Escape 結束。";
+"The movie could not be paused. Try again." = "無法暫停影片，請再試一次。";
