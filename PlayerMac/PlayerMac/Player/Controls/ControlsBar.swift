@@ -28,6 +28,12 @@ struct ControlsBar: View {
                 }
                 .environment(\.layoutDirection, .leftToRight)
                 HStack(spacing: 4) {
+                    IconButton(systemName: "captions.bubble", help: L10n.text("Audio & Subtitles"))
+                    {
+                        model.trackController.presentation =
+                            model.trackController.presentation == nil ? .quick : nil
+                    }
+                    .accessibilityIdentifier("track-selector-button")
                     IconButton(systemName: "list.bullet", help: L10n.text("Files in folder")) {
                         showsPlaylist.toggle()
                     }

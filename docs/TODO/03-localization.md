@@ -43,7 +43,7 @@ The owner approved this practical coverage list, counting the two Chinese writin
 
 ## Implementation
 
-- Both XcodeGen targets include `Resources/Localization`. Each locale contains `Localizable.strings` with 183 UI keys and `InfoPlist.strings` with the local-network permission description.
+- Both XcodeGen targets include `Resources/Localization`. Each locale contains `Localizable.strings` with 231 UI keys and `InfoPlist.strings` with the local-network permission description.
 - `Shared/Localization.swift` localizes strings at their source. This covers AppKit panels, SwiftUI menus, custom controls, accessibility labels, settings, connection states, and application-owned error messages.
 - `L10n.format` inserts literal device names, filenames, times, and counts into translated format strings. Current resources use ordered `%@` arguments. Never interpolate a dynamic name into a localization key.
 - Count labels use neutral constructions such as `devices: %@`; they do not concatenate English singular/plural words. Dates and counts use the current locale, replacing the previously fixed Russian date locale.
@@ -75,3 +75,5 @@ Visual checks completed on the iPhone SE simulator (iOS 18.5): German playback c
 Translations are an initial authored pass. Native-speaker editorial review and exhaustive visual review of all languages on physical devices remain release checks.
 
 App Store preparation on 2026-10-28 added localized Privacy Policy and Support labels to the iPhone Settings/About section. The shared resource set now contains 183 UI keys in all 30 locales. Store metadata, screenshots and release requirements are in `AppStore/README.md`.
+
+Mac track selection on 2026-10-29 added 48 translated keys in all 30 locales, bringing the shared resource set to 231 keys. Source coverage, placeholders, the Mac hosted localization tests, and whole-tree Swift formatting passed. These new panels were visually checked on macOS in English; exhaustive language review remains a release check.

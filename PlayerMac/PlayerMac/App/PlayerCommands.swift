@@ -9,6 +9,7 @@ struct PlayerCommands: Commands {
     private var model: PlayerViewModel? { session.model }
 
     var body: some Commands {
+        TrackCommands(session: session)
         CommandGroup(replacing: .newItem) {
             Button(L10n.text("Open File…")) { delegate.openFile() }
                 .keyboardShortcut("o", modifiers: .command)
@@ -35,17 +36,17 @@ struct PlayerCommands: Commands {
             Divider()
             Button(L10n.text("Previous File")) { model?.previous() }
                 .keyboardShortcut(.leftArrow, modifiers: .command)
-                .disabled(session.isOpenPanelShown || !(model?.canPrevious ?? false))
+                .disabled(!session.trackShortcutsAllowed || !(model?.canPrevious ?? false))
             Button(L10n.text("Next File")) { model?.next() }
                 .keyboardShortcut(.rightArrow, modifiers: .command)
-                .disabled(session.isOpenPanelShown || !(model?.canNext ?? false))
+                .disabled(!session.trackShortcutsAllowed || !(model?.canNext ?? false))
             Divider()
             Button(L10n.text("Louder")) { model?.changeVolume(by: PlayerViewModel.volumeStep) }
                 .keyboardShortcut(.upArrow, modifiers: [])
-                .disabled(session.isOpenPanelShown || model == nil)
+                .disabled(!session.trackShortcutsAllowed || model == nil)
             Button(L10n.text("Quieter")) { model?.changeVolume(by: -PlayerViewModel.volumeStep) }
                 .keyboardShortcut(.downArrow, modifiers: [])
-                .disabled(session.isOpenPanelShown || model == nil)
+                .disabled(!session.trackShortcutsAllowed || model == nil)
         }
         CommandGroup(before: .windowSize) {
             Button(
@@ -55,7 +56,7 @@ struct PlayerCommands: Commands {
                 model?.toggleFullscreen()
             }
             .keyboardShortcut("f", modifiers: [])
-            .disabled(session.isOpenPanelShown || model == nil)
+            .disabled(!session.trackShortcutsAllowed || model == nil)
             Divider()
         }
     }

@@ -13,6 +13,7 @@
 > M4 completed in scope M4.1–M4.4. By owner decision 2026-10-27 `kinrox-cli` (former M4.5) moved to [a separate optional task](docs/TODO/05-kinrox-cli.md); its absence does not block M6 or app release.
 > M5 implemented 2026-10-27: real remote, Bonjour, Keychain, control, and reconnection. Automated tests passed; owner confirmed manual checklist of Mac + physical iPhone: "Double-checked everything, everything works." Results and remaining limitations — [M5 Report](docs/runbooks/M5-VERIFICATION.md).
 > M6 release workflow implemented 2026-10-28: pinned portable libmpv dependencies, Developer ID export, library signing, notarization, stapling, DMG, dependency sources, and checksums. First Mac version: 0.1.0, Apple Silicon, macOS 14+. Procedure and validation boundaries — [release runbook](docs/runbooks/RUNBOOK-RELEASE.md), [release notes](docs/releases/0.1.0.md). iPhone App Store publication is separate.
+> Mac track selection implemented 2026-10-29 after owner approval of Figma page 04: audio/subtitle selectors, recursive external-track discovery, search scope, and folder preferences. Included in Mac release 0.2.0, build 4, requested by the owner on 2026-10-29. Checks — [Tracks Verification](docs/runbooks/TRACKS-VERIFICATION.md); [release notes](docs/releases/0.2.0.md).
 > Tasks for contributors (M3, M4, localization, updates) — in [docs/TODO](docs/TODO/).
 > All design work is done in Figma file [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U) (owner decision 2026-10-27), see Section 3.5.
 > Landing site added 2026-10-27: static GitHub Pages site in `site/` (English + Russian), deployed by `.github/workflows/pages.yml`; see Section 3.6.
@@ -104,6 +105,7 @@ Kinrox does not attempt to replicate IINA's feature breadth (filters, plugins, c
 | Next / Previous File | Playlist from video files in same directory, natural Finder sort order ("2" before "10"); ⌘←/⌘→ and controls bar buttons. Auto-advances to next file upon finish; on final item player remains on last frame, and "Play" restarts from beginning (owner decision 2026-10-26) |
 | System Media Keys | `MPRemoteCommandCenter` + `MPNowPlayingInfoCenter` (Section 5) |
 | Remote Control | Protocol server (Section 6) |
+| Audio and Subtitles | Embedded and external tracks, subtitles Off, native Audio/Subtitles menus, and control-bar selector. Recursive discovery under the video folder by default; selectable common root, searchable full list, manual file loading, and per-folder preferences. Owner approved 2026-10-29; see [verification](docs/runbooks/TRACKS-VERIFICATION.md). |
 
 ### 2.2. iPhone Remote
 
@@ -111,7 +113,7 @@ Discovery of players on local network, PIN pairing, controls: pause, ±10/±30s,
 
 ### 2.3. Excluded from v1
 
-In-UI audio/subtitle track selectors (mpv renders default embedded subtitles automatically), playback position memory, custom playlists, network streams and URLs, YouTube (`ytdl` disabled), video filters and custom shaders, custom cover art, picture-in-picture, iPad/Apple Watch remote targets, multi-player simultaneous routing.
+Playback position memory, custom playlists, network streams and URLs, YouTube (`ytdl` disabled), video filters and custom shaders, custom cover art, picture-in-picture, iPad/Apple Watch remote targets, multi-player simultaneous routing. Track selection is currently a Mac feature; remote protocol track commands are not included.
 
 ---
 
@@ -273,6 +275,7 @@ The file is the source of truth for layouts, texts in mockups, components, and t
 |---|---|
 | [01 · UI v1 — Player & Remote](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=0-1) | Cover with principles, palette and type; Mac player screens (M2); iPhone remote screens (M5); component library |
 | [02 · M4 — Connection & states](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=13-352) | Remote settings on Mac, "Connect iPhone" window, search hints, local network denied, wrong code, reconnecting, connection failed, nothing playing, incompatible version |
+| [04 · Tracks — Audio & subtitles](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=30-304) | Mac entry point, audio/subtitle panels, recursive file browser, native menus, folder scope, scanning/empty/error states |
 
 Working with the file:
 - new screens and states are designed in this file before implementation; existing pages follow `NN · <milestone> — <topic>`;

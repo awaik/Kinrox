@@ -12,6 +12,9 @@ final class FakePlayerEngine: PlayerEngine {
         case seekAbsolute(Double)
         case volume(Double)
         case stop
+        case selectTrack(MediaTrackKind, Int64?, UInt64)
+        case addTrack(URL, MediaTrackKind, UInt64)
+        case cancelTrack(UInt64)
     }
 
     let events: AsyncStream<PlaybackEvent>
@@ -47,6 +50,15 @@ final class FakePlayerEngine: PlayerEngine {
     }
     func setVolume(_ volume: Double) throws { commands.append(.volume(volume)) }
     func stop() throws { commands.append(.stop) }
+    func selectTrack(kind: MediaTrackKind, number: Int64?, requestID: UInt64) throws {
+        if let commandError { throw commandError }
+        commands.append(.selectTrack(kind, number, requestID))
+    }
+    func addTrack(url: URL, kind: MediaTrackKind, requestID: UInt64) throws {
+        if let commandError { throw commandError }
+        commands.append(.addTrack(url, kind, requestID))
+    }
+    func cancelTrackCommand(id: UInt64) { commands.append(.cancelTrack(id)) }
     func shutdown() async {
         shutdownCount += 1
         continuation.finish()

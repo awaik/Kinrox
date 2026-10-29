@@ -50,7 +50,7 @@ open http://localhost:8080/
 ## Publishing
 
 Mac download buttons point to the versioned GitHub Release asset
-`releases/download/v0.1.0/Kinrox-0.1.0-arm64.dmg`. Publish and verify that asset
+`releases/download/v0.2.0/Kinrox-0.2.0-arm64.dmg`. Publish and verify that asset
 before deploying these pages. Update both languages, the visible version, and
 the JSON-LD download/version fields together. The iPhone App Store release is
 still planned separately. Distribution steps are in

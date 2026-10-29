@@ -93,9 +93,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func openFile() {
-        guard !isRunningTests, !isTerminating, openPanel == nil else { return }
+        guard !isRunningTests, !isTerminating, openPanel == nil,
+            session.model?.trackController.isChoosingFile != true
+        else { return }
         showPlayer()
-        guard let window = playerWindow?.window else { return }
+        guard let window = playerWindow?.window, window.attachedSheet == nil else { return }
+        session.model?.trackController.presentation = nil
         let panel = NSOpenPanel()
         panel.title = L10n.text("Open Video")
         panel.prompt = L10n.text("Open")

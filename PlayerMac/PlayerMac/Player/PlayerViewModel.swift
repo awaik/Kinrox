@@ -21,6 +21,7 @@ final class PlayerViewModel {
     /// Unlike UI slider position, this is mpv-confirmed value.
     private(set) var playbackVolume: Double = 100
     var errorMessage: String?
+    let trackController: TrackController
     /// Auto-advance to next folder file at video end.
     @ObservationIgnored var autoAdvance = true
     @ObservationIgnored var onToggleFullscreen: (() -> Void)?
@@ -60,6 +61,7 @@ final class PlayerViewModel {
         playlistProvider: @escaping @Sendable (URL) -> FolderPlaylist = FolderPlaylist.scan
     ) {
         self.engine = engine
+        trackController = TrackController(engine: engine)
         self.recents = recents
         self.playlistProvider = playlistProvider
         let events = engine.events
@@ -90,6 +92,7 @@ final class PlayerViewModel {
         errorMessage = nil
         do {
             try engine.load(url: url)
+            trackController.prepare(for: url)
             isLoading = true
             currentURL = url
             updatePlaylist(for: url)
@@ -124,6 +127,7 @@ final class PlayerViewModel {
         defer { notifyPlayback(event) }
         switch event {
         case .started:
+            trackController.stop()
             resetMedia()
             isLoading = true
         case .loaded:
@@ -139,6 +143,7 @@ final class PlayerViewModel {
             // New time-pos may arrive after seek confirmation.
             lastPositionUpdate = -Double.infinity
         case .ended(let error):
+            trackController.stop()
             resetMedia()
             errorMessage = error
             if error != nil { clearCurrentFile() }
@@ -148,15 +153,21 @@ final class PlayerViewModel {
             replayPending = false
             errorMessage = error
         case .shutdown:
+            trackController.close()
             resetMedia()
             clearCurrentFile()
         case .property(let property, let value):
             apply(property, value)
+        case .tracksLoaded(let path, let tracks):
+            trackController.loaded(path: path, tracks: tracks)
+        case .trackCommandCompleted(let id, let error):
+            trackController.completed(id: id, error: error)
         }
     }
 
     private func apply(_ property: PlaybackProperty, _ value: PlaybackValue) {
         switch (property, value) {
+        case (.tracks, .tracks(let tracks)): trackController.update(tracks)
         case (.title, .text(let title)): self.title = title
         case (.paused, .flag(let paused)):
             self.paused = paused
@@ -223,6 +234,7 @@ final class PlayerViewModel {
     }
 
     func shutdown() async {
+        trackController.close()
         isClosing = true
         notifyPlayback(.shutdown)
         eventTask?.cancel()

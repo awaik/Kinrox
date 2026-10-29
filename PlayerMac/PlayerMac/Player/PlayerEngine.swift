@@ -12,12 +12,14 @@ enum PlaybackProperty: String, Sendable, CaseIterable {
     case hardwareDecoder = "hwdec-current"
     case audioOutput = "current-ao"
     case audioCodec = "audio-codec-name"
+    case tracks = "track-list"
 }
 
 enum PlaybackValue: Sendable, Equatable {
     case flag(Bool)
     case number(Double)
     case text(String)
+    case tracks([MediaTrack])
     case unavailable
 }
 
@@ -29,6 +31,8 @@ enum PlaybackEvent: Sendable, Equatable {
     case playbackRestarted
     case ended(error: String?)
     case failure(String)
+    case tracksLoaded(path: String, tracks: [MediaTrack])
+    case trackCommandCompleted(id: UInt64, error: String?)
     case shutdown
 }
 
@@ -40,6 +44,9 @@ protocol PlayerEngine: AnyObject {
     func seek(relative seconds: Double) throws
     func seek(absolute seconds: Double) throws
     func setVolume(_ volume: Double) throws
+    func selectTrack(kind: MediaTrackKind, number: Int64?, requestID: UInt64) throws
+    func addTrack(url: URL, kind: MediaTrackKind, requestID: UInt64) throws
+    func cancelTrackCommand(id: UInt64)
     func stop() throws
     func shutdown() async
 }

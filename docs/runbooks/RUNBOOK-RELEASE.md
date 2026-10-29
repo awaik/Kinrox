@@ -1,6 +1,6 @@
 # Mac Release
 
-Kinrox 0.1.0 targets Apple Silicon and macOS 14+. Development can use Homebrew;
+Kinrox releases target Apple Silicon and macOS 14+. Development can use Homebrew;
 distribution uses pinned IINA arm64 dependencies built with macOS 11 deployment
 targets. Do not substitute the local Homebrew binaries: they require macOS 26.
 
@@ -42,7 +42,7 @@ Set `APPLE_TEAM_ID`, `APPLE_SIGNING_IDENTITY` (the certificate's SHA-1 from
 Then run:
 
 ```sh
-./Scripts/build-release.sh 0.1.0 3
+./Scripts/build-release.sh 0.2.0 4
 ```
 
 The script refuses to reuse an existing `dist/<version>-build<build>` directory. It archives
@@ -77,7 +77,7 @@ Never publish local signing files, Xcode archives, provisioning logs, or credent
    The project's no-commit rule requires an explicit owner exception for committing
    release files and website updates. Include other accumulated changes only when
    the owner explicitly authorizes them, as for the first release on 2026-10-28.
-5. Publish `v0.1.0` to `awaik/Kinrox` with the DMG, dependency sources, and SHA256SUMS.
+5. Publish `v0.2.0` to `awaik/Kinrox` with the DMG, dependency sources, and SHA256SUMS.
    Include a source snapshot if the release is not represented completely by its tag.
 6. Publish both landing pages with the direct versioned asset URL. Check the live
    English and Russian pages and anonymously download the asset to verify its hash.

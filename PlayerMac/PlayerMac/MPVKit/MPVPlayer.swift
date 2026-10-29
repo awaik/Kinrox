@@ -28,6 +28,8 @@ final class MPVPlayer: PlayerEngine {
                 ("load-positioning", "no"), ("load-commands", "no"),
                 ("load-context-menu", "no"),
                 ("video-timing-offset", "0"),
+                // Kinrox indexes sidecars itself; attaching a discovered file must be explicit.
+                ("sub-auto", "no"), ("audio-file-auto", "no"),
             ]
             for (name, value) in options {
                 try MPVError.check(mpv_set_option_string(handle, name, value), "Option \(name)")
@@ -58,7 +60,7 @@ final class MPVPlayer: PlayerEngine {
         guard url.isFileURL else { throw MPVError("Only local files can be opened.") }
         let values = try url.resourceValues(forKeys: [.isRegularFileKey])
         guard values.isRegularFile == true else { throw MPVError("Select a video file.") }
-        try command(["loadfile", url.path, "replace"])
+        try command(["loadfile", url.path, "replace", "-1", "aid=auto,sid=auto"])
         try setPaused(false)
     }
 
@@ -81,12 +83,34 @@ final class MPVPlayer: PlayerEngine {
 
     func stop() throws { try command(["stop"]) }
 
+    func selectTrack(kind: MediaTrackKind, number: Int64?, requestID: UInt64) throws {
+        if let number, number <= 0 { throw MPVError("Invalid track ID.") }
+        try command(["set", kind.property, number.map(String.init) ?? "no"], requestID: requestID)
+    }
+
+    func addTrack(url: URL, kind: MediaTrackKind, requestID: UInt64) throws {
+        guard url.isFileURL,
+            try url.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile == true
+        else {
+            throw MPVError("Only local track files can be opened.")
+        }
+        // auto attaches without selecting; selection follows the matching command reply.
+        // mpv couples these asynchronous commands to playback and aborts them on file changes.
+        try command(
+            [kind == .audio ? "audio-add" : "sub-add", url.path, "auto"], requestID: requestID)
+    }
+
+    func cancelTrackCommand(id: UInt64) {
+        guard !isClosing else { return }
+        mpv_abort_async_command(lifetime.handle, id)
+    }
+
     func shutdown() async {
         isClosing = true
         await lifetime.waitForShutdown()
     }
 
-    private func command(_ arguments: [String]) throws {
+    private func command(_ arguments: [String], requestID: UInt64 = 0) throws {
         guard !isClosing else { throw MPVError("Player is already shutting down.") }
         let strings = arguments.map { strdup($0) }
         defer {
@@ -94,6 +118,7 @@ final class MPVPlayer: PlayerEngine {
         }
         var pointers = strings.map { $0.map { UnsafePointer($0) } } + [nil]
         // Response arrives via COMMAND_REPLY; UI does not block on rendering core.
-        try MPVError.check(mpv_command_async(lifetime.handle, 0, &pointers), "Player command")
+        try MPVError.check(
+            mpv_command_async(lifetime.handle, requestID, &pointers), "Player command")
     }
 }

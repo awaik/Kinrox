@@ -16,6 +16,11 @@ final class PlayerSession {
     }
 
     var canControl: Bool {
-        !isOpenPanelShown && pairing.prompt == nil && (model?.canControl ?? false)
+        trackShortcutsAllowed && pairing.prompt == nil && (model?.canControl ?? false)
+    }
+
+    var trackShortcutsAllowed: Bool {
+        !isOpenPanelShown && model?.trackController.presentation == nil
+            && model?.trackController.isChoosingFile != true
     }
 }

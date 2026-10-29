@@ -10,6 +10,8 @@ No cloud, user accounts, analytics, or telemetry.
   and VideoToolbox hardware acceleration.
 - Glass controls, keyboard shortcuts, native fullscreen, and drag-and-drop.
 - Recent files, naturally sorted folder playlists, and automatic next-file playback.
+- Mac audio/subtitle selection, recursive discovery of external tracks, folder search,
+  and remembered preferences for the next episode.
 - System media keys and Now Playing integration.
 - iPhone discovery over Bonjour, six-digit PIN pairing, encrypted commands,
   Keychain token storage, and reconnection.
@@ -18,16 +20,16 @@ No cloud, user accounts, analytics, or telemetry.
 
 ## Project Status
 
-The Mac player and real iPhone remote are implemented through M5. The first
-standalone Mac release is **0.1.0**, for Apple Silicon and macOS 14+:
-[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.1.0/Kinrox-0.1.0-arm64.dmg)
-or read the [release notes](docs/releases/0.1.0.md).
+The Mac player and real iPhone remote are implemented through M5. The current
+standalone Mac release is **0.2.0**, for Apple Silicon and macOS 14+:
+[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.2.0/Kinrox-0.2.0-arm64.dmg)
+or read the [release notes](docs/releases/0.2.0.md).
 The installer bundles libmpv and its dependencies, is Developer ID signed, and
 is notarized by Apple. Homebrew is only needed for the default development setup.
 The iPhone App Store release remains separate; the remote can be built from source.
 
 The `kinrox-cli` executable is a stub; its implementation is an
-[optional task](docs/TODO/05-kinrox-cli.md). Track selection, network streams,
+[optional task](docs/TODO/05-kinrox-cli.md). Network streams,
 custom playlists, and playback position memory are outside the initial scope.
 Architecture and roadmap are in [AGENTS.md](AGENTS.md).
 
@@ -95,6 +97,10 @@ open DerivedData/Build/Products/Debug/Kinrox.app
 Open a video via **⌘O**, drag it into the window, or drop onto the Dock icon.
 Keybindings: Space — pause, ←/→ — 5s, ⇧←/⇧→ — 30s, ↑/↓ — volume,
 ⌘←/⌘→ — adjacent file in folder, F or double-click — fullscreen.
+Use the caption-bubble button or the **Audio** / **Subtitles** menus to select tracks.
+**⌃⌘A** and **⌃⌘S** cycle audio and subtitles. **All files in folder** shows external
+tracks from every nested folder, including unmatched files and other episodes.
+Choose a common search folder when audio and subtitles are outside the video's folder.
 To launch with a file argument:
 
 ```sh
@@ -142,6 +148,7 @@ All design work is done in Figma file
 [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U):
 [01 · UI v1 — Player & Remote](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=0-1)
 and [02 · M4 — Connection & states](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=13-352).
+Mac track selection follows [04 · Tracks — Audio & subtitles](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=30-304).
 Tokens from the file live in `Shared/Design/KinroxTheme.swift` and `Resources/Branding.xcassets`.
 
 ## Logo and Icons

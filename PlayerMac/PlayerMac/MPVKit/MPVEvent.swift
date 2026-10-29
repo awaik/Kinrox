@@ -6,6 +6,7 @@ extension PlaybackProperty {
         case .paused, .endReached, .idle, .buffering: MPV_FORMAT_FLAG
         case .position, .duration, .volume: MPV_FORMAT_DOUBLE
         case .title, .hardwareDecoder, .audioOutput, .audioCodec: MPV_FORMAT_STRING
+        case .tracks: MPV_FORMAT_NODE
         }
     }
 }
@@ -22,6 +23,10 @@ enum MPVEvent {
             else { return nil }
             guard let value = property.data else { return .property(key, .unavailable) }
             switch property.format {
+            case MPV_FORMAT_NODE where key == .tracks:
+                return .property(
+                    key,
+                    .tracks(MPVTracks.copy(value.assumingMemoryBound(to: mpv_node.self).pointee)))
             case MPV_FORMAT_FLAG:
                 return .property(key, .flag(value.assumingMemoryBound(to: Int32.self).pointee != 0))
             case MPV_FORMAT_DOUBLE:
@@ -43,6 +48,11 @@ enum MPVEvent {
                 ? MPVError(code: end.error, operation: "Failed to play file").message
                 : nil
             return .ended(error: error)
+        case MPV_EVENT_COMMAND_REPLY where event.reply_userdata != 0:
+            return .trackCommandCompleted(
+                id: event.reply_userdata,
+                error: event.error < 0
+                    ? MPVError(code: event.error, operation: "Track command").message : nil)
         case MPV_EVENT_COMMAND_REPLY where event.error < 0:
             return .failure(MPVError(code: event.error, operation: "Player command").message)
         case MPV_EVENT_QUEUE_OVERFLOW:

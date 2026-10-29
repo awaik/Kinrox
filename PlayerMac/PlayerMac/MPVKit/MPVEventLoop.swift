@@ -51,8 +51,10 @@ final class MPVEventLoop: @unchecked Sendable {
                 if key == .position, value == .unavailable { lastPositionLog = -Double.infinity }
                 if key != .position || now - lastPositionLog >= 1 {
                     if key == .position, case .number = value { lastPositionLog = now }
-                    if key == .title {
-                        logger.info("media-title: \(String(describing: value), privacy: .private)")
+                    if key == .title || key == .tracks {
+                        logger.info(
+                            "\(key.rawValue, privacy: .public): \(String(describing: value), privacy: .private)"
+                        )
                     } else {
                         logger.info(
                             "\(key.rawValue, privacy: .public): \(String(describing: value), privacy: .public)"
@@ -61,6 +63,9 @@ final class MPVEventLoop: @unchecked Sendable {
                 }
             }
             continuation.yield(copied)
+            if copied == .loaded, let snapshot = MPVTracks.loadedSnapshot(handle: handle) {
+                continuation.yield(snapshot)
+            }
             if copied == .shutdown { break }
         }
     }

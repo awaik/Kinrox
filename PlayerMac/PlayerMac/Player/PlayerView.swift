@@ -16,6 +16,7 @@ struct PlayerView: View {
     private var canHideControls: Bool {
         model.hasMedia && !model.paused && !model.isAtEnd
             && model.errorMessage == nil && pairing?.prompt == nil && !showsConnect
+            && model.trackController.presentation == nil && !model.trackController.isChoosingFile
     }
 
     var body: some View {
@@ -27,6 +28,10 @@ struct PlayerView: View {
                 .contentShape(Rectangle())
                 .onTapGesture(count: 2) { model.toggleFullscreen() }
             content
+                .accessibilityHidden(model.trackController.presentation != nil)
+            if model.hasMedia, model.trackController.presentation != nil, pairing?.prompt == nil {
+                TrackPanelsOverlay(controller: model.trackController)
+            }
             if showsConnect, let remote, pairing?.prompt == nil {
                 ConnectPhoneView(remote: remote) { showsConnect = false }
             }

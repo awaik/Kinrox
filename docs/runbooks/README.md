@@ -24,6 +24,8 @@ reflect previous planning rather than current acceptance criteria.
 | Review remote review findings and regression coverage | [M5 Review](M5-REVIEW.md) |
 | Build, sign, notarize, verify, and publish a standalone Mac installer | [Mac Release](RUNBOOK-RELEASE.md) |
 | Inspect release packaging, startup regression, and validation boundaries | [M6 Verification](M6-VERIFICATION.md) |
+| Inspect the Mac 0.2.0 release checks and installer checksums | [0.2.0 Verification](0.2.0-VERIFICATION.md) |
+| Verify Mac track selection and recursive audio/subtitle discovery | [Tracks Verification](TRACKS-VERIFICATION.md) |
 | Evaluate external code reviews and apply justified corrections | [Code Review Process](RUNBOOK-REVIEW.md) |
 
 When modifying commands, configuration, or acceptance criteria, update the corresponding runbook in the same task. Mac distribution uses the M6 release workflow; the iPhone App Store release remains separate.

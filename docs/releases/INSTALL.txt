@@ -1,4 +1,4 @@
-Kinrox 0.1.0 for Mac
+Kinrox 0.2.0 for Mac
 
 Requires an Apple Silicon Mac running macOS 14 Sonoma or later.
 
