@@ -5,5 +5,27 @@
     <link>https://awaik.github.io/Kinrox/</link>
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
+    <item>
+      <title>Kinrox 0.3.0</title>
+      <pubDate>Thu, 29 Oct 2026 17:24:33 +0000</pubDate>
+      <sparkle:version>5</sparkle:version>
+      <sparkle:shortVersionString>0.3.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.3.0</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Matrix screensaver, live folder playlists, and update reminders for Mac. Requires an &lt;b&gt;Apple Silicon Mac with macOS 14 Sonoma or later&lt;/b&gt;. Version 0.3.0, build 5.&lt;/p&gt;
+&lt;p&gt;Download &lt;code&gt;Kinrox-0.3.0-arm64.dmg&lt;/code&gt;, open it, and drag Kinrox to Applications. All playback libraries are bundled; Homebrew and Xcode are not required.&lt;/p&gt;
+&lt;h3&gt;New&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;b&gt;Matrix screensaver:&lt;/b&gt; choose Screensaver → Matrix. A playing movie pauses before the falling green code appears. Esc returns to the paused movie without leaving fullscreen. Matrix also works with no video open.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Live folder playlists:&lt;/b&gt; newly available videos appear in Next/Previous navigation without reopening the current file. Changes also reach the iPhone remote and system media controls. Playback position is preserved.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Update reminders:&lt;/b&gt; Kinrox checks for updates daily and offers a welcome-screen banner, a compact reminder while paused, and Check for Updates in the app menu. Sparkle verifies and installs updates when you choose to update.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Project links:&lt;/b&gt; the About panel and Help menu link to the website, source, license, support, issue tracker, and privacy policy.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Reliability&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;Matrix waits for the playback engine to confirm pause. Remote start requests report errors or cancellation instead of acknowledging an unconfirmed start.&lt;/li&gt;&lt;li&gt;Starting Matrix dismisses the Connect iPhone card; pairing cards retain Esc priority.&lt;/li&gt;&lt;li&gt;Folder watching recovers after directory replacement or temporary unavailability, and checks for new episodes at the end of playback.&lt;/li&gt;&lt;li&gt;Release startup verification leaves Sparkle's saved update preferences untouched.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Updating from 0.2.0&lt;/h3&gt;
+&lt;p&gt;Versions 0.2.0 and earlier have no built-in updater. Install 0.3.0 manually once; subsequent releases can be offered inside the player.&lt;/p&gt;
+&lt;p&gt;Playback and remote commands stay on the local network. Update checks read an HTTPS feed on GitHub Pages without unique identifiers, system profiling, or telemetry. Installing an update downloads its signed DMG from GitHub Releases. See the &lt;a href="https://awaik.github.io/Kinrox/privacy/"&gt;privacy policy&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is a Mac release. The iPhone App Store release is separate; Matrix remote controls require a companion build with the Screensavers section.&lt;/p&gt;
+&lt;p&gt;Runtime verification targets macOS 26.5.2. macOS 14 is the deployment target; a separate macOS 14 machine was not used for this release.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Kinrox-0.3.0-dependency-sources.tar.gz&lt;/code&gt; contains corresponding dependency sources, build recipes, and patches. Licenses are included inside the app. &lt;code&gt;SHA256SUMS.txt&lt;/code&gt; provides release-asset checksums. The matching application source is available at the &lt;code&gt;v0.3.0&lt;/code&gt; tag.&lt;/p&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg" length="31112846" type="application/octet-stream" sparkle:edSignature="f995eez50o1wdNY9lKnDotMU4/lWYf7T0wK6FFRX7Ab2A9MMfi86bkWOGAEFpjChQ4CbZI6NHI61e+mwXdWxDQ==" />
+    </item>
   </channel>
 </rss>
