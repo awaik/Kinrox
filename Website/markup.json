@@ -1,0 +1,124 @@
+{
+  "free-open-source-mac-iphone": [
+    "<i class=\"dot ember\">",
+    "</i>"
+  ],
+  "stop-getting-up-to-pause-the-movie": [
+    "<span class=\"fire-text\">",
+    "</span>"
+  ],
+  "pause": [
+    "<i class=\"ic ic-pause\">",
+    "</i>"
+  ],
+  "10-s": [
+    "<i class=\"ic ic-rotate-back\">",
+    "</i>"
+  ],
+  "volume-70": [
+    "<i class=\"ic ic-volume-high\">",
+    "</i>"
+  ],
+  "kinrox-tap-pause-on-the-phone-in-your-hand": [
+    "<i class=\"ic ic-check\">",
+    "</i>"
+  ],
+  "kinrox-a-volume-slider-right-under-your-thumb": [
+    "<i class=\"ic ic-check\">",
+    "</i>"
+  ],
+  "kinrox-finds-your-mac-by-itself-pairs-with-one": [
+    "<i class=\"ic ic-check\">",
+    "</i>"
+  ],
+  "drag-a-file-into-kinrox-or-press-o-the": [
+    "<kbd>",
+    "</kbd>",
+    "<kbd>",
+    "</kbd>"
+  ],
+  "code-expires-in-1-47": [
+    "<img src=\"{{root}}assets/img/ui/countdown.svg\" alt=\"\">"
+  ],
+  "controlled-by-alex-s-iphone": [
+    "<i class=\"dot\">",
+    "</i>"
+  ],
+  "space-pause": [
+    "<kbd>",
+    "</kbd>"
+  ],
+  "5-s": [
+    "<kbd>",
+    "</kbd>",
+    "<kbd>",
+    "</kbd>"
+  ],
+  "30-s": [
+    "<kbd>",
+    "</kbd>",
+    "<kbd>",
+    "</kbd>",
+    "<kbd>",
+    "</kbd>"
+  ],
+  "volume": [
+    "<kbd>",
+    "</kbd>",
+    "<kbd>",
+    "</kbd>"
+  ],
+  "previous-next-file": [
+    "<kbd>",
+    "</kbd>",
+    "<kbd>",
+    "</kbd>",
+    "<kbd>",
+    "</kbd>"
+  ],
+  "f-fullscreen": [
+    "<kbd>",
+    "</kbd>"
+  ],
+  "mac-player-works": [
+    "<i class=\"ic ic-check\">",
+    "</i>"
+  ],
+  "iphone-remote-build-from-source": [
+    "<i class=\"ic ic-check\">",
+    "</i>"
+  ],
+  "mac-v0-3-0-signed-and-notarized-dmg": [
+    "<i class=\"ic ic-check\">",
+    "</i>"
+  ],
+  "remote-on-the-app-store-planned": [
+    "<i class=\"ic ic-history\">",
+    "</i>"
+  ],
+  "build-from-source": [
+    "<img src=\"{{root}}assets/img/ui/traffic-lights.svg\" alt=\"\">"
+  ],
+  "lie-down-press-play": [
+    "<span class=\"fire-text\">",
+    "</span>"
+  ],
+  "get-the-mac-player-from-the-official-releases-and": [
+    "<a href=\"https://github.com/awaik/Kinrox/releases\">",
+    "</a>"
+  ],
+  "report-an-issue-or-ask-for-help-include-your": [
+    "<a href=\"https://github.com/awaik/Kinrox/issues/new\">",
+    "</a>"
+  ],
+  "if-you-choose-to-contact-us-through-github-issues": [
+    "<a href=\"https://github.com/awaik/Kinrox/issues\">",
+    "</a>",
+    "<a href=\"https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement\">",
+    "</a>"
+  ],
+  "for-privacy-questions-contact-the-maintainer-through-the-kinrox": [
+    "<a href=\"https://github.com/awaik/Kinrox/issues\">",
+    "</a>"
+  ]
+}

@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="ko" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kinrox — iPhone 리모컨이 있는 Mac 비디오 플레이어</title>
+  <meta name="description" content="Kinrox는 iPhone 리모컨을 지원하는 무료 오픈 소스 Mac용 동영상 플레이어입니다. 소파에서 일어나지 않고 일시 정지, 구간 이동, 음량 조절을 해보세요.">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="https://kinrox.app/ko/">
+  <link rel="alternate" hreflang="en" href="https://kinrox.app/">
+  <link rel="alternate" hreflang="ru" href="https://kinrox.app/ru/">
+  <link rel="alternate" hreflang="es" href="https://kinrox.app/es/">
+  <link rel="alternate" hreflang="fr" href="https://kinrox.app/fr/">
+  <link rel="alternate" hreflang="de" href="https://kinrox.app/de/">
+  <link rel="alternate" hreflang="pt" href="https://kinrox.app/pt/">
+  <link rel="alternate" hreflang="it" href="https://kinrox.app/it/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://kinrox.app/zh-Hans/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://kinrox.app/zh-Hant/">
+  <link rel="alternate" hreflang="ja" href="https://kinrox.app/ja/">
+  <link rel="alternate" hreflang="ko" href="https://kinrox.app/ko/">
+  <link rel="alternate" hreflang="ar" href="https://kinrox.app/ar/">
+  <link rel="alternate" hreflang="hi" href="https://kinrox.app/hi/">
+  <link rel="alternate" hreflang="bn" href="https://kinrox.app/bn/">
+  <link rel="alternate" hreflang="ur" href="https://kinrox.app/ur/">
+  <link rel="alternate" hreflang="id" href="https://kinrox.app/id/">
+  <link rel="alternate" hreflang="ms" href="https://kinrox.app/ms/">
+  <link rel="alternate" hreflang="vi" href="https://kinrox.app/vi/">
+  <link rel="alternate" hreflang="th" href="https://kinrox.app/th/">
+  <link rel="alternate" hreflang="tr" href="https://kinrox.app/tr/">
+  <link rel="alternate" hreflang="fa" href="https://kinrox.app/fa/">
+  <link rel="alternate" hreflang="pl" href="https://kinrox.app/pl/">
+  <link rel="alternate" hreflang="uk" href="https://kinrox.app/uk/">
+  <link rel="alternate" hreflang="nl" href="https://kinrox.app/nl/">
+  <link rel="alternate" hreflang="ro" href="https://kinrox.app/ro/">
+  <link rel="alternate" hreflang="el" href="https://kinrox.app/el/">
+  <link rel="alternate" hreflang="cs" href="https://kinrox.app/cs/">
+  <link rel="alternate" hreflang="sv" href="https://kinrox.app/sv/">
+  <link rel="alternate" hreflang="hu" href="https://kinrox.app/hu/">
+  <link rel="alternate" hreflang="he" href="https://kinrox.app/he/">
+  <link rel="alternate" hreflang="x-default" href="https://kinrox.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kinrox">
+  <meta property="og:title" content="Kinrox — 일어나서 영화를 일시 중지하세요">
+  <meta property="og:description" content="실제 iPhone 리모컨을 갖춘 미니멀한 Mac 비디오 플레이어입니다. 무료이며 오픈 소스입니다.">
+  <meta property="og:url" content="https://kinrox.app/ko/">
+  <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/mockups.css">
+  <link rel="stylesheet" href="../assets/css/hero.css">
+  <link rel="stylesheet" href="../assets/css/sections.css">
+  <link rel="stylesheet" href="../assets/css/localization.css">
+  <script src="../assets/js/main.js" defer></script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/ko/", "inLanguage": "ko", "description": "실제 iPhone 리모컨을 갖춘 미니멀한 Mac 비디오 플레이어입니다. 무료이며 오픈 소스입니다."}
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#main">콘텐츠로 건너뛰기</a>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="./" aria-label="Kinrox 홈"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34">Kinrox</a>
+    <nav class="nav-links" aria-label="섹션">
+      <a href="#remote">리모컨</a>
+      <a href="#how">페어링</a>
+      <a href="#player">플레이어</a>
+      <a href="#privacy">개인정보 보호</a>
+      <a href="#open-source">오픈 소스</a>
+    </nav>
+    <div class="nav-actions">
+      <details class="language-menu" id="languages">
+  <summary aria-label="언어: 한국어"><span aria-hidden="true">◎</span> <bdi>한국어</bdi></summary>
+  <nav class="language-options" aria-label="언어">
+    <a href="../" lang="en" hreflang="en" dir="ltr" data-language="en">English</a>
+    <a href="../ru/" lang="ru" hreflang="ru" dir="ltr" data-language="ru">Русский</a>
+    <a href="../es/" lang="es" hreflang="es" dir="ltr" data-language="es">Español</a>
+    <a href="../fr/" lang="fr" hreflang="fr" dir="ltr" data-language="fr">Français</a>
+    <a href="../de/" lang="de" hreflang="de" dir="ltr" data-language="de">Deutsch</a>
+    <a href="../pt/" lang="pt" hreflang="pt" dir="ltr" data-language="pt">Português</a>
+    <a href="../it/" lang="it" hreflang="it" dir="ltr" data-language="it">Italiano</a>
+    <a href="../zh-Hans/" lang="zh-Hans" hreflang="zh-Hans" dir="ltr" data-language="zh-Hans">简体中文</a>
+    <a href="../zh-Hant/" lang="zh-Hant" hreflang="zh-Hant" dir="ltr" data-language="zh-Hant">繁體中文</a>
+    <a href="../ja/" lang="ja" hreflang="ja" dir="ltr" data-language="ja">日本語</a>
+    <a href="./" lang="ko" hreflang="ko" dir="ltr" data-language="ko" aria-current="true">한국어</a>
+    <a href="../ar/" lang="ar" hreflang="ar" dir="rtl" data-language="ar">العربية</a>
+    <a href="../hi/" lang="hi" hreflang="hi" dir="ltr" data-language="hi">हिन्दी</a>
+    <a href="../bn/" lang="bn" hreflang="bn" dir="ltr" data-language="bn">বাংলা</a>
+    <a href="../ur/" lang="ur" hreflang="ur" dir="rtl" data-language="ur">اردو</a>
+    <a href="../id/" lang="id" hreflang="id" dir="ltr" data-language="id">Bahasa Indonesia</a>
+    <a href="../ms/" lang="ms" hreflang="ms" dir="ltr" data-language="ms">Bahasa Melayu</a>
+    <a href="../vi/" lang="vi" hreflang="vi" dir="ltr" data-language="vi">Tiếng Việt</a>
+    <a href="../th/" lang="th" hreflang="th" dir="ltr" data-language="th">ไทย</a>
+    <a href="../tr/" lang="tr" hreflang="tr" dir="ltr" data-language="tr">Türkçe</a>
+    <a href="../fa/" lang="fa" hreflang="fa" dir="rtl" data-language="fa">فارسی</a>
+    <a href="../pl/" lang="pl" hreflang="pl" dir="ltr" data-language="pl">Polski</a>
+    <a href="../uk/" lang="uk" hreflang="uk" dir="ltr" data-language="uk">Українська</a>
+    <a href="../nl/" lang="nl" hreflang="nl" dir="ltr" data-language="nl">Nederlands</a>
+    <a href="../ro/" lang="ro" hreflang="ro" dir="ltr" data-language="ro">Română</a>
+    <a href="../el/" lang="el" hreflang="el" dir="ltr" data-language="el">Ελληνικά</a>
+    <a href="../cs/" lang="cs" hreflang="cs" dir="ltr" data-language="cs">Čeština</a>
+    <a href="../sv/" lang="sv" hreflang="sv" dir="ltr" data-language="sv">Svenska</a>
+    <a href="../hu/" lang="hu" hreflang="hu" dir="ltr" data-language="hu">Magyar</a>
+    <a href="../he/" lang="he" hreflang="he" dir="rtl" data-language="he">עברית</a>
+  </nav>
+</details>
+      <a class="btn btn-glass" href="https://github.com/awaik/Kinrox">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <span class="chip"><i class="dot ember"></i>무료 및 오픈 소스 · Mac + iPhone</span>
+      <h1 class="display">일어나지 않고 <span class="fire-text">영화를 일시 정지하세요.</span></h1>
+      <p class="lead">Kinrox는 Mac에서 모든 비디오를 재생하고 iPhone를 리모컨으로 전환합니다. 프로젝터의 MacBook, 소파에 있는 당신: 일시 정지, 10초 뒤로 이동, 볼륨 낮추기 또는 담요를 떠나지 않고 다음 에피소드 시작.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Mac용 다운로드</a>
+        <a class="btn btn-glass" href="#how">작동 방식 보기</a>
+      </div>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>계정 없음</span><span>클라우드 없음</span><span>Wi‑Fi를 통해 작동합니다.</span></p>
+
+      <div class="stage">
+        <div class="stage-scene">
+          <img src="../assets/img/scene.svg" alt="한 사람이 iPhone를 들고 담요 아래 소파에 누워 있습니다. 그 뒤에는 MacBook와 프로젝터가 벽에 영화를 상영하고 있습니다." width="1200" height="600">
+        </div>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-pause"></i>일시 정지</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-rotate-back"></i>−10초</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-volume-high"></i>음량 70%</span>
+        <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/ko/remote.webp" alt="iPhone의 Kinrox Remote: 재생, 건너뛰기 및 볼륨 제어 기능이 있는 0:42:18의 Ember Dusk.mkv." width="780" height="1696"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pain" aria-labelledby="pain-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">익숙한 것 같나요?</span>
+        <h2 class="display" id="pain-title">영화를 보는 밤에는 키보드를 사용할 필요가 없습니다.</h2>
+      </div>
+      <div class="cards-3">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-laptop"></i></div>
+          <h3>Mac는 방 건너편에 있습니다.</h3>
+          <p>벽을 통해 프로젝터에 연결되어 있습니다. 일시 정지할 때마다 일어나서 어둠 속에서 트랙패드를 찾고 작은 컨트롤 바를 눈으로 가늘게 뜨는 것을 의미합니다.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: 손에 들고 있는 휴대폰에서 일시 정지를 탭하세요.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-volume-high"></i></div>
+          <h3>볼륨이 항상 틀리네요</h3>
+          <p>한 장면에서는 속삭이고, 다음 장면에서는 폭발이 일어나고, 옆방에서는 누군가가 이미 자고 있습니다.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: 엄지 손가락 바로 아래에 볼륨 슬라이더가 있습니다.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>&quot;원격&quot; 앱은 귀찮은 일입니다</h3>
+          <p>IP 주소와 비밀번호가 포함된 웹 패널, 잠들어 있는 브라우저 탭, 소파용이 아닌 책상용으로 만들어진 버튼.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: Mac를 자체적으로 찾아 하나의 코드와 쌍을 이룹니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="remote" aria-labelledby="remote-title">
+    <div class="container split">
+      <div class="phones" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="iphone back"><div class="iphone-body"><img src="../assets/img/remote/ko/recents.webp" alt="iPhone 리모컨의 최근 파일 시트." width="780" height="1696" loading="lazy"></div></div>
+        <div class="iphone front"><div class="iphone-body"><img src="../assets/img/remote/ko/remote.webp" alt="Kinrox Remote 재생 화면." width="780" height="1696" loading="lazy"></div></div>
+      </div>
+      <div>
+        <div class="section-head" data-reveal>
+          <span class="overline">iPhone 원격</span>
+          <h2 class="display" id="remote-title">어두운 방을 위해 만들어진 리모콘입니다.</h2>
+          <p class="lead">누를 때마다 큰 목표, 어둡고 따뜻한 테마, 가벼운 햅틱 탭이 적용됩니다. 영화에서 눈을 떼지 않고도 사용할 수 있습니다.</p>
+        </div>
+        <div class="features" data-reveal>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-pause"></i></div><h3>하나의 거대한 재생 버튼</h3><p>졸릴 때도 쉽게 누를 수 있도록 모든 버튼이 충분히 큽니다.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-rotate-back"></i></div><h3>점프 ±10초 및 ±30초</h3><p>줄을 놓쳤나요? 뒤로 한 번 탭하세요. 2개로 소개를 건너뛰세요.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-volume-high"></i></div><h3>손 안의 볼륨</h3><p>Kinrox 자체 볼륨(0~100). Mac의 시스템 볼륨은 그대로 유지됩니다.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-next"></i></div><h3>다음 에피소드</h3><p>동일한 폴더의 이전 및 다음 파일(Finder 순서)</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-history"></i></div><h3>최근 파일</h3><p>이전에 시청한 콘텐츠를 선택하세요. Mac에서 열립니다.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-fullscreen"></i></div><h3>구간 이동과 전체 화면</h3><p>타임라인을 원하는 순간으로 드래그하고, 소파에서 전체 화면으로 전환하세요.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">페어링</span>
+        <h2 class="display" id="how-title">10초만에 연결됩니다. 한 번.</h2>
+        <p class="lead">IP 주소도 없고, 비밀번호도 없고, 계정도 없습니다. 첫 번째 코드 이후 iPhone는 자동으로 다시 연결됩니다.</p>
+      </div>
+      <div class="split">
+        <ol class="steps" data-reveal>
+          <li><div><h3>Mac에서 비디오를 엽니다.</h3><p>파일을 Kinrox로 드래그하거나 <kbd>⌘</kbd> <kbd>O</kbd>를 누릅니다. 원격 서버는 기본적으로 켜져 있습니다.</p></div></li>
+          <li><div><h3>iPhone에서 Mac를 선택하세요</h3><p>Kinrox는 두 장치가 모두 동일한 Wi-Fi에 연결되어 있으면 자체적으로 표시됩니다.</p><img src="../assets/img/remote/ko/players-list.webp" alt="네트워크에서 발견된 Macs 목록: MacBook Pro, Mac mini, iMac Studio." width="780" height="556" loading="lazy"></div></li>
+          <li><div><h3>6자리 코드를 입력하세요.</h3><p>Mac는 2분 동안 지속되는 코드를 보여줍니다. 세 번 잘못 시도했는데 사라졌습니다.</p></div></li>
+        </ol>
+        <div class="pair-visual" data-reveal>
+          <div class="glow" aria-hidden="true"></div>
+          <div class="mac-wrap">
+            <div class="mac" role="img" aria-label="Mac의 Kinrox에는 페어링 코드 482 913이 표시됩니다.">
+              <img class="mac-video" src="../assets/img/stills/blue-hour.svg" alt="">
+              <div class="mac-dim"></div>
+              <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+              <div class="mac-pair">
+                <div class="badge"><i class="ic ic-shield-check"></i></div>
+                <h4>리모컨 연결</h4>
+                <p>Alex’s iPhone 기기가 Kinrox를 제어하려고 합니다. 휴대폰에 이 코드를 입력하세요.</p>
+                <div class="mac-pin"><span>4</span><span>8</span><span>2</span><span>9</span><span>1</span><span>3</span></div>
+                <div class="mac-timer"><img src="../assets/img/ui/countdown.svg" alt="">코드 만료까지 1:47</div>
+                <div class="decline">거부</div>
+              </div>
+            </div>
+          </div>
+          <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/ko/pairing.webp" alt="iPhone 리모컨의 코드 입력 화면." width="780" height="1696" loading="lazy"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="player" aria-labelledby="player-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">Mac용 플레이어</span>
+        <h2 class="display" id="player-title">영화 감상을 방해하지 않는 플레이어.</h2>
+        <p class="lead">비디오는 인터페이스입니다. 필요할 때 얇은 유리 층이 나타나고 3초 후에 숨겨집니다.</p>
+      </div>
+      <div class="player-shot" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="mac-wrap">
+          <div class="mac" role="img" aria-label="유리 제어 막대를 사용하여 Ember Dusk.mkv를 재생하는 Kinrox 플레이어 창.">
+            <img class="mac-video" src="../assets/img/stills/ember-dusk.svg" alt="">
+            <div class="mac-scrim-top"></div>
+            <div class="mac-scrim-bottom"></div>
+            <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+            <div class="mac-title"><b>Ember Dusk.mkv</b><span>3 / 12 · Movies</span></div>
+            <div class="mac-chip"><i class="dot"></i>제어 기기: Alex’s iPhone</div>
+            <div class="mac-hover">1:08:24</div>
+            <div class="mac-controls">
+              <div class="mac-scrub"><span>0:42:15</span><div class="mac-track"><i class="base"></i><i class="buf"></i><i class="prog"></i><i class="mark"></i><i class="knob"></i></div><span class="dim">−1:15:48</span></div>
+              <div class="mac-buttons">
+                <div class="grp vol"><span class="mac-ib"><i class="ic ic-volume-high"></i></span><span class="mac-vslider"></span></div>
+                <div class="grp transport"><span class="mac-ib"><i class="ic ic-previous"></i></span><span class="mac-pp"><i class="ic ic-pause"></i></span><span class="mac-ib"><i class="ic ic-next"></i></span></div>
+                <div class="grp actions"><span class="mac-ib"><i class="ic ic-playlist"></i></span><span class="mac-ib"><i class="ic ic-history"></i></span><span class="mac-ib"><i class="ic ic-fullscreen"></i></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formats" data-reveal>
+        <span class="chip">MKV</span><span class="chip">MP4</span><span class="chip">M4V</span><span class="chip">MOV</span><span class="chip">AVI</span><span class="chip">WebM</span><span class="chip">TS</span>
+      </div>
+      <div class="cards-3 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-monitor-play"></i></div>
+          <h3>거의 모든 것을 재생합니다.</h3>
+          <p>mpv 및 IINA의 엔진인 libmpv를 기반으로 구축되었습니다. 내장 또는 외부 오디오와 자막을 선택하세요. VideoToolbox는 하드웨어 디코딩을 처리합니다.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>시리즈 준비 완료</h3>
+          <p>Kinrox는 폴더에 동영상을 정렬하고 에피소드가 끝나면 다음 동영상을 시작합니다. Finder처럼 &#x27;10&#x27; 앞에 &#x27;2&#x27;가 표시됩니다.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-play"></i></div>
+          <h3>미디어 키가 작동합니다</h3>
+          <p>키보드 ⏯ 키, 제어 센터 및 Now Playing 제어 Kinrox. 시작 화면에는 최대 20개의 최근 파일이 표시됩니다.</p>
+        </article>
+      </div>
+      <div class="shortcuts" data-reveal>
+        <span><kbd>스페이스</kbd> 일시 정지</span>
+        <span><kbd>←</kbd><kbd>→</kbd> 5초</span>
+        <span><kbd>⇧</kbd><kbd>←</kbd><kbd>→</kbd> 30초</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> 음량</span>
+        <span><kbd>⌘</kbd><kbd>←</kbd><kbd>→</kbd> 이전/다음 파일</span>
+        <span><kbd>F</kbd> 전체 화면</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy" aria-labelledby="privacy-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">개인정보 보호</span>
+        <h2 class="display" id="privacy-title">거실에서 일어나는 일은 그대로 유지됩니다.</h2>
+        <p class="lead">Mac 및 iPhone는 로컬 네트워크를 통해 직접 재생 명령을 교환합니다. 귀하의 비디오는 Mac에 유지됩니다.</p>
+      </div>
+      <div class="cards-2">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>로컬 네트워크만</h3>
+          <p>Bonjour를 통한 검색, 자체 서브넷에서만 연결. 공개 주소 및 휴대전화는 거부됩니다.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-lock"></i></div>
+          <h3>암호화 및 페어링됨</h3>
+          <p>모든 명령은 암호화된 채널을 통해 이동됩니다. 페어링 토큰은 두 장치의 키체인에 있습니다.</p>
+          <div class="tech"><code>X25519</code><code>HKDF-SHA256</code><code>ChaCha20-Poly1305</code></div>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
+          <h3>계정 없음, 원격 측정 없음</h3>
+          <p>계정이나 사용량 분석이 없습니다. Mac는 고유 식별자나 시스템 프로파일링 없이 매일 공개 업데이트 피드를 확인합니다. 이 웹사이트에는 분석이나 쿠키가 없습니다.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
+          <h3>귀하의 파일은 Mac에 유지됩니다</h3>
+          <p>리모컨에는 제목과 재생 시간이 표시되며 파일 경로는 표시되지 않습니다. 최근 파일 열기는 Mac에서 해결됩니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="open-source" aria-labelledby="oss-title">
+    <div class="container">
+      <div class="oss" data-reveal>
+        <div>
+          <span class="overline">오픈 소스 · GPL‑3.0</span>
+          <h2 class="display" id="oss-title">무료 오픈 소스. 코드를 읽고 원하는 대로 수정하세요.</h2>
+          <p class="lead">Kinrox는 libmpv 위에 Swift 6 및 SwiftUI로 작성되었습니다. 플레이어, 리모컨 및 프로토콜의 모든 라인은 GitHub에 있습니다.</p>
+          <ul class="status">
+            <li><i class="ic ic-check"></i>Mac 플레이어 — 작동</li>
+            <li><i class="ic ic-check"></i>iPhone 원격 — 소스에서 빌드</li>
+            <li><i class="ic ic-check"></i>Mac v0.3.0 — 서명 및 공증된 DMG</li>
+            <li class="soon">App Store의 <i class="ic ic-history"></i>Remote — 계획됨</li>
+          </ul>
+          <div class="oss-actions">
+            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Mac용 다운로드</a>
+            <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">릴리스</a>
+          </div>
+        </div>
+        <div class="terminal" aria-label="소스에서 빌드">
+          <div class="terminal-bar"><img src="../assets/img/ui/traffic-lights.svg" alt="">소스에서 빌드</div>
+<pre><code><span class="c"># Xcode 26.5, XcodeGen and mpv from Homebrew</span>
+brew install xcodegen mpv pkg-config
+git clone https://github.com/awaik/Kinrox.git
+cd Kinrox
+cp -n Config/Signing.local.xcconfig.example \
+  Config/Signing.local.xcconfig
+<span class="c"># Set your team: docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md</span>
+./Scripts/check-env.sh
+./Scripts/generate.sh
+
+xcodebuild -workspace Kinrox.xcworkspace \
+  -scheme PlayerMac -configuration Debug \
+  -destination 'platform=macOS,arch=arm64' \
+  -derivedDataPath DerivedData build
+open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">FAQ</span>
+        <h2 class="display" id="faq-title">질문</h2>
+      </div>
+      <div class="faq" data-reveal>
+        <details><summary>인터넷이 필요합니까?</summary><p>Mac 및 iPhone가 Wi-Fi 네트워크를 공유하는 경우 인터넷 연결 없이 재생 및 원격 제어가 작동합니다. Mac는 일일 업데이트 확인을 위해 HTTPS를 사용하고, 설치를 선택하면 업데이트를 다운로드합니다.</p></details>
+        <details><summary>프로젝터가 아닌 TV에서 작동합니까?</summary><p>그렇습니다. Kinrox는 ​​프로젝터, HDMI를 통한 TV, AirPlay에 연결된 디스플레이 등 Mac가 표시하는 모든 장치에서 재생됩니다.</p></details>
+        <details><summary>어떤 Macs 및 iPhones가 지원됩니까?</summary><p>macOS 14 Sonoma 이상에 Apple silicon가 있는 Macs, iOS 17 이상에 iPhones가 있습니다. Intel Macs는 아직 지원되지 않습니다.</p></details>
+        <details><summary>두 대 이상의 iPhone가 동일한 Mac를 제어할 수 있습니까?</summary><p>그렇습니다. 각 iPhone는 자체 코드와 한 번 페어링됩니다. 동시에 최대 4개의 리모컨을 연결할 수 있습니다. 플레이어 설정에서 이를 취소할 수 있습니다.</p></details>
+        <details><summary>오디오 및 자막 트랙을 선택할 수 있나요?</summary><p>그렇습니다. Mac에서는 오디오 및 자막 버튼이나 오디오 및 자막 메뉴를 사용하세요. 포함된 트랙을 선택하고, 중첩된 폴더에서 외부 파일을 찾거나, 자막을 끄세요. Kinrox는 다음 에피소드에 대한 선택을 기억할 수 있습니다.</p></details>
+        <details><summary>비용은 얼마입니까?</summary><p>아무것도. Kinrox는 GNU GPL v3에 따라 무료이며 오픈 소스입니다.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section final" aria-labelledby="final-title">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container" data-reveal>
+      <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
+      <h2 class="display" id="final-title">누워. <span class="fire-text">재생을 누르세요.</span></h2>
+      <p class="lead">Mac 및 iPhone용 Kinrox. 무료, 오픈 소스, 영화 감상용으로 제작되었습니다.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Mac용 다운로드</a>
+        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">문제 신고</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
+    <span>GPL‑3.0 아래의 무료 소프트웨어. Apple와 관련이 없습니다.</span>
+    <nav class="footer-links" aria-label="바닥글">
+      <a href="privacy/">개인정보 보호</a>
+      <a href="support/">지원</a>
+      <a href="https://github.com/awaik/Kinrox">소스 코드</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">라이센스</a>
+      <a href="https://github.com/awaik/Kinrox/issues">문제</a>
+      <a href="#languages">한국어</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

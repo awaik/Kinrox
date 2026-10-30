@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="de" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kinrox – Mac-Videoplayer mit einer iPhone-Fernbedienung</title>
+  <meta name="description" content="Kinrox ist ein kostenloser Open-Source-Videoplayer für Mac mit einer iPhone-Fernbedienung. Das MacBook steht am Beamer, du liegst auf dem Sofa: Pause, Spulen und Lautstärke, ohne aufzustehen.">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="https://kinrox.app/de/">
+  <link rel="alternate" hreflang="en" href="https://kinrox.app/">
+  <link rel="alternate" hreflang="ru" href="https://kinrox.app/ru/">
+  <link rel="alternate" hreflang="es" href="https://kinrox.app/es/">
+  <link rel="alternate" hreflang="fr" href="https://kinrox.app/fr/">
+  <link rel="alternate" hreflang="de" href="https://kinrox.app/de/">
+  <link rel="alternate" hreflang="pt" href="https://kinrox.app/pt/">
+  <link rel="alternate" hreflang="it" href="https://kinrox.app/it/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://kinrox.app/zh-Hans/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://kinrox.app/zh-Hant/">
+  <link rel="alternate" hreflang="ja" href="https://kinrox.app/ja/">
+  <link rel="alternate" hreflang="ko" href="https://kinrox.app/ko/">
+  <link rel="alternate" hreflang="ar" href="https://kinrox.app/ar/">
+  <link rel="alternate" hreflang="hi" href="https://kinrox.app/hi/">
+  <link rel="alternate" hreflang="bn" href="https://kinrox.app/bn/">
+  <link rel="alternate" hreflang="ur" href="https://kinrox.app/ur/">
+  <link rel="alternate" hreflang="id" href="https://kinrox.app/id/">
+  <link rel="alternate" hreflang="ms" href="https://kinrox.app/ms/">
+  <link rel="alternate" hreflang="vi" href="https://kinrox.app/vi/">
+  <link rel="alternate" hreflang="th" href="https://kinrox.app/th/">
+  <link rel="alternate" hreflang="tr" href="https://kinrox.app/tr/">
+  <link rel="alternate" hreflang="fa" href="https://kinrox.app/fa/">
+  <link rel="alternate" hreflang="pl" href="https://kinrox.app/pl/">
+  <link rel="alternate" hreflang="uk" href="https://kinrox.app/uk/">
+  <link rel="alternate" hreflang="nl" href="https://kinrox.app/nl/">
+  <link rel="alternate" hreflang="ro" href="https://kinrox.app/ro/">
+  <link rel="alternate" hreflang="el" href="https://kinrox.app/el/">
+  <link rel="alternate" hreflang="cs" href="https://kinrox.app/cs/">
+  <link rel="alternate" hreflang="sv" href="https://kinrox.app/sv/">
+  <link rel="alternate" hreflang="hu" href="https://kinrox.app/hu/">
+  <link rel="alternate" hreflang="he" href="https://kinrox.app/he/">
+  <link rel="alternate" hreflang="x-default" href="https://kinrox.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kinrox">
+  <meta property="og:title" content="Kinrox – Hören Sie auf aufzustehen, um den Film anzuhalten">
+  <meta property="og:description" content="Ein minimalistischer Mac-Videoplayer mit einer echten iPhone-Fernbedienung. Kostenlos und Open Source.">
+  <meta property="og:url" content="https://kinrox.app/de/">
+  <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/mockups.css">
+  <link rel="stylesheet" href="../assets/css/hero.css">
+  <link rel="stylesheet" href="../assets/css/sections.css">
+  <link rel="stylesheet" href="../assets/css/localization.css">
+  <script src="../assets/js/main.js" defer></script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/de/", "inLanguage": "de", "description": "Ein minimalistischer Mac-Videoplayer mit einer echten iPhone-Fernbedienung. Kostenlos und Open Source."}
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="./" aria-label="Kinrox Startseite"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34">Kinrox</a>
+    <nav class="nav-links" aria-label="Abschnitte">
+      <a href="#remote">Fernbedienung</a>
+      <a href="#how">Kopplung</a>
+      <a href="#player">Player</a>
+      <a href="#privacy">Privatsphäre</a>
+      <a href="#open-source">Open Source</a>
+    </nav>
+    <div class="nav-actions">
+      <details class="language-menu" id="languages">
+  <summary aria-label="Sprache: Deutsch"><span aria-hidden="true">◎</span> <bdi>Deutsch</bdi></summary>
+  <nav class="language-options" aria-label="Sprache">
+    <a href="../" lang="en" hreflang="en" dir="ltr" data-language="en">English</a>
+    <a href="../ru/" lang="ru" hreflang="ru" dir="ltr" data-language="ru">Русский</a>
+    <a href="../es/" lang="es" hreflang="es" dir="ltr" data-language="es">Español</a>
+    <a href="../fr/" lang="fr" hreflang="fr" dir="ltr" data-language="fr">Français</a>
+    <a href="./" lang="de" hreflang="de" dir="ltr" data-language="de" aria-current="true">Deutsch</a>
+    <a href="../pt/" lang="pt" hreflang="pt" dir="ltr" data-language="pt">Português</a>
+    <a href="../it/" lang="it" hreflang="it" dir="ltr" data-language="it">Italiano</a>
+    <a href="../zh-Hans/" lang="zh-Hans" hreflang="zh-Hans" dir="ltr" data-language="zh-Hans">简体中文</a>
+    <a href="../zh-Hant/" lang="zh-Hant" hreflang="zh-Hant" dir="ltr" data-language="zh-Hant">繁體中文</a>
+    <a href="../ja/" lang="ja" hreflang="ja" dir="ltr" data-language="ja">日本語</a>
+    <a href="../ko/" lang="ko" hreflang="ko" dir="ltr" data-language="ko">한국어</a>
+    <a href="../ar/" lang="ar" hreflang="ar" dir="rtl" data-language="ar">العربية</a>
+    <a href="../hi/" lang="hi" hreflang="hi" dir="ltr" data-language="hi">हिन्दी</a>
+    <a href="../bn/" lang="bn" hreflang="bn" dir="ltr" data-language="bn">বাংলা</a>
+    <a href="../ur/" lang="ur" hreflang="ur" dir="rtl" data-language="ur">اردو</a>
+    <a href="../id/" lang="id" hreflang="id" dir="ltr" data-language="id">Bahasa Indonesia</a>
+    <a href="../ms/" lang="ms" hreflang="ms" dir="ltr" data-language="ms">Bahasa Melayu</a>
+    <a href="../vi/" lang="vi" hreflang="vi" dir="ltr" data-language="vi">Tiếng Việt</a>
+    <a href="../th/" lang="th" hreflang="th" dir="ltr" data-language="th">ไทย</a>
+    <a href="../tr/" lang="tr" hreflang="tr" dir="ltr" data-language="tr">Türkçe</a>
+    <a href="../fa/" lang="fa" hreflang="fa" dir="rtl" data-language="fa">فارسی</a>
+    <a href="../pl/" lang="pl" hreflang="pl" dir="ltr" data-language="pl">Polski</a>
+    <a href="../uk/" lang="uk" hreflang="uk" dir="ltr" data-language="uk">Українська</a>
+    <a href="../nl/" lang="nl" hreflang="nl" dir="ltr" data-language="nl">Nederlands</a>
+    <a href="../ro/" lang="ro" hreflang="ro" dir="ltr" data-language="ro">Română</a>
+    <a href="../el/" lang="el" hreflang="el" dir="ltr" data-language="el">Ελληνικά</a>
+    <a href="../cs/" lang="cs" hreflang="cs" dir="ltr" data-language="cs">Čeština</a>
+    <a href="../sv/" lang="sv" hreflang="sv" dir="ltr" data-language="sv">Svenska</a>
+    <a href="../hu/" lang="hu" hreflang="hu" dir="ltr" data-language="hu">Magyar</a>
+    <a href="../he/" lang="he" hreflang="he" dir="rtl" data-language="he">עברית</a>
+  </nav>
+</details>
+      <a class="btn btn-glass" href="https://github.com/awaik/Kinrox">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <span class="chip"><i class="dot ember"></i>Kostenlos und Open Source · Mac + iPhone</span>
+      <h1 class="display">Bleib sitzen. <span class="fire-text">Pausiere den Film.</span></h1>
+      <p class="lead">Kinrox spielt Videos auf deinem Mac ab und macht dein iPhone zur Fernbedienung. Das MacBook steht am Beamer, du liegst auf dem Sofa: pausieren, zehn Sekunden zurückspringen, leiser stellen oder die nächste Folge starten, ohne die Decke zu verlassen.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Herunterladen für Mac</a>
+        <a class="btn btn-glass" href="#how">Sehen Sie, wie es funktioniert</a>
+      </div>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Keine Konten</span><span>Keine Cloud</span><span>Funktioniert über Ihr WLAN</span></p>
+
+      <div class="stage">
+        <div class="stage-scene">
+          <img src="../assets/img/scene.svg" alt="Eine Person liegt auf einer Couch unter einer Decke und hält einen iPhone. Dahinter spielen ein MacBook und ein Projektor einen Film an die Wand." width="1200" height="600">
+        </div>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-pause"></i>Pause</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-rotate-back"></i>−10 s</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-volume-high"></i>Lautstärke 70%</span>
+        <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/de/remote.webp" alt="Kinrox Remote auf iPhone: Ember Dusk.mkv auf 0:42:18 mit Play-, Skip- und Lautstärkereglern." width="780" height="1696"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pain" aria-labelledby="pain-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">Kommt Ihnen das bekannt vor?</span>
+        <h2 class="display" id="pain-title">Ein Filmabend sollte keinen Ausflug an die Tastatur erfordern.</h2>
+      </div>
+      <div class="cards-3">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-laptop"></i></div>
+          <h3>Der Mac steht auf der anderen Seite des Raumes</h3>
+          <p>Es wird an der Wand an den Projektor angeschlossen. Jede Pause bedeutet, aufzustehen, im Dunkeln das Trackpad zu suchen und auf eine winzige Steuerleiste zu blinzeln.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: Tippen Sie auf dem Telefon in Ihrer Hand auf „Pause“.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-volume-high"></i></div>
+          <h3>Die Lautstärke ist immer falsch</h3>
+          <p>Flüstern in einer Szene, Explosionen in der nächsten – und im Nebenzimmer schläft bereits jemand.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: ein Lautstärkeregler direkt unter Ihrem Daumen.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>„Remote“-Apps sind eine lästige Pflicht</h3>
+          <p>Weboberflächen mit IP-Adressen und Passwörtern, ein Browser-Tab, der einschläft, und Schaltflächen, die für den Schreibtisch statt für das Sofa gemacht sind.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox findet deinen Mac automatisch. Ein Code genügt zum Koppeln.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="remote" aria-labelledby="remote-title">
+    <div class="container split">
+      <div class="phones" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="iphone back"><div class="iphone-body"><img src="../assets/img/remote/de/recents.webp" alt="Blatt „Aktuelle Dateien“ auf der iPhone-Fernbedienung." width="780" height="1696" loading="lazy"></div></div>
+        <div class="iphone front"><div class="iphone-body"><img src="../assets/img/remote/de/remote.webp" alt="Kinrox Remote-Wiedergabebildschirm." width="780" height="1696" loading="lazy"></div></div>
+      </div>
+      <div>
+        <div class="section-head" data-reveal>
+          <span class="overline">iPhone-Fernbedienung</span>
+          <h2 class="display" id="remote-title">Eine Fernbedienung für einen dunklen Raum.</h2>
+          <p class="lead">Große Bedienelemente, ein dunkles Design in warmen Farben und ein leichtes haptisches Feedback bei jedem Tippen. So kannst du den Film im Blick behalten.</p>
+        </div>
+        <div class="features" data-reveal>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-pause"></i></div><h3>Ein riesiger Play-Button</h3><p>Jede Schaltfläche ist groß genug, um sie auch im Halbschlaf zu treffen.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-rotate-back"></i></div><h3>Sprung ±10 s und ±30 s</h3><p>Eine Zeile verpasst? Ein Fingertipp zurück. Überspringen Sie das Intro mit zwei.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-volume-high"></i></div><h3>Lautstärke in deiner Hand</h3><p>Die eigene Lautstärke des Kinrox, von 0 bis 100. Die Systemlautstärke des Mac bleibt unberührt.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-next"></i></div><h3>Nächste Folge</h3><p>Vorherige und nächste Datei aus demselben Ordner, in der Reihenfolge Finder.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-history"></i></div><h3>Zuletzt geöffnete Dateien</h3><p>Wählen Sie etwas aus, das Sie zuvor gesehen haben – es wird auf dem Mac geöffnet.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-fullscreen"></i></div><h3>Spulen und Vollbild</h3><p>Ziehen Sie die Zeitleiste auf einen beliebigen Zeitpunkt und wechseln Sie vom Sofa aus in den Vollbildmodus.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">Kopplung</span>
+        <h2 class="display" id="how-title">In zehn Sekunden verbunden. Einmal.</h2>
+        <p class="lead">Keine IP-Adressen, keine Passwörter, kein Konto. Nach dem ersten Code verbindet sich Ihr iPhone von selbst wieder.</p>
+      </div>
+      <div class="split">
+        <ol class="steps" data-reveal>
+          <li><div><h3>Öffnen Sie ein Video auf Ihrem Mac</h3><p>Ziehen Sie eine Datei in Kinrox oder drücken Sie <kbd>⌘</kbd> <kbd>O</kbd>. Der Remote-Server ist standardmäßig aktiviert.</p></div></li>
+          <li><div><h3>Wählen Sie Ihren Mac auf dem iPhone</h3><p>Kinrox wird von selbst angezeigt, wenn beide Geräte mit demselben WLAN verbunden sind.</p><img src="../assets/img/remote/de/players-list.webp" alt="Liste der im Netzwerk gefundenen Macs: MacBook Pro, Mac mini, iMac Studio." width="780" height="556" loading="lazy"></div></li>
+          <li><div><h3>Geben Sie den 6-stelligen Code ein</h3><p>Der Mac zeigt einen Code an, der zwei Minuten lang aktiv ist. Drei falsche Versuche und es ist weg.</p></div></li>
+        </ol>
+        <div class="pair-visual" data-reveal>
+          <div class="glow" aria-hidden="true"></div>
+          <div class="mac-wrap">
+            <div class="mac" role="img" aria-label="Kinrox auf Mac mit dem Pairing-Code 482 913.">
+              <img class="mac-video" src="../assets/img/stills/blue-hour.svg" alt="">
+              <div class="mac-dim"></div>
+              <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+              <div class="mac-pair">
+                <div class="badge"><i class="ic ic-shield-check"></i></div>
+                <h4>Fernbedienung verbinden</h4>
+                <p>Alex’s iPhone möchte Kinrox steuern. Gib diesen Code am Telefon ein.</p>
+                <div class="mac-pin"><span>4</span><span>8</span><span>2</span><span>9</span><span>1</span><span>3</span></div>
+                <div class="mac-timer"><img src="../assets/img/ui/countdown.svg" alt="">Code läuft in 1:47 ab</div>
+                <div class="decline">Ablehnen</div>
+              </div>
+            </div>
+          </div>
+          <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/de/pairing.webp" alt="Code-Eingabebildschirm auf der iPhone-Fernbedienung." width="780" height="1696" loading="lazy"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="player" aria-labelledby="player-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">Mac-Player</span>
+        <h2 class="display" id="player-title">Ein Player, der sich zurücknimmt.</h2>
+        <p class="lead">Das Video ist die Schnittstelle. Eine dünne Glasschicht erscheint bei Bedarf und verschwindet nach drei Sekunden.</p>
+      </div>
+      <div class="player-shot" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="mac-wrap">
+          <div class="mac" role="img" aria-label="Kinrox-Playerfenster, das Ember Dusk.mkv mit der Glassteuerleiste abspielt.">
+            <img class="mac-video" src="../assets/img/stills/ember-dusk.svg" alt="">
+            <div class="mac-scrim-top"></div>
+            <div class="mac-scrim-bottom"></div>
+            <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+            <div class="mac-title"><b>Ember Dusk.mkv</b><span>3 von 12 · Movies</span></div>
+            <div class="mac-chip"><i class="dot"></i>Gesteuert von Alex’s iPhone</div>
+            <div class="mac-hover">1:08:24</div>
+            <div class="mac-controls">
+              <div class="mac-scrub"><span>0:42:15</span><div class="mac-track"><i class="base"></i><i class="buf"></i><i class="prog"></i><i class="mark"></i><i class="knob"></i></div><span class="dim">−1:15:48</span></div>
+              <div class="mac-buttons">
+                <div class="grp vol"><span class="mac-ib"><i class="ic ic-volume-high"></i></span><span class="mac-vslider"></span></div>
+                <div class="grp transport"><span class="mac-ib"><i class="ic ic-previous"></i></span><span class="mac-pp"><i class="ic ic-pause"></i></span><span class="mac-ib"><i class="ic ic-next"></i></span></div>
+                <div class="grp actions"><span class="mac-ib"><i class="ic ic-playlist"></i></span><span class="mac-ib"><i class="ic ic-history"></i></span><span class="mac-ib"><i class="ic ic-fullscreen"></i></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formats" data-reveal>
+        <span class="chip">MKV</span><span class="chip">MP4</span><span class="chip">M4V</span><span class="chip">MOV</span><span class="chip">AVI</span><span class="chip">WebM</span><span class="chip">TS</span>
+      </div>
+      <div class="cards-3 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-monitor-play"></i></div>
+          <h3>Spielt fast alles</h3>
+          <p>Gebaut auf libmpv, dem Motor hinter mpv und IINA. Wählen Sie eingebettetes oder externes Audio und Untertitel. VideoToolbox übernimmt die Hardware-Dekodierung.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Bereit für eine Serie</h3>
+          <p>Kinrox ordnet die Videos im Ordner an und startet das nächste, wenn eine Episode endet – „2“ vor „10“, wie Finder.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-play"></i></div>
+          <h3>Medientasten funktionieren einfach</h3>
+          <p>Die Medientasten der Tastatur, das Kontrollzentrum und „Jetzt läuft“ steuern Kinrox. Auf dem Startbildschirm findest du bis zu 20 zuletzt geöffnete Dateien.</p>
+        </article>
+      </div>
+      <div class="shortcuts" data-reveal>
+        <span><kbd>Leertaste</kbd> Pause</span>
+        <span><kbd>←</kbd><kbd>→</kbd> 5 s</span>
+        <span><kbd>⇧</kbd><kbd>←</kbd><kbd>→</kbd> 30 s</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> Lautstärke</span>
+        <span><kbd>⌘</kbd><kbd>←</kbd><kbd>→</kbd> vorherige/nächste Datei</span>
+        <span><kbd>F</kbd> Vollbild</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy" aria-labelledby="privacy-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">Privatsphäre</span>
+        <h2 class="display" id="privacy-title">Was in Ihrem Wohnzimmer passiert, bleibt dort.</h2>
+        <p class="lead">Ihr Mac und iPhone tauschen Wiedergabebefehle direkt über Ihr lokales Netzwerk aus. Ihre Videos bleiben auf dem Mac.</p>
+      </div>
+      <div class="cards-2">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>Nur lokales Netzwerk</h3>
+          <p>Erkennung über Bonjour, Verbindungen nur aus Ihrem eigenen Subnetz. Öffentliche Adressen und Mobilfunkadressen werden abgelehnt.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-lock"></i></div>
+          <h3>Verschlüsselt und gekoppelt</h3>
+          <p>Jeder Befehl wird in einem verschlüsselten Kanal übertragen. Pairing-Tokens befinden sich auf beiden Geräten im Schlüsselbund.</p>
+          <div class="tech"><code>X25519</code><code>HKDF-SHA256</code><code>ChaCha20-Poly1305</code></div>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
+          <h3>Keine Konten, keine Telemetrie</h3>
+          <p>Keine Konten oder Nutzungsanalysen. Der Mac überprüft täglich einen öffentlichen Update-Feed ohne eindeutige Kennungen oder Systemprofilierung. Diese Website verfügt über keine Analysen oder Cookies.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
+          <h3>Ihre Dateien bleiben auf dem Mac</h3>
+          <p>Die Fernbedienung erhält Titel und Dauer, aber keine Dateipfade. Zuletzt geöffnete Dateien werden direkt auf dem Mac aufgerufen.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="open-source" aria-labelledby="oss-title">
+    <div class="container">
+      <div class="oss" data-reveal>
+        <div>
+          <span class="overline">Open Source · GPL‑3.0</span>
+          <h2 class="display" id="oss-title">Kostenlos und quelloffen. Du kannst den Code lesen und verändern.</h2>
+          <p class="lead">Kinrox ist in Swift 6 und SwiftUI auf libmpv geschrieben. Jede Zeile des Players, der Fernbedienung und des Protokolls ist auf GitHub.</p>
+          <ul class="status">
+            <li><i class="ic ic-check"></i>Mac-Player – funktioniert</li>
+            <li><i class="ic ic-check"></i>iPhone Remote – Build aus dem Quellcode</li>
+            <li><i class="ic ic-check"></i>Mac v0.3.0 — signiertes, von Apple notarisiertes DMG</li>
+            <li class="soon"><i class="ic ic-history"></i>Remote auf dem App Store – geplant</li>
+          </ul>
+          <div class="oss-actions">
+            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Herunterladen für Mac</a>
+            <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Veröffentlichungen</a>
+          </div>
+        </div>
+        <div class="terminal" aria-label="Aus dem Quellcode erstellen">
+          <div class="terminal-bar"><img src="../assets/img/ui/traffic-lights.svg" alt="">Build aus dem Quellcode</div>
+<pre><code><span class="c"># Xcode 26.5, XcodeGen and mpv from Homebrew</span>
+brew install xcodegen mpv pkg-config
+git clone https://github.com/awaik/Kinrox.git
+cd Kinrox
+cp -n Config/Signing.local.xcconfig.example \
+  Config/Signing.local.xcconfig
+<span class="c"># Set your team: docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md</span>
+./Scripts/check-env.sh
+./Scripts/generate.sh
+
+xcodebuild -workspace Kinrox.xcworkspace \
+  -scheme PlayerMac -configuration Debug \
+  -destination 'platform=macOS,arch=arm64' \
+  -derivedDataPath DerivedData build
+open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">FAQ</span>
+        <h2 class="display" id="faq-title">Fragen</h2>
+      </div>
+      <div class="faq" data-reveal>
+        <details><summary>Braucht es das Internet?</summary><p>Wiedergabe und Fernbedienung funktionieren ohne Internetzugang, wenn Mac und iPhone ein Wi-Fi-Netzwerk teilen. Der Mac verwendet HTTPS für tägliche Update-Prüfungen und lädt ein Update herunter, wenn Sie es installieren möchten.</p></details>
+        <details><summary>Funktioniert es mit einem Fernseher, nicht mit einem Projektor?</summary><p>Ja. Der Kinrox spielt auf allem ab, was Ihr Mac zeigt – einem Projektor, einem Fernseher über HDMI oder einem mit dem AirPlay verbundenen Display.</p></details>
+        <details><summary>Welche Macs und iPhones werden unterstützt?</summary><p>Macs mit Apple silicon auf macOS 14, Sonoma oder höher und iPhones auf iOS 17 oder höher. Intel Macs werden noch nicht unterstützt.</p></details>
+        <details><summary>Kann mehr als ein iPhone denselben Mac steuern?</summary><p>Ja. Jeder iPhone paart sich einmal mit seinem eigenen Code; Bis zu vier Fernbedienungen können gleichzeitig angeschlossen werden. Sie können jede davon in den Player-Einstellungen widerrufen.</p></details>
+        <details><summary>Kann ich Audio- und Untertitelspuren auswählen?</summary><p>Ja. Verwenden Sie beim Mac die Schaltfläche „Audio &amp; Untertitel“ oder die Menüs „Audio und Untertitel“. Wählen Sie eingebettete Titel, suchen Sie externe Dateien in verschachtelten Ordnern oder schalten Sie Untertitel aus. Kinrox kann sich Ihre Wahl für die nächste Folge merken.</p></details>
+        <details><summary>Wie viel kostet es?</summary><p>Nichts. Kinrox ist kostenlos und Open Source unter der Bezeichnung GNU GPL v3.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section final" aria-labelledby="final-title">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container" data-reveal>
+      <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
+      <h2 class="display" id="final-title">Leg dich hin. <span class="fire-text">Drücken Sie die Wiedergabetaste.</span></h2>
+      <p class="lead">Kinrox für Mac und iPhone. Kostenlos, Open Source und für Filmabende gemacht.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Herunterladen für Mac</a>
+        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Problem melden</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
+    <span>Kostenlose Software unter GPL‑3.0. Nicht mit Apple verbunden.</span>
+    <nav class="footer-links" aria-label="Fußzeile">
+      <a href="privacy/">Privatsphäre</a>
+      <a href="support/">Support</a>
+      <a href="https://github.com/awaik/Kinrox">Quellcode</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">Lizenz</a>
+      <a href="https://github.com/awaik/Kinrox/issues">Probleme</a>
+      <a href="#languages">Deutsch</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

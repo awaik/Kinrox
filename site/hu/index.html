@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="hu" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kinrox — Mac videolejátszó iPhone távirányítóval</title>
+  <meta name="description" content="A Kinrox ingyenes, nyílt forráskódú videólejátszó Macre, iPhone-távirányítóval. Szüneteltess, tekerj és állítsd a hangerőt anélkül, hogy felkelnél a kanapéról.">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="https://kinrox.app/hu/">
+  <link rel="alternate" hreflang="en" href="https://kinrox.app/">
+  <link rel="alternate" hreflang="ru" href="https://kinrox.app/ru/">
+  <link rel="alternate" hreflang="es" href="https://kinrox.app/es/">
+  <link rel="alternate" hreflang="fr" href="https://kinrox.app/fr/">
+  <link rel="alternate" hreflang="de" href="https://kinrox.app/de/">
+  <link rel="alternate" hreflang="pt" href="https://kinrox.app/pt/">
+  <link rel="alternate" hreflang="it" href="https://kinrox.app/it/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://kinrox.app/zh-Hans/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://kinrox.app/zh-Hant/">
+  <link rel="alternate" hreflang="ja" href="https://kinrox.app/ja/">
+  <link rel="alternate" hreflang="ko" href="https://kinrox.app/ko/">
+  <link rel="alternate" hreflang="ar" href="https://kinrox.app/ar/">
+  <link rel="alternate" hreflang="hi" href="https://kinrox.app/hi/">
+  <link rel="alternate" hreflang="bn" href="https://kinrox.app/bn/">
+  <link rel="alternate" hreflang="ur" href="https://kinrox.app/ur/">
+  <link rel="alternate" hreflang="id" href="https://kinrox.app/id/">
+  <link rel="alternate" hreflang="ms" href="https://kinrox.app/ms/">
+  <link rel="alternate" hreflang="vi" href="https://kinrox.app/vi/">
+  <link rel="alternate" hreflang="th" href="https://kinrox.app/th/">
+  <link rel="alternate" hreflang="tr" href="https://kinrox.app/tr/">
+  <link rel="alternate" hreflang="fa" href="https://kinrox.app/fa/">
+  <link rel="alternate" hreflang="pl" href="https://kinrox.app/pl/">
+  <link rel="alternate" hreflang="uk" href="https://kinrox.app/uk/">
+  <link rel="alternate" hreflang="nl" href="https://kinrox.app/nl/">
+  <link rel="alternate" hreflang="ro" href="https://kinrox.app/ro/">
+  <link rel="alternate" hreflang="el" href="https://kinrox.app/el/">
+  <link rel="alternate" hreflang="cs" href="https://kinrox.app/cs/">
+  <link rel="alternate" hreflang="sv" href="https://kinrox.app/sv/">
+  <link rel="alternate" hreflang="hu" href="https://kinrox.app/hu/">
+  <link rel="alternate" hreflang="he" href="https://kinrox.app/he/">
+  <link rel="alternate" hreflang="x-default" href="https://kinrox.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kinrox">
+  <meta property="og:title" content="Kinrox — ne keljen fel, hogy szüneteltesse a filmet">
+  <meta property="og:description" content="Minimalista Mac videolejátszó igazi iPhone távirányítóval. Ingyenes és nyílt forráskódú.">
+  <meta property="og:url" content="https://kinrox.app/hu/">
+  <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/mockups.css">
+  <link rel="stylesheet" href="../assets/css/hero.css">
+  <link rel="stylesheet" href="../assets/css/sections.css">
+  <link rel="stylesheet" href="../assets/css/localization.css">
+  <script src="../assets/js/main.js" defer></script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/hu/", "inLanguage": "hu", "description": "Minimalista Mac videolejátszó igazi iPhone távirányítóval. Ingyenes és nyílt forráskódú."}
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#main">Ugrás a tartalomhoz</a>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="./" aria-label="Kinrox otthon"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34">Kinrox</a>
+    <nav class="nav-links" aria-label="szakaszok">
+      <a href="#remote">Távirányító</a>
+      <a href="#how">Párosítás</a>
+      <a href="#player">Lejátszó</a>
+      <a href="#privacy">Adatvédelem</a>
+      <a href="#open-source">Nyílt forráskódú</a>
+    </nav>
+    <div class="nav-actions">
+      <details class="language-menu" id="languages">
+  <summary aria-label="Nyelv: Magyar"><span aria-hidden="true">◎</span> <bdi>Magyar</bdi></summary>
+  <nav class="language-options" aria-label="Nyelv">
+    <a href="../" lang="en" hreflang="en" dir="ltr" data-language="en">English</a>
+    <a href="../ru/" lang="ru" hreflang="ru" dir="ltr" data-language="ru">Русский</a>
+    <a href="../es/" lang="es" hreflang="es" dir="ltr" data-language="es">Español</a>
+    <a href="../fr/" lang="fr" hreflang="fr" dir="ltr" data-language="fr">Français</a>
+    <a href="../de/" lang="de" hreflang="de" dir="ltr" data-language="de">Deutsch</a>
+    <a href="../pt/" lang="pt" hreflang="pt" dir="ltr" data-language="pt">Português</a>
+    <a href="../it/" lang="it" hreflang="it" dir="ltr" data-language="it">Italiano</a>
+    <a href="../zh-Hans/" lang="zh-Hans" hreflang="zh-Hans" dir="ltr" data-language="zh-Hans">简体中文</a>
+    <a href="../zh-Hant/" lang="zh-Hant" hreflang="zh-Hant" dir="ltr" data-language="zh-Hant">繁體中文</a>
+    <a href="../ja/" lang="ja" hreflang="ja" dir="ltr" data-language="ja">日本語</a>
+    <a href="../ko/" lang="ko" hreflang="ko" dir="ltr" data-language="ko">한국어</a>
+    <a href="../ar/" lang="ar" hreflang="ar" dir="rtl" data-language="ar">العربية</a>
+    <a href="../hi/" lang="hi" hreflang="hi" dir="ltr" data-language="hi">हिन्दी</a>
+    <a href="../bn/" lang="bn" hreflang="bn" dir="ltr" data-language="bn">বাংলা</a>
+    <a href="../ur/" lang="ur" hreflang="ur" dir="rtl" data-language="ur">اردو</a>
+    <a href="../id/" lang="id" hreflang="id" dir="ltr" data-language="id">Bahasa Indonesia</a>
+    <a href="../ms/" lang="ms" hreflang="ms" dir="ltr" data-language="ms">Bahasa Melayu</a>
+    <a href="../vi/" lang="vi" hreflang="vi" dir="ltr" data-language="vi">Tiếng Việt</a>
+    <a href="../th/" lang="th" hreflang="th" dir="ltr" data-language="th">ไทย</a>
+    <a href="../tr/" lang="tr" hreflang="tr" dir="ltr" data-language="tr">Türkçe</a>
+    <a href="../fa/" lang="fa" hreflang="fa" dir="rtl" data-language="fa">فارسی</a>
+    <a href="../pl/" lang="pl" hreflang="pl" dir="ltr" data-language="pl">Polski</a>
+    <a href="../uk/" lang="uk" hreflang="uk" dir="ltr" data-language="uk">Українська</a>
+    <a href="../nl/" lang="nl" hreflang="nl" dir="ltr" data-language="nl">Nederlands</a>
+    <a href="../ro/" lang="ro" hreflang="ro" dir="ltr" data-language="ro">Română</a>
+    <a href="../el/" lang="el" hreflang="el" dir="ltr" data-language="el">Ελληνικά</a>
+    <a href="../cs/" lang="cs" hreflang="cs" dir="ltr" data-language="cs">Čeština</a>
+    <a href="../sv/" lang="sv" hreflang="sv" dir="ltr" data-language="sv">Svenska</a>
+    <a href="./" lang="hu" hreflang="hu" dir="ltr" data-language="hu" aria-current="true">Magyar</a>
+    <a href="../he/" lang="he" hreflang="he" dir="rtl" data-language="he">עברית</a>
+  </nav>
+</details>
+      <a class="btn btn-glass" href="https://github.com/awaik/Kinrox">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <span class="chip"><i class="dot ember"></i> Ingyenes és nyílt forráskódú · Mac + iPhone</span>
+      <h1 class="display">Ne kelj fel, hogy <span class="fire-text">szüneteltesd a filmet.</span></h1>
+      <p class="lead">A Kinrox bármilyen videót lejátsz a Mac készüléken – és a iPhone készüléket a távirányítójává változtatja. MacBook a kivetítőn, te a kanapén: szünet, ugorj vissza 10 másodpercet, halkítsd le a hangerőt vagy indítsd el a következő epizódot anélkül, hogy elhagynád a takarót.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Letöltés a Mac készülékhez</a>
+        <a class="btn btn-glass" href="#how">Nézze meg, hogyan működik</a>
+      </div>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Nincsenek fiókok</span><span>Felhő nélkül</span><span>Wi-Fi-n keresztül működik</span></p>
+
+      <div class="stage">
+        <div class="stage-scene">
+          <img src="../assets/img/scene.svg" alt="Egy személy fekszik a kanapén egy takaró alatt, és egy iPhone-t tart. Mögöttük egy MacBook és egy projektor játszik le egy filmet a falon." width="1200" height="600">
+        </div>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-pause"></i>Szünet</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-rotate-back"></i>−10 s</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-volume-high"></i>Hangerő 70%</span>
+        <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/hu/remote.webp" alt="Kinrox Remote a iPhone modellen: Ember Dusk.mkv és 0:42:18 lejátszási, kihagyási és hangerőszabályzókkal." width="780" height="1696"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pain" aria-labelledby="pain-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">Ismerősen hangzik?</span>
+        <h2 class="display" id="pain-title">A mozi estén nem kell elmenni a billentyűzethez.</h2>
+      </div>
+      <div class="cards-3">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-laptop"></i></div>
+          <h3>A Mac a szoba túloldalán található</h3>
+          <p>A fal mellett van bedugva a projektorba. Minden szünet azt jelenti, hogy fel kell állni, meg kell találni a trackpadot a sötétben, és hunyorogva nézni kell egy apró vezérlősávot.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: érintse meg a szünetet a kezében lévő telefonon.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-volume-high"></i></div>
+          <h3>A hangerő mindig rossz</h3>
+          <p>Az egyik jelenetben suttogás, a másikban robbanások – és valaki már alszik a szomszéd szobában.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: hangerő-csúszka közvetlenül a hüvelykujja alatt.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>A „távoli” alkalmazások munkaigényesek</h3>
+          <p>Webpanelek IP-címekkel és jelszavakkal, böngészőlap, amely elalszik, íróasztalhoz készült gombok – nem kanapéhoz.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: önmagában megkeresi a Mac készüléket, egyetlen kóddal párosítva.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="remote" aria-labelledby="remote-title">
+    <div class="container split">
+      <div class="phones" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="iphone back"><div class="iphone-body"><img src="../assets/img/remote/hu/recents.webp" alt="Legutóbbi fájllap a iPhone távirányítón." width="780" height="1696" loading="lazy"></div></div>
+        <div class="iphone front"><div class="iphone-body"><img src="../assets/img/remote/hu/remote.webp" alt="Kinrox Remote lejátszási képernyő." width="780" height="1696" loading="lazy"></div></div>
+      </div>
+      <div>
+        <div class="section-head" data-reveal>
+          <span class="overline">iPhone távirányító</span>
+          <h2 class="display" id="remote-title">Sötét szobába készült távirányító.</h2>
+          <p class="lead">Nagy célpontok, sötét meleg téma és enyhe tapintás minden nyomás alatt. Használhatja anélkül, hogy lenézne a filmről.</p>
+        </div>
+        <div class="features" data-reveal>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-pause"></i></div><h3>Egy hatalmas lejátszási gomb</h3><p>Minden gomb elég nagy ahhoz, hogy félálomban is eltaláld.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-rotate-back"></i></div><h3>Ugrás ±10 s és ±30 s</h3><p>Kihagyott egy sort? Egy koppintás vissza. Hagyd ki a bevezetőt kettővel.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-volume-high"></i></div><h3>Hangerő a kezedben</h3><p>A Kinrox saját hangereje, 0 és 100 között. A Mac rendszerhangereje érintetlen marad.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-next"></i></div><h3>Következő epizód</h3><p>Előző és következő fájl ugyanabból a mappából, Finder sorrendben.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-history"></i></div><h3>Legutóbbi fájlok</h3><p>Válasszon valamit, amit korábban megnézett – ez megnyílik a Mac-n.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-fullscreen"></i></div><h3>Tekerés és teljes képernyő</h3><p>Húzza az idővonalat bármelyik pillanatra, váltson teljes képernyőre a kanapéról.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">Párosítás</span>
+        <h2 class="display" id="how-title">Tíz másodperc alatt csatlakozik. Egyszer.</h2>
+        <p class="lead">Nincsenek IP-címek, nincsenek jelszavak, nincs fiók. Az első kód után a iPhone magától újracsatlakozik.</p>
+      </div>
+      <div class="split">
+        <ol class="steps" data-reveal>
+          <li><div><h3>Nyisson meg egy videót a Mac készüléken</h3><p>Húzzon egy fájlt a Kinrox mappába, vagy nyomja meg a <kbd>⌘</kbd> <kbd>O</kbd> gombot. A távoli szerver alapértelmezés szerint be van kapcsolva.</p></div></li>
+          <li><div><h3>Válassza ki a Mac-t a iPhone-n</h3><p>A Kinrox önmagában jelenik meg, ha mindkét eszköz ugyanazon a Wi-Fi hálózaton van.</p><img src="../assets/img/remote/hu/players-list.webp" alt="A hálózaton talált Macs listája: MacBook Pro, Mac mini, iMac Studio." width="780" height="556" loading="lazy"></div></li>
+          <li><div><h3>Írja be a 6 számjegyű kódot</h3><p>A Mac egy kódot mutat, amely két percig él. Három rossz próbálkozás, és elment.</p></div></li>
+        </ol>
+        <div class="pair-visual" data-reveal>
+          <div class="glow" aria-hidden="true"></div>
+          <div class="mac-wrap">
+            <div class="mac" role="img" aria-label="Kinrox a Mac-n, amely a 482 913 párosítási kódot mutatja.">
+              <img class="mac-video" src="../assets/img/stills/blue-hour.svg" alt="">
+              <div class="mac-dim"></div>
+              <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+              <div class="mac-pair">
+                <div class="badge"><i class="ic ic-shield-check"></i></div>
+                <h4>Távirányító csatlakoztatása</h4>
+                <p>Alex’s iPhone vezérelni szeretné a Kinroxot. Írja be ezt a kódot a telefonon.</p>
+                <div class="mac-pin"><span>4</span><span>8</span><span>2</span><span>9</span><span>1</span><span>3</span></div>
+                <div class="mac-timer"><img src="../assets/img/ui/countdown.svg" alt="">A kód lejár: 1:47</div>
+                <div class="decline">Elutasítás</div>
+              </div>
+            </div>
+          </div>
+          <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/hu/pairing.webp" alt="Kódbeviteli képernyő a iPhone távvezérlőn." width="780" height="1696" loading="lazy"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="player" aria-labelledby="player-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">Mac-lejátszó</span>
+        <h2 class="display" id="player-title">Egy lejátszó, amely nem zavarja a filmezést.</h2>
+        <p class="lead">A videó a felület. Egy vékony üvegréteg jelenik meg, amikor szüksége van rá, és három másodperc múlva elrejti.</p>
+      </div>
+      <div class="player-shot" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="mac-wrap">
+          <div class="mac" role="img" aria-label="A Kinrox lejátszóablak a Ember Dusk.mkv játékot játszik le az üveg vezérlősávval.">
+            <img class="mac-video" src="../assets/img/stills/ember-dusk.svg" alt="">
+            <div class="mac-scrim-top"></div>
+            <div class="mac-scrim-bottom"></div>
+            <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+            <div class="mac-title"><b>Ember Dusk.mkv</b><span>3 / 12 · Movies</span></div>
+            <div class="mac-chip"><i class="dot"></i>Vezérli: Alex’s iPhone</div>
+            <div class="mac-hover">1:08:24</div>
+            <div class="mac-controls">
+              <div class="mac-scrub"><span>0:42:15</span><div class="mac-track"><i class="base"></i><i class="buf"></i><i class="prog"></i><i class="mark"></i><i class="knob"></i></div><span class="dim">−1:15:48</span></div>
+              <div class="mac-buttons">
+                <div class="grp vol"><span class="mac-ib"><i class="ic ic-volume-high"></i></span><span class="mac-vslider"></span></div>
+                <div class="grp transport"><span class="mac-ib"><i class="ic ic-previous"></i></span><span class="mac-pp"><i class="ic ic-pause"></i></span><span class="mac-ib"><i class="ic ic-next"></i></span></div>
+                <div class="grp actions"><span class="mac-ib"><i class="ic ic-playlist"></i></span><span class="mac-ib"><i class="ic ic-history"></i></span><span class="mac-ib"><i class="ic ic-fullscreen"></i></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formats" data-reveal>
+        <span class="chip">MKV</span><span class="chip">MP4</span><span class="chip">M4V</span><span class="chip">MOV</span><span class="chip">AVI</span><span class="chip">WebM</span><span class="chip">TS</span>
+      </div>
+      <div class="cards-3 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-monitor-play"></i></div>
+          <h3>Szinte bármit lejátszik</h3>
+          <p>A libmpv-re épült, a mpv és a IINA mögötti motor. Válasszon beágyazott vagy külső hangot és feliratokat. A VideoToolbox hardveres dekódolást kezel.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Készen áll a sorozatra</h3>
+          <p>A Kinrox sorba rendezi a videókat a mappában, és egy epizód végén elindítja a következőt – „2” a „10” előtt, például a Finder.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-play"></i></div>
+          <h3>A médiabillentyűk csak működnek</h3>
+          <p>Billentyűzet ⏯ gombok, Vezérlőközpont és Now Playing vezérlő Kinrox. Legfeljebb 20 legutóbbi fájl várakozik a kezdőképernyőn.</p>
+        </article>
+      </div>
+      <div class="shortcuts" data-reveal>
+        <span><kbd>Szóköz</kbd> szünet</span>
+        <span><kbd>←</kbd><kbd>→</kbd> 5 s</span>
+        <span><kbd>⇧</kbd><kbd>←</kbd><kbd>→</kbd> 30 s</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> Hangerő</span>
+        <span><kbd>⌘</kbd><kbd>←</kbd><kbd>→</kbd> előző / következő fájl</span>
+        <span><kbd>F</kbd> teljes képernyő</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy" aria-labelledby="privacy-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">Adatvédelem</span>
+        <h2 class="display" id="privacy-title">Ami a nappalidban történik, az ott is marad.</h2>
+        <p class="lead">A Mac és a iPhone közvetlenül a helyi hálózaton keresztül cserél lejátszási parancsokat. Videói a Mac készüléken maradnak.</p>
+      </div>
+      <div class="cards-2">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>Csak helyi hálózat</h3>
+          <p>Felfedezés a Bonjour-n keresztül, kapcsolatok csak a saját alhálózatáról. A nyilvános címek és a mobiltelefonok visszautasításra kerülnek.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-lock"></i></div>
+          <h3>Titkosítva és párosítva</h3>
+          <p>Minden parancs egy titkosított csatornán halad. A párosítási tokenek mindkét eszközön a kulcstartóban élnek.</p>
+          <div class="tech"><code>X25519</code><code>HKDF-SHA256</code><code>ChaCha20-Poly1305</code></div>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
+          <h3>Nincs számla, nincs telemetria</h3>
+          <p>Nincsenek fiókok vagy használati elemzések. A Mac naponta ellenőrzi a nyilvános frissítési hírfolyamot egyedi azonosítók vagy rendszerprofilok nélkül. Ez a weboldal nem tartalmaz elemzéseket vagy sütiket.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
+          <h3>A fájljai a Mac készüléken maradnak</h3>
+          <p>A távirányító a címeket és az időtartamokat látja, a fájl elérési útját soha. A legutóbbi fájl megnyitása a Mac készüléken megoldott.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="open-source" aria-labelledby="oss-title">
+    <div class="container">
+      <div class="oss" data-reveal>
+        <div>
+          <span class="overline">Nyílt forráskód · GPL‑3.0</span>
+          <h2 class="display" id="oss-title">Ingyenes és nyílt forráskódú. Olvasd és alakítsd a saját igényeidre.</h2>
+          <p class="lead">A Kinrox Swift 6 és SwiftUI nyelven íródott a libmpv tetejére. A lejátszó, a távirányító és a protokoll minden sora a GitHub-n van.</p>
+          <ul class="status">
+            <li><i class="ic ic-check"></i>Mac lejátszó — működik</li>
+            <li><i class="ic ic-check"></i>iPhone távirányító – forrásból építve</li>
+            <li><i class="ic ic-check"></i>Mac v0.3.0 – aláírt és közjegyző által hitelesített DMG</li>
+            <li class="soon"><i class="ic ic-history"></i>Távirányító a App Store-n – tervezett</li>
+          </ul>
+          <div class="oss-actions">
+            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Letöltés a Mac készülékhez</a>
+            <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Kiadások</a>
+          </div>
+        </div>
+        <div class="terminal" aria-label="Forrásból építeni">
+          <div class="terminal-bar"><img src="../assets/img/ui/traffic-lights.svg" alt="">Build a forrásból</div>
+<pre><code><span class="c"># Xcode 26.5, XcodeGen and mpv from Homebrew</span>
+brew install xcodegen mpv pkg-config
+git clone https://github.com/awaik/Kinrox.git
+cd Kinrox
+cp -n Config/Signing.local.xcconfig.example \
+  Config/Signing.local.xcconfig
+<span class="c"># Set your team: docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md</span>
+./Scripts/check-env.sh
+./Scripts/generate.sh
+
+xcodebuild -workspace Kinrox.xcworkspace \
+  -scheme PlayerMac -configuration Debug \
+  -destination 'platform=macOS,arch=arm64' \
+  -derivedDataPath DerivedData build
+open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">GYIK</span>
+        <h2 class="display" id="faq-title">Kérdések</h2>
+      </div>
+      <div class="faq" data-reveal>
+        <details><summary>Kell hozzá internet?</summary><p>A lejátszás és a távirányító internet-hozzáférés nélkül működik, ha a Mac és a iPhone megoszt egy Wi-Fi hálózatot. A Mac HTTPS-t használ a napi frissítés-ellenőrzésekhez, és letölti a frissítést, amikor úgy dönt, hogy telepíti.</p></details>
+        <details><summary>Tévével működik, kivetítővel nem?</summary><p>Igen. A Kinrox bármit lejátszik a Mac készülékén – kivetítőn, HDMI-n keresztüli TV-n vagy a AirPlay-hez csatlakoztatott kijelzőn.</p></details>
+        <details><summary>Melyik Macs és iPhones támogatott?</summary><p>Macs a Apple silicon-vel a macOS 14 Sonoma vagy újabb modelleken, valamint a iPhones a iOS 17 vagy újabb modelleken. Intel A Macs még nem támogatott.</p></details>
+        <details><summary>Egynél több iPhone vezérelheti ugyanazt a Mac-t?</summary><p>Igen. Minden iPhone egyszer párosodik a saját kódjával; akár négy távirányító is csatlakoztatható egyszerre. A lejátszó beállításaiban bármelyiket visszavonhatja.</p></details>
+        <details><summary>Választhatok hang- és feliratsávokat?</summary><p>Igen. A Mac készüléken használja a Hang és feliratok gombot vagy a Hang és Feliratok menüt. Válasszon beágyazott számokat, keressen külső fájlokat a beágyazott mappákban, vagy kapcsolja ki a feliratokat. A Kinrox emlékezni fog a választására a következő epizódban.</p></details>
+        <details><summary>Mennyibe kerül?</summary><p>Semmit. A Kinrox ingyenes és nyílt forráskódú a GNU GPL v3 alatt.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section final" aria-labelledby="final-title">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container" data-reveal>
+      <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
+      <h2 class="display" id="final-title">Feküdj le. <span class="fire-text">Nyomja meg a lejátszást.</span></h2>
+      <p class="lead">Kinrox Mac és iPhone számára. Ingyenes, nyílt forráskódú, és filmes estékre készült.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Letöltés a Mac készülékhez</a>
+        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Hiba jelentése</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
+    <span>Ingyenes szoftver GPL‑3.0 alatt. Nem áll kapcsolatban a Apple-vel.</span>
+    <nav class="footer-links" aria-label="Lábléc">
+      <a href="privacy/">Adatvédelem</a>
+      <a href="support/">Támogatás</a>
+      <a href="https://github.com/awaik/Kinrox">Forráskód</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">Licenc</a>
+      <a href="https://github.com/awaik/Kinrox/issues">problémák</a>
+      <a href="#languages">Magyar</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

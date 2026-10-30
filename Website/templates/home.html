@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="{{locale}}" dir="{{direction}}">
+{{head}}
+<body>
+<a class="skip-link" href="#main">{{t:skip-to-content}}</a>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="{{home}}" aria-label="{{a:kinrox-home}}"><img src="{{root}}assets/img/kinrox-icon.webp" alt="" width="34" height="34">Kinrox</a>
+    <nav class="nav-links" aria-label="{{a:sections}}">
+      <a href="#remote">{{t:remote}}</a>
+      <a href="#how">{{t:pairing}}</a>
+      <a href="#player">{{t:player}}</a>
+      <a href="#privacy">{{t:privacy}}</a>
+      <a href="#open-source">{{t:open-source}}</a>
+    </nav>
+    <div class="nav-actions">
+      {{languages}}
+      <a class="btn btn-glass" href="https://github.com/awaik/Kinrox">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <span class="chip">{{t:free-open-source-mac-iphone}}</span>
+      <h1 class="display">{{t:stop-getting-up-to-pause-the-movie}}</h1>
+      <p class="lead">{{t:kinrox-plays-any-video-on-your-mac-and-turns}}</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">{{t:download-for-mac}}</a>
+        <a class="btn btn-glass" href="#how">{{t:see-how-it-works}}</a>
+      </div>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>{{t:no-accounts}}</span><span>{{t:no-cloud}}</span><span>{{t:works-over-your-wi-fi}}</span></p>
+
+      <div class="stage">
+        <div class="stage-scene">
+          <img src="{{root}}assets/img/scene.svg" alt="{{a:a-person-lies-on-a-couch-under-a-blanket}}" width="1200" height="600">
+        </div>
+        <span class="stage-pill" aria-hidden="true">{{t:pause}}</span>
+        <span class="stage-pill" aria-hidden="true">{{t:10-s}}</span>
+        <span class="stage-pill" aria-hidden="true">{{t:volume-70}}</span>
+        <div class="iphone"><div class="iphone-body"><img src="{{root}}assets/img/remote/{{locale}}/remote.webp" alt="{{a:kinrox-remote-on-iphone-ember-dusk-mkv-at-0}}" width="780" height="1696"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pain" aria-labelledby="pain-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">{{t:sound-familiar}}</span>
+        <h2 class="display" id="pain-title">{{t:movie-night-shouldn-t-need-a-trip-to-the}}</h2>
+      </div>
+      <div class="cards-3">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-laptop"></i></div>
+          <h3>{{t:the-mac-is-across-the-room}}</h3>
+          <p>{{t:it-s-plugged-into-the-projector-by-the-wall}}</p>
+          <p class="fix">{{t:kinrox-tap-pause-on-the-phone-in-your-hand}}</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-volume-high"></i></div>
+          <h3>{{t:the-volume-is-always-wrong}}</h3>
+          <p>{{t:whispers-in-one-scene-explosions-in-the-next-and}}</p>
+          <p class="fix">{{t:kinrox-a-volume-slider-right-under-your-thumb}}</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>{{t:remote-apps-are-a-chore}}</h3>
+          <p>{{t:web-panels-with-ip-addresses-and-passwords-a-browser}}</p>
+          <p class="fix">{{t:kinrox-finds-your-mac-by-itself-pairs-with-one}}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="remote" aria-labelledby="remote-title">
+    <div class="container split">
+      <div class="phones" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="iphone back"><div class="iphone-body"><img src="{{root}}assets/img/remote/{{locale}}/recents.webp" alt="{{a:recent-files-sheet-on-the-iphone-remote}}" width="780" height="1696" loading="lazy"></div></div>
+        <div class="iphone front"><div class="iphone-body"><img src="{{root}}assets/img/remote/{{locale}}/remote.webp" alt="{{a:kinrox-remote-playback-screen}}" width="780" height="1696" loading="lazy"></div></div>
+      </div>
+      <div>
+        <div class="section-head" data-reveal>
+          <span class="overline">{{t:iphone-remote}}</span>
+          <h2 class="display" id="remote-title">{{t:a-remote-made-for-a-dark-room}}</h2>
+          <p class="lead">{{t:big-targets-a-dark-warm-theme-and-a-light}}</p>
+        </div>
+        <div class="features" data-reveal>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-pause"></i></div><h3>{{t:one-huge-play-button}}</h3><p>{{t:every-control-is-large-enough-to-hit-half-asleep}}</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-rotate-back"></i></div><h3>{{t:jump-10-s-and-30-s}}</h3><p>{{t:missed-a-line-one-tap-back-skip-the-intro}}</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-volume-high"></i></div><h3>{{t:volume-in-your-hand}}</h3><p>{{t:kinrox-s-own-volume-from-0-to-100-the}}</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-next"></i></div><h3>{{t:next-episode}}</h3><p>{{t:previous-and-next-file-from-the-same-folder-in}}</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-history"></i></div><h3>{{t:recent-files}}</h3><p>{{t:pick-something-you-watched-before-it-opens-on-the}}</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-fullscreen"></i></div><h3>{{t:scrub-and-fullscreen}}</h3><p>{{t:drag-the-timeline-to-any-moment-switch-fullscreen-from}}</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">{{t:pairing}}</span>
+        <h2 class="display" id="how-title">{{t:connected-in-ten-seconds-once}}</h2>
+        <p class="lead">{{t:no-ip-addresses-no-passwords-no-account-after-the}}</p>
+      </div>
+      <div class="split">
+        <ol class="steps" data-reveal>
+          <li><div><h3>{{t:open-a-video-on-your-mac}}</h3><p>{{t:drag-a-file-into-kinrox-or-press-o-the}}</p></div></li>
+          <li><div><h3>{{t:pick-your-mac-on-the-iphone}}</h3><p>{{t:kinrox-shows-up-on-its-own-when-both-devices}}</p><img src="{{root}}assets/img/remote/{{locale}}/players-list.webp" alt="{{a:list-of-macs-found-on-the-network-macbook-pro}}" width="780" height="556" loading="lazy"></div></li>
+          <li><div><h3>{{t:type-the-6-digit-code}}</h3><p>{{t:the-mac-shows-a-code-that-lives-for-two}}</p></div></li>
+        </ol>
+        <div class="pair-visual" data-reveal>
+          <div class="glow" aria-hidden="true"></div>
+          <div class="mac-wrap">
+            <div class="mac" role="img" aria-label="{{a:kinrox-on-mac-showing-the-pairing-code-482-913}}">
+              <img class="mac-video" src="{{root}}assets/img/stills/blue-hour.svg" alt="">
+              <div class="mac-dim"></div>
+              <img class="mac-lights" src="{{root}}assets/img/ui/traffic-lights.svg" alt="">
+              <div class="mac-pair">
+                <div class="badge"><i class="ic ic-shield-check"></i></div>
+                <h4>{{t:remote-connection}}</h4>
+                <p>{{t:alex-s-iphone-wants-to-control-kinrox-enter-this}}</p>
+                <div class="mac-pin"><span>4</span><span>8</span><span>2</span><span>9</span><span>1</span><span>3</span></div>
+                <div class="mac-timer">{{t:code-expires-in-1-47}}</div>
+                <div class="decline">{{t:reject}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="iphone"><div class="iphone-body"><img src="{{root}}assets/img/remote/{{locale}}/pairing.webp" alt="{{a:code-entry-screen-on-the-iphone-remote}}" width="780" height="1696" loading="lazy"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="player" aria-labelledby="player-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">{{t:mac-player}}</span>
+        <h2 class="display" id="player-title">{{t:a-player-that-gets-out-of-the-way}}</h2>
+        <p class="lead">{{t:the-video-is-the-interface-a-thin-layer-of}}</p>
+      </div>
+      <div class="player-shot" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="mac-wrap">
+          <div class="mac" role="img" aria-label="{{a:kinrox-player-window-playing-ember-dusk-mkv-with-the}}">
+            <img class="mac-video" src="{{root}}assets/img/stills/ember-dusk.svg" alt="">
+            <div class="mac-scrim-top"></div>
+            <div class="mac-scrim-bottom"></div>
+            <img class="mac-lights" src="{{root}}assets/img/ui/traffic-lights.svg" alt="">
+            <div class="mac-title"><b>Ember Dusk.mkv</b><span>{{t:3-of-12-movies}}</span></div>
+            <div class="mac-chip">{{t:controlled-by-alex-s-iphone}}</div>
+            <div class="mac-hover">1:08:24</div>
+            <div class="mac-controls">
+              <div class="mac-scrub"><span>0:42:15</span><div class="mac-track"><i class="base"></i><i class="buf"></i><i class="prog"></i><i class="mark"></i><i class="knob"></i></div><span class="dim">−1:15:48</span></div>
+              <div class="mac-buttons">
+                <div class="grp vol"><span class="mac-ib"><i class="ic ic-volume-high"></i></span><span class="mac-vslider"></span></div>
+                <div class="grp transport"><span class="mac-ib"><i class="ic ic-previous"></i></span><span class="mac-pp"><i class="ic ic-pause"></i></span><span class="mac-ib"><i class="ic ic-next"></i></span></div>
+                <div class="grp actions"><span class="mac-ib"><i class="ic ic-playlist"></i></span><span class="mac-ib"><i class="ic ic-history"></i></span><span class="mac-ib"><i class="ic ic-fullscreen"></i></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formats" data-reveal>
+        <span class="chip">MKV</span><span class="chip">MP4</span><span class="chip">M4V</span><span class="chip">MOV</span><span class="chip">AVI</span><span class="chip">WebM</span><span class="chip">TS</span>
+      </div>
+      <div class="cards-3 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-monitor-play"></i></div>
+          <h3>{{t:plays-almost-anything}}</h3>
+          <p>{{t:built-on-libmpv-the-engine-behind-mpv-and-iina}}</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>{{t:ready-for-a-series}}</h3>
+          <p>{{t:kinrox-lines-up-the-videos-in-the-folder-and}}</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-play"></i></div>
+          <h3>{{t:media-keys-just-work}}</h3>
+          <p>{{t:keyboard-keys-control-center-and-now-playing-control-kinrox}}</p>
+        </article>
+      </div>
+      <div class="shortcuts" data-reveal>
+        <span>{{t:space-pause}}</span>
+        <span>{{t:5-s}}</span>
+        <span>{{t:30-s}}</span>
+        <span>{{t:volume}}</span>
+        <span>{{t:previous-next-file}}</span>
+        <span>{{t:f-fullscreen}}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy" aria-labelledby="privacy-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">{{t:privacy}}</span>
+        <h2 class="display" id="privacy-title">{{t:what-happens-in-your-living-room-stays-there}}</h2>
+        <p class="lead">{{t:your-mac-and-iphone-exchange-playback-commands-directly-over}}</p>
+      </div>
+      <div class="cards-2">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>{{t:local-network-only}}</h3>
+          <p>{{t:discovery-over-bonjour-connections-only-from-your-own-subnet}}</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-lock"></i></div>
+          <h3>{{t:encrypted-and-paired}}</h3>
+          <p>{{t:every-command-travels-in-an-encrypted-channel-pairing-tokens}}</p>
+          <div class="tech"><code>X25519</code><code>HKDF-SHA256</code><code>ChaCha20-Poly1305</code></div>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
+          <h3>{{t:no-accounts-no-telemetry}}</h3>
+          <p>{{t:no-accounts-or-usage-analytics-the-mac-checks-a}}</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
+          <h3>{{t:your-files-stay-on-the-mac}}</h3>
+          <p>{{t:the-remote-sees-titles-and-durations-never-file-paths}}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="open-source" aria-labelledby="oss-title">
+    <div class="container">
+      <div class="oss" data-reveal>
+        <div>
+          <span class="overline">{{t:open-source-gpl-3-0}}</span>
+          <h2 class="display" id="oss-title">{{t:free-open-yours-to-read-and-change}}</h2>
+          <p class="lead">{{t:kinrox-is-written-in-swift-6-and-swiftui-on}}</p>
+          <ul class="status">
+            <li>{{t:mac-player-works}}</li>
+            <li>{{t:iphone-remote-build-from-source}}</li>
+            <li>{{t:mac-v0-3-0-signed-and-notarized-dmg}}</li>
+            <li class="soon">{{t:remote-on-the-app-store-planned}}</li>
+          </ul>
+          <div class="oss-actions">
+            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">{{t:download-for-mac}}</a>
+            <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">{{t:releases}}</a>
+          </div>
+        </div>
+        <div class="terminal" aria-label="{{a:build-from-source-2}}">
+          <div class="terminal-bar">{{t:build-from-source}}</div>
+<pre><code><span class="c"># Xcode 26.5, XcodeGen and mpv from Homebrew</span>
+brew install xcodegen mpv pkg-config
+git clone https://github.com/awaik/Kinrox.git
+cd Kinrox
+cp -n Config/Signing.local.xcconfig.example \
+  Config/Signing.local.xcconfig
+<span class="c"># Set your team: docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md</span>
+./Scripts/check-env.sh
+./Scripts/generate.sh
+
+xcodebuild -workspace Kinrox.xcworkspace \
+  -scheme PlayerMac -configuration Debug \
+  -destination 'platform=macOS,arch=arm64' \
+  -derivedDataPath DerivedData build
+open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">{{t:faq}}</span>
+        <h2 class="display" id="faq-title">{{t:questions}}</h2>
+      </div>
+      <div class="faq" data-reveal>
+        <details><summary>{{t:does-it-need-the-internet}}</summary><p>{{t:playback-and-remote-control-work-without-internet-access-when}}</p></details>
+        <details><summary>{{t:does-it-work-with-a-tv-not-a-projector}}</summary><p>{{t:yes-kinrox-plays-on-whatever-your-mac-shows-a}}</p></details>
+        <details><summary>{{t:which-macs-and-iphones-are-supported}}</summary><p>{{t:macs-with-apple-silicon-on-macos-14-sonoma-or}}</p></details>
+        <details><summary>{{t:can-more-than-one-iphone-control-the-same-mac}}</summary><p>{{t:yes-each-iphone-pairs-once-with-its-own-code}}</p></details>
+        <details><summary>{{t:can-i-pick-audio-and-subtitle-tracks}}</summary><p>{{t:yes-on-mac-use-the-audio-subtitles-button-or}}</p></details>
+        <details><summary>{{t:how-much-does-it-cost}}</summary><p>{{t:nothing-kinrox-is-free-and-open-source-under-the}}</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section final" aria-labelledby="final-title">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container" data-reveal>
+      <img src="{{root}}assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
+      <h2 class="display" id="final-title">{{t:lie-down-press-play}}</h2>
+      <p class="lead">{{t:kinrox-for-mac-and-iphone-free-open-source-and}}</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">{{t:download-for-mac}}</a>
+        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">{{t:report-an-issue}}</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand" href="{{home}}"><img src="{{root}}assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
+    <span>{{t:free-software-under-gpl-3-0-not-affiliated-with}}</span>
+    <nav class="footer-links" aria-label="{{a:footer}}">
+      <a href="{{privacy}}">{{t:privacy}}</a>
+      <a href="{{support}}">{{t:support}}</a>
+      <a href="https://github.com/awaik/Kinrox">{{t:source-code}}</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">{{t:license}}</a>
+      <a href="https://github.com/awaik/Kinrox/issues">{{t:issues}}</a>
+      <a href="#languages">{{language_name}}</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kinrox — נגן וידאו Mac עם שלט iPhone</title>
+  <meta name="description" content="Kinrox הוא נגן וידאו חינמי ובקוד פתוח ל-Mac, עם שלט ב-iPhone. השהו את הסרט, עברו לנקודה אחרת ושנו את עוצמת הקול בלי לקום מהספה.">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="https://kinrox.app/he/">
+  <link rel="alternate" hreflang="en" href="https://kinrox.app/">
+  <link rel="alternate" hreflang="ru" href="https://kinrox.app/ru/">
+  <link rel="alternate" hreflang="es" href="https://kinrox.app/es/">
+  <link rel="alternate" hreflang="fr" href="https://kinrox.app/fr/">
+  <link rel="alternate" hreflang="de" href="https://kinrox.app/de/">
+  <link rel="alternate" hreflang="pt" href="https://kinrox.app/pt/">
+  <link rel="alternate" hreflang="it" href="https://kinrox.app/it/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://kinrox.app/zh-Hans/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://kinrox.app/zh-Hant/">
+  <link rel="alternate" hreflang="ja" href="https://kinrox.app/ja/">
+  <link rel="alternate" hreflang="ko" href="https://kinrox.app/ko/">
+  <link rel="alternate" hreflang="ar" href="https://kinrox.app/ar/">
+  <link rel="alternate" hreflang="hi" href="https://kinrox.app/hi/">
+  <link rel="alternate" hreflang="bn" href="https://kinrox.app/bn/">
+  <link rel="alternate" hreflang="ur" href="https://kinrox.app/ur/">
+  <link rel="alternate" hreflang="id" href="https://kinrox.app/id/">
+  <link rel="alternate" hreflang="ms" href="https://kinrox.app/ms/">
+  <link rel="alternate" hreflang="vi" href="https://kinrox.app/vi/">
+  <link rel="alternate" hreflang="th" href="https://kinrox.app/th/">
+  <link rel="alternate" hreflang="tr" href="https://kinrox.app/tr/">
+  <link rel="alternate" hreflang="fa" href="https://kinrox.app/fa/">
+  <link rel="alternate" hreflang="pl" href="https://kinrox.app/pl/">
+  <link rel="alternate" hreflang="uk" href="https://kinrox.app/uk/">
+  <link rel="alternate" hreflang="nl" href="https://kinrox.app/nl/">
+  <link rel="alternate" hreflang="ro" href="https://kinrox.app/ro/">
+  <link rel="alternate" hreflang="el" href="https://kinrox.app/el/">
+  <link rel="alternate" hreflang="cs" href="https://kinrox.app/cs/">
+  <link rel="alternate" hreflang="sv" href="https://kinrox.app/sv/">
+  <link rel="alternate" hreflang="hu" href="https://kinrox.app/hu/">
+  <link rel="alternate" hreflang="he" href="https://kinrox.app/he/">
+  <link rel="alternate" hreflang="x-default" href="https://kinrox.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kinrox">
+  <meta property="og:title" content="Kinrox - הפסק לקום כדי להשהות את הסרט">
+  <meta property="og:description" content="נגן וידאו מינימליסטי Mac עם שלט iPhone אמיתי. חינם וקוד פתוח.">
+  <meta property="og:url" content="https://kinrox.app/he/">
+  <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/mockups.css">
+  <link rel="stylesheet" href="../assets/css/hero.css">
+  <link rel="stylesheet" href="../assets/css/sections.css">
+  <link rel="stylesheet" href="../assets/css/localization.css">
+  <script src="../assets/js/main.js" defer></script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/he/", "inLanguage": "he", "description": "נגן וידאו מינימליסטי Mac עם שלט iPhone אמיתי. חינם וקוד פתוח."}
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#main">דלג לתוכן</a>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="./" aria-label="Kinrox הביתה"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34">Kinrox</a>
+    <nav class="nav-links" aria-label="קטעים">
+      <a href="#remote">שלט</a>
+      <a href="#how">קישור</a>
+      <a href="#player">נגן</a>
+      <a href="#privacy">פרטיות</a>
+      <a href="#open-source">קוד פתוח</a>
+    </nav>
+    <div class="nav-actions">
+      <details class="language-menu" id="languages">
+  <summary aria-label="שפה: עברית"><span aria-hidden="true">◎</span> <bdi>עברית</bdi></summary>
+  <nav class="language-options" aria-label="שפה">
+    <a href="../" lang="en" hreflang="en" dir="ltr" data-language="en">English</a>
+    <a href="../ru/" lang="ru" hreflang="ru" dir="ltr" data-language="ru">Русский</a>
+    <a href="../es/" lang="es" hreflang="es" dir="ltr" data-language="es">Español</a>
+    <a href="../fr/" lang="fr" hreflang="fr" dir="ltr" data-language="fr">Français</a>
+    <a href="../de/" lang="de" hreflang="de" dir="ltr" data-language="de">Deutsch</a>
+    <a href="../pt/" lang="pt" hreflang="pt" dir="ltr" data-language="pt">Português</a>
+    <a href="../it/" lang="it" hreflang="it" dir="ltr" data-language="it">Italiano</a>
+    <a href="../zh-Hans/" lang="zh-Hans" hreflang="zh-Hans" dir="ltr" data-language="zh-Hans">简体中文</a>
+    <a href="../zh-Hant/" lang="zh-Hant" hreflang="zh-Hant" dir="ltr" data-language="zh-Hant">繁體中文</a>
+    <a href="../ja/" lang="ja" hreflang="ja" dir="ltr" data-language="ja">日本語</a>
+    <a href="../ko/" lang="ko" hreflang="ko" dir="ltr" data-language="ko">한국어</a>
+    <a href="../ar/" lang="ar" hreflang="ar" dir="rtl" data-language="ar">العربية</a>
+    <a href="../hi/" lang="hi" hreflang="hi" dir="ltr" data-language="hi">हिन्दी</a>
+    <a href="../bn/" lang="bn" hreflang="bn" dir="ltr" data-language="bn">বাংলা</a>
+    <a href="../ur/" lang="ur" hreflang="ur" dir="rtl" data-language="ur">اردو</a>
+    <a href="../id/" lang="id" hreflang="id" dir="ltr" data-language="id">Bahasa Indonesia</a>
+    <a href="../ms/" lang="ms" hreflang="ms" dir="ltr" data-language="ms">Bahasa Melayu</a>
+    <a href="../vi/" lang="vi" hreflang="vi" dir="ltr" data-language="vi">Tiếng Việt</a>
+    <a href="../th/" lang="th" hreflang="th" dir="ltr" data-language="th">ไทย</a>
+    <a href="../tr/" lang="tr" hreflang="tr" dir="ltr" data-language="tr">Türkçe</a>
+    <a href="../fa/" lang="fa" hreflang="fa" dir="rtl" data-language="fa">فارسی</a>
+    <a href="../pl/" lang="pl" hreflang="pl" dir="ltr" data-language="pl">Polski</a>
+    <a href="../uk/" lang="uk" hreflang="uk" dir="ltr" data-language="uk">Українська</a>
+    <a href="../nl/" lang="nl" hreflang="nl" dir="ltr" data-language="nl">Nederlands</a>
+    <a href="../ro/" lang="ro" hreflang="ro" dir="ltr" data-language="ro">Română</a>
+    <a href="../el/" lang="el" hreflang="el" dir="ltr" data-language="el">Ελληνικά</a>
+    <a href="../cs/" lang="cs" hreflang="cs" dir="ltr" data-language="cs">Čeština</a>
+    <a href="../sv/" lang="sv" hreflang="sv" dir="ltr" data-language="sv">Svenska</a>
+    <a href="../hu/" lang="hu" hreflang="hu" dir="ltr" data-language="hu">Magyar</a>
+    <a href="./" lang="he" hreflang="he" dir="rtl" data-language="he" aria-current="true">עברית</a>
+  </nav>
+</details>
+      <a class="btn btn-glass" href="https://github.com/awaik/Kinrox">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <span class="chip"><i class="dot ember"></i> חינם וקוד פתוח · Mac + iPhone</span>
+      <h1 class="display">לא צריך לקום כדי <span class="fire-text">להשהות את הסרט.</span></h1>
+      <p class="lead">Kinrox מנגן כל סרטון ב-Mac שלך - והופך את iPhone לשלט שלו. MacBook במקרן, אתה על הספה: השהה, קפוץ אחורה 10 שניות, הנמיך את הווליום או התחל את הפרק הבא מבלי לעזוב את השמיכה.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">הורד עבור Mac</a>
+        <a class="btn btn-glass" href="#how">תראה איך זה עובד</a>
+      </div>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>אין חשבונות</span><span>ללא ענן</span><span>עובד דרך ה-Wi-Fi שלך</span></p>
+
+      <div class="stage">
+        <div class="stage-scene">
+          <img src="../assets/img/scene.svg" alt="אדם שוכב על ספה מתחת לשמיכה ומחזיק iPhone. מאחוריהם, MacBook ומקרן מנגנים סרט על הקיר." width="1200" height="600">
+        </div>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-pause"></i>השהה</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-rotate-back"></i>−10 s</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-volume-high"></i>עוצמת קול 70%</span>
+        <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/he/remote.webp" alt="Kinrox Remote ב-iPhone: Ember Dusk.mkv ב-0:42:18 עם פקדי הפעלה, דילוג ועוצמת קול." width="780" height="1696"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pain" aria-labelledby="pain-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">נשמע מוכר?</span>
+        <h2 class="display" id="pain-title">ערב סרט לא צריך נסיעה למקלדת.</h2>
+      </div>
+      <div class="cards-3">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-laptop"></i></div>
+          <h3>ה-Mac נמצא מעבר לחדר</h3>
+          <p>זה מחובר למקרן על ידי הקיר. כל הפסקה פירושה לקום, למצוא את משטח העקיבה בחושך ולפזול לעבר פס בקרה זעיר.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: הקש על הפסקה בטלפון שבידך.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-volume-high"></i></div>
+          <h3>הווליום תמיד שגוי</h3>
+          <p>לחישות בסצנה אחת, פיצוצים בסצנה הבאה - ומישהו כבר ישן בחדר הסמוך.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: מחוון עוצמת הקול ממש מתחת לאגודל.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>אפליקציות &quot;מרחוק&quot; הן מטלה</h3>
+          <p>לוחות אינטרנט עם כתובות IP וסיסמאות, כרטיסיית דפדפן שנרדמת, כפתורים שנועדו לשולחן עבודה - לא לספה.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: מוצא את ה-Mac שלך בעצמו, זוג עם קוד אחד.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="remote" aria-labelledby="remote-title">
+    <div class="container split">
+      <div class="phones" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="iphone back"><div class="iphone-body"><img src="../assets/img/remote/he/recents.webp" alt="גיליון קבצים אחרונים בשלט iPhone." width="780" height="1696" loading="lazy"></div></div>
+        <div class="iphone front"><div class="iphone-body"><img src="../assets/img/remote/he/remote.webp" alt="מסך השמעה Kinrox Remote." width="780" height="1696" loading="lazy"></div></div>
+      </div>
+      <div>
+        <div class="section-head" data-reveal>
+          <span class="overline">שלט iPhone</span>
+          <h2 class="display" id="remote-title">שלט המיועד לחדר חשוך.</h2>
+          <p class="lead">מטרות גדולות, נושא חם אפל וטפיחה קלה של הפטיקה מתחת לכל לחיצה. אתה יכול להשתמש בו מבלי להסיט את מבטו מהסרט.</p>
+        </div>
+        <div class="features" data-reveal>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-pause"></i></div><h3>כפתור הפעלה אחד ענק</h3><p>כל פקד גדול מספיק כדי ללחוץ עליו גם כשאתם חצי ישנים.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-rotate-back"></i></div><h3>קפיצה של ±10 שניות ו-±30 שניות</h3><p>פספסת שורה? לחיצה אחת אחורה. דלג על המבוא עם שניים.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-volume-high"></i></div><h3>נפח ביד שלך</h3><p>עוצמת הקול של Kinrox עצמו, מ-0 עד 100. עוצמת הקול של המערכת של Mac נשארת ללא נגיעה.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-next"></i></div><h3>הפרק הבא</h3><p>הקובץ הקודם והבא מאותה תיקייה, בסדר Finder.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-history"></i></div><h3>קבצים אחרונים</h3><p>בחר משהו שצפית בו קודם - הוא נפתח ב-Mac.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-fullscreen"></i></div><h3>ניווט בסרטון ומסך מלא</h3><p>גרור את ציר הזמן לכל רגע, החלף מסך מלא מהספה.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">קישור</span>
+        <h2 class="display" id="how-title">מחובר תוך עשר שניות. פַּעַם.</h2>
+        <p class="lead">אין כתובות IP, אין סיסמאות, אין חשבון. לאחר הקוד הראשון ה-iPhone שלך מתחבר מחדש מעצמו.</p>
+      </div>
+      <div class="split">
+        <ol class="steps" data-reveal>
+          <li><div><h3>פתח סרטון ב-Mac שלך</h3><p>גרור קובץ לתוך Kinrox או הקש <kbd>⌘</kbd> <kbd>O</kbd>. השרת המרוחק מופעל כברירת מחדל.</p></div></li>
+          <li><div><h3>בחר את ה-Mac שלך ב-iPhone</h3><p>Kinrox מופיע בפני עצמו כאשר שני המכשירים מחוברים לאותו Wi-Fi.</p><img src="../assets/img/remote/he/players-list.webp" alt="רשימה של Macs שנמצאו ברשת: MacBook Pro, Mac mini, iMac Studio." width="780" height="556" loading="lazy"></div></li>
+          <li><div><h3>הקלד את הקוד בן 6 הספרות</h3><p>ה-Mac מציג קוד שחי במשך שתי דקות. שלושה ניסיונות שגויים וזה נעלם.</p></div></li>
+        </ol>
+        <div class="pair-visual" data-reveal>
+          <div class="glow" aria-hidden="true"></div>
+          <div class="mac-wrap">
+            <div class="mac" role="img" aria-label="Kinrox ב-Mac המציג את קוד ההתאמה 482 913.">
+              <img class="mac-video" src="../assets/img/stills/blue-hour.svg" alt="">
+              <div class="mac-dim"></div>
+              <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+              <div class="mac-pair">
+                <div class="badge"><i class="ic ic-shield-check"></i></div>
+                <h4>חיבור שלט</h4>
+                <p>Alex’s iPhone רוצה לשלוט ב-Kinrox. יש להזין קוד זה בטלפון.</p>
+                <div class="mac-pin"><span>4</span><span>8</span><span>2</span><span>9</span><span>1</span><span>3</span></div>
+                <div class="mac-timer"><img src="../assets/img/ui/countdown.svg" alt="">תוקף הקוד יפוג בעוד 1:47</div>
+                <div class="decline">דחה</div>
+              </div>
+            </div>
+          </div>
+          <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/he/pairing.webp" alt="מסך הזנת קוד בשלט iPhone." width="780" height="1696" loading="lazy"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="player" aria-labelledby="player-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">נגן ל-Mac</span>
+        <h2 class="display" id="player-title">נגן שלא מפריע לצפייה.</h2>
+        <p class="lead">הסרטון הוא הממשק. שכבת זכוכית דקה מופיעה כשצריך אותה ומסתתרת לאחר שלוש שניות.</p>
+      </div>
+      <div class="player-shot" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="mac-wrap">
+          <div class="mac" role="img" aria-label="חלון נגן Kinrox משחק Ember Dusk.mkv עם פס השליטה בזכוכית.">
+            <img class="mac-video" src="../assets/img/stills/ember-dusk.svg" alt="">
+            <div class="mac-scrim-top"></div>
+            <div class="mac-scrim-bottom"></div>
+            <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+            <div class="mac-title"><b>Ember Dusk.mkv</b><span>3 מתוך 12 · Movies</span></div>
+            <div class="mac-chip"><i class="dot"></i>נשלט על ידי Alex’s iPhone</div>
+            <div class="mac-hover">1:08:24</div>
+            <div class="mac-controls">
+              <div class="mac-scrub"><span>0:42:15</span><div class="mac-track"><i class="base"></i><i class="buf"></i><i class="prog"></i><i class="mark"></i><i class="knob"></i></div><span class="dim">−1:15:48</span></div>
+              <div class="mac-buttons">
+                <div class="grp vol"><span class="mac-ib"><i class="ic ic-volume-high"></i></span><span class="mac-vslider"></span></div>
+                <div class="grp transport"><span class="mac-ib"><i class="ic ic-previous"></i></span><span class="mac-pp"><i class="ic ic-pause"></i></span><span class="mac-ib"><i class="ic ic-next"></i></span></div>
+                <div class="grp actions"><span class="mac-ib"><i class="ic ic-playlist"></i></span><span class="mac-ib"><i class="ic ic-history"></i></span><span class="mac-ib"><i class="ic ic-fullscreen"></i></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formats" data-reveal>
+        <span class="chip">MKV</span><span class="chip">MP4</span><span class="chip">M4V</span><span class="chip">MOV</span><span class="chip">AVI</span><span class="chip">WebM</span><span class="chip">TS</span>
+      </div>
+      <div class="cards-3 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-monitor-play"></i></div>
+          <h3>מנגן כמעט כל דבר</h3>
+          <p>בנוי על libmpv, המנוע מאחורי mpv ו-IINA. בחר אודיו וכתוביות משובצות או חיצוניות. VideoToolbox מטפל בפענוח חומרה.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>מוכן לסדרה</h3>
+          <p>Kinrox מסדר את הסרטונים בתיקייה ומתחיל את הבא כשפרק מסתיים - &quot;2&quot; לפני &quot;10&quot;, כמו Finder.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-play"></i></div>
+          <h3>מקשי מדיה פשוט עובדים</h3>
+          <p>מקשי מקלדת ⏯, מרכז בקרה ושליטה כעת Kinrox. עד 20 קבצים אחרונים ממתינים במסך ההתחלה.</p>
+        </article>
+      </div>
+      <div class="shortcuts" data-reveal>
+        <span><kbd>רווח</kbd> השהיה</span>
+        <span><kbd>←</kbd><kbd>→</kbd> 5 שניות</span>
+        <span><kbd>⇧</kbd><kbd>←</kbd><kbd>→</kbd> 30 שניות</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> עוצמת קול</span>
+        <span><kbd>⌘</kbd><kbd>←</kbd><kbd>→</kbd> הקובץ הקודם / הבא</span>
+        <span><kbd>F</kbd> מסך מלא</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy" aria-labelledby="privacy-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">פרטיות</span>
+        <h2 class="display" id="privacy-title">מה שקורה בסלון שלך נשאר שם.</h2>
+        <p class="lead">Mac ו-iPhone שלך מחליפים פקודות השמעה ישירות דרך הרשת המקומית שלך. הסרטונים שלך נשארים ב-Mac.</p>
+      </div>
+      <div class="cards-2">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>רשת מקומית בלבד</h3>
+          <p>גילוי באמצעות Bonjour, חיבורים רק מרשת המשנה שלך. כתובות ציבוריות וסלולר מסורבות.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-lock"></i></div>
+          <h3>מוצפן ומזווג</h3>
+          <p>כל פקודה עוברת בערוץ מוצפן. אסימוני התאמה חיים במחזיק המפתחות בשני המכשירים.</p>
+          <div class="tech"><code>X25519</code><code>HKDF-SHA256</code><code>ChaCha20-Poly1305</code></div>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
+          <h3>אין חשבונות, אין טלמטריה</h3>
+          <p>אין חשבונות או ניתוח שימוש. ה-Mac בודק עדכון ציבורי מדי יום ללא מזהים ייחודיים או פרופיל מערכת. באתר זה אין ניתוחים או עוגיות.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
+          <h3>הקבצים שלך נשארים ב-Mac</h3>
+          <p>השלט רואה כותרות ומשכי זמן, לעולם לא נתיבי קבצים. פתיחת קובץ אחרון נפתרה ב-Mac.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="open-source" aria-labelledby="oss-title">
+    <div class="container">
+      <div class="oss" data-reveal>
+        <div>
+          <span class="overline">קוד פתוח · GPL‑3.0</span>
+          <h2 class="display" id="oss-title">חינם ובקוד פתוח. אפשר לקרוא את הקוד ולשנות אותו.</h2>
+          <p class="lead">Kinrox כתוב ב-Swift 6 ו-SwiftUI על גבי libmpv. כל שורה של הנגן, השלט והפרוטוקול נמצאים ב-GitHub.</p>
+          <ul class="status">
+            <li>נגן <i class="ic ic-check"></i>Mac - עובד</li>
+            <li>שלט <i class="ic ic-check"></i>iPhone - בנייה מהמקור</li>
+            <li><i class="ic ic-check"></i>Mac v0.3.0 - DMG חתום ונוטריוני</li>
+            <li class="soon"><i class="ic ic-history"></i>Remote ב-App Store - מתוכנן</li>
+          </ul>
+          <div class="oss-actions">
+            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">הורד עבור Mac</a>
+            <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">משחרר</a>
+          </div>
+        </div>
+        <div class="terminal" aria-label="בנה ממקור">
+          <div class="terminal-bar"><img src="../assets/img/ui/traffic-lights.svg" alt=""> בנה מהמקור</div>
+<pre><code><span class="c"># Xcode 26.5, XcodeGen and mpv from Homebrew</span>
+brew install xcodegen mpv pkg-config
+git clone https://github.com/awaik/Kinrox.git
+cd Kinrox
+cp -n Config/Signing.local.xcconfig.example \
+  Config/Signing.local.xcconfig
+<span class="c"># Set your team: docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md</span>
+./Scripts/check-env.sh
+./Scripts/generate.sh
+
+xcodebuild -workspace Kinrox.xcworkspace \
+  -scheme PlayerMac -configuration Debug \
+  -destination 'platform=macOS,arch=arm64' \
+  -derivedDataPath DerivedData build
+open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">שאלות נפוצות</span>
+        <h2 class="display" id="faq-title">שאלות</h2>
+      </div>
+      <div class="faq" data-reveal>
+        <details><summary>זה צריך אינטרנט?</summary><p>השמעה ושלט רחוק פועלים ללא גישה לאינטרנט כאשר Mac ו-iPhone חולקים רשת Wi-Fi. ה-Mac משתמש ב-HTTPS לבדיקות עדכונים יומיות ומוריד עדכון כאשר אתה בוחר להתקין אותו.</p></details>
+        <details><summary>זה עובד עם טלוויזיה, לא מקרן?</summary><p>כן. Kinrox מנגן בכל מה שה-Mac שלך מציג - מקרן, טלוויזיה דרך HDMI או צג המחובר ל-AirPlay.</p></details>
+        <details><summary>אילו Macs ו-iPhones נתמכים?</summary><p>Macs עם Apple silicon ב-macOS 14 Sonoma ואילך, ו-iPhones ב-iOS 17 ומעלה. Intel Macs אינם נתמכים עדיין.</p></details>
+        <details><summary>האם יותר מ-iPhone אחד יכול לשלוט באותו Mac?</summary><p>כן. כל iPhone מתחבר פעם אחת עם קוד משלו; ניתן לחבר עד ארבעה שלטים בו-זמנית. אתה יכול לבטל כל אחד מהם בהגדרות הנגן.</p></details>
+        <details><summary>האם אני יכול לבחור רצועות שמע וכתוביות?</summary><p>כן. ב-Mac, השתמש בלחצן אודיו וכתוביות או בתפריטי אודיו וכתוביות. בחר רצועות מוטמעות, מצא קבצים חיצוניים בתיקיות מקוננות או כבה כתוביות. Kinrox יכול לזכור את הבחירה שלך לפרק הבא.</p></details>
+        <details><summary>כמה זה עולה?</summary><p>כלום. Kinrox הוא חינמי וקוד פתוח תחת ה-GNU GPL v3.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section final" aria-labelledby="final-title">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container" data-reveal>
+      <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
+      <h2 class="display" id="final-title">תשכב. <span class="fire-text">לחץ על play.</span></h2>
+      <p class="lead">Kinrox עבור Mac ו-iPhone. חינמי, קוד פתוח ומיועד לערבי סרטים.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">הורד עבור Mac</a>
+        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">דיווח על בעיה</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
+    <span>תוכנה חופשית תחת GPL‑3.0. לא מזוהה עם Apple.</span>
+    <nav class="footer-links" aria-label="כותרת תחתונה">
+      <a href="privacy/">פרטיות</a>
+      <a href="support/">תמיכה</a>
+      <a href="https://github.com/awaik/Kinrox">קוד מקור</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">רישיון</a>
+      <a href="https://github.com/awaik/Kinrox/issues">בעיות</a>
+      <a href="#languages">עברית</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

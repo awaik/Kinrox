@@ -6,17 +6,27 @@
 # of the app bundle with the strings a real connection shows. App sources are untouched.
 #
 # Requires: a booted iPhone simulator, a Debug-iphonesimulator build of RemoteiOS,
-# ImageMagick (magick) and WebP tools (cwebp). The script installs nothing.
+# ImageMagick (magick) and WebP tools (cwebp). The script installs no dependencies.
 #
-# Usage: Scripts/capture-landing-screenshots.sh [simulator-udid]
+# Usage: Scripts/capture-landing-screenshots.sh [simulator-udid] [locale ...]
+# With no locales, captures every app language. Use a dedicated iPhone 17 Pro simulator.
 set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APP="$PROJECT_ROOT/DerivedData/Build/Products/Debug-iphonesimulator/RemoteiOS.app"
-WORK="$PROJECT_ROOT/DerivedData/LandingShots"
+mkdir -p "$PROJECT_ROOT/DerivedData"
+WORK="$(mktemp -d "$PROJECT_ROOT/DerivedData/LandingShots.XXXXXX")"
 OUT="$PROJECT_ROOT/site/assets/img/remote"
 BUNDLE_ID="app.kinrox.remote"
-LANGUAGES=(en ru)
+LANGUAGES=()
+if [[ $# -gt 1 ]]; then
+    LANGUAGES=("${@:2}")
+else
+    for folder in "$PROJECT_ROOT"/Resources/Localization/*.lproj; do
+        language="$(basename "$folder" .lproj)"
+        LANGUAGES+=("$language")
+    done
+fi
 SCREENS=(players pairing remote recents)
 
 for tool in magick cwebp; do
@@ -27,7 +37,7 @@ done
 DEVICE="${1:-$(xcrun simctl list devices booted | grep -Eo '[0-9A-F-]{36}' | head -1)}"
 [[ -n "$DEVICE" ]] || { printf 'Boot an iPhone simulator first.\n' >&2; exit 1; }
 
-rm -rf "$WORK" && mkdir -p "$WORK/raw"
+mkdir -p "$WORK/raw"
 cp -R "$APP" "$WORK/RemoteiOS.app"
 for lang in "${LANGUAGES[@]}"; do
     strings="$WORK/RemoteiOS.app/$lang.lproj/Localizable.strings"
@@ -47,7 +57,7 @@ for lang in "${LANGUAGES[@]}"; do
     for screen in "${SCREENS[@]}"; do
         xcrun simctl terminate "$DEVICE" "$BUNDLE_ID" 2>/dev/null || true
         xcrun simctl launch "$DEVICE" "$BUNDLE_ID" -KinroxDemo -KinroxScreen "$screen" \
-            -AppleLanguages "($lang)" -AppleLocale "${lang}_US" >/dev/null
+            -AppleLanguages "($lang)" -AppleLocale "$lang" >/dev/null
         sleep 4
         xcrun simctl io "$DEVICE" screenshot --type=png "$WORK/raw/$lang/$screen.png" >/dev/null 2>&1
     done
@@ -64,3 +74,4 @@ done
 xcrun simctl terminate "$DEVICE" "$BUNDLE_ID" 2>/dev/null || true
 xcrun simctl install "$DEVICE" "$APP"
 xcrun simctl status_bar "$DEVICE" clear
+printf 'Raw screenshots and temporary bundle retained in %s\n' "$WORK"

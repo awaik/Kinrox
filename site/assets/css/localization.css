@@ -1,0 +1,101 @@
+/* Shared language navigation and adaptations for translated text. */
+.language-menu {
+  position: relative;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.language-menu summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  background: var(--bg-elevated);
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.language-menu summary::-webkit-details-marker { display: none; }
+.language-menu summary::after { content: "⌄"; }
+.language-menu[open] summary { border-color: var(--flame); }
+
+.language-options {
+  position: absolute;
+  z-index: 60;
+  inset-inline-end: 0;
+  top: calc(100% + 8px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(440px, 65vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 10px;
+  border: 1px solid var(--stroke-glass);
+  border-radius: 18px;
+  background: var(--bg-elevated);
+  box-shadow: 0 16px 50px #0009;
+}
+
+.language-options a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-align: start;
+}
+
+.language-options a:hover,
+.language-options a[aria-current] {
+  background: var(--glass-strong);
+  color: var(--flame);
+}
+
+.nav-inner { height: auto; min-height: 68px; padding-block: 8px; gap: 16px; }
+.nav-links { margin-left: 0; margin-inline-start: 12px; flex-wrap: wrap; gap: 12px 20px; }
+.nav-actions, .footer-links { margin-left: 0; margin-inline-start: auto; }
+.brand { flex-shrink: 0; }
+.btn { white-space: normal; text-align: center; overflow-wrap: anywhere; }
+.hero h1, .section-head h2, .final h2 { overflow-wrap: anywhere; }
+.hero h1 { line-height: 1.12; }
+.hero > .glow { width: min(1100px, 100vw); }
+.final > .glow { width: min(900px, 100vw); }
+.card, .feature, .split > *, .oss > *, .steps li > div { min-width: 0; }
+.mac-pair h4 { white-space: normal; }
+.mac-pin, .mac-controls, .mac-hover, .terminal pre, kbd { direction: ltr; unicode-bidi: isolate; }
+.shortcuts > span { flex-wrap: wrap; }
+
+/* Logical spacing mirrors the reading flow without reversing time controls or PINs. */
+[dir="rtl"] .hero-meta span + span::before { margin-right: 0; margin-inline-end: 18px; }
+[dir="rtl"] .display, [dir="rtl"] .overline { letter-spacing: normal; }
+:lang(ar) h1, :lang(fa) h1, :lang(ur) h1, :lang(hi) h1, :lang(bn) h1, :lang(th) h1 { line-height: 1.35; }
+
+.document-page { background: var(--bg-canvas); line-height: 1.7; }
+.document-page main { max-width: 848px; margin: auto; padding: 48px 24px 72px; }
+.document-page main > nav { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin-bottom: 32px; }
+.document-page .language-menu { margin-inline-start: auto; }
+.document-page a { color: var(--flame); }
+.document-page h1 { font-size: clamp(32px, 6vw, 44px); line-height: 1.2; margin-bottom: 24px; overflow-wrap: anywhere; }
+.document-page h2 { margin: 40px 0 12px; font-size: 25px; line-height: 1.35; }
+.document-page p { margin-block: 14px; }
+.document-page li { margin-block: 12px; }
+.document-page .muted { color: var(--text-2); }
+.document-page ol { padding-inline-start: 28px; }
+
+@media (max-width: 1100px) {
+  .nav-links { display: none; }
+}
+
+@media (max-width: 380px) {
+  .nav-inner { flex-wrap: wrap; justify-content: space-between; }
+  .nav-actions { gap: 8px; }
+  .nav-actions > .btn { display: none; }
+  .language-menu summary { max-width: 175px; white-space: normal; }
+}

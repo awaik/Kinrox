@@ -19,6 +19,7 @@
 > Matrix screensaver implemented 2026-10-29 after owner approval of Figma page 07: Mac Screensaver → Matrix, animated falling code, pause before activation, Esc exit, and iPhone start/stop controls. The exit hint appears once for 3 seconds per activation. Released in Mac 0.3.0 (build 5); checks — [Screensaver Verification](docs/runbooks/SCREENSAVER-VERIFICATION.md).
 > All design work is done in Figma file [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U) (owner decision 2026-10-27), see Section 3.5.
 > Landing site added 2026-10-27: static GitHub Pages site in `site/` (English + Russian), deployed by `.github/workflows/pages.yml`; see Section 3.6.
+> Website localization implemented 2026-10-30 at the owner's request: landing, support and privacy pages in all 30 app locales, localized screenshots, language navigation, RTL and offline generation. Owner authorized deployment on 2026-10-30; [verification](docs/runbooks/SITE-LOCALIZATION-VERIFICATION.md).
 > Open questions are compiled in Section 11. Until closed, proposals marked "proposal" are non-final.
 
 Legend:
@@ -307,9 +308,14 @@ Liquid Glass aesthetic with fallback materials on pre-macOS 26 systems. System f
 
 ### 3.6. Landing Site
 
-Static page in `site/`, published to GitHub Pages by `.github/workflows/pages.yml`
-(repository Settings → Pages → Source: GitHub Actions). No build step, frameworks, external fonts,
-analytics, or cookies, in line with principle 4. English is the default page, Russian lives in `site/ru/`.
+Static pages in `site/`, published at `https://kinrox.app/` to GitHub Pages by
+`.github/workflows/pages.yml` (repository Settings → Pages → Source: GitHub Actions).
+All 30 app locales cover the landing, support and privacy pages (owner request, 2026-10-30).
+English uses the root routes; other languages use their locale prefix, such as `/ru/support/`.
+Shared templates and complete catalogs in `Website/` generate committed HTML offline with
+`Scripts/build-site.py`; deployment verifies the output. No runtime frameworks, translation
+requests, external fonts, analytics or cookies. Navigation works without JavaScript.
+The language menu preserves the current page, with RTL layout for Arabic, Persian, Hebrew and Urdu.
 
 - First screen states the pain: getting up to pause a movie playing from a MacBook on a projector.
   The hero illustration `site/assets/img/scene.svg` shows a person on a couch with an iPhone,

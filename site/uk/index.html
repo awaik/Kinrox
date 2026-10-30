@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="uk" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kinrox — відеоплеєр Mac з пультом iPhone</title>
+  <meta name="description" content="Kinrox — безкоштовний відеопрогравач для Mac з відкритим кодом і пультом на iPhone. Ставте на паузу, перемотуйте й регулюйте гучність, не встаючи з дивана.">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="https://kinrox.app/uk/">
+  <link rel="alternate" hreflang="en" href="https://kinrox.app/">
+  <link rel="alternate" hreflang="ru" href="https://kinrox.app/ru/">
+  <link rel="alternate" hreflang="es" href="https://kinrox.app/es/">
+  <link rel="alternate" hreflang="fr" href="https://kinrox.app/fr/">
+  <link rel="alternate" hreflang="de" href="https://kinrox.app/de/">
+  <link rel="alternate" hreflang="pt" href="https://kinrox.app/pt/">
+  <link rel="alternate" hreflang="it" href="https://kinrox.app/it/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://kinrox.app/zh-Hans/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://kinrox.app/zh-Hant/">
+  <link rel="alternate" hreflang="ja" href="https://kinrox.app/ja/">
+  <link rel="alternate" hreflang="ko" href="https://kinrox.app/ko/">
+  <link rel="alternate" hreflang="ar" href="https://kinrox.app/ar/">
+  <link rel="alternate" hreflang="hi" href="https://kinrox.app/hi/">
+  <link rel="alternate" hreflang="bn" href="https://kinrox.app/bn/">
+  <link rel="alternate" hreflang="ur" href="https://kinrox.app/ur/">
+  <link rel="alternate" hreflang="id" href="https://kinrox.app/id/">
+  <link rel="alternate" hreflang="ms" href="https://kinrox.app/ms/">
+  <link rel="alternate" hreflang="vi" href="https://kinrox.app/vi/">
+  <link rel="alternate" hreflang="th" href="https://kinrox.app/th/">
+  <link rel="alternate" hreflang="tr" href="https://kinrox.app/tr/">
+  <link rel="alternate" hreflang="fa" href="https://kinrox.app/fa/">
+  <link rel="alternate" hreflang="pl" href="https://kinrox.app/pl/">
+  <link rel="alternate" hreflang="uk" href="https://kinrox.app/uk/">
+  <link rel="alternate" hreflang="nl" href="https://kinrox.app/nl/">
+  <link rel="alternate" hreflang="ro" href="https://kinrox.app/ro/">
+  <link rel="alternate" hreflang="el" href="https://kinrox.app/el/">
+  <link rel="alternate" hreflang="cs" href="https://kinrox.app/cs/">
+  <link rel="alternate" hreflang="sv" href="https://kinrox.app/sv/">
+  <link rel="alternate" hreflang="hu" href="https://kinrox.app/hu/">
+  <link rel="alternate" hreflang="he" href="https://kinrox.app/he/">
+  <link rel="alternate" hreflang="x-default" href="https://kinrox.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kinrox">
+  <meta property="og:title" content="Kinrox — перестаньте вставати, щоб поставити фільм на паузу">
+  <meta property="og:description" content="Мінімалістичний відеоплеєр Mac зі справжнім пультом iPhone. Безкоштовний і відкритий код.">
+  <meta property="og:url" content="https://kinrox.app/uk/">
+  <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/mockups.css">
+  <link rel="stylesheet" href="../assets/css/hero.css">
+  <link rel="stylesheet" href="../assets/css/sections.css">
+  <link rel="stylesheet" href="../assets/css/localization.css">
+  <script src="../assets/js/main.js" defer></script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/uk/", "inLanguage": "uk", "description": "Мінімалістичний відеоплеєр Mac зі справжнім пультом iPhone. Безкоштовний і відкритий код."}
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#main">Перейти до вмісту</a>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="./" aria-label="Kinrox додому"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34">Kinrox</a>
+    <nav class="nav-links" aria-label="Розділи">
+      <a href="#remote">Пульт</a>
+      <a href="#how">Спарення</a>
+      <a href="#player">Програвач</a>
+      <a href="#privacy">Конфіденційність</a>
+      <a href="#open-source">Відкритий код</a>
+    </nav>
+    <div class="nav-actions">
+      <details class="language-menu" id="languages">
+  <summary aria-label="Мова: Українська"><span aria-hidden="true">◎</span> <bdi>Українська</bdi></summary>
+  <nav class="language-options" aria-label="Мова">
+    <a href="../" lang="en" hreflang="en" dir="ltr" data-language="en">English</a>
+    <a href="../ru/" lang="ru" hreflang="ru" dir="ltr" data-language="ru">Русский</a>
+    <a href="../es/" lang="es" hreflang="es" dir="ltr" data-language="es">Español</a>
+    <a href="../fr/" lang="fr" hreflang="fr" dir="ltr" data-language="fr">Français</a>
+    <a href="../de/" lang="de" hreflang="de" dir="ltr" data-language="de">Deutsch</a>
+    <a href="../pt/" lang="pt" hreflang="pt" dir="ltr" data-language="pt">Português</a>
+    <a href="../it/" lang="it" hreflang="it" dir="ltr" data-language="it">Italiano</a>
+    <a href="../zh-Hans/" lang="zh-Hans" hreflang="zh-Hans" dir="ltr" data-language="zh-Hans">简体中文</a>
+    <a href="../zh-Hant/" lang="zh-Hant" hreflang="zh-Hant" dir="ltr" data-language="zh-Hant">繁體中文</a>
+    <a href="../ja/" lang="ja" hreflang="ja" dir="ltr" data-language="ja">日本語</a>
+    <a href="../ko/" lang="ko" hreflang="ko" dir="ltr" data-language="ko">한국어</a>
+    <a href="../ar/" lang="ar" hreflang="ar" dir="rtl" data-language="ar">العربية</a>
+    <a href="../hi/" lang="hi" hreflang="hi" dir="ltr" data-language="hi">हिन्दी</a>
+    <a href="../bn/" lang="bn" hreflang="bn" dir="ltr" data-language="bn">বাংলা</a>
+    <a href="../ur/" lang="ur" hreflang="ur" dir="rtl" data-language="ur">اردو</a>
+    <a href="../id/" lang="id" hreflang="id" dir="ltr" data-language="id">Bahasa Indonesia</a>
+    <a href="../ms/" lang="ms" hreflang="ms" dir="ltr" data-language="ms">Bahasa Melayu</a>
+    <a href="../vi/" lang="vi" hreflang="vi" dir="ltr" data-language="vi">Tiếng Việt</a>
+    <a href="../th/" lang="th" hreflang="th" dir="ltr" data-language="th">ไทย</a>
+    <a href="../tr/" lang="tr" hreflang="tr" dir="ltr" data-language="tr">Türkçe</a>
+    <a href="../fa/" lang="fa" hreflang="fa" dir="rtl" data-language="fa">فارسی</a>
+    <a href="../pl/" lang="pl" hreflang="pl" dir="ltr" data-language="pl">Polski</a>
+    <a href="./" lang="uk" hreflang="uk" dir="ltr" data-language="uk" aria-current="true">Українська</a>
+    <a href="../nl/" lang="nl" hreflang="nl" dir="ltr" data-language="nl">Nederlands</a>
+    <a href="../ro/" lang="ro" hreflang="ro" dir="ltr" data-language="ro">Română</a>
+    <a href="../el/" lang="el" hreflang="el" dir="ltr" data-language="el">Ελληνικά</a>
+    <a href="../cs/" lang="cs" hreflang="cs" dir="ltr" data-language="cs">Čeština</a>
+    <a href="../sv/" lang="sv" hreflang="sv" dir="ltr" data-language="sv">Svenska</a>
+    <a href="../hu/" lang="hu" hreflang="hu" dir="ltr" data-language="hu">Magyar</a>
+    <a href="../he/" lang="he" hreflang="he" dir="rtl" data-language="he">עברית</a>
+  </nav>
+</details>
+      <a class="btn btn-glass" href="https://github.com/awaik/Kinrox">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <span class="chip"><i class="dot ember"></i> Безкоштовно та з відкритим кодом · Mac + iPhone</span>
+      <h1 class="display">Не вставайте, щоб <span class="fire-text">поставити фільм на паузу.</span></h1>
+      <p class="lead">Kinrox відтворює будь-яке відео на вашому Mac — і перетворює iPhone на пульт дистанційного керування. MacBook на проекторі, ви на дивані: зробіть паузу, перейдіть на 10 секунд назад, зменшіть гучність або почніть наступну серію, не відриваючись від ковдри.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Завантажити для Mac</a>
+        <a class="btn btn-glass" href="#how">Подивіться, як це працює</a>
+      </div>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Немає облікових записів</span><span>Без хмари</span><span>Працює через Wi‑Fi</span></p>
+
+      <div class="stage">
+        <div class="stage-scene">
+          <img src="../assets/img/scene.svg" alt="Людина лежить на дивані під ковдрою, тримаючи iPhone. Позаду них MacBook і проектор показують фільм на стіні." width="1200" height="600">
+        </div>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-pause"></i>Пауза</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-rotate-back"></i>−10 с</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-volume-high"></i>Гучність 70%</span>
+        <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/uk/remote.webp" alt="Kinrox Remote iPhone: Ember Dusk.mkv о 0:42:18 з елементами керування відтворенням, пропуском і гучністю." width="780" height="1696"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pain" aria-labelledby="pain-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">Звучить знайомо?</span>
+        <h2 class="display" id="pain-title">Вечір кіно не потребує поїздки до клавіатури.</h2>
+      </div>
+      <div class="cards-3">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-laptop"></i></div>
+          <h3>Mac знаходиться в іншому кінці кімнати</h3>
+          <p>Він підключається до проектора на стіні. Кожна пауза означає встати, знайти трекпад у темряві та примружитися на крихітну панель керування.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: торкніться паузи на телефоні в руці.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-volume-high"></i></div>
+          <h3>Гучність завжди неправильна</h3>
+          <p>Шепіт в одній сцені, вибухи в наступній — а в сусідній кімнаті вже хтось спить.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: повзунок гучності прямо під великим пальцем.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>«Віддалені» додатки — це клопітка робота</h3>
+          <p>Веб-панелі з IP-адресами та паролями, вкладка браузера, яка засинає, кнопки, створені для столу, а не для дивана.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: знаходить ваш Mac самостійно, з’єднується за допомогою одного коду.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="remote" aria-labelledby="remote-title">
+    <div class="container split">
+      <div class="phones" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="iphone back"><div class="iphone-body"><img src="../assets/img/remote/uk/recents.webp" alt="Аркуш останніх файлів на iPhone пульті дистанційного керування." width="780" height="1696" loading="lazy"></div></div>
+        <div class="iphone front"><div class="iphone-body"><img src="../assets/img/remote/uk/remote.webp" alt="Kinrox Remote екран відтворення." width="780" height="1696" loading="lazy"></div></div>
+      </div>
+      <div>
+        <div class="section-head" data-reveal>
+          <span class="overline">Пульт iPhone</span>
+          <h2 class="display" id="remote-title">Пульт для темної кімнати.</h2>
+          <p class="lead">Великі цілі, темна тепла тема та легкий дотик під час кожного натискання. Ви можете використовувати його, не відводячи погляду від плівки.</p>
+        </div>
+        <div class="features" data-reveal>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-pause"></i></div><h3>Одна величезна кнопка відтворення</h3><p>Кнопки досить великі, щоб влучити в них навіть напівсонним.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-rotate-back"></i></div><h3>Стрибок ±10 с і ±30 с</h3><p>Пропустив рядок? Один дотик назад. Пропустіть інтро з двома.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-volume-high"></i></div><h3>Том в руці</h3><p>Власна гучність Kinrox, від 0 до 100. Системна гучність Mac залишається незмінною.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-next"></i></div><h3>Наступний епізод</h3><p>Попередній і наступний файли з тієї ж папки в порядку Finder.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-history"></i></div><h3>Останні файли</h3><p>Виберіть те, що ви дивилися раніше — воно відкривається на Mac.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-fullscreen"></i></div><h3>Перемотування й повний екран</h3><p>Перетягніть часову шкалу до будь-якого моменту, перемикайтеся на весь екран з дивана.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">Спарення</span>
+        <h2 class="display" id="how-title">Підключення за десять секунд. Один раз.</h2>
+        <p class="lead">Ні IP-адрес, ні паролів, ні облікового запису. Після першого коду ваш iPhone повторно підключається самостійно.</p>
+      </div>
+      <div class="split">
+        <ol class="steps" data-reveal>
+          <li><div><h3>Відкрийте відео на своєму Mac</h3><p>Перетягніть файл у Kinrox або натисніть <kbd>⌘</kbd> <kbd>O</kbd>. Віддалений сервер увімкнено за замовчуванням.</p></div></li>
+          <li><div><h3>Виберіть свій Mac на iPhone</h3><p>Kinrox з’являється самостійно, коли обидва пристрої під’єднані до однієї мережі Wi‑Fi.</p><img src="../assets/img/remote/uk/players-list.webp" alt="Список Macs, знайдених у мережі: MacBook Pro, Mac mini, iMac Studio." width="780" height="556" loading="lazy"></div></li>
+          <li><div><h3>Введіть 6-значний код</h3><p>Mac показує код, який живе дві хвилини. Три неправильні спроби – і все пропало.</p></div></li>
+        </ol>
+        <div class="pair-visual" data-reveal>
+          <div class="glow" aria-hidden="true"></div>
+          <div class="mac-wrap">
+            <div class="mac" role="img" aria-label="Kinrox на Mac з кодом сполучення 482 913.">
+              <img class="mac-video" src="../assets/img/stills/blue-hour.svg" alt="">
+              <div class="mac-dim"></div>
+              <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+              <div class="mac-pair">
+                <div class="badge"><i class="ic ic-shield-check"></i></div>
+                <h4>Під’єднання пульта</h4>
+                <p>Alex’s iPhone хоче керувати Kinrox. Введіть цей код на телефоні.</p>
+                <div class="mac-pin"><span>4</span><span>8</span><span>2</span><span>9</span><span>1</span><span>3</span></div>
+                <div class="mac-timer"><img src="../assets/img/ui/countdown.svg" alt="">Код діє ще 1:47</div>
+                <div class="decline">Відхилити</div>
+              </div>
+            </div>
+          </div>
+          <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/uk/pairing.webp" alt="Екран введення коду на iPhone пульті." width="780" height="1696" loading="lazy"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="player" aria-labelledby="player-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">Програвач для Mac</span>
+        <h2 class="display" id="player-title">Програвач, який не заважає дивитися.</h2>
+        <p class="lead">Відео є інтерфейсом. Тонкий шар скла з&#x27;являється, коли вам це потрібно, і ховається через три секунди.</p>
+      </div>
+      <div class="player-shot" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="mac-wrap">
+          <div class="mac" role="img" aria-label="Kinrox вікно програвача грає Ember Dusk.mkv зі скляною панеллю керування.">
+            <img class="mac-video" src="../assets/img/stills/ember-dusk.svg" alt="">
+            <div class="mac-scrim-top"></div>
+            <div class="mac-scrim-bottom"></div>
+            <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+            <div class="mac-title"><b>Ember Dusk.mkv</b><span>3 із 12 · Movies</span></div>
+            <div class="mac-chip"><i class="dot"></i>Керує: Alex’s iPhone</div>
+            <div class="mac-hover">1:08:24</div>
+            <div class="mac-controls">
+              <div class="mac-scrub"><span>0:42:15</span><div class="mac-track"><i class="base"></i><i class="buf"></i><i class="prog"></i><i class="mark"></i><i class="knob"></i></div><span class="dim">−1:15:48</span></div>
+              <div class="mac-buttons">
+                <div class="grp vol"><span class="mac-ib"><i class="ic ic-volume-high"></i></span><span class="mac-vslider"></span></div>
+                <div class="grp transport"><span class="mac-ib"><i class="ic ic-previous"></i></span><span class="mac-pp"><i class="ic ic-pause"></i></span><span class="mac-ib"><i class="ic ic-next"></i></span></div>
+                <div class="grp actions"><span class="mac-ib"><i class="ic ic-playlist"></i></span><span class="mac-ib"><i class="ic ic-history"></i></span><span class="mac-ib"><i class="ic ic-fullscreen"></i></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formats" data-reveal>
+        <span class="chip">MKV</span><span class="chip">MP4</span><span class="chip">M4V</span><span class="chip">MOV</span><span class="chip">AVI</span><span class="chip">WebM</span><span class="chip">TS</span>
+      </div>
+      <div class="cards-3 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-monitor-play"></i></div>
+          <h3>Грає майже у все</h3>
+          <p>Створено на основі libmpv, двигуна за mpv і IINA. Виберіть вбудований або зовнішній звук і субтитри. VideoToolbox обробляє апаратне декодування.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Готовий до серіалу</h3>
+          <p>Kinrox вибудовує відео в папці та починає наступне, коли закінчується епізод — «2» перед «10», як у Finder.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-play"></i></div>
+          <h3>Медійні клавіші просто працюють</h3>
+          <p>Клавіші ⏯ на клавіатурі, Центр керування та «Зараз грає» керують Kinrox. До 20 останніх файлів чекають на початковому екрані.</p>
+        </article>
+      </div>
+      <div class="shortcuts" data-reveal>
+        <span><kbd>Пробіл</kbd> пауза</span>
+        <span><kbd> ←</kbd><kbd>→</kbd> 5 с</span>
+        <span><kbd>⇧</kbd><kbd> ←</kbd><kbd>→</kbd> 30 с</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> Гучність</span>
+        <span><kbd>⌘</kbd><kbd>←</kbd><kbd>→</kbd> попередній / наступний файл</span>
+        <span><kbd>F</kbd> на весь екран</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy" aria-labelledby="privacy-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">Конфіденційність</span>
+        <h2 class="display" id="privacy-title">Те, що відбувається у вашій вітальні, залишається там.</h2>
+        <p class="lead">Ваші Mac і iPhone обмінюються командами відтворення безпосередньо через локальну мережу. Ваші відео залишаються на Mac.</p>
+      </div>
+      <div class="cards-2">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>Лише локальна мережа</h3>
+          <p>Виявлення через Bonjour, підключення тільки з власної підмережі. Відмовлені публічні адреси та стільниковий зв’язок.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-lock"></i></div>
+          <h3>Зашифровано та спарено</h3>
+          <p>Кожна команда передається в зашифрованому каналі. Жетони сполучення живуть у Keychain на обох пристроях.</p>
+          <div class="tech"><code>X25519</code><code>HKDF-SHA256</code><code>ChaCha20-Poly1305</code></div>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
+          <h3>Ні облікових записів, ні телеметрії</h3>
+          <p>Немає облікових записів або аналітики використання. Mac щодня перевіряє загальнодоступний канал оновлень без унікальних ідентифікаторів або профілювання системи. На цьому веб-сайті немає аналітики та файлів cookie.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
+          <h3>Ваші файли залишаються на Mac</h3>
+          <p>Пульт дистанційного керування бачить заголовки та тривалість, але ніколи шляхи до файлів. Відкриття останнього файлу вирішено на Mac.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="open-source" aria-labelledby="oss-title">
+    <div class="container">
+      <div class="oss" data-reveal>
+        <div>
+          <span class="overline">Відкритий код · GPL‑3.0</span>
+          <h2 class="display" id="oss-title">Безкоштовно й з відкритим кодом. Читайте та змінюйте його на свій розсуд.</h2>
+          <p class="lead">Kinrox написано в Swift 6 і SwiftUI поверх libmpv. Кожен рядок плеєра, пульта дистанційного керування та протоколу на GitHub.</p>
+          <ul class="status">
+            <li>Плеєр <i class="ic ic-check"></i>Mac — працює</li>
+            <li><i class="ic ic-check"></i>iPhone віддалений — збірка з джерела</li>
+            <li><i class="ic ic-check"></i>Mac v0.3.0 — підписане та нотаріально завірене DMG</li>
+            <li class="soon"><i class="ic ic-history"></i>Пульт на App Store — планується</li>
+          </ul>
+          <div class="oss-actions">
+            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Завантажити для Mac</a>
+            <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Релізи</a>
+          </div>
+        </div>
+        <div class="terminal" aria-label="Збірка з джерела">
+          <div class="terminal-bar"><img src="../assets/img/ui/traffic-lights.svg" alt="">Збірка з джерела</div>
+<pre><code><span class="c"># Xcode 26.5, XcodeGen and mpv from Homebrew</span>
+brew install xcodegen mpv pkg-config
+git clone https://github.com/awaik/Kinrox.git
+cd Kinrox
+cp -n Config/Signing.local.xcconfig.example \
+  Config/Signing.local.xcconfig
+<span class="c"># Set your team: docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md</span>
+./Scripts/check-env.sh
+./Scripts/generate.sh
+
+xcodebuild -workspace Kinrox.xcworkspace \
+  -scheme PlayerMac -configuration Debug \
+  -destination 'platform=macOS,arch=arm64' \
+  -derivedDataPath DerivedData build
+open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">FAQ</span>
+        <h2 class="display" id="faq-title">Питання</h2>
+      </div>
+      <div class="faq" data-reveal>
+        <details><summary>Чи потрібен інтернет?</summary><p>Відтворення та дистанційне керування працюють без доступу до Інтернету, коли Mac і iPhone спільно використовують мережу Wi‑Fi. Mac використовує HTTPS для щоденної перевірки оновлень і завантажує оновлення, коли ви вирішуєте його встановити.</p></details>
+        <details><summary>Він працює з телевізором, а не з проектором?</summary><p>так Kinrox відтворює все, що показує ваш Mac — проектор, телевізор через HDMI або дисплей, підключений за допомогою AirPlay.</p></details>
+        <details><summary>Які Macs і iPhones підтримуються?</summary><p>Macs із Apple silicon на macOS 14 Sonoma або новішої версії та iPhones на iOS 17 або новішої версії. Intel Macs ще не підтримується.</p></details>
+        <details><summary>Чи може декілька iPhone керувати одним Mac?</summary><p>так Кожен iPhone з’єднується один раз із власним кодом; одночасно можна підключити до чотирьох пультів. Ви можете відкликати будь-який із них у налаштуваннях плеєра.</p></details>
+        <details><summary>Чи можу я вибрати доріжки аудіо та субтитрів?</summary><p>так На Mac використовуйте кнопку «Аудіо та субтитри» або меню «Аудіо та субтитри». Виберіть вбудовані треки, знайдіть зовнішні файли у вкладених папках або вимкніть субтитри. Kinrox може запам&#x27;ятати ваш вибір для наступного епізоду.</p></details>
+        <details><summary>Скільки це коштує?</summary><p>нічого Kinrox є безкоштовним і відкритим кодом під GNU GPL v3.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section final" aria-labelledby="final-title">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container" data-reveal>
+      <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
+      <h2 class="display" id="final-title">Лягти. <span class="fire-text">Натисніть кнопку відтворення.</span></h2>
+      <p class="lead">Kinrox для Mac і iPhone. Безкоштовний, із відкритим вихідним кодом і створений для кіновечорів.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Завантажити для Mac</a>
+        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Повідомити про помилку</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
+    <span>Безкоштовне програмне забезпечення під GPL‑3.0. Не пов’язаний із Apple.</span>
+    <nav class="footer-links" aria-label="нижній колонтитул">
+      <a href="privacy/">Конфіденційність</a>
+      <a href="support/">Підтримка</a>
+      <a href="https://github.com/awaik/Kinrox">Вихідний код</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">Ліцензія</a>
+      <a href="https://github.com/awaik/Kinrox/issues">Питання</a>
+      <a href="#languages">Українська</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

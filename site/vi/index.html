@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="vi" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kinrox — Trình phát video Mac có điều khiển từ xa iPhone</title>
+  <meta name="description" content="Kinrox là trình phát video miễn phí, mã nguồn mở cho Mac, với điều khiển từ xa trên iPhone. Tạm dừng, tua và chỉnh âm lượng mà không cần rời ghế sofa.">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="https://kinrox.app/vi/">
+  <link rel="alternate" hreflang="en" href="https://kinrox.app/">
+  <link rel="alternate" hreflang="ru" href="https://kinrox.app/ru/">
+  <link rel="alternate" hreflang="es" href="https://kinrox.app/es/">
+  <link rel="alternate" hreflang="fr" href="https://kinrox.app/fr/">
+  <link rel="alternate" hreflang="de" href="https://kinrox.app/de/">
+  <link rel="alternate" hreflang="pt" href="https://kinrox.app/pt/">
+  <link rel="alternate" hreflang="it" href="https://kinrox.app/it/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://kinrox.app/zh-Hans/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://kinrox.app/zh-Hant/">
+  <link rel="alternate" hreflang="ja" href="https://kinrox.app/ja/">
+  <link rel="alternate" hreflang="ko" href="https://kinrox.app/ko/">
+  <link rel="alternate" hreflang="ar" href="https://kinrox.app/ar/">
+  <link rel="alternate" hreflang="hi" href="https://kinrox.app/hi/">
+  <link rel="alternate" hreflang="bn" href="https://kinrox.app/bn/">
+  <link rel="alternate" hreflang="ur" href="https://kinrox.app/ur/">
+  <link rel="alternate" hreflang="id" href="https://kinrox.app/id/">
+  <link rel="alternate" hreflang="ms" href="https://kinrox.app/ms/">
+  <link rel="alternate" hreflang="vi" href="https://kinrox.app/vi/">
+  <link rel="alternate" hreflang="th" href="https://kinrox.app/th/">
+  <link rel="alternate" hreflang="tr" href="https://kinrox.app/tr/">
+  <link rel="alternate" hreflang="fa" href="https://kinrox.app/fa/">
+  <link rel="alternate" hreflang="pl" href="https://kinrox.app/pl/">
+  <link rel="alternate" hreflang="uk" href="https://kinrox.app/uk/">
+  <link rel="alternate" hreflang="nl" href="https://kinrox.app/nl/">
+  <link rel="alternate" hreflang="ro" href="https://kinrox.app/ro/">
+  <link rel="alternate" hreflang="el" href="https://kinrox.app/el/">
+  <link rel="alternate" hreflang="cs" href="https://kinrox.app/cs/">
+  <link rel="alternate" hreflang="sv" href="https://kinrox.app/sv/">
+  <link rel="alternate" hreflang="hu" href="https://kinrox.app/hu/">
+  <link rel="alternate" hreflang="he" href="https://kinrox.app/he/">
+  <link rel="alternate" hreflang="x-default" href="https://kinrox.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kinrox">
+  <meta property="og:title" content="Kinrox - dừng đứng dậy để tạm dừng phim">
+  <meta property="og:description" content="Trình phát video Mac tối giản với điều khiển từ xa iPhone thực sự. Nguồn mở và miễn phí.">
+  <meta property="og:url" content="https://kinrox.app/vi/">
+  <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/mockups.css">
+  <link rel="stylesheet" href="../assets/css/hero.css">
+  <link rel="stylesheet" href="../assets/css/sections.css">
+  <link rel="stylesheet" href="../assets/css/localization.css">
+  <script src="../assets/js/main.js" defer></script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/vi/", "inLanguage": "vi", "description": "Trình phát video Mac tối giản với điều khiển từ xa iPhone thực sự. Nguồn mở và miễn phí."}
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#main">Chuyển đến nội dung</a>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="./" aria-label="nhà Kinrox"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34">Kinrox</a>
+    <nav class="nav-links" aria-label="Phần">
+      <a href="#remote">Điều khiển từ xa</a>
+      <a href="#how">Ghép đôi</a>
+      <a href="#player">Trình phát</a>
+      <a href="#privacy">Quyền riêng tư</a>
+      <a href="#open-source">Nguồn mở</a>
+    </nav>
+    <div class="nav-actions">
+      <details class="language-menu" id="languages">
+  <summary aria-label="Ngôn ngữ: Tiếng Việt"><span aria-hidden="true">◎</span> <bdi>Tiếng Việt</bdi></summary>
+  <nav class="language-options" aria-label="Ngôn ngữ">
+    <a href="../" lang="en" hreflang="en" dir="ltr" data-language="en">English</a>
+    <a href="../ru/" lang="ru" hreflang="ru" dir="ltr" data-language="ru">Русский</a>
+    <a href="../es/" lang="es" hreflang="es" dir="ltr" data-language="es">Español</a>
+    <a href="../fr/" lang="fr" hreflang="fr" dir="ltr" data-language="fr">Français</a>
+    <a href="../de/" lang="de" hreflang="de" dir="ltr" data-language="de">Deutsch</a>
+    <a href="../pt/" lang="pt" hreflang="pt" dir="ltr" data-language="pt">Português</a>
+    <a href="../it/" lang="it" hreflang="it" dir="ltr" data-language="it">Italiano</a>
+    <a href="../zh-Hans/" lang="zh-Hans" hreflang="zh-Hans" dir="ltr" data-language="zh-Hans">简体中文</a>
+    <a href="../zh-Hant/" lang="zh-Hant" hreflang="zh-Hant" dir="ltr" data-language="zh-Hant">繁體中文</a>
+    <a href="../ja/" lang="ja" hreflang="ja" dir="ltr" data-language="ja">日本語</a>
+    <a href="../ko/" lang="ko" hreflang="ko" dir="ltr" data-language="ko">한국어</a>
+    <a href="../ar/" lang="ar" hreflang="ar" dir="rtl" data-language="ar">العربية</a>
+    <a href="../hi/" lang="hi" hreflang="hi" dir="ltr" data-language="hi">हिन्दी</a>
+    <a href="../bn/" lang="bn" hreflang="bn" dir="ltr" data-language="bn">বাংলা</a>
+    <a href="../ur/" lang="ur" hreflang="ur" dir="rtl" data-language="ur">اردو</a>
+    <a href="../id/" lang="id" hreflang="id" dir="ltr" data-language="id">Bahasa Indonesia</a>
+    <a href="../ms/" lang="ms" hreflang="ms" dir="ltr" data-language="ms">Bahasa Melayu</a>
+    <a href="./" lang="vi" hreflang="vi" dir="ltr" data-language="vi" aria-current="true">Tiếng Việt</a>
+    <a href="../th/" lang="th" hreflang="th" dir="ltr" data-language="th">ไทย</a>
+    <a href="../tr/" lang="tr" hreflang="tr" dir="ltr" data-language="tr">Türkçe</a>
+    <a href="../fa/" lang="fa" hreflang="fa" dir="rtl" data-language="fa">فارسی</a>
+    <a href="../pl/" lang="pl" hreflang="pl" dir="ltr" data-language="pl">Polski</a>
+    <a href="../uk/" lang="uk" hreflang="uk" dir="ltr" data-language="uk">Українська</a>
+    <a href="../nl/" lang="nl" hreflang="nl" dir="ltr" data-language="nl">Nederlands</a>
+    <a href="../ro/" lang="ro" hreflang="ro" dir="ltr" data-language="ro">Română</a>
+    <a href="../el/" lang="el" hreflang="el" dir="ltr" data-language="el">Ελληνικά</a>
+    <a href="../cs/" lang="cs" hreflang="cs" dir="ltr" data-language="cs">Čeština</a>
+    <a href="../sv/" lang="sv" hreflang="sv" dir="ltr" data-language="sv">Svenska</a>
+    <a href="../hu/" lang="hu" hreflang="hu" dir="ltr" data-language="hu">Magyar</a>
+    <a href="../he/" lang="he" hreflang="he" dir="rtl" data-language="he">עברית</a>
+  </nav>
+</details>
+      <a class="btn btn-glass" href="https://github.com/awaik/Kinrox">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <span class="chip"><i class="dot ember"></i>Miễn phí &amp; mã nguồn mở · Mac + iPhone</span>
+      <h1 class="display">Không cần đứng dậy để <span class="fire-text">tạm dừng phim.</span></h1>
+      <p class="lead">Kinrox phát bất kỳ video nào trên Mac của bạn — và biến iPhone của bạn thành điều khiển từ xa. MacBook trên máy chiếu, bạn trên ghế: tạm dừng, tua lại 10 giây, giảm âm lượng hoặc bắt đầu tập tiếp theo mà không cần rời khỏi chăn.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Tải xuống cho Mac</a>
+        <a class="btn btn-glass" href="#how">Xem cách nó hoạt động</a>
+      </div>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Không có tài khoản</span><span>Không dùng đám mây</span><span>Hoạt động qua Wi‑Fi của bạn</span></p>
+
+      <div class="stage">
+        <div class="stage-scene">
+          <img src="../assets/img/scene.svg" alt="Một người nằm trên ghế dài dưới tấm chăn cầm chiếc iPhone. Phía sau họ, một chiếc MacBook và một máy chiếu đang chiếu phim trên tường." width="1200" height="600">
+        </div>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-pause"></i>Tạm dừng</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-rotate-back"></i>−10 giây</span>
+        <span class="stage-pill" aria-hidden="true"><i class="ic ic-volume-high"></i>Âm lượng 70%</span>
+        <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/vi/remote.webp" alt="Kinrox Remote trên iPhone: Ember Dusk.mkv tại 0:42:18 với các nút điều khiển phát, bỏ qua và âm lượng." width="780" height="1696"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pain" aria-labelledby="pain-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">Nghe có vẻ quen thuộc?</span>
+        <h2 class="display" id="pain-title">Đêm chiếu phim không cần phải gõ phím.</h2>
+      </div>
+      <div class="cards-3">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-laptop"></i></div>
+          <h3>Mac ở phía bên kia phòng</h3>
+          <p>Nó được cắm vào máy chiếu cạnh tường. Mỗi lần tạm dừng có nghĩa là phải đứng dậy, tìm bàn di chuột trong bóng tối và nheo mắt nhìn vào thanh điều khiển nhỏ.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: nhấn tạm dừng trên điện thoại trên tay.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-volume-high"></i></div>
+          <h3>Âm lượng luôn sai</h3>
+          <p>Những tiếng thì thầm trong một cảnh, vụ nổ ở cảnh tiếp theo - và ai đó đã ngủ ở phòng bên cạnh.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: thanh trượt âm lượng ngay dưới ngón tay cái của bạn.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>Ứng dụng “từ xa” là một việc vặt</h3>
+          <p>Bảng điều khiển web có địa chỉ IP và mật khẩu, tab trình duyệt chuyển sang chế độ ngủ, các nút dành cho bàn làm việc - không dành cho ghế dài.</p>
+          <p class="fix"><i class="ic ic-check"></i>Kinrox: tự tìm Mac của bạn, ghép nối với một mã.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="remote" aria-labelledby="remote-title">
+    <div class="container split">
+      <div class="phones" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="iphone back"><div class="iphone-body"><img src="../assets/img/remote/vi/recents.webp" alt="Bảng tập tin gần đây trên điều khiển từ xa iPhone." width="780" height="1696" loading="lazy"></div></div>
+        <div class="iphone front"><div class="iphone-body"><img src="../assets/img/remote/vi/remote.webp" alt="Màn hình phát lại Kinrox Remote." width="780" height="1696" loading="lazy"></div></div>
+      </div>
+      <div>
+        <div class="section-head" data-reveal>
+          <span class="overline">Điều khiển từ xa iPhone</span>
+          <h2 class="display" id="remote-title">Một chiếc điều khiển từ xa được làm cho một căn phòng tối.</h2>
+          <p class="lead">Các mục tiêu lớn, chủ đề ấm áp tối tăm và một cú chạm nhẹ vào mỗi lần nhấn. Bạn có thể sử dụng nó mà không cần rời mắt khỏi bộ phim.</p>
+        </div>
+        <div class="features" data-reveal>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-pause"></i></div><h3>Một nút phát lớn</h3><p>Mọi nút đều đủ lớn để bấm dễ dàng ngay cả khi đang buồn ngủ.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-rotate-back"></i></div><h3>Nhảy ±10 giây và ±30 giây</h3><p>Bỏ lỡ một dòng? Một lần nhấn trở lại. Bỏ qua phần giới thiệu với hai.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-volume-high"></i></div><h3>Khối lượng trong tay của bạn</h3><p>Âm lượng riêng của Kinrox, từ 0 đến 100. Âm lượng hệ thống của Mac không bị ảnh hưởng.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-next"></i></div><h3>Tập tiếp theo</h3><p>Tệp trước và tệp tiếp theo từ cùng một thư mục, theo thứ tự Finder.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-history"></i></div><h3>Các tập tin gần đây</h3><p>Chọn nội dung bạn đã xem trước đó — nội dung đó sẽ mở trên Mac.</p></div>
+          <div class="feature"><div class="icon-chip"><i class="ic ic-fullscreen"></i></div><h3>Tua video và toàn màn hình</h3><p>Kéo dòng thời gian tới bất kỳ thời điểm nào, chuyển toàn màn hình từ ghế dài.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">Ghép đôi</span>
+        <h2 class="display" id="how-title">Kết nối trong mười giây. Một lần.</h2>
+        <p class="lead">Không có địa chỉ IP, không có mật khẩu, không có tài khoản. Sau mã đầu tiên, iPhone của bạn sẽ tự kết nối lại.</p>
+      </div>
+      <div class="split">
+        <ol class="steps" data-reveal>
+          <li><div><h3>Mở video trên Mac của bạn</h3><p>Kéo tệp vào Kinrox hoặc nhấn <kbd>⌘</kbd> <kbd>O</kbd>. Máy chủ từ xa được bật theo mặc định.</p></div></li>
+          <li><div><h3>Chọn Mac của bạn trên iPhone</h3><p>Kinrox tự hiển thị khi cả hai thiết bị đều sử dụng cùng một Wi-Fi.</p><img src="../assets/img/remote/vi/players-list.webp" alt="Danh sách Macs được tìm thấy trên mạng: MacBook Pro, Mac mini, iMac Studio." width="780" height="556" loading="lazy"></div></li>
+          <li><div><h3>Nhập mã gồm 6 chữ số</h3><p>Mac hiển thị mã tồn tại trong hai phút. Ba lần thử sai và nó đã biến mất.</p></div></li>
+        </ol>
+        <div class="pair-visual" data-reveal>
+          <div class="glow" aria-hidden="true"></div>
+          <div class="mac-wrap">
+            <div class="mac" role="img" aria-label="Kinrox trên Mac hiển thị mã ghép nối 482 913.">
+              <img class="mac-video" src="../assets/img/stills/blue-hour.svg" alt="">
+              <div class="mac-dim"></div>
+              <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+              <div class="mac-pair">
+                <div class="badge"><i class="ic ic-shield-check"></i></div>
+                <h4>Kết nối điều khiển</h4>
+                <p>Alex’s iPhone muốn điều khiển Kinrox. Nhập mã này trên điện thoại.</p>
+                <div class="mac-pin"><span>4</span><span>8</span><span>2</span><span>9</span><span>1</span><span>3</span></div>
+                <div class="mac-timer"><img src="../assets/img/ui/countdown.svg" alt="">Mã hết hạn sau 1:47</div>
+                <div class="decline">Từ chối</div>
+              </div>
+            </div>
+          </div>
+          <div class="iphone"><div class="iphone-body"><img src="../assets/img/remote/vi/pairing.webp" alt="Màn hình nhập mã trên điều khiển từ xa iPhone." width="780" height="1696" loading="lazy"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="player" aria-labelledby="player-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">Trình phát cho Mac</span>
+        <h2 class="display" id="player-title">Trình phát không làm bạn mất tập trung.</h2>
+        <p class="lead">Video là giao diện. Một lớp kính mỏng xuất hiện khi bạn cần và ẩn đi sau ba giây.</p>
+      </div>
+      <div class="player-shot" data-reveal>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="mac-wrap">
+          <div class="mac" role="img" aria-label="Cửa sổ trình phát Kinrox đang phát Ember Dusk.mkv bằng thanh điều khiển bằng kính.">
+            <img class="mac-video" src="../assets/img/stills/ember-dusk.svg" alt="">
+            <div class="mac-scrim-top"></div>
+            <div class="mac-scrim-bottom"></div>
+            <img class="mac-lights" src="../assets/img/ui/traffic-lights.svg" alt="">
+            <div class="mac-title"><b>Ember Dusk.mkv</b><span>3 / 12 · Movies</span></div>
+            <div class="mac-chip"><i class="dot"></i>Điều khiển bởi Alex’s iPhone</div>
+            <div class="mac-hover">1:08:24</div>
+            <div class="mac-controls">
+              <div class="mac-scrub"><span>0:42:15</span><div class="mac-track"><i class="base"></i><i class="buf"></i><i class="prog"></i><i class="mark"></i><i class="knob"></i></div><span class="dim">−1:15:48</span></div>
+              <div class="mac-buttons">
+                <div class="grp vol"><span class="mac-ib"><i class="ic ic-volume-high"></i></span><span class="mac-vslider"></span></div>
+                <div class="grp transport"><span class="mac-ib"><i class="ic ic-previous"></i></span><span class="mac-pp"><i class="ic ic-pause"></i></span><span class="mac-ib"><i class="ic ic-next"></i></span></div>
+                <div class="grp actions"><span class="mac-ib"><i class="ic ic-playlist"></i></span><span class="mac-ib"><i class="ic ic-history"></i></span><span class="mac-ib"><i class="ic ic-fullscreen"></i></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formats" data-reveal>
+        <span class="chip">MKV</span><span class="chip">MP4</span><span class="chip">M4V</span><span class="chip">MOV</span><span class="chip">AVI</span><span class="chip">WebM</span><span class="chip">TS</span>
+      </div>
+      <div class="cards-3 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-monitor-play"></i></div>
+          <h3>Chơi hầu hết mọi thứ</h3>
+          <p>Được xây dựng trên libmpv, động cơ đằng sau mpv và IINA. Chọn âm thanh và phụ đề được nhúng hoặc bên ngoài. VideoToolbox xử lý giải mã phần cứng.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Sẵn sàng cho một loạt</h3>
+          <p>Kinrox sắp xếp các video trong thư mục và bắt đầu video tiếp theo khi một tập kết thúc - “2” trước “10”, giống như Finder.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-play"></i></div>
+          <h3>Phím media chỉ hoạt động</h3>
+          <p>Bàn phím ⏯ phím, Trung tâm điều khiển và Điều khiển đang phát Kinrox. Tối đa 20 tệp gần đây đang chờ trên màn hình bắt đầu.</p>
+        </article>
+      </div>
+      <div class="shortcuts" data-reveal>
+        <span><kbd>Dấu cách</kbd> tạm dừng</span>
+        <span><kbd>←</kbd><kbd>→</kbd> 5 giây</span>
+        <span><kbd>⇧</kbd><kbd>←</kbd><kbd>→</kbd> 30 giây</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> Âm lượng</span>
+        <span><kbd>⌘</kbd><kbd>←</kbd><kbd>→</kbd> tập tin trước / tiếp theo</span>
+        <span><kbd>F</kbd> toàn màn hình</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy" aria-labelledby="privacy-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="overline">Quyền riêng tư</span>
+        <h2 class="display" id="privacy-title">Những gì xảy ra trong phòng khách của bạn vẫn ở đó.</h2>
+        <p class="lead">Mac và iPhone trao đổi lệnh phát lại trực tiếp qua mạng cục bộ của bạn. Video của bạn vẫn ở trên Mac.</p>
+      </div>
+      <div class="cards-2">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-wifi"></i></div>
+          <h3>Chỉ mạng cục bộ</h3>
+          <p>Khám phá qua Bonjour, chỉ kết nối từ mạng con của riêng bạn. Địa chỉ công cộng và di động đều bị từ chối.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-lock"></i></div>
+          <h3>Đã mã hóa và ghép nối</h3>
+          <p>Mỗi lệnh truyền đi trong một kênh được mã hóa. Mã thông báo ghép nối trực tiếp trong Chuỗi khóa trên cả hai thiết bị.</p>
+          <div class="tech"><code>X25519</code><code>HKDF-SHA256</code><code>ChaCha20-Poly1305</code></div>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
+          <h3>Không có tài khoản, không đo từ xa</h3>
+          <p>Không có tài khoản hoặc phân tích sử dụng. Mac kiểm tra nguồn cấp dữ liệu cập nhật công khai hàng ngày mà không cần mã định danh duy nhất hoặc hồ sơ hệ thống. Trang web này không có phân tích hoặc cookie.</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
+          <h3>Các tập tin của bạn vẫn ở trên Mac</h3>
+          <p>Điều khiển từ xa nhìn thấy tiêu đề và thời lượng, không bao giờ nhìn thấy đường dẫn tệp. Việc mở tệp gần đây được giải quyết trên Mac.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="open-source" aria-labelledby="oss-title">
+    <div class="container">
+      <div class="oss" data-reveal>
+        <div>
+          <span class="overline">Mã nguồn mở · GPL‑3.0</span>
+          <h2 class="display" id="oss-title">Miễn phí và mã nguồn mở. Bạn có thể đọc và tùy chỉnh mã nguồn.</h2>
+          <p class="lead">Kinrox được viết bằng Swift 6 và SwiftUI bên trên libmpv. Mọi dòng của đầu phát, điều khiển từ xa và giao thức đều có trên GitHub.</p>
+          <ul class="status">
+            <li>Trình phát <i class="ic ic-check"></i>Mac - hoạt động</li>
+            <li>Điều khiển từ xa <i class="ic ic-check"></i>iPhone - xây dựng từ nguồn</li>
+            <li><i class="ic ic-check"></i>Mac v0.3.0 — DMG đã ký và công chứng</li>
+            <li class="soon"><i class="ic ic-history"></i>Remote trên App Store — đã lên kế hoạch</li>
+          </ul>
+          <div class="oss-actions">
+            <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Tải xuống cho Mac</a>
+            <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">phát hành</a>
+          </div>
+        </div>
+        <div class="terminal" aria-label="Xây dựng từ nguồn">
+          <div class="terminal-bar"><img src="../assets/img/ui/traffic-lights.svg" alt="">Xây dựng từ nguồn</div>
+<pre><code><span class="c"># Xcode 26.5, XcodeGen and mpv from Homebrew</span>
+brew install xcodegen mpv pkg-config
+git clone https://github.com/awaik/Kinrox.git
+cd Kinrox
+cp -n Config/Signing.local.xcconfig.example \
+  Config/Signing.local.xcconfig
+<span class="c"># Set your team: docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md</span>
+./Scripts/check-env.sh
+./Scripts/generate.sh
+
+xcodebuild -workspace Kinrox.xcworkspace \
+  -scheme PlayerMac -configuration Debug \
+  -destination 'platform=macOS,arch=arm64' \
+  -derivedDataPath DerivedData build
+open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="overline">Câu hỏi thường gặp</span>
+        <h2 class="display" id="faq-title">Câu hỏi</h2>
+      </div>
+      <div class="faq" data-reveal>
+        <details><summary>Nó có cần internet không?</summary><p>Tính năng phát lại và điều khiển từ xa hoạt động mà không cần truy cập Internet khi Mac và iPhone chia sẻ mạng Wi‑Fi. Mac sử dụng HTTPS để kiểm tra cập nhật hàng ngày và tải xuống bản cập nhật khi bạn chọn cài đặt nó.</p></details>
+        <details><summary>Nó có hoạt động với TV chứ không phải máy chiếu?</summary><p>Vâng. Kinrox phát trên bất cứ thứ gì Mac của bạn hiển thị — máy chiếu, TV qua HDMI hoặc màn hình được kết nối với AirPlay.</p></details>
+        <details><summary>Macs và iPhones nào được hỗ trợ?</summary><p>Macs với Apple silicon trên macOS 14 Sonoma trở lên và iPhones trên iOS 17 trở lên. Intel Macs chưa được hỗ trợ.</p></details>
+        <details><summary>Nhiều iPhone có thể điều khiển cùng một Mac không?</summary><p>Vâng. Mỗi iPhone ghép nối một lần với mã riêng; có thể kết nối tối đa bốn điều khiển từ xa cùng một lúc. Bạn có thể thu hồi bất kỳ trong số chúng trong cài đặt trình phát.</p></details>
+        <details><summary>Tôi có thể chọn bản âm thanh và phụ đề không?</summary><p>Vâng. Trên Mac, sử dụng nút Âm thanh &amp; Phụ đề hoặc menu Âm thanh và Phụ đề. Chọn các bản nhạc được nhúng, tìm tệp bên ngoài trong các thư mục lồng nhau hoặc tắt phụ đề. Kinrox có thể ghi nhớ lựa chọn của bạn cho tập tiếp theo.</p></details>
+        <details><summary>Nó có giá bao nhiêu?</summary><p>Không có gì. Kinrox là mã nguồn mở và miễn phí dưới tên GNU GPL v3.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section final" aria-labelledby="final-title">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container" data-reveal>
+      <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
+      <h2 class="display" id="final-title">Nằm xuống. <span class="fire-text">Bấm phát.</span></h2>
+      <p class="lead">Kinrox dành cho Mac và iPhone. Miễn phí, mã nguồn mở và dành cho các đêm chiếu phim.</p>
+      <div class="hero-actions">
+        <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Tải xuống cho Mac</a>
+        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Báo cáo sự cố</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
+    <span>Phần mềm miễn phí dưới GPL‑3.0. Không liên kết với Apple.</span>
+    <nav class="footer-links" aria-label="Chân trang">
+      <a href="privacy/">Quyền riêng tư</a>
+      <a href="support/">Hỗ trợ</a>
+      <a href="https://github.com/awaik/Kinrox">Mã nguồn</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">Giấy phép</a>
+      <a href="https://github.com/awaik/Kinrox/issues">vấn đề</a>
+      <a href="#languages">Tiếng Việt</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

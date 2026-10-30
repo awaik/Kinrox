@@ -7,6 +7,10 @@ on:
     branches: [main]
     paths:
       - "site/**"
+      - "Website/**"
+      - "Resources/Localization/**"
+      - "Scripts/build-site.py"
+      - "Scripts/tests/test_site_localization.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -27,6 +31,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
+      - name: Verify localized pages and links
+        run: |
+          python3 Scripts/build-site.py --check
+          python3 -m unittest discover -s Scripts/tests -p 'test_site_localization.py'
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
