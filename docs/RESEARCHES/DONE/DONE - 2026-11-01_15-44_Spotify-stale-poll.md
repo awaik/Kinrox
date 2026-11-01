@@ -103,4 +103,3 @@ The optimized build used the same workspace/scheme/destination with
 - The corrected build is not a notarized distribution release. Full repetition
   of the owner's live scenario against this corrected build remains unverified.
 - Unrelated remote signing, TestFlight and PlayerRootView work was preserved.
-
