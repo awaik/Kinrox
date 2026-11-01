@@ -249,7 +249,9 @@
 "Source Code (GitHub)" = "Mã nguồn (GitHub)";
 "License: %@" = "Giấy phép: %@";
 "Report an Issue" = "Báo cáo sự cố";
-"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox là phần mềm mã nguồn mở được cấp phép theo GNU GPL v3.";
+"Personal use only" = "Chỉ dành cho mục đích cá nhân";
+"Kinrox Remote is free for personal, noncommercial use. Business use, sales, and paid subscriptions are prohibited." = "Kinrox Remote miễn phí cho mục đích cá nhân, phi thương mại. Cấm sử dụng cho hoạt động kinh doanh, bán lại và cung cấp gói đăng ký trả phí.";
+"Kinrox for Mac is open-source software licensed under the GNU GPL v3." = "Kinrox cho Mac là phần mềm mã nguồn mở theo giấy phép GNU GPL v3.";
 
 /* Matrix screensaver — Figma page 07. */
 "Screensaver" = "Trình bảo vệ màn hình";
@@ -270,3 +272,92 @@
 "Esc — exit · Movie paused" = "Esc — thoát · Phim đã tạm dừng";
 "Matrix screensaver. Press Escape to exit." = "Trình bảo vệ màn hình Matrix. Nhấn Escape để thoát.";
 "The movie could not be paused. Try again." = "Không thể tạm dừng phim. Hãy thử lại.";
+
+/* Music mode — Figma page 08. */
+"%@ tracks" = "%@ bài hát";
+"Add to playlist" = "Thêm vào danh sách phát";
+"Add to queue" = "Thêm vào hàng đợi";
+"Added manually" = "Đã thêm thủ công";
+"Album" = "Album";
+"Albums" = "Album";
+"All albums" = "Tất cả album";
+"All tracks" = "Tất cả bài hát";
+"Artist, album or track" = "Nghệ sĩ, album hoặc bài hát";
+"Artists" = "Nghệ sĩ";
+"By artist" = "Theo nghệ sĩ";
+"By title" = "Theo tên";
+"Could not create playlist." = "Không thể tạo danh sách phát.";
+"Could not update favorites." = "Không thể cập nhật mục yêu thích.";
+"Create" = "Tạo";
+"Demo · No audio" = "Demo · Không có âm thanh";
+"Entire queue" = "Toàn bộ hàng đợi";
+"Favorite" = "Yêu thích";
+"Favorite: %@" = "Yêu thích: %@";
+"Follow" = "Theo dõi";
+"From the source list" = "Từ danh sách nguồn";
+"Library" = "Thư viện";
+"Liked" = "Đã thích";
+"Liked tracks" = "Bài hát đã thích";
+"Music" = "Nhạc";
+"New playlist…" = "Danh sách phát mới…";
+"Next track" = "Bài tiếp theo";
+"Next: %@" = "Tiếp theo: %@";
+"On" = "Bật";
+"Play album" = "Phát album";
+"Play album: %@" = "Phát album: %@";
+"Play all" = "Phát tất cả";
+"Playback mode" = "Chế độ phát";
+"Playback position" = "Vị trí phát";
+"Playlist name" = "Tên danh sách phát";
+"Playlists" = "Danh sách phát";
+"Previous track" = "Bài trước";
+"Queue" = "Hàng đợi";
+"Remove from queue" = "Xóa khỏi hàng đợi";
+"Reorder track" = "Di chuyển bài hát";
+"Repeat" = "Lặp lại";
+"Repeat all" = "Lặp lại tất cả";
+"Repeat one" = "Lặp lại một bài";
+"Saved immediately · Esc to close" = "Lưu ngay · Esc để đóng";
+"Search" = "Tìm kiếm";
+"Search: %@" = "Tìm kiếm: %@";
+"Shuffle" = "Trộn bài";
+"Space: pause · Enter: play · L: favorite · ⌘F: search · ⌘Z: undo" = "Dấu cách: tạm dừng · Enter: phát · L: yêu thích · ⌘F: tìm · ⌘Z: hoàn tác";
+"Stop" = "Dừng";
+"This Mac" = "Mac này";
+"Time" = "Thời gian";
+"Title" = "Tên";
+"Tracks" = "Bài hát";
+"Video" = "Video";
+
+/* Optional Spotify account and library */
+"Enter a valid Spotify Client ID." = "Nhập Client ID Spotify hợp lệ.";
+"Reconnect Spotify in Settings." = "Kết nối lại Spotify trong Cài đặt.";
+"Spotify denied access. Check Premium and the app allowlist." = "Spotify từ chối quyền truy cập. Kiểm tra Premium và danh sách người dùng được phép của ứng dụng.";
+"Open Spotify on this Mac and start a track." = "Mở Spotify trên máy Mac này và phát một bài hát.";
+"Spotify quota reached. Try again later." = "Đã hết hạn mức Spotify. Hãy thử lại sau.";
+"Spotify is busy. Try again later." = "Spotify đang bận. Hãy thử lại sau.";
+"Spotify is unavailable. Check your connection." = "Spotify không khả dụng. Kiểm tra kết nối của bạn.";
+"Connect Spotify in Settings." = "Kết nối Spotify trong Cài đặt.";
+"Loading Spotify library…" = "Đang tải thư viện Spotify…";
+"Optional connection on Mac. Spotify Premium and your own developer app are required." = "Kết nối tùy chọn trên Mac. Cần Spotify Premium và ứng dụng dành cho nhà phát triển của riêng bạn.";
+"Spotify Client ID" = "Client ID Spotify";
+"Disconnect" = "Ngắt kết nối";
+"Connect Spotify" = "Kết nối Spotify";
+"Favorite %@" = "Yêu thích %@";
+"Swipe left to remove · hold to reorder" = "Vuốt trái để xóa · giữ để sắp xếp lại";
+"Source list" = "Danh sách nguồn";
+"Saved immediately" = "Lưu ngay lập tức";
+"Spotify is playing on another device or outside Kinrox." = "Spotify đang phát trên thiết bị khác hoặc bên ngoài Kinrox.";
+
+/* Spotify metadata, feedback and connection consent. */
+"Track details" = "Chi tiết bài hát";
+"Open in Spotify" = "Mở trong Spotify";
+"Explicit content" = "Nội dung nhạy cảm";
+"Removed from Liked Songs" = "Đã xóa khỏi Bài hát đã thích";
+"This action is unavailable in Spotify." = "Thao tác này không khả dụng trong Spotify.";
+"Added to Liked Songs" = "Đã thêm vào Bài hát đã thích";
+"Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics." = "Thông tin đăng nhập nằm trong Chuỗi khóa Mac. Ngắt kết nối xóa dữ liệu Spotify cục bộ và giữ danh sách phát Spotify. Không có máy chủ Kinrox hay phân tích sử dụng.";
+"I accept the Spotify connection terms and have read the privacy policy." = "Tôi đồng ý với điều khoản kết nối Spotify và đã đọc chính sách quyền riêng tư.";
+"Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Quyền truy cập Spotify: thư viện, phát nhạc, mục yêu thích và danh sách phát có thể sửa. Bỏ yêu thích cũng xóa bài hát khỏi các danh sách phát có thể sửa.";
+"Open album in Spotify" = "Mở album trong Spotify";
+"Connection terms" = "Điều khoản kết nối";

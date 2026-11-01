@@ -18,6 +18,11 @@ the following delivery record supersedes its outstanding-account assumptions.
 
 ## Historical preparation checklist
 
+Licensing update, November 1, 2026: future remote revisions now use the personal-use
+license and shared-code exception described in [LICENSE-ROLLOUT.md](LICENSE-ROLLOUT.md).
+The historical GPL-only statements below describe the previously delivered build;
+that build and its store agreement were not changed by the repository update.
+
 The following sections describe the initial preparation, before the owner
 authorized delivery and created the App Store record.
 

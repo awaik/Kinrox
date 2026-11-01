@@ -232,6 +232,7 @@ extension RemoteAppModel {
     }
 
     func detachClient(gracefully: Bool = false) {
+        resetMusicPages()
         waitingForDiscovery = false
         frozenPosition = position
         hasState = false

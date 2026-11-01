@@ -3,6 +3,10 @@ import RemoteProtocol
 
 extension RemoteAppModel {
     func syncDemo() {
+        if musicDemo != nil {
+            syncMusicDemo()
+            return
+        }
         guard let demo else { return }
         players = demo.players
         let sample = demo.state
@@ -38,6 +42,11 @@ extension RemoteAppModel {
         }
     }
     func performDemo(_ command: Command) {
+        if let musicDemo {
+            musicDemo.perform(command)
+            syncMusicDemo()
+            return
+        }
         guard let demo else { return }
         switch command {
         case .togglePause: demo.togglePause()
@@ -53,6 +62,9 @@ extension RemoteAppModel {
         case .setScreensaver(let value): demo.setScreensaver(value)
         case .setFullscreen(let value):
             if demo.state.fullscreen != value { demo.toggleFullscreen() }
+        case .setTrackLiked, .setPlaylistMembership, .setArtistFollowed, .createPlaylist,
+            .setShuffle, .setRepeat, .queueMove, .queueRemove:
+            break
         }
         syncDemo()
     }

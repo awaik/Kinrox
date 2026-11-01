@@ -8,6 +8,8 @@ configFiles:
   Debug: ../Config/RemoteiOS.xcconfig
   Release: ../Config/RemoteiOS.xcconfig
 packages:
+  KinroxMusic:
+    path: ../Packages/KinroxMusic
   RemoteProtocol:
     path: ../Packages/RemoteProtocol
 targets:
@@ -19,6 +21,18 @@ targets:
       - ../Resources/Branding.xcassets
       - ../Resources/Localization
       - ../Shared
+      - path: LICENSE.txt
+        buildPhase: resources
+      - path: ../LICENSE
+        buildPhase: resources
+      - path: ../NOTICE
+        buildPhase: resources
+      - path: ../LICENSING.md
+        buildPhase: resources
+      - path: ../TRADEMARKS.md
+        buildPhase: resources
+      - path: ../SHARED-LICENSE-EXCEPTION.md
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(KINROX_BUNDLE_ID_PREFIX).remote
@@ -27,6 +41,8 @@ targets:
         INFOPLIST_FILE: RemoteiOS/Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     dependencies:
+      - package: KinroxMusic
+        product: MusicCore
       - package: RemoteProtocol
         product: RemoteProtocol
       - package: RemoteProtocol

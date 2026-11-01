@@ -1,0 +1,79 @@
+{
+  "version": "2026-11-01",
+  "locale": "sv",
+  "language": "Svenska",
+  "terms": [
+    {
+      "title": "Villkor för anslutning till Spotify",
+      "body": "Dessa villkor gäller när du aktiverar Spotify i Kinrox. Kinrox underhålls av awaik (https://github.com/awaik/Kinrox); support- och integritetsfrågor: https://github.com/awaik/Kinrox/issues. Kinrox är oberoende av Spotify och är inte godkänt av Spotify. Villkoren gäller när du har accepterat dem i appen.",
+      "id": "connection"
+    },
+    {
+      "title": "Ditt konto och dina val",
+      "body": "Anslutningen är valfri. Använd din egen Spotify-utvecklarapp och ett behörigt Spotify Premium-konto. Spotify styr API-åtkomst och kvoter; åtkomsten kan ändras eller upphöra. Spotifys egna villkor gäller fortfarande. Kinrox styr uppspelningen i den officiella Spotify-appen på din Mac. Det laddar inte ned, spelar in eller cachelagrar ljud.",
+      "id": "account"
+    },
+    {
+      "title": "Ändringar i biblioteket",
+      "body": "Dina åtgärder kan spara eller ta bort spår och album, följa eller sluta följa artister, skapa spellistor och ändra spellistor som du äger eller får redigera. Om du tar bort ett spår från favoriter tas även alla förekomster av spåret bort från dina redigerbara spellistor. Att välja ett album sparar inte dess spår var för sig. Ändringarna görs i ditt Spotify-konto och kan synas i andra Spotify-klienter.",
+      "id": "library"
+    },
+    {
+      "title": "Uppspelningskö",
+      "body": "Kinrox skapar en privat spellista med namnet Kinrox Queue och ersätter dess innehåll när du ändrar uppspelningskön. Vid frånkoppling finns spellistan kvar i Spotify, men dess lokala koppling glöms bort. En ny anslutning kan skapa ytterligare en hjälpspellista. Ta själv bort oönskade hjälpspellistor i Spotify.",
+      "id": "queue"
+    },
+    {
+      "title": "Spotifys rättigheter",
+      "body": "Om inte tillämplig lag tillåter annat får du inte ändra eller skapa bearbetningar av Spotifys plattform, tjänst eller innehåll, dekompilera, disassemblera, bakåtkompilera eller omvandla dem till källkod eller annan mänskligt läsbar form. Begränsningarna gäller Spotifys material; de begränsar inte rättigheter till Kinrox-koden som beviljas genom komponenternas licenser, inklusive Mac-spelarens GPL-licens.",
+      "id": "rights"
+    },
+    {
+      "title": "Ansvar och garantier",
+      "body": "Kinrox underhållare ansvarar för Kinrox. I den utsträckning lagen tillåter har Spotify och andra tredje parter inget ansvar för Kinrox. Kinrox lämnar inga löften eller garantier för Spotify. I den utsträckning lagen tillåter utesluts alla underförstådda garantier för Spotifys plattform, tjänst och innehåll, inklusive säljbarhet, lämplighet för ett visst ändamål och frånvaro av intrång i rättigheter. Tvingande konsumenträttigheter påverkas inte.",
+      "id": "responsibility"
+    },
+    {
+      "title": "Integritet och verkställighet",
+      "body": "Insamling och användning av uppgifter omfattas av integritetspolicyn som visas med dessa villkor. Spotify är tredjepartsförmånstagare enligt dessa villkor och den policyn och kan direkt göra dessa villkor gällande. Avsluta anslutningen via Inställningar → Spotify → Koppla från. Du kan även återkalla åtkomsten på appsidan i ditt Spotify-konto: https://www.spotify.com/account/apps/.",
+      "id": "enforcement"
+    },
+    {
+      "title": "Ändringar",
+      "body": "En ny version av anslutningsvillkoren måste accepteras innan Kinrox ansluter igen. Lokal videouppspelning och fjärrstyrning via det lokala nätverket är tillgängliga även utan att du accepterar villkoren för Spotify-anslutning.",
+      "id": "changes"
+    }
+  ],
+  "privacy": [
+    {
+      "title": "Integritetspolicy — Spotify-anslutning",
+      "body": "Version 2026-11-01. Kinrox underhållare, awaik, ansvarar för Kinrox behandling av uppgifter som beskrivs här. Detta tillägg gäller den valfria Spotify-integrationen. Kinrox allmänna integritetspolicy finns på https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Publicera inte token, innehåll i ditt personliga bibliotek eller annan privat information i offentliga ärenden.",
+      "id": "overview"
+    },
+    {
+      "title": "Åtkomst och ändamål",
+      "body": "När du accepterar villkoren och godkänner Spotify läser Kinrox på Mac ditt konto-ID och visningsnamn, sparade spår och album, följda artister, tillgängliga spellistor och deras innehåll, uppspelningsstatus och tillgängliga enheter. Informationen används för att visa biblioteket och styra Spotify. När du använder motsvarande reglage kan det spara och ta bort favoriter, följa artister, skapa spellistor samt redigera egna eller gemensamma spellistor. Att ta bort en favorit tar även bort dess förekomster från redigerbara spellistor. Kinrox underhåller en privat Kinrox Queue-spellista för uppspelning.",
+      "id": "access"
+    },
+    {
+      "title": "Lagring och mottagare",
+      "body": "Förnyelseuppgifter lagras i Macens Data Protection Keychain. Åtkomsttoken, kontouppgifter och biblioteksmetadata finns kvar i appens minne. Angivet Client ID, hjälpspellistans koppling och accepterad dokumentversion lagras i Macens inställningar. Kinrox har ingen server, användningsanalys eller telemetri, och underhållaren får inga av dessa Spotify-uppgifter. Spotify tar emot förfrågningar direkt från Macen och behandlar dem enligt sin integritetspolicy: https://www.spotify.com/legal/privacy-policy/. Spotify ser nätverksinformation som Macens offentliga IP-adress.",
+      "id": "storage"
+    },
+    {
+      "title": "iPhone och länkar",
+      "body": "Den parkopplade iPhonen får metadata om spår, album, artister och spellistor, köstatus och uppspelningsreglage via Kinrox krypterade anslutning över det lokala nätverket. Den får aldrig Spotify-inloggningsuppgifter och anropar inte Spotify Web API. Om du trycker på Öppna i Spotify öppnar iPhone eller Mac motsvarande objekt i Spotify eller på dess webbplats. Överlämningen kan använda internet och omfattas av Spotifys integritetspolicy. Fjärrkontrollens metadata hålls i minnet och rensas vid frånkoppling eller återställning av källa eller konto.",
+      "id": "iphone"
+    },
+    {
+      "title": "Frånkoppling och lagringstid",
+      "body": "Öppna Inställningar → Spotify → Koppla från i Kinrox på Mac. Kinrox slutför väntande uppspelningsåtgärder, stoppar förfrågningar, tar bort förnyelseuppgifter och lokala kopplingar till hjälpspellistor samt rensar konto- och biblioteksstatus ur minnet. Automatisk återanslutning stoppas. Den accepterade versionen är en inställning utan kontokoppling. Ändringar som redan gjorts i Spotify, inklusive spellistor och favoriter, finns kvar där. Frånkoppling återkallar inte auktoriseringen hos Spotify; ta bort appen på https://www.spotify.com/account/apps/ för att återkalla den. Kvarvarande hjälpspellistor kan du radera direkt i Spotify.",
+      "id": "retention"
+    },
+    {
+      "title": "Kakor och allmänna Kinrox-uppgifter",
+      "body": "Kinrox lägger inte till användningsanalys eller kakor. Dess Spotify API-sessioner använder varken beständiga kakor eller svarscache på disk. Webbläsarinloggning och Spotifys webbplatser kan använda egna kakor; hantera dem i webbläsaren och Spotifys integritetsinställningar. Kinrox allmänna policy förklarar lokala filbokmärken, parkopplingsuppgifter, Sparkle-uppdateringar och GitHub-värdtjänster. Spotify är tredjepartsförmånstagare enligt denna policy och anslutningsvillkoren. Väsentliga ändringar i tillägget visas innan en ny anslutning aktiveras.",
+      "id": "cookies"
+    }
+  ]
+}

@@ -41,7 +41,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
   <meta property="og:title" content="Kinrox : arrêtez de vous lever pour mettre le film en pause">
-  <meta property="og:description" content="Un lecteur vidéo Mac minimaliste avec une véritable télécommande iPhone. Gratuit et open source.">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Gratuit pour un usage personnel.">
   <meta property="og:url" content="https://kinrox.app/fr/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -55,7 +55,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/fr/", "inLanguage": "fr", "description": "Un lecteur vidéo Mac minimaliste avec une véritable télécommande iPhone. Gratuit et open source."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/fr/", "inLanguage": "fr", "description": "Kinrox · Mac + iPhone. Gratuit pour un usage personnel."}
   </script>
 </head>
 <body>
@@ -69,7 +69,7 @@
       <a href="#how">Jumelage</a>
       <a href="#player">Lecteur</a>
       <a href="#privacy">Confidentialité</a>
-      <a href="#open-source">Source ouverte</a>
+      <a href="#open-source">Code source</a>
     </nav>
     <div class="nav-actions">
       <details class="language-menu" id="languages">
@@ -116,14 +116,14 @@
   <section class="hero">
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
-      <span class="chip"><i class="dot ember"></i>Gratuit et Open Source · Mac + iPhone</span>
+      <span class="chip"><i class="dot ember"></i>Gratuit pour un usage personnel · Mac + iPhone</span>
       <h1 class="display">Restez sur le canapé. <span class="fire-text">Mettez le film en pause.</span></h1>
       <p class="lead">Kinrox lit vos vidéos sur Mac et transforme votre iPhone en télécommande. Le MacBook près du projecteur, vous sur le canapé : mettez en pause, revenez de 10 secondes, baissez le volume ou lancez l’épisode suivant sans quitter votre couverture.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Télécharger pour Mac</a>
         <a class="btn btn-glass" href="#how">Voyez comment ça marche</a>
       </div>
-      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Aucun compte</span><span>Sans cloud</span><span>Fonctionne via votre Wi‑Fi</span></p>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Sans compte Kinrox</span><span>Sans serveur Kinrox</span><span>Fonctionne via votre Wi‑Fi</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -308,8 +308,8 @@
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
-          <h3>Pas de comptes, pas de télémétrie</h3>
-          <p>Aucun compte ni analyse d&#x27;utilisation. Le Mac vérifie quotidiennement un flux de mise à jour public sans identifiants uniques ni profilage du système. Ce site Web ne contient aucune analyse ni cookie.</p>
+          <h3>Sans analyse d’utilisation</h3>
+          <p>Kinrox lit les vidéos locales sur Mac et propose une télécommande pour iPhone. Le développeur ne reçoit ni données personnelles, ni historique de lecture, ni statistiques d’utilisation. La vidéo locale et la télécommande LAN fonctionnent hors ligne. Les mises à jour et Spotify facultatif nécessitent internet.</p>
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
@@ -324,8 +324,8 @@
     <div class="container">
       <div class="oss" data-reveal>
         <div>
-          <span class="overline">Source ouverte · GPL‑3.0</span>
-          <h2 class="display" id="oss-title">Gratuit et open source. Lisez le code et modifiez-le à votre guise.</h2>
+          <span class="overline">Mac: GPL-3.0 · iPhone: Usage personnel uniquement</span>
+          <h2 class="display" id="oss-title">Code source</h2>
           <p class="lead">Kinrox est écrit en Swift 6 et SwiftUI et repose sur libmpv. Tout le code du lecteur, de la télécommande et du protocole est disponible sur GitHub.</p>
           <ul class="status">
             <li>Lecteur <i class="ic ic-check"></i>Mac : fonctionne</li>
@@ -367,12 +367,12 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
         <h2 class="display" id="faq-title">Questions</h2>
       </div>
       <div class="faq" data-reveal>
-        <details><summary>A-t-il besoin d&#x27;Internet ?</summary><p>La lecture et la télécommande fonctionnent sans accès à Internet lorsque le Mac et le iPhone partagent un réseau Wi-Fi. Le Mac utilise HTTPS pour les vérifications quotidiennes des mises à jour et télécharge une mise à jour lorsque vous choisissez de l&#x27;installer.</p></details>
+        <details><summary>A-t-il besoin d&#x27;Internet ?</summary><p>La vidéo locale et la télécommande LAN fonctionnent hors ligne. Les mises à jour et Spotify facultatif nécessitent internet.</p></details>
         <details><summary>Est-ce que ça marche avec un téléviseur, pas un projecteur ?</summary><p>Oui. Kinrox est diffusé sur toutes vos émissions Mac : un projecteur, un téléviseur via HDMI ou un écran connecté à AirPlay.</p></details>
         <details><summary>Quels Macs et iPhones sont pris en charge ?</summary><p>Macs avec Apple silicon le macOS 14, Sonoma ou plus tard, et iPhones le iOS 17 ou plus tard. Intel Macs ne sont pas encore pris en charge.</p></details>
         <details><summary>Plusieurs iPhone peuvent-ils contrôler le même Mac ?</summary><p>Oui. Chaque iPhone s&#x27;associe une fois avec son propre code ; jusqu&#x27;à quatre télécommandes peuvent être connectées en même temps. Vous pouvez révoquer n&#x27;importe lequel d&#x27;entre eux dans les paramètres du lecteur.</p></details>
         <details><summary>Puis-je sélectionner des pistes audio et des sous-titres ?</summary><p>Oui. Sur Mac, utilisez le bouton Audio et sous-titres ou les menus Audio et Sous-titres. Choisissez des pistes intégrées, recherchez des fichiers externes dans des dossiers imbriqués ou désactivez les sous-titres. Kinrox peut se souvenir de votre choix pour le prochain épisode.</p></details>
-        <details><summary>Combien ça coûte ?</summary><p>Rien. Kinrox est gratuit et open source sous le label GNU GPL v3.</p></details>
+        <details><summary>Combien ça coûte ?</summary><p>Kinrox pour Mac est un logiciel libre sous licence GNU GPL v3. Kinrox Remote est gratuit pour un usage personnel et non commercial. L’usage professionnel, la vente et les abonnements payants sont interdits. Les anciennes versions sous GPL conservent leur licence d’origine.</p></details>
       </div>
     </div>
   </section>
@@ -382,7 +382,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
     <div class="container" data-reveal>
       <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
       <h2 class="display" id="final-title">Allongez-vous. <span class="fire-text">Appuyez sur Lecture.</span></h2>
-      <p class="lead">Kinrox pour Mac et iPhone. Gratuit, open source et conçu pour les soirées cinéma.</p>
+      <p class="lead">Gratuit pour un usage personnel</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Télécharger pour Mac</a>
         <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Signaler un problème</a>
@@ -394,16 +394,17 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
 <footer class="footer">
   <div class="container footer-inner">
     <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
-    <span>Logiciel gratuit sous GPL‑3.0. Non affilié à Apple.</span>
+    <span>Mac: GPL-3.0 · iPhone: Usage personnel uniquement</span>
     <nav class="footer-links" aria-label="Pied de page">
       <a href="privacy/">Confidentialité</a>
       <a href="support/">Assistance</a>
       <a href="https://github.com/awaik/Kinrox">Code source</a>
-      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">Licence</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSING.md">Licence</a>
       <a href="https://github.com/awaik/Kinrox/issues">Problèmes</a>
       <a href="#languages">Français</a>
     </nav>
   </div>
+<p><a href="spotify-terms/">Spotify · Conditions de connexion</a></p>
 </footer>
 </body>
 </html>

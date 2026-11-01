@@ -249,7 +249,9 @@
 "Source Code (GitHub)" = "Kod Sumber (GitHub)";
 "License: %@" = "Lesen: %@";
 "Report an Issue" = "Laporkan Masalah";
-"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox ialah perisian sumber terbuka di bawah lesen GNU GPL v3.";
+"Personal use only" = "Untuk kegunaan peribadi sahaja";
+"Kinrox Remote is free for personal, noncommercial use. Business use, sales, and paid subscriptions are prohibited." = "Kinrox Remote percuma untuk kegunaan peribadi bukan komersial. Kegunaan perniagaan, penjualan dan langganan berbayar dilarang.";
+"Kinrox for Mac is open-source software licensed under the GNU GPL v3." = "Kinrox untuk Mac ialah perisian sumber terbuka di bawah lesen GNU GPL v3.";
 
 /* Matrix screensaver — Figma page 07. */
 "Screensaver" = "Penyelamat skrin";
@@ -270,3 +272,92 @@
 "Esc — exit · Movie paused" = "Esc — keluar · Filem dijeda";
 "Matrix screensaver. Press Escape to exit." = "Penyelamat skrin Matrix. Tekan Escape untuk keluar.";
 "The movie could not be paused. Try again." = "Filem tidak dapat dijeda. Cuba lagi.";
+
+/* Music mode — Figma page 08. */
+"%@ tracks" = "%@ lagu";
+"Add to playlist" = "Tambah ke senarai main";
+"Add to queue" = "Tambah ke baris gilir";
+"Added manually" = "Ditambah secara manual";
+"Album" = "Album";
+"Albums" = "Album";
+"All albums" = "Semua album";
+"All tracks" = "Semua lagu";
+"Artist, album or track" = "Artis, album atau lagu";
+"Artists" = "Artis";
+"By artist" = "Mengikut artis";
+"By title" = "Mengikut tajuk";
+"Could not create playlist." = "Tidak dapat mencipta senarai main.";
+"Could not update favorites." = "Tidak dapat mengemas kini kegemaran.";
+"Create" = "Cipta";
+"Demo · No audio" = "Demo · Tiada audio";
+"Entire queue" = "Seluruh baris gilir";
+"Favorite" = "Kegemaran";
+"Favorite: %@" = "Kegemaran: %@";
+"Follow" = "Ikuti";
+"From the source list" = "Daripada senarai sumber";
+"Library" = "Pustaka";
+"Liked" = "Disukai";
+"Liked tracks" = "Lagu yang disukai";
+"Music" = "Muzik";
+"New playlist…" = "Senarai main baharu…";
+"Next track" = "Lagu seterusnya";
+"Next: %@" = "Seterusnya: %@";
+"On" = "Hidup";
+"Play album" = "Mainkan album";
+"Play album: %@" = "Mainkan album: %@";
+"Play all" = "Mainkan semua";
+"Playback mode" = "Mod main balik";
+"Playback position" = "Kedudukan main balik";
+"Playlist name" = "Nama senarai main";
+"Playlists" = "Senarai main";
+"Previous track" = "Lagu sebelumnya";
+"Queue" = "Baris gilir";
+"Remove from queue" = "Alih keluar daripada baris gilir";
+"Reorder track" = "Susun semula lagu";
+"Repeat" = "Ulang";
+"Repeat all" = "Ulang semua";
+"Repeat one" = "Ulang satu";
+"Saved immediately · Esc to close" = "Disimpan serta-merta · Esc untuk tutup";
+"Search" = "Cari";
+"Search: %@" = "Carian: %@";
+"Shuffle" = "Rawak";
+"Space: pause · Enter: play · L: favorite · ⌘F: search · ⌘Z: undo" = "Ruang: jeda · Enter: main · L: kegemaran · ⌘F: cari · ⌘Z: buat asal";
+"Stop" = "Henti";
+"This Mac" = "Mac ini";
+"Time" = "Masa";
+"Title" = "Tajuk";
+"Tracks" = "Lagu";
+"Video" = "Video";
+
+/* Optional Spotify account and library */
+"Enter a valid Spotify Client ID." = "Masukkan Client ID Spotify yang sah.";
+"Reconnect Spotify in Settings." = "Sambungkan semula Spotify dalam Tetapan.";
+"Spotify denied access. Check Premium and the app allowlist." = "Spotify menolak akses. Semak Premium dan senarai pengguna yang dibenarkan untuk aplikasi.";
+"Open Spotify on this Mac and start a track." = "Buka Spotify pada Mac ini dan mainkan lagu.";
+"Spotify quota reached. Try again later." = "Kuota Spotify telah dicapai. Cuba lagi kemudian.";
+"Spotify is busy. Try again later." = "Spotify sedang sibuk. Cuba lagi kemudian.";
+"Spotify is unavailable. Check your connection." = "Spotify tidak tersedia. Semak sambungan anda.";
+"Connect Spotify in Settings." = "Sambungkan Spotify dalam Tetapan.";
+"Loading Spotify library…" = "Memuatkan pustaka Spotify…";
+"Optional connection on Mac. Spotify Premium and your own developer app are required." = "Sambungan pilihan pada Mac. Spotify Premium dan aplikasi pembangun anda sendiri diperlukan.";
+"Spotify Client ID" = "Client ID Spotify";
+"Disconnect" = "Putuskan sambungan";
+"Connect Spotify" = "Sambungkan Spotify";
+"Favorite %@" = "Kegemaran %@";
+"Swipe left to remove · hold to reorder" = "Leret kiri untuk buang · tahan untuk susun semula";
+"Source list" = "Senarai asal";
+"Saved immediately" = "Disimpan serta-merta";
+"Spotify is playing on another device or outside Kinrox." = "Spotify dimainkan pada peranti lain atau di luar Kinrox.";
+
+/* Spotify metadata, feedback and connection consent. */
+"Track details" = "Butiran lagu";
+"Open in Spotify" = "Buka dalam Spotify";
+"Explicit content" = "Kandungan eksplisit";
+"Removed from Liked Songs" = "Dialih keluar daripada Lagu Disukai";
+"This action is unavailable in Spotify." = "Tindakan ini tidak tersedia dalam Spotify.";
+"Added to Liked Songs" = "Ditambahkan pada Lagu Disukai";
+"Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics." = "Kelayakan disimpan dalam Rantai Kunci Mac. Memutuskan sambungan memadam data Spotify setempat dan mengekalkan senarai main Spotify. Tiada pelayan Kinrox atau analitik.";
+"I accept the Spotify connection terms and have read the privacy policy." = "Saya menerima syarat sambungan Spotify dan telah membaca dasar privasi.";
+"Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Akses Spotify: pustaka, main balik, kegemaran dan senarai main boleh sunting. Membuang kegemaran turut membuangnya daripada senarai main boleh sunting.";
+"Open album in Spotify" = "Buka album dalam Spotify";
+"Connection terms" = "Syarat sambungan";

@@ -249,7 +249,9 @@
 "Source Code (GitHub)" = "Πηγαίος κώδικας (GitHub)";
 "License: %@" = "Άδεια χρήσης: %@";
 "Report an Issue" = "Αναφορά προβλήματος";
-"Kinrox is open-source software licensed under the GNU GPL v3." = "Το Kinrox είναι λογισμικό ανοικτού κώδικα με άδεια GNU GPL v3.";
+"Personal use only" = "Μόνο για προσωπική χρήση";
+"Kinrox Remote is free for personal, noncommercial use. Business use, sales, and paid subscriptions are prohibited." = "Το Kinrox Remote είναι δωρεάν για προσωπική, μη εμπορική χρήση. Απαγορεύονται η επαγγελματική χρήση, η πώληση και οι συνδρομές επί πληρωμή.";
+"Kinrox for Mac is open-source software licensed under the GNU GPL v3." = "Το Kinrox για Mac είναι λογισμικό ανοικτού κώδικα με άδεια GNU GPL v3.";
 
 /* Matrix screensaver — Figma page 07. */
 "Screensaver" = "Προφύλαξη οθόνης";
@@ -270,3 +272,92 @@
 "Esc — exit · Movie paused" = "Esc — έξοδος · Ταινία σε παύση";
 "Matrix screensaver. Press Escape to exit." = "Προφύλαξη οθόνης Matrix. Πατήστε Escape για έξοδο.";
 "The movie could not be paused. Try again." = "Δεν ήταν δυνατή η παύση της ταινίας. Δοκιμάστε ξανά.";
+
+/* Music mode — Figma page 08. */
+"%@ tracks" = "%@ κομμάτια";
+"Add to playlist" = "Προσθήκη σε λίστα";
+"Add to queue" = "Προσθήκη στην ουρά";
+"Added manually" = "Προστέθηκε χειροκίνητα";
+"Album" = "Άλμπουμ";
+"Albums" = "Άλμπουμ";
+"All albums" = "Όλα τα άλμπουμ";
+"All tracks" = "Όλα τα κομμάτια";
+"Artist, album or track" = "Καλλιτέχνης, άλμπουμ ή κομμάτι";
+"Artists" = "Καλλιτέχνες";
+"By artist" = "Ανά καλλιτέχνη";
+"By title" = "Ανά τίτλο";
+"Could not create playlist." = "Δεν ήταν δυνατή η δημιουργία λίστας.";
+"Could not update favorites." = "Δεν ήταν δυνατή η ενημέρωση αγαπημένων.";
+"Create" = "Δημιουργία";
+"Demo · No audio" = "Επίδειξη · Χωρίς ήχο";
+"Entire queue" = "Όλη η ουρά";
+"Favorite" = "Αγαπημένο";
+"Favorite: %@" = "Αγαπημένο: %@";
+"Follow" = "Ακολούθηση";
+"From the source list" = "Από την αρχική λίστα";
+"Library" = "Βιβλιοθήκη";
+"Liked" = "Μου αρέσει";
+"Liked tracks" = "Αγαπημένα κομμάτια";
+"Music" = "Μουσική";
+"New playlist…" = "Νέα λίστα…";
+"Next track" = "Επόμενο κομμάτι";
+"Next: %@" = "Επόμενο: %@";
+"On" = "Ενεργό";
+"Play album" = "Αναπαραγωγή άλμπουμ";
+"Play album: %@" = "Αναπαραγωγή άλμπουμ: %@";
+"Play all" = "Αναπαραγωγή όλων";
+"Playback mode" = "Λειτουργία αναπαραγωγής";
+"Playback position" = "Θέση αναπαραγωγής";
+"Playlist name" = "Όνομα λίστας";
+"Playlists" = "Λίστες αναπαραγωγής";
+"Previous track" = "Προηγούμενο κομμάτι";
+"Queue" = "Ουρά";
+"Remove from queue" = "Αφαίρεση από την ουρά";
+"Reorder track" = "Μετακίνηση κομματιού";
+"Repeat" = "Επανάληψη";
+"Repeat all" = "Επανάληψη όλων";
+"Repeat one" = "Επανάληψη ενός";
+"Saved immediately · Esc to close" = "Αποθηκεύεται αμέσως · Esc για κλείσιμο";
+"Search" = "Αναζήτηση";
+"Search: %@" = "Αναζήτηση: %@";
+"Shuffle" = "Τυχαία";
+"Space: pause · Enter: play · L: favorite · ⌘F: search · ⌘Z: undo" = "Διάστημα: παύση · Enter: αναπαραγωγή · L: αγαπημένο · ⌘F: αναζήτηση · ⌘Z: αναίρεση";
+"Stop" = "Διακοπή";
+"This Mac" = "Αυτό το Mac";
+"Time" = "Χρόνος";
+"Title" = "Τίτλος";
+"Tracks" = "Κομμάτια";
+"Video" = "Βίντεο";
+
+/* Optional Spotify account and library */
+"Enter a valid Spotify Client ID." = "Εισαγάγετε έγκυρο Client ID του Spotify.";
+"Reconnect Spotify in Settings." = "Επανασυνδέστε το Spotify στις ρυθμίσεις.";
+"Spotify denied access. Check Premium and the app allowlist." = "Το Spotify αρνήθηκε την πρόσβαση. Ελέγξτε το Premium και τη λίστα επιτρεπόμενων χρηστών της εφαρμογής.";
+"Open Spotify on this Mac and start a track." = "Ανοίξτε το Spotify σε αυτό το Mac και ξεκινήστε ένα κομμάτι.";
+"Spotify quota reached. Try again later." = "Συμπληρώθηκε το όριο του Spotify. Δοκιμάστε αργότερα.";
+"Spotify is busy. Try again later." = "Το Spotify είναι απασχολημένο. Δοκιμάστε αργότερα.";
+"Spotify is unavailable. Check your connection." = "Το Spotify δεν είναι διαθέσιμο. Ελέγξτε τη σύνδεσή σας.";
+"Connect Spotify in Settings." = "Συνδέστε το Spotify στις ρυθμίσεις.";
+"Loading Spotify library…" = "Φόρτωση βιβλιοθήκης Spotify…";
+"Optional connection on Mac. Spotify Premium and your own developer app are required." = "Προαιρετική σύνδεση στο Mac. Απαιτούνται Spotify Premium και δική σας εφαρμογή προγραμματιστή.";
+"Spotify Client ID" = "Client ID Spotify";
+"Disconnect" = "Αποσύνδεση";
+"Connect Spotify" = "Σύνδεση Spotify";
+"Favorite %@" = "Αγαπημένο: %@";
+"Swipe left to remove · hold to reorder" = "Σύρετε αριστερά για αφαίρεση · κρατήστε για αναδιάταξη";
+"Source list" = "Αρχική λίστα";
+"Saved immediately" = "Αποθηκεύεται αμέσως";
+"Spotify is playing on another device or outside Kinrox." = "Το Spotify παίζει σε άλλη συσκευή ή εκτός Kinrox.";
+
+/* Spotify metadata, feedback and connection consent. */
+"Track details" = "Λεπτομέρειες κομματιού";
+"Open in Spotify" = "Άνοιγμα στο Spotify";
+"Explicit content" = "Ακατάλληλο περιεχόμενο";
+"Removed from Liked Songs" = "Αφαιρέθηκε από τα Αγαπημένα τραγούδια";
+"This action is unavailable in Spotify." = "Αυτή η ενέργεια δεν είναι διαθέσιμη στο Spotify.";
+"Added to Liked Songs" = "Προστέθηκε στα Αγαπημένα τραγούδια";
+"Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics." = "Τα στοιχεία σύνδεσης παραμένουν στην Κλειδοθήκη του Mac. Η αποσύνδεση διαγράφει τα τοπικά δεδομένα Spotify και διατηρεί τις λίστες Spotify. Χωρίς διακομιστή Kinrox ή ανάλυση χρήσης.";
+"I accept the Spotify connection terms and have read the privacy policy." = "Αποδέχομαι τους όρους σύνδεσης Spotify και έχω διαβάσει την πολιτική απορρήτου.";
+"Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Πρόσβαση Spotify: βιβλιοθήκη, αναπαραγωγή, αγαπημένα και επεξεργάσιμες λίστες. Η αφαίρεση από τα αγαπημένα αφαιρεί το κομμάτι και από τις επεξεργάσιμες λίστες.";
+"Open album in Spotify" = "Άνοιγμα άλμπουμ στο Spotify";
+"Connection terms" = "Όροι σύνδεσης";

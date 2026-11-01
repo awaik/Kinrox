@@ -27,7 +27,7 @@ struct AboutPanelTests {
                         == link.url)
             }
         }
-        #expect(credits.string.hasPrefix(ProjectLink.openSourceDescription))
+        #expect(credits.string.hasPrefix(ProjectLink.licenseDescription))
         #expect(credits.attribute(.link, at: 0, effectiveRange: nil) == nil)
     }
 }

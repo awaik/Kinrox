@@ -48,5 +48,24 @@ Add regression coverage for behavior fixes. Tests involving video must set volum
 to zero inside Kinrox and leave the Mac system volume unchanged. State clearly when
 signing, hardware, simulator, or local network constraints prevent a check.
 
-Kinrox uses GPL-3.0-only; see [LICENSE](LICENSE). Identify the origin and applicable
-license of any third-party code or assets included in a contribution.
+## Licensing contributions
+
+Read [LICENSING.md](LICENSING.md) and identify the origin and applicable license
+of any third-party code or assets. Submit only material you have authority to
+license; do not assume employer-owned or copied code is yours to relicense.
+
+By intentionally submitting a contribution for inclusion, you offer your own
+contribution under the terms applicable to its destination:
+
+- Mac and other GPL-covered files: GPL-3.0-only and the permitted terms in [NOTICE](NOTICE).
+- `RemoteiOS/`: [Kinrox Remote Personal Use License 1.0](RemoteiOS/LICENSE.txt).
+- `Shared/`, `SharedTests/`, `Resources/`, `Packages/RemoteProtocol/`, and
+  `Packages/KinroxMusic/Sources/MusicCore/`:
+  GPL-3.0-only and NOTICE, including [the shared-code exception](SHARED-LICENSE-EXCEPTION.md)
+  so the same material can be included in both apps.
+
+This grants no general right to relicense your work under arbitrary future terms
+and transfers no copyright. Flag incompatible licenses before submitting;
+third-party GPL-only material without the necessary exception must not be added
+to the remote or its shared dependencies. Preserve attribution, identify modified
+versions, and follow [the trademark policy](TRADEMARKS.md) for fork branding.

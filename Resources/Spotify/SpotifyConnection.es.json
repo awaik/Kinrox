@@ -1,0 +1,79 @@
+{
+  "version": "2026-11-01",
+  "locale": "es",
+  "language": "Español",
+  "terms": [
+    {
+      "title": "Condiciones de conexión a Spotify",
+      "body": "Estas condiciones se aplican al activar Spotify en Kinrox. awaik mantiene Kinrox (https://github.com/awaik/Kinrox); consultas de soporte y privacidad: https://github.com/awaik/Kinrox/issues. Kinrox es independiente de Spotify y no cuenta con su respaldo. Estas condiciones se aplican una vez que las aceptes en la aplicación.",
+      "id": "connection"
+    },
+    {
+      "title": "Tu cuenta y tus decisiones",
+      "body": "La conexión es opcional. Utiliza tu propia aplicación de desarrollador de Spotify y una cuenta Spotify Premium autorizada. Spotify controla el acceso a la API y las cuotas; el acceso puede cambiar o cesar. Las condiciones de Spotify siguen siendo aplicables. Kinrox controla la reproducción en la aplicación oficial de Spotify en tu Mac. No descarga, graba ni almacena audio en caché.",
+      "id": "account"
+    },
+    {
+      "title": "Cambios en la biblioteca",
+      "body": "Tus acciones pueden guardar o eliminar canciones y álbumes, seguir o dejar de seguir artistas, crear listas y modificar las listas que posees o puedes editar. Eliminar una canción de favoritos también elimina todas sus apariciones en tus listas editables. Seleccionar un álbum no guarda sus canciones por separado. Los cambios se aplican a tu cuenta de Spotify y pueden verse en otros clientes de Spotify.",
+      "id": "library"
+    },
+    {
+      "title": "Cola de reproducción",
+      "body": "Kinrox crea una lista privada llamada Kinrox Queue y sustituye su contenido cuando cambias la cola de reproducción. Al desconectar, la lista permanece en Spotify, pero se olvida su asociación local. Volver a conectar puede crear otra lista auxiliar. Elimina tú mismo las listas auxiliares que no necesites en Spotify.",
+      "id": "queue"
+    },
+    {
+      "title": "Derechos de Spotify",
+      "body": "Salvo que la legislación aplicable lo permita, no debes modificar ni crear obras derivadas de la plataforma, el servicio o el contenido de Spotify, ni descompilarlos, desensamblarlos, realizar ingeniería inversa o convertirlos en código fuente u otra forma legible por humanos. Estas restricciones se refieren a los materiales de Spotify; no limitan los derechos sobre el código de Kinrox concedidos por las licencias de sus componentes, incluida la licencia GPL del reproductor para Mac.",
+      "id": "rights"
+    },
+    {
+      "title": "Responsabilidad y garantías",
+      "body": "El responsable del mantenimiento de Kinrox responde por Kinrox. En la medida permitida por la ley, Spotify y otros terceros no tienen responsabilidad alguna por Kinrox. Kinrox no hace promesas ni ofrece garantías en nombre de Spotify. En la medida permitida por la ley, se excluyen todas las garantías implícitas sobre la plataforma, el servicio y el contenido de Spotify, incluidas las de comerciabilidad, idoneidad para un fin determinado y no infracción. Los derechos imperativos de los consumidores no se ven afectados.",
+      "id": "responsibility"
+    },
+    {
+      "title": "Privacidad y cumplimiento",
+      "body": "La recogida y el uso de datos están sujetos a la política de privacidad que se muestra junto a estas condiciones. Spotify es un tercero beneficiario de estas condiciones y de dicha política y puede exigir directamente el cumplimiento de estas condiciones. Para finalizar la conexión, ve a Ajustes → Spotify → Desconectar. También puedes revocar el acceso en la página de aplicaciones de tu cuenta de Spotify: https://www.spotify.com/account/apps/.",
+      "id": "enforcement"
+    },
+    {
+      "title": "Cambios",
+      "body": "Es necesario aceptar una nueva versión de estas condiciones antes de que Kinrox vuelva a conectarse. La reproducción de vídeo local y el control remoto por la red local siguen disponibles sin aceptar las condiciones de conexión a Spotify.",
+      "id": "changes"
+    }
+  ],
+  "privacy": [
+    {
+      "title": "Política de privacidad — conexión a Spotify",
+      "body": "Versión 2026-11-01. awaik, responsable del mantenimiento de Kinrox, es responsable del tratamiento de datos de Kinrox descrito aquí. Este complemento se aplica a la integración opcional con Spotify. La política general de privacidad de Kinrox está en https://kinrox.app/privacy/. Contacto: https://github.com/awaik/Kinrox/issues. No publiques tokens, contenidos de tu biblioteca personal ni otra información privada en incidencias públicas.",
+      "id": "overview"
+    },
+    {
+      "title": "Acceso y finalidades",
+      "body": "Tras aceptar las condiciones y autorizar Spotify, Kinrox en Mac lee el identificador y el nombre visible de tu cuenta, canciones y álbumes guardados, artistas que sigues, listas accesibles y su contenido, estado de reproducción y dispositivos disponibles. Usa esta información para mostrar tu biblioteca y controlar Spotify. Al utilizar los controles correspondientes, puede añadir y eliminar favoritos, seguir artistas, crear listas y editar listas propias o colaborativas. Eliminar un favorito también elimina sus apariciones en las listas editables. Kinrox mantiene una lista privada Kinrox Queue para la reproducción.",
+      "id": "access"
+    },
+    {
+      "title": "Almacenamiento y destinatarios",
+      "body": "Las credenciales de renovación se guardan en el Data Protection Keychain del Mac. Los tokens de acceso, los datos de la cuenta y los metadatos de la biblioteca permanecen en la memoria de la aplicación. El Client ID proporcionado, la asociación de la lista auxiliar y la versión aceptada de los documentos se guardan en las preferencias del Mac. Kinrox no tiene servidor, analítica ni telemetría, y su responsable no recibe estos datos de Spotify. Spotify recibe solicitudes directamente del Mac y las procesa según su política de privacidad: https://www.spotify.com/legal/privacy-policy/. Spotify ve información de red, como la dirección IP pública del Mac.",
+      "id": "storage"
+    },
+    {
+      "title": "iPhone y enlaces",
+      "body": "El iPhone emparejado recibe metadatos de canciones, álbumes, artistas y listas, el estado de la cola y los controles de reproducción mediante la conexión cifrada de Kinrox por la red local. Nunca recibe credenciales de Spotify ni llama a la Spotify Web API. Al tocar Abrir en Spotify, el iPhone o Mac abre el elemento correspondiente en Spotify o en su sitio web. Esta transferencia puede usar internet y se rige por la política de privacidad de Spotify. Los metadatos del mando se mantienen en memoria y se borran al desconectar o restablecer la fuente o la cuenta.",
+      "id": "iphone"
+    },
+    {
+      "title": "Desconexión y conservación",
+      "body": "En Kinrox para Mac, abre Ajustes → Spotify → Desconectar. Kinrox finaliza las operaciones de reproducción pendientes, detiene las solicitudes, elimina su credencial de renovación y las asociaciones locales de listas auxiliares, y borra de la memoria el estado de la cuenta y la biblioteca. Detiene la reconexión automática. La versión aceptada es una preferencia no vinculada a una cuenta. Los cambios ya realizados en Spotify, incluidas las listas y los favoritos, permanecen allí. Desconectar no revoca la autorización en Spotify; elimina la aplicación en https://www.spotify.com/account/apps/ para revocarla. Puedes eliminar las listas auxiliares conservadas directamente en Spotify.",
+      "id": "retention"
+    },
+    {
+      "title": "Cookies y datos generales de Kinrox",
+      "body": "Kinrox no añade analítica ni cookies. Sus sesiones de la API de Spotify no utilizan cookies persistentes ni caché de respuestas en disco. El inicio de sesión en el navegador y los sitios web de Spotify pueden usar sus propias cookies; gestiónalas en tu navegador y en los ajustes de privacidad de Spotify. La política general de Kinrox explica los marcadores de archivos locales, las credenciales de emparejamiento, las actualizaciones de Sparkle y el alojamiento en GitHub. Spotify es un tercero beneficiario de esta política y de las condiciones de conexión. Los cambios sustanciales de este complemento se mostrarán antes de habilitar una nueva conexión.",
+      "id": "cookies"
+    }
+  ]
+}

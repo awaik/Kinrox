@@ -88,9 +88,9 @@
 </details></nav>
 
 <h1>Privacy Policy</h1>
-<p class="muted">Effective when this page is published. Updated October 30, 2026.</p>
+<p class="muted">2026-11-01</p>
 
-<p>Kinrox is a local video player for Mac and a companion remote for iPhone. The apps do not send personal data, playback history or usage analytics to the developer. There are no accounts, advertising SDKs or cloud services in the apps.</p>
+<p>Kinrox plays local videos on Mac and provides an iPhone remote. The developer receives no personal data, playback history or usage analytics.</p>
 
 <h2>Data on your devices</h2>
 <p>The Mac player stores recent-file bookmarks and preferences on your Mac. The iPhone remote stores a random device identifier, the selected Mac and connection preferences on your iPhone. Pairing credentials are stored in each device’s Keychain. The remote receives playback state and recent-file titles and durations from your Mac. Full file-system paths and video files are not transmitted to the iPhone.</p>
@@ -99,7 +99,28 @@
 <p>With your permission, Kinrox discovers players using Bonjour and exchanges control commands and playback information over your local network. Paired sessions use encryption. Device and service names are visible during local network discovery; discovery itself is not an encrypted channel. The apps do not use a developer-operated relay server.</p>
 
 <h2>Mac update checks</h2>
-<p>Starting with version 0.3.0, the Mac player uses Sparkle to read the public update feed on GitHub Pages once a day and when you choose Check for Updates. Checks do not include unique device identifiers, playback history, or a system profile. When you choose to install an update, Sparkle downloads the signed installer from GitHub Releases. GitHub may process request information such as IP addresses under its privacy policy. Playback and iPhone remote control do not require internet access.</p>
+<p>Starting with version 0.3.0, the Mac player uses Sparkle to read the public update feed on GitHub Pages once a day and when you choose Check for Updates. Checks do not include unique device identifiers, playback history, or a system profile. When you choose to install an update, Sparkle downloads the signed installer from GitHub Releases. GitHub may process request information such as IP addresses under its privacy policy. Local video and LAN remote control work offline. Updates and optional Spotify need internet.</p>
+
+<h2>Spotify</h2>
+<p>Spotify is optional and connects only on Mac after you sign in with your own Client ID. Spotify Premium and the official Spotify app on this Mac are required. Kinrox sends library, playlist and playback requests directly to Spotify, which processes them under its privacy policy. Refresh credentials stay in the Mac Keychain; library metadata is cached in memory. Kinrox manages one private Kinrox Queue playlist. Disconnect removes local credentials and library cache; the playlist remains in Spotify until you remove it. The iPhone uses the LAN for controls; tapping Open in Spotify can use the internet. There is no Kinrox server or analytics.</p>
+<p>Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists. Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics.</p>
+<p><a href="../spotify-terms/">Connection terms</a></p>
+<p><a href="https://www.spotify.com/legal/privacy-policy/">Spotify · Privacy Policy</a></p>
+<section id="spotify-documents" lang="en" dir="ltr">
+<p class="muted"><bdi>English</bdi> · <bdi dir="ltr">2026-11-01</bdi></p>
+<h2 id="spotify-privacy-overview">Privacy Policy — Spotify connection</h2>
+<p>Version 2026-11-01. The Kinrox maintainer, awaik, is responsible for Kinrox&#x27;s processing described here. This supplement applies to the optional Spotify integration. The general Kinrox privacy policy is available at <a href="https://kinrox.app/privacy/"><bdi dir="ltr">https://kinrox.app/privacy/</bdi></a>. Contact: <a href="https://github.com/awaik/Kinrox/issues"><bdi dir="ltr">https://github.com/awaik/Kinrox/issues</bdi></a>. Do not post tokens, personal library contents or other private information in public issues.</p>
+<h2 id="spotify-privacy-access">Access and purposes</h2>
+<p>After you accept the terms and authorize Spotify, Kinrox on Mac reads your account identifier and display name, saved tracks and albums, followed artists, accessible playlists and their contents, playback state and available devices. It uses this information to show your library and control Spotify. It can save and remove favorites, follow artists, create playlists and edit owned or collaborative playlists when you use those controls. Removing a favorite also removes its occurrences from editable playlists. Kinrox maintains a private Kinrox Queue playlist for playback.</p>
+<h2 id="spotify-privacy-storage">Storage and recipients</h2>
+<p>Refresh credentials are stored in the Mac Data Protection Keychain. Access tokens, account details and library metadata remain in app memory. The supplied Client ID, helper playlist association and accepted document version are stored in Mac preferences. Kinrox has no server, analytics or telemetry, and the maintainer receives none of this Spotify data. Spotify receives requests directly from the Mac and handles them under its privacy policy: <a href="https://www.spotify.com/legal/privacy-policy/"><bdi dir="ltr">https://www.spotify.com/legal/privacy-policy/</bdi></a>. Spotify sees network information such as the Mac&#x27;s public IP address.</p>
+<h2 id="spotify-privacy-iphone">iPhone and links</h2>
+<p>The paired iPhone receives track, album, artist and playlist metadata, queue state and playback controls through Kinrox&#x27;s encrypted local network connection. It never receives Spotify credentials or calls the Spotify Web API. If you tap Open in Spotify, the iPhone or Mac opens the relevant item in Spotify or its website. That handoff can use the internet and is governed by Spotify&#x27;s privacy policy. Remote metadata is held in memory and cleared on disconnection or a source/account reset.</p>
+<h2 id="spotify-privacy-retention">Disconnect and retention</h2>
+<p>In Kinrox on Mac, open Settings → Spotify → Disconnect. Kinrox settles pending playback work, stops requests, removes its refresh credential and local helper-playlist associations, and clears account and library state from memory. It stops automatic reconnection. The acceptance version is an account-free preference. Changes already made in Spotify, including playlists and favorites, remain there. Disconnect does not revoke the authorization at Spotify; remove the app at <a href="https://www.spotify.com/account/apps/"><bdi dir="ltr">https://www.spotify.com/account/apps/</bdi></a> to revoke it. You can delete retained helper playlists directly in Spotify.</p>
+<h2 id="spotify-privacy-cookies">Cookies and general Kinrox data</h2>
+<p>Kinrox adds no analytics or cookies. Its Spotify API sessions use neither persistent cookies nor a disk response cache. Browser login and Spotify websites may use their own cookies; manage those in your browser and Spotify&#x27;s privacy settings. The general Kinrox policy explains local file bookmarks, pairing credentials, Sparkle updates and GitHub hosting. Spotify is a third-party beneficiary of this policy and the connection terms. Material changes to this supplement will be shown before a new connection is enabled.</p>
+</section>
 
 <h2>Retention and your choices</h2>
 <p>Pairing credentials remain until you remove them. Use Forget in the iPhone app’s settings to remove that Mac’s saved credentials from the iPhone. Revoke the iPhone in the Mac player’s remote settings to remove its access on the Mac. These are separate actions; forgetting on the iPhone does not revoke the Mac’s record. You can clear the recent-files list in the Mac player. You can disable Local Network access in system settings. Keychain entries may survive uninstalling an app, so use the pairing controls before uninstalling if you want to remove saved credentials.</p>

@@ -249,7 +249,9 @@
 "Source Code (GitHub)" = "Kaynak Kodu (GitHub)";
 "License: %@" = "Lisans: %@";
 "Report an Issue" = "Sorun Bildir";
-"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox, GNU GPL v3 lisansı altında sunulan açık kaynaklı bir yazılımdır.";
+"Personal use only" = "Yalnızca kişisel kullanım";
+"Kinrox Remote is free for personal, noncommercial use. Business use, sales, and paid subscriptions are prohibited." = "Kinrox Remote, kişisel ve ticari olmayan kullanım için ücretsizdir. İş amaçlı kullanım, satış ve ücretli abonelikler yasaktır.";
+"Kinrox for Mac is open-source software licensed under the GNU GPL v3." = "Mac için Kinrox, GNU GPL v3 lisanslı açık kaynaklı yazılımdır.";
 
 /* Matrix screensaver — Figma page 07. */
 "Screensaver" = "Ekran koruyucu";
@@ -270,3 +272,92 @@
 "Esc — exit · Movie paused" = "Esc — çıkış · Film duraklatıldı";
 "Matrix screensaver. Press Escape to exit." = "Matrix ekran koruyucu. Çıkmak için Escape tuşuna basın.";
 "The movie could not be paused. Try again." = "Film duraklatılamadı. Tekrar deneyin.";
+
+/* Music mode — Figma page 08. */
+"%@ tracks" = "%@ parça";
+"Add to playlist" = "Çalma listesine ekle";
+"Add to queue" = "Sıraya ekle";
+"Added manually" = "Elle eklendi";
+"Album" = "Albüm";
+"Albums" = "Albümler";
+"All albums" = "Tüm albümler";
+"All tracks" = "Tüm parçalar";
+"Artist, album or track" = "Sanatçı, albüm veya parça";
+"Artists" = "Sanatçılar";
+"By artist" = "Sanatçıya göre";
+"By title" = "Başlığa göre";
+"Could not create playlist." = "Çalma listesi oluşturulamadı.";
+"Could not update favorites." = "Favoriler güncellenemedi.";
+"Create" = "Oluştur";
+"Demo · No audio" = "Demo · Ses yok";
+"Entire queue" = "Tüm sıra";
+"Favorite" = "Favori";
+"Favorite: %@" = "Favori: %@";
+"Follow" = "Takip et";
+"From the source list" = "Kaynak listeden";
+"Library" = "Kitaplık";
+"Liked" = "Beğenildi";
+"Liked tracks" = "Beğenilen parçalar";
+"Music" = "Müzik";
+"New playlist…" = "Yeni çalma listesi…";
+"Next track" = "Sonraki parça";
+"Next: %@" = "Sıradaki: %@";
+"On" = "Açık";
+"Play album" = "Albümü çal";
+"Play album: %@" = "Albümü çal: %@";
+"Play all" = "Tümünü çal";
+"Playback mode" = "Çalma modu";
+"Playback position" = "Çalma konumu";
+"Playlist name" = "Çalma listesi adı";
+"Playlists" = "Çalma listeleri";
+"Previous track" = "Önceki parça";
+"Queue" = "Sıra";
+"Remove from queue" = "Sıradan kaldır";
+"Reorder track" = "Parçayı taşı";
+"Repeat" = "Tekrar";
+"Repeat all" = "Tümünü tekrarla";
+"Repeat one" = "Birini tekrarla";
+"Saved immediately · Esc to close" = "Anında kaydedilir · Kapatmak için Esc";
+"Search" = "Ara";
+"Search: %@" = "Arama: %@";
+"Shuffle" = "Karıştır";
+"Space: pause · Enter: play · L: favorite · ⌘F: search · ⌘Z: undo" = "Boşluk: duraklat · Enter: çal · L: favori · ⌘F: ara · ⌘Z: geri al";
+"Stop" = "Durdur";
+"This Mac" = "Bu Mac";
+"Time" = "Süre";
+"Title" = "Başlık";
+"Tracks" = "Parçalar";
+"Video" = "Video";
+
+/* Optional Spotify account and library */
+"Enter a valid Spotify Client ID." = "Geçerli bir Spotify Client ID girin.";
+"Reconnect Spotify in Settings." = "Ayarlar’dan Spotify’a yeniden bağlanın.";
+"Spotify denied access. Check Premium and the app allowlist." = "Spotify erişimi reddetti. Premium’u ve uygulamanın izin verilen kullanıcı listesini kontrol edin.";
+"Open Spotify on this Mac and start a track." = "Bu Mac’te Spotify’ı açıp bir parça başlatın.";
+"Spotify quota reached. Try again later." = "Spotify kotasına ulaşıldı. Daha sonra tekrar deneyin.";
+"Spotify is busy. Try again later." = "Spotify meşgul. Daha sonra tekrar deneyin.";
+"Spotify is unavailable. Check your connection." = "Spotify kullanılamıyor. Bağlantınızı kontrol edin.";
+"Connect Spotify in Settings." = "Ayarlar’dan Spotify’a bağlanın.";
+"Loading Spotify library…" = "Spotify kitaplığı yükleniyor…";
+"Optional connection on Mac. Spotify Premium and your own developer app are required." = "Mac’te isteğe bağlı bağlantı. Spotify Premium ve kendi geliştirici uygulamanız gereklidir.";
+"Spotify Client ID" = "Spotify Client ID";
+"Disconnect" = "Bağlantıyı kes";
+"Connect Spotify" = "Spotify’a bağlan";
+"Favorite %@" = "%@ favorilere ekle";
+"Swipe left to remove · hold to reorder" = "Kaldırmak için sola kaydır · sıralamak için basılı tut";
+"Source list" = "Kaynak listesi";
+"Saved immediately" = "Anında kaydedilir";
+"Spotify is playing on another device or outside Kinrox." = "Spotify başka bir cihazda veya Kinrox dışında çalıyor.";
+
+/* Spotify metadata, feedback and connection consent. */
+"Track details" = "Parça ayrıntıları";
+"Open in Spotify" = "Spotify’da aç";
+"Explicit content" = "Müstehcen içerik";
+"Removed from Liked Songs" = "Beğenilen Şarkılar’dan kaldırıldı";
+"This action is unavailable in Spotify." = "Bu işlem Spotify’da kullanılamıyor.";
+"Added to Liked Songs" = "Beğenilen Şarkılar’a eklendi";
+"Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics." = "Kimlik bilgileri Mac Anahtar Zinciri’nde kalır. Bağlantıyı kesmek yerel Spotify verilerini siler, Spotify çalma listelerini korur. Kinrox sunucusu veya kullanım analizi yoktur.";
+"I accept the Spotify connection terms and have read the privacy policy." = "Spotify bağlantı koşullarını kabul ediyor ve gizlilik politikasını okuduğumu onaylıyorum.";
+"Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Spotify erişimi: kitaplık, çalma, favoriler ve düzenlenebilir çalma listeleri. Favorilerden kaldırmak parçayı düzenlenebilir çalma listelerinden de kaldırır.";
+"Open album in Spotify" = "Albümü Spotify’da aç";
+"Connection terms" = "Bağlantı koşulları";

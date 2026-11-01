@@ -23,6 +23,7 @@ final class RemoteServer {
     @ObservationIgnored let recents: RecentFilesStore
     @ObservationIgnored let pairing: PairingCenter
     @ObservationIgnored private(set) var model: PlayerViewModel?
+    @ObservationIgnored var musicBridge: RemoteMusicBridge?
     @ObservationIgnored private var modelObserver: UUID?
     @ObservationIgnored private var recentObserver: UUID?
     @ObservationIgnored private var transport: TransportServer?
@@ -209,6 +210,21 @@ final class RemoteServer {
         publisher.update(snapshot, immediate: true)
     }
 
+    func connectMusic(_ music: MusicViewModel, coordinator: PlaybackCoordinator) {
+        musicBridge?.disconnect()
+        let bridge = RemoteMusicBridge(music: music, coordinator: coordinator)
+        bridge.changed = { [weak self] in
+            guard let self else { return }
+            self.publisher.update(self.snapshot)
+        }
+        musicBridge = bridge
+        coordinator.sourceChanged = { [weak self] _ in
+            guard let self else { return }
+            self.musicBridge?.update()
+            self.publisher.update(self.snapshot, immediate: true)
+        }
+    }
+
     func windowClosed() { declinePairing() }
 
     func declinePairing() {
@@ -282,6 +298,14 @@ final class RemoteServer {
                     }
                     outbox?.enqueue(response)
                 }
+            case .requestQueue(let header, let request):
+                if let bridge = musicBridge {
+                    outboxes[id]?.enqueue(bridge.queuePage(request, replyTo: header.id))
+                }
+            case .requestLikeOptions(let header, let request):
+                if let bridge = musicBridge {
+                    outboxes[id]?.enqueue(bridge.likeOptionsPage(request, replyTo: header.id))
+                }
             case .requestState:
                 outboxes[id]?.enqueue(.state(.init(), snapshot))
             default: break
@@ -297,6 +321,10 @@ final class RemoteServer {
     }
 
     var snapshot: PlayerState {
+        if let musicBridge, musicBridge.active, model != nil {
+            return musicBridge.snapshot(
+                fullscreen: model?.isFullscreen ?? false, screensaver: model?.screensaver ?? .off)
+        }
         let hasMedia = model?.canControl ?? false
         return PlayerState(
             title: hasMedia ? model?.displayTitle ?? "" : "",
@@ -306,7 +334,8 @@ final class RemoteServer {
             volume: model?.playbackVolume ?? 100, fullscreen: model?.isFullscreen ?? false,
             hasMedia: hasMedia, canNext: hasMedia && model?.canNext == true,
             canPrevious: hasMedia && model?.canPrevious == true,
-            screensaver: model?.screensaver ?? .off)
+            screensaver: model?.screensaver ?? .off, source: musicBridge == nil ? nil : .video,
+            music: musicBridge?.state)
     }
 
     private var recentSnapshot: [RemoteProtocol.RecentItem] {

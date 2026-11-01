@@ -31,6 +31,8 @@ final class PlayerViewModel {
     var isScreensaverEngaged: Bool { screensaver != .off || isStartingScreensaver }
     /// Auto-advance to next folder file at video end.
     @ObservationIgnored var autoAdvance = true
+    @ObservationIgnored var beforeStartingPlayback: ((@escaping @MainActor () -> Void) -> Bool)?
+    @ObservationIgnored var cancelPendingPlayback: (() -> Void)?
     @ObservationIgnored var onToggleFullscreen: (() -> Void)?
     @ObservationIgnored var onSetFullscreen: ((Bool) -> Void)?
     @ObservationIgnored let engine: any PlayerEngine
@@ -105,6 +107,14 @@ final class PlayerViewModel {
 
     @discardableResult
     func open(url: URL) -> Bool {
+        guard !isClosing else { return false }
+        if let beforeStartingPlayback {
+            return beforeStartingPlayback { [weak self] in _ = self?.loadForPlayback(url) }
+        }
+        return loadForPlayback(url)
+    }
+
+    private func loadForPlayback(_ url: URL) -> Bool {
         guard !isClosing else { return false }
         stopScreensaver()
         cancelEOFRefresh()

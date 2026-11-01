@@ -1,0 +1,79 @@
+{
+  "version": "2026-11-01",
+  "locale": "hu",
+  "language": "Magyar",
+  "terms": [
+    {
+      "title": "A Spotify-kapcsolat feltételei",
+      "body": "Ezek a feltételek akkor érvényesek, ha bekapcsolod a Spotifyt a Kinroxban. A Kinrox karbantartója awaik (https://github.com/awaik/Kinrox); támogatási és adatvédelmi kérdések: https://github.com/awaik/Kinrox/issues. A Kinrox független a Spotifytól, és a Spotify nem hagyta jóvá. A feltételek az alkalmazásban történő elfogadásukkor lépnek hatályba.",
+      "id": "connection"
+    },
+    {
+      "title": "Fiókod és döntéseid",
+      "body": "A kapcsolódás választható. Saját Spotify-fejlesztői alkalmazást és engedélyezett Spotify Premium-fiókot használj. Az API-hozzáférést és a kvótákat a Spotify szabályozza; a hozzáférés változhat vagy megszűnhet. A Spotify saját feltételei továbbra is érvényesek. A Kinrox a Maceden futó hivatalos Spotify-alkalmazás lejátszását vezérli. Nem tölt le, nem rögzít és nem gyorsítótáraz hangot.",
+      "id": "account"
+    },
+    {
+      "title": "A gyűjtemény módosításai",
+      "body": "Műveleteiddel számokat és albumokat menthetsz vagy távolíthatsz el, előadókat követhetsz vagy követésüket megszüntetheted, lejátszási listákat hozhatsz létre, valamint saját vagy általad szerkeszthető listákat módosíthatsz. Egy szám eltávolítása a kedvencekből annak minden előfordulását eltávolítja a szerkeszthető lejátszási listáidból is. Egy album kiválasztása nem menti külön a számait. A módosítások a Spotify-fiókodban érvényesülnek, és más Spotify-kliensekben is láthatók lehetnek.",
+      "id": "library"
+    },
+    {
+      "title": "Lejátszási sor",
+      "body": "A Kinrox létrehoz egy privát Kinrox Queue lejátszási listát, és lecseréli annak tartalmát, amikor módosítod a lejátszási sort. A leválasztás megtartja ezt a listát a Spotifyban, de elfelejti a helyi hozzárendelését. Az újracsatlakozás újabb segédlistát hozhat létre. A szükségtelen segédlistákat magad töröld a Spotifyban.",
+      "id": "queue"
+    },
+    {
+      "title": "A Spotify jogai",
+      "body": "Amennyiben az alkalmazandó jog másként nem engedi, tilos a Spotify platformját, szolgáltatását vagy tartalmát módosítani, azokból származékos műveket létrehozni, azokat visszafordítani, visszafejteni, diszassemblálni vagy forráskóddá, illetve más, ember által olvasható formára alakítani. E korlátozások a Spotify anyagaira vonatkoznak; nem korlátozzák a Kinrox kódjára az összetevők licenceiben biztosított jogokat, beleértve a Mac-lejátszó GPL-licencét.",
+      "id": "rights"
+    },
+    {
+      "title": "Felelősség és szavatosság",
+      "body": "A Kinroxért annak karbantartója felel. A jogszabályok által megengedett mértékben a Spotify és más harmadik felek nem felelnek a Kinroxért. A Kinrox nem tesz ígéretet és nem vállal garanciát a Spotify nevében. A jogszabályok által megengedett mértékben kizárt a Spotify platformjára, szolgáltatására és tartalmára vonatkozó minden hallgatólagos szavatosság, ideértve a forgalmazhatóságot, a meghatározott célra való alkalmasságot és a jogsértésmentességet. A kötelező fogyasztói jogok változatlanul fennmaradnak.",
+      "id": "responsibility"
+    },
+    {
+      "title": "Adatvédelem és érvényesítés",
+      "body": "Az adatgyűjtésre és -felhasználásra az e feltételekkel együtt megjelenített adatvédelmi szabályzat vonatkozik. A Spotify e feltételek és az adatvédelmi szabályzat harmadik fél kedvezményezettje, és közvetlenül érvényesítheti e feltételeket. A kapcsolat megszüntetéséhez válaszd a Beállítások → Spotify → Leválasztás lehetőséget. A hozzáférést a Spotify-fiókod alkalmazásoldalán is visszavonhatod: https://www.spotify.com/account/apps/.",
+      "id": "enforcement"
+    },
+    {
+      "title": "Változások",
+      "body": "A kapcsolódási feltételek új változatát el kell fogadnod, mielőtt a Kinrox újracsatlakozik. A helyi videolejátszás és a helyi hálózaton működő távirányítás a Spotify-kapcsolat feltételeinek elfogadása nélkül is elérhető marad.",
+      "id": "changes"
+    }
+  ],
+  "privacy": [
+    {
+      "title": "Adatvédelmi szabályzat — Spotify-kapcsolat",
+      "body": "Verzió: 2026-11-01. A Kinrox karbantartója, awaik felel a Kinrox itt leírt adatkezeléséért. Ez a kiegészítés a választható Spotify-integrációra vonatkozik. A Kinrox általános adatvédelmi szabályzata itt érhető el: https://kinrox.app/privacy/. Kapcsolat: https://github.com/awaik/Kinrox/issues. Nyilvános hibajegyekben ne tegyél közzé tokeneket, személyes gyűjteménytartalmat vagy más magánjellegű adatot.",
+      "id": "overview"
+    },
+    {
+      "title": "Hozzáférés és célok",
+      "body": "A feltételek elfogadása és a Spotify engedélyezése után a Macen futó Kinrox beolvassa fiókod azonosítóját és megjelenített nevét, a mentett számokat és albumokat, követett előadókat, elérhető lejátszási listákat és tartalmukat, a lejátszás állapotát és az elérhető eszközöket. Ezeket az adatokat a gyűjtemény megjelenítésére és a Spotify vezérlésére használja. A megfelelő vezérlők használatakor kedvenceket menthet és távolíthat el, előadókat követhet, listákat hozhat létre és saját vagy közös listákat szerkeszthet. Egy kedvenc eltávolítása annak előfordulásait is eltávolítja a szerkeszthető listákból. A Kinrox privát Kinrox Queue listát tart fenn a lejátszáshoz.",
+      "id": "access"
+    },
+    {
+      "title": "Tárolás és címzettek",
+      "body": "A megújításhoz szükséges hitelesítő adatok a Mac Data Protection Keychain tárolójába kerülnek. A hozzáférési tokenek, fiókadatok és gyűjtemény-metaadatok az alkalmazás memóriájában maradnak. A megadott Client ID, a segédlista hozzárendelése és az elfogadott dokumentumverzió a Mac beállításaiban tárolódik. A Kinroxnak nincs szervere, használati elemzése vagy telemetriája, és a karbantartó nem kapja meg ezeket a Spotify-adatokat. A Spotify közvetlenül a Mactől kapja a kéréseket, és saját adatvédelmi szabályzata szerint kezeli őket: https://www.spotify.com/legal/privacy-policy/. A Spotify hálózati információkat, például a Mac nyilvános IP-címét látja.",
+      "id": "storage"
+    },
+    {
+      "title": "iPhone és hivatkozások",
+      "body": "A párosított iPhone a Kinrox titkosított helyi hálózati kapcsolatán keresztül kapja meg a számok, albumok, előadók és listák metaadatait, a sor állapotát és a lejátszás vezérlőit. Soha nem kap Spotify-hitelesítő adatokat, és nem hívja meg a Spotify Web API-t. A Megnyitás a Spotifyban lehetőségre koppintva az iPhone vagy Mac megnyitja az adott elemet a Spotifyban vagy annak webhelyén. Ez az átadás használhatja az internetet, és a Spotify adatvédelmi szabályzata vonatkozik rá. A távirányító metaadatai a memóriában maradnak, és leválasztáskor vagy a forrás, illetve a fiók visszaállításakor törlődnek.",
+      "id": "iphone"
+    },
+    {
+      "title": "Leválasztás és megőrzés",
+      "body": "A Macen a Kinroxban nyisd meg a Beállítások → Spotify → Leválasztás lehetőséget. A Kinrox lezárja a függőben lévő lejátszási műveleteket, leállítja a kéréseket, eltávolítja a megújítási hitelesítő adatokat és a segédlisták helyi hozzárendeléseit, valamint törli a fiók és a gyűjtemény állapotát a memóriából. Az automatikus újracsatlakozás leáll. Az elfogadott verzió fióktól független beállítás. A Spotifyban már elvégzett módosítások, köztük a listák és kedvencek, ott megmaradnak. A leválasztás nem vonja vissza a Spotify-engedélyezést; ehhez távolítsd el az alkalmazást itt: https://www.spotify.com/account/apps/. A megmaradt segédlistákat közvetlenül a Spotifyban törölheted.",
+      "id": "retention"
+    },
+    {
+      "title": "Sütik és általános Kinrox-adatok",
+      "body": "A Kinrox nem ad hozzá használati elemzést vagy sütiket. Spotify API-munkamenetei nem használnak tartós sütiket vagy lemezes válaszgyorsítótárat. A böngészős bejelentkezés és a Spotify webhelyei saját sütiket használhatnak; ezeket a böngésződben és a Spotify adatvédelmi beállításaiban kezelheted. A Kinrox általános szabályzata ismerteti a helyi fájlkönyvjelzőket, párosítási hitelesítő adatokat, Sparkle-frissítéseket és a GitHub-tárhelyet. A Spotify e szabályzat és a kapcsolódási feltételek harmadik fél kedvezményezettje. E kiegészítés lényeges módosításai új kapcsolat engedélyezése előtt megjelennek.",
+      "id": "cookies"
+    }
+  ]
+}

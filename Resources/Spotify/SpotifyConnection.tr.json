@@ -1,0 +1,79 @@
+{
+  "version": "2026-11-01",
+  "locale": "tr",
+  "language": "Türkçe",
+  "terms": [
+    {
+      "title": "Spotify bağlantı koşulları",
+      "body": "Bu koşullar, Kinrox’ta Spotify’ı etkinleştirdiğinizde geçerlidir. Kinrox’un bakımını awaik yapar (https://github.com/awaik/Kinrox); destek ve gizlilik soruları: https://github.com/awaik/Kinrox/issues. Kinrox, Spotify’dan bağımsızdır ve Spotify tarafından onaylanmamıştır. Bu koşullar, uygulamada kabul ettiğinizde geçerli olur.",
+      "id": "connection"
+    },
+    {
+      "title": "Hesabınız ve seçimleriniz",
+      "body": "Bağlanmak isteğe bağlıdır. Kendi Spotify geliştirici uygulamanızı ve yetkilendirilmiş bir Spotify Premium hesabını kullanın. API erişimini ve kotaları Spotify yönetir; erişim değişebilir veya sona erebilir. Spotify’ın kendi koşulları geçerliliğini korur. Kinrox, Mac’inizdeki resmi Spotify uygulamasında oynatmayı kontrol eder. Ses indirmez, kaydetmez veya önbelleğe almaz.",
+      "id": "account"
+    },
+    {
+      "title": "Kitaplık değişiklikleri",
+      "body": "İşlemleriniz parçaları ve albümleri kaydedebilir veya kaldırabilir, sanatçıları takip edebilir veya takibi bırakabilir, çalma listeleri oluşturabilir ve sahibi olduğunuz ya da düzenleyebildiğiniz listeleri değiştirebilir. Bir parçayı favorilerden kaldırmak, düzenleyebildiğiniz listelerden o parçanın tüm tekrarlarını da kaldırır. Bir albümü seçmek parçalarını ayrı ayrı kaydetmez. Değişiklikler Spotify hesabınıza uygulanır ve diğer Spotify istemcilerinde görülebilir.",
+      "id": "library"
+    },
+    {
+      "title": "Oynatma sırası",
+      "body": "Kinrox, Kinrox Queue adlı özel bir çalma listesi oluşturur ve oynatma sırasını değiştirdiğinizde içeriğini yenisiyle değiştirir. Bağlantıyı kesmek listeyi Spotify’da tutar ancak yerel ilişkilendirmesini unutur. Yeniden bağlanmak başka bir yardımcı liste oluşturabilir. İstemediğiniz yardımcı listeleri Spotify’da kendiniz silin.",
+      "id": "queue"
+    },
+    {
+      "title": "Spotify’ın hakları",
+      "body": "Geçerli hukukun izin verdiği durumlar dışında Spotify’ın platformunu, hizmetini veya içeriğini değiştiremez, bunlardan türev eserler oluşturamaz, bunları dekompile edemez, ayrıştıramaz, tersine mühendisliğe tabi tutamaz veya insanların okuyabileceği başka bir biçime çeviremezsiniz. Bu kısıtlamalar Spotify materyalleriyle ilgilidir; Mac oynatıcının GPL lisansı dahil bileşen lisanslarının Kinrox kodu için verdiği hakları kısıtlamaz.",
+      "id": "rights"
+    },
+    {
+      "title": "Sorumluluk ve garantiler",
+      "body": "Kinrox’tan bakımını yapan kişi sorumludur. Yasaların izin verdiği ölçüde Spotify ve diğer üçüncü taraflar Kinrox için sorumluluk veya yükümlülük taşımaz. Kinrox, Spotify adına söz veya garanti vermez. Yasaların izin verdiği ölçüde Spotify platformu, hizmeti ve içeriğine ilişkin ticarete elverişlilik, belirli bir amaca uygunluk ve hak ihlali olmaması dahil tüm zımni garantiler hariç tutulur. Emredici tüketici hakları etkilenmez.",
+      "id": "responsibility"
+    },
+    {
+      "title": "Gizlilik ve koşulların uygulanması",
+      "body": "Verilerin toplanması ve kullanılması, bu koşullarla birlikte gösterilen gizlilik politikasına tabidir. Spotify, bu koşulların ve gizlilik politikasının üçüncü taraf lehtarıdır ve bu koşulları doğrudan uygulatabilir. Bağlantıyı sonlandırmak için Ayarlar → Spotify → Bağlantıyı Kes yolunu kullanın. Spotify hesabınızın uygulamalar sayfasından erişimi de iptal edebilirsiniz: https://www.spotify.com/account/apps/.",
+      "id": "enforcement"
+    },
+    {
+      "title": "Değişiklikler",
+      "body": "Bu bağlantı koşullarının yeni sürümü, Kinrox yeniden bağlanmadan önce kabul edilmelidir. Yerel video oynatma ve yerel ağ üzerinden uzaktan kumanda, Spotify bağlantı koşulları kabul edilmeden de kullanılabilir.",
+      "id": "changes"
+    }
+  ],
+  "privacy": [
+    {
+      "title": "Gizlilik politikası — Spotify bağlantısı",
+      "body": "Sürüm 2026-11-01. Kinrox’un bakımını yapan awaik, burada açıklanan Kinrox veri işlemesinden sorumludur. Bu ek, isteğe bağlı Spotify entegrasyonu için geçerlidir. Kinrox’un genel gizlilik politikası https://kinrox.app/privacy/ adresindedir. İletişim: https://github.com/awaik/Kinrox/issues. Herkese açık bildirimlerde belirteçleri, kişisel kitaplık içeriğini veya başka özel bilgileri paylaşmayın.",
+      "id": "overview"
+    },
+    {
+      "title": "Erişim ve amaçlar",
+      "body": "Koşulları kabul edip Spotify yetkisini verdikten sonra Mac’teki Kinrox; hesap kimliğinizi ve görünen adınızı, kayıtlı parçaları ve albümleri, takip edilen sanatçıları, erişilebilir listeleri ve içeriklerini, oynatma durumunu ve kullanılabilir cihazları okur. Bu bilgileri kitaplığınızı göstermek ve Spotify’ı kontrol etmek için kullanır. İlgili kontrolleri kullandığınızda favorileri kaydedip kaldırabilir, sanatçıları takip edebilir, listeler oluşturabilir ve size ait veya ortak listeleri düzenleyebilir. Bir favoriyi kaldırmak, düzenlenebilir listelerdeki tekrarlarını da kaldırır. Kinrox, oynatma için özel bir Kinrox Queue listesi tutar.",
+      "id": "access"
+    },
+    {
+      "title": "Saklama ve alıcılar",
+      "body": "Yenileme kimlik bilgileri Mac’in Data Protection Keychain alanında saklanır. Erişim belirteçleri, hesap ayrıntıları ve kitaplık meta verileri uygulama belleğinde kalır. Verilen Client ID, yardımcı liste ilişkilendirmesi ve kabul edilen belge sürümü Mac tercihlerinde saklanır. Kinrox’un sunucusu, analitiği veya telemetrisi yoktur; bakımını yapan kişi bu Spotify verilerinin hiçbirini almaz. Spotify istekleri doğrudan Mac’ten alır ve kendi gizlilik politikasına göre işler: https://www.spotify.com/legal/privacy-policy/. Spotify, Mac’in genel IP adresi gibi ağ bilgilerini görür.",
+      "id": "storage"
+    },
+    {
+      "title": "iPhone ve bağlantılar",
+      "body": "Eşleştirilmiş iPhone; parça, albüm, sanatçı ve liste meta verilerini, sıra durumunu ve oynatma kontrollerini Kinrox’un şifreli yerel ağ bağlantısından alır. Spotify kimlik bilgilerini hiçbir zaman almaz ve Spotify Web API’yi çağırmaz. Spotify’da Aç’a dokunursanız iPhone veya Mac ilgili öğeyi Spotify’da ya da web sitesinde açar. Bu aktarım internet kullanabilir ve Spotify’ın gizlilik politikasına tabidir. Kumanda meta verileri bellekte tutulur ve bağlantı kesildiğinde veya kaynak ya da hesap sıfırlandığında temizlenir.",
+      "id": "iphone"
+    },
+    {
+      "title": "Bağlantıyı kesme ve saklama süresi",
+      "body": "Mac’te Kinrox içinde Ayarlar → Spotify → Bağlantıyı Kes’i açın. Kinrox bekleyen oynatma işlemlerini sonuçlandırır, istekleri durdurur, yenileme kimlik bilgisini ve yerel yardımcı liste ilişkilendirmelerini kaldırır, hesap ve kitaplık durumunu bellekten temizler. Otomatik yeniden bağlanmayı durdurur. Kabul edilen sürüm, hesaptan bağımsız bir tercihtir. Listeler ve favoriler dahil Spotify’da zaten yapılmış değişiklikler orada kalır. Bağlantıyı kesmek Spotify yetkisini iptal etmez; iptal etmek için https://www.spotify.com/account/apps/ adresinden uygulamayı kaldırın. Tutulan yardımcı listeleri doğrudan Spotify’da silebilirsiniz.",
+      "id": "retention"
+    },
+    {
+      "title": "Çerezler ve genel Kinrox verileri",
+      "body": "Kinrox analitik veya çerez eklemez. Spotify API oturumları kalıcı çerez veya diskte yanıt önbelleği kullanmaz. Tarayıcıda oturum açma ve Spotify web siteleri kendi çerezlerini kullanabilir; bunları tarayıcınızda ve Spotify gizlilik ayarlarında yönetin. Kinrox’un genel politikası yerel dosya yer işaretlerini, eşleştirme kimlik bilgilerini, Sparkle güncellemelerini ve GitHub barındırmasını açıklar. Spotify bu politikanın ve bağlantı koşullarının üçüncü taraf lehtarıdır. Bu ekteki önemli değişiklikler, yeni bir bağlantı etkinleştirilmeden önce gösterilir.",
+      "id": "cookies"
+    }
+  ]
+}

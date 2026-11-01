@@ -6,7 +6,9 @@ struct KinroxPlayerApp: App {
 
     var body: some Scene {
         Settings {
-            if let remote = delegate.session.remote { RemoteSettingsView(remote: remote) }
+            if let remote = delegate.session.remote {
+                RemoteSettingsView(remote: remote, spotify: delegate.session.spotify)
+            }
         }
         .commands { PlayerCommands(delegate: delegate) }
     }

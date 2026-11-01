@@ -29,6 +29,20 @@ final class RemoteAppModel {
     var nextRetryDelay: TimeInterval = 0
     var scrubTarget: Double?
     var hasState = false
+    var showsMusicQueue = false
+    var showsLikeOptions = false
+    var musicQueue: [RemoteQueueItem] = []
+    var likeOptions: [RemoteLikeOption] = []
+    var likeOptionsTrackID: String?
+    var pendingLikeTrackID: String?
+    var queueLoading = false
+    var optionsLoading = false
+    var queueNextOffset: Int?
+    var queueRevision: UUID?
+    var optionsRevision: UUID?
+    @ObservationIgnored var musicPageRequests: [UUID: MusicPageRequest] = [:]
+    @ObservationIgnored var musicPageTimeouts: [UUID: any RemoteCancellation] = [:]
+    @ObservationIgnored var musicDemo: MusicRemoteDemo?
     @ObservationIgnored let scheduler: any RemoteScheduler
     @ObservationIgnored var credentials: (any ServerCredentialStore)?
     @ObservationIgnored var preferences: RemotePreferences?

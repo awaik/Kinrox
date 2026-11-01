@@ -3,6 +3,7 @@ import SwiftUI
 /// Figma 14:313. In M4 the only available tab is Remote; General has no settings yet.
 struct RemoteSettingsView: View {
     @Bindable var remote: RemoteServer
+    var spotify: SpotifyAccount? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -16,6 +17,7 @@ struct RemoteSettingsView: View {
             Divider().overlay(Palette.hairline)
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    if let spotify { SpotifySettingsSection(account: spotify) }
                     serverCard
                     Text(L10n.text("Paired Remotes")).overlineStyle().padding(.top, 8)
                     VStack(spacing: 0) {

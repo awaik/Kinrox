@@ -45,7 +45,8 @@ import RemoteProtocol
                 let message = try channel.open(data)
                 switch message {
                 case .bye: close(.closed)
-                case .command, .requestState: onMessage?(id, message)
+                case .command, .requestState, .requestQueue, .requestLikeOptions:
+                    onMessage?(id, message)
                 default: close(.invalidMessage)
                 }
                 return

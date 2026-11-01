@@ -59,7 +59,10 @@ import Testing
         case "shutdown": await h.model.shutdown()
         default: break  // Exercise the real five-second timeout.
         }
-        try await waitForRemote { h.reply(to: header.id) != nil }
+        try await waitForRemote {
+            if case .closed(let failure) = client.state { throw failure }
+            return h.reply(to: header.id) != nil
+        }
         if case .error(_, let error) = h.reply(to: header.id) {
             #expect(error.code == .internal)
         } else {

@@ -41,7 +41,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
   <meta property="og:title" content="Kinrox — 停止起身暂停电影">
-  <meta property="og:description" content="一款简约的 Mac 视频播放器，配有真正的 iPhone 遥控器。免费且开源。">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. 个人使用免费.">
   <meta property="og:url" content="https://kinrox.app/zh-Hans/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -55,7 +55,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/zh-Hans/", "inLanguage": "zh-Hans", "description": "一款简约的 Mac 视频播放器，配有真正的 iPhone 遥控器。免费且开源。"}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/zh-Hans/", "inLanguage": "zh-Hans", "description": "Kinrox · Mac + iPhone. 个人使用免费."}
   </script>
 </head>
 <body>
@@ -69,7 +69,7 @@
       <a href="#how">配对</a>
       <a href="#player">播放器</a>
       <a href="#privacy">隐私</a>
-      <a href="#open-source">开源</a>
+      <a href="#open-source">源代码</a>
     </nav>
     <div class="nav-actions">
       <details class="language-menu" id="languages">
@@ -116,14 +116,14 @@
   <section class="hero">
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
-      <span class="chip"><i class="dot ember"></i>免费开源 · Mac + iPhone</span>
+      <span class="chip"><i class="dot ember"></i>个人使用免费 · Mac + iPhone</span>
       <h1 class="display">不用起身，<span class="fire-text">轻松暂停电影。</span></h1>
       <p class="lead">Kinrox 可以播放 Mac 上的任何视频，并将 iPhone 变成遥控器。投影仪上的 MacBook，沙发上的您：暂停、跳回 10 秒、调低音量或不离开毯子即可开始下一集。</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">下载Mac</a>
         <a class="btn btn-glass" href="#how">看看它是如何工作的</a>
       </div>
-      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>没有账户</span><span>无需云服务</span><span>通过 Wi-Fi 工作</span></p>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>无需 Kinrox 账号</span><span>无需 Kinrox 服务器</span><span>通过 Wi-Fi 工作</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -308,8 +308,8 @@
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
-          <h3>没有账户，没有遥测</h3>
-          <p>没有帐户或使用情况分析。 Mac 每天检查公共更新源，无需唯一标识符或系统分析。该网站没有分析或 cookies。</p>
+          <h3>无使用分析</h3>
+          <p>Kinrox 在 Mac 上播放本地视频，并提供 iPhone 遥控器。开发者不会收到个人数据、播放历史或使用分析。 本地视频和局域网遥控可离线使用。更新和可选的 Spotify 功能需要互联网。</p>
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
@@ -324,8 +324,8 @@
     <div class="container">
       <div class="oss" data-reveal>
         <div>
-          <span class="overline">开源·GPL‑3.0</span>
-          <h2 class="display" id="oss-title">免费、开源。代码随你阅读和修改。</h2>
+          <span class="overline">Mac: GPL-3.0 · iPhone: 仅限个人使用</span>
+          <h2 class="display" id="oss-title">源代码</h2>
           <p class="lead">Kinrox 写在 Swift 6 和 SwiftUI 上，写在 libmpv 之上。播放器、遥控器和协议的每一行都在GitHub上。</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac 播放器 — 有效</li>
@@ -367,12 +367,12 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
         <h2 class="display" id="faq-title">问题</h2>
       </div>
       <div class="faq" data-reveal>
-        <details><summary>它需要互联网吗？</summary><p>当 Mac 和 iPhone 共享 Wi‑Fi 网络时，无需连接互联网即可进行播放和远程控制。 Mac 使用 HTTPS 进行日常更新检查，并在您选择安装时下载更新。</p></details>
+        <details><summary>它需要互联网吗？</summary><p>本地视频和局域网遥控可离线使用。更新和可选的 Spotify 功能需要互联网。</p></details>
         <details><summary>它适用于电视而不是投影仪吗？</summary><p>是的。 Kinrox 可在 Mac 显示的任何内容上播放 - 投影仪、通过 HDMI 的电视或与 AirPlay 连接的显示器。</p></details>
         <details><summary>支持哪些Macs和iPhones？</summary><p>Macs 和 Apple silicon 在 macOS 14 Sonoma 或更高版本上，以及 iPhones 在 iOS 17 或更高版本上。尚不支持 Intel Macs。</p></details>
         <details><summary>可以多个iPhone控制同一个Mac吗？</summary><p>是的。每个 iPhone 与自己的代码配对一次；最多可同时连接四个遥控器。您可以在播放器设置中撤销其中任何一项。</p></details>
         <details><summary>我可以选择音轨和字幕吗？</summary><p>是的。在 Mac 上，使用“音频和字幕”按钮或“音频和字幕”菜单。选择嵌入轨道、在嵌套文件夹中查找外部文件或关闭字幕。 Kinrox可以记住您下一集的选择。</p></details>
-        <details><summary>费用是多少？</summary><p>什么也没有。 Kinrox 在 GNU GPL v3 下免费且开源。</p></details>
+        <details><summary>费用是多少？</summary><p>Mac 版 Kinrox 是采用 GNU GPL v3 许可证的开源软件。 Kinrox Remote 可免费用于个人非商业用途。禁止企业使用、销售和付费订阅。 此前以 GPL 发布的版本保留原有许可证。</p></details>
       </div>
     </div>
   </section>
@@ -382,7 +382,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
     <div class="container" data-reveal>
       <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
       <h2 class="display" id="final-title">躺下。 <span class="fire-text">按播放。</span></h2>
-      <p class="lead">Kinrox 适用于 Mac 和 iPhone。免费、开源，专为电影之夜而设计。</p>
+      <p class="lead">个人使用免费</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">下载Mac</a>
         <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">报告问题</a>
@@ -394,16 +394,17 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
 <footer class="footer">
   <div class="container footer-inner">
     <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
-    <span>GPL‑3.0 下的免费软件。不隶属于 Apple。</span>
+    <span>Mac: GPL-3.0 · iPhone: 仅限个人使用</span>
     <nav class="footer-links" aria-label="页脚">
       <a href="privacy/">隐私</a>
       <a href="support/">支持</a>
       <a href="https://github.com/awaik/Kinrox">源代码</a>
-      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">许可证</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSING.md">许可证</a>
       <a href="https://github.com/awaik/Kinrox/issues">问题</a>
       <a href="#languages">简体中文</a>
     </nav>
   </div>
+<p><a href="spotify-terms/">Spotify · 连接条款</a></p>
 </footer>
 </body>
 </html>

@@ -1,0 +1,79 @@
+{
+  "version": "2026-11-01",
+  "locale": "nl",
+  "language": "Nederlands",
+  "terms": [
+    {
+      "title": "Voorwaarden voor verbinding met Spotify",
+      "body": "Deze voorwaarden gelden wanneer je Spotify in Kinrox inschakelt. Kinrox wordt onderhouden door awaik (https://github.com/awaik/Kinrox); vragen over ondersteuning en privacy: https://github.com/awaik/Kinrox/issues. Kinrox is onafhankelijk van Spotify en wordt niet door Spotify onderschreven. Deze voorwaarden gelden zodra je ze in de app accepteert.",
+      "id": "connection"
+    },
+    {
+      "title": "Je account en je keuzes",
+      "body": "Verbinding maken is optioneel. Gebruik je eigen Spotify-ontwikkelaarsapp en een geautoriseerd Spotify Premium-account. Spotify beheert API-toegang en quota; toegang kan veranderen of stoppen. De eigen voorwaarden van Spotify blijven gelden. Kinrox bestuurt het afspelen in de officiële Spotify-app op je Mac. Het downloadt geen audio, neemt geen audio op en slaat geen audio op in een cache.",
+      "id": "account"
+    },
+    {
+      "title": "Wijzigingen in de bibliotheek",
+      "body": "Met je handelingen kun je nummers en albums opslaan of verwijderen, artiesten volgen of ontvolgen, afspeellijsten maken en lijsten wijzigen die van jou zijn of die je mag bewerken. Een nummer uit favorieten verwijderen verwijdert ook alle exemplaren ervan uit je bewerkbare afspeellijsten. Een album selecteren slaat de nummers ervan niet afzonderlijk op. Wijzigingen worden in je Spotify-account doorgevoerd en kunnen zichtbaar zijn in andere Spotify-clients.",
+      "id": "library"
+    },
+    {
+      "title": "Afspeelwachtrij",
+      "body": "Kinrox maakt een privéafspeellijst Kinrox Queue en vervangt de inhoud wanneer je de afspeelwachtrij wijzigt. Bij verbreken van de verbinding blijft deze lijst in Spotify staan, maar wordt de lokale koppeling vergeten. Opnieuw verbinden kan een nieuwe hulplijst maken. Verwijder ongewenste hulplijsten zelf in Spotify.",
+      "id": "queue"
+    },
+    {
+      "title": "Rechten van Spotify",
+      "body": "Behalve waar toepasselijk recht dit toestaat, mag je het platform, de dienst of de inhoud van Spotify niet wijzigen, er afgeleide werken van maken, deze decompileren, disassembleren, reverse-engineeren of omzetten in broncode of een andere voor mensen leesbare vorm. Deze beperkingen betreffen materiaal van Spotify; ze beperken geen rechten op Kinrox-code die door de licenties van de onderdelen worden verleend, waaronder de GPL-licentie van de Mac-speler.",
+      "id": "rights"
+    },
+    {
+      "title": "Verantwoordelijkheid en garanties",
+      "body": "De beheerder van Kinrox is verantwoordelijk voor Kinrox. Voor zover wettelijk toegestaan, dragen Spotify en andere derden geen verantwoordelijkheid of aansprakelijkheid voor Kinrox. Kinrox doet geen toezeggingen en geeft geen garanties namens Spotify. Voor zover wettelijk toegestaan, worden alle impliciete garanties betreffende het platform, de dienst en de inhoud van Spotify uitgesloten, waaronder verkoopbaarheid, geschiktheid voor een bepaald doel en niet-inbreuk op rechten. Dwingende consumentenrechten blijven onverminderd van kracht.",
+      "id": "responsibility"
+    },
+    {
+      "title": "Privacy en handhaving",
+      "body": "Het verzamelen en gebruiken van gegevens valt onder het privacybeleid dat bij deze voorwaarden wordt getoond. Spotify is derde-begunstigde van deze voorwaarden en dat privacybeleid en kan deze voorwaarden rechtstreeks afdwingen. Gebruik Instellingen → Spotify → Verbinding verbreken om de verbinding te beëindigen. Je kunt de toegang ook intrekken op de Apps-pagina van je Spotify-account: https://www.spotify.com/account/apps/.",
+      "id": "enforcement"
+    },
+    {
+      "title": "Wijzigingen",
+      "body": "Een nieuwe versie van deze verbindingsvoorwaarden moet worden geaccepteerd voordat Kinrox opnieuw verbinding maakt. Lokale videoweergave en afstandsbediening via het lokale netwerk blijven beschikbaar zonder de Spotify-verbindingsvoorwaarden te accepteren.",
+      "id": "changes"
+    }
+  ],
+  "privacy": [
+    {
+      "title": "Privacybeleid — Spotify-verbinding",
+      "body": "Versie 2026-11-01. De beheerder van Kinrox, awaik, is verantwoordelijk voor de hier beschreven gegevensverwerking door Kinrox. Deze aanvulling geldt voor de optionele Spotify-integratie. Het algemene privacybeleid van Kinrox staat op https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Plaats geen tokens, inhoud van je persoonlijke bibliotheek of andere privégegevens in openbare issues.",
+      "id": "overview"
+    },
+    {
+      "title": "Toegang en doeleinden",
+      "body": "Nadat je de voorwaarden accepteert en Spotify autoriseert, leest Kinrox op de Mac je account-ID en weergavenaam, opgeslagen nummers en albums, gevolgde artiesten, toegankelijke afspeellijsten en hun inhoud, de afspeelstatus en beschikbare apparaten. Het gebruikt deze informatie om je bibliotheek te tonen en Spotify te bedienen. Als je de betreffende knoppen gebruikt, kan het favorieten opslaan en verwijderen, artiesten volgen, afspeellijsten maken en eigen of gezamenlijke lijsten bewerken. Een favoriet verwijderen verwijdert ook de exemplaren ervan uit bewerkbare afspeellijsten. Kinrox onderhoudt een privéafspeellijst Kinrox Queue voor het afspelen.",
+      "id": "access"
+    },
+    {
+      "title": "Opslag en ontvangers",
+      "body": "Vernieuwingsgegevens worden opgeslagen in de Data Protection Keychain van de Mac. Toegangstokens, accountgegevens en bibliotheekmetadata blijven in het geheugen van de app. De opgegeven Client ID, de koppeling met de hulplijst en de geaccepteerde documentversie worden opgeslagen in de voorkeuren van de Mac. Kinrox heeft geen server, gebruiksanalyse of telemetrie en de beheerder ontvangt geen van deze Spotify-gegevens. Spotify ontvangt verzoeken rechtstreeks van de Mac en verwerkt die volgens zijn privacybeleid: https://www.spotify.com/legal/privacy-policy/. Spotify ziet netwerkgegevens zoals het openbare IP-adres van de Mac.",
+      "id": "storage"
+    },
+    {
+      "title": "iPhone en links",
+      "body": "De gekoppelde iPhone ontvangt metadata van nummers, albums, artiesten en afspeellijsten, de wachtrijstatus en afspeelbediening via de versleutelde lokale netwerkverbinding van Kinrox. Hij ontvangt nooit Spotify-inloggegevens en roept de Spotify Web API niet aan. Als je op Open in Spotify tikt, opent de iPhone of Mac het betreffende item in Spotify of op de website ervan. Deze overdracht kan internet gebruiken en valt onder het privacybeleid van Spotify. Metadata op de afstandsbediening blijven in het geheugen en worden gewist bij het verbreken van de verbinding of het opnieuw instellen van bron of account.",
+      "id": "iphone"
+    },
+    {
+      "title": "Verbinding verbreken en bewaartermijnen",
+      "body": "Open in Kinrox op de Mac Instellingen → Spotify → Verbinding verbreken. Kinrox rondt lopende afspeelhandelingen af, stopt verzoeken, verwijdert zijn vernieuwingsgegevens en lokale hulplijstkoppelingen en wist account- en bibliotheekgegevens uit het geheugen. Automatisch opnieuw verbinden stopt. De geaccepteerde versie is een accountonafhankelijke voorkeur. Wijzigingen die al in Spotify zijn aangebracht, waaronder afspeellijsten en favorieten, blijven daar staan. De verbinding verbreken trekt de Spotify-autorisatie niet in; verwijder de app op https://www.spotify.com/account/apps/ om die in te trekken. Bewaarde hulplijsten kun je rechtstreeks in Spotify verwijderen.",
+      "id": "retention"
+    },
+    {
+      "title": "Cookies en algemene Kinrox-gegevens",
+      "body": "Kinrox voegt geen gebruiksanalyse of cookies toe. Zijn Spotify-API-sessies gebruiken geen blijvende cookies of schijfcache voor antwoorden. Inloggen via de browser en Spotify-websites kunnen eigen cookies gebruiken; beheer die in je browser en in de privacyinstellingen van Spotify. Het algemene Kinrox-beleid beschrijft bladwijzers voor lokale bestanden, koppelingsgegevens, Sparkle-updates en GitHub-hosting. Spotify is derde-begunstigde van dit beleid en de verbindingsvoorwaarden. Wezenlijke wijzigingen in deze aanvulling worden getoond voordat een nieuwe verbinding wordt ingeschakeld.",
+      "id": "cookies"
+    }
+  ]
+}

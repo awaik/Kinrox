@@ -249,7 +249,9 @@
 "Source Code (GitHub)" = "ซอร์สโค้ด (GitHub)";
 "License: %@" = "สัญญาอนุญาต: %@";
 "Report an Issue" = "รายงานปัญหา";
-"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox เป็นซอฟต์แวร์โอเพนซอร์สภายใต้สัญญาอนุญาต GNU GPL v3";
+"Personal use only" = "สำหรับใช้ส่วนบุคคลเท่านั้น";
+"Kinrox Remote is free for personal, noncommercial use. Business use, sales, and paid subscriptions are prohibited." = "Kinrox Remote ใช้ได้ฟรีสำหรับการใช้งานส่วนบุคคลที่ไม่ใช่เชิงพาณิชย์ ห้ามใช้ในธุรกิจ จำหน่าย หรือให้บริการแบบสมัครสมาชิกที่มีค่าใช้จ่าย";
+"Kinrox for Mac is open-source software licensed under the GNU GPL v3." = "Kinrox สำหรับ Mac เป็นซอฟต์แวร์โอเพนซอร์สภายใต้สัญญาอนุญาต GNU GPL v3";
 
 /* Matrix screensaver — Figma page 07. */
 "Screensaver" = "โปรแกรมรักษาหน้าจอ";
@@ -270,3 +272,92 @@
 "Esc — exit · Movie paused" = "Esc — ออก · ภาพยนตร์หยุดชั่วคราว";
 "Matrix screensaver. Press Escape to exit." = "โปรแกรมรักษาหน้าจอ Matrix กด Escape เพื่อออก";
 "The movie could not be paused. Try again." = "หยุดภาพยนตร์ชั่วคราวไม่ได้ โปรดลองอีกครั้ง";
+
+/* Music mode — Figma page 08. */
+"%@ tracks" = "%@ เพลง";
+"Add to playlist" = "เพิ่มลงในเพลย์ลิสต์";
+"Add to queue" = "เพิ่มลงในคิว";
+"Added manually" = "เพิ่มด้วยตนเอง";
+"Album" = "อัลบั้ม";
+"Albums" = "อัลบั้ม";
+"All albums" = "ทุกอัลบั้ม";
+"All tracks" = "ทุกเพลง";
+"Artist, album or track" = "ศิลปิน อัลบั้ม หรือเพลง";
+"Artists" = "ศิลปิน";
+"By artist" = "ตามศิลปิน";
+"By title" = "ตามชื่อ";
+"Could not create playlist." = "สร้างเพลย์ลิสต์ไม่ได้";
+"Could not update favorites." = "อัปเดตรายการโปรดไม่ได้";
+"Create" = "สร้าง";
+"Demo · No audio" = "สาธิต · ไม่มีเสียง";
+"Entire queue" = "ทั้งคิว";
+"Favorite" = "รายการโปรด";
+"Favorite: %@" = "รายการโปรด: %@";
+"Follow" = "ติดตาม";
+"From the source list" = "จากรายการต้นทาง";
+"Library" = "คลัง";
+"Liked" = "ถูกใจแล้ว";
+"Liked tracks" = "เพลงที่ถูกใจ";
+"Music" = "เพลง";
+"New playlist…" = "เพลย์ลิสต์ใหม่…";
+"Next track" = "เพลงถัดไป";
+"Next: %@" = "ถัดไป: %@";
+"On" = "เปิด";
+"Play album" = "เล่นอัลบั้ม";
+"Play album: %@" = "เล่นอัลบั้ม: %@";
+"Play all" = "เล่นทั้งหมด";
+"Playback mode" = "โหมดการเล่น";
+"Playback position" = "ตำแหน่งการเล่น";
+"Playlist name" = "ชื่อเพลย์ลิสต์";
+"Playlists" = "เพลย์ลิสต์";
+"Previous track" = "เพลงก่อนหน้า";
+"Queue" = "คิว";
+"Remove from queue" = "นำออกจากคิว";
+"Reorder track" = "จัดลำดับเพลง";
+"Repeat" = "เล่นซ้ำ";
+"Repeat all" = "เล่นซ้ำทั้งหมด";
+"Repeat one" = "เล่นซ้ำเพลงเดียว";
+"Saved immediately · Esc to close" = "บันทึกทันที · Esc เพื่อปิด";
+"Search" = "ค้นหา";
+"Search: %@" = "ค้นหา: %@";
+"Shuffle" = "สุ่ม";
+"Space: pause · Enter: play · L: favorite · ⌘F: search · ⌘Z: undo" = "Space: หยุดพัก · Enter: เล่น · L: รายการโปรด · ⌘F: ค้นหา · ⌘Z: เลิกทำ";
+"Stop" = "หยุด";
+"This Mac" = "Mac เครื่องนี้";
+"Time" = "เวลา";
+"Title" = "ชื่อ";
+"Tracks" = "เพลง";
+"Video" = "วิดีโอ";
+
+/* Optional Spotify account and library */
+"Enter a valid Spotify Client ID." = "ป้อน Client ID ของ Spotify ที่ถูกต้อง";
+"Reconnect Spotify in Settings." = "เชื่อมต่อ Spotify อีกครั้งในการตั้งค่า";
+"Spotify denied access. Check Premium and the app allowlist." = "Spotify ปฏิเสธการเข้าถึง ตรวจสอบ Premium และรายชื่อผู้ใช้ที่แอปอนุญาต";
+"Open Spotify on this Mac and start a track." = "เปิด Spotify บน Mac เครื่องนี้แล้วเล่นเพลง";
+"Spotify quota reached. Try again later." = "ใช้โควตา Spotify ครบแล้ว ลองอีกครั้งภายหลัง";
+"Spotify is busy. Try again later." = "Spotify ไม่ว่าง ลองอีกครั้งภายหลัง";
+"Spotify is unavailable. Check your connection." = "Spotify ไม่พร้อมใช้งาน ตรวจสอบการเชื่อมต่อของคุณ";
+"Connect Spotify in Settings." = "เชื่อมต่อ Spotify ในการตั้งค่า";
+"Loading Spotify library…" = "กำลังโหลดคลัง Spotify…";
+"Optional connection on Mac. Spotify Premium and your own developer app are required." = "การเชื่อมต่อเสริมบน Mac ต้องใช้ Spotify Premium และแอปนักพัฒนาของคุณเอง";
+"Spotify Client ID" = "Client ID ของ Spotify";
+"Disconnect" = "ตัดการเชื่อมต่อ";
+"Connect Spotify" = "เชื่อมต่อ Spotify";
+"Favorite %@" = "รายการโปรด %@";
+"Swipe left to remove · hold to reorder" = "ปัดซ้ายเพื่อนำออก · กดค้างเพื่อเรียงใหม่";
+"Source list" = "รายการต้นทาง";
+"Saved immediately" = "บันทึกทันที";
+"Spotify is playing on another device or outside Kinrox." = "Spotify กำลังเล่นบนอุปกรณ์อื่นหรือนอก Kinrox";
+
+/* Spotify metadata, feedback and connection consent. */
+"Track details" = "รายละเอียดเพลง";
+"Open in Spotify" = "เปิดใน Spotify";
+"Explicit content" = "เนื้อหาโจ่งแจ้ง";
+"Removed from Liked Songs" = "นำออกจากเพลงที่ถูกใจแล้ว";
+"This action is unavailable in Spotify." = "การดำเนินการนี้ไม่พร้อมใช้งานใน Spotify";
+"Added to Liked Songs" = "เพิ่มลงในเพลงที่ถูกใจแล้ว";
+"Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics." = "ข้อมูลเข้าสู่ระบบอยู่ในพวงกุญแจ Mac การยกเลิกการเชื่อมต่อจะลบข้อมูล Spotify ในเครื่องและเก็บเพลย์ลิสต์ Spotify ไว้ ไม่มีเซิร์ฟเวอร์ Kinrox หรือการวิเคราะห์การใช้งาน";
+"I accept the Spotify connection terms and have read the privacy policy." = "ฉันยอมรับข้อกำหนดการเชื่อมต่อ Spotify และได้อ่านนโยบายความเป็นส่วนตัวแล้ว";
+"Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "สิทธิ์เข้าถึง Spotify: คลังเพลง การเล่น รายการโปรด และเพลย์ลิสต์ที่แก้ไขได้ การเลิกถูกใจจะนำเพลงออกจากเพลย์ลิสต์ที่แก้ไขได้ด้วย";
+"Open album in Spotify" = "เปิดอัลบั้มใน Spotify";
+"Connection terms" = "ข้อกำหนดการเชื่อมต่อ";

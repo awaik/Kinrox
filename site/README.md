@@ -77,7 +77,38 @@ the asset before updating the template, catalog version labels and generator met
 The iPhone App Store release remains separately planned. See
 [`RUNBOOK-RELEASE.md`](../docs/runbooks/RUNBOOK-RELEASE.md).
 
+Licensing copy distinguishes the GPL Mac player from new personal-use-only remote
+revisions; [LICENSING.md](../LICENSING.md) defines the scope and preserves earlier
+GPL grants. The landing's JSON-LD describes the downloadable Mac 0.3.0 DMG only,
+so its GPL metadata must not also claim to describe the newly licensed iPhone app.
+
 Repository Settings → Pages → Source must be **GitHub Actions**. Pushes to `main`
 touching the website, localization sources or validation scripts trigger verification
 and deployment. The owner authorized publication of the 30-language website on
 2026-10-30. Future changes follow the repository's owner-review workflow.
+
+## Spotify release documents
+
+Full connection terms and the privacy supplement cover all 30 locales in
+`Resources/Spotify/SpotifyConnection.<locale>.json`. Each document contains eight
+terms sections and six privacy sections, with stable IDs and a shared version.
+The same files are bundled in the Mac app. The generator uses the page's language
+and RTL direction, preserves every paragraph, and makes external URLs clickable.
+The full supplement is included in each `/privacy/` page as well as `/spotify-terms/`.
+
+Before publication, run from the repository root:
+
+```sh
+python3 Scripts/build-site.py --check
+python3 -m unittest discover -s Scripts/tests -p 'test_site_localization.py'
+python3 -m unittest discover -s Scripts/tests -p 'test_spotify_documents.py'
+python3 Scripts/check-localization.py
+```
+
+The Pages workflow runs the site and document checks and watches the document
+sources. Publish all localized terms and privacy routes with the music release,
+before enabling its download. After deployment, check HTTP success, version
+`2026-11-01`, language, complete text and language-switch links at `/spotify-terms/`,
+`/privacy/`, and their 29 locale-prefixed equivalents. English uses no prefix.
+For a substantive future change, update every translation and the app's consent
+version together. Local generation and verification do not publish the pages.

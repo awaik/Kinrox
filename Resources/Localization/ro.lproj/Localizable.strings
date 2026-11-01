@@ -249,7 +249,9 @@
 "Source Code (GitHub)" = "Cod sursă (GitHub)";
 "License: %@" = "Licență: %@";
 "Report an Issue" = "Raportează o problemă";
-"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox este un software cu sursă deschisă, distribuit sub licența GNU GPL v3.";
+"Personal use only" = "Numai pentru uz personal";
+"Kinrox Remote is free for personal, noncommercial use. Business use, sales, and paid subscriptions are prohibited." = "Kinrox Remote este gratuit pentru uz personal, necomercial. Utilizarea în afaceri, vânzarea și abonamentele contra cost sunt interzise.";
+"Kinrox for Mac is open-source software licensed under the GNU GPL v3." = "Kinrox pentru Mac este software cu sursă deschisă sub licența GNU GPL v3.";
 
 /* Matrix screensaver — Figma page 07. */
 "Screensaver" = "Economizor de ecran";
@@ -270,3 +272,92 @@
 "Esc — exit · Movie paused" = "Esc — ieșire · Film în pauză";
 "Matrix screensaver. Press Escape to exit." = "Economizor de ecran Matrix. Apasă Escape pentru a ieși.";
 "The movie could not be paused. Try again." = "Filmul nu a putut fi pus în pauză. Încearcă din nou.";
+
+/* Music mode — Figma page 08. */
+"%@ tracks" = "%@ piese";
+"Add to playlist" = "Adaugă în playlist";
+"Add to queue" = "Adaugă în coadă";
+"Added manually" = "Adăugat manual";
+"Album" = "Album";
+"Albums" = "Albume";
+"All albums" = "Toate albumele";
+"All tracks" = "Toate piesele";
+"Artist, album or track" = "Artist, album sau piesă";
+"Artists" = "Artiști";
+"By artist" = "După artist";
+"By title" = "După titlu";
+"Could not create playlist." = "Nu s-a putut crea playlistul.";
+"Could not update favorites." = "Nu s-au putut actualiza favoritele.";
+"Create" = "Creează";
+"Demo · No audio" = "Demo · Fără sunet";
+"Entire queue" = "Întreaga coadă";
+"Favorite" = "Favorit";
+"Favorite: %@" = "Favorit: %@";
+"Follow" = "Urmărește";
+"From the source list" = "Din lista sursă";
+"Library" = "Bibliotecă";
+"Liked" = "Apreciat";
+"Liked tracks" = "Piese apreciate";
+"Music" = "Muzică";
+"New playlist…" = "Playlist nou…";
+"Next track" = "Piesa următoare";
+"Next: %@" = "Urmează: %@";
+"On" = "Activat";
+"Play album" = "Redă albumul";
+"Play album: %@" = "Redă albumul: %@";
+"Play all" = "Redă tot";
+"Playback mode" = "Mod de redare";
+"Playback position" = "Poziția redării";
+"Playlist name" = "Numele playlistului";
+"Playlists" = "Playlisturi";
+"Previous track" = "Piesa anterioară";
+"Queue" = "Coadă";
+"Remove from queue" = "Elimină din coadă";
+"Reorder track" = "Mută piesa";
+"Repeat" = "Repetă";
+"Repeat all" = "Repetă tot";
+"Repeat one" = "Repetă una";
+"Saved immediately · Esc to close" = "Salvat imediat · Esc pentru închidere";
+"Search" = "Caută";
+"Search: %@" = "Căutare: %@";
+"Shuffle" = "Aleatoriu";
+"Space: pause · Enter: play · L: favorite · ⌘F: search · ⌘Z: undo" = "Spațiu: pauză · Enter: redare · L: favorit · ⌘F: căutare · ⌘Z: anulare";
+"Stop" = "Oprește";
+"This Mac" = "Acest Mac";
+"Time" = "Timp";
+"Title" = "Titlu";
+"Tracks" = "Piese";
+"Video" = "Video";
+
+/* Optional Spotify account and library */
+"Enter a valid Spotify Client ID." = "Introduceți un Client ID Spotify valid.";
+"Reconnect Spotify in Settings." = "Reconectați Spotify în configurări.";
+"Spotify denied access. Check Premium and the app allowlist." = "Spotify a refuzat accesul. Verificați Premium și lista utilizatorilor permiși ai aplicației.";
+"Open Spotify on this Mac and start a track." = "Deschideți Spotify pe acest Mac și porniți o piesă.";
+"Spotify quota reached. Try again later." = "Cota Spotify a fost atinsă. Încercați mai târziu.";
+"Spotify is busy. Try again later." = "Spotify este ocupat. Încercați mai târziu.";
+"Spotify is unavailable. Check your connection." = "Spotify nu este disponibil. Verificați conexiunea.";
+"Connect Spotify in Settings." = "Conectați Spotify în configurări.";
+"Loading Spotify library…" = "Se încarcă biblioteca Spotify…";
+"Optional connection on Mac. Spotify Premium and your own developer app are required." = "Conexiune opțională pe Mac. Sunt necesare Spotify Premium și propria aplicație de dezvoltator.";
+"Spotify Client ID" = "Client ID Spotify";
+"Disconnect" = "Deconectați";
+"Connect Spotify" = "Conectați Spotify";
+"Favorite %@" = "Favorit: %@";
+"Swipe left to remove · hold to reorder" = "Glisează la stânga pentru eliminare · ține apăsat pentru reordonare";
+"Source list" = "Lista sursă";
+"Saved immediately" = "Salvat imediat";
+"Spotify is playing on another device or outside Kinrox." = "Spotify redă pe alt dispozitiv sau în afara Kinrox.";
+
+/* Spotify metadata, feedback and connection consent. */
+"Track details" = "Detalii piesă";
+"Open in Spotify" = "Deschide în Spotify";
+"Explicit content" = "Conținut explicit";
+"Removed from Liked Songs" = "Eliminată din Melodii apreciate";
+"This action is unavailable in Spotify." = "Această acțiune nu este disponibilă în Spotify.";
+"Added to Liked Songs" = "Adăugată la Melodii apreciate";
+"Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics." = "Datele de conectare rămân în Portcheiul Mac. Deconectarea șterge datele Spotify locale și păstrează playlisturile Spotify. Fără server Kinrox sau analiză de utilizare.";
+"I accept the Spotify connection terms and have read the privacy policy." = "Accept condițiile de conectare Spotify și am citit politica de confidențialitate.";
+"Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Acces Spotify: bibliotecă, redare, favorite și playlisturi editabile. Eliminarea unui favorit îl elimină și din playlisturile editabile.";
+"Open album in Spotify" = "Deschide albumul în Spotify";
+"Connection terms" = "Condiții de conectare";

@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "Website"
 OUTPUT = ROOT / "site"
 ORIGIN = "https://kinrox.app"
-PAGES = ("home", "support", "privacy")
+PAGES = ("home", "support", "privacy", "spotify-terms")
 RTL = {"ar", "fa", "he", "ur"}
 SLOTS = re.compile(r"\{(\d+)\}")
 TOKEN = re.compile(r"\{\{([a-z_]+)(?::([a-z0-9-]+))?\}\}")
@@ -124,13 +124,78 @@ def head(locale, page, strings, root):
             "name": "Kinrox", "applicationCategory": "MultimediaApplication",
             "softwareVersion": "0.3.0",
             "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg",
-            "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+            "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html",
             "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
             "url": url, "inLanguage": locale, "description": strings["home-social-description"],
         }
         lines.extend(['  <script type="application/ld+json">',
                       "  " + json.dumps(data, ensure_ascii=False), "  </script>"])
     return "\n".join(lines + ["</head>"])
+
+
+SPOTIFY_SECTIONS = {
+    "terms": ["connection", "account", "library", "queue", "rights", "responsibility", "enforcement", "changes"],
+    "privacy": ["overview", "access", "storage", "iphone", "retention", "cookies"],
+}
+DOCUMENT_URL = re.compile(r"https://[A-Za-z0-9/._?=&%#:+-]+")
+
+
+def document_urls(text):
+    return [match.group().rstrip(".") for match in DOCUMENT_URL.finditer(text)]
+
+
+def validate_spotify_document(document, locale, source):
+    if (document.get("locale") != locale or document.get("language") != LANGUAGES[locale]
+            or document.get("version") != source["version"]):
+        raise ValueError(f"Spotify document metadata mismatch: {locale}")
+    for group, ids in SPOTIFY_SECTIONS.items():
+        sections = document.get(group, [])
+        if [section.get("id") for section in sections] != ids:
+            raise ValueError(f"Incomplete Spotify document: {locale}/{group}")
+        for section, original in zip(sections, source[group]):
+            location = f"{locale}/{group}/{section['id']}"
+            for field in ("title", "body"):
+                text = section.get(field)
+                if not isinstance(text, str) or not text.strip():
+                    raise ValueError(f"Empty Spotify document text: {location}/{field}")
+            if locale != "en" and section["body"] == original["body"]:
+                raise ValueError(f"Untranslated Spotify document: {location}")
+            if Counter(document_urls(section["body"])) != Counter(document_urls(original["body"])):
+                raise ValueError(f"Changed Spotify document links: {location}")
+
+
+def spotify_document(locale):
+    # The same complete versioned text is bundled for offline review before OAuth.
+    directory = ROOT / "Resources/Spotify"
+    source = read_json(directory / "SpotifyConnection.en.json")
+    document = read_json(directory / f"SpotifyConnection.{locale}.json")
+    validate_spotify_document(document, locale, source)
+    return document
+
+
+def document_body(text):
+    # Escape prose; isolate clickable URLs so punctuation remains readable in RTL.
+    parts, offset = [], 0
+    for match in DOCUMENT_URL.finditer(text):
+        url = match.group().rstrip(".")
+        end = match.start() + len(url)
+        parts.extend([escape(text[offset:match.start()]),
+                      f'<a href="{escape(url, quote=True)}"><bdi dir="ltr">{escape(url)}</bdi></a>'])
+        offset = end
+    return "".join(parts) + escape(text[offset:])
+
+
+def spotify_documents(locale, groups=("terms", "privacy")):
+    document = spotify_document(locale)
+    direction = "rtl" if locale in RTL else "ltr"
+    parts = [f'<section id="spotify-documents" lang="{locale}" dir="{direction}">',
+             f'<p class="muted"><bdi>{escape(document["language"])}</bdi> · '
+             f'<bdi dir="ltr">{escape(document["version"])}</bdi></p>']
+    for group in groups:
+        for section in document[group]:
+            parts.extend([f'<h2 id="spotify-{group}-{section["id"]}">{escape(section["title"])}</h2>',
+                          f'<p>{document_body(section["body"])}</p>'])
+    return "\n".join(parts + ["</section>"])
 
 
 def render(locale, page, languages, strings, markup):
@@ -141,6 +206,9 @@ def render(locale, page, languages, strings, markup):
         "language_name": escape(languages[locale]),
         "languages": language_menu(locale, page, languages, strings),
         "head": head(locale, page, strings, root),
+        "spotify_documents": spotify_documents(locale),
+        "spotify_privacy": spotify_documents(locale, ("privacy",)),
+        "spotify_terms": relative_url(current, page_path(locale, "spotify-terms")),
         **{p: relative_url(current, page_path(locale, p)) for p in PAGES},
     }
 

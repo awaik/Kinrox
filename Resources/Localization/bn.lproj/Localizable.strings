@@ -249,7 +249,9 @@
 "Source Code (GitHub)" = "সোর্স কোড (GitHub)";
 "License: %@" = "লাইসেন্স: %@";
 "Report an Issue" = "সমস্যা জানান";
-"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox হলো GNU GPL v3 লাইসেন্সের অধীনে প্রকাশিত ওপেন-সোর্স সফটওয়্যার।";
+"Personal use only" = "শুধু ব্যক্তিগত ব্যবহার";
+"Kinrox Remote is free for personal, noncommercial use. Business use, sales, and paid subscriptions are prohibited." = "Kinrox Remote ব্যক্তিগত, অবাণিজ্যিক ব্যবহারের জন্য বিনামূল্যে। ব্যবসায়িক ব্যবহার, বিক্রি এবং অর্থের বিনিময়ে সাবস্ক্রিপশন নিষিদ্ধ।";
+"Kinrox for Mac is open-source software licensed under the GNU GPL v3." = "Mac-এর জন্য Kinrox হলো GNU GPL v3 লাইসেন্সের ওপেন-সোর্স সফটওয়্যার।";
 
 /* Matrix screensaver — Figma page 07. */
 "Screensaver" = "স্ক্রিনসেভার";
@@ -270,3 +272,92 @@
 "Esc — exit · Movie paused" = "Esc — বের হন · সিনেমা বিরতিতে";
 "Matrix screensaver. Press Escape to exit." = "Matrix স্ক্রিনসেভার। বের হতে Escape চাপুন।";
 "The movie could not be paused. Try again." = "সিনেমা থামানো যায়নি। আবার চেষ্টা করুন।";
+
+/* Music mode — Figma page 08. */
+"%@ tracks" = "%@ ট্র্যাক";
+"Add to playlist" = "প্লেলিস্টে যোগ করুন";
+"Add to queue" = "সারিতে যোগ করুন";
+"Added manually" = "ম্যানুয়ালি যোগ করা";
+"Album" = "অ্যালবাম";
+"Albums" = "অ্যালবাম";
+"All albums" = "সব অ্যালবাম";
+"All tracks" = "সব ট্র্যাক";
+"Artist, album or track" = "শিল্পী, অ্যালবাম বা ট্র্যাক";
+"Artists" = "শিল্পী";
+"By artist" = "শিল্পী অনুযায়ী";
+"By title" = "শিরোনাম অনুযায়ী";
+"Could not create playlist." = "প্লেলিস্ট তৈরি করা যায়নি।";
+"Could not update favorites." = "পছন্দের তালিকা আপডেট করা যায়নি।";
+"Create" = "তৈরি করুন";
+"Demo · No audio" = "ডেমো · শব্দ নেই";
+"Entire queue" = "পুরো সারি";
+"Favorite" = "পছন্দের";
+"Favorite: %@" = "পছন্দের: %@";
+"Follow" = "অনুসরণ করুন";
+"From the source list" = "উৎস তালিকা থেকে";
+"Library" = "লাইব্রেরি";
+"Liked" = "পছন্দ করা হয়েছে";
+"Liked tracks" = "পছন্দ করা ট্র্যাক";
+"Music" = "সংগীত";
+"New playlist…" = "নতুন প্লেলিস্ট…";
+"Next track" = "পরের ট্র্যাক";
+"Next: %@" = "পরবর্তী: %@";
+"On" = "চালু";
+"Play album" = "অ্যালবাম চালান";
+"Play album: %@" = "অ্যালবাম চালান: %@";
+"Play all" = "সব চালান";
+"Playback mode" = "প্লেব্যাক মোড";
+"Playback position" = "প্লেব্যাকের অবস্থান";
+"Playlist name" = "প্লেলিস্টের নাম";
+"Playlists" = "প্লেলিস্ট";
+"Previous track" = "আগের ট্র্যাক";
+"Queue" = "সারি";
+"Remove from queue" = "সারি থেকে সরান";
+"Reorder track" = "ট্র্যাকের ক্রম বদলান";
+"Repeat" = "পুনরাবৃত্তি";
+"Repeat all" = "সব পুনরাবৃত্তি";
+"Repeat one" = "একটি পুনরাবৃত্তি";
+"Saved immediately · Esc to close" = "সঙ্গে সঙ্গে সংরক্ষিত · বন্ধ করতে Esc";
+"Search" = "খুঁজুন";
+"Search: %@" = "অনুসন্ধান: %@";
+"Shuffle" = "এলোমেলো";
+"Space: pause · Enter: play · L: favorite · ⌘F: search · ⌘Z: undo" = "স্পেস: বিরতি · Enter: চালান · L: পছন্দের · ⌘F: খুঁজুন · ⌘Z: পূর্বাবস্থায় ফেরান";
+"Stop" = "থামান";
+"This Mac" = "এই Mac";
+"Time" = "সময়";
+"Title" = "শিরোনাম";
+"Tracks" = "ট্র্যাক";
+"Video" = "ভিডিও";
+
+/* Optional Spotify account and library */
+"Enter a valid Spotify Client ID." = "একটি সঠিক Spotify Client ID লিখুন।";
+"Reconnect Spotify in Settings." = "সেটিংস থেকে Spotify আবার সংযুক্ত করুন।";
+"Spotify denied access. Check Premium and the app allowlist." = "Spotify প্রবেশাধিকার প্রত্যাখ্যান করেছে। Premium ও অ্যাপের অনুমোদিত ব্যবহারকারীদের তালিকা দেখুন।";
+"Open Spotify on this Mac and start a track." = "এই Mac-এ Spotify খুলে একটি ট্র্যাক চালু করুন।";
+"Spotify quota reached. Try again later." = "Spotify-এর সীমা পূর্ণ হয়েছে। পরে আবার চেষ্টা করুন।";
+"Spotify is busy. Try again later." = "Spotify ব্যস্ত। পরে আবার চেষ্টা করুন।";
+"Spotify is unavailable. Check your connection." = "Spotify উপলভ্য নয়। সংযোগ পরীক্ষা করুন।";
+"Connect Spotify in Settings." = "সেটিংস থেকে Spotify সংযুক্ত করুন।";
+"Loading Spotify library…" = "Spotify লাইব্রেরি লোড হচ্ছে…";
+"Optional connection on Mac. Spotify Premium and your own developer app are required." = "Mac-এ ঐচ্ছিক সংযোগ। Spotify Premium এবং আপনার নিজস্ব ডেভেলপার অ্যাপ প্রয়োজন।";
+"Spotify Client ID" = "Spotify Client ID";
+"Disconnect" = "সংযোগ বিচ্ছিন্ন করুন";
+"Connect Spotify" = "Spotify সংযুক্ত করুন";
+"Favorite %@" = "%@ পছন্দ করুন";
+"Swipe left to remove · hold to reorder" = "সরাতে বাঁয়ে সোয়াইপ করুন · সাজাতে চেপে ধরুন";
+"Source list" = "মূল তালিকা";
+"Saved immediately" = "সঙ্গে সঙ্গে সংরক্ষিত হয়";
+"Spotify is playing on another device or outside Kinrox." = "Spotify অন্য ডিভাইসে বা Kinrox-এর বাইরে চলছে।";
+
+/* Spotify metadata, feedback and connection consent. */
+"Track details" = "ট্র্যাকের বিবরণ";
+"Open in Spotify" = "Spotify-এ খুলুন";
+"Explicit content" = "স্পষ্ট বিষয়বস্তু";
+"Removed from Liked Songs" = "পছন্দের গান থেকে সরানো হয়েছে";
+"This action is unavailable in Spotify." = "Spotify-এ এই কাজটি উপলভ্য নয়।";
+"Added to Liked Songs" = "পছন্দের গানে যোগ করা হয়েছে";
+"Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics." = "লগইন তথ্য Mac Keychain-এ থাকে। সংযোগ বিচ্ছিন্ন করলে স্থানীয় Spotify ডেটা মুছে যায়, প্লেলিস্ট থাকে। Kinrox সার্ভার বা ব্যবহার বিশ্লেষণ নেই।";
+"I accept the Spotify connection terms and have read the privacy policy." = "আমি Spotify সংযোগের শর্ত মেনে নিচ্ছি এবং গোপনীয়তা নীতি পড়েছি।";
+"Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Spotify অ্যাক্সেস: লাইব্রেরি, প্লেব্যাক, পছন্দ এবং সম্পাদনাযোগ্য প্লেলিস্ট। পছন্দ থেকে সরালে ট্র্যাকটি সম্পাদনাযোগ্য প্লেলিস্ট থেকেও সরে যায়।";
+"Open album in Spotify" = "Spotify-এ অ্যালবাম খুলুন";
+"Connection terms" = "সংযোগের শর্ত";

@@ -1,0 +1,121 @@
+import Foundation
+import MusicCore
+import SpotifyWebAPI
+import Testing
+
+@testable import Kinrox
+
+@Suite(.serialized)
+@MainActor
+struct SpotifyLibraryTests {
+    @Test func partialUnlikeFailureRestoresSavedTrack() async throws {
+        let client = makeClient([.init(body: ""), .init(status: 403), .init(body: "")])
+        let service = FavoritesService(client: client)
+        let snapshot = LibrarySnapshot(
+            userID: "owner", likedTrackIDs: ["track"], playlists: [playlist])
+        let change = FavoritesPolicy.track("track", liked: false, in: snapshot)
+        await #expect(throws: SpotifyError.forbidden) {
+            _ = try await service.apply(change.mutations, to: snapshot)
+        }
+        let requests = MusicHTTPStub.state.requests
+        #expect(requests.map(\.httpMethod) == ["DELETE", "DELETE", "PUT"])
+        #expect(requests.last?.url?.path == "/v1/me/library")
+        await client.close()
+    }
+
+    @Test func failedDuplicateRestorationCompensatesSuccessfulInsert() async throws {
+        let response = #"{"snapshot_id":"version"}"#
+        let client = makeClient([
+            .init(body: response), .init(status: 403), .init(body: response), .init(body: response),
+        ])
+        let service = FavoritesService(client: client)
+        let snapshot = LibrarySnapshot(userID: "owner", playlists: [playlist])
+        await #expect(throws: SpotifyError.forbidden) {
+            _ = try await service.apply(
+                [.playlistInsert(playlistID: "playlist", trackID: "track", positions: [0, 2])],
+                to: snapshot)
+        }
+        let requests = MusicHTTPStub.state.requests
+        #expect(requests.map(\.httpMethod) == ["POST", "POST", "DELETE", "POST"])
+        let last =
+            try JSONSerialization.jsonObject(with: #require(requests.last?.httpBody))
+            as? [String: Any]
+        #expect(last?["position"] as? Int == 1)
+        await client.close()
+    }
+
+    @Test func foreignPlaylistCannotBeMutatedEvenWithForgedMutation() async throws {
+        let client = makeClient([])
+        let service = FavoritesService(client: client)
+        await #expect(throws: SpotifyError.forbidden) {
+            _ = try await service.apply(
+                [.playlistRemove(playlistID: "playlist", trackID: "track")],
+                to: LibrarySnapshot(userID: "someoneelse", playlists: [playlist]))
+        }
+        #expect(MusicHTTPStub.state.requests.isEmpty)
+        await client.close()
+    }
+
+    @Test func playlistIndexAvoidsSecondReadAndKeepsUnavailablePositions() async throws {
+        let profile = #"{"id":"owner","display_name":"Test"}"#
+        let empty = #"{"items":[],"next":null}"#
+        let follows = #"{"artists":{"items":[],"next":null}}"#
+        let playlists =
+            #"{"items":[{"id":"playlist","uri":"spotify:playlist:playlist","name":"Test","owner":{"id":"owner"},"collaborative":false,"snapshot_id":"version"}],"next":null}"#
+        let entries =
+            #"{"items":[{"item":null},{"item":{"id":"track","uri":"spotify:track:track","name":"Test","artists":[],"duration_ms":1000,"type":"track","album":{"id":"album","uri":"spotify:album:album","name":"Album","artists":[]}}}],"next":null}"#
+        let initial: [MusicHTTPStub.Reply] = [profile, empty, empty, follows, playlists, entries]
+            .map { .init(body: $0) }
+        let client = makeClient(
+            initial + [profile, empty, empty, follows, playlists].map { .init(body: $0) })
+        let store = SpotifyLibraryStore(client: client)
+        try await store.refresh()
+        #expect(store.library.playlists.first?.trackIDs == ["unavailable:0", "track"])
+        try await store.refresh()
+        #expect(
+            MusicHTTPStub.state.requests.filter { $0.url?.path.hasSuffix("/items") == true }.count
+                == 1)
+        #expect(store.catalog.tracks.first?.title == "Test")
+        await client.close()
+    }
+
+    @Test func disconnectDoesNotAllowPendingOptimisticResultToRestoreOldLibrary() async throws {
+        let store = SuspendedMusicStore()
+        let model = MusicViewModel(store: store)
+        let track = try #require(model.catalog.tracks.first)
+        model.toggleTrack(track, anchor: "test")
+        while store.resume == nil { await Task.yield() }
+        model.replaceStore(DisconnectedMusicLibraryStore())
+        store.resume?.resume()
+        for _ in 0..<20 { await Task.yield() }
+        #expect(model.library.likedTrackIDs.isEmpty)
+        #expect(model.catalog.tracks.isEmpty)
+        #expect(!model.isMutating)
+    }
+
+    private var playlist: MusicPlaylist {
+        MusicPlaylist(
+            id: "playlist", uri: "spotify:playlist:playlist", title: "Test", ownerID: "owner",
+            trackIDs: ["other", "track"])
+    }
+    private func makeClient(_ responses: [MusicHTTPStub.Reply]) -> SpotifyClient {
+        MusicHTTPStub.state.reset(responses)
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MusicHTTPStub.self]
+        return SpotifyClient(configuration: config, token: { _ in "test-only" })
+    }
+}
+
+@MainActor
+private final class SuspendedMusicStore: MusicLibraryStore {
+    let catalog = MusicDemo.catalog
+    var library = MusicDemo.library
+    var resume: CheckedContinuation<Void, Never>?
+    func apply(_ mutations: [LibraryMutation]) async throws {
+        await withCheckedContinuation { resume = $0 }
+        library.apply(mutations)
+    }
+    func createPlaylist(title: String, trackID: String) async throws -> MusicPlaylist {
+        throw SpotifyError.unavailable
+    }
+}

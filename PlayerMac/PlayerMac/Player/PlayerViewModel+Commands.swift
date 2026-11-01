@@ -28,6 +28,16 @@ extension PlayerViewModel {
     func setPaused(_ paused: Bool) -> Bool {
         cancelEOFRefresh()
         guard canControl, paused || !isScreensaverEngaged else { return false }
+        if paused { cancelPendingPlayback?() }
+        if !paused, let beforeStartingPlayback {
+            return beforeStartingPlayback { [weak self] in _ = self?.setPausedForPlayback(false) }
+        }
+        return setPausedForPlayback(paused)
+    }
+
+    @discardableResult
+    private func setPausedForPlayback(_ paused: Bool) -> Bool {
+        guard canControl, paused || !isScreensaverEngaged else { return false }
         return perform {
             if !paused, isAtEnd, !replayPending {
                 try engine.seek(absolute: 0)

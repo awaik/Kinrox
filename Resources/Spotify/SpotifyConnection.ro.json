@@ -1,0 +1,79 @@
+{
+  "version": "2026-11-01",
+  "locale": "ro",
+  "language": "Română",
+  "terms": [
+    {
+      "title": "Condiții de conectare la Spotify",
+      "body": "Aceste condiții se aplică atunci când activezi Spotify în Kinrox. Kinrox este întreținut de awaik (https://github.com/awaik/Kinrox); asistență și întrebări despre confidențialitate: https://github.com/awaik/Kinrox/issues. Kinrox este independent de Spotify și nu este aprobat de Spotify. Condițiile se aplică după acceptarea lor în aplicație.",
+      "id": "connection"
+    },
+    {
+      "title": "Contul și alegerile tale",
+      "body": "Conectarea este opțională. Folosește propria aplicație de dezvoltator Spotify și un cont Spotify Premium autorizat. Spotify controlează accesul la API și cotele; accesul se poate modifica sau opri. Condițiile proprii Spotify continuă să se aplice. Kinrox controlează redarea în aplicația oficială Spotify de pe Mac. Nu descarcă, nu înregistrează și nu stochează sunet în cache.",
+      "id": "account"
+    },
+    {
+      "title": "Modificări ale bibliotecii",
+      "body": "Acțiunile tale pot salva sau elimina piese și albume, urmări sau opri urmărirea artiștilor, crea liste de redare și modifica liste pe care le deții sau le poți edita. Eliminarea unei piese din favorite elimină și toate aparițiile acesteia din listele tale editabile. Selectarea unui album nu salvează separat piesele acestuia. Modificările se aplică în contul tău Spotify și pot fi vizibile în alți clienți Spotify.",
+      "id": "library"
+    },
+    {
+      "title": "Coada de redare",
+      "body": "Kinrox creează o listă privată Kinrox Queue și îi înlocuiește conținutul când schimbi coada de redare. Deconectarea păstrează lista în Spotify, dar uită asocierea locală. Reconectarea poate crea o altă listă auxiliară. Șterge singur listele auxiliare nedorite în Spotify.",
+      "id": "queue"
+    },
+    {
+      "title": "Drepturile Spotify",
+      "body": "Cu excepția cazurilor permise de legea aplicabilă, nu ai voie să modifici platforma, serviciul sau conținutul Spotify, să creezi opere derivate din acestea, să le decompilezi, să le dezasamblezi, să aplici inginerie inversă sau să le convertești în cod sursă ori altă formă lizibilă pentru oameni. Aceste restricții vizează materialele Spotify; nu limitează drepturile asupra codului Kinrox acordate de licențele componentelor sale, inclusiv licența GPL a playerului pentru Mac.",
+      "id": "rights"
+    },
+    {
+      "title": "Răspundere și garanții",
+      "body": "Responsabilul cu întreținerea Kinrox răspunde pentru Kinrox. În măsura permisă de lege, Spotify și alte terțe părți nu au responsabilitate sau răspundere pentru Kinrox. Kinrox nu face promisiuni și nu oferă garanții în numele Spotify. În măsura permisă de lege, sunt excluse toate garanțiile implicite privind platforma, serviciul și conținutul Spotify, inclusiv vandabilitatea, adecvarea pentru un anumit scop și neîncălcarea drepturilor. Drepturile imperative ale consumatorilor rămân neafectate.",
+      "id": "responsibility"
+    },
+    {
+      "title": "Confidențialitate și aplicarea condițiilor",
+      "body": "Colectarea și utilizarea datelor sunt supuse politicii de confidențialitate afișate împreună cu aceste condiții. Spotify este terț beneficiar al acestor condiții și al politicii respective și poate cere direct respectarea acestor condiții. Pentru a încheia conexiunea, folosește Configurări → Spotify → Deconectare. Poți revoca accesul și pe pagina de aplicații a contului Spotify: https://www.spotify.com/account/apps/.",
+      "id": "enforcement"
+    },
+    {
+      "title": "Modificări",
+      "body": "O nouă versiune a condițiilor de conectare trebuie acceptată înainte ca Kinrox să se reconecteze. Redarea video locală și telecomanda prin rețeaua locală rămân disponibile fără acceptarea condițiilor de conectare la Spotify.",
+      "id": "changes"
+    }
+  ],
+  "privacy": [
+    {
+      "title": "Politica de confidențialitate — conectarea la Spotify",
+      "body": "Versiunea 2026-11-01. Responsabilul cu întreținerea Kinrox, awaik, răspunde pentru prelucrarea datelor de către Kinrox descrisă aici. Acest supliment se aplică integrării opționale cu Spotify. Politica generală de confidențialitate Kinrox este disponibilă la https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Nu publica tokenuri, conținutul bibliotecii personale sau alte informații private în sesizări publice.",
+      "id": "overview"
+    },
+    {
+      "title": "Acces și scopuri",
+      "body": "După ce accepți condițiile și autorizezi Spotify, Kinrox pe Mac citește identificatorul și numele afișat al contului, piesele și albumele salvate, artiștii urmăriți, listele accesibile și conținutul lor, starea redării și dispozitivele disponibile. Folosește aceste informații pentru a afișa biblioteca și a controla Spotify. Când folosești comenzile corespunzătoare, poate salva și elimina favorite, urmări artiști, crea liste și edita liste proprii sau colaborative. Eliminarea unui favorit elimină și aparițiile sale din listele editabile. Kinrox menține o listă privată Kinrox Queue pentru redare.",
+      "id": "access"
+    },
+    {
+      "title": "Stocare și destinatari",
+      "body": "Datele de autentificare pentru reînnoire sunt stocate în Data Protection Keychain de pe Mac. Tokenurile de acces, detaliile contului și metadatele bibliotecii rămân în memoria aplicației. Client ID furnizat, asocierea listei auxiliare și versiunea acceptată a documentelor sunt stocate în preferințele Macului. Kinrox nu are server, analiză a utilizării sau telemetrie, iar responsabilul său nu primește niciuna dintre aceste date Spotify. Spotify primește solicitări direct de la Mac și le prelucrează conform politicii sale de confidențialitate: https://www.spotify.com/legal/privacy-policy/. Spotify vede informații de rețea, precum adresa IP publică a Macului.",
+      "id": "storage"
+    },
+    {
+      "title": "iPhone și linkuri",
+      "body": "iPhone-ul asociat primește metadate despre piese, albume, artiști și liste, starea cozii și comenzile de redare prin conexiunea criptată Kinrox din rețeaua locală. Nu primește niciodată date de autentificare Spotify și nu apelează Spotify Web API. Dacă atingi Deschide în Spotify, iPhone-ul sau Macul deschide elementul respectiv în Spotify sau pe site-ul său. Acest transfer poate folosi internetul și este reglementat de politica de confidențialitate Spotify. Metadatele telecomenzii sunt păstrate în memorie și șterse la deconectare sau la resetarea sursei ori a contului.",
+      "id": "iphone"
+    },
+    {
+      "title": "Deconectare și păstrarea datelor",
+      "body": "În Kinrox pe Mac, deschide Configurări → Spotify → Deconectare. Kinrox finalizează operațiunile de redare în așteptare, oprește solicitările, elimină datele de autentificare pentru reînnoire și asocierile locale ale listelor auxiliare și șterge din memorie starea contului și a bibliotecii. Oprește reconectarea automată. Versiunea acceptată este o preferință independentă de cont. Modificările deja făcute în Spotify, inclusiv listele și favoritele, rămân acolo. Deconectarea nu revocă autorizarea la Spotify; elimină aplicația la https://www.spotify.com/account/apps/ pentru a o revoca. Poți șterge listele auxiliare păstrate direct în Spotify.",
+      "id": "retention"
+    },
+    {
+      "title": "Cookie-uri și date generale Kinrox",
+      "body": "Kinrox nu adaugă analiză a utilizării sau cookie-uri. Sesiunile sale API Spotify nu folosesc cookie-uri persistente ori cache de răspunsuri pe disc. Autentificarea în browser și site-urile Spotify pot folosi propriile cookie-uri; gestionează-le în browser și în setările de confidențialitate Spotify. Politica generală Kinrox explică marcajele fișierelor locale, datele de asociere, actualizările Sparkle și găzduirea GitHub. Spotify este terț beneficiar al acestei politici și al condițiilor de conectare. Modificările semnificative ale acestui supliment vor fi afișate înainte de activarea unei noi conexiuni.",
+      "id": "cookies"
+    }
+  ]
+}

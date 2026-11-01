@@ -1,6 +1,6 @@
 Kinrox @KINROX_VERSION@ — third-party software
 
-Kinrox is GPL-3.0-only. Third-party components retain their own licenses.
+Kinrox for Mac is GPL-3.0-only. Third-party components retain their own licenses.
 Complete license notices are included in ThirdPartyLicenses beside this file.
 
 This release bundles libmpv 0.41.0, FFmpeg 9.0.1, and their dependencies from
@@ -24,3 +24,11 @@ and includes BSD-, MIT-, and zlib-licensed components; the full notice is in
 ThirdPartyLicenses/Sparkle-LICENSE.txt. Sparkle is used unmodified.
 
 Thanks to the mpv, FFmpeg, IINA, Sparkle, and dependency maintainers.
+
+Music development builds include the unmodified white Spotify logo and official
+plus/active favorite SVG assets from the
+official Spotify design guidelines: https://developer.spotify.com/documentation/design
+Spotify name and logo are Spotify trademarks. This third-party artwork is not
+licensed under Kinrox's GPL or shared-code exception. Its use remains subject to
+Spotify's brand guidelines and applicable rights. Kinrox is not endorsed by Spotify.
+Spotify audio is played by the official Spotify application, not bundled with Kinrox.

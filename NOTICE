@@ -1,0 +1,35 @@
+Kinrox
+Copyright (c) 2026 awaik
+Source: https://github.com/awaik/Kinrox
+
+License scope is defined in LICENSING.md. Third-party notices remain in force.
+
+GPL supplementary terms for Kinrox-owned material
+
+For Kinrox-owned material first distributed with this notice under GPL-3.0-only,
+the copyright holder specifies the following terms under GPL version 3,
+sections 7(b), 7(c), 7(d), and 7(e):
+
+1. Preserve the applicable copyright, license, and author-attribution notices
+   in source copies and in the legal notices accompanying distributed binaries.
+   This does not require a new splash screen, advertisement, or attribution on
+   every user-interface screen.
+2. Do not misrepresent the origin of the material. Mark modified versions in
+   a reasonable, visible manner as modified, identify the modifier, and retain
+   the relevant modification dates required by the GPL. An About/legal notice
+   and the distribution description are suitable places for this information.
+3. The author names may not be used in publicity to imply sponsorship or
+   endorsement without the relevant person's permission.
+4. No trademark rights in the Kinrox name or marks are granted by the software
+   license. See TRADEMARKS.md for the available branding permissions and limits.
+
+These terms do not prohibit commercial use, sale, paid subscriptions, or
+redistribution of GPL-covered material in compliance with the GPL. They do not
+apply new restrictions to earlier copies or override third-party licenses,
+mandatory legal rights, or lawful references to the project.
+
+Remote-specific material is governed by RemoteiOS/LICENSE.txt, which contains
+its own attribution and modification terms. The shared-code exception is in
+SHARED-LICENSE-EXCEPTION.md.
+
+Verbatim copying and redistribution of this notice are permitted.

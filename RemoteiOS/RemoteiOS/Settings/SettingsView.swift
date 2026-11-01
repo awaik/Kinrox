@@ -49,7 +49,7 @@ struct SettingsView: View {
                     LabeledContent(L10n.text("Protocol"), value: "v\(Version.current)")
                     Text(L10n.text("Local network only. No accounts or cloud."))
                         .foregroundStyle(Palette.textSecondary)
-                    Text(ProjectLink.openSourceDescription)
+                    Text(ProjectLink.licenseDescription)
                         .foregroundStyle(Palette.textSecondary)
                     ForEach(ProjectLink.allCases) { link in
                         Link(destination: link.url) {

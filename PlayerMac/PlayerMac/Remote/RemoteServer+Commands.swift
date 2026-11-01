@@ -22,6 +22,12 @@ extension RemoteServer {
             return openRecent(id)
         }
         guard let model, !model.isClosing else { return .noMedia }
+        if musicBridge?.active == true {
+            switch command {
+            case .toggleFullscreen, .setFullscreen, .setScreensaver: break
+            default: return musicBridge?.execute(command)
+            }
+        }
         let accepted: Bool
         switch command {
         case .setScreensaver(let screensaver):

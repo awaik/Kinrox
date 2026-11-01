@@ -249,7 +249,9 @@
 "Source Code (GitHub)" = "原始碼（GitHub）";
 "License: %@" = "授權條款：%@";
 "Report an Issue" = "回報問題";
-"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox 是依 GNU GPL v3 授權條款發布的開放原始碼軟體。";
+"Personal use only" = "僅限個人使用";
+"Kinrox Remote is free for personal, noncommercial use. Business use, sales, and paid subscriptions are prohibited." = "Kinrox Remote 可免費用於個人非商業用途。禁止企業使用、銷售及付費訂閱。";
+"Kinrox for Mac is open-source software licensed under the GNU GPL v3." = "Mac 版 Kinrox 是採用 GNU GPL v3 授權條款的開放原始碼軟體。";
 
 /* Matrix screensaver — Figma page 07. */
 "Screensaver" = "螢幕保護程式";
@@ -270,3 +272,92 @@
 "Esc — exit · Movie paused" = "Esc — 結束 · 影片已暫停";
 "Matrix screensaver. Press Escape to exit." = "Matrix 螢幕保護程式。按 Escape 結束。";
 "The movie could not be paused. Try again." = "無法暫停影片，請再試一次。";
+
+/* Music mode — Figma page 08. */
+"%@ tracks" = "%@ 首歌曲";
+"Add to playlist" = "加入播放列表";
+"Add to queue" = "加入佇列";
+"Added manually" = "手動加入";
+"Album" = "專輯";
+"Albums" = "專輯";
+"All albums" = "所有專輯";
+"All tracks" = "所有歌曲";
+"Artist, album or track" = "歌手、專輯或歌曲";
+"Artists" = "歌手";
+"By artist" = "依歌手";
+"By title" = "依標題";
+"Could not create playlist." = "無法建立播放列表。";
+"Could not update favorites." = "無法更新喜好項目。";
+"Create" = "建立";
+"Demo · No audio" = "示範 · 無聲音";
+"Entire queue" = "整個佇列";
+"Favorite" = "喜好項目";
+"Favorite: %@" = "喜好項目：%@";
+"Follow" = "追蹤";
+"From the source list" = "來自來源列表";
+"Library" = "音樂資料庫";
+"Liked" = "已喜歡";
+"Liked tracks" = "喜歡的歌曲";
+"Music" = "音樂";
+"New playlist…" = "新增播放列表…";
+"Next track" = "下一首";
+"Next: %@" = "接下來：%@";
+"On" = "開";
+"Play album" = "播放專輯";
+"Play album: %@" = "播放專輯：%@";
+"Play all" = "全部播放";
+"Playback mode" = "播放模式";
+"Playback position" = "播放位置";
+"Playlist name" = "播放列表名稱";
+"Playlists" = "播放列表";
+"Previous track" = "上一首";
+"Queue" = "佇列";
+"Remove from queue" = "從佇列移除";
+"Reorder track" = "調整歌曲順序";
+"Repeat" = "重複";
+"Repeat all" = "全部重複";
+"Repeat one" = "單曲重複";
+"Saved immediately · Esc to close" = "立即儲存 · 按 Esc 關閉";
+"Search" = "搜尋";
+"Search: %@" = "搜尋：%@";
+"Shuffle" = "隨機播放";
+"Space: pause · Enter: play · L: favorite · ⌘F: search · ⌘Z: undo" = "空白鍵：暫停 · Enter：播放 · L：喜好項目 · ⌘F：搜尋 · ⌘Z：還原";
+"Stop" = "停止";
+"This Mac" = "這部 Mac";
+"Time" = "時間";
+"Title" = "標題";
+"Tracks" = "歌曲";
+"Video" = "影片";
+
+/* Optional Spotify account and library */
+"Enter a valid Spotify Client ID." = "請輸入有效的 Spotify Client ID。";
+"Reconnect Spotify in Settings." = "請在設定中重新連接 Spotify。";
+"Spotify denied access. Check Premium and the app allowlist." = "Spotify 拒絕存取。請檢查 Premium 和應用程式的授權使用者清單。";
+"Open Spotify on this Mac and start a track." = "請在這台 Mac 上開啟 Spotify 並播放歌曲。";
+"Spotify quota reached. Try again later." = "已達到 Spotify 配額。請稍後再試。";
+"Spotify is busy. Try again later." = "Spotify 忙碌中。請稍後再試。";
+"Spotify is unavailable. Check your connection." = "Spotify 無法使用。請檢查網路連線。";
+"Connect Spotify in Settings." = "請在設定中連接 Spotify。";
+"Loading Spotify library…" = "正在載入 Spotify 音樂庫…";
+"Optional connection on Mac. Spotify Premium and your own developer app are required." = "Mac 上的選用連線。需要 Spotify Premium 和您自己的開發者應用程式。";
+"Spotify Client ID" = "Spotify Client ID";
+"Disconnect" = "中斷連線";
+"Connect Spotify" = "連接 Spotify";
+"Favorite %@" = "收藏 %@";
+"Swipe left to remove · hold to reorder" = "向左滑動移除 · 長按排序";
+"Source list" = "來源列表";
+"Saved immediately" = "立即儲存";
+"Spotify is playing on another device or outside Kinrox." = "Spotify 正在其他裝置上或 Kinrox 之外播放。";
+
+/* Spotify metadata, feedback and connection consent. */
+"Track details" = "曲目詳情";
+"Open in Spotify" = "在 Spotify 中開啟";
+"Explicit content" = "露骨內容";
+"Removed from Liked Songs" = "已從喜歡的歌曲移除";
+"This action is unavailable in Spotify." = "Spotify 中無法使用此操作。";
+"Added to Liked Songs" = "已加入喜歡的歌曲";
+"Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics." = "登入憑證儲存在 Mac 鑰匙圈中。中斷連線會清除本機 Spotify 資料，但保留 Spotify 播放清單。沒有 Kinrox 伺服器或使用分析。";
+"I accept the Spotify connection terms and have read the privacy policy." = "我接受 Spotify 連線條款，並已閱讀隱私權政策。";
+"Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Spotify 存取權限：音樂庫、播放、收藏和可編輯的播放清單。取消收藏也會從可編輯的播放清單移除該曲目。";
+"Open album in Spotify" = "在 Spotify 中開啟專輯";
+"Connection terms" = "連線條款";

@@ -23,8 +23,10 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
     private var desiredFullscreen: Bool?
     private var fullscreenTransition = false
     private var escapeMonitor: Any?
+    private var controlsVisible = true
 
     init(
+        session: PlayerSession = PlayerSession(recents: RecentFilesStore()),
         recents: RecentFilesStore? = nil, pairing: PairingCenter? = nil,
         remote: RemoteServer? = nil, updates: UpdateCenter? = nil,
         actions: PlayerActions = PlayerActions(),
@@ -53,14 +55,31 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
         }
         model.onSetFullscreen = { [weak self] in self?.requestFullscreen($0) }
         let chrome = WindowChrome(
-            setControlsVisible: { [weak window] visible in
-                Self.setTrafficLights(visible: visible, in: window)
+            setControlsVisible: { [weak self, weak window, weak session] visible in
+                self?.controlsVisible = visible
+                Self.setTrafficLights(visible: visible || session?.mode == .music, in: window)
             },
             setTitle: { [weak window] title in window?.title = title.isEmpty ? "Kinrox" : title })
         window.contentView = NSHostingView(
-            rootView: PlayerView(
-                model: model, recents: recents, pairing: pairing, remote: remote,
-                updates: updates, videoLayer: engine.videoLayer, actions: actions, chrome: chrome))
+            rootView: PlayerRootView(
+                session: session,
+                video: PlayerView(
+                    model: model, recents: recents, pairing: pairing, remote: remote,
+                    updates: updates, videoLayer: engine.videoLayer, actions: actions,
+                    chrome: chrome),
+                modeChanged: { [weak self, weak window] mode in
+                    guard let window else { return }
+                    window.contentMinSize =
+                        mode == .music
+                        ? NSSize(width: 1024, height: 768) : NSSize(width: 640, height: 360)
+                    if mode == .music {
+                        let size = window.contentLayoutRect.size
+                        window.setContentSize(
+                            NSSize(width: max(1024, size.width), height: max(768, size.height)))
+                    }
+                    Self.setTrafficLights(
+                        visible: mode == .music || self?.controlsVisible == true, in: window)
+                }))
         window.center()
         escapeMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
             [weak self, weak pairing] event in

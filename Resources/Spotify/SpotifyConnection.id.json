@@ -1,0 +1,79 @@
+{
+  "version": "2026-11-01",
+  "locale": "id",
+  "language": "Bahasa Indonesia",
+  "terms": [
+    {
+      "title": "Ketentuan koneksi Spotify",
+      "body": "Ketentuan ini berlaku saat Anda mengaktifkan Spotify di Kinrox. Kinrox dikelola oleh awaik (https://github.com/awaik/Kinrox); pertanyaan dukungan dan privasi: https://github.com/awaik/Kinrox/issues. Kinrox independen dari Spotify dan tidak didukung secara resmi oleh Spotify. Ketentuan ini berlaku setelah Anda menerimanya di aplikasi.",
+      "id": "connection"
+    },
+    {
+      "title": "Akun dan pilihan Anda",
+      "body": "Koneksi bersifat opsional. Gunakan aplikasi pengembang Spotify milik Anda sendiri dan akun Spotify Premium yang diizinkan. Spotify mengendalikan akses API dan kuota; akses dapat berubah atau berhenti. Ketentuan Spotify sendiri tetap berlaku. Kinrox mengontrol pemutaran di aplikasi resmi Spotify pada Mac Anda. Kinrox tidak mengunduh, merekam, atau menyimpan audio dalam cache.",
+      "id": "account"
+    },
+    {
+      "title": "Perubahan pustaka",
+      "body": "Tindakan Anda dapat menyimpan atau menghapus lagu dan album, mengikuti atau berhenti mengikuti artis, membuat playlist, serta mengubah playlist milik Anda atau yang dapat Anda edit. Menghapus lagu dari favorit juga menghapus semua kemunculan lagu itu dari playlist yang dapat Anda edit. Memilih album tidak menyimpan tiap lagunya secara terpisah. Perubahan berlaku pada akun Spotify Anda dan dapat terlihat di klien Spotify lain.",
+      "id": "library"
+    },
+    {
+      "title": "Antrean pemutaran",
+      "body": "Kinrox membuat playlist privat Kinrox Queue dan mengganti isinya saat Anda mengubah antrean pemutaran. Memutuskan koneksi mempertahankan playlist itu di Spotify, tetapi menghapus kaitan lokalnya. Menghubungkan kembali dapat membuat playlist pembantu lain. Hapus sendiri playlist pembantu yang tidak diperlukan di Spotify.",
+      "id": "queue"
+    },
+    {
+      "title": "Hak Spotify",
+      "body": "Kecuali diizinkan oleh hukum yang berlaku, Anda tidak boleh mengubah atau membuat karya turunan dari platform, layanan, atau konten Spotify, melakukan dekompilasi, disassembly, rekayasa balik, atau mengubahnya menjadi kode sumber maupun bentuk lain yang dapat dibaca manusia. Pembatasan ini menyangkut materi Spotify; pembatasan ini tidak membatasi hak atas kode Kinrox yang diberikan oleh lisensi komponennya, termasuk lisensi GPL pemutar Mac.",
+      "id": "rights"
+    },
+    {
+      "title": "Tanggung jawab dan jaminan",
+      "body": "Pengelola Kinrox bertanggung jawab atas Kinrox. Sejauh diizinkan hukum, Spotify dan pihak ketiga lain tidak memiliki tanggung jawab atau kewajiban hukum atas Kinrox. Kinrox tidak memberikan janji atau jaminan atas nama Spotify. Sejauh diizinkan hukum, semua jaminan tersirat mengenai platform, layanan, dan konten Spotify dikecualikan, termasuk kelayakan jual, kesesuaian untuk tujuan tertentu, dan tidak adanya pelanggaran hak. Hak konsumen yang wajib dilindungi tetap berlaku.",
+      "id": "responsibility"
+    },
+    {
+      "title": "Privasi dan penegakan",
+      "body": "Pengumpulan dan penggunaan data tunduk pada kebijakan privasi yang ditampilkan bersama ketentuan ini. Spotify merupakan penerima manfaat pihak ketiga dari ketentuan dan kebijakan privasi tersebut dan dapat menegakkan ketentuan ini secara langsung. Gunakan Pengaturan → Spotify → Putuskan Koneksi untuk mengakhiri koneksi. Anda juga dapat mencabut akses di halaman aplikasi akun Spotify: https://www.spotify.com/account/apps/.",
+      "id": "enforcement"
+    },
+    {
+      "title": "Perubahan",
+      "body": "Versi baru ketentuan koneksi ini harus diterima sebelum Kinrox terhubung kembali. Pemutaran video lokal dan kendali jarak jauh melalui jaringan lokal tetap tersedia tanpa menerima ketentuan koneksi Spotify.",
+      "id": "changes"
+    }
+  ],
+  "privacy": [
+    {
+      "title": "Kebijakan privasi — koneksi Spotify",
+      "body": "Versi 2026-11-01. Pengelola Kinrox, awaik, bertanggung jawab atas pemrosesan data Kinrox yang dijelaskan di sini. Suplemen ini berlaku untuk integrasi Spotify opsional. Kebijakan privasi umum Kinrox tersedia di https://kinrox.app/privacy/. Kontak: https://github.com/awaik/Kinrox/issues. Jangan memublikasikan token, isi pustaka pribadi, atau informasi pribadi lain dalam laporan masalah publik.",
+      "id": "overview"
+    },
+    {
+      "title": "Akses dan tujuan",
+      "body": "Setelah Anda menerima ketentuan dan mengizinkan Spotify, Kinrox di Mac membaca pengenal dan nama tampilan akun Anda, lagu dan album tersimpan, artis yang diikuti, playlist yang dapat diakses beserta isinya, status pemutaran, dan perangkat yang tersedia. Informasi ini digunakan untuk menampilkan pustaka dan mengontrol Spotify. Saat Anda menggunakan kontrol terkait, Kinrox dapat menyimpan dan menghapus favorit, mengikuti artis, membuat playlist, serta mengedit playlist milik Anda atau kolaboratif. Menghapus favorit juga menghapus kemunculannya dari playlist yang dapat diedit. Kinrox memelihara playlist privat Kinrox Queue untuk pemutaran.",
+      "id": "access"
+    },
+    {
+      "title": "Penyimpanan dan penerima",
+      "body": "Kredensial penyegaran disimpan dalam Data Protection Keychain Mac. Token akses, detail akun, dan metadata pustaka tetap berada di memori aplikasi. Client ID yang diberikan, kaitan playlist pembantu, dan versi dokumen yang diterima disimpan di preferensi Mac. Kinrox tidak memiliki server, analitik, atau telemetri, dan pengelolanya tidak menerima data Spotify ini. Spotify menerima permintaan langsung dari Mac dan memprosesnya berdasarkan kebijakan privasinya: https://www.spotify.com/legal/privacy-policy/. Spotify melihat informasi jaringan seperti alamat IP publik Mac.",
+      "id": "storage"
+    },
+    {
+      "title": "iPhone dan tautan",
+      "body": "iPhone yang dipasangkan menerima metadata lagu, album, artis, dan playlist, status antrean, serta kontrol pemutaran melalui koneksi jaringan lokal terenkripsi Kinrox. iPhone tidak pernah menerima kredensial Spotify atau memanggil Spotify Web API. Jika Anda mengetuk Buka di Spotify, iPhone atau Mac membuka item terkait di Spotify atau situs webnya. Pengalihan ini dapat menggunakan internet dan tunduk pada kebijakan privasi Spotify. Metadata remote disimpan di memori dan dihapus saat koneksi terputus atau sumber maupun akun direset.",
+      "id": "iphone"
+    },
+    {
+      "title": "Pemutusan koneksi dan retensi",
+      "body": "Di Kinrox pada Mac, buka Pengaturan → Spotify → Putuskan Koneksi. Kinrox menyelesaikan pekerjaan pemutaran yang tertunda, menghentikan permintaan, menghapus kredensial penyegaran dan kaitan lokal playlist pembantu, serta membersihkan status akun dan pustaka dari memori. Koneksi ulang otomatis dihentikan. Versi penerimaan merupakan preferensi yang tidak terkait akun. Perubahan yang sudah dibuat di Spotify, termasuk playlist dan favorit, tetap ada di sana. Memutuskan koneksi tidak mencabut otorisasi di Spotify; hapus aplikasi di https://www.spotify.com/account/apps/ untuk mencabutnya. Anda dapat menghapus playlist pembantu yang tersisa langsung di Spotify.",
+      "id": "retention"
+    },
+    {
+      "title": "Cookie dan data umum Kinrox",
+      "body": "Kinrox tidak menambahkan analitik atau cookie. Sesi API Spotify-nya tidak menggunakan cookie persisten maupun cache respons pada disk. Login melalui browser dan situs web Spotify mungkin menggunakan cookie sendiri; kelola melalui browser dan pengaturan privasi Spotify. Kebijakan umum Kinrox menjelaskan penanda file lokal, kredensial pemasangan, pembaruan Sparkle, dan hosting GitHub. Spotify merupakan penerima manfaat pihak ketiga dari kebijakan ini dan ketentuan koneksi. Perubahan penting pada suplemen ini akan ditampilkan sebelum koneksi baru diaktifkan.",
+      "id": "cookies"
+    }
+  ]
+}

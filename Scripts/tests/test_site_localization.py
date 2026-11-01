@@ -56,7 +56,7 @@ class SiteLocalizationTests(unittest.TestCase):
     def test_language_set_matches_both_apps(self):
         app = {p.stem for p in (ROOT / "Resources/Localization").glob("*.lproj")}
         self.assertEqual(set(builder.LANGUAGES), app)
-        self.assertEqual(len(self.documents), len(app) * 3)
+        self.assertEqual(len(self.documents), len(app) * len(builder.PAGES))
 
     def test_committed_output_is_current(self):
         for name, source in self.generated.items():

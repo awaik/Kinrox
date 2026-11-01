@@ -17,9 +17,12 @@
 > Mac update reminders implemented 2026-10-29 after owner approval of Figma page 05: Sparkle 2 with gentle reminders — welcome banner, paused-player pill, and "Check for Updates…" with a version badge; Sparkle's standard windows download and install. The HTTPS appcast is an approved exception to principle 4. Released in Mac 0.3.0 (build 5) on 2026-10-30; users of earlier versions install this first checker build manually once. Checks — [Updates Verification](docs/runbooks/UPDATES-VERIFICATION.md).
 > Tasks for contributors (M3, M4, localization, updates) — in [docs/TODO](docs/TODO/).
 > Matrix screensaver implemented 2026-10-29 after owner approval of Figma page 07: Mac Screensaver → Matrix, animated falling code, pause before activation, Esc exit, and iPhone start/stop controls. The exit hint appears once for 3 seconds per activation. Released in Mac 0.3.0 (build 5); checks — [Screensaver Verification](docs/runbooks/SCREENSAVER-VERIFICATION.md).
+> Music mode v2 included in Mac 0.4.0 (build 6), release authorized 2026-11-01: Spotify library, independent favorites with undo, private Kinrox Queue playback, Mac three-column UI and LAN iPhone controls. Owner approved own Client ID, Mac-only Spotify requests, official Connect playback, attribution and inline recovery states; physical iPhone check confirmed working. Evidence and limits — [Music Verification](docs/runbooks/MUSIC-VERIFICATION.md).
 > All design work is done in Figma file [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U) (owner decision 2026-10-27), see Section 3.5.
 > Landing site added 2026-10-27: static GitHub Pages site in `site/` (English + Russian), deployed by `.github/workflows/pages.yml`; see Section 3.6.
 > Website localization implemented 2026-10-30 at the owner's request: landing, support and privacy pages in all 30 app locales, localized screenshots, language navigation, RTL and offline generation. Owner authorized deployment on 2026-10-30; [verification](docs/runbooks/SITE-LOCALIZATION-VERIFICATION.md).
+> Spotify connection terms and privacy supplement translated into all 30 app languages on 2026-11-01. Shared versioned JSON resources drive offline Mac documents and generated public pages; language selection, completeness and RTL checks are verified. Prepared locally for the music release; [verification](<docs/RESEARCHES/DONE/DONE - 2026-11-01_12-23_Spotify-document-localization.md>).
+> Licensing split authorized 2026-11-01: Mac remains GPL-3.0-only; new RemoteiOS revisions use a personal-use license prohibiting commercial use, with free source-sharing forks allowed. Shared-code permission, attribution and branding rules are in [LICENSING.md](LICENSING.md). Earlier GPL grants remain valid; App Store rollout is separate.
 > Open questions are compiled in Section 11. Until closed, proposals marked "proposal" are non-final.
 
 Legend:
@@ -79,8 +82,14 @@ ls /opt/homebrew/include/mpv             # client.h render.h render_gl.h stream_
 2. Minimalist UI: everything not essential for viewing is hidden or omitted.
 3. Remote as first-class product component: network discovery, PIN pairing, instant feedback.
 4. Local network exclusively. No cloud, user accounts, analytics, or telemetry.
-   Sole exception (owner decision 2026-10-29): the Mac player's Sparkle update check reads
+   Exception (owner decision 2026-10-29): the Mac player's Sparkle update check reads
    the HTTPS appcast at most once a day, without identifiers or system profile.
+   Additional exception (owner decision 2026-11-01): optional Spotify access on
+   Mac, disabled until the user connects an account using their own Client ID.
+   OAuth, catalogue, library and Spotify Connect use Spotify's official services;
+   audio plays on the selected Spotify device. No Kinrox server or analytics.
+   The iPhone sends controls over the LAN and never calls Spotify’s API. Owner decision
+   2026-11-01 additionally permits user-initiated contextual links to Spotify on iPhone.
 
 **Comparison with IINA and VLC.**
 
@@ -129,7 +138,9 @@ Playback position memory, custom playlists, network streams and URLs, YouTube (`
 ### 3.1. Components
 
 - **PlayerMac** — macOS application (SwiftUI + AppKit). Contains **MPVKit** — wrapper around C API of libmpv in a subdirectory inside PlayerMac with bridging header (approved by owner 2026-10-25, see 3.3).
-- **RemoteiOS** — iPhone remote application (SwiftUI).
+- **RemoteiOS** — iPhone remote application (SwiftUI); music metadata and controls use only the encrypted LAN protocol.
+- **KinroxMusic** — shared package: `MusicCore` contains models, favorites policy, occurrence-based queue and selection; `SpotifyWebAPI` is linked only into PlayerMac.
+- **Mac Music services** — account/PKCE/Keychain, cached library and favorites transactions, Spotify Connect engine and `PlaybackCoordinator`. The coordinator serializes observed pauses between video and music and owns one Now Playing session. View switching alone never starts or pauses audio.
 - **RemoteProtocol** — shared Swift Package. Targets within:
   - `RemoteProtocol` — command and state models, JSON codec, versioning, handshake cryptography (Foundation + CryptoKit, free of Network.framework, making it straightforward to test);
   - `RemoteTransport` — Network.framework abstractions: Bonjour advertiser and browser, server and client;
@@ -160,6 +171,9 @@ Kinrox/
 ├── CLAUDE.md                     # link to AGENTS.md
 ├── README.md                     # summary and build instructions
 ├── LICENSE                       # GNU GPL v3 (GPL-3.0-only)
+├── LICENSING.md                  # component scope, remote license, and shared-code exception
+├── NOTICE                        # attribution and modified-version notices
+├── TRADEMARKS.md                  # name and logo policy
 ├── .gitignore
 ├── .swift-format                 # formatting rules
 ├── Kinrox.xcworkspace            # unites both applications and shared package
@@ -198,6 +212,7 @@ Kinrox/
 │   │   ├── NowPlaying/           # MPRemoteCommandCenter, MPNowPlayingInfoCenter
 │   │   ├── Remote/               # PairingCodeView, PairingCenter, RemoteServer, Keychain store
 │   │   ├── Library/              # RecentFilesStore, FolderPlaylist, VideoFiles
+│   │   ├── Music/                # domain model adapter, coordinator, Spotify services and UI
 │   │   ├── Updates/              # UpdateCenter, SparkleUpdater, update banner and pill
 │   │   ├── Resources/            # Assets.xcassets, Localizable.xcstrings
 │   │   ├── Info.plist
@@ -214,11 +229,13 @@ Kinrox/
 │   │   ├── Discovery/            # local network player discovery
 │   │   ├── Pairing/              # PIN entry
 │   │   ├── Remote/               # remote control screen, recents
+│   │   ├── Music/                # music deck, queue and favorites sheet
 │   │   ├── Settings/
 │   │   ├── Resources/
 │   │   └── Info.plist
 │   └── RemoteiOSTests/
 ├── Packages/
+│   ├── KinroxMusic/              # MusicCore and Mac-only SpotifyWebAPI, with tests
 │   └── RemoteProtocol/
 │       ├── Package.swift
 │       ├── Sources/
@@ -291,16 +308,19 @@ The file is the source of truth for layouts, texts in mockups, components, and t
 | [02 · M4 — Connection & states](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox-%E2%80%94-Design?node-id=13-352) | Remote settings on Mac, "Connect iPhone" window, search hints, local network denied, wrong code, reconnecting, connection failed, nothing playing, incompatible version |
 | [04 · Tracks — Audio & subtitles](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=30-304) | Mac entry point, audio/subtitle panels, recursive file browser, native menus, folder scope, scanning/empty/error states |
 | [05 · Updates — Update banner](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=48-304) | Welcome-screen update banner, paused-player pill, Kinrox menu item, Sparkle flow states and display rules (approved 2026-10-29) |
-| [06 · About — Project links](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=60-304) | Native Mac About credits and Help menu, iPhone Settings/About: website, GitHub, GPL-3.0-only license, support, issues, and privacy links (owner requested 2026-10-29) |
+| [06 · About — Project links](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=60-304) | Native Mac About credits and Help menu, iPhone Settings/About: website, GitHub, component license, support, issues, and privacy links (owner requested 2026-10-29; license copy updated 2026-11-01) |
 | [07 · Screensaver — Matrix](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=63-304) | Mac menu and animation, iPhone entry/ready/active/paused states; approved 2026-10-29 with a one-shot 3-second exit hint (`67:491`) |
+| [08 · Music — Spotify](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=88-304) | Three-column Mac library, fixed deck, narrow window, iPhone remote/queue/favorites; official attribution and inline recovery variants approved 2026-11-01 (`116:3116`) |
 
 Working with the file:
 - new screens and states are designed in this file before implementation; existing pages follow `NN · <milestone> — <topic>`;
 - mockup copy in Figma is currently Russian; app source strings stay English (Section 9);
-- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, and `63:304`; component library in section `3:2`.
+- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, and `88:304`; component library in section `3:2`.
 
 Project information links share one destination catalog in both apps and open in
-the system browser only when activated. The Mac Help menu replaces the unavailable
+the system browser only when activated. The license label, description and destination
+depend on the app: GPL for Mac, personal-use terms for the remote (Section 10).
+The Mac Help menu replaces the unavailable
 default Help Book command; its native About panel retains the app icon and version.
 
 Design tokens reside in `Shared/Design/KinroxTheme.swift` and `Resources/Branding.xcassets`.
@@ -382,20 +402,34 @@ libmpv callbacks are non-blocking and trigger on internal background threads.
 
 ### 4.5. Engine Protocol (`PlayerEngine`)
 
+Defined in `PlayerMac/PlayerMac/Player/PlayerEngine.swift` together with
+`PlaybackProperty`, `PlaybackValue` and `PlaybackEvent`:
+
 ```swift
-public protocol PlayerEngine: AnyObject, Sendable {
-    @MainActor func load(url: URL)
-    @MainActor func play()
-    @MainActor func pause()
-    @MainActor func togglePause()
-    @MainActor func seek(to position: Double)
-    @MainActor func seek(by delta: Double)
-    @MainActor func setVolume(_ volume: Double)
-    @MainActor func stop()
+@MainActor
+protocol PlayerEngine: AnyObject {
+    var events: AsyncStream<PlaybackEvent> { get }
+    func load(url: URL) throws
+    func setPaused(_ paused: Bool) throws
+    func seek(relative seconds: Double) throws
+    func seek(absolute seconds: Double) throws
+    func setVolume(_ volume: Double) throws
+    func selectTrack(kind: MediaTrackKind, number: Int64?, requestID: UInt64) throws
+    func addTrack(url: URL, kind: MediaTrackKind, requestID: UInt64) throws
+    func cancelTrackCommand(id: UInt64)
+    func stop() throws
+    func shutdown() async
 }
 ```
 
-UI components and remote server interact with `MPVPlayer` exclusively through this interface.
+`MPVPlayer` is the production conformer; tests use `FakePlayerEngine`. Methods submit
+commands and throw only when submission fails. Results and state changes arrive as
+`PlaybackEvent` values on `events`, which `PlayerViewModel` consumes on `@MainActor`.
+Play, pause and toggle are expressed with `setPaused(_:)`; the user-level commands
+(`togglePause`, `seek(by:)`, `next` and others) live in `PlayerViewModel+Commands.swift`.
+Views, Now Playing and the remote server go through `PlayerViewModel`; only the model
+calls the engine. The one exception is rendering: `PlayerWindowController` passes
+`MPVPlayer.videoLayer` to `PlayerView`.
 
 ### 4.6. Source References
 
@@ -444,16 +478,24 @@ Control Center "Now Playing" and keyboard media keys (⏯︎, ⏭︎, ⏮︎) co
   "body": { ... }
 }
 ```
-- Message types:
-  - `hello` / `helloAck`: initial version negotiation;
-  - `key` / `keyAck`: X25519 public keys and salt exchange;
-  - `pairProof` / `paired`: PIN validation and token generation;
-  - `auth` / `authOk`: token authentication;
+- Message types (`Message.MessageType` in `Packages/RemoteProtocol/Sources/RemoteProtocol/Message.swift`):
+  - `hello` / `helloAck`: version negotiation; `helloAck` also carries the server's
+    ephemeral X25519 public key, a 32-byte nonce and `needsPairing`;
+  - `pairRequest`: client's ephemeral X25519 public key when pairing;
+  - `pairChallenge`: empty body; the Mac shows the PIN;
+  - `pairProof` / `paired`: PIN proof, then the token and server proof;
+  - `auth` / `authOk`: reconnection with a stored token (`auth` carries the device id,
+    the client's ephemeral public key and the proof);
   - `command` / `ack`: control commands and acknowledgements;
+  - `requestState`: asks the Mac for a fresh `state`;
   - `state`: player playback state snapshot;
   - `recent`: recent files list;
   - `error`: protocol or application errors;
   - `bye`: clean disconnection.
+- Handshake messages before `paired` / `authOk`, and handshake `error` replies, travel
+  as plain JSON frames. `paired`, `authOk` and all application messages (`command`,
+  `requestState`, `bye`, `state`, `recent`, `ack`, and `error` after the handshake)
+  travel only inside the encrypted channel (6.5.1).
 
 Screensaver support is an additive v1 extension: `state.screensaver` is optional
 (`off` or `matrix`), and `setScreensaver` carries the requested value. A missing
@@ -461,6 +503,12 @@ state field identifies an older Mac, so the new remote disables start/stop and
 offers an update explanation. Old clients ignore the additional state field.
 The Mac publishes an active screensaver only after mpv confirms the movie is paused;
 an acknowledgement alone never changes the remote's displayed state.
+
+Music support is also additive v1: optional `state.source` / `state.music`, eight
+music commands and paged `requestQueue` / `queue` and `requestLikeOptions` /
+`likeOptions` messages. Replies carry revisions; stale pages restart at zero.
+Credentials, filesystem paths and Spotify API access never cross to iPhone.
+Queue pages reserve the protected-frame overhead within the 64 KiB limit.
 
 ### 6.4. PIN Pairing
 
@@ -479,24 +527,51 @@ Channel security uses authenticated Diffie-Hellman with ephemeral keys (ECDH ove
 
 #### 6.5.1. Handshake Format
 
-1. **Transcript:** Both endpoints accumulate a canonical binary transcript:
-   - `clientHello` + `serverHelloAck` + `clientKey` + `serverKeyAck`.
-2. **Key Derivation (HKDF-SHA256):**
-   - Ephemeral shared secret `Z = X25519(clientPrivate, serverPublic)`.
-   - `PRK = HKDF-Extract(salt: transcriptHash, IKM: Z)`.
-   - `K_c2s = HKDF-Expand(PRK, info: "kinrox c2s key", L: 32)`.
-   - `K_s2c = HKDF-Expand(PRK, info: "kinrox s2c key", L: 32)`.
-   - `K_confirm = HKDF-Expand(PRK, info: "kinrox confirm key", L: 32)`.
-3. **PIN Proof:**
-   - `K_pin = HKDF-Expand(PRK: K_confirm, info: "pin:" + PIN, L: 32)`.
-   - `clientProof = HMAC-SHA256(K_pin, transcript)`.
-   - Server verifies client proof, generates auth token, derives `serverProof`, and returns encrypted `paired` frame.
-4. **Token Authentication:**
-   - For subsequent connections: `K_auth = HKDF-Expand(PRK: K_confirm, info: "token:" + token, L: 32)`.
-   - Mutual verification via HMAC-SHA256 proofs.
-5. **Encrypted Frames:**
-   - ChaCha20-Poly1305 AEAD with directional keys (`K_c2s`, `K_s2c`).
-   - 96-bit big-endian monotonic frame counters starting at 0. Replay or omission terminates connection.
+Implementation: `Packages/RemoteProtocol/Sources/RemoteProtocol/Crypto/`
+(`HandshakeTranscript`, `HandshakeKeys`, `ClientHandshake`, `ServerHandshake`,
+`SecureChannel`). Independent vectors: `Tests/RemoteProtocolTests/Fixtures/crypto/v1.json`,
+generated by `Scripts/generate-crypto-vectors.py`.
+
+Notation: `label(x)` is the UTF-8 string `"kinrox/v1/" + x` followed by one zero byte;
+integers are 32-bit big-endian; a UUID is its 16 raw bytes; a string is its UTF-8 byte
+count followed by the bytes.
+
+1. **Flows:**
+   - Pairing: `hello` → `helloAck` → `pairRequest` → `pairChallenge` → `pairProof` →
+     `paired` (encrypted). A wrong PIN returns `authFailed` and allows a new `pairProof`;
+     the third failure returns `tooManyAttempts` and closes the connection.
+   - Reconnection: `hello` → `helloAck` → `auth` → `authOk` (encrypted).
+   - Both sides generate a new X25519 key pair for every connection.
+2. **Transcript:** `label("transcript")`, a mode byte (0 pairing, 1 reconnection), then
+   from `hello`: header `v` and `id`, `minVersion`, `maxVersion`, `deviceId`,
+   `deviceName`, `appVersion`; from `helloAck`: header `v` and `id`, `version`,
+   `serverId`, `serverName`, the `needsPairing` byte, `serverPublicKey` (32 bytes) and
+   `nonce` (32 bytes); from `pairRequest` or `auth`: header `v` and `id`, and
+   `clientPublicKey` (32 bytes). `transcriptHash = SHA-256(transcript)`.
+3. **Key derivation (HKDF-SHA256, 32-byte outputs):**
+   - `Z = X25519(ownPrivate, peerPublic)`; an all-zero `Z` fails with `authFailed`.
+   - `K_c2s`, `K_s2c`, `K_confirm = HKDF(IKM: Z, salt: helloAck.nonce,
+     info: label("key/c2s" | "key/s2c" | "key/confirm") + transcriptHash)`.
+4. **PIN proof (pairing):**
+   - `K_pin = HKDF(IKM: PIN as 6 ASCII digits, salt: K_confirm, info: label("pin") + transcriptHash)`.
+   - `clientProof = HMAC-SHA256(K_pin, label("pair/client") + transcript + pairProof.id)`.
+   - The server verifies it, creates a 32-byte token, stores it, and replies with encrypted
+     `paired { token, serverProof }`, where
+     `serverProof = HMAC-SHA256(K_pin, label("pair/server") + transcript + pairProof.id + clientProof + token)`.
+   - The client stores the token only after verifying `serverProof`.
+5. **Token authentication (reconnection):**
+   - `clientProof = HMAC-SHA256(key: token, label("auth/client") + transcript)`, sent in `auth`.
+   - `K_auth = HKDF(IKM: token, salt: K_confirm, info: label("auth/server-key") + transcriptHash)`.
+   - `serverProof = HMAC-SHA256(K_auth, label("auth/server") + transcript + clientProof)`,
+     sent in encrypted `authOk`.
+6. **Encrypted frames:**
+   - ChaCha20-Poly1305 with `K_c2s` (iPhone → Mac) and `K_s2c` (Mac → iPhone).
+   - Frame = 12-byte nonce + ciphertext + 16-byte tag (28 bytes overhead); plaintext is at
+     most 65,536 − 28 bytes.
+   - The nonce is a 96-bit big-endian counter per direction starting at 0; the receiver
+     accepts only the next expected value, so replay or omission terminates the connection.
+   - AAD = `label("frame") + transcriptHash` plus a direction byte (0 iPhone → Mac,
+     1 Mac → iPhone).
 
 ### 6.6. Local Network Policy
 
@@ -596,15 +671,29 @@ See [signing runbook](docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md#real-iphone) fo
 5. Max file length is 500 lines. Split large files logically.
 6. Verify changes with unit and integration tests before handoff.
 7. Set playback volume to 0 within Kinrox during test media verifications; do not touch Mac system volume.
-8. Local network operations exclusively; no external internet queries, telemetry, or analytics. The sole runtime exception is the Mac player's approved Sparkle appcast check (principle 4).
+8. Local network operations exclusively, except the Mac player's approved Sparkle appcast check and opt-in Spotify integration (principle 4). No telemetry or analytics.
 
 ---
 
 ## 10. License
 
-Kinrox is published under GNU General Public License v3 (`GPL-3.0-only`).
-The license covers the Mac player, iPhone remote, shared packages, and repository scripts.
-Full text is located in [LICENSE](LICENSE).
+Licensing is split by component, authorized by the owner on 2026-11-01:
+
+- Mac player and other default repository material: GNU GPL v3 only (`GPL-3.0-only`),
+  with permitted attribution/origin terms in [NOTICE](NOTICE). Commercial use remains allowed.
+- New iPhone remote revisions accompanied by [RemoteiOS/LICENSE.txt](RemoteiOS/LICENSE.txt):
+  Kinrox Remote Personal Use License 1.0. Personal use, private modifications, and
+  free forks with corresponding source are allowed; business/commercial use,
+  sales, paid access, and subscriptions are prohibited.
+- Kinrox-owned shared code and resources remain GPL, with the explicit
+  [shared-code exception](SHARED-LICENSE-EXCEPTION.md) allowing inclusion in the remote.
+- [TRADEMARKS.md](TRADEMARKS.md) governs branding within applicable trademark rights.
+
+See [LICENSING.md](LICENSING.md) for exact path scope and contribution requirements.
+Earlier GPL releases and independently granted GPL rights remain unchanged.
+Third-party licenses are not altered. Do not describe the remote as GPL or OSI
+open source, or apply remote restrictions to the Mac player. Store rollout is
+separate; see [AppStore/LICENSE-ROLLOUT.md](AppStore/LICENSE-ROLLOUT.md).
 
 ---
 

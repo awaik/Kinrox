@@ -3,4 +3,5 @@
     <FileRef location="group:PlayerMac/PlayerMac.xcodeproj"/>
     <FileRef location="group:RemoteiOS/RemoteiOS.xcodeproj"/>
     <FileRef location="group:Packages/RemoteProtocol"/>
+    <FileRef location="group:Packages/KinroxMusic"/>
 </Workspace>

@@ -15,6 +15,7 @@ public enum Message: Codable, Sendable, Equatable {
     public enum MessageType: String, Codable, Sendable, CaseIterable {
         case hello, pairRequest, pairProof, auth, command, requestState, bye
         case helloAck, pairChallenge, paired, authOk, state, recent, ack, error
+        case requestQueue, queue, requestLikeOptions, likeOptions
     }
 
     case hello(Header, Hello)
@@ -22,6 +23,10 @@ public enum Message: Codable, Sendable, Equatable {
     case pairProof(Header, PairProof)
     case auth(Header, Auth)
     case command(Header, Command)
+    case requestQueue(Header, QueueRequest)
+    case queue(Header, QueuePage)
+    case requestLikeOptions(Header, LikeOptionsRequest)
+    case likeOptions(Header, LikeOptionsPage)
     case requestState(Header)
     case bye(Header)
     case helloAck(Header, HelloAck)
@@ -39,6 +44,8 @@ public enum Message: Codable, Sendable, Equatable {
             .auth(let header, _), .command(let header, _), .requestState(let header),
             .bye(let header), .helloAck(let header, _), .pairChallenge(let header),
             .paired(let header, _), .authOk(let header, _), .state(let header, _),
+            .requestQueue(let header, _), .queue(let header, _), .requestLikeOptions(let header, _),
+            .likeOptions(let header, _),
             .recent(let header, _), .ack(let header, _), .error(let header, _):
             header
         }
@@ -51,6 +58,10 @@ public enum Message: Codable, Sendable, Equatable {
         case .pairProof: .pairProof
         case .auth: .auth
         case .command: .command
+        case .requestQueue: .requestQueue
+        case .queue: .queue
+        case .requestLikeOptions: .requestLikeOptions
+        case .likeOptions: .likeOptions
         case .requestState: .requestState
         case .bye: .bye
         case .helloAck: .helloAck
@@ -100,6 +111,15 @@ public enum Message: Codable, Sendable, Equatable {
                 throw ProtocolError(code: .unknownMessage, message: "Unknown message type.")
             }
             switch type {
+            case .requestQueue:
+                self = .requestQueue(header, try container.decode(QueueRequest.self, forKey: .body))
+            case .queue: self = .queue(header, try container.decode(QueuePage.self, forKey: .body))
+            case .requestLikeOptions:
+                self = .requestLikeOptions(
+                    header, try container.decode(LikeOptionsRequest.self, forKey: .body))
+            case .likeOptions:
+                self = .likeOptions(
+                    header, try container.decode(LikeOptionsPage.self, forKey: .body))
             case .hello: self = .hello(header, try container.decode(Hello.self, forKey: .body))
             case .pairRequest:
                 self = .pairRequest(header, try container.decode(PairRequest.self, forKey: .body))
@@ -129,6 +149,7 @@ public enum Message: Codable, Sendable, Equatable {
                 self = .error(header, try container.decode(ProtocolError.self, forKey: .body))
             }
             try validateHandshakeFields()
+            try validateMusicFields()
         } catch {
             let failure =
                 error as? ProtocolError
@@ -140,10 +161,15 @@ public enum Message: Codable, Sendable, Equatable {
     public func encode(to encoder: any Encoder) throws {
         try Self.validateVersion(header.v)
         try validateHandshakeFields()
+        try validateMusicFields()
         try header.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(type, forKey: .type)
         switch self {
+        case .requestQueue(_, let body): try container.encode(body, forKey: .body)
+        case .queue(_, let body): try container.encode(body, forKey: .body)
+        case .requestLikeOptions(_, let body): try container.encode(body, forKey: .body)
+        case .likeOptions(_, let body): try container.encode(body, forKey: .body)
         case .hello(_, let body): try container.encode(body, forKey: .body)
         case .pairRequest(_, let body): try container.encode(body, forKey: .body)
         case .pairProof(_, let body): try container.encode(body, forKey: .body)

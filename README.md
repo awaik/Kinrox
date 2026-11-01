@@ -2,7 +2,9 @@
 
 Kinrox is a minimalist video player for macOS with a native iPhone remote.
 Open a movie on your Mac and control it from the couch over your local network.
-No cloud, user accounts, analytics, or telemetry.
+No Kinrox backend, Kinrox accounts, analytics, or telemetry. Development builds
+include an optional Spotify connection on Mac; local video and the LAN remote
+continue to work without internet access.
 
 ## Features
 
@@ -27,17 +29,24 @@ No cloud, user accounts, analytics, or telemetry.
 ## Project Status
 
 The Mac player and real iPhone remote are implemented through M5. The current
-standalone Mac release is **0.3.0**, for Apple Silicon and macOS 14+:
-[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg)
-or read the [release notes](docs/releases/0.3.0.md).
+standalone Mac release is **0.4.0**, for Apple Silicon and macOS 14+:
+[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.4.0/Kinrox-0.4.0-arm64.dmg)
+or read the [release notes](docs/releases/0.4.0.md).
 The installer bundles libmpv and its dependencies, is Developer ID signed, and
 is notarized by Apple. Homebrew is only needed for the default development setup.
 Users of Mac 0.2.0 or earlier install 0.3.0 manually once to enable future update reminders.
 The iPhone App Store release remains separate; the remote can be built from source.
 
+Music mode v2 is included in **0.4.0**.
+It adds Spotify library browsing, favorites with undo, queue editing and iPhone
+music controls. It requires Spotify Premium, the official Spotify app on the same
+Mac, and your own Spotify developer Client ID. Setup and limits are in the
+[music release notes](docs/releases/0.4.0.md); checks are in
+[Music Verification](docs/runbooks/MUSIC-VERIFICATION.md).
+
 The `kinrox-cli` executable is a stub; its implementation is an
 [optional task](docs/TODO/05-kinrox-cli.md). Network streams,
-custom playlists, and playback position memory are outside the initial scope.
+custom local-video playlists, and playback position memory are outside the initial scope.
 Architecture and roadmap are in [AGENTS.md](AGENTS.md).
 
 The player also updates the current folder playlist as videos appear
@@ -84,6 +93,7 @@ Then, from the project root, run sequentially:
 ./Scripts/check-env.sh
 ./Scripts/generate.sh
 bash Scripts/make-test-media.sh
+swift test --package-path Packages/KinroxMusic
 swift test --package-path Packages/RemoteProtocol
 
 xcodebuild -workspace Kinrox.xcworkspace -scheme PlayerMac \
@@ -136,7 +146,7 @@ Mac settings, allow local network access on iPhone, select the Mac, and enter th
 from its screen. Subsequent launches authenticate via Keychain token.
 Demo mode without Mac is available in remote settings via "Try demo without Mac" button
 or launch argument `-KinroxDemo`; real pairings are unavailable in demo.
-Debug argument `-KinroxScreen pairing|remote|recents` functions only alongside
+Debug argument `-KinroxScreen pairing|remote|recents|music|music-queue|music-like` functions only alongside
 `-KinroxDemo`. Network errors never switch the app into demo mode.
 Installation and tests on a physical iPhone — [per runbook](docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md#real-iphone).
 
@@ -233,7 +243,15 @@ Repeatable runbooks are organized in [docs/runbooks](docs/runbooks/README.md):
 
 ## License
 
-Kinrox is open source under GNU GPL v3
-(`GPL-3.0-only`). The license applies to player, remote, shared packages,
-and scripts. Full text in [LICENSE](LICENSE).
-Third-party libraries retain their respective licenses.
+The **Mac player** remains open source under [GNU GPL v3 only](LICENSE), including
+commercial use and redistribution under the GPL. Attribution and modified-build
+notices are described in [NOTICE](NOTICE); branding follows [TRADEMARKS.md](TRADEMARKS.md).
+
+New **iPhone remote** revisions accompanying [Kinrox Remote Personal Use License 1.0](RemoteiOS/LICENSE.txt)
+are free for personal, noncommercial use. Personal modifications and free forks
+with corresponding source are allowed; business use, sales, paid access, and
+paid subscriptions are prohibited. The remote is source-available, not OSI open source.
+
+Shared material remains GPL-licensed with an [exception](SHARED-LICENSE-EXCEPTION.md)
+for inclusion in the remote. Earlier GPL releases retain their original rights;
+third-party libraries retain their own licenses. See [the scope and transition](LICENSING.md).

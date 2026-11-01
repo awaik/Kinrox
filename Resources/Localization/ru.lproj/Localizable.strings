@@ -249,7 +249,9 @@
 "Source Code (GitHub)" = "Исходный код (GitHub)";
 "License: %@" = "Лицензия: %@";
 "Report an Issue" = "Сообщить об ошибке";
-"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox — приложение с открытым исходным кодом под лицензией GNU GPL v3.";
+"Personal use only" = "Только для личного использования";
+"Kinrox Remote is free for personal, noncommercial use. Business use, sales, and paid subscriptions are prohibited." = "Kinrox Remote бесплатен для личного некоммерческого использования. Использование в бизнесе, продажа и платные подписки запрещены.";
+"Kinrox for Mac is open-source software licensed under the GNU GPL v3." = "Kinrox для Mac — приложение с открытым исходным кодом под лицензией GNU GPL v3.";
 
 /* Matrix screensaver — Figma page 07. */
 "Screensaver" = "Screensaver";
@@ -270,3 +272,92 @@
 "Esc — exit · Movie paused" = "Esc — выйти · Фильм на паузе";
 "Matrix screensaver. Press Escape to exit." = "Заставка Matrix. Нажмите Escape для выхода.";
 "The movie could not be paused. Try again." = "Не удалось поставить фильм на паузу. Повторите попытку.";
+
+/* Music mode — Figma page 08. */
+"%@ tracks" = "%@ треков";
+"Add to playlist" = "Добавить в плейлист";
+"Add to queue" = "Добавить в очередь";
+"Added manually" = "Добавлено вручную";
+"Album" = "Альбом";
+"Albums" = "Альбомы";
+"All albums" = "Все альбомы";
+"All tracks" = "Все треки";
+"Artist, album or track" = "Исполнитель, альбом или трек";
+"Artists" = "Исполнители";
+"By artist" = "По исполнителю";
+"By title" = "По названию";
+"Could not create playlist." = "Не удалось создать плейлист.";
+"Could not update favorites." = "Не удалось обновить избранное.";
+"Create" = "Создать";
+"Demo · No audio" = "Демо · Без звука";
+"Entire queue" = "Вся очередь";
+"Favorite" = "Избранное";
+"Favorite: %@" = "Избранное: %@";
+"Follow" = "Подписаться";
+"From the source list" = "Из исходного списка";
+"Library" = "Медиатека";
+"Liked" = "В любимых";
+"Liked tracks" = "Любимые треки";
+"Music" = "Музыка";
+"New playlist…" = "Новый плейлист…";
+"Next track" = "Следующий трек";
+"Next: %@" = "Далее: %@";
+"On" = "Вкл.";
+"Play album" = "Играть альбом";
+"Play album: %@" = "Играть альбом: %@";
+"Play all" = "Играть всё";
+"Playback mode" = "Режим воспроизведения";
+"Playback position" = "Позиция воспроизведения";
+"Playlist name" = "Название плейлиста";
+"Playlists" = "Плейлисты";
+"Previous track" = "Предыдущий трек";
+"Queue" = "Очередь";
+"Remove from queue" = "Убрать из очереди";
+"Reorder track" = "Переместить трек";
+"Repeat" = "Повтор";
+"Repeat all" = "Повторять всё";
+"Repeat one" = "Повторять один";
+"Saved immediately · Esc to close" = "Сохраняется сразу · Esc — закрыть";
+"Search" = "Поиск";
+"Search: %@" = "Поиск: %@";
+"Shuffle" = "Перемешать";
+"Space: pause · Enter: play · L: favorite · ⌘F: search · ⌘Z: undo" = "Пробел: пауза · Enter: играть · L: избранное · ⌘F: поиск · ⌘Z: отменить";
+"Stop" = "Стоп";
+"This Mac" = "Этот Mac";
+"Time" = "Время";
+"Title" = "Название";
+"Tracks" = "Треки";
+"Video" = "Видео";
+
+/* Optional Spotify account and library */
+"Enter a valid Spotify Client ID." = "Введите корректный Client ID Spotify.";
+"Reconnect Spotify in Settings." = "Подключите Spotify заново в настройках.";
+"Spotify denied access. Check Premium and the app allowlist." = "Spotify отказал в доступе. Проверьте Premium и список разрешённых пользователей приложения.";
+"Open Spotify on this Mac and start a track." = "Откройте Spotify на этом Mac и запустите трек.";
+"Spotify quota reached. Try again later." = "Лимит Spotify исчерпан. Повторите позже.";
+"Spotify is busy. Try again later." = "Spotify занят. Повторите позже.";
+"Spotify is unavailable. Check your connection." = "Spotify недоступен. Проверьте подключение.";
+"Connect Spotify in Settings." = "Подключите Spotify в настройках.";
+"Loading Spotify library…" = "Загрузка медиатеки Spotify…";
+"Optional connection on Mac. Spotify Premium and your own developer app are required." = "Необязательное подключение на Mac. Нужны Spotify Premium и собственное приложение разработчика.";
+"Spotify Client ID" = "Client ID Spotify";
+"Disconnect" = "Отключить";
+"Connect Spotify" = "Подключить Spotify";
+"Favorite %@" = "В избранное: %@";
+"Swipe left to remove · hold to reorder" = "Смахните влево — убрать · удерживайте — переставить";
+"Source list" = "Исходный список";
+"Saved immediately" = "Сохраняется сразу";
+"Spotify is playing on another device or outside Kinrox." = "Spotify играет на другом устройстве или вне Kinrox.";
+
+/* Spotify metadata, feedback and connection consent. */
+"Track details" = "О треке";
+"Open in Spotify" = "Открыть в Spotify";
+"Explicit content" = "Ненормативная лексика";
+"Removed from Liked Songs" = "Удалено из любимых треков";
+"This action is unavailable in Spotify." = "Это действие недоступно в Spotify.";
+"Added to Liked Songs" = "Добавлено в любимые треки";
+"Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics." = "Данные входа хранятся в Связке ключей Mac. Отключение удаляет локальные данные Spotify, сохраняя плейлисты Spotify. Серверов Kinrox и аналитики нет.";
+"I accept the Spotify connection terms and have read the privacy policy." = "Принимаю условия подключения Spotify и ознакомился с политикой конфиденциальности.";
+"Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Доступ Spotify: библиотека, воспроизведение, избранное и редактируемые плейлисты. Снятие отметки избранного также удаляет трек из редактируемых плейлистов.";
+"Open album in Spotify" = "Открыть альбом в Spotify";
+"Connection terms" = "Условия подключения";

@@ -22,10 +22,14 @@ extension RemoteAppModel {
             if self.state.title != state.title || !state.hasMedia || state.screensaver == .matrix {
                 scrubTarget = nil
             }
+            let previous = self.state
             self.state = state
             receivedAt = scheduler.now
             frozenPosition = min(state.duration, state.position)
             hasState = true
+            musicStateChanged(from: previous)
+        case .queue(_, let page): receiveQueue(page)
+        case .likeOptions(_, let page): receiveLikeOptions(page)
         case .recent(_, let items): recents = items
         case .ack(_, let ack):
             guard let request = pending.removeValue(forKey: ack.replyTo) else { return }
@@ -34,6 +38,13 @@ extension RemoteAppModel {
         case .error(_, let error):
             if error.code == .authFailed || error.code == .notPaired {
                 connectionLost(.protocolFailure(error))
+                return
+            }
+            if let replyTo = error.replyTo, musicPageRequests.removeValue(forKey: replyTo) != nil {
+                musicPageTimeouts.removeValue(forKey: replyTo)?.cancel()
+                queueLoading = false
+                optionsLoading = false
+                commandError = Self.message(for: error)
                 return
             }
             if let replyTo = error.replyTo {
@@ -54,6 +65,14 @@ extension RemoteAppModel {
     @discardableResult
     func send(_ command: Command, completion: ((Bool) -> Void)? = nil) -> UUID? {
         guard controlsEnabled else {
+            completion?(false)
+            return nil
+        }
+        if state.source == .music,
+            let action = command.musicAction(
+                paused: state.paused, repeatMode: state.music?.repeatMode ?? .off),
+            !musicAllows(action)
+        {
             completion?(false)
             return nil
         }

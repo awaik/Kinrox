@@ -32,7 +32,7 @@ final class RemoteStatePublisher {
                     paused: state.paused, volume: state.volume, fullscreen: state.fullscreen,
                     hasMedia: state.hasMedia, canNext: state.canNext,
                     canPrevious: state.canPrevious,
-                    screensaver: state.screensaver
+                    screensaver: state.screensaver, source: state.source, music: state.music
                 ) == previous
             } ?? false
         if immediate || !positionOnly || time - lastTime >= 0.5 {

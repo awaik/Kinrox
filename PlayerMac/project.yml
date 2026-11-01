@@ -8,6 +8,8 @@ configFiles:
   Debug: ../Config/PlayerMac.xcconfig
   Release: ../Config/PlayerMac.xcconfig
 packages:
+  KinroxMusic:
+    path: ../Packages/KinroxMusic
   RemoteProtocol:
     path: ../Packages/RemoteProtocol
   # Update framework (owner decision 2026-10-29). Pinned for reproducible releases.
@@ -23,7 +25,19 @@ targets:
       - PlayerMac
       - ../Resources/Branding.xcassets
       - ../Resources/Localization
+      - path: ../Resources/Spotify
+        buildPhase: resources
       - ../Shared
+      - path: ../LICENSE
+        buildPhase: resources
+      - path: ../NOTICE
+        buildPhase: resources
+      - path: ../LICENSING.md
+        buildPhase: resources
+      - path: ../TRADEMARKS.md
+        buildPhase: resources
+      - path: ../SHARED-LICENSE-EXCEPTION.md
+        buildPhase: resources
     settings:
       base:
         PRODUCT_NAME: Kinrox
@@ -33,6 +47,10 @@ targets:
         SWIFT_OBJC_BRIDGING_HEADER: PlayerMac/MPVKit/PlayerMac-Bridging-Header.h
         CODE_SIGN_ENTITLEMENTS: PlayerMac/PlayerMac.entitlements
     dependencies:
+      - package: KinroxMusic
+        product: MusicCore
+      - package: KinroxMusic
+        product: SpotifyWebAPI
       - package: RemoteProtocol
         product: RemoteProtocol
       - package: RemoteProtocol
@@ -48,6 +66,10 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: $(KINROX_BUNDLE_ID_PREFIX).player.tests
         GENERATE_INFOPLIST_FILE: YES
     dependencies:
+      - package: KinroxMusic
+        product: MusicCore
+      - package: KinroxMusic
+        product: SpotifyWebAPI
       - target: PlayerMac
       - package: RemoteProtocol
         product: RemoteProtocol

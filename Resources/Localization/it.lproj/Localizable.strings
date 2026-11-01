@@ -249,7 +249,9 @@
 "Source Code (GitHub)" = "Codice sorgente (GitHub)";
 "License: %@" = "Licenza: %@";
 "Report an Issue" = "Segnala un problema";
-"Kinrox is open-source software licensed under the GNU GPL v3." = "Kinrox è un software open source distribuito con licenza GNU GPL v3.";
+"Personal use only" = "Solo per uso personale";
+"Kinrox Remote is free for personal, noncommercial use. Business use, sales, and paid subscriptions are prohibited." = "Kinrox Remote è gratuito per uso personale e non commerciale. Sono vietati l’uso aziendale, la vendita e gli abbonamenti a pagamento.";
+"Kinrox for Mac is open-source software licensed under the GNU GPL v3." = "Kinrox per Mac è un software open source con licenza GNU GPL v3.";
 
 /* Matrix screensaver — Figma page 07. */
 "Screensaver" = "Salvaschermo";
@@ -270,3 +272,92 @@
 "Esc — exit · Movie paused" = "Esc — esci · Film in pausa";
 "Matrix screensaver. Press Escape to exit." = "Salvaschermo Matrix. Premi Escape per uscire.";
 "The movie could not be paused. Try again." = "Impossibile mettere il film in pausa. Riprova.";
+
+/* Music mode — Figma page 08. */
+"%@ tracks" = "%@ brani";
+"Add to playlist" = "Aggiungi alla playlist";
+"Add to queue" = "Aggiungi alla coda";
+"Added manually" = "Aggiunto manualmente";
+"Album" = "Album";
+"Albums" = "Album";
+"All albums" = "Tutti gli album";
+"All tracks" = "Tutti i brani";
+"Artist, album or track" = "Artista, album o brano";
+"Artists" = "Artisti";
+"By artist" = "Per artista";
+"By title" = "Per titolo";
+"Could not create playlist." = "Impossibile creare la playlist.";
+"Could not update favorites." = "Impossibile aggiornare i preferiti.";
+"Create" = "Crea";
+"Demo · No audio" = "Demo · Senza audio";
+"Entire queue" = "Intera coda";
+"Favorite" = "Preferito";
+"Favorite: %@" = "Preferito: %@";
+"Follow" = "Segui";
+"From the source list" = "Dall’elenco di origine";
+"Library" = "Libreria";
+"Liked" = "Mi piace";
+"Liked tracks" = "Brani preferiti";
+"Music" = "Musica";
+"New playlist…" = "Nuova playlist…";
+"Next track" = "Brano successivo";
+"Next: %@" = "Successivo: %@";
+"On" = "Attivo";
+"Play album" = "Riproduci album";
+"Play album: %@" = "Riproduci album: %@";
+"Play all" = "Riproduci tutto";
+"Playback mode" = "Modalità di riproduzione";
+"Playback position" = "Posizione di riproduzione";
+"Playlist name" = "Nome playlist";
+"Playlists" = "Playlist";
+"Previous track" = "Brano precedente";
+"Queue" = "Coda";
+"Remove from queue" = "Rimuovi dalla coda";
+"Reorder track" = "Riordina brano";
+"Repeat" = "Ripeti";
+"Repeat all" = "Ripeti tutto";
+"Repeat one" = "Ripeti uno";
+"Saved immediately · Esc to close" = "Salvato subito · Esc per chiudere";
+"Search" = "Cerca";
+"Search: %@" = "Ricerca: %@";
+"Shuffle" = "Casuale";
+"Space: pause · Enter: play · L: favorite · ⌘F: search · ⌘Z: undo" = "Spazio: pausa · Invio: riproduci · L: preferito · ⌘F: cerca · ⌘Z: annulla";
+"Stop" = "Ferma";
+"This Mac" = "Questo Mac";
+"Time" = "Tempo";
+"Title" = "Titolo";
+"Tracks" = "Brani";
+"Video" = "Video";
+
+/* Optional Spotify account and library */
+"Enter a valid Spotify Client ID." = "Inserisci un Client ID Spotify valido.";
+"Reconnect Spotify in Settings." = "Ricollega Spotify nelle impostazioni.";
+"Spotify denied access. Check Premium and the app allowlist." = "Spotify ha negato l’accesso. Verifica Premium e l’elenco degli utenti autorizzati dell’app.";
+"Open Spotify on this Mac and start a track." = "Apri Spotify su questo Mac e avvia un brano.";
+"Spotify quota reached. Try again later." = "Quota Spotify raggiunta. Riprova più tardi.";
+"Spotify is busy. Try again later." = "Spotify è occupato. Riprova più tardi.";
+"Spotify is unavailable. Check your connection." = "Spotify non è disponibile. Controlla la connessione.";
+"Connect Spotify in Settings." = "Collega Spotify nelle impostazioni.";
+"Loading Spotify library…" = "Caricamento della libreria Spotify…";
+"Optional connection on Mac. Spotify Premium and your own developer app are required." = "Connessione facoltativa su Mac. Servono Spotify Premium e una tua app sviluppatore.";
+"Spotify Client ID" = "Client ID Spotify";
+"Disconnect" = "Scollega";
+"Connect Spotify" = "Collega Spotify";
+"Favorite %@" = "Preferito: %@";
+"Swipe left to remove · hold to reorder" = "Scorri a sinistra per rimuovere · tieni premuto per riordinare";
+"Source list" = "Elenco di origine";
+"Saved immediately" = "Salvato subito";
+"Spotify is playing on another device or outside Kinrox." = "Spotify riproduce su un altro dispositivo o fuori da Kinrox.";
+
+/* Spotify metadata, feedback and connection consent. */
+"Track details" = "Dettagli del brano";
+"Open in Spotify" = "Apri in Spotify";
+"Explicit content" = "Contenuti espliciti";
+"Removed from Liked Songs" = "Rimosso dai Brani che ti piacciono";
+"This action is unavailable in Spotify." = "Questa azione non è disponibile in Spotify.";
+"Added to Liked Songs" = "Aggiunto ai Brani che ti piacciono";
+"Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics." = "Le credenziali restano nel Portachiavi del Mac. La disconnessione elimina i dati locali Spotify e conserva le playlist. Nessun server Kinrox o analisi dell’uso.";
+"I accept the Spotify connection terms and have read the privacy policy." = "Accetto i termini di connessione Spotify e ho letto l’informativa sulla privacy.";
+"Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Accesso Spotify: libreria, riproduzione, preferiti e playlist modificabili. Rimuovere un preferito lo elimina anche dalle playlist modificabili.";
+"Open album in Spotify" = "Apri album in Spotify";
+"Connection terms" = "Termini di connessione";

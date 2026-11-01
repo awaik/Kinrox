@@ -31,6 +31,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return self.openRecent(item)
         }
         showPlayer()
+        if ProcessInfo.processInfo.environment["KINROX_MUSIC_DEMO"] == "1" { session.mode = .music }
+        session.spotify.restore()
         remote.start()
         updater = SparkleUpdater(center: session.updates)
         // Launch from terminal: Kinrox /full/path/to/video.mkv.
@@ -72,6 +74,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func open(_ url: URL) -> Bool {
         guard !isRunningTests, !isTerminating else { return false }
         showPlayer()
+        session.mode = .video
         return playerWindow?.model.open(url: url) ?? false
     }
 
@@ -124,6 +127,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if playerWindow == nil {
             do {
                 playerWindow = try PlayerWindowController(
+                    session: session,
                     recents: session.recents, pairing: session.pairing, remote: session.remote,
                     updates: session.updates,
                     actions: PlayerActions(
@@ -137,9 +141,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     self?.close(model)
                 }
                 session.model = playerWindow?.model
-                if let model = session.model {
+                if session.model != nil {
                     let controller = NowPlayingController(center: SystemNowPlayingCenter())
-                    controller.connect(to: model)
+                    session.playback.connectNowPlaying(controller)
                     nowPlaying = controller
                 }
             } catch {
@@ -161,8 +165,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func close(_ model: PlayerViewModel) {
         nowPlaying?.disconnect()
         nowPlaying = nil
+        let closingPlayback = session.playback.beginClose()
         let id = UUID()
         closingTasks[id] = Task { [weak self] in
+            await closingPlayback.value
             await model.shutdown()
             self?.closingTasks[id] = nil
         }

@@ -41,7 +41,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
   <meta property="og:title" content="Kinrox — berhenti bangun untuk menjeda film">
-  <meta property="og:description" content="Pemutar video Mac minimalis dengan remote iPhone asli. Gratis dan sumber terbuka.">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Gratis untuk penggunaan pribadi.">
   <meta property="og:url" content="https://kinrox.app/id/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -55,7 +55,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/id/", "inLanguage": "id", "description": "Pemutar video Mac minimalis dengan remote iPhone asli. Gratis dan sumber terbuka."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/id/", "inLanguage": "id", "description": "Kinrox · Mac + iPhone. Gratis untuk penggunaan pribadi."}
   </script>
 </head>
 <body>
@@ -69,7 +69,7 @@
       <a href="#how">Pemasangan</a>
       <a href="#player">Pemutar</a>
       <a href="#privacy">Privasi</a>
-      <a href="#open-source">Sumber terbuka</a>
+      <a href="#open-source">Kode sumber</a>
     </nav>
     <div class="nav-actions">
       <details class="language-menu" id="languages">
@@ -116,14 +116,14 @@
   <section class="hero">
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
-      <span class="chip"><i class="dot ember"></i>Gratis &amp; sumber terbuka · Mac + iPhone</span>
+      <span class="chip"><i class="dot ember"></i>Gratis untuk penggunaan pribadi · Mac + iPhone</span>
       <h1 class="display">Tak perlu bangun untuk <span class="fire-text">menjeda film.</span></h1>
       <p class="lead">Kinrox memutar video apa pun di Mac Anda — dan mengubah iPhone Anda menjadi remote. MacBook di proyektor, Anda di sofa: jeda, mundur 10 detik, kecilkan volume, atau mulai episode berikutnya tanpa meninggalkan selimut.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Unduh untuk Mac</a>
         <a class="btn btn-glass" href="#how">Lihat cara kerjanya</a>
       </div>
-      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Tidak ada akun</span><span>Tanpa cloud</span><span>Bekerja melalui Wi‑Fi Anda</span></p>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Tanpa akun Kinrox</span><span>Tanpa server Kinrox</span><span>Bekerja melalui Wi‑Fi Anda</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -308,8 +308,8 @@
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
-          <h3>Tidak ada akun, tidak ada telemetri</h3>
-          <p>Tidak ada akun atau analisis penggunaan. Mac memeriksa feed pembaruan publik setiap hari tanpa pengidentifikasi unik atau pembuatan profil sistem. Situs web ini tidak memiliki analitik atau cookie.</p>
+          <h3>Tanpa analitik penggunaan</h3>
+          <p>Kinrox memutar video lokal di Mac dan menyediakan remote iPhone. Pengembang tidak menerima data pribadi, riwayat pemutaran, atau analitik penggunaan. Video lokal dan remote LAN bekerja offline. Pembaruan dan Spotify opsional memerlukan internet.</p>
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
@@ -324,8 +324,8 @@
     <div class="container">
       <div class="oss" data-reveal>
         <div>
-          <span class="overline">Sumber terbuka · GPL‑3.0</span>
-          <h2 class="display" id="oss-title">Gratis dan bersumber terbuka. Baca dan ubah kodenya sesuka Anda.</h2>
+          <span class="overline">Mac: GPL-3.0 · iPhone: Hanya untuk penggunaan pribadi</span>
+          <h2 class="display" id="oss-title">Kode sumber</h2>
           <p class="lead">Kinrox ditulis dalam Swift 6 dan SwiftUI di atas libmpv. Setiap lini pemutar, remote, dan protokol ada di GitHub.</p>
           <ul class="status">
             <li>Pemutar <i class="ic ic-check"></i>Mac — berfungsi</li>
@@ -367,12 +367,12 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
         <h2 class="display" id="faq-title">Pertanyaan</h2>
       </div>
       <div class="faq" data-reveal>
-        <details><summary>Apakah perlu internet?</summary><p>Pemutaran dan kendali jarak jauh berfungsi tanpa akses internet saat Mac dan iPhone berbagi jaringan Wi‑Fi. Mac menggunakan HTTPS untuk pemeriksaan pembaruan harian dan mengunduh pembaruan saat Anda memilih untuk menginstalnya.</p></details>
+        <details><summary>Apakah perlu internet?</summary><p>Video lokal dan remote LAN bekerja offline. Pembaruan dan Spotify opsional memerlukan internet.</p></details>
         <details><summary>Apakah ini berfungsi dengan TV, bukan proyektor?</summary><p>Ya. Kinrox diputar di acara Mac Anda — proyektor, TV melalui HDMI, atau layar yang tersambung dengan AirPlay.</p></details>
         <details><summary>Macs dan iPhones mana yang didukung?</summary><p>Macs dengan Apple silicon di macOS 14 Sonoma atau lebih baru, dan iPhones di iOS 17 atau lebih baru. Intel Macs belum didukung.</p></details>
         <details><summary>Bisakah lebih dari satu iPhone mengontrol Mac yang sama?</summary><p>Ya. Setiap iPhone berpasangan satu kali dengan kodenya sendiri; hingga empat remote dapat dihubungkan secara bersamaan. Anda dapat mencabut salah satunya di pengaturan pemutar.</p></details>
         <details><summary>Bisakah saya memilih trek audio dan subtitle?</summary><p>Ya. Di Mac, gunakan tombol Audio &amp; Subtitle atau menu Audio dan Subtitle. Pilih trek yang disematkan, temukan file eksternal di folder bertumpuk, atau nonaktifkan subtitle. Kinrox dapat mengingat pilihan Anda untuk episode berikutnya.</p></details>
-        <details><summary>Berapa biayanya?</summary><p>Tidak ada. Kinrox gratis dan open source di bawah GNU GPL v3.</p></details>
+        <details><summary>Berapa biayanya?</summary><p>Kinrox untuk Mac adalah perangkat lunak sumber terbuka dengan lisensi GNU GPL v3. Kinrox Remote gratis untuk penggunaan pribadi dan nonkomersial. Penggunaan bisnis, penjualan, dan langganan berbayar dilarang. Versi GPL sebelumnya tetap menggunakan lisensi aslinya.</p></details>
       </div>
     </div>
   </section>
@@ -382,7 +382,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
     <div class="container" data-reveal>
       <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
       <h2 class="display" id="final-title">Berbaring. <span class="fire-text">Tekan putar.</span></h2>
-      <p class="lead">Kinrox untuk Mac dan iPhone. Gratis, sumber terbuka, dan dibuat untuk menonton film malam.</p>
+      <p class="lead">Gratis untuk penggunaan pribadi</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Unduh untuk Mac</a>
         <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Laporkan Masalah</a>
@@ -394,16 +394,17 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
 <footer class="footer">
   <div class="container footer-inner">
     <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
-    <span>Perangkat lunak bebas di bawah GPL‑3.0. Tidak berafiliasi dengan Apple.</span>
+    <span>Mac: GPL-3.0 · iPhone: Hanya untuk penggunaan pribadi</span>
     <nav class="footer-links" aria-label="catatan kaki">
       <a href="privacy/">Privasi</a>
       <a href="support/">Dukungan</a>
       <a href="https://github.com/awaik/Kinrox">Kode sumber</a>
-      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">Lisensi</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSING.md">Lisensi</a>
       <a href="https://github.com/awaik/Kinrox/issues">Masalah</a>
       <a href="#languages">Bahasa Indonesia</a>
     </nav>
   </div>
+<p><a href="spotify-terms/">Spotify · Ketentuan koneksi</a></p>
 </footer>
 </body>
 </html>

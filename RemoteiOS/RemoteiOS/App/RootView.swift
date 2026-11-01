@@ -17,7 +17,12 @@ struct RootView: View {
                     switch screen {
                     case .players: EmptyView()
                     case .pairing: PairingView(store: store)
-                    case .remote: RemoteView(store: store, switchMode: switchMode)
+                    case .remote:
+                        if store.state.source == .music, store.supportsMusic {
+                            MusicRemoteView(store: store, switchMode: switchMode)
+                        } else {
+                            RemoteView(store: store, switchMode: switchMode)
+                        }
                     }
                 }
         }
@@ -47,6 +52,9 @@ struct RootView: View {
             switch UserDefaults.standard.string(forKey: "KinroxScreen") {
             case "pairing": store.select(store.players[1])
             case "remote", "recents": store.select(store.players[0])
+            case "music", "music-queue", "music-like":
+                store.select(store.players[0])
+                store.enableMusicDemo()
             default: break
             }
         #endif

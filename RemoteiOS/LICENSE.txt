@@ -1,0 +1,121 @@
+Kinrox Remote Personal Use License 1.0
+Issued November 1, 2026
+Copyright (c) 2026 awaik
+
+1. Scope and definitions
+
+This license applies to the Kinrox-owned source, resources, tests, and build
+files under RemoteiOS/ distributed with this license, and to their compiled
+forms and modifications (the "Software"). It is a source-available personal-use
+license, not an open-source license. The "Licensor" is each copyright holder
+who offers their material under this license.
+
+Shared material included under SHARED-LICENSE-EXCEPTION.md retains its separate
+GPL rights. Third-party and system components retain their own licenses.
+This license does not govern the Kinrox Mac player or restrict independent
+use of material available under another license.
+
+"Personal Use" means use by a natural person for their own or their household's
+private, noncommercial purposes, including learning and unpaid hobby development.
+It excludes use by or on behalf of a business, employer, organization, or client,
+use in a person's trade or profession, and use to earn revenue or other
+commercial compensation. An employee may use the Software privately in their
+personal capacity; employment alone does not make that use commercial.
+
+2. Grant
+
+Subject to these terms, the Licensor grants you a worldwide, nonexclusive,
+royalty-free copyright license to obtain, inspect, run, copy, build, and modify
+the Software for Personal Use. You may submit voluntary, unpaid contributions
+to the project under this license. No ownership is transferred.
+
+You may share unmodified or modified copies, in source or binary form, with
+other individuals for their Personal Use only, without charge or commercial
+benefit, provided that you comply with section 4. Each recipient receives their
+rights directly from the relevant Licensor under this license.
+
+3. Uses not licensed
+
+This license does not permit:
+
+- Commercial or business use, including internal deployment, workplace use,
+  client work, or use on behalf of a company, regardless of whether the Software
+  itself is supplied for free.
+- Selling, renting, sublicensing for a fee, or charging for copies, downloads,
+  access, activation, features, or updates of the Software.
+- Paid subscriptions, paid bundles, hosted access, or services that monetize
+  the Software or its functionality, including advertising-funded distribution.
+- Incorporating the Software or its modifications into commercial products
+  or services, or redistributing it to enable any of these prohibited uses.
+
+These limits apply equally to modified versions, forks, and renamed copies.
+A required "donation", membership fee, or charge for another bundled item does
+not make access free. Separate written permission from the relevant copyright
+holders is required for uses outside the grant; this license promises no such
+permission or commercial licensing program.
+
+Ordinary third-party hosting, source-control, build, and app-distribution
+infrastructure may perform the technical acts needed to store, build, and
+deliver permitted copies at the request of an authorized user or the Licensor.
+Ordinary charges for that general infrastructure do not authorize the provider
+or user to sell, operate, or market the Software itself as a commercial product.
+The Licensor may authorize Apple or another distributor to deliver official
+copies under separate agreements without licensing commercial use by recipients.
+
+4. Conditions for sharing and modifications
+
+Keep this license, copyright and attribution notices, the shared-code exception
+when applicable, and all required third-party notices with every shared copy.
+Provide recipients the complete corresponding source for the version you share,
+including your modifications and the scripts and instructions needed to build
+it, without additional charge, alongside the binary or at a clearly identified
+download location that remains available for as long as you distribute it.
+Private modifications that are not shared need not be published.
+
+License your contributions to a shared modified version under these same terms.
+Do not impose different terms that remove the permissions granted here or
+authorize a prohibited use. Identify yourself as the modifier, describe the
+changes and their dates, and clearly mark the distribution as an unofficial
+modified version. Do not claim original authorship of another person's work or
+endorsement by the Licensor. Retain reasonable attribution in source and in
+the legal notices accompanying binaries; no advertising screen is required.
+
+5. Branding
+
+No trademark or endorsement rights are granted. Comply with TRADEMARKS.md to the
+extent it concerns rights held by the relevant rightsholder. Truthful attribution,
+lawful references, and rights that applicable law grants independently are not
+restricted. Renaming a fork does not remove the restrictions in this license.
+
+6. Termination
+
+The granted permissions terminate automatically if you breach this license.
+For a first breach, they are reinstated if you cure it within 30 days after
+becoming aware of it, unless the relevant Licensor has already permanently
+terminated your rights for that breach in writing. Other reinstatement requires
+written permission. Termination does not cancel licenses independently granted
+to recipients who remain in compliance or rights under another license.
+
+7. No warranty; limitation of liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SOFTWARE IS PROVIDED
+"AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+NO LICENSOR OR CONTRIBUTOR IS LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY
+ARISING FROM THE SOFTWARE OR ITS USE, WHETHER IN CONTRACT, TORT, OR OTHERWISE.
+MANDATORY CONSUMER RIGHTS AND LIABILITY THAT CANNOT LAWFULLY BE EXCLUDED REMAIN.
+
+8. Earlier licenses, statutory rights, and changes
+
+This license does not revoke or narrow GPL or other permissions previously
+granted for earlier releases or for material independently obtained under those
+permissions. It applies to copies and new material offered under this license;
+it does not retroactively change an earlier delivery or store agreement.
+
+Rights and exceptions granted by applicable law independently of this license
+are not restricted. A future license revision does not automatically replace
+the version accompanying your copy. If a provision is unenforceable, the rest
+continues to apply to the extent permitted by law. No rights beyond those stated
+here, required by applicable law, or separately granted in writing are implied.
+
+Verbatim copying of this license with the Software is permitted.

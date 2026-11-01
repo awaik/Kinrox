@@ -41,7 +41,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
   <meta property="og:title" content="Kinrox — sluta resa dig för att pausa filmen">
-  <meta property="og:description" content="En minimalistisk Mac videospelare med en riktig iPhone fjärrkontroll. Gratis och öppen källkod.">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Gratis för personligt bruk.">
   <meta property="og:url" content="https://kinrox.app/sv/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -55,7 +55,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/sv/", "inLanguage": "sv", "description": "En minimalistisk Mac videospelare med en riktig iPhone fjärrkontroll. Gratis och öppen källkod."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/sv/", "inLanguage": "sv", "description": "Kinrox · Mac + iPhone. Gratis för personligt bruk."}
   </script>
 </head>
 <body>
@@ -69,7 +69,7 @@
       <a href="#how">Parkoppling</a>
       <a href="#player">Spelare</a>
       <a href="#privacy">Sekretess</a>
-      <a href="#open-source">Öppen källkod</a>
+      <a href="#open-source">Källkod</a>
     </nav>
     <div class="nav-actions">
       <details class="language-menu" id="languages">
@@ -116,14 +116,14 @@
   <section class="hero">
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
-      <span class="chip"><i class="dot ember"></i>Gratis &amp; öppen källkod · Mac + iPhone</span>
+      <span class="chip"><i class="dot ember"></i>Gratis för personligt bruk · Mac + iPhone</span>
       <h1 class="display">Slipp resa dig för att <span class="fire-text">pausa filmen.</span></h1>
       <p class="lead">Kinrox spelar upp vilken video som helst på din Mac — och förvandlar din iPhone till sin fjärrkontroll. MacBook på projektorn, du i soffan: pausa, hoppa tillbaka 10 sekunder, sänk volymen eller starta nästa avsnitt utan att lämna filten.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Ladda ner för Mac</a>
         <a class="btn btn-glass" href="#how">Se hur det fungerar</a>
       </div>
-      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Inga konton</span><span>Inget moln</span><span>Fungerar över ditt Wi-Fi</span></p>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Inget Kinrox-konto</span><span>Ingen Kinrox-server</span><span>Fungerar över ditt Wi-Fi</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -308,8 +308,8 @@
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
-          <h3>Inga konton, ingen telemetri</h3>
-          <p>Inga konton eller användningsanalyser. Mac kontrollerar ett offentligt uppdateringsflöde dagligen utan unika identifierare eller systemprofilering. Denna webbplats har inga analyser eller cookies.</p>
+          <h3>Ingen användningsanalys</h3>
+          <p>Kinrox spelar lokala videor på Mac och erbjuder en iPhone-fjärrkontroll. Utvecklaren får inga personuppgifter, ingen uppspelningshistorik eller användningsanalys. Lokal video och LAN-fjärrkontroll fungerar offline. Uppdateringar och valfritt Spotify kräver internet.</p>
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
@@ -324,8 +324,8 @@
     <div class="container">
       <div class="oss" data-reveal>
         <div>
-          <span class="overline">Öppen källkod · GPL‑3.0</span>
-          <h2 class="display" id="oss-title">Gratis och med öppen källkod. Läs och ändra koden som du vill.</h2>
+          <span class="overline">Mac: GPL-3.0 · iPhone: Endast för personligt bruk</span>
+          <h2 class="display" id="oss-title">Källkod</h2>
           <p class="lead">Kinrox är skrivet i Swift 6 och SwiftUI ovanpå libmpv. Varje rad på spelaren, fjärrkontrollen och protokollet finns på GitHub.</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac-spelare — fungerar</li>
@@ -367,12 +367,12 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
         <h2 class="display" id="faq-title">Frågor</h2>
       </div>
       <div class="faq" data-reveal>
-        <details><summary>Behöver den internet?</summary><p>Uppspelning och fjärrkontroll fungerar utan internetåtkomst när Mac och iPhone delar ett Wi-Fi-nätverk. Mac använder HTTPS för dagliga uppdateringskontroller och laddar ner en uppdatering när du väljer att installera den.</p></details>
+        <details><summary>Behöver den internet?</summary><p>Lokal video och LAN-fjärrkontroll fungerar offline. Uppdateringar och valfritt Spotify kräver internet.</p></details>
         <details><summary>Fungerar det med en TV, inte en projektor?</summary><p>Ja. Kinrox spelar på allt som din Mac visar — ​​en projektor, en TV över HDMI eller en skärm ansluten till AirPlay.</p></details>
         <details><summary>Vilka Macs och iPhones stöds?</summary><p>Macs med Apple silicon på macOS 14 Sonoma eller senare, och iPhones på iOS 17 eller senare. Intel Macs stöds inte ännu.</p></details>
         <details><summary>Kan mer än en iPhone styra samma Mac?</summary><p>Ja. Varje iPhone parar en gång med sin egen kod; upp till fyra fjärrkontroller kan anslutas samtidigt. Du kan återkalla vilken som helst av dem i spelarinställningarna.</p></details>
         <details><summary>Kan jag välja ljud- och undertextspår?</summary><p>Ja. På Mac använder du knappen Ljud och undertexter eller menyerna Ljud och undertexter. Välj inbäddade spår, hitta externa filer i kapslade mappar eller stäng av undertexter. Kinrox kan komma ihåg ditt val för nästa avsnitt.</p></details>
-        <details><summary>Hur mycket kostar det?</summary><p>Ingenting. Kinrox är gratis och öppen källkod under GNU GPL v3.</p></details>
+        <details><summary>Hur mycket kostar det?</summary><p>Kinrox för Mac är programvara med öppen källkod under GNU GPL v3. Kinrox Remote är gratis för personligt, icke-kommersiellt bruk. Företagsanvändning, försäljning och betalda prenumerationer är förbjudna. Tidigare GPL-versioner behåller sin ursprungliga licens.</p></details>
       </div>
     </div>
   </section>
@@ -382,7 +382,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
     <div class="container" data-reveal>
       <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
       <h2 class="display" id="final-title">Lägg dig ner. <span class="fire-text">Tryck play.</span></h2>
-      <p class="lead">Kinrox för Mac och iPhone. Gratis, öppen källkod och gjord för filmkvällar.</p>
+      <p class="lead">Gratis för personligt bruk</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Ladda ner för Mac</a>
         <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Rapportera ett problem</a>
@@ -394,16 +394,17 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
 <footer class="footer">
   <div class="container footer-inner">
     <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
-    <span>Gratis programvara under GPL‑3.0. Ej ansluten till Apple.</span>
+    <span>Mac: GPL-3.0 · iPhone: Endast för personligt bruk</span>
     <nav class="footer-links" aria-label="Sidfot">
       <a href="privacy/">Sekretess</a>
       <a href="support/">Support</a>
       <a href="https://github.com/awaik/Kinrox">Källkod</a>
-      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">Licens</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSING.md">Licens</a>
       <a href="https://github.com/awaik/Kinrox/issues">frågor</a>
       <a href="#languages">Svenska</a>
     </nav>
   </div>
+<p><a href="spotify-terms/">Spotify · Anslutningsvillkor</a></p>
 </footer>
 </body>
 </html>

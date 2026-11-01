@@ -5,6 +5,7 @@ xcuserdata/
 
 # Generated projects, dependencies, and build output
 DerivedData/
+DerivedDataMusicRemote/
 .build/
 .swiftpm/
 Vendor/

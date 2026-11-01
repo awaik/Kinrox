@@ -41,7 +41,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
   <meta property="og:title" content="Kinrox — nu te mai ridica pentru a întrerupe filmul">
-  <meta property="og:description" content="Un player video minimalist pentru Mac, cu o telecomandă pe iPhone. Gratuit și cu sursă deschisă.">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Gratuit pentru uz personal.">
   <meta property="og:url" content="https://kinrox.app/ro/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -55,7 +55,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/ro/", "inLanguage": "ro", "description": "Un player video minimalist pentru Mac, cu o telecomandă pe iPhone. Gratuit și cu sursă deschisă."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/ro/", "inLanguage": "ro", "description": "Kinrox · Mac + iPhone. Gratuit pentru uz personal."}
   </script>
 </head>
 <body>
@@ -69,7 +69,7 @@
       <a href="#how">Asociere</a>
       <a href="#player">Player</a>
       <a href="#privacy">Confidențialitate</a>
-      <a href="#open-source">Sursă deschisă</a>
+      <a href="#open-source">Cod sursă</a>
     </nav>
     <div class="nav-actions">
       <details class="language-menu" id="languages">
@@ -116,14 +116,14 @@
   <section class="hero">
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
-      <span class="chip"><i class="dot ember"></i>Gratuit și cu sursă deschisă · Mac + iPhone</span>
+      <span class="chip"><i class="dot ember"></i>Gratuit pentru uz personal · Mac + iPhone</span>
       <h1 class="display">Nu te ridica pentru a <span class="fire-text">pune filmul pe pauză.</span></h1>
       <p class="lead">Kinrox redă orice videoclip de pe Mac și transformă iPhone în telecomandă. MacBook pe proiector, tu pe canapea: întrerupeți, săriți înapoi cu 10 secunde, reduceți volumul sau începeți episodul următor fără a părăsi pătura.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Descărcați pentru Mac</a>
         <a class="btn btn-glass" href="#how">Vezi cum funcționează</a>
       </div>
-      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Fără conturi</span><span>Fără cloud</span><span>Funcționează prin Wi-Fi</span></p>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Fără cont Kinrox</span><span>Fără server Kinrox</span><span>Funcționează prin Wi-Fi</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -308,8 +308,8 @@
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
-          <h3>Fără conturi, fără telemetrie</h3>
-          <p>Fără conturi sau analize de utilizare. Mac verifică zilnic un feed de actualizare public fără identificatori unici sau profilare de sistem. Acest site web nu are analize sau cookie-uri.</p>
+          <h3>Fără analize de utilizare</h3>
+          <p>Kinrox redă videoclipuri locale pe Mac și oferă o telecomandă pentru iPhone. Dezvoltatorul nu primește date personale, istoricul redării sau analize de utilizare. Videoclipurile locale și telecomanda LAN funcționează offline. Actualizările și Spotify opțional necesită internet.</p>
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
@@ -324,8 +324,8 @@
     <div class="container">
       <div class="oss" data-reveal>
         <div>
-          <span class="overline">Sursă deschisă · GPL‑3.0</span>
-          <h2 class="display" id="oss-title">Gratuit și cu sursă deschisă. Citește și modifică codul după plac.</h2>
+          <span class="overline">Mac: GPL-3.0 · iPhone: Numai pentru uz personal</span>
+          <h2 class="display" id="oss-title">Cod sursă</h2>
           <p class="lead">Kinrox este scris în Swift 6 și SwiftUI deasupra lui libmpv. Fiecare linie a playerului, a telecomenzii și a protocolului este activată GitHub.</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac player — funcționează</li>
@@ -367,12 +367,12 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
         <h2 class="display" id="faq-title">Întrebări</h2>
       </div>
       <div class="faq" data-reveal>
-        <details><summary>Are nevoie de internet?</summary><p>Redarea și controlul de la distanță funcționează fără acces la internet atunci când Mac și iPhone partajează o rețea Wi-Fi. Mac folosește HTTPS pentru verificări zilnice de actualizare și descarcă o actualizare atunci când alegeți să o instalați.</p></details>
+        <details><summary>Are nevoie de internet?</summary><p>Videoclipurile locale și telecomanda LAN funcționează offline. Actualizările și Spotify opțional necesită internet.</p></details>
         <details><summary>Functioneaza cu un televizor, nu cu un proiector?</summary><p>Da. Kinrox se redă pe orice emisiune dvs. Mac — un proiector, un televizor prin HDMI sau un afișaj conectat la AirPlay.</p></details>
         <details><summary>Care Macs și iPhones sunt acceptate?</summary><p>Macs cu Apple silicon pe macOS 14 Sonoma sau mai târziu și iPhones pe iOS 17 sau mai târziu. Intel Macs nu sunt încă acceptate.</p></details>
         <details><summary>Pot mai multe iPhone să controleze același Mac?</summary><p>Da. Fiecare iPhone se asociază o dată cu propriul cod; pot fi conectate până la patru telecomenzi în același timp. Puteți revoca oricare dintre ele din setările playerului.</p></details>
         <details><summary>Pot alege piese audio și subtitrare?</summary><p>Da. Pe Mac, folosiți butonul Audio și subtitrări sau meniurile Audio și Subtitrări. Alegeți melodiile încorporate, găsiți fișiere externe în foldere imbricate sau dezactivați subtitrările. Kinrox își poate aminti alegerea ta pentru episodul următor.</p></details>
-        <details><summary>Cât costă?</summary><p>Nimic. Kinrox este gratuit și open source conform GNU GPL v3.</p></details>
+        <details><summary>Cât costă?</summary><p>Kinrox pentru Mac este software cu sursă deschisă sub licența GNU GPL v3. Kinrox Remote este gratuit pentru uz personal, necomercial. Utilizarea în afaceri, vânzarea și abonamentele contra cost sunt interzise. Versiunile GPL anterioare își păstrează licența originală.</p></details>
       </div>
     </div>
   </section>
@@ -382,7 +382,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
     <div class="container" data-reveal>
       <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
       <h2 class="display" id="final-title">Întinde-te. <span class="fire-text">Apăsaţi pe redare.</span></h2>
-      <p class="lead">Kinrox pentru Mac și iPhone. Gratuit, open source și creat pentru seri de film.</p>
+      <p class="lead">Gratuit pentru uz personal</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Descărcați pentru Mac</a>
         <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Raportează o problemă</a>
@@ -394,16 +394,17 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
 <footer class="footer">
   <div class="container footer-inner">
     <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
-    <span>Software gratuit sub GPL‑3.0. Nu este afiliat cu Apple.</span>
+    <span>Mac: GPL-3.0 · iPhone: Numai pentru uz personal</span>
     <nav class="footer-links" aria-label="Subsol">
       <a href="privacy/">Confidențialitate</a>
       <a href="support/">Asistență</a>
       <a href="https://github.com/awaik/Kinrox">Cod sursă</a>
-      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">Licență</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSING.md">Licență</a>
       <a href="https://github.com/awaik/Kinrox/issues">Probleme</a>
       <a href="#languages">Română</a>
     </nav>
   </div>
+<p><a href="spotify-terms/">Spotify · Condiții de conectare</a></p>
 </footer>
 </body>
 </html>

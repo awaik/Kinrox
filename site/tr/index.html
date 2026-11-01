@@ -41,7 +41,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
   <meta property="og:title" content="Kinrox — filmi duraklatmak için kalkmayı bırakın">
-  <meta property="og:description" content="Gerçek bir iPhone uzaktan kumandaya sahip minimalist bir Mac video oynatıcı. Ücretsiz ve açık kaynak.">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Kişisel kullanım için ücretsiz.">
   <meta property="og:url" content="https://kinrox.app/tr/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -55,7 +55,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+, iOS 17+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/tr/", "inLanguage": "tr", "description": "Gerçek bir iPhone uzaktan kumandaya sahip minimalist bir Mac video oynatıcı. Ücretsiz ve açık kaynak."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.3.0", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/tr/", "inLanguage": "tr", "description": "Kinrox · Mac + iPhone. Kişisel kullanım için ücretsiz."}
   </script>
 </head>
 <body>
@@ -69,7 +69,7 @@
       <a href="#how">Eşleştirme</a>
       <a href="#player">Oynatıcı</a>
       <a href="#privacy">Gizlilik</a>
-      <a href="#open-source">Açık kaynak</a>
+      <a href="#open-source">Kaynak kodu</a>
     </nav>
     <div class="nav-actions">
       <details class="language-menu" id="languages">
@@ -116,14 +116,14 @@
   <section class="hero">
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
-      <span class="chip"><i class="dot ember"></i>Ücretsiz ve açık kaynak · Mac + iPhone</span>
+      <span class="chip"><i class="dot ember"></i>Kişisel kullanım için ücretsiz · Mac + iPhone</span>
       <h1 class="display">Filmi duraklatmak için <span class="fire-text">yerinizden kalkmayın.</span></h1>
       <p class="lead">Kinrox, Mac cihazınızdaki herhangi bir videoyu oynatır ve iPhone cihazınızı uzaktan kumandaya dönüştürür. MacBook projektörde, siz kanepede: duraklatın, 10 saniye geriye gidin, sesi kısın veya battaniyeden ayrılmadan bir sonraki bölüme başlayın.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Mac için indirin</a>
         <a class="btn btn-glass" href="#how">Nasıl çalıştığını görün</a>
       </div>
-      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Hesap yok</span><span>Bulut yok</span><span>Wi‑Fi&#x27;niz üzerinden çalışır</span></p>
+      <p class="hero-meta"><span>v0.3.0 · macOS 14+ · Apple Silicon</span><span>Kinrox hesabı yok</span><span>Kinrox sunucusu yok</span><span>Wi‑Fi&#x27;niz üzerinden çalışır</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -308,8 +308,8 @@
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-shield-check"></i></div>
-          <h3>Hesap yok, telemetri yok</h3>
-          <p>Hesap veya kullanım analizi yok. Mac, benzersiz tanımlayıcılar veya sistem profili oluşturma olmadan, genel güncelleme akışını günlük olarak kontrol eder. Bu web sitesinde analiz veya çerez bulunmamaktadır.</p>
+          <h3>Kullanım analizi yok</h3>
+          <p>Kinrox Mac’te yerel videoları oynatır ve iPhone kumandası sunar. Geliştirici kişisel veri, oynatma geçmişi veya kullanım analizi almaz. Yerel video ve LAN kumandası çevrimdışı çalışır. Güncellemeler ve isteğe bağlı Spotify internet gerektirir.</p>
         </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-folder-open"></i></div>
@@ -324,8 +324,8 @@
     <div class="container">
       <div class="oss" data-reveal>
         <div>
-          <span class="overline">Açık kaynak · GPL‑3.0</span>
-          <h2 class="display" id="oss-title">Ücretsiz ve açık kaynaklı. Kodu okuyun, dilediğiniz gibi değiştirin.</h2>
+          <span class="overline">Mac: GPL-3.0 · iPhone: Yalnızca kişisel kullanım</span>
+          <h2 class="display" id="oss-title">Kaynak kodu</h2>
           <p class="lead">Kinrox, Swift 6&#x27;da ve SwiftUI, libmpv&#x27;nin üstünde yazılmıştır. Oynatıcının, uzaktan kumandanın ve protokolün her satırı GitHub üzerindedir.</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac oynatıcı — çalışır</li>
@@ -367,12 +367,12 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
         <h2 class="display" id="faq-title">Sorular</h2>
       </div>
       <div class="faq" data-reveal>
-        <details><summary>İnternete ihtiyacı var mı?</summary><p>Mac ve iPhone bir Wi‑Fi ağını paylaştığında oynatma ve uzaktan kumanda internet erişimi olmadan çalışır. Mac, günlük güncelleme kontrolleri için HTTPS&#x27;yi kullanır ve yüklemeyi seçtiğinizde bir güncellemeyi indirir.</p></details>
+        <details><summary>İnternete ihtiyacı var mı?</summary><p>Yerel video ve LAN kumandası çevrimdışı çalışır. Güncellemeler ve isteğe bağlı Spotify internet gerektirir.</p></details>
         <details><summary>Projektörle değil TV ile mi çalışıyor?</summary><p>Evet. Kinrox, Mac&#x27;nizin gösterdiği her şeyde oynatılır; bir projektör, HDMI üzerinden bir TV veya AirPlay&#x27;ye bağlı bir ekran.</p></details>
         <details><summary>Hangi Macs ve iPhones destekleniyor?</summary><p>macOS 14 Sonoma veya üzeri üzerinde Apple silicon ile Macs ve iOS 17 veya üzeri üzerinde iPhones. Intel Macs henüz desteklenmiyor.</p></details>
         <details><summary>Birden fazla iPhone aynı Mac&#x27;yi kontrol edebilir mi?</summary><p>Evet. Her iPhone kendi koduyla bir kez eşleşir; Aynı anda en fazla dört uzaktan kumanda bağlanabilir. Bunlardan herhangi birini oynatıcı ayarlarından iptal edebilirsiniz.</p></details>
         <details><summary>Ses ve altyazı parçalarını seçebilir miyim?</summary><p>Evet. Mac&#x27;de Ses ve Altyazı düğmesini veya Ses ve Altyazı menülerini kullanın. Gömülü parçaları seçin, iç içe geçmiş klasörlerdeki harici dosyaları bulun veya altyazıları kapatın. Kinrox bir sonraki bölüm için seçiminizi hatırlayabilir.</p></details>
-        <details><summary>Maliyeti ne kadar?</summary><p>Hiçbir şey. Kinrox, GNU GPL v3 kapsamında ücretsiz ve açık kaynaktır.</p></details>
+        <details><summary>Maliyeti ne kadar?</summary><p>Mac için Kinrox, GNU GPL v3 lisanslı açık kaynaklı yazılımdır. Kinrox Remote, kişisel ve ticari olmayan kullanım için ücretsizdir. İş amaçlı kullanım, satış ve ücretli abonelikler yasaktır. Önceki GPL sürümleri özgün lisanslarını korur.</p></details>
       </div>
     </div>
   </section>
@@ -382,7 +382,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
     <div class="container" data-reveal>
       <img src="../assets/img/kinrox-icon.webp" alt="" width="104" height="104" loading="lazy">
       <h2 class="display" id="final-title">Uzan. <span class="fire-text">Oynat tuşuna basın.</span></h2>
-      <p class="lead">Mac ve iPhone için Kinrox. Ücretsiz, açık kaynak ve film geceleri için tasarlandı.</p>
+      <p class="lead">Kişisel kullanım için ücretsiz</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.3.0/Kinrox-0.3.0-arm64.dmg">Mac için indirin</a>
         <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Sorun Bildir</a>
@@ -394,16 +394,17 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
 <footer class="footer">
   <div class="container footer-inner">
     <a class="brand" href="./"><img src="../assets/img/kinrox-icon.webp" alt="" width="34" height="34" loading="lazy">Kinrox</a>
-    <span>GPL‑3.0 kapsamında ücretsiz yazılım. Apple&#x27;ye bağlı değil.</span>
+    <span>Mac: GPL-3.0 · iPhone: Yalnızca kişisel kullanım</span>
     <nav class="footer-links" aria-label="Altbilgi">
       <a href="privacy/">Gizlilik</a>
       <a href="support/">Destek</a>
       <a href="https://github.com/awaik/Kinrox">Kaynak kodu</a>
-      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSE">Lisans</a>
+      <a href="https://github.com/awaik/Kinrox/blob/main/LICENSING.md">Lisans</a>
       <a href="https://github.com/awaik/Kinrox/issues">Sorunlar</a>
       <a href="#languages">Türkçe</a>
     </nav>
   </div>
+<p><a href="spotify-terms/">Spotify · Bağlantı koşulları</a></p>
 </footer>
 </body>
 </html>

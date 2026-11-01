@@ -29,6 +29,7 @@ reflect previous planning rather than current acceptance criteria.
 | Verify Mac track selection and recursive audio/subtitle discovery | [Tracks Verification](TRACKS-VERIFICATION.md) |
 | Verify Sparkle update reminders, appcast signing, and update packaging | [Updates Verification](UPDATES-VERIFICATION.md) |
 | Verify Matrix animation, pause/exit behavior, and remote start/stop | [Screensaver Verification](SCREENSAVER-VERIFICATION.md) |
+| Verify Spotify music, favorites/undo, queue and iPhone controls | [Music Verification](MUSIC-VERIFICATION.md) |
 | Evaluate external code reviews and apply justified corrections | [Code Review Process](RUNBOOK-REVIEW.md) |
 | Record bug investigations, evidence, and correction plans | [Research Notes](../RESEARCHES/README.md) |
 

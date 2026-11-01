@@ -17,7 +17,7 @@ enum AboutPanel {
             .paragraphStyle: paragraph,
         ]
         let text = NSMutableAttributedString(
-            string: ProjectLink.openSourceDescription + "\n\n", attributes: attributes)
+            string: ProjectLink.licenseDescription + "\n\n", attributes: attributes)
         for link in ProjectLink.allCases {
             var linkAttributes = attributes
             linkAttributes[.link] = link.url

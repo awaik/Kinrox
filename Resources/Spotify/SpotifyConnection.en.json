@@ -1,0 +1,79 @@
+{
+  "version": "2026-11-01",
+  "language": "English",
+  "terms": [
+    {
+      "title": "Spotify connection terms",
+      "body": "These terms apply when you enable Spotify in Kinrox. Kinrox is maintained by awaik (https://github.com/awaik/Kinrox); support and privacy inquiries: https://github.com/awaik/Kinrox/issues. Kinrox is independent of Spotify and is not endorsed by Spotify. These terms apply upon your acceptance in the app.",
+      "id": "connection"
+    },
+    {
+      "title": "Your account and choices",
+      "body": "Connecting is optional. Use your own Spotify developer app and an authorized Spotify Premium account. Spotify controls API access and quotas; access may change or stop. Spotify's own terms continue to apply. Kinrox controls playback in the official Spotify app on your Mac. It does not download, record or cache audio.",
+      "id": "account"
+    },
+    {
+      "title": "Library changes",
+      "body": "Your actions can save or remove tracks and albums, follow or unfollow artists, create playlists and change playlists you own or can edit. Removing a track from favorites also removes every occurrence of that track from your editable playlists. Selecting an album does not save its tracks individually. Changes take effect in your Spotify account and can be visible in other Spotify clients.",
+      "id": "library"
+    },
+    {
+      "title": "Playback queue",
+      "body": "Kinrox creates a private Kinrox Queue playlist and replaces its contents as you change the playback queue. Disconnect keeps that playlist in Spotify but forgets its local association. Reconnecting can create another helper playlist. Delete unwanted helper playlists yourself in Spotify.",
+      "id": "queue"
+    },
+    {
+      "title": "Spotify rights",
+      "body": "Except where applicable law permits otherwise, you must not modify or create derivative works of Spotify's platform, service or content, or decompile, disassemble, reverse engineer or reduce them to source or other human-readable form. These restrictions concern Spotify materials; they do not restrict rights granted for Kinrox code by its component licenses, including the Mac player's GPL license.",
+      "id": "rights"
+    },
+    {
+      "title": "Responsibility and warranties",
+      "body": "The Kinrox maintainer is responsible for Kinrox. Spotify and other third parties have no responsibility or liability for Kinrox to the extent permitted by law. Kinrox makes no promise or warranty for Spotify. To the extent permitted by law, all implied warranties concerning Spotify's platform, service and content are excluded, including merchantability, suitability for a particular purpose and non-infringement. Mandatory consumer rights remain unaffected.",
+      "id": "responsibility"
+    },
+    {
+      "title": "Privacy and enforcement",
+      "body": "Collection and use of data are subject to the privacy policy displayed with these terms. Spotify is a third-party beneficiary of these terms and that privacy policy and may directly enforce these terms. Use Settings → Spotify → Disconnect to end this connection. You can also revoke access in your Spotify account's Apps page: https://www.spotify.com/account/apps/.",
+      "id": "enforcement"
+    },
+    {
+      "title": "Changes",
+      "body": "A new version of these connection terms requires acceptance before Kinrox reconnects. Local video playback and LAN remote control remain available without accepting Spotify connection terms.",
+      "id": "changes"
+    }
+  ],
+  "privacy": [
+    {
+      "title": "Privacy Policy — Spotify connection",
+      "body": "Version 2026-11-01. The Kinrox maintainer, awaik, is responsible for Kinrox's processing described here. This supplement applies to the optional Spotify integration. The general Kinrox privacy policy is available at https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Do not post tokens, personal library contents or other private information in public issues.",
+      "id": "overview"
+    },
+    {
+      "title": "Access and purposes",
+      "body": "After you accept the terms and authorize Spotify, Kinrox on Mac reads your account identifier and display name, saved tracks and albums, followed artists, accessible playlists and their contents, playback state and available devices. It uses this information to show your library and control Spotify. It can save and remove favorites, follow artists, create playlists and edit owned or collaborative playlists when you use those controls. Removing a favorite also removes its occurrences from editable playlists. Kinrox maintains a private Kinrox Queue playlist for playback.",
+      "id": "access"
+    },
+    {
+      "title": "Storage and recipients",
+      "body": "Refresh credentials are stored in the Mac Data Protection Keychain. Access tokens, account details and library metadata remain in app memory. The supplied Client ID, helper playlist association and accepted document version are stored in Mac preferences. Kinrox has no server, analytics or telemetry, and the maintainer receives none of this Spotify data. Spotify receives requests directly from the Mac and handles them under its privacy policy: https://www.spotify.com/legal/privacy-policy/. Spotify sees network information such as the Mac's public IP address.",
+      "id": "storage"
+    },
+    {
+      "title": "iPhone and links",
+      "body": "The paired iPhone receives track, album, artist and playlist metadata, queue state and playback controls through Kinrox's encrypted local network connection. It never receives Spotify credentials or calls the Spotify Web API. If you tap Open in Spotify, the iPhone or Mac opens the relevant item in Spotify or its website. That handoff can use the internet and is governed by Spotify's privacy policy. Remote metadata is held in memory and cleared on disconnection or a source/account reset.",
+      "id": "iphone"
+    },
+    {
+      "title": "Disconnect and retention",
+      "body": "In Kinrox on Mac, open Settings → Spotify → Disconnect. Kinrox settles pending playback work, stops requests, removes its refresh credential and local helper-playlist associations, and clears account and library state from memory. It stops automatic reconnection. The acceptance version is an account-free preference. Changes already made in Spotify, including playlists and favorites, remain there. Disconnect does not revoke the authorization at Spotify; remove the app at https://www.spotify.com/account/apps/ to revoke it. You can delete retained helper playlists directly in Spotify.",
+      "id": "retention"
+    },
+    {
+      "title": "Cookies and general Kinrox data",
+      "body": "Kinrox adds no analytics or cookies. Its Spotify API sessions use neither persistent cookies nor a disk response cache. Browser login and Spotify websites may use their own cookies; manage those in your browser and Spotify's privacy settings. The general Kinrox policy explains local file bookmarks, pairing credentials, Sparkle updates and GitHub hosting. Spotify is a third-party beneficiary of this policy and the connection terms. Material changes to this supplement will be shown before a new connection is enabled.",
+      "id": "cookies"
+    }
+  ],
+  "locale": "en"
+}

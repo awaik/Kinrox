@@ -3,20 +3,12 @@ import MediaPlayer
 
 @MainActor
 final class NowPlayingController {
-    private struct Metadata: Equatable {
-        let url: URL?
-        let title: String
-        let artist: String
-        let duration: Double
-        let paused: Bool
-    }
-
     private let center: any NowPlayingCenter
     private let clock: () -> TimeInterval
     private let artwork: MPMediaItemArtwork?
-    private weak var model: PlayerViewModel?
+    private weak var model: (any NowPlayingSource)?
     private var observation: UUID?
-    private var metadata: Metadata?
+    private var metadata: NowPlayingMetadata?
     private var publishedPosition: Double = 0
     private var publishedAt: TimeInterval = 0
     private var awaitingPosition = false
@@ -36,7 +28,7 @@ final class NowPlayingController {
         }
     }
 
-    func connect(to model: PlayerViewModel) {
+    func connect(to model: any NowPlayingSource) {
         disconnect()
         self.model = model
         let generation = generation
@@ -76,23 +68,14 @@ final class NowPlayingController {
     }
 
     private func update(event: PlaybackEvent? = nil) {
-        guard let model, model.canControl, !model.isLoading else {
+        guard let model, let updated = model.nowPlayingMetadata else {
             setCommands([])
             if metadata != nil { clear() }
             return
         }
-        var enabled = Set(NowPlayingCommand.allCases)
-        if !model.canNext { enabled.remove(.nextTrack) }
-        if !model.canPrevious { enabled.remove(.previousTrack) }
-        setCommands(enabled)
-
-        let playlist = model.playlist
-        let updated = Metadata(
-            url: model.currentURL, title: model.displayTitle,
-            artist: playlist.flatMap { $0.count > 1 ? $0.folderName : nil } ?? "Kinrox",
-            duration: model.duration, paused: model.paused || model.isAtEnd)
+        setCommands(model.nowPlayingCommands)
         let now = clock()
-        let position = model.playbackPosition
+        let position = model.nowPlayingPosition
         let expected =
             publishedPosition + (metadata?.paused == false ? max(0, now - publishedAt) : 0)
         var force = event == .playbackRestarted
@@ -113,9 +96,12 @@ final class NowPlayingController {
             MPMediaItemPropertyPlaybackDuration: updated.duration,
             MPNowPlayingInfoPropertyElapsedPlaybackTime: position,
             MPNowPlayingInfoPropertyPlaybackRate: updated.paused ? 0.0 : 1.0,
-            MPNowPlayingInfoPropertyMediaType: MPNowPlayingInfoMediaType.video.rawValue,
+            MPNowPlayingInfoPropertyMediaType: updated.isMusic
+                ? MPNowPlayingInfoMediaType.audio.rawValue
+                : MPNowPlayingInfoMediaType.video.rawValue,
         ]
-        if let artwork { info[MPMediaItemPropertyArtwork] = artwork }
+        if let album = updated.album { info[MPMediaItemPropertyAlbumTitle] = album }
+        if !updated.isMusic, let artwork { info[MPMediaItemPropertyArtwork] = artwork }
         center.nowPlayingInfo = info
         let state: MPNowPlayingPlaybackState = updated.paused ? .paused : .playing
         if center.playbackState != state { center.playbackState = state }
@@ -127,22 +113,10 @@ final class NowPlayingController {
     private func handle(_ command: NowPlayingCommand, position: Double?)
         -> MPRemoteCommandHandlerStatus
     {
-        guard let model, model.canControl, !model.isLoading else {
+        guard let model, model.nowPlayingMetadata != nil else {
             return .noActionableNowPlayingItem
         }
-        let accepted: Bool
-        switch command {
-        case .togglePlayPause: accepted = model.togglePause()
-        case .play: accepted = model.setPaused(false)
-        case .pause: accepted = model.setPaused(true)
-        case .nextTrack: accepted = model.next()
-        case .previousTrack: accepted = model.previous()
-        case .skipForward: accepted = model.seek(by: 10)
-        case .skipBackward: accepted = model.seek(by: -10)
-        case .changePlaybackPosition:
-            guard let position, position.isFinite else { return .commandFailed }
-            accepted = model.seek(to: position)
-        }
+        let accepted = model.performNowPlaying(command, position: position)
         return accepted ? .success : .commandFailed
     }
 
