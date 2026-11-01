@@ -6,6 +6,29 @@
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
     <item>
+      <title>Kinrox 0.4.0</title>
+      <pubDate>Sun, 01 Nov 2026 09:56:13 +0000</pubDate>
+      <sparkle:version>6</sparkle:version>
+      <sparkle:shortVersionString>0.4.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.4.0</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Spotify music mode, queue editing, favorites and localized connection documents. Requires an &lt;b&gt;Apple Silicon Mac with macOS 14 Sonoma or later&lt;/b&gt;. Version 0.4.0, build 6.&lt;/p&gt;
+&lt;p&gt;Download &lt;code&gt;Kinrox-0.4.0-arm64.dmg&lt;/code&gt;, open it, and drag Kinrox to Applications. All video playback libraries are bundled; Homebrew and Xcode are not required. Users of 0.3.0 can use Check for Updates. Earlier versions can install this DMG directly.&lt;/p&gt;
+&lt;h3&gt;New&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;Music library with albums, tracks, catalogue search and a compact three-column view.&lt;/li&gt;&lt;li&gt;Track likes, saved albums and followed artists, with favorite undo and playlist options.&lt;/li&gt;&lt;li&gt;Editable queue with duplicate occurrences, shuffle, repeat, reordering and removal.&lt;/li&gt;&lt;li&gt;Official Spotify Connect playback through a private Kinrox Queue playlist.&lt;/li&gt;&lt;li&gt;Coordinated video/music playback and shared system media keys.&lt;/li&gt;&lt;li&gt;Music controls, queue and favorites through the encrypted iPhone LAN connection. These require a companion build containing music support; this release does not publish a new iPhone app to the App Store.&lt;/li&gt;&lt;li&gt;Spotify attribution, playback restrictions, recovery actions and bundled connection terms/privacy documents in all 30 supported app languages.&lt;/li&gt;&lt;li&gt;Updated component licensing and project information. The Mac remains GPL-3.0-only; new iPhone source revisions use the personal-use license described in LICENSING.md.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Spotify setup and behavior&lt;/h3&gt;
+&lt;p&gt;Spotify is optional. It requires Spotify Premium, the official Spotify app on the same Mac, and your own Spotify developer app Client ID. Add &lt;code&gt;http://127.0.0.1:43821/callback&lt;/code&gt; to that app's redirect URIs. Development Mode accounts must be allowed by that developer app.&lt;/p&gt;
+&lt;p&gt;In Kinrox Settings → Spotify, read and accept the connection terms, enter the public Client ID, then connect in your browser. No client secret is requested. Open Music with Command-2; Command-F searches and Command-R refreshes.&lt;/p&gt;
+&lt;p&gt;Audio plays in Spotify.app. Kinrox sends Spotify requests only from Mac; iPhone controls stay on the LAN, while user-activated Spotify links open externally. Credentials remain in the Mac Keychain. Disconnect clears local credentials and cache but leaves the helper playlist and intentional library edits in Spotify. Unliking a track removes its copies from editable playlists; Command-Z can undo the latest favorite action. Artist follows remain independent.&lt;/p&gt;
+&lt;p&gt;Read the &lt;a href="https://kinrox.app/spotify-terms/"&gt;connection terms&lt;/a&gt; and &lt;a href="https://kinrox.app/privacy/"&gt;privacy policy&lt;/a&gt; before connecting.&lt;/p&gt;
+&lt;h3&gt;Limits and verification&lt;/h3&gt;
+&lt;p&gt;Spotify API polling can delay updates. Duplicate playlist occurrences cannot always be distinguished after external playback changes. No album artwork is shown. Spotify availability and developer-app access are controlled by Spotify; this release does not imply Spotify approval.&lt;/p&gt;
+&lt;p&gt;Runtime checks use macOS 26.5.2. macOS 14 and iOS 17 are deployment targets, not separately tested devices in this release session. Earlier physical-iPhone music checks are documented in &lt;a href="https://github.com/awaik/Kinrox/blob/v0.4.0/docs/runbooks/MUSIC-VERIFICATION.md"&gt;Music Verification&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Kinrox-0.4.0-dependency-sources.tar.gz&lt;/code&gt; contains dependency sources, build recipes and patches. Licenses are included in the app. &lt;code&gt;SHA256SUMS.txt&lt;/code&gt; provides asset checksums; matching application source is available at tag &lt;code&gt;v0.4.0&lt;/code&gt;.&lt;/p&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.4.0/Kinrox-0.4.0-arm64.dmg" length="31396477" type="application/octet-stream" sparkle:edSignature="+RLPAanh8ufrvvD9BZFvijPtbg5CVvxRwayc2/9FK03TPZvhTq5hrdRLHMbPWD4SYj8EFtcu/mHZlLVuqPh6DQ==" />
+    </item>
+    <item>
       <title>Kinrox 0.3.0</title>
       <pubDate>Thu, 29 Oct 2026 17:24:33 +0000</pubDate>
       <sparkle:version>5</sparkle:version>

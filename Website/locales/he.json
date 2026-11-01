@@ -89,7 +89,7 @@
   "kinrox-is-written-in-swift-6-and-swiftui-on": "Kinrox כתוב ב-Swift 6 ו-SwiftUI על גבי libmpv. כל שורה של הנגן, השלט והפרוטוקול נמצאים ב-GitHub.",
   "mac-player-works": "נגן {0}{1}Mac - עובד",
   "iphone-remote-build-from-source": "שלט {0}{1}iPhone - בנייה מהמקור",
-  "mac-v0-3-0-signed-and-notarized-dmg": "{0}{1}Mac v0.3.0 - DMG חתום ונוטריוני",
+  "mac-v0-3-0-signed-and-notarized-dmg": "{0}{1}Mac v0.4.0 - DMG חתום ונוטריוני",
   "remote-on-the-app-store-planned": "{0}{1}Remote ב-App Store - מתוכנן",
   "releases": "משחרר",
   "build-from-source": "{0} בנה מהמקור",
