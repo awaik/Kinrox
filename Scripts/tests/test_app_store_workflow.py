@@ -57,6 +57,66 @@ class RegionalCopyTests(unittest.TestCase):
                            check=True, capture_output=True)
 
 
+class ManifestTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        (self.root / "Scripts").mkdir()
+        shutil.copy2(ROOT / "Scripts/prepare-app-store.py", self.root / "Scripts")
+        shutil.copytree(ROOT / "AppStore/copy", self.root / "AppStore/copy")
+        for path in (ROOT / "Resources/Localization").glob("*.lproj"):
+            (self.root / "Resources/Localization" / path.name).mkdir(parents=True)
+        self.manifest = self.root / "AppStore/manifest.json"
+
+    def prepare(self, *args):
+        subprocess.run([sys.executable, str(self.root / "Scripts/prepare-app-store.py"), *args],
+                       check=True, capture_output=True)
+
+    def test_regeneration_preserves_submission_and_refreshes_generated_metadata(self):
+        submission = {
+            "status": "WAITING_FOR_REVIEW", "app_store_id": "fixture-id",
+            "submitted_version": "0.1.0", "submitted_build": "1",
+            "submitted_at": "2026-10-28T09:53:10Z", "release_type": "MANUAL",
+            "delivery_record": "submission-fixture.json",
+        }
+        self.manifest.write_text(json.dumps({**submission, "locales": {}, "screenshots_per_locale": 0}))
+        self.prepare()
+        result = json.loads(self.manifest.read_text())
+        for key, value in submission.items():
+            self.assertEqual(result.get(key), value, key)
+        self.assertEqual(len(result["locales"]), 35)
+        self.assertEqual(result["screenshots_per_locale_per_size"], 5)
+        self.assertEqual(result["screenshots_per_locale"], 10)
+        self.assertEqual(result["screenshots_per_locale"],
+                         result["screenshots_per_locale_per_size"] * len(result["screenshot_sizes"]))
+        before = self.manifest.read_bytes()
+        self.prepare("--check")
+        self.assertEqual(self.manifest.read_bytes(), before)
+
+    def test_check_rejects_stale_or_missing_manifest_without_writing(self):
+        self.prepare()
+        original = self.manifest.read_bytes()
+        for stale in [{}, {**json.loads(original), "locales": {}},
+                      {**json.loads(original), "screenshots_per_locale": 0}]:
+            with self.subTest(stale=stale):
+                self.manifest.write_text(json.dumps(stale))
+                before = self.manifest.read_bytes()
+                with self.assertRaises(subprocess.CalledProcessError):
+                    self.prepare("--check")
+                self.assertEqual(self.manifest.read_bytes(), before)
+        self.manifest.unlink()  # Fixture created by this test.
+        with self.assertRaises(subprocess.CalledProcessError):
+            self.prepare("--check")
+        self.assertFalse(self.manifest.exists())
+
+    def test_first_generation_records_local_preparation(self):
+        self.prepare()
+        result = json.loads(self.manifest.read_text())
+        self.assertEqual(result["status"], "prepared_locally_not_uploaded")
+        self.assertNotIn("submitted_version", result)
+
+
 class CaptureTests(unittest.TestCase):
     def capture(self, fail=False, restore_fail=False):
         with tempfile.TemporaryDirectory() as directory:

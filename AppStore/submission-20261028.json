@@ -1,0 +1,28 @@
+{
+  "app_name": "Kinrox Remote",
+  "app_store_id": "6827926471",
+  "bundle_id": "app.kinrox.remote",
+  "version": "0.1.0",
+  "build": "1",
+  "version_id": "f9e66acd-01fa-4fec-9b7e-d1e2d516187f",
+  "submitted_at": "2026-10-28T09:53:10Z",
+  "status_verified_at": "2026-10-28T09:53:22Z",
+  "status": "WAITING_FOR_REVIEW",
+  "release_type": "MANUAL",
+  "localizations": 35,
+  "screenshots": 350,
+  "screenshot_state": "COMPLETE",
+  "build_state": "VALID",
+  "verification_errors": [],
+  "price": "FREE",
+  "territories_selected": 175,
+  "privacy": "DATA_NOT_COLLECTED",
+  "app_preview_uploaded": false,
+  "local_evidence": {
+    "verification": "DerivedData/AppStoreDelivery/store-verification.json",
+    "submission": "DerivedData/fastlane-submit.log",
+    "status": "DerivedData/fastlane-status-submitted.log",
+    "screenshots_and_precheck": "DerivedData/fastlane-screenshots-resume.log",
+    "build_upload": "DerivedData/fastlane-binary.log"
+  }
+}

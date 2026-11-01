@@ -21,6 +21,7 @@ dist/
 __pycache__/
 *.py[cod]
 AppStore/screenshots/
+fastlane/report.xml
 
 # Local configuration and credentials
 *.local.xcconfig

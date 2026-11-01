@@ -48,6 +48,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args()
+    manifest_path = ROOT / 'AppStore/manifest.json'
+    existing_manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+    manifest = dict(existing_manifest)
     copies = {}
     for path in sorted((ROOT / 'AppStore/copy').glob('*.json')):
         copy = json.loads(path.read_text())
@@ -92,14 +95,19 @@ def main():
         prepared.write_text('{\n' + ',\n'.join(
             '  ' + json.dumps(locale) + ': ' + json.dumps(copy, ensure_ascii=False)
             for locale, copy in localized.items()) + '\n}\n')
-    manifest = {'app_name':'Kinrox Remote', 'primary_locale':'en-US', 'bundle_id':'app.kinrox.remote',
-                'status':'prepared_locally_not_uploaded', 'locales':LOCALES,
+    # Delivery records are maintained separately from generated metadata.
+    manifest.setdefault('status', 'prepared_locally_not_uploaded')
+    manifest.update({'app_name':'Kinrox Remote', 'primary_locale':'en-US', 'bundle_id':'app.kinrox.remote',
+                'locales':LOCALES,
                 'unsupported_store_languages':{'fa':'No Persian metadata locale in Apple’s published list; app and screenshot translations retained.'},
-                'screenshots_per_locale':5, 'screenshot_sizes':[[1206,2622],[1320,2868]],
+                'screenshots_per_locale':10, 'screenshots_per_locale_per_size':5,
+                'screenshot_sizes':[[1206,2622],[1320,2868]],
                 'language_review':'Authored translations; native-language editorial review pending.',
-                'source':'https://developer.apple.com/documentation/appstoreconnectapi/managing-metadata-in-your-app-by-using-locale-shortcodes'}
-    if not args.check:
-        (ROOT / 'AppStore/manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n')
+                'source':'https://developer.apple.com/documentation/appstoreconnectapi/managing-metadata-in-your-app-by-using-locale-shortcodes'})
+    if args.check:
+        assert existing_manifest == manifest, 'Stale manifest; run prepare-app-store.py'
+    else:
+        manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n')
     print(f'Validated {len(copies)} app languages and {len(LOCALES)} App Store localizations.')
 
 

@@ -1,6 +1,25 @@
 # Kinrox Remote — App Store submission
 
-Prepared October 28, 2026. Assets and metadata exist locally; no app record, build or listing has been uploaded by this task. App Store Connect opened at its login page in Chrome. Membership, app-name availability and current account agreements have not been verified.
+Updated October 28, 2026. The preparation record below is retained for provenance;
+the following delivery record supersedes its outstanding-account assumptions.
+
+## Delivery record
+
+- Owner-created app: **Kinrox Remote**, Apple ID `6827926471`, bundle `app.kinrox.remote`.
+- Signed `0.1.0 (1)` archive and IPA exported with the existing Apple Distribution certificate for team `HV66937AWS`; uploaded through fastlane and processed successfully by Apple.
+- All 35 metadata localizations and 350 screenshots uploaded. Read-back verification passed for all localized fields, both screenshot sizes, image ordering, MD5 checksums, review contact and notes. All screenshots COMPLETE; build VALID. Fastlane precheck passed, including all public URLs.
+- App Review contact supplied by the owner and stored only in ignored local configuration. Final review notes contain the public version-specific Mac DMG URL.
+- Privacy published as **Data Not Collected** with the owner's explicit approval of Apple's declaration. Privacy and support pages return HTTP 200.
+- Free price saved; all 175 territories selected, subject to Apple's regional eligibility. The existing account declaration identifies this developer as not a trader; it was not changed.
+- iOS-on-Mac and Apple Vision Pro distribution disabled for this iPhone companion. Primary category Utilities, secondary Entertainment. Apple calculated 4+ with regional classifications.
+- `ITSAppUsesNonExemptEncryption = false`: the iOS app uses only Apple CryptoKit implementations of standard cryptographic primitives. No third-party crypto or libmpv is linked into iOS. See [Apple's encryption guidance](https://developer.apple.com/documentation/security/complying-with-encryption-export-regulations).
+- Submitted through fastlane on October 28, 2026 at 09:53 UTC; Apple's API confirmed `WAITING_FOR_REVIEW` at 09:53:22 UTC. First release remains manual after approval. No App Preview video uploaded; the owner requested only its script.
+- No licensing files changed. A native-speaker review and physical-device TestFlight smoke test of the exact processed build have not been performed by this task; previous simulator tests and owner-confirmed live Mac/iPhone checks remain the available evidence.
+
+## Historical preparation checklist
+
+The following sections describe the initial preparation, before the owner
+authorized delivery and created the App Store record.
 
 ## Prepared
 

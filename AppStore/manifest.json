@@ -2,7 +2,12 @@
   "app_name": "Kinrox Remote",
   "primary_locale": "en-US",
   "bundle_id": "app.kinrox.remote",
-  "status": "prepared_locally_not_uploaded",
+  "status": "WAITING_FOR_REVIEW",
+  "app_store_id": "6827926471",
+  "submitted_version": "0.1.0",
+  "submitted_build": "1",
+  "submitted_at": "2026-10-28T09:53:10Z",
+  "release_type": "MANUAL",
   "locales": {
     "en-US": "en",
     "en-GB": "en",
@@ -43,7 +48,7 @@
   "unsupported_store_languages": {
     "fa": "No Persian metadata locale in Apple’s published list; app and screenshot translations retained."
   },
-  "screenshots_per_locale": 5,
+  "screenshots_per_locale": 10,
   "screenshot_sizes": [
     [
       1206,
@@ -55,5 +60,6 @@
     ]
   ],
   "language_review": "Authored translations; native-language editorial review pending.",
-  "source": "https://developer.apple.com/documentation/appstoreconnectapi/managing-metadata-in-your-app-by-using-locale-shortcodes"
+  "source": "https://developer.apple.com/documentation/appstoreconnectapi/managing-metadata-in-your-app-by-using-locale-shortcodes",
+  "screenshots_per_locale_per_size": 5
 }

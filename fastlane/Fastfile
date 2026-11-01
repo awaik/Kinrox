@@ -1,0 +1,238 @@
+require "json"
+require "fileutils"
+require_relative "verify_store"
+
+default_platform(:ios)
+
+def kinrox_root
+  File.expand_path("..", __dir__)
+end
+
+def kinrox_api_key
+  app_store_connect_api_key(
+    key_id: ENV.fetch("ASC_KEY_ID"),
+    issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+    key_filepath: File.expand_path(ENV.fetch("ASC_KEY_PATH")),
+    duration: 1200,
+    in_house: false
+  )
+end
+
+def kinrox_app
+  Spaceship::ConnectAPI::App.find("app.kinrox.remote") || UI.user_error!("Create the Kinrox app record first")
+end
+
+def kinrox_version
+  "0.1.0"
+end
+
+def kinrox_review_contact
+  path = File.join(kinrox_root, "fastlane", ".env.review.json")
+  File.exist?(path) ? JSON.parse(File.read(path), symbolize_names: true) : {}
+end
+
+def ensure_review_contact!
+  required = %i[first_name last_name email_address phone_number]
+  contact = kinrox_review_contact
+  UI.user_error!("App Review contact is incomplete") unless required.all? { |key| !contact[key].to_s.strip.empty? }
+end
+
+def kinrox_delivery_options
+  {
+    api_key: kinrox_api_key,
+    app_identifier: "app.kinrox.remote",
+    app_version: kinrox_version,
+    platform: "ios",
+    metadata_path: File.join(kinrox_root, "AppStore/metadata"),
+    screenshots_path: File.join(kinrox_root, "DerivedData/AppStoreDelivery/screenshots"),
+    primary_category: "UTILITIES",
+    secondary_category: "ENTERTAINMENT",
+    copyright: "2026 Aleksei Savinykh",
+    app_rating_config_path: File.join(kinrox_root, "fastlane/age-rating.json"),
+    app_review_information: kinrox_review_contact.merge(
+      demo_account_required: false,
+      notes: File.read(File.join(kinrox_root, "AppStore/review/notes.txt"))
+    ),
+    automatic_release: false,
+    force: true,
+    precheck_include_in_app_purchases: false,
+    submission_information: {
+      add_id_info_uses_idfa: false,
+      # Export compliance is read from the signed build's Info.plist.
+      # Do not use deliver's legacy, ambiguously named encryption flag.
+      content_rights_contains_third_party_content: false
+    }
+  }
+end
+
+platform :ios do
+  desc "Inspect only the Kinrox app and bundle identifier"
+  lane :status do
+    kinrox_api_key
+    app = Spaceship::ConnectAPI::App.find("app.kinrox.remote")
+    UI.message(JSON.pretty_generate(app ? {
+      id: app.id, name: app.name, bundle_id: app.bundle_id,
+      versions: app.get_app_store_versions.map { |v| {
+        id: v.id, version: v.version_string, state: v.app_store_state
+      } }
+    } : { app: nil }))
+  end
+
+  desc "Register the bundle identifier and create the initial app record"
+  lane :prepare_app do
+    kinrox_api_key
+    bundle = Spaceship::ConnectAPI::BundleId.find("app.kinrox.remote")
+    bundle ||= Spaceship::ConnectAPI::BundleId.create(
+      name: "Kinrox Remote", platform: "IOS", identifier: "app.kinrox.remote"
+    )
+    UI.message("Bundle identifier: #{bundle.identifier} (#{bundle.id})")
+    unless Spaceship::ConnectAPI::App.find("app.kinrox.remote")
+      # Apple's API key authentication cannot create app records.
+      # Reuse the owner's existing Apple ID session for this single operation.
+      begin
+        Spaceship::ConnectAPI.token = nil
+        Spaceship::ConnectAPI.login(ENV.fetch("FASTLANE_USER"), use_portal: false)
+        Spaceship::ConnectAPI::App.create(
+          name: "Kinrox Remote", version_string: kinrox_version,
+          sku: "kinrox-remote-ios", primary_locale: "en-US",
+          bundle_id: "app.kinrox.remote", platforms: ["IOS"]
+        )
+      ensure
+        kinrox_api_key
+      end
+    end
+    UI.success("Kinrox app record: #{kinrox_app.id}")
+  end
+
+  desc "Create a signed App Store archive and IPA"
+  lane :build do
+    sh(File.join(kinrox_root, "Scripts/generate.sh"))
+    key = kinrox_api_key
+    profile = get_provisioning_profile(
+      api_key: key, app_identifier: "app.kinrox.remote", team_id: "HV66937AWS",
+      provisioning_name: "Kinrox Remote App Store", platform: "ios",
+      output_path: File.join(kinrox_root, "DerivedData/AppStoreDelivery"),
+      filename: "KinroxRemote.mobileprovision"
+    )
+    profile_name = lane_context[SharedValues::SIGH_NAME]
+    # Xcode's rsync must spawn the system rsync rather than Homebrew's variant.
+    ENV["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin:#{ENV.fetch('PATH')}"
+    build_app(
+      workspace: File.join(kinrox_root, "Kinrox.xcworkspace"), scheme: "RemoteiOS",
+      configuration: "Release", destination: "generic/platform=iOS",
+      archive_path: File.join(kinrox_root, "DerivedData/AppStoreDelivery/KinroxRemote.xcarchive"),
+      derived_data_path: File.join(kinrox_root, "DerivedData/AppStoreDelivery/Build"),
+      output_directory: File.join(kinrox_root, "DerivedData/AppStoreDelivery"),
+      output_name: "KinroxRemote.ipa", export_method: "app-store",
+      export_team_id: "HV66937AWS", xcodebuild_formatter: "",
+      xcargs: "CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY='Apple Distribution' " \
+        "DEVELOPMENT_TEAM=HV66937AWS PROVISIONING_PROFILE_SPECIFIER='#{profile_name}'",
+      export_options: {
+        signingStyle: "manual", signingCertificate: "Apple Distribution",
+        provisioningProfiles: { "app.kinrox.remote" => profile_name },
+        manageAppVersionAndBuildNumber: false
+      }
+    )
+  end
+
+  desc "Export the existing signed archive without rebuilding"
+  lane :export do
+    sh(File.join(kinrox_root, "Scripts/generate.sh"))
+    ENV["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin:#{ENV.fetch('PATH')}"
+    build_app(
+      workspace: File.join(kinrox_root, "Kinrox.xcworkspace"), scheme: "RemoteiOS",
+      skip_build_archive: true,
+      archive_path: File.join(kinrox_root, "DerivedData/AppStoreDelivery/KinroxRemote.xcarchive"),
+      output_directory: File.join(kinrox_root, "DerivedData/AppStoreDelivery"),
+      output_name: "KinroxRemote.ipa", export_method: "app-store",
+      export_team_id: "HV66937AWS", xcodebuild_formatter: "",
+      export_options: {
+        signingStyle: "manual",
+        signingCertificate: "Apple Distribution",
+        provisioningProfiles: { "app.kinrox.remote" => "Kinrox Remote App Store" },
+        manageAppVersionAndBuildNumber: false
+      }
+    )
+  end
+
+  desc "Upload the prepared localizations and screenshots"
+  lane :metadata do
+    ensure_review_contact!
+    stage_screenshots
+    upload_to_app_store(**kinrox_delivery_options.merge(
+      skip_binary_upload: true, submit_for_review: false
+    ))
+  end
+
+  desc "Resume screenshots, preserving already uploaded matching images"
+  lane :screenshots do
+    stage_screenshots
+    upload_to_app_store(**kinrox_delivery_options.merge(
+      skip_metadata: true, skip_binary_upload: true, submit_for_review: false,
+      overwrite_screenshots: false
+    ))
+  end
+
+  desc "Stage only the 35 supported locales without changing source artwork"
+  lane :stage_screenshots do
+    manifest = JSON.parse(File.read(File.join(kinrox_root, "AppStore/manifest.json")))
+    source_root = File.join(kinrox_root, "AppStore/screenshots/export-20261028-regional")
+    staging_root = File.join(kinrox_root, "DerivedData/AppStoreDelivery/screenshots")
+    staged_locales = Dir.glob(File.join(staging_root, "*")).select { |path| File.directory?(path) }.map { |path| File.basename(path) }
+    extra_locales = staged_locales - manifest.fetch("locales").keys
+    UI.user_error!("Unexpected staged screenshot locales: #{extra_locales.sort.join(', ')}") unless extra_locales.empty?
+    manifest.fetch("locales").each_key do |locale|
+      target = File.join(staging_root, locale)
+      screenshots = %w[1206x2622 1320x2868].flat_map do |size|
+        sources = Dir.glob(File.join(source_root, locale, size, "*.png")).sort
+        UI.user_error!("Expected five screenshots for #{locale}/#{size}") unless sources.size == 5
+        sources.map { |source| [source, "#{size}-#{File.basename(source)}"] }
+      end
+      FileUtils.mkdir_p(target)
+      extras = Dir.children(target) - screenshots.map(&:last)
+      UI.user_error!("Unexpected staged screenshots in #{locale}: #{extras.sort.join(', ')}") unless extras.empty?
+      screenshots.each do |source, name|
+        UI.user_error!("Source screenshot is missing: #{source}") unless File.file?(source)
+        destination = File.join(target, name)
+        if File.exist?(destination) || File.symlink?(destination)
+          UI.user_error!("Existing staged screenshot is missing or differs: #{destination}") unless
+            File.file?(destination) && File.realpath(destination) == File.realpath(source)
+        else
+          FileUtils.ln_s(source, destination)
+        end
+      end
+    end
+  end
+
+  desc "Upload the signed IPA and wait for Apple processing"
+  lane :binary do
+    upload_to_testflight(
+      api_key: kinrox_api_key, app_identifier: "app.kinrox.remote",
+      ipa: File.join(kinrox_root, "DerivedData/AppStoreDelivery/KinroxRemote.ipa"),
+      skip_waiting_for_build_processing: false,
+      distribute_external: false,
+      skip_submission: true
+    )
+  end
+
+  desc "Submit the processed build for review with manual release"
+  lane :submit do
+    ensure_review_contact!
+    upload_to_app_store(**kinrox_delivery_options.merge(
+      # Metadata delivery runs precheck; the verify lane reads back the final kit.
+      skip_binary_upload: true, skip_screenshots: true, skip_metadata: true,
+      run_precheck_before_submit: false,
+      build_number: "1", submit_for_review: true
+    ))
+  end
+
+  desc "Verify Apple's stored copy, screenshot order and checksums, and processed build"
+  lane :verify do
+    stage_screenshots
+    kinrox_api_key
+    app = kinrox_app
+    version = app.get_app_store_versions.find { |v| v.version_string == kinrox_version }
+    UI.user_error!("Expected app version is missing") unless version
+    UI.message(JSON.pretty_generate(KinroxStoreVerification.run(kinrox_root, app, version)))
+  end
+end

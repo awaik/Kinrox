@@ -1,0 +1,21 @@
+Kinrox Remote is a companion remote for the Kinrox video player on Mac. It does not play or stream video on iPhone. It uses the local network only; there is no cloud account, subscription, advertising SDK or analytics service.
+
+You can inspect the interface without a Mac:
+
+1. Open Kinrox Remote on iPhone.
+2. Open Settings from the players screen.
+3. Choose "Try Demo without Mac".
+4. Select MacBook Pro to try playback controls and the recent-file list.
+5. To try the pairing UI in demo mode, select "Mac mini - Living Room" and use the code displayed by the demo (482913). This is a demo-only code and never authenticates a real connection.
+6. Exit Demo from Settings to use a real Mac.
+
+For real functionality:
+
+1. Download the signed Kinrox Mac player from https://github.com/awaik/Kinrox/releases/download/v0.1.0/Kinrox-0.1.0-arm64.dmg and launch it on a Mac with Apple Silicon running macOS 14 or later. The download is public and free.
+2. Keep Mac and iPhone on the same normal local network. Allow Local Network access on both devices; guest-network client isolation must be disabled for the devices to reach each other.
+3. Enable the remote in the Mac player's settings and open Connect iPhone.
+4. On iPhone, select the Mac and enter the six-digit code currently shown by that Mac. Codes expire after two minutes; request a new one if necessary.
+5. Open an owned local MP4 or MKV on the Mac. Pause, seek, change volume, switch fullscreen, and open an available file from Recents using the iPhone.
+6. Next/Previous navigate video files in the current Mac folder. An unavailable recent file cannot be opened.
+
+The demo uses fictional filenames and no network. The live mode uses Network.framework and Apple CryptoKit to protect pairing and control messages. No account deletion flow applies because no user account is created.
