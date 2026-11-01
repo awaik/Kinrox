@@ -1,6 +1,8 @@
 # Spotify playback: stale polling response after a command
 
-Status: implemented locally; 183 Mac tests passed. Not published.
+Status: released in Mac 0.4.1 (build 7) on 2026-11-01 at the owner's request.
+The investigation below records the original local handoff; subsequent release
+checks and limitations are documented in the [0.4.1 release notes](../../releases/0.4.1.md).
 
 ## Report and live evidence
 

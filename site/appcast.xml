@@ -6,6 +6,25 @@
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
     <item>
+      <title>Kinrox 0.4.1</title>
+      <pubDate>Sun, 01 Nov 2026 16:48:20 +0000</pubDate>
+      <sparkle:version>7</sparkle:version>
+      <sparkle:shortVersionString>0.4.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.4.1</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Spotify playback reliability and fullscreen video fixes. Requires an &lt;b&gt;Apple Silicon Mac with macOS 14 Sonoma or later&lt;/b&gt;. Version 0.4.1, build 7.&lt;/p&gt;
+&lt;p&gt;Download &lt;code&gt;Kinrox-0.4.1-arm64.dmg&lt;/code&gt;, open it, and drag Kinrox to Applications. All video playback libraries are bundled; Homebrew and Xcode are not required. Users of 0.3.0 or later can use Check for Updates.&lt;/p&gt;
+&lt;h3&gt;Fixed&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;A delayed Spotify poll response could overwrite the state of a completed playback command or stop further polling. Superseded responses and errors are now ignored; current playback failures still report normally.&lt;/li&gt;&lt;li&gt;Fullscreen video now fills the window without reserving space for the Video/Music mode picker. The picker returns when leaving fullscreen, preserving the video view.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Compatibility and verification&lt;/h3&gt;
+&lt;p&gt;Spotify setup and features remain as described in the &lt;a href="https://github.com/awaik/Kinrox/blob/v0.4.1/docs/releases/0.4.0.md"&gt;0.4.0 release notes&lt;/a&gt;. The SQLite cache and playback-latency work is a reviewed implementation plan and is not included in this release. The companion iPhone app is released separately.&lt;/p&gt;
+&lt;p&gt;Release verification uses macOS 26.5.2. macOS 14 remains the deployment minimum; live Spotify playback and a physical iPhone have not been rechecked for this patch. The full Mac suite passed on rerun (183 tests; two intentionally skipped), alongside 27 music-package tests, 126 protocol/transport tests, and 45 release-tooling tests. The first Mac run encountered a Matrix transport disconnection; that suite passed in isolation and the subsequent full run passed. Localization and formatting checks also passed.&lt;/p&gt;
+&lt;p&gt;Both the app and DMG passed Apple notarization. The mounted app passed signature, Gatekeeper, stapling and bundled-library checks, and its welcome window opened. The additional interactive pairing/playback smoke check could not finish because the computer-use tool became unavailable. Automated Mac tests cover pairing, playback and the fullscreen layout regression.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Kinrox-0.4.1-dependency-sources.tar.gz&lt;/code&gt; contains dependency sources, build recipes and patches. Licenses are included in the app. &lt;code&gt;SHA256SUMS.txt&lt;/code&gt; provides asset checksums; matching application source is available at tag &lt;code&gt;v0.4.1&lt;/code&gt;.&lt;/p&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.4.1/Kinrox-0.4.1-arm64.dmg" length="31396477" type="application/octet-stream" sparkle:edSignature="+JmwWv/XaMSYYz2BzC8eQva8j6q6dpFpywEdE6gF8Hr55d0Kk8k0MEz28w1pF/1qcqIDM6pTlG++W9PhrNUdDg==" />
+    </item>
+    <item>
       <title>Kinrox 0.4.0</title>
       <pubDate>Sun, 01 Nov 2026 09:56:13 +0000</pubDate>
       <sparkle:version>6</sparkle:version>
