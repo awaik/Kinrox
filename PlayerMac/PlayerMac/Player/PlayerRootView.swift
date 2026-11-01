@@ -8,8 +8,10 @@ struct PlayerRootView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                AppModePicker(session: session).frame(width: 198).frame(maxWidth: .infinity)
-                    .frame(height: 52).background(Palette.elevated)
+                if !video.model.isFullscreen {
+                    AppModePicker(session: session).frame(width: 198).frame(maxWidth: .infinity)
+                        .frame(height: 52).background(Palette.elevated)
+                }
                 video
             }.opacity(session.mode == .video ? 1 : 0)
                 .allowsHitTesting(session.mode == .video).accessibilityHidden(

@@ -2,3 +2,7 @@ CODE_SIGN_STYLE = Automatic
 
 // Shared and personal settings are included after platform values.
 #include "Shared.xcconfig"
+
+// Remote releases are versioned independently from the Mac player.
+MARKETING_VERSION = 0.2.0
+CURRENT_PROJECT_VERSION = 2

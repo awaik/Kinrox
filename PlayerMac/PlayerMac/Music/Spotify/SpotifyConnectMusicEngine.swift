@@ -22,6 +22,7 @@ final class SpotifyConnectMusicEngine: MusicEngine {
     var repeatMode = MusicRepeat.off
     var polling: Task<Void, Never>?
     var isCommandRunning = false
+    private(set) var commandGeneration: UInt64 = 0
     var isClosed = false
     var endReported = false
     var onPlaylistCreated: ((String) -> Void)?
@@ -48,7 +49,7 @@ final class SpotifyConnectMusicEngine: MusicEngine {
             throw SpotifyPlaybackError.restricted
         }
         try requireAllowed("interrupting_playback")
-        isCommandRunning = true
+        beginCommand()
         var requestedPlay = false
         defer { isCommandRunning = false }
         do {
@@ -92,7 +93,7 @@ final class SpotifyConnectMusicEngine: MusicEngine {
 
     func setPaused(_ paused: Bool) async throws {
         guard !isClosed, let deviceID, !mirrored.isEmpty else { return }
-        isCommandRunning = true
+        beginCommand()
         defer { isCommandRunning = false }
         guard let state = try await client.playback() else {
             if paused { return }
@@ -112,7 +113,7 @@ final class SpotifyConnectMusicEngine: MusicEngine {
 
     func seek(absolute position: Double) async throws {
         guard position.isFinite, let deviceID, !isClosed else { return }
-        isCommandRunning = true
+        beginCommand()
         defer { isCommandRunning = false }
         guard let state = try await client.playback() else { throw SpotifyError.noDevice }
         try validateContext(state)
@@ -125,7 +126,7 @@ final class SpotifyConnectMusicEngine: MusicEngine {
 
     func setVolume(_ volume: Double) async throws {
         guard volume.isFinite, !isClosed else { return }
-        isCommandRunning = true
+        beginCommand()
         defer { isCommandRunning = false }
         let device = try await selectDevice(requiresVolume: true)
         try requireAllowed("volume")
@@ -141,7 +142,7 @@ final class SpotifyConnectMusicEngine: MusicEngine {
         guard !isClosed, !mirrored.isEmpty, queue.current != nil else { return }
         if mirrored == queue.items {
             guard queue.repeatMode != repeatMode, let deviceID else { return }
-            isCommandRunning = true
+            beginCommand()
             defer { isCommandRunning = false }
             try requireAllowed(
                 queue.repeatMode == .one || repeatMode == .one
@@ -154,7 +155,7 @@ final class SpotifyConnectMusicEngine: MusicEngine {
         if paused {
             try await setPaused(true)
             guard let playlistID else { return }
-            isCommandRunning = true
+            beginCommand()
             defer { isCommandRunning = false }
             try await mirror(queue, playlistID: playlistID)
             return
@@ -175,6 +176,12 @@ final class SpotifyConnectMusicEngine: MusicEngine {
         try? await setPaused(true)
         isClosed = true
         continuation.finish()
+    }
+
+    private func beginCommand() {
+        // A poll can finish after an entire command, when the Boolean is false again.
+        commandGeneration &+= 1
+        isCommandRunning = true
     }
 
     private func selectDevice(requiresVolume: Bool = false) async throws -> String {

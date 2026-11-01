@@ -91,14 +91,24 @@ extension SpotifyConnectMusicEngine {
                 do {
                     try await Task.sleep(
                         for: self.lastState?.paused == true ? .seconds(10) : self.pollInterval)
-                    guard !self.isCommandRunning else { continue }
+                } catch { return }
+                guard !self.isCommandRunning else { continue }
+                let generation = self.commandGeneration
+                do {
                     guard let state = try await self.client.playback() else {
                         throw SpotifyError.noDevice
                     }
-                    guard !self.isCommandRunning else { continue }
+                    guard !self.isClosed, !self.isCommandRunning,
+                        generation == self.commandGeneration
+                    else { continue }
                     try self.validateContext(state)
                     self.publish(state, detectAdvance: true)
                 } catch is CancellationError { return } catch {
+                    // Errors from a superseded request must not retire the polling
+                    // task that a newer successful command still relies on.
+                    guard !self.isClosed, !self.isCommandRunning,
+                        generation == self.commandGeneration
+                    else { continue }
                     self.continuation.yield(.failure(SpotifyStatus.message(error)))
                     // Authentication, device changes and quota exhaustion need an
                     // explicit user action; an unattended poll never retries them.
