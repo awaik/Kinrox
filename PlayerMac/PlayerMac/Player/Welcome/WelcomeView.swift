@@ -23,17 +23,21 @@ struct WelcomeView: View {
         GeometryReader { geometry in
             ZStack(alignment: .bottom) {
                 Palette.base
-                Ellipse()
-                    .fill(
-                        RadialGradient(
-                            colors: [Palette.ember.opacity(0.34), Palette.ember.opacity(0)],
-                            center: .center, startRadius: 0, endRadius: 460)
-                    )
-                    .frame(width: 920, height: 540)
-                    .blur(radius: 50)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .offset(y: -300)
-                    .allowsHitTesting(false)
+                    .overlay(alignment: .top) {
+                        // Decoration must not widen the scroll viewport in narrow windows.
+                        Ellipse()
+                            .fill(
+                                RadialGradient(
+                                    colors: [
+                                        Palette.ember.opacity(0.34), Palette.ember.opacity(0),
+                                    ],
+                                    center: .center, startRadius: 0, endRadius: 460)
+                            )
+                            .frame(width: 920, height: 540)
+                            .blur(radius: 50)
+                            .offset(y: -300)
+                            .allowsHitTesting(false)
+                    }
                 ScrollView {
                     VStack(spacing: 0) {
                         if let updates, let update {
@@ -166,6 +170,7 @@ struct WelcomeView: View {
                 }
             }
         }
-        .fixedSize(horizontal: true, vertical: false)
+        // Use the actual columns, not the grid's unconstrained ideal width.
+        .frame(width: CGFloat(columns) * Self.cardWidth + CGFloat(columns - 1) * Self.cardSpacing)
     }
 }
