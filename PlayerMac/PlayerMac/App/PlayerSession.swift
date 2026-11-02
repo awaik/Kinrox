@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import SpotifyWebAPI
 
 enum AppMode { case video, music }
 
@@ -30,9 +31,35 @@ final class PlayerSession {
         self.recents = recents
         music = MusicViewModel(
             store: demoMusic ? DemoMusicLibraryStore() : DisconnectedMusicLibraryStore())
-        spotify.onConnected = { [weak self] client in
-            guard let self else { return }
-            let store = SpotifyLibraryStore(client: client)
+        spotify.onInteractiveConnection = { [weak self] in
+            guard let self, !demoMusic else { return }
+            (self.music.store as? SpotifyLibraryStore)?.retire()
+            self.music.replaceStore(DisconnectedMusicLibraryStore())
+            self.music.engineFactory = nil
+            self.music.acceptsPlayback = false
+        }
+        spotify.onRestore = { [weak self] client, binding, cache in
+            guard let self, !demoMusic else { return }
+            let store = SpotifyLibraryStore(client: client, cache: cache, connected: false)
+            self.music.replaceStore(store, accountName: binding.accountName)
+            self.music.acceptsPlayback = false
+            await store.restore()
+        }
+        spotify.onConnected = { [weak self] client, profile, cache in
+            guard let self, !demoMusic else { return }
+            let store: SpotifyLibraryStore
+            if let restored = self.music.store as? SpotifyLibraryStore,
+                restored.client === client, restored.library.userID == profile.id
+            {
+                store = restored
+                store.isConnected = true
+            } else {
+                (self.music.store as? SpotifyLibraryStore)?.retire()
+                store = SpotifyLibraryStore(client: client, profile: profile, cache: cache)
+                self.music.replaceStore(store, accountName: self.spotify.accountName)
+                await store.restore()
+            }
+            guard !store.isClosed else { return }
             let clientID = self.spotify.clientID
             let userID = self.spotify.userID ?? ""
             let factory: () -> any MusicEngine = { [weak store, weak self] in
@@ -45,7 +72,7 @@ final class PlayerSession {
                 }
                 return engine
             }
-            self.music.replaceStore(store, accountName: self.spotify.accountName)
+            self.music.accountName = self.spotify.accountName
             self.music.acceptsPlayback = true
             self.music.engineFactory = factory
             self.music.connect(engine: factory())
@@ -61,6 +88,9 @@ final class PlayerSession {
             self.playback.cancelPending(.music)
             await self.playback.settle()
             await self.music.shutdownPlayback()
+            self.music.syncTask?.cancel()
+            self.music.browsingTask?.cancel()
+            (self.music.store as? SpotifyLibraryStore)?.retire()
         }
         playback.connect(video: nil, music: music)
     }

@@ -1,171 +1,211 @@
 import Foundation
 import MusicCore
+import OSLog
 import SpotifyWebAPI
 
 @MainActor
 final class SpotifyLibraryStore: MusicLibraryStore {
-    private(set) var catalog = MusicCatalog()
-    private(set) var library = LibrarySnapshot(userID: "")
-    private let client: SpotifyClient
-    private let favorites: FavoritesService
-    private var index = PlaylistMembershipIndex()
-    private var loadedAlbums = Set<String>()
+    var catalog = MusicCatalog()
+    var library: LibrarySnapshot
+    let client: SpotifyClient
+    let favorites: FavoritesService
+    let cache: SpotifyCacheStore?
+    let now: @Sendable () -> Date
+    var index = PlaylistMembershipIndex()
+    var resources: [String: SpotifyResourceState] = [:]
+    var tasks: [String: Task<Void, any Error>] = [:]
+    var subscriptions: [String: Set<UUID>] = [:]
+    var sessionGeneration = UUID()
+    var mutationRevision: UInt64 = 0
+    var revisions: [String: UInt64] = [:]
+    var pendingResources = Set<String>()
+    var needsRevalidation = Set<String>()
+    var revalidationTask: Task<Void, Never>?
+    var mutationBusy = false
+    var mutationWaiters: [CheckedContinuation<Void, Never>] = []
+    var publicationRevision: UInt64 = 0
+    var isClosed = false
+    var isConnected: Bool
+    var isRefreshing = false
+    var isRestoring = false
+    var restoreWaiters: [CheckedContinuation<Void, Never>] = []
+    var cacheIsStale = false
+    var onChange: (() -> Void)?
     var queuePlaylistID: String?
-    private var pendingCreation: (title: String, trackID: String, playlist: MusicPlaylist)?
+    var confirmedMutationSnapshots: [String: String] = [:]
+    var pendingCreation: (title: String, trackID: String, playlist: MusicPlaylist)?
+    var searchCache: [String: (date: Date, catalog: MusicCatalog)] = [:]
+    var embeddedAlbums: [String: SpotifyAlbum] = [:]
 
-    init(client: SpotifyClient) {
+    init(
+        client: SpotifyClient, profile: SpotifyProfile? = nil, cache: SpotifyCacheStore? = nil,
+        connected: Bool = true, now: @escaping @Sendable () -> Date = { Date() }
+    ) {
         self.client = client
+        self.cache = cache
+        self.now = now
+        self.isConnected = connected
+        library = LibrarySnapshot(userID: profile?.id ?? "")
         favorites = FavoritesService(client: client)
+    }
+
+    var isInitialLoading: Bool {
+        !resources[
+            "albums",
+            default: .init(isComplete: false, fetchedAt: .distantPast, expiresAt: .distantPast)
+        ].isComplete
+    }
+
+    func restore() async {
+        guard let cache else { return }
+        let session = sessionGeneration
+        isRestoring = true
+        defer {
+            isRestoring = false
+            let waiters = restoreWaiters
+            restoreWaiters.removeAll()
+            for waiter in waiters { waiter.resume() }
+        }
+        do {
+            await cache.activate(session)
+            let preview = try await cache.preview()
+            guard !isClosed, session == sessionGeneration else { return }
+            install(preview)
+            let restored = try await cache.restore()
+            guard !isClosed, session == sessionGeneration else { return }
+            install(restored)
+        } catch is CancellationError {} catch { cacheFailure() }
+    }
+
+    func install(_ snapshot: SpotifyCachedLibrary) {
+        library = snapshot.library
+        catalog = snapshot.catalog
+        resources = snapshot.resources
+        rebuildIndex()
+        onChange?()
+    }
+    func awaitRestore() async {
+        if isRestoring { await withCheckedContinuation { restoreWaiters.append($0) } }
+    }
+
+    func retire() {
+        isClosed = true
+        isConnected = false
+        sessionGeneration = UUID()
+        for task in tasks.values { task.cancel() }
+        tasks.removeAll()
+        revalidationTask?.cancel()
+        revalidationTask = nil
+        searchCache.removeAll()
+        onChange = nil
     }
 
     func excludeQueuePlaylist(_ id: String) {
         queuePlaylistID = id
         library.playlists.removeAll { $0.id == id }
+        resources["playlist:" + id] = nil
+        rebuildIndex()
     }
 
-    /// Atomic publication: a cancelled or partial sync never replaces a complete cache.
     func refresh() async throws {
-        _ = try await favorites.apply([], to: library)
-        let profile = try await client.profile()
-        let liked = try await client.likedTracks()
-        let albums = try await client.savedAlbums()
-        let artists = try await client.followedArtists()
-        let playlists = try await client.playlists()
-        var nextCatalog = catalog
-        merge(
-            tracks: liked.compactMap { $0.model() },
-            albums: liked.compactMap { $0.album?.model() } + albums.map { $0.model() },
-            artists: artists, into: &nextCatalog)
-        var nextIndex = index
-        var editable: [MusicPlaylist] = []
-        for remote in playlists where remote.id != queuePlaylistID {
-            var playlist = remote.model()
-            guard playlist.isEditable(by: profile.id) else { continue }
-            if let cached = index.trackIDs(playlistID: playlist.id, snapshotID: playlist.snapshotID)
-            {
-                playlist.trackIDs = cached
-            } else {
-                let entries = try await client.playlistItems(playlist.id)
-                // Keep placeholders for local/unavailable items to retain exact Spotify positions.
-                playlist.trackIDs = entries.enumerated().map { offset, entry in
-                    entry.value?.id ?? "unavailable:\(offset)"
+        guard !isRefreshing else { return }
+        try requireConnection()
+        isRefreshing = true
+        defer { isRefreshing = false }
+        try await settleCompensation()
+        if library.userID.isEmpty { library.userID = try await client.profile().id }
+        try await SpotifyRequestContext.$priority.withValue(.background) {
+            async let albums: Void = loadCollection("albums", force: true)
+            async let playlists: Void = loadCollection("playlists", force: true)
+            _ = try await (albums, playlists)
+            async let liked: Void = loadCollection("liked", force: true)
+            async let artists: Void = loadCollection("artists", force: true)
+            _ = try await (liked, artists)
+            for playlist in library.editablePlaylists {
+                try Task.checkCancellation()
+                if resources["playlist:" + playlist.id]?.snapshotID != playlist.snapshotID
+                    || resources["playlist:" + playlist.id]?.isComplete != true
+                {
+                    try await ensurePlaylistLoaded(playlist.id)
                 }
-                let tracks = entries.compactMap { $0.value?.model() }
-                merge(
-                    tracks: tracks, albums: entries.compactMap { $0.value?.album?.model() },
-                    artists: [], into: &nextCatalog)
-                nextIndex.update(
-                    playlistID: playlist.id, snapshotID: playlist.snapshotID,
-                    trackIDs: playlist.trackIDs)
             }
-            editable.append(playlist)
         }
-        nextIndex.retain(Set(editable.map(\.id)))
-        try Task.checkCancellation()
-        var mergedCatalog = catalog
-        merge(
-            tracks: nextCatalog.tracks, albums: nextCatalog.albums, artists: nextCatalog.artists,
-            into: &mergedCatalog)
-        catalog = mergedCatalog
-        library = LibrarySnapshot(
-            userID: profile.id, likedTrackIDs: Set(liked.compactMap(\.id)),
-            savedAlbumIDs: Set(albums.map(\.id)), followedArtistIDs: Set(artists.map(\.id)),
-            playlists: editable)
-        index = nextIndex
     }
 
-    func loadAlbum(_ id: String) async throws {
-        guard !loadedAlbums.contains(id) else { return }
-        let album = try await client.album(id)
-        let tracks = try await client.albumTracks(id).compactMap { $0.model(album: album) }
+    func requireConnection() throws {
+        guard !isClosed, isConnected else { throw SpotifyError.authentication }
         try Task.checkCancellation()
-        merge(
-            tracks: tracks, albums: [album.model(trackIDs: tracks.map(\.id))],
-            artists: album.artists, into: &catalog)
-        loadedAlbums.insert(id)
     }
-
-    func loadArtist(_ id: String) async throws {
-        let albums = try await client.artistAlbums(id)
-        try Task.checkCancellation()
-        merge(tracks: [], albums: albums.map { $0.model() }, artists: [], into: &catalog)
+    func fresh(_ key: String) -> Bool { resources[key]?.isFresh(at: now()) == true }
+    func mark(_ key: String, ttl: TimeInterval = 300, etag: String? = nil, snapshot: String? = nil)
+    {
+        resources[key] = SpotifyResourceState(
+            etag: etag, snapshotID: snapshot,
+            fetchedAt: now(), expiresAt: now().addingTimeInterval(ttl))
     }
-
-    func search(_ query: String) async throws -> MusicCatalog {
-        let results = try await client.search(query)
-        let tracks = results.tracks?.items.compactMap { $0.model() } ?? []
-        let albums =
-            (results.albums?.items ?? []).map { $0.model() }
-            + (results.tracks?.items ?? []).compactMap { $0.album?.model() }
-        let artists = results.artists?.items ?? []
-        try Task.checkCancellation()
-        merge(tracks: tracks, albums: albums, artists: artists, into: &catalog)
-        var result = MusicCatalog()
-        merge(tracks: tracks, albums: albums, artists: artists, into: &result)
-        return result
+    func stamp(_ key: String) -> String {
+        "\(sessionGeneration):\(key):\(revisions[key, default: 0])"
     }
-
-    func apply(_ mutations: [LibraryMutation]) async throws {
-        let next = try await favorites.apply(mutations, to: library)
-        library = next
-        for playlist in next.playlists {
+    func accepts(_ key: String, stamp: String) -> Bool {
+        let valid =
+            !Task.isCancelled && !isClosed && self.stamp(key) == stamp
+            && !pendingResources.contains(key)
+        if !valid, !isClosed { needsRevalidation.insert(key) }
+        return valid
+    }
+    func shared(_ key: String, operation: @escaping @MainActor () async throws -> Void) async throws
+    {
+        try requireConnection()
+        let taskKey = stamp(key)
+        let subscriber = UUID()
+        let task: Task<Void, any Error>
+        if let existing = tasks[taskKey], !existing.isCancelled {
+            task = existing
+        } else {
+            task = Task {
+                try await SpotifyRequestContext.$revision.withValue(taskKey, operation: operation)
+            }
+            tasks[taskKey] = task
+        }
+        subscriptions[taskKey, default: []].insert(subscriber)
+        defer { detach(subscriber, from: taskKey) }
+        try await withTaskCancellationHandler {
+            try await task.value
+            try Task.checkCancellation()
+        } onCancel: {
+            Task { @MainActor [weak self] in self?.detach(subscriber, from: taskKey) }
+        }
+    }
+    func detach(_ subscriber: UUID, from key: String) {
+        guard subscriptions[key]?.remove(subscriber) != nil else { return }
+        if subscriptions[key]?.isEmpty == true {
+            tasks[key]?.cancel()
+            tasks[key] = nil
+            subscriptions[key] = nil
+        }
+    }
+    func publish() async {
+        guard !isClosed else { return }
+        onChange?()
+        guard let cache else { return }
+        publicationRevision &+= 1
+        let value = SpotifyCachedLibrary(library: library, catalog: catalog, resources: resources)
+        do {
+            try await cache.save(value, revision: publicationRevision, session: sessionGeneration)
+        } catch { cacheFailure() }
+    }
+    func cacheFailure() {
+        cacheIsStale = true
+        Logger(subsystem: "app.kinrox.player", category: "SpotifyCache")
+            .error("Spotify metadata cache unavailable; confirmed session state retained.")
+    }
+    func rebuildIndex() {
+        index = PlaylistMembershipIndex()
+        for playlist in library.playlists
+        where resources["playlist:" + playlist.id]?.isComplete == true {
             index.update(
                 playlistID: playlist.id, snapshotID: playlist.snapshotID,
                 trackIDs: playlist.trackIDs)
-        }
-    }
-
-    func createPlaylist(title: String, trackID: String) async throws -> MusicPlaylist {
-        var playlist: MusicPlaylist
-        if let pendingCreation, pendingCreation.title == title, pendingCreation.trackID == trackID {
-            playlist = pendingCreation.playlist
-        } else {
-            playlist = try await client.createPlaylist(name: title).model()
-            pendingCreation = (title, trackID, playlist)
-            library.playlists.append(playlist)
-        }
-        playlist.snapshotID = try await client.insertItems(
-            playlistID: playlist.id, uris: ["spotify:track:" + trackID], position: 0)
-        playlist.trackIDs = [trackID]
-        pendingCreation = nil
-        if let index = library.playlists.firstIndex(where: { $0.id == playlist.id }) {
-            library.playlists[index] = playlist
-        }
-        index.update(
-            playlistID: playlist.id, snapshotID: playlist.snapshotID, trackIDs: playlist.trackIDs)
-        return playlist
-    }
-
-    private func merge(
-        tracks: [MusicTrack], albums: [MusicAlbum], artists: [MusicArtist],
-        into catalog: inout MusicCatalog
-    ) {
-        var trackIndices = Dictionary(
-            catalog.tracks.enumerated().map { ($0.element.id, $0.offset) },
-            uniquingKeysWith: { first, _ in first })
-        for track in tracks {
-            if let index = trackIndices[track.id] {
-                catalog.tracks[index] = track
-            } else {
-                trackIndices[track.id] = catalog.tracks.count
-                catalog.tracks.append(track)
-            }
-        }
-        for album in albums {
-            if let index = catalog.albums.firstIndex(where: { $0.id == album.id }) {
-                if !album.trackIDs.isEmpty || catalog.albums[index].trackIDs.isEmpty {
-                    catalog.albums[index] = album
-                }
-            } else {
-                catalog.albums.append(album)
-            }
-        }
-        for artist in artists + tracks.flatMap(\.artists) + albums.flatMap(\.artists) {
-            if let index = catalog.artists.firstIndex(where: { $0.id == artist.id }) {
-                catalog.artists[index] = artist
-            } else {
-                catalog.artists.append(artist)
-            }
         }
     }
 }

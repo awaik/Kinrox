@@ -7,7 +7,7 @@ import SpotifyWebAPI
 @MainActor
 final class FavoritesService {
     private let client: SpotifyClient
-    private var pendingCompensation: [LibraryMutation] = []
+    private(set) var pendingCompensation: [LibraryMutation] = []
     init(client: SpotifyClient) { self.client = client }
 
     func apply(_ mutations: [LibraryMutation], to snapshot: LibrarySnapshot) async throws

@@ -4,7 +4,9 @@ import SpotifyWebAPI
 
 @MainActor @Observable
 final class SpotifyAccount {
-    var clientID: String
+    var clientID: String {
+        didSet { if clientID != oldValue && !connected { onInteractiveConnection?() } }
+    }
     var termsAccepted: Bool
     static let consentPreference = "app.kinrox.spotify.acceptedTerms"
     private(set) var accountName: String?
@@ -12,7 +14,12 @@ final class SpotifyAccount {
     private(set) var isConnecting = false
     private(set) var client: SpotifyClient?
     var errorMessage: String?
-    var onConnected: ((SpotifyClient) -> Void)?
+    var onConnected: ((SpotifyClient, SpotifyProfile, SpotifyCacheStore) async -> Void)?
+    var onInteractiveConnection: (() -> Void)?
+    var onRestore: ((SpotifyClient, SpotifyAccountBinding, SpotifyCacheStore) async -> Void)?
+    private(set) var cache: SpotifyCacheStore?
+    private var pendingClient: SpotifyClient?
+    static let bindingPreference = "app.kinrox.spotify.verifiedAccount"
     var onDisconnected: (() -> Void)?
     var beforeDisconnect: (() async -> Void)?
     private let credentials: any SpotifyCredentialStore
@@ -57,6 +64,7 @@ final class SpotifyAccount {
             return
         }
         defaults.set(SpotifyDocuments.currentVersion, forKey: Self.consentPreference)
+        onInteractiveConnection?()
         begin(interactive: true)
     }
 
@@ -79,15 +87,27 @@ final class SpotifyAccount {
                 }
             }
             do {
+                let client = SpotifyClient { [weak self] force in
+                    guard let self else { throw SpotifyError.authentication }
+                    return try await self.accessToken(force: force, generation: generation)
+                }
+                self.pendingClient = client
+                if !interactive, try self.credentials.refreshToken(clientID: id) != nil,
+                    let data = self.defaults.data(forKey: Self.bindingPreference),
+                    let binding = try? JSONDecoder().decode(SpotifyAccountBinding.self, from: data),
+                    binding.clientID == id
+                {
+                    let cache = SpotifyCacheStore(
+                        clientID: id, userID: binding.userID, displayName: binding.accountName)
+                    self.cache = cache
+                    await self.onRestore?(client, binding, cache)
+                    guard self.generation == generation else { throw CancellationError() }
+                }
                 let tokens = try await self.authenticate(
                     authorization, interactive: interactive, generation: generation)
                 guard self.generation == generation else { throw CancellationError() }
                 self.activeClientID = id
                 self.install(tokens)
-                let client = SpotifyClient { [weak self] force in
-                    guard let self else { throw SpotifyError.authentication }
-                    return try await self.accessToken(force: force, generation: generation)
-                }
                 let profile = try await client.profile()
                 guard self.generation == generation else {
                     await client.close()
@@ -98,12 +118,24 @@ final class SpotifyAccount {
                 self.userID = profile.id
                 self.client = client
                 self.defaults.set(id, forKey: Self.preference)
-                self.onConnected?(client)
+                let binding = SpotifyAccountBinding(
+                    clientID: id, userID: profile.id, accountName: self.accountName ?? profile.id)
+                self.defaults.set(try JSONEncoder().encode(binding), forKey: Self.bindingPreference)
+                if self.cache?.userID != profile.id || self.cache?.clientID != id {
+                    if let previous = self.cache { try? await previous.destroyAccountCache() }
+                    guard self.generation == generation else { throw CancellationError() }
+                    self.cache = SpotifyCacheStore(
+                        clientID: id, userID: profile.id, displayName: binding.accountName)
+                }
+                if let cache = self.cache { await self.onConnected?(client, profile, cache) }
+                self.pendingClient = nil
             } catch is CancellationError {
                 // Closing the connection flow is an intentional cancellation.
             } catch {
                 guard self.generation == generation else { return }
                 self.errorMessage = SpotifyStatus.message(error)
+                if let client = self.pendingClient { await client.close() }
+                self.pendingClient = nil
             }
         }
     }
@@ -163,15 +195,23 @@ final class SpotifyAccount {
 
     func disconnect() {
         guard !isDisconnecting else { return }
-        guard !isConnecting else {
-            finishDisconnect()
-            return
-        }
+        connectionTask?.cancel()
+        receiver?.cancel()
+        if client == nil { generation = UUID() }
         isConnecting = true
         isDisconnecting = true
         connectionTask = Task { [weak self] in
             guard let self else { return }
             await self.beforeDisconnect?()
+            if let client = self.client { await client.close() }
+            if let client = self.pendingClient { await client.close() }
+            self.pendingClient = nil
+            if let cache = self.cache {
+                do { try await cache.destroyAccountCache() } catch {
+                    self.errorMessage = SpotifyStatus.message(error)
+                }
+            }
+            self.cache = nil
             self.finishDisconnect()
         }
     }
@@ -191,6 +231,7 @@ final class SpotifyAccount {
         isConnecting = false
         isDisconnecting = false
         defaults.removeObject(forKey: Self.preference)
+        defaults.removeObject(forKey: Self.bindingPreference)
         for key in defaults.dictionaryRepresentation().keys
         where key.hasPrefix(Self.queuePreferencePrefix) {
             defaults.removeObject(forKey: key)
@@ -203,4 +244,10 @@ final class SpotifyAccount {
         activeClientID = nil
         onDisconnected?()
     }
+}
+
+struct SpotifyAccountBinding: Codable, Sendable {
+    let clientID: String
+    let userID: String
+    let accountName: String
 }

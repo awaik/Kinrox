@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "zh-Hant",
   "language": "繁體中文",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "隱私權政策 — Spotify 連線",
-      "body": "版本 2026-11-01。Kinrox 的維護者 awaik 對此處所述的 Kinrox 資料處理負責。本補充政策適用於選用的 Spotify 整合功能。Kinrox 一般隱私權政策見 https://kinrox.app/privacy/。聯絡方式：https://github.com/awaik/Kinrox/issues。請勿在公開問題回報中發布權杖、個人資料庫內容或其他私人資訊。",
+      "body": "版本 2026-11-02。Kinrox 的維護者 awaik 對此處所述的 Kinrox 資料處理負責。本補充政策適用於選用的 Spotify 整合功能。Kinrox 一般隱私權政策見 https://kinrox.app/privacy/。聯絡方式：https://github.com/awaik/Kinrox/issues。請勿在公開問題回報中發布權杖、個人資料庫內容或其他私人資訊。",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "儲存與接收方",
-      "body": "用於更新存取權限的憑證儲存在 Mac 的 Data Protection Keychain 中。存取權杖、帳號詳細資料和資料庫中繼資料保留在 App 記憶體中。提供的 Client ID、輔助播放清單關聯及已接受的文件版本儲存在 Mac 偏好設定中。Kinrox 沒有伺服器、分析或遙測，維護者不會收到這些 Spotify 資料。Spotify 直接接收來自 Mac 的請求，並依其隱私權政策處理：https://www.spotify.com/legal/privacy-policy/。Spotify 會看到網路資訊，例如 Mac 的公用 IP 位址。",
+      "body": "用於更新存取權限的憑證儲存在 Mac 的 Data Protection Keychain 中。 存取權杖保留在記憶體中。資料庫中繼資料會快取至 Mac App 的 Caches 資料夾中的本機 SQLite 資料庫。已驗證的帳號識別碼和顯示名稱儲存在 Mac 偏好設定中。 提供的 Client ID、輔助播放清單關聯及已接受的文件版本儲存在 Mac 偏好設定中。Kinrox 沒有伺服器、分析或遙測，維護者不會收到這些 Spotify 資料。Spotify 直接接收來自 Mac 的請求，並依其隱私權政策處理：https://www.spotify.com/legal/privacy-policy/。Spotify 會看到網路資訊，例如 Mac 的公用 IP 位址。",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "中斷連線與保留",
-      "body": "在 Mac 上的 Kinrox 中，開啟「設定 → Spotify → 中斷連線」。Kinrox 會處理完待完成的播放作業、停止請求、移除更新憑證及輔助播放清單的本機關聯，並清除記憶體中的帳號和資料庫狀態。自動重新連線也會停止。接受的版本是一項不關聯帳號的偏好設定。已在 Spotify 作出的變更，包括播放清單及喜好項目，仍會保留。中斷連線不會撤銷 Spotify 中的授權；若要撤銷，請在 https://www.spotify.com/account/apps/ 移除應用程式。你可以直接在 Spotify 中刪除保留的輔助播放清單。",
+      "body": "在 Mac 上的 Kinrox 中，開啟「設定 → Spotify → 中斷連線」。Kinrox 會處理完待完成的播放作業、停止請求、移除更新憑證及輔助播放清單的本機關聯，並清除記憶體中的帳號和資料庫狀態。自動重新連線也會停止。接受的版本是一項不關聯帳號的偏好設定。已在 Spotify 作出的變更，包括播放清單及喜好項目，仍會保留。中斷連線不會撤銷 Spotify 中的授權；若要撤銷，請在 https://www.spotify.com/account/apps/ 移除應用程式。你可以直接在 Spotify 中刪除保留的輔助播放清單。 快取的中繼資料若未重新驗證，將在 7 天後到期。中斷連線會自動刪除 SQLite 快取、其附屬檔案和已儲存的帳號關聯。",
       "id": "retention"
     },
     {

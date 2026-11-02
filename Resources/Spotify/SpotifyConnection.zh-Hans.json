@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "zh-Hans",
   "language": "简体中文",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "隐私政策 — Spotify 连接",
-      "body": "版本 2026-11-01。Kinrox 的维护者 awaik 对此处所述的 Kinrox 数据处理负责。本补充政策适用于可选的 Spotify 集成。Kinrox 通用隐私政策见 https://kinrox.app/privacy/。联系方式：https://github.com/awaik/Kinrox/issues。请勿在公开问题报告中发布令牌、个人资料库内容或其他私人信息。",
+      "body": "版本 2026-11-02。Kinrox 的维护者 awaik 对此处所述的 Kinrox 数据处理负责。本补充政策适用于可选的 Spotify 集成。Kinrox 通用隐私政策见 https://kinrox.app/privacy/。联系方式：https://github.com/awaik/Kinrox/issues。请勿在公开问题报告中发布令牌、个人资料库内容或其他私人信息。",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "存储与接收方",
-      "body": "用于刷新访问权限的凭据存储在 Mac 的 Data Protection Keychain 中。访问令牌、账户详情和资料库元数据保留在应用内存中。提供的 Client ID、辅助播放列表关联和已接受的文档版本存储在 Mac 偏好设置中。Kinrox 没有服务器、分析或遥测，维护者不会收到这些 Spotify 数据。Spotify 直接接收来自 Mac 的请求，并根据其隐私政策进行处理：https://www.spotify.com/legal/privacy-policy/。Spotify 会看到网络信息，例如 Mac 的公网 IP 地址。",
+      "body": "用于刷新访问权限的凭据存储在 Mac 的 Data Protection Keychain 中。 访问令牌保留在内存中。资料库元数据缓存在 Mac 应用 Caches 文件夹中的本地 SQLite 数据库内。已验证的账户标识符和显示名称存储在 Mac 偏好设置中。 提供的 Client ID、辅助播放列表关联和已接受的文档版本存储在 Mac 偏好设置中。Kinrox 没有服务器、分析或遥测，维护者不会收到这些 Spotify 数据。Spotify 直接接收来自 Mac 的请求，并根据其隐私政策进行处理：https://www.spotify.com/legal/privacy-policy/。Spotify 会看到网络信息，例如 Mac 的公网 IP 地址。",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "断开连接与保留",
-      "body": "在 Mac 上的 Kinrox 中，打开“设置 → Spotify → 断开连接”。Kinrox 会处理完待完成的播放操作、停止请求、移除刷新凭据和辅助播放列表的本地关联，并清除内存中的账户和资料库状态。自动重新连接也会停止。接受的版本是一项不关联账户的偏好设置。已在 Spotify 中作出的更改，包括播放列表和收藏，仍会保留。断开连接不会撤销 Spotify 中的授权；要撤销，请在 https://www.spotify.com/account/apps/ 移除应用。你可以直接在 Spotify 中删除保留的辅助播放列表。",
+      "body": "在 Mac 上的 Kinrox 中，打开“设置 → Spotify → 断开连接”。Kinrox 会处理完待完成的播放操作、停止请求、移除刷新凭据和辅助播放列表的本地关联，并清除内存中的账户和资料库状态。自动重新连接也会停止。接受的版本是一项不关联账户的偏好设置。已在 Spotify 中作出的更改，包括播放列表和收藏，仍会保留。断开连接不会撤销 Spotify 中的授权；要撤销，请在 https://www.spotify.com/account/apps/ 移除应用。你可以直接在 Spotify 中删除保留的辅助播放列表。 缓存的元数据如未重新验证，将在 7 天后过期。断开连接会自动删除 SQLite 缓存、其附属文件和已保存的账户关联。",
       "id": "retention"
     },
     {

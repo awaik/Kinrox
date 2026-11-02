@@ -117,7 +117,7 @@ struct MusicStatusBar: View {
             {
                 Text(message)
                 Button(L10n.text("Retry"), action: model.retry).disabled(
-                    model.isLoading || model.isMutating
+                    !model.canMutate
                 ).buttonStyle(.plain).foregroundStyle(
                     Palette.flame)
             } else if let liked = model.favoriteFeedbackLiked {

@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "pt",
   "language": "Português",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Política de privacidade — ligação ao Spotify",
-      "body": "Versão 2026-11-01. O responsável pela manutenção do Kinrox, awaik, é responsável pelo tratamento de dados do Kinrox aqui descrito. Este suplemento aplica-se à integração opcional com o Spotify. A política geral de privacidade do Kinrox está disponível em https://kinrox.app/privacy/. Contacto: https://github.com/awaik/Kinrox/issues. Não publique tokens, conteúdos da sua biblioteca pessoal ou outras informações privadas em pedidos públicos.",
+      "body": "Versão 2026-11-02. O responsável pela manutenção do Kinrox, awaik, é responsável pelo tratamento de dados do Kinrox aqui descrito. Este suplemento aplica-se à integração opcional com o Spotify. A política geral de privacidade do Kinrox está disponível em https://kinrox.app/privacy/. Contacto: https://github.com/awaik/Kinrox/issues. Não publique tokens, conteúdos da sua biblioteca pessoal ou outras informações privadas em pedidos públicos.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Armazenamento e destinatários",
-      "body": "As credenciais de renovação são guardadas no Data Protection Keychain do Mac. Os tokens de acesso, os dados da conta e os metadados da biblioteca permanecem na memória da aplicação. O Client ID fornecido, a associação da playlist auxiliar e a versão aceite dos documentos são guardados nas preferências do Mac. O Kinrox não tem servidor, análise de utilização ou telemetria, e o seu responsável não recebe nenhum destes dados do Spotify. O Spotify recebe pedidos diretamente do Mac e trata-os segundo a sua política de privacidade: https://www.spotify.com/legal/privacy-policy/. O Spotify vê informações de rede, como o endereço IP público do Mac.",
+      "body": "As credenciais de renovação são guardadas no Data Protection Keychain do Mac. Os tokens de acesso permanecem na memória. Os metadados da biblioteca são guardados numa base SQLite local na pasta Caches da aplicação no Mac. O identificador verificado da conta e o nome apresentado são guardados nas preferências do Mac. O Client ID fornecido, a associação da playlist auxiliar e a versão aceite dos documentos são guardados nas preferências do Mac. O Kinrox não tem servidor, análise de utilização ou telemetria, e o seu responsável não recebe nenhum destes dados do Spotify. O Spotify recebe pedidos diretamente do Mac e trata-os segundo a sua política de privacidade: https://www.spotify.com/legal/privacy-policy/. O Spotify vê informações de rede, como o endereço IP público do Mac.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Desligar e conservação",
-      "body": "No Kinrox para Mac, abra Definições → Spotify → Desligar. O Kinrox conclui as operações de reprodução pendentes, interrompe os pedidos, remove a sua credencial de renovação e as associações locais de playlists auxiliares e apaga da memória o estado da conta e da biblioteca. A religação automática é interrompida. A versão aceite é uma preferência não associada a uma conta. As alterações já feitas no Spotify, incluindo playlists e favoritos, permanecem lá. Desligar não revoga a autorização no Spotify; remova a aplicação em https://www.spotify.com/account/apps/ para a revogar. Pode eliminar as playlists auxiliares conservadas diretamente no Spotify.",
+      "body": "No Kinrox para Mac, abra Definições → Spotify → Desligar. O Kinrox conclui as operações de reprodução pendentes, interrompe os pedidos, remove a sua credencial de renovação e as associações locais de playlists auxiliares e apaga da memória o estado da conta e da biblioteca. A religação automática é interrompida. A versão aceite é uma preferência não associada a uma conta. As alterações já feitas no Spotify, incluindo playlists e favoritos, permanecem lá. Desligar não revoga a autorização no Spotify; remova a aplicação em https://www.spotify.com/account/apps/ para a revogar. Pode eliminar as playlists auxiliares conservadas diretamente no Spotify. Os metadados em cache expiram após 7 dias sem nova validação. Ao desligar, a cache SQLite, os seus ficheiros auxiliares e a associação de conta guardada são eliminados automaticamente.",
       "id": "retention"
     },
     {

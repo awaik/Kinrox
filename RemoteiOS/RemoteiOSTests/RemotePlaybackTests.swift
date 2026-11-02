@@ -172,3 +172,35 @@ import Testing
         #expect(h.current.commands.isEmpty && h.model.pending.isEmpty)
     }
 }
+
+extension RemotePlaybackTests {
+    @Test func musicAnchorAgeIsAppliedExactlyOnceAcrossMetadataUpdates() {
+        let h = RemoteModelHarness()
+        defer { h.model.stop() }
+        h.connect()
+        var state = RemoteModelHarness.playing
+        state.source = .music
+        state.position = 10
+        state.music = MusicState(
+            track: nil, nextTrack: nil, liked: false, shuffle: false,
+            repeatMode: .off, queueCount: 1, queueRevision: UUID(), libraryRevision: UUID(),
+            outputName: "Mac", positionAge: 20)
+        h.current.emit(state)
+        #expect(h.model.state.position == 10)
+        #expect(h.model.position == 30)
+        h.clock.advance(5)
+        #expect(h.model.position == 35)
+        state.music?.liked = true
+        state.music?.positionAge = 25
+        h.current.emit(state)
+        #expect(h.model.position == 35)
+        h.clock.advance(2)
+        #expect(h.model.position == 37)
+        state.paused = true
+        state.position = 37
+        state.music?.positionAge = 0
+        h.current.emit(state)
+        h.clock.advance(10)
+        #expect(h.model.position == 37)
+    }
+}

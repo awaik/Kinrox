@@ -159,6 +159,7 @@ final class StubURLProtocol: URLProtocol, @unchecked Sendable {
         var status: Int = 200
         var body: String = ""
         var headers: [String: String] = [:]
+        var gate: HTTPGate?
     }
     final class State: @unchecked Sendable {
         private let lock = NSLock()
@@ -181,6 +182,7 @@ final class StubURLProtocol: URLProtocol, @unchecked Sendable {
     static let state = State()
     override class func canInit(with request: URLRequest) -> Bool { true }
     override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+    private var loading: Task<Void, Never>?
     override func startLoading() {
         var captured = request
         if captured.httpBody == nil, let stream = request.httpBodyStream {
@@ -196,12 +198,29 @@ final class StubURLProtocol: URLProtocol, @unchecked Sendable {
             captured.httpBody = data
         }
         let reply = Self.state.take(captured)
-        let response = HTTPURLResponse(
-            url: request.url!, statusCode: reply.status, httpVersion: "HTTP/1.1",
-            headerFields: reply.headers)!
-        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-        client?.urlProtocol(self, didLoad: Data(reply.body.utf8))
-        client?.urlProtocolDidFinishLoading(self)
+        loading = Task {
+            await reply.gate?.wait()
+            guard !Task.isCancelled else { return }
+            let response = HTTPURLResponse(
+                url: request.url!, statusCode: reply.status, httpVersion: "HTTP/1.1",
+                headerFields: reply.headers)!
+            client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+            client?.urlProtocol(self, didLoad: Data(reply.body.utf8))
+            client?.urlProtocolDidFinishLoading(self)
+        }
     }
-    override func stopLoading() {}
+    override func stopLoading() { loading?.cancel() }
+}
+
+actor HTTPGate {
+    private var released = false
+    private var continuations: [CheckedContinuation<Void, Never>] = []
+    func wait() async {
+        if !released { await withCheckedContinuation { continuations.append($0) } }
+    }
+    func release() {
+        released = true
+        for continuation in continuations { continuation.resume() }
+        continuations.removeAll()
+    }
 }

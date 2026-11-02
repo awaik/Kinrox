@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "cs",
   "language": "Čeština",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Zásady ochrany soukromí — připojení ke Spotify",
-      "body": "Verze 2026-11-01. Správce Kinrox, awaik, odpovídá za zde popsané zpracování údajů aplikací Kinrox. Tento dodatek se vztahuje na volitelnou integraci Spotify. Obecné zásady ochrany soukromí Kinrox jsou na https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Nezveřejňujte tokeny, obsah osobní knihovny ani jiné soukromé informace ve veřejných hlášeních.",
+      "body": "Verze 2026-11-02. Správce Kinrox, awaik, odpovídá za zde popsané zpracování údajů aplikací Kinrox. Tento dodatek se vztahuje na volitelnou integraci Spotify. Obecné zásady ochrany soukromí Kinrox jsou na https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Nezveřejňujte tokeny, obsah osobní knihovny ani jiné soukromé informace ve veřejných hlášeních.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Ukládání a příjemci",
-      "body": "Obnovovací přihlašovací údaje jsou uloženy v Data Protection Keychain na Macu. Přístupové tokeny, údaje o účtu a metadata knihovny zůstávají v paměti aplikace. Zadané Client ID, přiřazení pomocného playlistu a přijatá verze dokumentů jsou uloženy v předvolbách Macu. Kinrox nemá server, analytiku ani telemetrii a jeho správce nedostává žádné z těchto údajů Spotify. Spotify dostává požadavky přímo z Macu a zpracovává je podle svých zásad ochrany soukromí: https://www.spotify.com/legal/privacy-policy/. Spotify vidí síťové údaje, například veřejnou IP adresu Macu.",
+      "body": "Obnovovací přihlašovací údaje jsou uloženy v Data Protection Keychain na Macu. Přístupové tokeny zůstávají v paměti. Metadata knihovny se ukládají do místní databáze SQLite v adresáři Caches aplikace na Macu. Ověřený identifikátor účtu a zobrazované jméno se ukládají do předvoleb Macu. Zadané Client ID, přiřazení pomocného playlistu a přijatá verze dokumentů jsou uloženy v předvolbách Macu. Kinrox nemá server, analytiku ani telemetrii a jeho správce nedostává žádné z těchto údajů Spotify. Spotify dostává požadavky přímo z Macu a zpracovává je podle svých zásad ochrany soukromí: https://www.spotify.com/legal/privacy-policy/. Spotify vidí síťové údaje, například veřejnou IP adresu Macu.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Odpojení a uchovávání",
-      "body": "V Kinrox na Macu otevřete Nastavení → Spotify → Odpojit. Kinrox dokončí čekající operace přehrávání, zastaví požadavky, odstraní obnovovací přihlašovací údaje a místní přiřazení pomocných playlistů a vymaže stav účtu a knihovny z paměti. Zastaví automatické opětovné připojování. Přijatá verze je předvolba nezávislá na účtu. Změny již provedené ve Spotify, včetně playlistů a oblíbených položek, tam zůstávají. Odpojení nezruší autorizaci u Spotify; pro její zrušení odeberte aplikaci na https://www.spotify.com/account/apps/. Ponechané pomocné playlisty můžete odstranit přímo ve Spotify.",
+      "body": "V Kinrox na Macu otevřete Nastavení → Spotify → Odpojit. Kinrox dokončí čekající operace přehrávání, zastaví požadavky, odstraní obnovovací přihlašovací údaje a místní přiřazení pomocných playlistů a vymaže stav účtu a knihovny z paměti. Zastaví automatické opětovné připojování. Přijatá verze je předvolba nezávislá na účtu. Změny již provedené ve Spotify, včetně playlistů a oblíbených položek, tam zůstávají. Odpojení nezruší autorizaci u Spotify; pro její zrušení odeberte aplikaci na https://www.spotify.com/account/apps/. Ponechané pomocné playlisty můžete odstranit přímo ve Spotify. Metadata v mezipaměti vyprší po 7 dnech bez opětovného ověření. Odpojení automaticky smaže mezipaměť SQLite, její doprovodné soubory a uložené přiřazení účtu.",
       "id": "retention"
     },
     {

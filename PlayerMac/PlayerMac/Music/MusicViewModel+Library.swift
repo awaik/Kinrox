@@ -5,7 +5,14 @@ extension MusicViewModel {
     func replaceStore(_ store: any MusicLibraryStore, accountName: String? = nil) {
         browsingTask?.cancel()
         syncTask?.cancel()
+        (self.store as? SpotifyLibraryStore)?.onChange = nil
         self.store = store
+        if let spotify = store as? SpotifyLibraryStore {
+            spotify.onChange = { [weak self, weak spotify] in
+                guard let self, let spotify, self.store === spotify else { return }
+                self.acceptLibrary(spotify)
+            }
+        }
         self.accountName = accountName
         catalog = store.catalog
         library = store.library
@@ -15,12 +22,18 @@ extension MusicViewModel {
         query = ""
         searchResults = nil
         undoMutations = []
+        undoSnapshots = [:]
         retryChange = nil
         retryPlaylist = nil
         likeOptionsTrackID = nil
         likeOptionsAnchor = nil
         isLoading = false
+        isRefreshing = false
         isMutating = false
+        pendingSeek = nil
+        pendingVolume = nil
+        seekScheduled = false
+        volumeScheduled = false
         favoriteFeedbackID = nil
         favoriteFeedbackLiked = nil
         disallowedActions = []
@@ -30,39 +43,50 @@ extension MusicViewModel {
         notifyPlayback()
     }
 
+    func acceptLibrary(_ store: SpotifyLibraryStore) {
+        let updatesRows = isRefreshing || catalog != store.catalog || library != store.library
+        if !isMutating { library = store.library }
+        catalog = store.catalog
+        isLoading = store.isInitialLoading && isRefreshing
+        if selection.albumID == nil, selection.source == .albums {
+            selection.select(
+                albumID: catalog.albums.first { library.savedAlbumIDs.contains($0.id) }?.id)
+            if let id = selection.albumID, store.embeddedAlbums[id] != nil {
+                loadSelection(albumID: id)
+            }
+        }
+        if updatesRows { refreshContents() }
+        notifyPlayback()
+    }
+
     func syncLibrary() {
-        guard let store = store as? SpotifyLibraryStore, !isMutating, !isLoading else { return }
-        browsingTask?.cancel()
-        isLoading = true
+        guard let store = store as? SpotifyLibraryStore, !isRefreshing else { return }
+        isRefreshing = true
+        isLoading = store.isInitialLoading
         statusMessage = L10n.text("Loading Spotify library…")
         syncTask = Task { [weak self] in
             guard let self else { return }
-            defer { if self.store === store { self.isLoading = false } }
+            defer {
+                if self.store === store {
+                    self.isLoading = false
+                    self.isRefreshing = false
+                }
+            }
             do {
                 try await store.refresh()
                 guard self.store === store else { return }
-                self.library = store.library
-                self.catalog = store.catalog
-                if self.selection.albumID == nil, self.selection.source == .albums {
-                    self.selection.select(
-                        albumID: self.catalog.albums.first {
-                            self.library.savedAlbumIDs.contains($0.id)
-                        }?.id)
-                }
-                if let id = self.selection.albumID {
-                    try await store.loadAlbum(id)
-                    self.catalog = store.catalog
-                }
+                self.acceptLibrary(store)
+                if let id = self.selection.albumID { try await store.loadAlbum(id) }
                 self.statusMessage = nil
-                self.refreshContents()
-                self.notifyPlayback()
             } catch is CancellationError {} catch {
                 if self.store === store { self.statusMessage = SpotifyStatus.message(error) }
             }
         }
     }
 
-    func loadSelection(albumID: String? = nil, artistID: String? = nil) {
+    func loadSelection(
+        albumID: String? = nil, artistID: String? = nil, playlistID: String? = nil
+    ) {
         guard let store = store as? SpotifyLibraryStore else { return }
         browsingTask?.cancel()
         let selection = selection
@@ -71,6 +95,7 @@ extension MusicViewModel {
             do {
                 if let albumID { try await store.loadAlbum(albumID) }
                 if let artistID { try await store.loadArtist(artistID) }
+                if let playlistID { try await store.ensurePlaylistLoaded(playlistID) }
                 guard self.store === store, self.selection == selection else { return }
                 self.catalog = store.catalog
                 self.refreshContents()
@@ -89,8 +114,8 @@ extension MusicViewModel {
             select(.albums)
             return
         }
+        if selection.source != .search(query) { searchResults = MusicCatalog() }
         selection.select(source: .search(query))
-        searchResults = MusicCatalog()
         refreshContents()
         browsingTask = Task { [weak self] in
             guard let self else { return }

@@ -1,8 +1,8 @@
 # Spotify: Swift SQLite cache and playback latency plan
 
-Status: implementation plan (revised for architectural simplicity and reliability); code changes and performance measurements are pending.
+Status: P0–P5 implemented locally on 2026-11-02 after owner authorization; automated verification complete, changes uncommitted and unreleased. Measurements and manual verification limits are recorded in Section 13.
 Created: 2026-11-01, Europe/Moscow.
-Owner decision: use SQLite with Swift, and plan the library/request/playback optimizations discussed on 2026-11-01. This task produces the plan only.
+Owner decision: use SQLite with Swift, and plan the library/request/playback optimizations discussed on 2026-11-01. The initial task produced the plan only; the owner requested its implementation on 2026-11-02.
 
 The intended result is immediate browsing of previously loaded music, useful content before a full library refresh finishes, fewer Spotify requests, and faster Resume/Next/Previous/Add-to-Queue without losing confirmed playback state or queue correctness. Spotify remains the authority for account data and actual playback. SQLite is a disposable, bounded metadata cache.
 
@@ -14,6 +14,7 @@ The intended result is immediate browsing of previously loaded music, useful con
 - Reuse embedded album tracks already returned by Spotify's `GET /v1/me/albums` and `GET /v1/albums/{id}` (`SpotifyAlbum.tracks`) instead of re-fetching `/albums/{id}/tracks` for albums with ≤ 50 tracks. Drop speculative background prefetching.
 - Model the Connect helper playlist around the full queue timeline (`queue.history + queue.items` with `cursor = queue.history.count`). Use offset jumps (`PUT /v1/me/player/play` at `offset: cursor`) with zero playlist writes only while the complete occurrence order is unchanged and fresh helper metadata validates the stored mapping; otherwise rebuild the mirror.
 - Optimize `addToQueue` as a single positional insert (`POST /v1/playlists/{id}/items` at `history.count + manual.count`, after `current` and before `source`) without pausing active playback; keep conservative full-playlist replacement (`mirror`) for `remove`, `move`, and `setShuffle`.
+- **Eliminate continuous periodic polling (`GET /v1/me/player` every 2 s / 10 s)**: advance playback progress locally on Mac via a monotonic clock, run **zero** background requests while paused, and schedule only a single one-shot track-boundary check (`duration - position`) per playing song (plus optional local macOS `DistributedNotificationCenter` `"com.spotify.client.PlaybackStateChanged"` / app-activation observation).
 - Preserve the current favorites contract, duplicate occurrences, unavailable playlist positions, confirmed pause before switching video/music, restrictions, and helper-playlist ownership/privacy checks.
 - Keep artwork and a new playback engine outside this task. Use existing approved loading/recovery surfaces; any new visible states must be designed on Figma page 08 before implementation, following AGENTS.md §3.5.
 
@@ -37,8 +38,9 @@ These are structural findings from source inspection, not measured claims about 
 | `updateQueue` while playing calls `play(queue:position:)`, and `addToQueue` inserts into `manual` before `source` | `MusicQueue.add`, `SpotifyConnectMusicEngine.updateQueue` | Adding one track to the queue while playing pauses audio, rewrites the helper playlist, and restarts the current track |
 | Full `play` always calls `/devices`, `shuffle(false)`, and `repeatMode(...)` even when `/me/player` already reports matching state | `selectDevice`, `play` | 3–4 avoidable serial round-trips before `PUT /me/player/play` |
 | Confirmation shares the 2-second interval used by normal playing-state polling | `confirm`, `pollInterval` | A command that settles 150 ms after the first check waits a full 2 seconds for the second check |
+| Continuous polling runs every 2 s while playing (1,800 req/h) and every 10 s while paused (360 req/h) | `SpotifyConnectMusicEngine+State.beginPolling` | Rapidly exhausts Spotify Development Mode quota even during light or idle use |
 | Seeking within 0.2 s of track end can fail confirmation when playback naturally advances | `SpotifyConnectMusicEngine.seek` | Boundary seeks can report `unconfirmed` after track transition |
-| A stale-poll generation guard is already present | `commandGeneration`, `beginPolling` | All fast paths must retain its success and failure protection |
+| A stale-poll generation guard is already present | `commandGeneration`, `beginPolling` | All fast paths and one-shot boundary checks must retain its success and failure protection |
 
 Reproduction/measurement scenarios for the implementation phase:
 
@@ -219,16 +221,23 @@ Keep `updateQueue(_ queue:position:paused:)` simple and immune to duplicate-URI 
    - Spotify's `DELETE /v1/playlists/{id}/items` removes all occurrences of a URI and cannot safely delete a single duplicate occurrence.
    - Use the proven full `mirror(timeline, playlistID:)` replacement: if paused, rewrite in place without starting playback; if playing, pause, rewrite `timeline`, and restart at `offset: queue.history.count, position: position`.
 
-### 7.4 Fast confirmation, boundary seeks, and display interpolation
+### 7.4 No periodic polling: local Mac clock, track-boundary timer, and fast confirmation
 
+- **Remove continuous periodic polling (`beginPolling`)**:
+  - Delete the endless 2-second playing / 10-second paused `GET /v1/me/player` loop (which burned up to 1,800 requests/hour while playing and 360 requests/hour while paused).
+  - **While paused**: make **0 background network requests**.
+  - **While playing**: schedule a single one-shot track-boundary task (`boundaryTask`) sleeping until the expected end of the current track (`remaining = max(0.5, duration - position + 0.35)`). When it fires, perform **1** `GET /v1/me/player` observation to confirm advancement to the next occurrence in `mirrored` (or `.ended` on the final item) and arm the next one-shot timer for the new track's duration. If the track has not yet ended (e.g. paused/seeked in Spotify.app), update the local state anchor and either stop (if paused) or reschedule for the remaining time.
+  - **Local macOS observation**: optionally observe `DistributedNotificationCenter.default()` `"com.spotify.client.PlaybackStateChanged"` (posted locally by `Spotify.app` on macOS) and window/app activation to trigger a debounced state sync only when external local state actually changes, with zero idle polling.
+  - Retain the `commandGeneration` guard (`completedPlayDiscardsEarlierPollResults`) on all boundary/reconciliation requests so a delayed response started before a user command can never overwrite the command's confirmed state or emit a false error.
+- **Purely local progress advancement on Mac (`DeckView` / `MusicViewModel`)**:
+  - Keep `MusicViewModel.position` as the last confirmed position and record `lastPositionTimestamp: ContinuousClock.Instant` whenever a confirmed state arrives or `paused` changes.
+  - Advance displayed position locally on the Mac (`position + elapsed`, clamped to `currentTrack.duration`) while `!model.paused` with **zero HTTP requests**. Publish only confirmed anchors over LAN so `RemoteiOS` (which already extrapolates locally in `RemoteAppModel.position`) never double-extrapolates.
 - **Fast confirmation backoff**:
   - Replace the fixed 2-second sleep in `confirm(_:)` with an injectable delay schedule defaulting to:
     `[.milliseconds(80), .milliseconds(150), .milliseconds(300), .milliseconds(600), .seconds(1), .seconds(2), .seconds(2), .seconds(2)]` (8 attempts, ~8.1 s total sleep).
   - Waiting 80 ms before the first check avoids the wasted `0 ms` poll before Spotify Connect updates its state, and the 150–300 ms checks catch normal transitions 5–10× faster than a 2-second sleep. Tests can inject `[.milliseconds(1)]` to stay instantaneous.
 - **Boundary seek confirmation**:
   - In `SpotifyConnectMusicEngine.seek(absolute:)`, clamp `target` to `max(0, duration - 1.0)`. When `target >= duration - 2.0`, accept confirmation if either `abs(progress - target) < 3` on the current track OR playback has naturally advanced to the next mirrored track (or paused at EOF on the last track).
-- **Smooth progress display on Mac (`DeckView`)**:
-  - Keep `MusicViewModel.position` as the authoritative last-observed position, and update `lastPositionDate: Date` whenever a snapshot arrives or `paused` changes. Use a lightweight display timer/interpolation in `DeckView` while `!model.paused` (clamped to `currentTrack.duration`) so the scrub bar and time counter advance smoothly every second between 2-second polls without extra network calls or double extrapolation over LAN.
 - **Coalesce rapid volume/seek slider drags**:
   - Keep only the latest pending value while an in-flight `setVolume` or `seek` command is running on `MusicViewModel`, dispatching the final value once the active command settles.
 
@@ -242,7 +251,7 @@ Each stage is a reviewable increment keeping all files under 500 lines (AGENTS.m
 | **P1 — SQLite cache & consent text** | New `PlayerMac/Music/Spotify/Cache/SpotifyCacheStore.swift` (~220 lines); update `SpotifyConnection.*.json` (30 locales) and `SpotifyDocuments.swift`; wire `SpotifyAccount` + `PlayerSession` restore/disconnect cleanup | Cross-launch cache restoration, namespace isolation, 7-day expiry, corruption recovery, and disconnect deletion pass deterministic tests |
 | **P2 — Embedded album tracks & progressive sync** | `SpotifyModels.swift`, `SpotifyLibraryStore.swift`, `MusicViewModel.swift`, `MusicViewModel+Library.swift` | Albums publish first; independent mutations proceed after their resources are ready; membership/Undo/unlike await complete validated playlists; overlapping refresh retains confirmed resource state and revalidates without replaying inserts |
 | **P3 — Client scheduler, coalescing & ETag** | `Packages/KinroxMusic/Sources/SpotifyWebAPI/SpotifyClient.swift` (and `SpotifyRequestScheduler.swift` if split for line limits) | Priority admission (control > interactive > background), in-flight GET coalescing, `If-None-Match` / 304, and queued `429` `Retry-After` re-check pass tests |
-| **P4 — Timeline mirror & fast playback** | `SpotifyConnectMusicEngine.swift`, `SpotifyConnectMusicEngine+State.swift`, `MusicViewModel+Playback.swift`, `DeckView.swift` | Validated warm Resume and unchanged-order Next/Previous use 3 HTTP calls before confirmation with 0 playlist writes; changed order/helper snapshot rebuilds safely; `addToQueue` inserts at `history.count + manual.count` without pausing; fast confirmation and boundary seek pass tests |
+| **P4 — Timeline mirror & polling-free playback** | `SpotifyConnectMusicEngine.swift`, `SpotifyConnectMusicEngine+State.swift`, `MusicViewModel+Playback.swift`, `DeckView.swift` | Periodic polling removed (0 idle/paused requests; 1 boundary check per track); local Mac progress clock; validated warm Resume and unchanged-order Next/Previous use 3 HTTP calls before confirmation with 0 playlist writes; `addToQueue` inserts at `history.count + manual.count` without pausing; fast confirmation and boundary seek pass tests |
 | **P5 — Verification & docs** | Full test suites, `Scripts/check-localization.py`, `Scripts/build-site.py --check`, `MUSIC-VERIFICATION.md` | All test suites, formatting, localization, and site checks pass |
 
 ## 9. Documentation, localization, and compatibility
@@ -280,7 +289,8 @@ Each stage is a reviewable increment keeping all files under 500 lines (AGENTS.m
 | `addToQueue` while playing | Inserts via 1 `POST /playlists/{id}/items` at `history.count + manual.count` (before `source`) without pausing or restarting audio |
 | Remove / reorder / shuffle queue | Falls back to full `mirror` replacement; paused edits never start playback; duplicate URIs are preserved |
 | Boundary seek near track end | Does not fail with `unconfirmed` if playback naturally transitions to the next occurrence |
-| Stale poll response after fast command | Existing `commandGeneration` guard (`completedPlayDiscardsEarlierPollResults`) remains intact |
+| Playing and paused steady state without periodic polling | 0 HTTP requests while paused; 0 periodic polls during playback; 1 boundary `GET /me/player` check at track end advances occurrence or emits `.ended` |
+| Stale boundary/reconciliation response after fast command | Existing `commandGeneration` guard (`completedPlayDiscardsEarlierPollResults`) remains intact |
 
 ## 11. Performance acceptance and verification
 
@@ -294,6 +304,7 @@ Record baseline (P0) and post-change (P5) metrics on the same build configuratio
 | Warm Resume with valid helper | 3 HTTP requests before confirmation (playback GET, helper GET, play PUT; down from 9+); 0 playlist writes |
 | Warm Next / Previous with unchanged order and valid helper | 3 HTTP requests before confirmation (playback GET, helper GET, play PUT; down from 9+); 0 playlist writes; rebuild cases measured separately |
 | `addToQueue` while playing | 1 `POST /playlists/{id}/items` write; 0 pauses or playback restarts |
+| Background playback & pause HTTP rate | 0 periodic polling requests while playing or paused (1 boundary check per track transition, down from 1,800 req/h playing and 360 req/h paused) |
 | First post-command confirmation delay | 80–230 ms in controlled fixtures when state settles after 100 ms (down from 2,000 ms) |
 | MainActor catalog merge & selection | `O(N)` dictionary lookups; < 16 ms main-thread publication for 10,000-track fixture |
 
@@ -311,9 +322,19 @@ xcrun swift-format lint --strict --recursive PlayerMac RemoteiOS Packages Shared
 git diff --check
 ```
 
-## 12. Current results and handoff
+## 12. Plan review results — 2026-11-01
 
 - Completed in the plan: simplified the SQLite schema to 5 tables without disk staging tables; eliminated the duplicate raw HTTP cache; specified embedded album-track reuse, progressive loading, full-timeline mirroring, and the correct `addToQueue` insertion index. Zero-write Next/Previous is conditional on unchanged occurrence order and a freshly validated helper.
 - Review disposition (2026-11-01): all four findings are valid plan defects. Replaced mutation replay with confirmed-resource preservation and revalidation; required complete current playlists before membership/Undo; added live helper snapshot/ownership/privacy validation and adjusted the warm budget to 3 requests before confirmation; removed the timeline-invariance claim and added the pending-manual Previous case. Updated P2/P4 exit conditions and the regression matrix accordingly.
 - Review verification: rebuilt and ran the supplied `PlanCounterexamples.swift` against the current `MusicCore` sources; all three model counterexamples reproduced. `swift test --package-path Packages/KinroxMusic` with an isolated scratch path passed all 27 tests. Checked document whitespace and consistency; local logs are in `DerivedData/PlanReview-wtmv2l6e/`. These checks validate the review evidence, not the still-unimplemented SQLite/fast-path changes.
 - Not performed in this review revision: application code edits, full Mac/iOS builds or suites, live Spotify playback, or physical iPhone checks. The reviewer-reported baseline flake in `freshSpotifyRestrictionsPreventSeekRequest` needs a separate investigation; its root cause remains unproven.
+
+## 13. Implementation handoff — 2026-11-02
+
+- Implemented P0–P4: indexed catalog; account-isolated, bounded SQLite cache; verified pre-network restoration; progressive sync and embedded album reuse; resource-ready mutations with stale-response protection; prioritized/coalesced HTTP and ETag revalidation; validated full-timeline playback fast paths; local progress, boundary observation and slider coalescing.
+- Large caches publish the initial album view before full hydration. This read-only preview is never saved as complete, and operations that need additional resources await hydration. On the development Mac, first `MusicViewModel` publication p95 was 16.65 ms for 100 tracks and 40.98 ms for 10,000 tracks (20 Debug samples, zero HTTP); full hydration was 18.98 / 155.59 ms. Screen drawing itself was not timed.
+- The optimized 10,000-track selection fixture improved from 138.61 ms to 2.08 ms p95; merge + selection measured 15.18 ms. Warm Resume and unchanged-order Next/Previous use 3 requests before confirmation with zero playlist writes. Manual insertion uses one validation GET and one positional POST without pause/restart. Default second-observation confirmation measured 236.82 ms: the specified 230 ms sleep budget plus about 7 ms of request/scheduling overhead, slightly exceeding the timing target. Live Spotify latency remains unmeasured.
+- Consent version `2026-11-02` and all 30 localized offline/public documents disclose disk retention and deletion. Existing users must accept again before persistence. Optional LAN `music.positionAge` preserves confirmed-position extrapolation across metadata updates and reconnection; older payloads remain compatible.
+- P5 passed: 210 Mac tests, 32 music-package tests, 126 protocol tests, 61 iPhone simulator tests, 46 Python tests, the Mac Release build, all-locale/site validation, strict lint on 279 Swift files and whitespace checks. Changed Swift files remain below 500 lines. Fresh build directories avoided existing stale artifacts without deleting them.
+- No live Spotify session, physical iPhone, minimum-OS runtime check, deployment or release was performed. Optional local Spotify notifications were not added; external playback changes reconcile on the next command or expected track boundary. The earlier review's restriction test passed in the complete suite, without establishing its reported historical flake's cause.
+- Full evidence, test coverage and limitations: [Spotify cache and latency verification](../runbooks/SPOTIFY-PERFORMANCE-VERIFICATION.md). Local logs and generated artifacts remain under `DerivedData/SpotifyPerformance/`.

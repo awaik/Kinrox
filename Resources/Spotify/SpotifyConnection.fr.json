@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "fr",
   "language": "Français",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Politique de confidentialité — connexion à Spotify",
-      "body": "Version 2026-11-01. Le mainteneur de Kinrox, awaik, est responsable des traitements de Kinrox décrits ici. Ce complément concerne l’intégration facultative de Spotify. La politique générale de confidentialité de Kinrox est disponible à l’adresse https://kinrox.app/privacy/. Contact : https://github.com/awaik/Kinrox/issues. Ne publiez pas de jetons, de contenus de votre bibliothèque personnelle ni d’autres informations privées dans les tickets publics.",
+      "body": "Version 2026-11-02. Le mainteneur de Kinrox, awaik, est responsable des traitements de Kinrox décrits ici. Ce complément concerne l’intégration facultative de Spotify. La politique générale de confidentialité de Kinrox est disponible à l’adresse https://kinrox.app/privacy/. Contact : https://github.com/awaik/Kinrox/issues. Ne publiez pas de jetons, de contenus de votre bibliothèque personnelle ni d’autres informations privées dans les tickets publics.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Stockage et destinataires",
-      "body": "Les identifiants de renouvellement sont stockés dans le Data Protection Keychain du Mac. Les jetons d’accès, les informations du compte et les métadonnées de la bibliothèque restent en mémoire dans l’application. Le Client ID fourni, l’association de la playlist auxiliaire et la version acceptée des documents sont stockés dans les préférences du Mac. Kinrox n’a ni serveur, ni analyse d’utilisation, ni télémétrie, et son mainteneur ne reçoit aucune de ces données Spotify. Spotify reçoit les requêtes directement du Mac et les traite selon sa politique de confidentialité : https://www.spotify.com/legal/privacy-policy/. Spotify voit des informations réseau telles que l’adresse IP publique du Mac.",
+      "body": "Les identifiants de renouvellement sont stockés dans le Data Protection Keychain du Mac. Les jetons d’accès restent en mémoire. Les métadonnées de la bibliothèque sont mises en cache dans une base SQLite locale, dans le dossier Caches de l’app sur Mac. L’identifiant de compte vérifié et le nom affiché sont enregistrés dans les préférences du Mac. Le Client ID fourni, l’association de la playlist auxiliaire et la version acceptée des documents sont stockés dans les préférences du Mac. Kinrox n’a ni serveur, ni analyse d’utilisation, ni télémétrie, et son mainteneur ne reçoit aucune de ces données Spotify. Spotify reçoit les requêtes directement du Mac et les traite selon sa politique de confidentialité : https://www.spotify.com/legal/privacy-policy/. Spotify voit des informations réseau telles que l’adresse IP publique du Mac.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Déconnexion et conservation",
-      "body": "Dans Kinrox sur Mac, ouvrez Réglages → Spotify → Déconnecter. Kinrox termine les opérations de lecture en attente, arrête les requêtes, supprime son identifiant de renouvellement et les associations locales des playlists auxiliaires, puis efface de la mémoire l’état du compte et de la bibliothèque. Il arrête la reconnexion automatique. La version acceptée est une préférence sans lien avec un compte. Les modifications déjà effectuées dans Spotify, dont les playlists et favoris, y restent. La déconnexion ne révoque pas l’autorisation dans Spotify ; supprimez l’application à l’adresse https://www.spotify.com/account/apps/ pour la révoquer. Vous pouvez supprimer les playlists auxiliaires conservées directement dans Spotify.",
+      "body": "Dans Kinrox sur Mac, ouvrez Réglages → Spotify → Déconnecter. Kinrox termine les opérations de lecture en attente, arrête les requêtes, supprime son identifiant de renouvellement et les associations locales des playlists auxiliaires, puis efface de la mémoire l’état du compte et de la bibliothèque. Il arrête la reconnexion automatique. La version acceptée est une préférence sans lien avec un compte. Les modifications déjà effectuées dans Spotify, dont les playlists et favoris, y restent. La déconnexion ne révoque pas l’autorisation dans Spotify ; supprimez l’application à l’adresse https://www.spotify.com/account/apps/ pour la révoquer. Vous pouvez supprimer les playlists auxiliaires conservées directement dans Spotify. Les métadonnées en cache expirent après 7 jours sans nouvelle validation. La déconnexion supprime automatiquement le cache SQLite, ses fichiers annexes et l’association de compte enregistrée.",
       "id": "retention"
     },
     {

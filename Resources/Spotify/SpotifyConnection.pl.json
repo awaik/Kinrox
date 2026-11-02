@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "pl",
   "language": "Polski",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Polityka prywatności — połączenie ze Spotify",
-      "body": "Wersja 2026-11-01. Opiekun Kinrox, awaik, odpowiada za opisane tutaj przetwarzanie danych przez Kinrox. Ten dodatek dotyczy opcjonalnej integracji ze Spotify. Ogólna polityka prywatności Kinrox jest dostępna pod adresem https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Nie publikuj tokenów, zawartości osobistej biblioteki ani innych prywatnych informacji w publicznych zgłoszeniach.",
+      "body": "Wersja 2026-11-02. Opiekun Kinrox, awaik, odpowiada za opisane tutaj przetwarzanie danych przez Kinrox. Ten dodatek dotyczy opcjonalnej integracji ze Spotify. Ogólna polityka prywatności Kinrox jest dostępna pod adresem https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Nie publikuj tokenów, zawartości osobistej biblioteki ani innych prywatnych informacji w publicznych zgłoszeniach.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Przechowywanie i odbiorcy",
-      "body": "Dane uwierzytelniające do odnawiania dostępu są przechowywane w Data Protection Keychain na Macu. Tokeny dostępu, dane konta i metadane biblioteki pozostają w pamięci aplikacji. Podany Client ID, powiązanie playlisty pomocniczej i zaakceptowana wersja dokumentów są przechowywane w preferencjach Maca. Kinrox nie ma serwera, analityki ani telemetrii, a opiekun nie otrzymuje żadnych z tych danych Spotify. Spotify otrzymuje żądania bezpośrednio z Maca i przetwarza je zgodnie ze swoją polityką prywatności: https://www.spotify.com/legal/privacy-policy/. Spotify widzi informacje sieciowe, np. publiczny adres IP Maca.",
+      "body": "Dane uwierzytelniające do odnawiania dostępu są przechowywane w Data Protection Keychain na Macu. Tokeny dostępu pozostają w pamięci. Metadane biblioteki są buforowane w lokalnej bazie SQLite w katalogu Caches aplikacji na Macu. Zweryfikowany identyfikator konta i nazwa wyświetlana są zapisywane w preferencjach Maca. Podany Client ID, powiązanie playlisty pomocniczej i zaakceptowana wersja dokumentów są przechowywane w preferencjach Maca. Kinrox nie ma serwera, analityki ani telemetrii, a opiekun nie otrzymuje żadnych z tych danych Spotify. Spotify otrzymuje żądania bezpośrednio z Maca i przetwarza je zgodnie ze swoją polityką prywatności: https://www.spotify.com/legal/privacy-policy/. Spotify widzi informacje sieciowe, np. publiczny adres IP Maca.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Rozłączenie i okres przechowywania",
-      "body": "W Kinrox na Macu wybierz Ustawienia → Spotify → Rozłącz. Kinrox kończy oczekujące operacje odtwarzania, zatrzymuje żądania, usuwa dane uwierzytelniające do odnawiania dostępu i lokalne powiązania playlist pomocniczych oraz czyści stan konta i biblioteki z pamięci. Zatrzymuje automatyczne łączenie. Zaakceptowana wersja jest preferencją niezwiązaną z kontem. Zmiany już wprowadzone w Spotify, w tym playlisty i ulubione, pozostają tam. Rozłączenie nie cofa autoryzacji w Spotify; w tym celu usuń aplikację pod adresem https://www.spotify.com/account/apps/. Zachowane playlisty pomocnicze możesz usunąć bezpośrednio w Spotify.",
+      "body": "W Kinrox na Macu wybierz Ustawienia → Spotify → Rozłącz. Kinrox kończy oczekujące operacje odtwarzania, zatrzymuje żądania, usuwa dane uwierzytelniające do odnawiania dostępu i lokalne powiązania playlist pomocniczych oraz czyści stan konta i biblioteki z pamięci. Zatrzymuje automatyczne łączenie. Zaakceptowana wersja jest preferencją niezwiązaną z kontem. Zmiany już wprowadzone w Spotify, w tym playlisty i ulubione, pozostają tam. Rozłączenie nie cofa autoryzacji w Spotify; w tym celu usuń aplikację pod adresem https://www.spotify.com/account/apps/. Zachowane playlisty pomocnicze możesz usunąć bezpośrednio w Spotify. Metadane w pamięci podręcznej wygasają po 7 dniach bez ponownej weryfikacji. Rozłączenie automatycznie usuwa pamięć podręczną SQLite, jej pliki pomocnicze i zapisane powiązanie konta.",
       "id": "retention"
     },
     {

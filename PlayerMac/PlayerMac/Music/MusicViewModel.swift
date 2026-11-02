@@ -25,13 +25,36 @@ final class MusicViewModel {
     var disallowedActions: Set<String> = []
     var isMutating = false
     var undoMutations: [LibraryMutation] = []
-    var retryChange: FavoriteChange?
+    var retryChange: MusicFavoriteRequest?
+    var undoSnapshots: [String: String] = [:]
     var retryPlaylist: (title: String, trackID: String)?
     var queue = MusicQueue()
-    var paused = true
-    var position: Double = 84
+    var paused = true { didSet { lastPositionTimestamp = .now } }
+    var position: Double = 84 { didSet { lastPositionTimestamp = .now } }
+    @ObservationIgnored var lastPositionTimestamp = ContinuousClock.now
+    @ObservationIgnored var pendingSeek: Double?
+    @ObservationIgnored var pendingVolume: Double?
+    @ObservationIgnored var seekScheduled = false
+    @ObservationIgnored var volumeScheduled = false
+    var positionAge: Double {
+        guard !paused else { return 0 }
+        let elapsed = lastPositionTimestamp.duration(to: .now).components
+        return max(0, Double(elapsed.seconds) + Double(elapsed.attoseconds) / 1e18)
+    }
+    var displayedPosition: Double {
+        min(currentTrack?.duration ?? 0, max(0, position + positionAge))
+    }
     var volume: Double = 0
     var isLoading = false
+    var isRefreshing = false
+    var isInitialLoading: Bool {
+        isLoading && (store as? SpotifyLibraryStore)?.isInitialLoading != false
+    }
+    var canMutate: Bool {
+        !isMutating && !isInitialLoading && ((store as? SpotifyLibraryStore)?.isConnected ?? true)
+    }
+    @ObservationIgnored var sortedAlbumCache:
+        (albums: [MusicAlbum], byArtist: Bool, sorted: [MusicAlbum])?
     var accountName: String?
     var searchResults: MusicCatalog?
     @ObservationIgnored var browsingTask: Task<Void, Never>?
@@ -66,18 +89,25 @@ final class MusicViewModel {
     var isDemo: Bool { store is DemoMusicLibraryStore }
     var currentTrack: MusicTrack? { queue.current?.track }
     var nextTrack: MusicTrack? { queue.upcoming.first?.track }
-    var album: MusicAlbum? { catalog.albums.first { $0.id == selection.albumID } }
+    var album: MusicAlbum? { selection.albumID.flatMap { catalog.album(id: $0) } }
     var isQueue: Bool { selection.source == .queue }
     var canUndo: Bool { !undoMutations.isEmpty && !isMutating }
     var currentLiked: Bool { currentTrack.map { library.likedTrackIDs.contains($0.id) } ?? false }
 
     var sortedAlbums: [MusicAlbum] {
-        contents.albums.sorted {
+        if let cache = sortedAlbumCache, cache.albums == contents.albums,
+            cache.byArtist == sortAlbumsByArtist
+        {
+            return cache.sorted
+        }
+        let sorted = contents.albums.sorted {
             let lhs = sortAlbumsByArtist ? $0.artistNames : $0.title
             let rhs = sortAlbumsByArtist ? $1.artistNames : $1.title
             return lhs == rhs
                 ? $0.year < $1.year : lhs.localizedStandardCompare(rhs) == .orderedAscending
         }
+        sortedAlbumCache = (contents.albums, sortAlbumsByArtist, sorted)
+        return sorted
     }
 
     func select(_ source: MusicSource) {
@@ -89,6 +119,8 @@ final class MusicViewModel {
         refreshContents()
         if case .artist(let id) = source {
             loadSelection(artistID: id)
+        } else if case .playlist(let id) = source {
+            loadSelection(playlistID: id)
         } else if let id = selection.albumID {
             loadSelection(albumID: id)
         }
@@ -123,7 +155,7 @@ final class MusicViewModel {
     func refreshContents() {
         if case .search = selection.source, let searchResults {
             let tracks =
-                selection.albumID.flatMap { id in catalog.albums.first { $0.id == id } }.map {
+                selection.albumID.flatMap { id in catalog.album(id: id) }.map {
                     catalog.tracks(in: $0)
                 } ?? searchResults.tracks
             contents = BrowserContents(
@@ -133,124 +165,6 @@ final class MusicViewModel {
         }
         focusedTrackID = contents.tracks.first?.id
         focusedQueueID = queue.current?.id
-    }
-
-    func toggleTrack(_ track: MusicTrack, anchor: String) {
-        let change = FavoritesPolicy.track(
-            track.id, liked: !library.likedTrackIDs.contains(track.id), in: library)
-        guard !isLoading, !isMutating else { return }
-        likeOptionsTrackID = change.opensLikeOptions ? track.id : nil
-        likeOptionsAnchor = change.opensLikeOptions ? anchor : nil
-        apply(change)
-    }
-
-    func toggleAlbum(_ album: MusicAlbum) {
-        apply(
-            FavoritesPolicy.album(
-                album.id, saved: !library.savedAlbumIDs.contains(album.id), in: library))
-    }
-
-    func toggleArtist(_ artist: MusicArtist) {
-        apply(
-            FavoritesPolicy.artist(
-                artist.id, followed: !library.followedArtistIDs.contains(artist.id), in: library))
-    }
-
-    func setMembership(trackID: String, playlistID: String, included: Bool) {
-        apply(
-            FavoritesPolicy.membership(
-                trackID: trackID, playlistID: playlistID, included: included, in: library),
-            remembersUndo: false)
-    }
-
-    func setFollowed(_ artist: MusicArtist, followed: Bool) {
-        apply(
-            FavoritesPolicy.artist(artist.id, followed: followed, in: library), remembersUndo: false
-        )
-    }
-
-    private func apply(_ change: FavoriteChange, remembersUndo: Bool = true) {
-        guard !isLoading, !isMutating, !change.mutations.isEmpty else { return }
-        isMutating = true
-        let original = library
-        let store = store
-        library.apply(change.mutations)
-        // Keep visible rows frozen until navigation/reload, including a silently unliked row.
-        Task { [weak self] in
-            guard let self else { return }
-            defer {
-                if self.store === store {
-                    self.isMutating = false
-                    self.notifyPlayback()
-                }
-            }
-            do {
-                try await store.apply(change.mutations)
-                guard self.store === store else { return }
-                self.library = store.library
-                if remembersUndo { self.undoMutations = change.undo }
-                self.statusMessage = nil
-                self.confirmFavoriteFeedback(change.mutations)
-                self.retryChange = nil
-                self.retryPlaylist = nil
-                self.notifyPlayback()
-            } catch {
-                guard self.store === store else { return }
-                self.library = original
-                self.likeOptionsTrackID = nil
-                self.likeOptionsAnchor = nil
-                self.statusMessage = L10n.text("Could not update favorites.")
-                self.retryChange = change
-                self.retryPlaylist = nil
-            }
-        }
-    }
-
-    func undo() {
-        guard canUndo else { return }
-        apply(FavoriteChange(mutations: undoMutations))
-    }
-
-    func retry() {
-        if let retryChange {
-            apply(retryChange)
-        } else if let retryPlaylist {
-            createPlaylist(retryPlaylist.title, trackID: retryPlaylist.trackID)
-        } else if let retryPlayback {
-            retryPlayback()
-        } else {
-            syncLibrary()
-        }
-    }
-
-    func createPlaylist(_ title: String, trackID: String) {
-        let title = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !title.isEmpty, !isLoading, !isMutating else { return }
-        isMutating = true
-        let store = store
-        Task { [weak self] in
-            guard let self else { return }
-            defer {
-                if self.store === store {
-                    self.isMutating = false
-                    self.notifyPlayback()
-                }
-            }
-            do {
-                _ = try await store.createPlaylist(title: title, trackID: trackID)
-                guard self.store === store else { return }
-                self.library = store.library
-                self.statusMessage = nil
-                self.retryPlaylist = nil
-                self.retryChange = nil
-                self.notifyPlayback()
-            } catch {
-                guard self.store === store else { return }
-                self.statusMessage = L10n.text("Could not create playlist.")
-                self.retryPlaylist = (title, trackID)
-                self.retryChange = nil
-            }
-        }
     }
 
 }

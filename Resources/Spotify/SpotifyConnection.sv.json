@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "sv",
   "language": "Svenska",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Integritetspolicy — Spotify-anslutning",
-      "body": "Version 2026-11-01. Kinrox underhållare, awaik, ansvarar för Kinrox behandling av uppgifter som beskrivs här. Detta tillägg gäller den valfria Spotify-integrationen. Kinrox allmänna integritetspolicy finns på https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Publicera inte token, innehåll i ditt personliga bibliotek eller annan privat information i offentliga ärenden.",
+      "body": "Version 2026-11-02. Kinrox underhållare, awaik, ansvarar för Kinrox behandling av uppgifter som beskrivs här. Detta tillägg gäller den valfria Spotify-integrationen. Kinrox allmänna integritetspolicy finns på https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Publicera inte token, innehåll i ditt personliga bibliotek eller annan privat information i offentliga ärenden.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Lagring och mottagare",
-      "body": "Förnyelseuppgifter lagras i Macens Data Protection Keychain. Åtkomsttoken, kontouppgifter och biblioteksmetadata finns kvar i appens minne. Angivet Client ID, hjälpspellistans koppling och accepterad dokumentversion lagras i Macens inställningar. Kinrox har ingen server, användningsanalys eller telemetri, och underhållaren får inga av dessa Spotify-uppgifter. Spotify tar emot förfrågningar direkt från Macen och behandlar dem enligt sin integritetspolicy: https://www.spotify.com/legal/privacy-policy/. Spotify ser nätverksinformation som Macens offentliga IP-adress.",
+      "body": "Förnyelseuppgifter lagras i Macens Data Protection Keychain. Åtkomsttoken stannar i minnet. Biblioteksmetadata cachas i en lokal SQLite-databas i Mac-appens Caches-mapp. Det verifierade konto-ID:t och visningsnamnet sparas i Macens inställningar. Angivet Client ID, hjälpspellistans koppling och accepterad dokumentversion lagras i Macens inställningar. Kinrox har ingen server, användningsanalys eller telemetri, och underhållaren får inga av dessa Spotify-uppgifter. Spotify tar emot förfrågningar direkt från Macen och behandlar dem enligt sin integritetspolicy: https://www.spotify.com/legal/privacy-policy/. Spotify ser nätverksinformation som Macens offentliga IP-adress.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Frånkoppling och lagringstid",
-      "body": "Öppna Inställningar → Spotify → Koppla från i Kinrox på Mac. Kinrox slutför väntande uppspelningsåtgärder, stoppar förfrågningar, tar bort förnyelseuppgifter och lokala kopplingar till hjälpspellistor samt rensar konto- och biblioteksstatus ur minnet. Automatisk återanslutning stoppas. Den accepterade versionen är en inställning utan kontokoppling. Ändringar som redan gjorts i Spotify, inklusive spellistor och favoriter, finns kvar där. Frånkoppling återkallar inte auktoriseringen hos Spotify; ta bort appen på https://www.spotify.com/account/apps/ för att återkalla den. Kvarvarande hjälpspellistor kan du radera direkt i Spotify.",
+      "body": "Öppna Inställningar → Spotify → Koppla från i Kinrox på Mac. Kinrox slutför väntande uppspelningsåtgärder, stoppar förfrågningar, tar bort förnyelseuppgifter och lokala kopplingar till hjälpspellistor samt rensar konto- och biblioteksstatus ur minnet. Automatisk återanslutning stoppas. Den accepterade versionen är en inställning utan kontokoppling. Ändringar som redan gjorts i Spotify, inklusive spellistor och favoriter, finns kvar där. Frånkoppling återkallar inte auktoriseringen hos Spotify; ta bort appen på https://www.spotify.com/account/apps/ för att återkalla den. Kvarvarande hjälpspellistor kan du radera direkt i Spotify. Cachade metadata upphör att gälla efter 7 dagar utan ny kontroll. När anslutningen kopplas från raderas SQLite-cachen, dess sidofiler och den sparade kontokopplingen automatiskt.",
       "id": "retention"
     },
     {

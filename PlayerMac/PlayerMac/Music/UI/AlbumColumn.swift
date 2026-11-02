@@ -80,7 +80,7 @@ struct AlbumColumn: View {
                 Palette.textTertiary)
             MusicHeart(liked: model.library.savedAlbumIDs.contains(album.id), title: album.title) {
                 model.toggleAlbum(album)
-            }.disabled(model.isMutating)
+            }.disabled(!model.canMutate)
         }.padding(.horizontal, 10).frame(height: 52)
             .background(
                 model.selection.albumID == album.id ? Palette.glassStrong : .clear,

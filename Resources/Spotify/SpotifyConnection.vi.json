@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "vi",
   "language": "Tiếng Việt",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Chính sách quyền riêng tư — kết nối Spotify",
-      "body": "Phiên bản 2026-11-01. Người duy trì Kinrox, awaik, chịu trách nhiệm về hoạt động xử lý dữ liệu của Kinrox được mô tả ở đây. Phụ lục này áp dụng cho tích hợp Spotify tùy chọn. Chính sách quyền riêng tư chung của Kinrox có tại https://kinrox.app/privacy/. Liên hệ: https://github.com/awaik/Kinrox/issues. Không đăng mã thông báo, nội dung thư viện cá nhân hoặc thông tin riêng tư khác trong báo cáo công khai.",
+      "body": "Phiên bản 2026-11-02. Người duy trì Kinrox, awaik, chịu trách nhiệm về hoạt động xử lý dữ liệu của Kinrox được mô tả ở đây. Phụ lục này áp dụng cho tích hợp Spotify tùy chọn. Chính sách quyền riêng tư chung của Kinrox có tại https://kinrox.app/privacy/. Liên hệ: https://github.com/awaik/Kinrox/issues. Không đăng mã thông báo, nội dung thư viện cá nhân hoặc thông tin riêng tư khác trong báo cáo công khai.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Lưu trữ và bên nhận",
-      "body": "Thông tin xác thực làm mới được lưu trong Data Protection Keychain của Mac. Mã thông báo truy cập, chi tiết tài khoản và siêu dữ liệu thư viện nằm trong bộ nhớ ứng dụng. Client ID được cung cấp, liên kết danh sách hỗ trợ và phiên bản tài liệu đã chấp nhận được lưu trong tùy chọn của Mac. Kinrox không có máy chủ, phân tích hay đo từ xa, và người duy trì không nhận bất kỳ dữ liệu Spotify nào trong số này. Spotify nhận yêu cầu trực tiếp từ Mac và xử lý theo chính sách quyền riêng tư của mình: https://www.spotify.com/legal/privacy-policy/. Spotify thấy thông tin mạng như địa chỉ IP công khai của Mac.",
+      "body": "Thông tin xác thực làm mới được lưu trong Data Protection Keychain của Mac. Mã thông báo truy cập vẫn ở trong bộ nhớ. Siêu dữ liệu thư viện được lưu đệm trong cơ sở dữ liệu SQLite cục bộ tại thư mục Caches của ứng dụng trên Mac. Mã định danh tài khoản đã xác minh và tên hiển thị được lưu trong tùy chọn của Mac. Client ID được cung cấp, liên kết danh sách hỗ trợ và phiên bản tài liệu đã chấp nhận được lưu trong tùy chọn của Mac. Kinrox không có máy chủ, phân tích hay đo từ xa, và người duy trì không nhận bất kỳ dữ liệu Spotify nào trong số này. Spotify nhận yêu cầu trực tiếp từ Mac và xử lý theo chính sách quyền riêng tư của mình: https://www.spotify.com/legal/privacy-policy/. Spotify thấy thông tin mạng như địa chỉ IP công khai của Mac.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Ngắt kết nối và lưu giữ",
-      "body": "Trong Kinrox trên Mac, mở Cài đặt → Spotify → Ngắt kết nối. Kinrox hoàn tất công việc phát đang chờ, dừng yêu cầu, xóa thông tin xác thực làm mới và liên kết cục bộ của danh sách hỗ trợ, đồng thời xóa trạng thái tài khoản và thư viện khỏi bộ nhớ. Việc tự động kết nối lại dừng. Phiên bản đã chấp nhận là tùy chọn không gắn với tài khoản. Những thay đổi đã thực hiện trong Spotify, gồm danh sách phát và mục yêu thích, vẫn ở đó. Ngắt kết nối không thu hồi quyền đã cấp tại Spotify; hãy xóa ứng dụng tại https://www.spotify.com/account/apps/ để thu hồi. Bạn có thể xóa các danh sách hỗ trợ còn lại trực tiếp trong Spotify.",
+      "body": "Trong Kinrox trên Mac, mở Cài đặt → Spotify → Ngắt kết nối. Kinrox hoàn tất công việc phát đang chờ, dừng yêu cầu, xóa thông tin xác thực làm mới và liên kết cục bộ của danh sách hỗ trợ, đồng thời xóa trạng thái tài khoản và thư viện khỏi bộ nhớ. Việc tự động kết nối lại dừng. Phiên bản đã chấp nhận là tùy chọn không gắn với tài khoản. Những thay đổi đã thực hiện trong Spotify, gồm danh sách phát và mục yêu thích, vẫn ở đó. Ngắt kết nối không thu hồi quyền đã cấp tại Spotify; hãy xóa ứng dụng tại https://www.spotify.com/account/apps/ để thu hồi. Bạn có thể xóa các danh sách hỗ trợ còn lại trực tiếp trong Spotify. Siêu dữ liệu trong bộ nhớ đệm hết hạn sau 7 ngày nếu không được xác minh lại. Ngắt kết nối tự động xóa bộ nhớ đệm SQLite, các tệp phụ trợ và liên kết tài khoản đã lưu.",
       "id": "retention"
     },
     {

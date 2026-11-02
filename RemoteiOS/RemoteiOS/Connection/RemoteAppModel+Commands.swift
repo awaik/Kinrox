@@ -14,7 +14,8 @@ extension RemoteAppModel {
         switch message {
         case .state(_, let state):
             guard state.position.isFinite, state.duration.isFinite, state.volume.isFinite,
-                state.position >= 0, state.duration >= 0, (0...100).contains(state.volume)
+                state.position >= 0, state.duration >= 0, (0...100).contains(state.volume),
+                state.music?.positionAge.map({ $0.isFinite && $0 >= 0 }) ?? true
             else {
                 connectionLost(.invalidMessage)
                 return
@@ -24,8 +25,9 @@ extension RemoteAppModel {
             }
             let previous = self.state
             self.state = state
-            receivedAt = scheduler.now
-            frozenPosition = min(state.duration, state.position)
+            let age = state.source == .music && !state.paused ? state.music?.positionAge ?? 0 : 0
+            receivedAt = scheduler.now - age
+            frozenPosition = min(state.duration, state.position + age)
             hasState = true
             musicStateChanged(from: previous)
         case .queue(_, let page): receiveQueue(page)

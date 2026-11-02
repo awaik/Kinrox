@@ -50,7 +50,7 @@ struct TrackHeart: View {
             }
         }
         .buttonStyle(.plain)
-        .disabled(model.isMutating)
+        .disabled(!model.canMutate)
         .accessibilityLabel(L10n.format("Favorite: %@", track.title))
         .accessibilityValue(liked ? L10n.text("On") : L10n.text("Off"))
         .popover(

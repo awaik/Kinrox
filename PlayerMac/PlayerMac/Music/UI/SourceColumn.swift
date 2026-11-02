@@ -46,7 +46,7 @@ struct SourceColumn: View {
                             title: artist.name
                         ) {
                             model.toggleArtist(artist)
-                        }.disabled(model.isMutating)
+                        }.disabled(!model.canMutate)
                     }.padding(.horizontal, 10)
                         .background(
                             model.selection.source == .artist(artist.id)

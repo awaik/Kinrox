@@ -56,7 +56,7 @@ public struct BrowserSelection: Equatable, Sendable {
             tracks = catalog.tracks.filter { library.likedTrackIDs.contains($0.id) }
         case .playlist(let id):
             tracks = (library.playlists.first { $0.id == id }?.trackIDs ?? []).compactMap { id in
-                catalog.tracks.first { $0.id == id }
+                catalog.track(id: id)
             }
         case .artist(let id):
             albums = albums.filter { $0.artists.contains { $0.id == id } }
@@ -77,13 +77,14 @@ public struct BrowserSelection: Equatable, Sendable {
         }
         let trackAlbums = Set(tracks.map(\.albumID))
         if source != .albums {
+            let retainedIDs = retainsAlbums ? Set(albums.map(\.id)) : []
             albums = catalog.albums.filter {
-                trackAlbums.contains($0.id) || albums.contains($0) && retainsAlbums
+                trackAlbums.contains($0.id) || retainedIDs.contains($0.id)
             }
         }
         let filtered: [MusicTrack]
         if let albumID, source == .albums,
-            let album = catalog.albums.first(where: { $0.id == albumID })
+            let album = catalog.album(id: albumID)
         {
             filtered = catalog.tracks(in: album)
         } else {

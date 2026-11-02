@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "ro",
   "language": "Română",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Politica de confidențialitate — conectarea la Spotify",
-      "body": "Versiunea 2026-11-01. Responsabilul cu întreținerea Kinrox, awaik, răspunde pentru prelucrarea datelor de către Kinrox descrisă aici. Acest supliment se aplică integrării opționale cu Spotify. Politica generală de confidențialitate Kinrox este disponibilă la https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Nu publica tokenuri, conținutul bibliotecii personale sau alte informații private în sesizări publice.",
+      "body": "Versiunea 2026-11-02. Responsabilul cu întreținerea Kinrox, awaik, răspunde pentru prelucrarea datelor de către Kinrox descrisă aici. Acest supliment se aplică integrării opționale cu Spotify. Politica generală de confidențialitate Kinrox este disponibilă la https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Nu publica tokenuri, conținutul bibliotecii personale sau alte informații private în sesizări publice.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Stocare și destinatari",
-      "body": "Datele de autentificare pentru reînnoire sunt stocate în Data Protection Keychain de pe Mac. Tokenurile de acces, detaliile contului și metadatele bibliotecii rămân în memoria aplicației. Client ID furnizat, asocierea listei auxiliare și versiunea acceptată a documentelor sunt stocate în preferințele Macului. Kinrox nu are server, analiză a utilizării sau telemetrie, iar responsabilul său nu primește niciuna dintre aceste date Spotify. Spotify primește solicitări direct de la Mac și le prelucrează conform politicii sale de confidențialitate: https://www.spotify.com/legal/privacy-policy/. Spotify vede informații de rețea, precum adresa IP publică a Macului.",
+      "body": "Datele de autentificare pentru reînnoire sunt stocate în Data Protection Keychain de pe Mac. Tokenurile de acces rămân în memorie. Metadatele bibliotecii sunt memorate într-o bază SQLite locală, în directorul Caches al aplicației pe Mac. Identificatorul verificat al contului și numele afișat sunt salvate în preferințele Macului. Client ID furnizat, asocierea listei auxiliare și versiunea acceptată a documentelor sunt stocate în preferințele Macului. Kinrox nu are server, analiză a utilizării sau telemetrie, iar responsabilul său nu primește niciuna dintre aceste date Spotify. Spotify primește solicitări direct de la Mac și le prelucrează conform politicii sale de confidențialitate: https://www.spotify.com/legal/privacy-policy/. Spotify vede informații de rețea, precum adresa IP publică a Macului.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Deconectare și păstrarea datelor",
-      "body": "În Kinrox pe Mac, deschide Configurări → Spotify → Deconectare. Kinrox finalizează operațiunile de redare în așteptare, oprește solicitările, elimină datele de autentificare pentru reînnoire și asocierile locale ale listelor auxiliare și șterge din memorie starea contului și a bibliotecii. Oprește reconectarea automată. Versiunea acceptată este o preferință independentă de cont. Modificările deja făcute în Spotify, inclusiv listele și favoritele, rămân acolo. Deconectarea nu revocă autorizarea la Spotify; elimină aplicația la https://www.spotify.com/account/apps/ pentru a o revoca. Poți șterge listele auxiliare păstrate direct în Spotify.",
+      "body": "În Kinrox pe Mac, deschide Configurări → Spotify → Deconectare. Kinrox finalizează operațiunile de redare în așteptare, oprește solicitările, elimină datele de autentificare pentru reînnoire și asocierile locale ale listelor auxiliare și șterge din memorie starea contului și a bibliotecii. Oprește reconectarea automată. Versiunea acceptată este o preferință independentă de cont. Modificările deja făcute în Spotify, inclusiv listele și favoritele, rămân acolo. Deconectarea nu revocă autorizarea la Spotify; elimină aplicația la https://www.spotify.com/account/apps/ pentru a o revoca. Poți șterge listele auxiliare păstrate direct în Spotify. Metadatele din cache expiră după 7 zile fără revalidare. Deconectarea șterge automat cache-ul SQLite, fișierele sale auxiliare și asocierea contului salvată.",
       "id": "retention"
     },
     {

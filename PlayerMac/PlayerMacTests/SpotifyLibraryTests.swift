@@ -64,10 +64,20 @@ struct SpotifyLibraryTests {
             #"{"items":[{"id":"playlist","uri":"spotify:playlist:playlist","name":"Test","owner":{"id":"owner"},"collaborative":false,"snapshot_id":"version"}],"next":null}"#
         let entries =
             #"{"items":[{"item":null},{"item":{"id":"track","uri":"spotify:track:track","name":"Test","artists":[],"duration_ms":1000,"type":"track","album":{"id":"album","uri":"spotify:album:album","name":"Album","artists":[]}}}],"next":null}"#
-        let initial: [MusicHTTPStub.Reply] = [profile, empty, empty, follows, playlists, entries]
-            .map { .init(body: $0) }
-        let client = makeClient(
-            initial + [profile, empty, empty, follows, playlists].map { .init(body: $0) })
+        let metadata =
+            #"{"id":"playlist","uri":"spotify:playlist:playlist","name":"Test","owner":{"id":"owner"},"snapshot_id":"version"}"#
+        MusicHTTPStub.state.reset(routes: [
+            "GET /v1/me": [.init(body: profile)],
+            "GET /v1/me/albums": [.init(body: empty), .init(body: empty)],
+            "GET /v1/me/tracks": [.init(body: empty), .init(body: empty)],
+            "GET /v1/me/following": [.init(body: follows), .init(body: follows)],
+            "GET /v1/me/playlists": [.init(body: playlists), .init(body: playlists)],
+            "GET /v1/playlists/playlist": [.init(body: metadata), .init(body: metadata)],
+            "GET /v1/playlists/playlist/items": [.init(body: entries)],
+        ])
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MusicHTTPStub.self]
+        let client = SpotifyClient(configuration: config) { _ in "synthetic" }
         let store = SpotifyLibraryStore(client: client)
         try await store.refresh()
         #expect(store.library.playlists.first?.trackIDs == ["unavailable:0", "track"])
@@ -76,6 +86,7 @@ struct SpotifyLibraryTests {
             MusicHTTPStub.state.requests.filter { $0.url?.path.hasSuffix("/items") == true }.count
                 == 1)
         #expect(store.catalog.tracks.first?.title == "Test")
+        store.retire()
         await client.close()
     }
 

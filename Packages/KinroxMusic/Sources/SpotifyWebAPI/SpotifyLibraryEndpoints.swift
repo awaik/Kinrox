@@ -28,8 +28,12 @@ extension SpotifyClient {
     public func playlists() async throws -> [SpotifyPlaylist] {
         try await pages(SpotifyPlaylist.self, "me/playlists?limit=50")
     }
-    public func playlist(_ id: String) async throws -> SpotifyPlaylist {
-        try await get(SpotifyPlaylist.self, "playlists/" + Self.identifier(id))
+    public func playlist(_ id: String, live: Bool = false, priority: SpotifyRequestPriority? = nil)
+        async throws -> SpotifyPlaylist
+    {
+        let data = try await request(
+            "playlists/" + Self.identifier(id), priority: priority, live: live)
+        return try JSONDecoder().decode(SpotifyPlaylist.self, from: data)
     }
     public func playlistItems(_ id: String) async throws -> [SpotifyPlaylistItem] {
         try await pages(
@@ -37,6 +41,9 @@ extension SpotifyClient {
     }
     public func album(_ id: String) async throws -> SpotifyAlbum {
         try await get(SpotifyAlbum.self, "albums/" + Self.identifier(id))
+    }
+    public func remainingAlbumTracks(_ next: String) async throws -> [SpotifyTrack] {
+        try await pages(SpotifyTrack.self, next)
     }
     public func albumTracks(_ id: String) async throws -> [SpotifyTrack] {
         try await pages(SpotifyTrack.self, "albums/" + Self.identifier(id) + "/tracks?limit=50")

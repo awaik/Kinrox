@@ -2,7 +2,7 @@ import Foundation
 import MusicCore
 
 extension MusicViewModel {
-    func allows(_ action: String) -> Bool { !disallowedActions.contains(action) }
+    func allows(_ action: String) -> Bool { acceptsPlayback && !disallowedActions.contains(action) }
 
     func confirmFavoriteFeedback(_ mutations: [LibraryMutation]) {
         for mutation in mutations {

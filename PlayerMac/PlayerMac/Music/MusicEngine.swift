@@ -22,6 +22,7 @@ enum MusicEngineEvent: Sendable {
 @MainActor
 protocol MusicEngine: AnyObject {
     var events: AsyncStream<MusicEngineEvent> { get }
+    func canResume(_ queue: MusicQueue) -> Bool
     func play(queue: MusicQueue, position: Double) async throws
     func setPaused(_ paused: Bool) async throws
     func seek(absolute position: Double) async throws
@@ -29,4 +30,7 @@ protocol MusicEngine: AnyObject {
     func updateQueue(_ queue: MusicQueue, position: Double, paused: Bool) async throws
     func stop() async throws
     func shutdown() async
+}
+extension MusicEngine {
+    func canResume(_ queue: MusicQueue) -> Bool { false }
 }

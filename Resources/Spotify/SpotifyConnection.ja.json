@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "ja",
   "language": "日本語",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "プライバシーポリシー — Spotify 接続",
-      "body": "バージョン 2026-11-01。Kinrox の管理者 awaik は、ここに記載する Kinrox のデータ処理に責任を負います。この補足は任意の Spotify 連携に適用されます。Kinrox の一般プライバシーポリシー：https://kinrox.app/privacy/。お問い合わせ：https://github.com/awaik/Kinrox/issues。公開の Issue にトークン、個人のライブラリ内容、その他の非公開情報を投稿しないでください。",
+      "body": "バージョン 2026-11-02。Kinrox の管理者 awaik は、ここに記載する Kinrox のデータ処理に責任を負います。この補足は任意の Spotify 連携に適用されます。Kinrox の一般プライバシーポリシー：https://kinrox.app/privacy/。お問い合わせ：https://github.com/awaik/Kinrox/issues。公開の Issue にトークン、個人のライブラリ内容、その他の非公開情報を投稿しないでください。",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "保存と受領者",
-      "body": "更新用の認証情報は Mac の Data Protection Keychain に保存します。アクセストークン、アカウント情報、ライブラリのメタデータはアプリのメモリ内に保持します。入力した Client ID、補助プレイリストの関連付け、同意した文書のバージョンは Mac の設定に保存します。Kinrox にはサーバー、利用分析、テレメトリがなく、管理者はこれらの Spotify データを一切受け取りません。Spotify は Mac から直接リクエストを受け取り、自社のプライバシーポリシーに従って処理します：https://www.spotify.com/legal/privacy-policy/。Spotify には Mac の公開 IP アドレスなどのネットワーク情報が見えます。",
+      "body": "更新用の認証情報は Mac の Data Protection Keychain に保存します。 アクセストークンはメモリ内に保持します。ライブラリのメタデータは、Mac アプリの Caches フォルダにあるローカルの SQLite データベースにキャッシュします。確認済みのアカウント ID と表示名は Mac の設定に保存します。 入力した Client ID、補助プレイリストの関連付け、同意した文書のバージョンは Mac の設定に保存します。Kinrox にはサーバー、利用分析、テレメトリがなく、管理者はこれらの Spotify データを一切受け取りません。Spotify は Mac から直接リクエストを受け取り、自社のプライバシーポリシーに従って処理します：https://www.spotify.com/legal/privacy-policy/。Spotify には Mac の公開 IP アドレスなどのネットワーク情報が見えます。",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "接続解除と保持",
-      "body": "Mac の Kinrox で「設定 → Spotify → 接続解除」を開いてください。Kinrox は保留中の再生処理を完了させ、リクエストを停止し、更新用認証情報と補助プレイリストのローカル関連付けを削除して、アカウントとライブラリの状態をメモリから消去します。自動再接続も停止します。同意したバージョンはアカウントに紐付かない設定です。プレイリストやお気に入りを含め、Spotify ですでに行った変更は残ります。接続解除は Spotify 側の認可を取り消しません。取り消すには https://www.spotify.com/account/apps/ でアプリを削除してください。残った補助プレイリストは Spotify で直接削除できます。",
+      "body": "Mac の Kinrox で「設定 → Spotify → 接続解除」を開いてください。Kinrox は保留中の再生処理を完了させ、リクエストを停止し、更新用認証情報と補助プレイリストのローカル関連付けを削除して、アカウントとライブラリの状態をメモリから消去します。自動再接続も停止します。同意したバージョンはアカウントに紐付かない設定です。プレイリストやお気に入りを含め、Spotify ですでに行った変更は残ります。接続解除は Spotify 側の認可を取り消しません。取り消すには https://www.spotify.com/account/apps/ でアプリを削除してください。残った補助プレイリストは Spotify で直接削除できます。 キャッシュしたメタデータは、再検証されないまま 7 日経過すると期限切れになります。接続を解除すると、SQLite キャッシュ、その付随ファイル、保存したアカウントの関連付けを自動的に削除します。",
       "id": "retention"
     },
     {

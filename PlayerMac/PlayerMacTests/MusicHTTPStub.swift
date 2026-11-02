@@ -10,17 +10,31 @@ final class MusicHTTPStub: URLProtocol, @unchecked Sendable {
     final class State: @unchecked Sendable {
         private let lock = NSLock()
         private var responses: [Reply] = []
+        private var routes: [String: [Reply]] = [:]
         private var recorded: [URLRequest] = []
         var requests: [URLRequest] { lock.withLock { recorded } }
         func reset(_ replies: [Reply]) {
             lock.withLock {
                 responses = replies
+                routes = [:]
                 recorded = []
             }
         }
+        func reset(routes: [String: [Reply]]) {
+            lock.withLock {
+                self.routes = routes
+                responses = []
+                recorded = []
+            }
+        }
+        func append(_ replies: [Reply]) { lock.withLock { responses += replies } }
         func take(_ request: URLRequest) -> Reply {
             lock.withLock {
                 recorded.append(request)
+                let key = (request.httpMethod ?? "GET") + " " + (request.url?.path ?? "")
+                if let replies = routes[key], !replies.isEmpty {
+                    return routes[key]!.removeFirst()
+                }
                 return responses.isEmpty ? Reply(status: 500) : responses.removeFirst()
             }
         }

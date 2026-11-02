@@ -5,6 +5,7 @@ import MusicCore
 protocol MusicLibraryStore: AnyObject {
     var catalog: MusicCatalog { get }
     var library: LibrarySnapshot { get }
+    func change(_ request: MusicFavoriteRequest) async throws -> FavoriteChange
     func apply(_ mutations: [LibraryMutation]) async throws
     func createPlaylist(title: String, trackID: String) async throws -> MusicPlaylist
 }

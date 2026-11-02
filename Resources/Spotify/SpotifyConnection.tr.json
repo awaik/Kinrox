@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "tr",
   "language": "Türkçe",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Gizlilik politikası — Spotify bağlantısı",
-      "body": "Sürüm 2026-11-01. Kinrox’un bakımını yapan awaik, burada açıklanan Kinrox veri işlemesinden sorumludur. Bu ek, isteğe bağlı Spotify entegrasyonu için geçerlidir. Kinrox’un genel gizlilik politikası https://kinrox.app/privacy/ adresindedir. İletişim: https://github.com/awaik/Kinrox/issues. Herkese açık bildirimlerde belirteçleri, kişisel kitaplık içeriğini veya başka özel bilgileri paylaşmayın.",
+      "body": "Sürüm 2026-11-02. Kinrox’un bakımını yapan awaik, burada açıklanan Kinrox veri işlemesinden sorumludur. Bu ek, isteğe bağlı Spotify entegrasyonu için geçerlidir. Kinrox’un genel gizlilik politikası https://kinrox.app/privacy/ adresindedir. İletişim: https://github.com/awaik/Kinrox/issues. Herkese açık bildirimlerde belirteçleri, kişisel kitaplık içeriğini veya başka özel bilgileri paylaşmayın.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Saklama ve alıcılar",
-      "body": "Yenileme kimlik bilgileri Mac’in Data Protection Keychain alanında saklanır. Erişim belirteçleri, hesap ayrıntıları ve kitaplık meta verileri uygulama belleğinde kalır. Verilen Client ID, yardımcı liste ilişkilendirmesi ve kabul edilen belge sürümü Mac tercihlerinde saklanır. Kinrox’un sunucusu, analitiği veya telemetrisi yoktur; bakımını yapan kişi bu Spotify verilerinin hiçbirini almaz. Spotify istekleri doğrudan Mac’ten alır ve kendi gizlilik politikasına göre işler: https://www.spotify.com/legal/privacy-policy/. Spotify, Mac’in genel IP adresi gibi ağ bilgilerini görür.",
+      "body": "Yenileme kimlik bilgileri Mac’in Data Protection Keychain alanında saklanır. Erişim belirteçleri bellekte kalır. Kitaplık meta verileri Mac uygulamasının Caches klasöründeki yerel SQLite veritabanında önbelleğe alınır. Doğrulanmış hesap kimliği ve görünen ad Mac tercihlerinde saklanır. Verilen Client ID, yardımcı liste ilişkilendirmesi ve kabul edilen belge sürümü Mac tercihlerinde saklanır. Kinrox’un sunucusu, analitiği veya telemetrisi yoktur; bakımını yapan kişi bu Spotify verilerinin hiçbirini almaz. Spotify istekleri doğrudan Mac’ten alır ve kendi gizlilik politikasına göre işler: https://www.spotify.com/legal/privacy-policy/. Spotify, Mac’in genel IP adresi gibi ağ bilgilerini görür.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Bağlantıyı kesme ve saklama süresi",
-      "body": "Mac’te Kinrox içinde Ayarlar → Spotify → Bağlantıyı Kes’i açın. Kinrox bekleyen oynatma işlemlerini sonuçlandırır, istekleri durdurur, yenileme kimlik bilgisini ve yerel yardımcı liste ilişkilendirmelerini kaldırır, hesap ve kitaplık durumunu bellekten temizler. Otomatik yeniden bağlanmayı durdurur. Kabul edilen sürüm, hesaptan bağımsız bir tercihtir. Listeler ve favoriler dahil Spotify’da zaten yapılmış değişiklikler orada kalır. Bağlantıyı kesmek Spotify yetkisini iptal etmez; iptal etmek için https://www.spotify.com/account/apps/ adresinden uygulamayı kaldırın. Tutulan yardımcı listeleri doğrudan Spotify’da silebilirsiniz.",
+      "body": "Mac’te Kinrox içinde Ayarlar → Spotify → Bağlantıyı Kes’i açın. Kinrox bekleyen oynatma işlemlerini sonuçlandırır, istekleri durdurur, yenileme kimlik bilgisini ve yerel yardımcı liste ilişkilendirmelerini kaldırır, hesap ve kitaplık durumunu bellekten temizler. Otomatik yeniden bağlanmayı durdurur. Kabul edilen sürüm, hesaptan bağımsız bir tercihtir. Listeler ve favoriler dahil Spotify’da zaten yapılmış değişiklikler orada kalır. Bağlantıyı kesmek Spotify yetkisini iptal etmez; iptal etmek için https://www.spotify.com/account/apps/ adresinden uygulamayı kaldırın. Tutulan yardımcı listeleri doğrudan Spotify’da silebilirsiniz. Önbellekteki meta verilerin süresi yeniden doğrulama yapılmadan 7 gün sonra dolar. Bağlantı kesildiğinde SQLite önbelleği, yardımcı dosyaları ve kayıtlı hesap ilişkilendirmesi otomatik olarak silinir.",
       "id": "retention"
     },
     {

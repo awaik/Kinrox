@@ -12,7 +12,7 @@ struct MusicServiceStatus: View {
             HStack(spacing: 16) {
                 Text(message).frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundStyle(Palette.textSecondary)
-                if !model.isLoading {
+                if !model.isLoading, !model.isRefreshing {
                     Button(L10n.text(needsSettings(message) ? "Settings" : "Retry")) {
                         if needsSettings(message) { openSettings() } else { model.retry() }
                     }.buttonStyle(.plain).foregroundStyle(Palette.flame)

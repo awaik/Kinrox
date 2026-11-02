@@ -78,7 +78,7 @@ struct LikePopover: View {
         }
         .font(.system(size: 13)).foregroundStyle(Palette.textPrimary).tint(Palette.ember)
         .frame(width: 300).background(Palette.elevated).preferredColorScheme(.dark)
-        .disabled(model.isMutating)
+        .disabled(!model.canMutate)
     }
 
     private func section(_ title: String) -> some View {

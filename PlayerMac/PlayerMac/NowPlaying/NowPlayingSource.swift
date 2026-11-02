@@ -61,7 +61,7 @@ extension MusicViewModel: NowPlayingSource {
             duration: playbackDuration > 0 ? playbackDuration : track.duration,
             paused: paused, isMusic: true)
     }
-    var nowPlayingPosition: Double { position }
+    var nowPlayingPosition: Double { displayedPosition }
     var nowPlayingCommands: Set<NowPlayingCommand> {
         guard currentTrack != nil else { return [] }
         var enabled = Set(NowPlayingCommand.allCases)
@@ -85,8 +85,8 @@ extension MusicViewModel: NowPlayingSource {
         case .pause: setPaused(true)
         case .nextTrack: next()
         case .previousTrack: previous()
-        case .skipForward: seek(self.position + 10)
-        case .skipBackward: seek(self.position - 10)
+        case .skipForward: seek(self.displayedPosition + 10)
+        case .skipBackward: seek(self.displayedPosition - 10)
         case .changePlaybackPosition:
             guard let position, position.isFinite else { return false }
             seek(position)

@@ -74,8 +74,10 @@ extension MusicViewModel {
         runPlayback(startsPlayback: !value) { model in
             if value {
                 try await model.pauseForSourceChange()
+            } else if let engine = model.musicEngine, engine.canResume(model.queue) {
+                try await engine.setPaused(false)
             } else {
-                try await model.startQueue(model.queue, position: model.position)
+                try await model.startQueue(model.queue, position: model.displayedPosition)
             }
         }
     }
@@ -83,6 +85,7 @@ extension MusicViewModel {
         if let musicEngine {
             try await musicEngine.setPaused(true)
         } else if isDemo {
+            position = displayedPosition
             paused = true
             notifyPlayback()
         }
@@ -118,26 +121,56 @@ extension MusicViewModel {
         }
     }
     func seek(_ value: Double) {
-        guard value.isFinite, allows("seeking") else { return }
+        guard value.isFinite, allows("seeking"), acceptsPlayback else { return }
+        pendingSeek = value
+        guard !seekScheduled else { return }
+        seekScheduled = true
+        let store = store
         runPlayback { model in
-            let target = min(max(0, value), model.currentTrack?.duration ?? 0)
-            if let engine = model.musicEngine {
-                try await engine.seek(absolute: target)
-            } else if model.isDemo {
-                model.position = target
+            defer { if model.store === store { model.seekScheduled = false } }
+            while model.store === store, let value = model.pendingSeek {
+                model.pendingSeek = nil
+                let target = min(max(0, value), model.currentTrack?.duration ?? 0)
+                do {
+                    if let engine = model.musicEngine {
+                        try await engine.seek(absolute: target)
+                    } else if model.isDemo {
+                        model.position = target
+                    }
+                    model.notifyPlayback(.playbackRestarted)
+                } catch {
+                    if model.pendingSeek == nil {
+                        model.pendingSeek = value
+                        throw error
+                    }
+                }
             }
-            model.notifyPlayback(.playbackRestarted)
         }
     }
     func setVolume(_ value: Double) {
-        guard value.isFinite, allows("volume") else { return }
+        guard value.isFinite, allows("volume"), acceptsPlayback else { return }
+        pendingVolume = value
+        guard !volumeScheduled else { return }
+        volumeScheduled = true
+        let store = store
         runPlayback { model in
-            if let engine = model.musicEngine {
-                try await engine.setVolume(value)
-            } else if model.isDemo {
-                model.volume = min(100, max(0, value))
+            defer { if model.store === store { model.volumeScheduled = false } }
+            while model.store === store, let value = model.pendingVolume {
+                model.pendingVolume = nil
+                do {
+                    if let engine = model.musicEngine {
+                        try await engine.setVolume(value)
+                    } else if model.isDemo {
+                        model.volume = min(100, max(0, value))
+                    }
+                    model.notifyPlayback()
+                } catch {
+                    if model.pendingVolume == nil {
+                        model.pendingVolume = value
+                        throw error
+                    }
+                }
             }
-            model.notifyPlayback()
         }
     }
     func shuffleCollection() {
@@ -199,10 +232,10 @@ extension MusicViewModel {
             edit(&next)
             guard next != model.queue else { return }
             if let engine = model.musicEngine {
-                try await engine.updateQueue(next, position: model.position, paused: model.paused)
+                try await engine.updateQueue(
+                    next, position: model.displayedPosition, paused: model.paused)
             }
             model.queue = next
-            if let state = model.lastSnapshot { model.receive(state) }
             if model.isQueue { model.refreshContents() }
             model.notifyPlayback()
         }
@@ -224,7 +257,6 @@ extension MusicViewModel {
                 queue = original
                 return
             }
-            if let state = lastSnapshot { receive(state) }
             if isQueue { refreshContents() }
             notifyPlayback(.playbackRestarted)
         } catch {

@@ -1,5 +1,9 @@
 # Music mode v2 verification
 
+SQLite caching and latency work was implemented locally on 2026-11-02; see
+[performance verification](SPOTIFY-PERFORMANCE-VERIFICATION.md) for the current implementation,
+checks and release boundary. The 2026-11-01 behavior below is historical.
+
 Implemented 2026-11-01; included in Mac 0.4.0 (build 6). Historical implementation
 evidence follows; release checks are in [0.4.0 Verification](0.4.0-VERIFICATION.md). Contract:
 [Music v2 plan](<../RESEARCHES/DONE/DONE - 2026-11-01_09-11_Music-mode-v2-implementation-plan.md>).

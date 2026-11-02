@@ -138,3 +138,59 @@ struct MusicPlaybackTests {
         await newVideo.shutdown()
     }
 }
+
+@MainActor
+struct MusicProgressClockTests {
+    @Test func localClockLeavesConfirmedAnchorUntouched() {
+        let model = MusicViewModel()
+        model.paused = false
+        model.position = 10
+        model.lastPositionTimestamp = .now.advanced(by: .seconds(-20))
+        #expect(model.position == 10)
+        #expect(model.displayedPosition >= 30 && model.displayedPosition < 31)
+        model.paused = true
+        #expect(model.displayedPosition == 10)
+    }
+    @Test(arguments: [false, true]) func slidersOnlyDispatchFirstAndLatest(seek: Bool) async throws
+    {
+        let model = MusicViewModel()
+        let engine = FakeMusicEngine()
+        model.connect(engine: engine)
+        engine.waitsForSlider = true
+        if seek { model.seek(10) } else { model.setVolume(10) }
+        for _ in 0..<1000 where engine.sliderGate == nil { await Task.yield() }
+        #expect(engine.sliderGate != nil)
+        for value in 11...90 {
+            if seek { model.seek(Double(value)) } else { model.setVolume(Double(value)) }
+        }
+        #expect(engine.commands == [seek ? .seek(10) : .volume(10)])
+        engine.waitsForSlider = false
+        engine.sliderGate?.resume()
+        engine.sliderGate = nil
+        for _ in 0..<1000 where model.seekScheduled || model.volumeScheduled { await Task.yield() }
+        #expect(
+            engine.commands == [seek ? .seek(10) : .volume(10), seek ? .seek(90) : .volume(90)])
+        await model.shutdownPlayback()
+    }
+}
+
+extension MusicProgressClockTests {
+    @Test func queueEditsDoNotResetTheConfirmedPositionClock() async throws {
+        let model = MusicViewModel()
+        let engine = FakeMusicEngine()
+        model.connect(engine: engine)
+        let track = try #require(model.currentTrack)
+        model.receive(
+            .init(
+                uri: track.uri, position: 10, duration: track.duration, paused: false,
+                volume: 0, deviceName: "Mac", occurrenceID: model.queue.current?.id))
+        model.lastPositionTimestamp = .now.advanced(by: .seconds(-20))
+        model.addToQueue(track)
+        for _ in 0..<1000 where engine.commands.isEmpty || model.isPlaybackBusy {
+            await Task.yield()
+        }
+        #expect(model.position == 10)
+        #expect(model.displayedPosition >= 30)
+        await model.shutdownPlayback()
+    }
+}

@@ -20,6 +20,15 @@ class SpotifyDocumentTests(unittest.TestCase):
                 self.assertEqual(len(document["terms"]), 8)
                 self.assertEqual(len(document["privacy"]), 6)
 
+    def test_metadata_cache_disclosure_in_every_locale(self):
+        for locale in builder.LANGUAGES:
+            with self.subTest(locale=locale):
+                privacy = {part["id"]: part["body"] for part in builder.spotify_document(locale)["privacy"]}
+                self.assertIn("SQLite", privacy["storage"])
+                self.assertIn("Caches", privacy["storage"])
+                self.assertIn("SQLite", privacy["retention"])
+                self.assertIn("7", privacy["retention"])
+
     def test_all_sections_render_in_their_own_language_without_losing_text(self):
         for locale in builder.LANGUAGES:
             source = builder.spotify_document(locale)

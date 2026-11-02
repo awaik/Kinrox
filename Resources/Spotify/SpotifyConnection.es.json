@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "es",
   "language": "Español",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Política de privacidad — conexión a Spotify",
-      "body": "Versión 2026-11-01. awaik, responsable del mantenimiento de Kinrox, es responsable del tratamiento de datos de Kinrox descrito aquí. Este complemento se aplica a la integración opcional con Spotify. La política general de privacidad de Kinrox está en https://kinrox.app/privacy/. Contacto: https://github.com/awaik/Kinrox/issues. No publiques tokens, contenidos de tu biblioteca personal ni otra información privada en incidencias públicas.",
+      "body": "Versión 2026-11-02. awaik, responsable del mantenimiento de Kinrox, es responsable del tratamiento de datos de Kinrox descrito aquí. Este complemento se aplica a la integración opcional con Spotify. La política general de privacidad de Kinrox está en https://kinrox.app/privacy/. Contacto: https://github.com/awaik/Kinrox/issues. No publiques tokens, contenidos de tu biblioteca personal ni otra información privada en incidencias públicas.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Almacenamiento y destinatarios",
-      "body": "Las credenciales de renovación se guardan en el Data Protection Keychain del Mac. Los tokens de acceso, los datos de la cuenta y los metadatos de la biblioteca permanecen en la memoria de la aplicación. El Client ID proporcionado, la asociación de la lista auxiliar y la versión aceptada de los documentos se guardan en las preferencias del Mac. Kinrox no tiene servidor, analítica ni telemetría, y su responsable no recibe estos datos de Spotify. Spotify recibe solicitudes directamente del Mac y las procesa según su política de privacidad: https://www.spotify.com/legal/privacy-policy/. Spotify ve información de red, como la dirección IP pública del Mac.",
+      "body": "Las credenciales de renovación se guardan en el Data Protection Keychain del Mac. Los tokens de acceso permanecen en la memoria. Los metadatos de la biblioteca se almacenan en una base SQLite local en la carpeta Caches de la aplicación en el Mac. El identificador verificado de la cuenta y el nombre mostrado se guardan en las preferencias del Mac. El Client ID proporcionado, la asociación de la lista auxiliar y la versión aceptada de los documentos se guardan en las preferencias del Mac. Kinrox no tiene servidor, analítica ni telemetría, y su responsable no recibe estos datos de Spotify. Spotify recibe solicitudes directamente del Mac y las procesa según su política de privacidad: https://www.spotify.com/legal/privacy-policy/. Spotify ve información de red, como la dirección IP pública del Mac.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Desconexión y conservación",
-      "body": "En Kinrox para Mac, abre Ajustes → Spotify → Desconectar. Kinrox finaliza las operaciones de reproducción pendientes, detiene las solicitudes, elimina su credencial de renovación y las asociaciones locales de listas auxiliares, y borra de la memoria el estado de la cuenta y la biblioteca. Detiene la reconexión automática. La versión aceptada es una preferencia no vinculada a una cuenta. Los cambios ya realizados en Spotify, incluidas las listas y los favoritos, permanecen allí. Desconectar no revoca la autorización en Spotify; elimina la aplicación en https://www.spotify.com/account/apps/ para revocarla. Puedes eliminar las listas auxiliares conservadas directamente en Spotify.",
+      "body": "En Kinrox para Mac, abre Ajustes → Spotify → Desconectar. Kinrox finaliza las operaciones de reproducción pendientes, detiene las solicitudes, elimina su credencial de renovación y las asociaciones locales de listas auxiliares, y borra de la memoria el estado de la cuenta y la biblioteca. Detiene la reconexión automática. La versión aceptada es una preferencia no vinculada a una cuenta. Los cambios ya realizados en Spotify, incluidas las listas y los favoritos, permanecen allí. Desconectar no revoca la autorización en Spotify; elimina la aplicación en https://www.spotify.com/account/apps/ para revocarla. Puedes eliminar las listas auxiliares conservadas directamente en Spotify. Los metadatos en caché caducan tras 7 días sin volver a validarse. Al desconectar se eliminan automáticamente la caché SQLite, sus archivos auxiliares y la asociación de cuenta guardada.",
       "id": "retention"
     },
     {

@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "language": "English",
   "terms": [
     {
@@ -46,7 +46,7 @@
   "privacy": [
     {
       "title": "Privacy Policy — Spotify connection",
-      "body": "Version 2026-11-01. The Kinrox maintainer, awaik, is responsible for Kinrox's processing described here. This supplement applies to the optional Spotify integration. The general Kinrox privacy policy is available at https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Do not post tokens, personal library contents or other private information in public issues.",
+      "body": "Version 2026-11-02. The Kinrox maintainer, awaik, is responsible for Kinrox's processing described here. This supplement applies to the optional Spotify integration. The general Kinrox privacy policy is available at https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Do not post tokens, personal library contents or other private information in public issues.",
       "id": "overview"
     },
     {
@@ -56,7 +56,7 @@
     },
     {
       "title": "Storage and recipients",
-      "body": "Refresh credentials are stored in the Mac Data Protection Keychain. Access tokens, account details and library metadata remain in app memory. The supplied Client ID, helper playlist association and accepted document version are stored in Mac preferences. Kinrox has no server, analytics or telemetry, and the maintainer receives none of this Spotify data. Spotify receives requests directly from the Mac and handles them under its privacy policy: https://www.spotify.com/legal/privacy-policy/. Spotify sees network information such as the Mac's public IP address.",
+      "body": "Refresh credentials are stored in the Mac Data Protection Keychain. Access tokens stay in memory. Library metadata is cached in a local SQLite database in the Mac app’s Caches directory. The verified account identifier and display name are stored in Mac preferences. The supplied Client ID, helper playlist association and accepted document version are stored in Mac preferences. Kinrox has no server, analytics or telemetry, and the maintainer receives none of this Spotify data. Spotify receives requests directly from the Mac and handles them under its privacy policy: https://www.spotify.com/legal/privacy-policy/. Spotify sees network information such as the Mac's public IP address.",
       "id": "storage"
     },
     {
@@ -66,7 +66,7 @@
     },
     {
       "title": "Disconnect and retention",
-      "body": "In Kinrox on Mac, open Settings → Spotify → Disconnect. Kinrox settles pending playback work, stops requests, removes its refresh credential and local helper-playlist associations, and clears account and library state from memory. It stops automatic reconnection. The acceptance version is an account-free preference. Changes already made in Spotify, including playlists and favorites, remain there. Disconnect does not revoke the authorization at Spotify; remove the app at https://www.spotify.com/account/apps/ to revoke it. You can delete retained helper playlists directly in Spotify.",
+      "body": "In Kinrox on Mac, open Settings → Spotify → Disconnect. Kinrox settles pending playback work, stops requests, removes its refresh credential and local helper-playlist associations, and clears account and library state from memory. It stops automatic reconnection. The acceptance version is an account-free preference. Changes already made in Spotify, including playlists and favorites, remain there. Disconnect does not revoke the authorization at Spotify; remove the app at https://www.spotify.com/account/apps/ to revoke it. You can delete retained helper playlists directly in Spotify. Cached metadata expires after 7 days without revalidation. Disconnect automatically deletes the SQLite cache, its sidecar files and the saved account binding.",
       "id": "retention"
     },
     {

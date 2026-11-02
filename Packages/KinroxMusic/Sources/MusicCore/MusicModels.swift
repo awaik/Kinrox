@@ -93,19 +93,3 @@ public struct MusicPlaylist: Identifiable, Codable, Equatable, Sendable {
         !userID.isEmpty && (ownerID == userID || collaborative)
     }
 }
-
-public struct MusicCatalog: Codable, Equatable, Sendable {
-    public var tracks: [MusicTrack]
-    public var albums: [MusicAlbum]
-    public var artists: [MusicArtist]
-
-    public init(tracks: [MusicTrack] = [], albums: [MusicAlbum] = [], artists: [MusicArtist] = []) {
-        self.tracks = tracks
-        self.albums = albums
-        self.artists = artists
-    }
-
-    public func tracks(in album: MusicAlbum) -> [MusicTrack] {
-        album.trackIDs.compactMap { id in tracks.first { $0.id == id } }
-    }
-}

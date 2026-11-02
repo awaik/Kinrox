@@ -46,7 +46,7 @@ struct CollectionHeader: View {
                         }.padding(.horizontal, 12).frame(height: 36)
                             .background(Palette.glass, in: RoundedRectangle(cornerRadius: 8))
                             .contentShape(Rectangle())
-                    }.buttonStyle(.plain)
+                    }.buttonStyle(.plain).disabled(!model.canMutate)
                         .accessibilityLabel(L10n.format("Favorite: %@", album.title))
                         .accessibilityValue(
                             model.library.savedAlbumIDs.contains(album.id)

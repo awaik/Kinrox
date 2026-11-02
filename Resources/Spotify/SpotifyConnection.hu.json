@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "hu",
   "language": "Magyar",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Adatvédelmi szabályzat — Spotify-kapcsolat",
-      "body": "Verzió: 2026-11-01. A Kinrox karbantartója, awaik felel a Kinrox itt leírt adatkezeléséért. Ez a kiegészítés a választható Spotify-integrációra vonatkozik. A Kinrox általános adatvédelmi szabályzata itt érhető el: https://kinrox.app/privacy/. Kapcsolat: https://github.com/awaik/Kinrox/issues. Nyilvános hibajegyekben ne tegyél közzé tokeneket, személyes gyűjteménytartalmat vagy más magánjellegű adatot.",
+      "body": "Verzió: 2026-11-02. A Kinrox karbantartója, awaik felel a Kinrox itt leírt adatkezeléséért. Ez a kiegészítés a választható Spotify-integrációra vonatkozik. A Kinrox általános adatvédelmi szabályzata itt érhető el: https://kinrox.app/privacy/. Kapcsolat: https://github.com/awaik/Kinrox/issues. Nyilvános hibajegyekben ne tegyél közzé tokeneket, személyes gyűjteménytartalmat vagy más magánjellegű adatot.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Tárolás és címzettek",
-      "body": "A megújításhoz szükséges hitelesítő adatok a Mac Data Protection Keychain tárolójába kerülnek. A hozzáférési tokenek, fiókadatok és gyűjtemény-metaadatok az alkalmazás memóriájában maradnak. A megadott Client ID, a segédlista hozzárendelése és az elfogadott dokumentumverzió a Mac beállításaiban tárolódik. A Kinroxnak nincs szervere, használati elemzése vagy telemetriája, és a karbantartó nem kapja meg ezeket a Spotify-adatokat. A Spotify közvetlenül a Mactől kapja a kéréseket, és saját adatvédelmi szabályzata szerint kezeli őket: https://www.spotify.com/legal/privacy-policy/. A Spotify hálózati információkat, például a Mac nyilvános IP-címét látja.",
+      "body": "A megújításhoz szükséges hitelesítő adatok a Mac Data Protection Keychain tárolójába kerülnek. A hozzáférési tokenek a memóriában maradnak. A gyűjtemény metaadatai a Mac-alkalmazás Caches mappájában lévő helyi SQLite-adatbázisba kerülnek. Az ellenőrzött fiókazonosító és a megjelenített név a Mac beállításaiban tárolódik. A megadott Client ID, a segédlista hozzárendelése és az elfogadott dokumentumverzió a Mac beállításaiban tárolódik. A Kinroxnak nincs szervere, használati elemzése vagy telemetriája, és a karbantartó nem kapja meg ezeket a Spotify-adatokat. A Spotify közvetlenül a Mactől kapja a kéréseket, és saját adatvédelmi szabályzata szerint kezeli őket: https://www.spotify.com/legal/privacy-policy/. A Spotify hálózati információkat, például a Mac nyilvános IP-címét látja.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Leválasztás és megőrzés",
-      "body": "A Macen a Kinroxban nyisd meg a Beállítások → Spotify → Leválasztás lehetőséget. A Kinrox lezárja a függőben lévő lejátszási műveleteket, leállítja a kéréseket, eltávolítja a megújítási hitelesítő adatokat és a segédlisták helyi hozzárendeléseit, valamint törli a fiók és a gyűjtemény állapotát a memóriából. Az automatikus újracsatlakozás leáll. Az elfogadott verzió fióktól független beállítás. A Spotifyban már elvégzett módosítások, köztük a listák és kedvencek, ott megmaradnak. A leválasztás nem vonja vissza a Spotify-engedélyezést; ehhez távolítsd el az alkalmazást itt: https://www.spotify.com/account/apps/. A megmaradt segédlistákat közvetlenül a Spotifyban törölheted.",
+      "body": "A Macen a Kinroxban nyisd meg a Beállítások → Spotify → Leválasztás lehetőséget. A Kinrox lezárja a függőben lévő lejátszási műveleteket, leállítja a kéréseket, eltávolítja a megújítási hitelesítő adatokat és a segédlisták helyi hozzárendeléseit, valamint törli a fiók és a gyűjtemény állapotát a memóriából. Az automatikus újracsatlakozás leáll. Az elfogadott verzió fióktól független beállítás. A Spotifyban már elvégzett módosítások, köztük a listák és kedvencek, ott megmaradnak. A leválasztás nem vonja vissza a Spotify-engedélyezést; ehhez távolítsd el az alkalmazást itt: https://www.spotify.com/account/apps/. A megmaradt segédlistákat közvetlenül a Spotifyban törölheted. A gyorsítótárazott metaadatok újraellenőrzés nélkül 7 nap után lejárnak. A kapcsolat bontása automatikusan törli az SQLite-gyorsítótárat, a kísérőfájljait és a mentett fiók-hozzárendelést.",
       "id": "retention"
     },
     {

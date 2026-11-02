@@ -19,6 +19,8 @@ final class FakeMusicEngine: MusicEngine {
     var pauseError: Error?
     var pauseGate: CheckedContinuation<Void, Never>?
     var waitsForPause = false
+    var sliderGate: CheckedContinuation<Void, Never>?
+    var waitsForSlider = false
     var shutdownCount = 0
     init() { (events, continuation) = AsyncStream.makeStream() }
     func play(queue: MusicQueue, position: Double) async throws {
@@ -29,8 +31,14 @@ final class FakeMusicEngine: MusicEngine {
         if let pauseError { throw pauseError }
         if waitsForPause { await withCheckedContinuation { pauseGate = $0 } }
     }
-    func seek(absolute position: Double) async throws { commands.append(.seek(position)) }
-    func setVolume(_ volume: Double) async throws { commands.append(.volume(volume)) }
+    func seek(absolute position: Double) async throws {
+        commands.append(.seek(position))
+        if waitsForSlider { await withCheckedContinuation { sliderGate = $0 } }
+    }
+    func setVolume(_ volume: Double) async throws {
+        commands.append(.volume(volume))
+        if waitsForSlider { await withCheckedContinuation { sliderGate = $0 } }
+    }
     func updateQueue(_ queue: MusicQueue, position: Double, paused: Bool) async throws {
         commands.append(.update(queue.items.map(\.id)))
     }

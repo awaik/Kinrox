@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "nl",
   "language": "Nederlands",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "Privacybeleid — Spotify-verbinding",
-      "body": "Versie 2026-11-01. De beheerder van Kinrox, awaik, is verantwoordelijk voor de hier beschreven gegevensverwerking door Kinrox. Deze aanvulling geldt voor de optionele Spotify-integratie. Het algemene privacybeleid van Kinrox staat op https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Plaats geen tokens, inhoud van je persoonlijke bibliotheek of andere privégegevens in openbare issues.",
+      "body": "Versie 2026-11-02. De beheerder van Kinrox, awaik, is verantwoordelijk voor de hier beschreven gegevensverwerking door Kinrox. Deze aanvulling geldt voor de optionele Spotify-integratie. Het algemene privacybeleid van Kinrox staat op https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Plaats geen tokens, inhoud van je persoonlijke bibliotheek of andere privégegevens in openbare issues.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Opslag en ontvangers",
-      "body": "Vernieuwingsgegevens worden opgeslagen in de Data Protection Keychain van de Mac. Toegangstokens, accountgegevens en bibliotheekmetadata blijven in het geheugen van de app. De opgegeven Client ID, de koppeling met de hulplijst en de geaccepteerde documentversie worden opgeslagen in de voorkeuren van de Mac. Kinrox heeft geen server, gebruiksanalyse of telemetrie en de beheerder ontvangt geen van deze Spotify-gegevens. Spotify ontvangt verzoeken rechtstreeks van de Mac en verwerkt die volgens zijn privacybeleid: https://www.spotify.com/legal/privacy-policy/. Spotify ziet netwerkgegevens zoals het openbare IP-adres van de Mac.",
+      "body": "Vernieuwingsgegevens worden opgeslagen in de Data Protection Keychain van de Mac. Toegangstokens blijven in het geheugen. Bibliotheekmetadata worden gecachet in een lokale SQLite-database in de map Caches van de Mac-app. De geverifieerde accountidentificatie en weergavenaam worden opgeslagen in de voorkeuren van de Mac. De opgegeven Client ID, de koppeling met de hulplijst en de geaccepteerde documentversie worden opgeslagen in de voorkeuren van de Mac. Kinrox heeft geen server, gebruiksanalyse of telemetrie en de beheerder ontvangt geen van deze Spotify-gegevens. Spotify ontvangt verzoeken rechtstreeks van de Mac en verwerkt die volgens zijn privacybeleid: https://www.spotify.com/legal/privacy-policy/. Spotify ziet netwerkgegevens zoals het openbare IP-adres van de Mac.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Verbinding verbreken en bewaartermijnen",
-      "body": "Open in Kinrox op de Mac Instellingen → Spotify → Verbinding verbreken. Kinrox rondt lopende afspeelhandelingen af, stopt verzoeken, verwijdert zijn vernieuwingsgegevens en lokale hulplijstkoppelingen en wist account- en bibliotheekgegevens uit het geheugen. Automatisch opnieuw verbinden stopt. De geaccepteerde versie is een accountonafhankelijke voorkeur. Wijzigingen die al in Spotify zijn aangebracht, waaronder afspeellijsten en favorieten, blijven daar staan. De verbinding verbreken trekt de Spotify-autorisatie niet in; verwijder de app op https://www.spotify.com/account/apps/ om die in te trekken. Bewaarde hulplijsten kun je rechtstreeks in Spotify verwijderen.",
+      "body": "Open in Kinrox op de Mac Instellingen → Spotify → Verbinding verbreken. Kinrox rondt lopende afspeelhandelingen af, stopt verzoeken, verwijdert zijn vernieuwingsgegevens en lokale hulplijstkoppelingen en wist account- en bibliotheekgegevens uit het geheugen. Automatisch opnieuw verbinden stopt. De geaccepteerde versie is een accountonafhankelijke voorkeur. Wijzigingen die al in Spotify zijn aangebracht, waaronder afspeellijsten en favorieten, blijven daar staan. De verbinding verbreken trekt de Spotify-autorisatie niet in; verwijder de app op https://www.spotify.com/account/apps/ om die in te trekken. Bewaarde hulplijsten kun je rechtstreeks in Spotify verwijderen. Gecachete metadata verlopen na 7 dagen zonder nieuwe validatie. Bij het verbreken van de verbinding worden de SQLite-cache, bijbehorende bestanden en opgeslagen accountkoppeling automatisch verwijderd.",
       "id": "retention"
     },
     {

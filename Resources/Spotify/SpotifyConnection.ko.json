@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-01",
+  "version": "2026-11-02",
   "locale": "ko",
   "language": "한국어",
   "terms": [
@@ -47,7 +47,7 @@
   "privacy": [
     {
       "title": "개인정보 처리방침 — Spotify 연결",
-      "body": "버전 2026-11-01. Kinrox 유지 관리자 awaik은 여기에 설명된 Kinrox의 데이터 처리에 책임을 집니다. 이 부록은 선택적 Spotify 연동에 적용됩니다. Kinrox 일반 개인정보 처리방침: https://kinrox.app/privacy/. 문의: https://github.com/awaik/Kinrox/issues. 공개 이슈에 토큰, 개인 라이브러리 내용 또는 기타 비공개 정보를 게시하지 마세요.",
+      "body": "버전 2026-11-02. Kinrox 유지 관리자 awaik은 여기에 설명된 Kinrox의 데이터 처리에 책임을 집니다. 이 부록은 선택적 Spotify 연동에 적용됩니다. Kinrox 일반 개인정보 처리방침: https://kinrox.app/privacy/. 문의: https://github.com/awaik/Kinrox/issues. 공개 이슈에 토큰, 개인 라이브러리 내용 또는 기타 비공개 정보를 게시하지 마세요.",
       "id": "overview"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "저장과 수신자",
-      "body": "갱신 자격 증명은 Mac의 Data Protection Keychain에 저장됩니다. 접근 토큰, 계정 세부 정보 및 라이브러리 메타데이터는 앱 메모리에 남습니다. 입력한 Client ID, 보조 플레이리스트 연결 정보 및 동의한 문서 버전은 Mac 환경설정에 저장됩니다. Kinrox에는 서버, 분석 또는 원격 측정이 없으며 유지 관리자는 이 Spotify 데이터를 받지 않습니다. Spotify는 Mac에서 직접 요청을 받고 자체 개인정보 처리방침에 따라 처리합니다: https://www.spotify.com/legal/privacy-policy/. Spotify는 Mac의 공인 IP 주소와 같은 네트워크 정보를 볼 수 있습니다.",
+      "body": "갱신 자격 증명은 Mac의 Data Protection Keychain에 저장됩니다. 접근 토큰은 메모리에 남습니다. 라이브러리 메타데이터는 Mac 앱의 Caches 폴더에 있는 로컬 SQLite 데이터베이스에 캐시됩니다. 확인된 계정 식별자와 표시 이름은 Mac 환경설정에 저장됩니다. 입력한 Client ID, 보조 플레이리스트 연결 정보 및 동의한 문서 버전은 Mac 환경설정에 저장됩니다. Kinrox에는 서버, 분석 또는 원격 측정이 없으며 유지 관리자는 이 Spotify 데이터를 받지 않습니다. Spotify는 Mac에서 직접 요청을 받고 자체 개인정보 처리방침에 따라 처리합니다: https://www.spotify.com/legal/privacy-policy/. Spotify는 Mac의 공인 IP 주소와 같은 네트워크 정보를 볼 수 있습니다.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "연결 해제와 보관",
-      "body": "Mac의 Kinrox에서 설정 → Spotify → 연결 해제를 여세요. Kinrox는 대기 중인 재생 작업을 마무리하고 요청을 중단하며 갱신 자격 증명과 보조 플레이리스트의 로컬 연결 정보를 제거하고 계정 및 라이브러리 상태를 메모리에서 지웁니다. 자동 재연결도 중단합니다. 동의한 버전은 계정과 연결되지 않은 환경설정입니다. 플레이리스트와 즐겨찾기 등 Spotify에서 이미 이루어진 변경 사항은 그대로 남습니다. 연결 해제는 Spotify의 승인을 철회하지 않습니다. 철회하려면 https://www.spotify.com/account/apps/ 에서 앱을 제거하세요. 남아 있는 보조 플레이리스트는 Spotify에서 직접 삭제할 수 있습니다.",
+      "body": "Mac의 Kinrox에서 설정 → Spotify → 연결 해제를 여세요. Kinrox는 대기 중인 재생 작업을 마무리하고 요청을 중단하며 갱신 자격 증명과 보조 플레이리스트의 로컬 연결 정보를 제거하고 계정 및 라이브러리 상태를 메모리에서 지웁니다. 자동 재연결도 중단합니다. 동의한 버전은 계정과 연결되지 않은 환경설정입니다. 플레이리스트와 즐겨찾기 등 Spotify에서 이미 이루어진 변경 사항은 그대로 남습니다. 연결 해제는 Spotify의 승인을 철회하지 않습니다. 철회하려면 https://www.spotify.com/account/apps/ 에서 앱을 제거하세요. 남아 있는 보조 플레이리스트는 Spotify에서 직접 삭제할 수 있습니다. 캐시된 메타데이터는 재검증 없이 7일이 지나면 만료됩니다. 연결을 끊으면 SQLite 캐시, 관련 보조 파일 및 저장된 계정 연결 정보가 자동으로 삭제됩니다.",
       "id": "retention"
     },
     {

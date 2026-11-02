@@ -7,6 +7,10 @@ struct DeckView: View {
     var width: CGFloat = 1440
 
     var body: some View {
+        TimelineView(.animation(minimumInterval: 0.25, paused: model.paused)) { _ in deck }
+    }
+
+    private var deck: some View {
         HStack(spacing: compact ? 24 : 26) {
             display.frame(width: compact ? 408 : min(480, width * 0.32), height: 98)
             VStack(spacing: 14) {
@@ -36,14 +40,16 @@ struct DeckView: View {
                     }
                 }
                 HStack(spacing: 12) {
-                    Text(TimeFormat.string(model.position)).frame(width: 36)
+                    Text(TimeFormat.string(model.displayedPosition)).frame(width: 36)
                     MusicSlider(
-                        value: model.position, range: 0...max(1, model.currentTrack?.duration ?? 1),
+                        value: model.displayedPosition,
+                        range: 0...max(1, model.currentTrack?.duration ?? 1),
                         label: L10n.text("Playback position"), step: 10
                     ) { model.seek($0) }.tint(Palette.ember).disabled(!model.allows("seeking"))
                     Text(
                         TimeFormat.remaining(
-                            position: model.position, duration: model.currentTrack?.duration ?? 0)
+                            position: model.displayedPosition,
+                            duration: model.currentTrack?.duration ?? 0)
                     )
                     .frame(width: 42)
                     Image(systemName: "speaker.wave.2.fill").accessibilityHidden(true)
@@ -66,7 +72,7 @@ struct DeckView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 6) {
                     MusicIcon(name: model.paused ? "MusicPause" : "MusicPlay", size: 10)
-                    Text(TimeFormat.string(model.position)).font(
+                    Text(TimeFormat.string(model.displayedPosition)).font(
                         KinroxFont.monoDigits(compact ? 34 : 38)
                     )
                     .tracking(-2).minimumScaleFactor(0.7).lineLimit(1)

@@ -55,7 +55,7 @@ final class RemoteMusicBridge {
             disallowedActions: music.disallowedActions.sorted(),
             favoriteFeedback: music.favoriteFeedbackID.flatMap { id in
                 music.favoriteFeedbackLiked.map { .init(id: id, liked: $0) }
-            })
+            }, positionAge: music.positionAge)
     }
     func snapshot(fullscreen: Bool, screensaver: Screensaver) -> PlayerState {
         let hasMedia = confirmedQueue.current != nil
@@ -148,7 +148,7 @@ final class RemoteMusicBridge {
         switch command {
         case .togglePause: music.togglePause()
         case .setPaused(let value): music.setPaused(value)
-        case .seekRelative(let seconds): music.seek(music.position + seconds)
+        case .seekRelative(let seconds): music.seek(music.displayedPosition + seconds)
         case .seekAbsolute(let seconds): music.seek(seconds)
         case .setVolume(let value): music.setVolume(value)
         case .next:
@@ -177,15 +177,11 @@ final class RemoteMusicBridge {
     }
 
     private func executeFavorite(_ command: Command) -> ProtocolError.Code? {
-        guard !music.isMutating, !music.isLoading else { return .internal }
+        guard music.canMutate else { return .internal }
         switch command {
         case .setTrackLiked(let id, let liked):
             guard let track = findTrack(id) else { return .itemNotFound }
-            if music.library.likedTrackIDs.contains(id) != liked {
-                music.toggleTrack(track, anchor: "remote")
-                music.likeOptionsTrackID = nil
-                music.likeOptionsAnchor = nil
-            }
+            music.setTrackLiked(track, liked: liked)
         case .setPlaylistMembership(let id, let playlistId, let included):
             guard findTrack(id) != nil,
                 confirmedLibrary.playlists.contains(where: {
@@ -213,11 +209,12 @@ final class RemoteMusicBridge {
     }
 
     private func findTrack(_ id: String) -> MusicTrack? {
-        knownTracks.first { $0.id == id }
+        music.catalog.track(id: id)
+            ?? (confirmedQueue.items + music.queue.items).first { $0.track.id == id }?.track
     }
 
     private func findArtist(_ id: String) -> MusicArtist? {
-        music.catalog.artists.first { $0.id == id }
+        music.catalog.artist(id: id)
             ?? knownTracks.lazy.flatMap(\.artists).first { $0.id == id }
     }
 
@@ -229,7 +226,7 @@ final class RemoteMusicBridge {
             },
             album: Self.text(value.albumTitle),
             year: String(
-                (music.catalog.albums.first { $0.id == value.albumID }?.year ?? "").prefix(8)),
+                (music.catalog.album(id: value.albumID)?.year ?? "").prefix(8)),
             duration: value.duration.isFinite ? max(0, value.duration) : 0,
             albumID: value.albumID.isEmpty ? nil : value.albumID, explicit: value.explicit,
             isPlayable: value.isPlayable)
