@@ -6,6 +6,28 @@
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
     <item>
+      <title>Kinrox 0.4.2</title>
+      <pubDate>Mon, 02 Nov 2026 06:56:45 +0000</pubDate>
+      <sparkle:version>8</sparkle:version>
+      <sparkle:shortVersionString>0.4.2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.4.2</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Welcome-screen layout fixes and faster Spotify library and playback controls. Requires an &lt;b&gt;Apple Silicon Mac with macOS 14 Sonoma or later&lt;/b&gt;. Version 0.4.2, build 8.&lt;/p&gt;
+&lt;p&gt;Download &lt;code&gt;Kinrox-0.4.2-arm64.dmg&lt;/code&gt;, open it, and drag Kinrox to Applications. All video playback libraries are bundled; Homebrew and Xcode are not required. Users of 0.3.0 or later can use Check for Updates.&lt;/p&gt;
+&lt;h3&gt;Fixed&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;Recent files could widen the welcome screen beyond the window, pushing its heading, Open File button and Show all action off-screen. The grid now uses its actual column width, and the decorative glow no longer widens small windows.&lt;/li&gt;&lt;li&gt;A regression test checks empty, single-file and longer recent lists while shrinking and growing the same window between 640 and 1440 points.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Spotify improvements&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;A local SQLite metadata cache restores the library progressively and reduces repeated loading. It stores metadata only, expires unvalidated resources after seven days, is limited to 100 MiB, and is removed on disconnect.&lt;/li&gt;&lt;li&gt;Library indexing, shared requests and request priorities reduce repeated work and let playback controls take precedence over background library loading.&lt;/li&gt;&lt;li&gt;Resume and unchanged-order track changes avoid rewriting the private queue. Manual queue insertion preserves playback; paused edits do not start music.&lt;/li&gt;&lt;li&gt;A local clock advances playback progress. Kinrox checks after commands and at the expected track boundary instead of continuously polling Spotify.&lt;/li&gt;&lt;li&gt;Updated connection terms and privacy disclosures explain the cache in all 30 languages. Existing users must accept the new terms before reconnecting.&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;Spotify setup remains as described in the &lt;a href="https://github.com/awaik/Kinrox/blob/v0.4.2/docs/releases/0.4.0.md"&gt;0.4.0 release notes&lt;/a&gt;. Changes made directly in Spotify are observed on the next Kinrox command or expected track boundary. The companion iPhone app is released separately.&lt;/p&gt;
+&lt;h3&gt;Compatibility and verification&lt;/h3&gt;
+&lt;p&gt;The welcome-screen regression failed before the fix and passed afterward; rendered normal and narrow windows were inspected. The Mac suite passed with 220 tests in 44 suites using both development and portable release libraries. Music-package tests (36), protocol/transport tests (126), release-tooling tests (46), localization and generated-site checks also passed. Live Spotify and optional Music screenshot tests are opt-in and were not enabled.&lt;/p&gt;
+&lt;p&gt;The app and DMG passed Apple notarization. The mounted app passed signature, Gatekeeper, stapling and bundled-library verification. Its actual welcome screen, synthetic MP4/MKV playback, pause, seeking and fullscreen entry/exit were checked interactively with Kinrox volume set to zero. Automated tests cover secure remote pairing; no new interactive pairing check was performed.&lt;/p&gt;
+&lt;p&gt;Verification uses macOS 26.5.2. macOS 14 remains the deployment minimum; live Spotify playback and a physical iPhone have not been rechecked for this release. Detailed cache behavior, synthetic measurements and limitations are recorded in the &lt;a href="https://github.com/awaik/Kinrox/blob/v0.4.2/docs/runbooks/SPOTIFY-PERFORMANCE-VERIFICATION.md"&gt;performance report&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Kinrox-0.4.2-dependency-sources.tar.gz&lt;/code&gt; contains dependency sources, build recipes and patches. Licenses are included in the app. &lt;code&gt;SHA256SUMS.txt&lt;/code&gt; provides asset checksums; matching application source is available at tag &lt;code&gt;v0.4.2&lt;/code&gt;.&lt;/p&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.4.2/Kinrox-0.4.2-arm64.dmg" length="32298227" type="application/octet-stream" sparkle:edSignature="kjlh+baPt9dvZc4++NkOuvw4XAcAxrnbZTj6sMWSqiz9hKfeSZooswCqCutzjXG7D6qZFiz+IOLtiYXpm0hUCg==" />
+    </item>
+    <item>
       <title>Kinrox 0.4.1</title>
       <pubDate>Sun, 01 Nov 2026 16:48:20 +0000</pubDate>
       <sparkle:version>7</sparkle:version>

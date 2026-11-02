@@ -29,9 +29,9 @@ continue to work without internet access.
 ## Project Status
 
 The Mac player and real iPhone remote are implemented through M5. The current
-standalone Mac release is **0.4.1**, for Apple Silicon and macOS 14+:
-[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.4.1/Kinrox-0.4.1-arm64.dmg)
-or read the [release notes](docs/releases/0.4.1.md).
+standalone Mac release is **0.4.2**, for Apple Silicon and macOS 14+:
+[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.4.2/Kinrox-0.4.2-arm64.dmg)
+or read the [release notes](docs/releases/0.4.2.md).
 The installer bundles libmpv and its dependencies, is Developer ID signed, and
 is notarized by Apple. Homebrew is only needed for the default development setup.
 Users of Mac 0.2.0 or earlier install 0.3.0 manually once to enable future update reminders.
