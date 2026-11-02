@@ -1,8 +1,10 @@
 # Spotify cache and latency verification — 2026-11-02
 
 Local implementation of [the approved plan](../RESEARCHES/2026-11-01_17-00_Spotify-SQLite-and-latency-plan.md).
-Changes are uncommitted and unreleased. No Spotify account, live playlist, website deployment,
-release version, signing configuration or App Store submission was changed by this task.
+The implementation was committed as `80e753d` and is included in the Mac 0.4.2 release
+authorized on 2026-11-02. The original implementation task did not change a Spotify account,
+live playlist, website deployment, release version, signing configuration or App Store submission.
+Release verification is recorded in the [0.4.2 notes](../releases/0.4.2.md).
 
 ## Implemented behavior
 
