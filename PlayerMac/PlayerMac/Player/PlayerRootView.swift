@@ -11,6 +11,18 @@ struct PlayerRootView: View {
                 if !video.model.isFullscreen {
                     AppModePicker(session: session).frame(width: 198).frame(maxWidth: .infinity)
                         .frame(height: 52).background(Palette.elevated)
+                        .onContinuousHover { phase in
+                            guard !video.model.isScreensaverEngaged else { return }
+                            switch phase {
+                            case .active:
+                                video.overlay.set(.titlebar, active: true)
+                                video.overlay.activity()
+                            case .ended:
+                                if !video.chrome.isPointerInTitlebar() {
+                                    video.overlay.set(.titlebar, active: false)
+                                }
+                            }
+                        }
                 }
                 video
             }.opacity(session.mode == .video ? 1 : 0)

@@ -8,7 +8,7 @@ import SwiftUI
 final class OverlayController {
     static let idleDelay: Duration = .seconds(3)
 
-    enum Interaction: Hashable { case hover, scrubbing, popover }
+    enum Interaction: Hashable { case hover, titlebar, scrubbing, popover }
 
     private(set) var isVisible = true
     /// Mouse over panel, dragging slider, or popover open.

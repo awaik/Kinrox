@@ -13,9 +13,13 @@ struct SpotifyFollowupTests {
         defaults.set("old-version", forKey: SpotifyAccount.consentPreference)
         let credentials = ConsentCredentials()
         let account = SpotifyAccount(credentials: credentials, defaults: defaults)
+        var restoreFailure: String?
+        account.onRestoreFailed = { restoreFailure = $0 }
         #expect(!account.termsAccepted)
         #expect(account.hasStoredConnection)
         account.restore()
+        #expect(restoreFailure == L10n.text("Reconnect Spotify in Settings."))
+        #expect(account.errorMessage == L10n.text("Reconnect Spotify in Settings."))
         account.connect()
         for _ in 0..<20 { await Task.yield() }
         #expect(!account.isConnecting && !account.connected)

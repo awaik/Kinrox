@@ -38,6 +38,7 @@ final class SoloistSetup {
     private var hostRequirement: String?
     private static let installationPreference = "app.kinrox.spotify.soloist.installation"
     private static let bindingPreference = "app.kinrox.spotify.soloist.binding"
+    private static let volumePreference = "app.kinrox.spotify.soloist.volume"
     static let keyService = "app.kinrox.spotify.soloist-key"
 
     init(
@@ -135,6 +136,9 @@ final class SoloistSetup {
             change(.failed(L10n.text("Could not save the Soloist key in Keychain.")))
             return
         }
+        if SpotifyDocuments.bundled != nil {
+            defaults.set(SpotifyDocuments.currentVersion, forKey: SpotifyAccount.consentPreference)
+        }
         hasKey = true
         if let installation, installation.expiryDate > Date() {
             begin { attempt in
@@ -201,7 +205,21 @@ final class SoloistSetup {
             change(.expired)
             throw SoloistFailure.unavailable
         }
-        return SoloistMusicEngine(runtime: SoloistRuntime(driver: try driver()))
+        let initialVolume: Double
+        if defaults.object(forKey: Self.volumePreference) != nil {
+            initialVolume = min(100, max(0, defaults.double(forKey: Self.volumePreference)))
+        } else {
+            let isTesting =
+                ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+                || NSClassFromString("XCTestCase") != nil
+            initialVolume = isTesting ? 0 : 100
+        }
+        return SoloistMusicEngine(
+            runtime: SoloistRuntime(
+                driver: try driver(), initialVolume: initialVolume,
+                onVolumeChange: { [weak self] value in
+                    self?.defaults.set(value, forKey: Self.volumePreference)
+                }))
     }
 
     func observeRuntime(_ value: MusicEngineAvailability) { availability = value }

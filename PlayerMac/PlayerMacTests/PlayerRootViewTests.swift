@@ -37,6 +37,60 @@ struct PlayerRootViewTests {
         await controller.model.shutdown()
     }
 
+    @Test("Hovering window traffic lights or mode bar keeps traffic lights visible and wakes them")
+    func trafficLightsStayVisibleOnHoverAndWakeFromHidden() async throws {
+        let controller = try PlayerWindowController { _ in }
+        controller.model.setVolume(0)
+        do {
+            let window = try #require(controller.window)
+            let content = try #require(window.contentView)
+            try await layout(content)
+            let close = try #require(window.standardWindowButton(.closeButton))
+            let closeCenter = close.convert(
+                NSPoint(x: close.bounds.midX, y: close.bounds.midY), to: nil)
+            let modeBarPoint = NSPoint(x: window.frame.width / 2, y: window.frame.height - 20)
+            let videoPoint = NSPoint(x: window.frame.width / 2, y: window.frame.height / 2)
+            let outsidePoint = NSPoint(x: -20, y: window.frame.height + 20)
+
+            #expect(
+                PlayerWindowController.isPointerInTitlebar(
+                    at: closeCenter, in: window, isFullscreen: false))
+            #expect(
+                PlayerWindowController.isPointerInTitlebar(
+                    at: modeBarPoint, in: window, isFullscreen: false))
+            #expect(
+                !PlayerWindowController.isPointerInTitlebar(
+                    at: videoPoint, in: window, isFullscreen: false))
+            #expect(
+                !PlayerWindowController.isPointerInTitlebar(
+                    at: outsidePoint, in: window, isFullscreen: false))
+
+            controller.overlay.canHide = true
+            controller.handlePointerEvent(at: closeCenter)
+            #expect(controller.overlay.interactions.contains(.titlebar))
+            try await Task.sleep(for: .milliseconds(750))
+            #expect(controller.overlay.isVisible)
+            #expect(close.alphaValue == 1)
+
+            // Leaving the window from the traffic light buttons hides after the 600ms delay.
+            controller.handlePointerEvent(at: outsidePoint)
+            #expect(!controller.overlay.interactions.contains(.titlebar))
+            try await Task.sleep(for: .milliseconds(750))
+            #expect(!controller.overlay.isVisible)
+
+            // Moving back onto the traffic lights immediately wakes the overlay.
+            controller.handlePointerEvent(at: closeCenter)
+            #expect(controller.overlay.isVisible)
+            #expect(controller.overlay.interactions.contains(.titlebar))
+        } catch {
+            controller.close()
+            await controller.model.shutdown()
+            throw error
+        }
+        controller.close()
+        await controller.model.shutdown()
+    }
+
     private func layout(_ content: NSView) async throws {
         content.layoutSubtreeIfNeeded()
         try await Task.sleep(for: .milliseconds(150))

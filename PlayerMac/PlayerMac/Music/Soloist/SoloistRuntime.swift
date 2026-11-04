@@ -25,19 +25,24 @@ actor SoloistRuntime {
     private var resumeQuery: Task<Void, Never>?
     private var alive = false
     private var closed = false
-    private var gain: Double = 0
+    private var gain: Double
+    private let onVolumeChange: (@MainActor @Sendable (Double) -> Void)?
     private var acknowledgements: UInt64 = 0
     private var errors: UInt64 = 0
     private var awaiting: SoloistCommand.Kind?
 
     init(
         driver: any SoloistDriving, parkDelay: Duration = .seconds(20),
-        dispatchTimeout: Double = 2, observationTimeout: Double = 10
+        dispatchTimeout: Double = 2, observationTimeout: Double = 10,
+        initialVolume: Double = 0,
+        onVolumeChange: (@MainActor @Sendable (Double) -> Void)? = nil
     ) {
         self.driver = driver
         self.parkDelay = parkDelay
         self.dispatchTimeout = dispatchTimeout
         self.observationTimeout = observationTimeout
+        self.gain = Double(Int(min(100, max(0, initialVolume))))
+        self.onVolumeChange = onVolumeChange
         let output = SoloistEventBuffer()
         self.output = output
         events = AsyncStream(unfolding: { await output.next() })
@@ -152,6 +157,7 @@ actor SoloistRuntime {
                 $0.snapshot.volume == target
             }
             gain = target
+            await onVolumeChange?(target)
             if state.snapshot.paused { scheduleParking() }
         case .stop:
             await park()

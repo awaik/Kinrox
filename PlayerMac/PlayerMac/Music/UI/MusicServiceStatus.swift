@@ -12,9 +12,7 @@ struct MusicServiceStatus: View {
             HStack(spacing: 16) {
                 Text(message).frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundStyle(Palette.textSecondary)
-                if !model.isLoading, !model.isRefreshing, model.engineAvailability != .starting,
-                    model.engineAvailability != .downloading
-                {
+                if showsAction {
                     Button(buttonTitle(message)) {
                         if needsSettings(message) {
                             openSettings()
@@ -29,6 +27,12 @@ struct MusicServiceStatus: View {
                 }
             }.font(.system(size: 12)).padding(.horizontal, 20).padding(.vertical, 14)
         }
+    }
+
+    var showsAction: Bool {
+        model.engineAvailability != .ready
+            ? (model.engineAvailability != .starting && model.engineAvailability != .downloading)
+            : (!model.isLoading && !model.isRefreshing)
     }
 
     func needsSettings(_ message: String) -> Bool {

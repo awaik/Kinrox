@@ -41,6 +41,7 @@ extension MusicViewModel {
         favoriteFeedbackID = nil
         favoriteFeedbackLiked = nil
         disallowedActions = []
+        acceptsPlayback = !(store is DisconnectedMusicLibraryStore)
         statusMessage =
             store is DisconnectedMusicLibraryStore ? L10n.text("Connect Spotify in Settings.") : nil
         select(.albums)

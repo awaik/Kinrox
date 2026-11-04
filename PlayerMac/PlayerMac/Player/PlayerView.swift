@@ -10,7 +10,7 @@ struct PlayerView: View {
     let videoLayer: VideoLayer
     let actions: PlayerActions
     let chrome: WindowChrome
-    @State private var overlay = OverlayController()
+    var overlay = OverlayController()
     @State private var isDropTargeted = false
     @State private var showsConnect = false
 
@@ -51,13 +51,25 @@ struct PlayerView: View {
             if active { showsConnect = false }
         }
         .onChange(of: model.isScreensaverEngaged) { _, engaged in
-            if engaged { showsConnect = false }
+            if engaged {
+                showsConnect = false
+                overlay.set(.titlebar, active: false)
+            }
         }
         .onContinuousHover { phase in
             guard !model.isScreensaverEngaged else { return }
             switch phase {
-            case .active: overlay.activity()
-            case .ended: overlay.pointerLeft()
+            case .active:
+                overlay.set(.titlebar, active: chrome.isPointerInTitlebar())
+                overlay.activity()
+            case .ended:
+                if chrome.isPointerInTitlebar() {
+                    overlay.set(.titlebar, active: true)
+                    overlay.activity()
+                } else {
+                    overlay.set(.titlebar, active: false)
+                    overlay.pointerLeft()
+                }
             }
         }
         .dropDestination(for: URL.self) { urls, _ in

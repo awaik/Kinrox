@@ -37,7 +37,29 @@ struct SoloistSetupTests {
             model.engineAvailability = availability
             model.engineNeedsSetup = false
             #expect(MusicServiceStatus(model: model).needsSettings(availability.message ?? ""))
+            model.isRefreshing = true
+            #expect(MusicServiceStatus(model: model).showsAction)
+            model.isRefreshing = false
         }
+        let disconnected = MusicViewModel(store: DisconnectedMusicLibraryStore())
+        #expect(disconnected.playbackStatusMessage == L10n.text("Connect Spotify in Settings."))
+        #expect(!disconnected.acceptsPlayback)
+        #expect(MusicServiceStatus(model: disconnected).showsAction)
+    }
+
+    @Test func initialVolumeRestoresOnLoadAndPersistsVolumeUpdates() async throws {
+        let driver = FakeSoloistDriver()
+        var persisted: Double?
+        let runtime = SoloistRuntime(
+            driver: driver, initialVolume: 85,
+            onVolumeChange: { value in persisted = value })
+        let uri = "spotify:track:" + String(repeating: "A", count: 22)
+        try await runtime.perform(.load(uri: uri, occurrenceID: UUID(), position: 0))
+        #expect(await runtime.confirmedSnapshot().volume == 85)
+        try await runtime.perform(.volume(45))
+        #expect(persisted == 45)
+        #expect(await runtime.confirmedSnapshot().volume == 45)
+        await runtime.shutdown()
     }
 
     @Test func constructionIsInertAndCancelPreservesCompletedPairing() async throws {

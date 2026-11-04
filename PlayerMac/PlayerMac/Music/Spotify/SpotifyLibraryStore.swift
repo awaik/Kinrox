@@ -81,6 +81,10 @@ final class SpotifyLibraryStore: MusicLibraryStore {
         library = snapshot.library
         catalog = snapshot.catalog
         resources = snapshot.resources
+        if let id = queuePlaylistID {
+            library.playlists.removeAll { $0.id == id }
+            resources["playlist:" + id] = nil
+        }
         rebuildIndex()
         onChange?()
     }

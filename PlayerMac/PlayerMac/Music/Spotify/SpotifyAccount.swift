@@ -17,6 +17,7 @@ final class SpotifyAccount {
     var onConnected: ((SpotifyClient, SpotifyProfile, SpotifyCacheStore) async -> Void)?
     var onInteractiveConnection: (() -> Void)?
     var onRestore: ((SpotifyClient, SpotifyAccountBinding, SpotifyCacheStore) async -> Void)?
+    var onRestoreFailed: ((String) -> Void)?
     private(set) var cache: SpotifyCacheStore?
     private var pendingClient: SpotifyClient?
     static let bindingPreference = "app.kinrox.spotify.verifiedAccount"
@@ -52,9 +53,15 @@ final class SpotifyAccount {
     /// Only runs after a prior, successful explicit connection. Fresh installs make no requests.
     func restore() {
         guard defaults.string(forKey: Self.preference) != nil, !isConnecting, !connected,
-            defaults.string(forKey: Self.consentPreference) == SpotifyDocuments.currentVersion,
             SpotifyDocuments.bundled != nil
         else {
+            return
+        }
+        guard defaults.string(forKey: Self.consentPreference) == SpotifyDocuments.currentVersion
+        else {
+            let message = L10n.text("Reconnect Spotify in Settings.")
+            errorMessage = message
+            onRestoreFailed?(message)
             return
         }
         begin(interactive: false)
@@ -133,7 +140,9 @@ final class SpotifyAccount {
                 // Closing the connection flow is an intentional cancellation.
             } catch {
                 guard self.generation == generation else { return }
-                self.errorMessage = SpotifyStatus.message(error)
+                let message = SpotifyStatus.message(error)
+                self.errorMessage = message
+                if !interactive { self.onRestoreFailed?(message) }
                 if let client = self.pendingClient { await client.close() }
                 self.pendingClient = nil
             }

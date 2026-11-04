@@ -47,6 +47,13 @@ final class PlayerSession {
             self.music.acceptsPlayback = false
             await store.restore()
         }
+        spotify.onRestoreFailed = { [weak self] message in
+            guard let self, !demoMusic else { return }
+            self.music.acceptsPlayback = false
+            self.music.statusMessage = message
+            self.music.retryPlayback = { [weak self] in self?.spotify.restore() }
+            self.music.notifyPlayback()
+        }
         spotify.onConnected = { [weak self] client, profile, cache in
             guard let self, !demoMusic else { return }
             let store: SpotifyLibraryStore

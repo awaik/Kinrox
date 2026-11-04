@@ -81,6 +81,9 @@ final class MusicViewModel {
     init(store: any MusicLibraryStore = DemoMusicLibraryStore()) {
         self.store = store
         volumeKnown = store is DemoMusicLibraryStore
+        acceptsPlayback = !(store is DisconnectedMusicLibraryStore)
+        statusMessage =
+            store is DisconnectedMusicLibraryStore ? L10n.text("Connect Spotify in Settings.") : nil
         library = store.library
         catalog = store.catalog
         var queue = MusicQueue()
@@ -88,9 +91,15 @@ final class MusicViewModel {
             queue.start(store.catalog.tracks(in: album), at: 2)
         }
         self.queue = queue
-        contents = BrowserSelection(source: .albums, albumID: "evening").contents(
+        let initialAlbumID =
+            store.catalog.albums.first(where: { $0.id == "evening" })?.id
+            ?? store.catalog.albums.first { store.library.savedAlbumIDs.contains($0.id) }?.id
+        let initialSelection = BrowserSelection(source: .albums, albumID: initialAlbumID)
+        let initialContents = initialSelection.contents(
             catalog: store.catalog, library: store.library, queue: queue)
-        focusedTrackID = contents.tracks.first?.id
+        selection = initialSelection
+        contents = initialContents
+        focusedTrackID = initialContents.tracks.first?.id
     }
 
     var isDemo: Bool { store is DemoMusicLibraryStore }
