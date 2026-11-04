@@ -19,6 +19,15 @@ final class MusicViewModel {
     var isSearching = false
     var likeOptionsTrackID: String?
     var likeOptionsAnchor: String?
+    var previewAlbumID: String?
+    var previewAlbumTrack: MusicTrack?
+    var previewAlbumAnchor: String?
+    var previewArtists: [MusicArtist] = []
+    var previewArtistID: String?
+    var previewArtistAnchor: String?
+    var trackSortOrders: [String: TrackSortOrder] = [:]
+    var rememberedTrackIDs: [String: String] = [:]
+    @ObservationIgnored let defaults: UserDefaults?
     var statusMessage: String?
     var favoriteFeedbackID: UUID?
     var favoriteFeedbackLiked: Bool?
@@ -78,8 +87,11 @@ final class MusicViewModel {
     var acceptsPlayback = true
     var beforeDemoPlayback: () -> Void = {}
 
-    init(store: any MusicLibraryStore = DemoMusicLibraryStore()) {
+    init(store: any MusicLibraryStore = DemoMusicLibraryStore(), defaults: UserDefaults? = nil) {
         self.store = store
+        self.defaults = defaults
+        trackSortOrders = Self.loadPersistedSortOrders(from: defaults)
+        rememberedTrackIDs = Self.loadPersistedRememberedTracks(from: defaults)
         volumeKnown = store is DemoMusicLibraryStore
         acceptsPlayback = !(store is DisconnectedMusicLibraryStore)
         statusMessage =
@@ -94,12 +106,18 @@ final class MusicViewModel {
         let initialAlbumID =
             store.catalog.albums.first(where: { $0.id == "evening" })?.id
             ?? store.catalog.albums.first { store.library.savedAlbumIDs.contains($0.id) }?.id
-        let initialSelection = BrowserSelection(source: .albums, albumID: initialAlbumID)
-        let initialContents = initialSelection.contents(
-            catalog: store.catalog, library: store.library, queue: queue)
+        var initialSelection = BrowserSelection(source: .albums, albumID: initialAlbumID)
+        if !(store is DisconnectedMusicLibraryStore),
+            let persisted = Self.loadPersistedSelection(from: defaults)
+        {
+            initialSelection = persisted
+            if case .albums = initialSelection.source, initialSelection.albumID == nil {
+                initialSelection.select(albumID: initialAlbumID)
+            }
+        }
         selection = initialSelection
-        contents = initialContents
-        focusedTrackID = initialContents.tracks.first?.id
+        contents = BrowserContents(albums: [], artists: [], tracks: [])
+        refreshContents()
     }
 
     var isDemo: Bool { store is DemoMusicLibraryStore }
@@ -127,11 +145,13 @@ final class MusicViewModel {
     }
 
     func select(_ source: MusicSource) {
+        dismissPopovers()
         selection.select(source: source)
         if case .albums = source {
             selection.select(
                 albumID: catalog.albums.first { library.savedAlbumIDs.contains($0.id) }?.id)
         }
+        persistSelection()
         refreshContents()
         if case .artist(let id) = source {
             loadSelection(artistID: id)
@@ -143,7 +163,9 @@ final class MusicViewModel {
     }
 
     func selectAlbum(_ id: String?) {
+        dismissPopovers()
         selection.select(albumID: id)
+        persistSelection()
         refreshContents()
         if let id { loadSelection(albumID: id) }
     }
@@ -169,17 +191,27 @@ final class MusicViewModel {
     }
 
     func refreshContents() {
+        let rawContents: BrowserContents
         if case .search = selection.source, let searchResults {
             let tracks =
                 selection.albumID.flatMap { id in catalog.album(id: id) }.map {
                     catalog.tracks(in: $0)
                 } ?? searchResults.tracks
-            contents = BrowserContents(
+            rawContents = BrowserContents(
                 albums: searchResults.albums, artists: searchResults.artists, tracks: tracks)
         } else {
-            contents = selection.contents(catalog: catalog, library: library, queue: queue)
+            rawContents = selection.contents(catalog: catalog, library: library, queue: queue)
         }
-        focusedTrackID = contents.tracks.first?.id
+        let sorted = sortedTracks(rawContents.tracks)
+        contents = BrowserContents(
+            albums: rawContents.albums, artists: rawContents.artists, tracks: sorted)
+        if let remembered = rememberedTrackID(for: selection),
+            sorted.contains(where: { $0.id == remembered })
+        {
+            focusedTrackID = remembered
+        } else {
+            focusedTrackID = sorted.first?.id
+        }
         focusedQueueID = queue.current?.id
     }
 

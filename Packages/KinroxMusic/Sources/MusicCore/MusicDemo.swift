@@ -34,6 +34,24 @@ public enum MusicDemo {
         ("north", "Northern Lights", ["lights", "amber"], "2022", [("Road North", 239)]),
     ]
 
+    private static let demoLikedAddedAt: [String: Date] = [
+        "evening-0": Date(timeIntervalSince1970: 1_792_281_600),
+        "evening-2": Date(timeIntervalSince1970: 1_792_022_400),
+        "evening-4": Date(timeIntervalSince1970: 1_791_590_400),
+        "evening-7": Date(timeIntervalSince1970: 1_790_985_600),
+        "neon-0": Date(timeIntervalSince1970: 1_790_208_000),
+    ]
+
+    private static let demoPlaylistAddedAt: [String: [String: Date]] = [
+        "evening-2": ["evening": Date(timeIntervalSince1970: 1_792_108_800)],
+        "neon-0": [
+            "evening": Date(timeIntervalSince1970: 1_791_763_200),
+            "road": Date(timeIntervalSince1970: 1_791_244_800),
+        ],
+        "evening-4": ["evening": Date(timeIntervalSince1970: 1_791_504_000)],
+        "cats-0": ["road": Date(timeIntervalSince1970: 1_791_072_000)],
+    ]
+
     public static let catalog: MusicCatalog = {
         var tracks: [MusicTrack] = []
         var albums: [MusicAlbum] = []
@@ -54,7 +72,9 @@ public enum MusicDemo {
                     MusicTrack(
                         id: trackID, uri: "demo:track:\(trackID)", title: entry.0,
                         artists: trackArtists, albumID: id, albumTitle: title, duration: entry.1,
-                        explicit: id == "evening" && index == 2))
+                        explicit: id == "evening" && index == 2,
+                        addedAt: demoLikedAddedAt[trackID],
+                        playlistAddedAt: demoPlaylistAddedAt[trackID]))
             }
             albums.append(
                 MusicAlbum(

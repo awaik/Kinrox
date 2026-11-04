@@ -24,12 +24,9 @@ extension MusicViewModel {
         guard canMutate else { return }
         isMutating = true
         let store = store
-        // Offline/demo stores are already complete. Real policies wait for resource validation.
-        if !(store is SpotifyLibraryStore) {
-            let preview = request.change(in: store.library)
-            library.apply(preview.mutations)
-            showLikeOptions(preview, anchor: anchor)
-        }
+        let preview = request.change(in: store.library)
+        library.apply(preview.mutations)
+        showLikeOptions(preview, anchor: anchor)
         Task { [weak self] in
             guard let self else { return }
             defer {
@@ -42,6 +39,12 @@ extension MusicViewModel {
                 let change = try await store.change(request)
                 guard self.store === store else { return }
                 self.library = store.library
+                if let spotify = store as? SpotifyLibraryStore {
+                    self.catalog = spotify.catalog
+                }
+                if !self.preservesLikedRows {
+                    self.refreshContents()
+                }
                 if remembersUndo {
                     self.undoMutations = change.undo
                     let affected = Set(change.undo.flatMap(\.resourceKeys))
@@ -60,6 +63,12 @@ extension MusicViewModel {
             } catch {
                 guard self.store === store else { return }
                 self.library = store.library
+                if let spotify = store as? SpotifyLibraryStore {
+                    self.catalog = spotify.catalog
+                }
+                if !self.preservesLikedRows {
+                    self.refreshContents()
+                }
                 self.likeOptionsTrackID = nil
                 self.likeOptionsAnchor = nil
                 self.statusMessage = L10n.text("Could not update favorites.")
@@ -109,12 +118,24 @@ extension MusicViewModel {
                 _ = try await store.createPlaylist(title: title, trackID: trackID)
                 guard self.store === store else { return }
                 self.library = store.library
+                if let spotify = store as? SpotifyLibraryStore {
+                    self.catalog = spotify.catalog
+                }
+                if !self.preservesLikedRows {
+                    self.refreshContents()
+                }
                 self.statusMessage = nil
                 self.retryPlaylist = nil
                 self.retryChange = nil
             } catch {
                 guard self.store === store else { return }
                 self.library = store.library
+                if let spotify = store as? SpotifyLibraryStore {
+                    self.catalog = spotify.catalog
+                }
+                if !self.preservesLikedRows {
+                    self.refreshContents()
+                }
                 self.statusMessage = L10n.text("Could not create playlist.")
                 self.retryPlaylist = (title, trackID)
                 self.retryChange = nil

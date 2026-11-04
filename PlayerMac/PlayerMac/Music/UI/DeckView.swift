@@ -1,3 +1,4 @@
+import AppKit
 import MusicCore
 import Observation
 import SwiftUI
@@ -7,22 +8,37 @@ struct DeckView: View {
     let compact: Bool
     var width: CGFloat = 1440
     @State private var clock = MusicDisplayClock()
+    @State private var windowVisible = true
 
     var body: some View {
         deck
-            .task(id: model.paused) {
-                clock.position = model.displayedPosition
-                guard !model.paused else { return }
+            .background(
+                DeckWindowObserver { visible in
+                    if windowVisible != visible {
+                        windowVisible = visible
+                    }
+                    if visible {
+                        clock.sync(model.displayedPosition)
+                    }
+                }
+            )
+            .task(id: ClockTaskKey(paused: model.paused, visible: windowVisible)) {
+                clock.sync(model.displayedPosition)
+                guard !model.paused, windowVisible else { return }
                 do {
                     while !Task.isCancelled {
-                        try await Task.sleep(for: .milliseconds(250))
-                        clock.position = model.displayedPosition
+                        let current = max(0, model.displayedPosition)
+                        clock.sync(current)
+                        let fraction = current.truncatingRemainder(dividingBy: 1)
+                        let delayMs = Int(((1.0 - fraction) * 1000).rounded(.up)) + 15
+                        try await Task.sleep(for: .milliseconds(max(50, min(1000, delayMs))))
+                        clock.sync(model.displayedPosition)
                     }
                 } catch {
-                    // Pausing or leaving Music cancels the clock.
+                    // Pausing, occluding the window, or leaving Music cancels the clock.
                 }
             }
-            .onChange(of: model.position) { _, _ in clock.position = model.displayedPosition }
+            .onChange(of: model.position) { _, _ in clock.sync(model.displayedPosition) }
     }
 
     private var deck: some View {
@@ -53,13 +69,13 @@ struct DeckView: View {
                 }
                 HStack(spacing: 12) {
                     MusicClockText(clock: clock, paused: model.paused, position: model.position)
-                        .frame(width: 36)
+                        .frame(width: 36, height: 16)
                     MusicClockSlider(clock: clock, model: model)
                     MusicClockText(
                         clock: clock, paused: model.paused, position: model.position,
                         remaining: model.currentTrack?.duration ?? 0
                     )
-                    .frame(width: 42)
+                    .frame(width: 42, height: 16)
                     Image(systemName: "speaker.wave.2.fill").accessibilityHidden(true)
                     MusicSlider(
                         value: model.volume, range: 0...100, label: L10n.text("Volume"), step: 5,
@@ -77,7 +93,8 @@ struct DeckView: View {
     }
 
     private var display: some View {
-        HStack(spacing: 16) {
+        let clockColumnWidth = compact ? 142 : min(168, width * 0.11)
+        return HStack(spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 6) {
                     MusicIcon(name: model.paused ? "MusicPause" : "MusicPlay", size: 10)
@@ -86,6 +103,8 @@ struct DeckView: View {
                             KinroxFont.monoDigits(compact ? 34 : 38)
                         )
                         .tracking(-2).minimumScaleFactor(0.7).lineLimit(1)
+                        .frame(
+                            width: max(0, clockColumnWidth - 16), height: 40, alignment: .leading)
                 }.foregroundStyle(Palette.flame)
                 HStack(alignment: .bottom, spacing: 2) {
                     ForEach(0..<24) { index in
@@ -94,7 +113,7 @@ struct DeckView: View {
                                 height: model.paused ? 3 : CGFloat(4 + (index * 7) % 20))
                     }
                 }.frame(height: 20, alignment: .bottom).accessibilityHidden(true)
-            }.frame(width: compact ? 142 : min(168, width * 0.11), alignment: .leading)
+            }.frame(width: clockColumnWidth, alignment: .leading)
             Rectangle().fill(Palette.hairline).frame(width: 1)
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 4) {
@@ -103,10 +122,17 @@ struct DeckView: View {
                         .font(.system(size: 15, weight: .semibold))
                         .foregroundStyle(Palette.textPrimary)
                 }
-                Text(model.currentTrack?.artistNames ?? "—").help(
-                    model.currentTrack?.artistNames ?? "")
-                Text(model.currentTrack?.albumTitle ?? "—").help(
-                    model.currentTrack?.albumTitle ?? "")
+                if let track = model.currentTrack {
+                    TrackArtistLink(
+                        model: model, track: track, anchor: "deck-artist",
+                        font: .system(size: 12))
+                    TrackAlbumLink(
+                        model: model, track: track, anchor: "deck-album",
+                        font: .system(size: 12))
+                } else {
+                    Text("—")
+                    Text("—")
+                }
                 Text(L10n.format("Next: %@", model.nextTrack?.title ?? "—")).help(
                     model.nextTrack.map {
                         $0.title + " — " + $0.artistNames + " — " + $0.albumTitle
@@ -120,11 +146,20 @@ struct DeckView: View {
         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Palette.hairline))
         .contextMenu {
             if let track = model.currentTrack {
+                if let artist = track.artists.first {
+                    Button(L10n.text("Go to artist")) { model.navigateToArtist(artist) }
+                }
+                if !track.albumID.isEmpty {
+                    Button(L10n.text("Go to album")) {
+                        model.navigateToAlbum(albumID: track.albumID, trackID: track.id)
+                    }
+                }
+                Divider()
                 SpotifyContentLink(kind: "track", id: track.id)
                 SpotifyContentLink(
                     kind: "album", id: track.albumID, title: L10n.text("Open album in Spotify"))
             }
-        }.accessibilityElement(children: .combine)
+        }.accessibilityElement(children: .contain)
     }
 
     private var transport: some View {
@@ -167,10 +202,80 @@ struct DeckView: View {
     }
 }
 
+private struct ClockTaskKey: Equatable {
+    let paused: Bool
+    let visible: Bool
+}
+
+struct DeckWindowObserver: NSViewRepresentable {
+    let onVisibilityChange: @MainActor (Bool) -> Void
+
+    func makeNSView(context: Context) -> ObserverView {
+        ObserverView(onVisibilityChange: onVisibilityChange)
+    }
+
+    func updateNSView(_ nsView: ObserverView, context: Context) {
+        nsView.onVisibilityChange = onVisibilityChange
+    }
+
+    @MainActor final class ObserverView: NSView {
+        var onVisibilityChange: (Bool) -> Void
+        private var observer: NSObjectProtocol?
+
+        init(onVisibilityChange: @escaping (Bool) -> Void) {
+            self.onVisibilityChange = onVisibilityChange
+            super.init(frame: .zero)
+        }
+
+        required init?(coder: NSCoder) { nil }
+
+        isolated deinit {
+            if let observer { NotificationCenter.default.removeObserver(observer) }
+        }
+
+        override func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+            if let observer {
+                NotificationCenter.default.removeObserver(observer)
+                self.observer = nil
+            }
+            if let window {
+                observer = NotificationCenter.default.addObserver(
+                    forName: NSWindow.didChangeOcclusionStateNotification,
+                    object: window,
+                    queue: .main
+                ) { [weak self] _ in
+                    MainActor.assumeIsolated {
+                        self?.reportVisibility()
+                    }
+                }
+            }
+            reportVisibility()
+        }
+
+        func reportVisibility() {
+            guard let window else {
+                onVisibilityChange(false)
+                return
+            }
+            onVisibilityChange(window.isVisible && window.occlusionState.contains(.visible))
+        }
+    }
+}
+
 /// Only the time labels and scrubber observe ticks; the rest of the deck stays unchanged.
 @MainActor @Observable
-private final class MusicDisplayClock {
+final class MusicDisplayClock {
     var position: Double = 0
+    @ObservationIgnored private(set) var updates = 0
+
+    func sync(_ rawPosition: Double) {
+        let wholeSecond = rawPosition.isFinite ? max(0, rawPosition.rounded(.down)) : 0
+        if position != wholeSecond {
+            position = wholeSecond
+            updates += 1
+        }
+    }
 }
 
 private struct MusicClockText: View {
@@ -180,7 +285,8 @@ private struct MusicClockText: View {
     var remaining: Double?
 
     var body: some View {
-        let value = paused ? position : clock.position
+        let value =
+            paused ? (position.isFinite ? max(0, position.rounded(.down)) : 0) : clock.position
         Text(
             remaining.map { TimeFormat.remaining(position: value, duration: $0) }
                 ?? TimeFormat.string(value))

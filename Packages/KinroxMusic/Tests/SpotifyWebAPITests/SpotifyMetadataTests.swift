@@ -28,6 +28,19 @@ struct SpotifyMetadataTests {
         let json =
             #"{"id":"track","uri":"spotify:track:track","title":"Title","artists":[],"albumID":"album","albumTitle":"Album","duration":100}"#
         let track = try JSONDecoder().decode(MusicTrack.self, from: Data(json.utf8))
-        #expect(track.explicit == nil && track.isPlayable == nil)
+        #expect(track.explicit == nil && track.isPlayable == nil && track.addedAt == nil)
+    }
+
+    @Test func savedAndPlaylistAddedTimestampsDecodeAndIgnoreEpochZero() throws {
+        let savedJSON =
+            #"{"added_at":"2026-10-18T14:22:10Z","track":{"id":"track1","uri":"spotify:track:track1","name":"Saved","duration_ms":100000,"album":{"id":"album","uri":"spotify:album:album","name":"Album","artists":[]}}}"#
+        let saved = try JSONDecoder().decode(SpotifySavedTrack.self, from: Data(savedJSON.utf8))
+        let savedTrack = try #require(saved.track?.model(addedAt: saved.addedDate))
+        #expect(savedTrack.addedAt == Date(timeIntervalSince1970: 1_792_333_330))
+
+        let itemJSON =
+            #"{"added_at":"1970-01-01T00:00:00Z","item":{"id":"track2","uri":"spotify:track:track2","name":"Item","duration_ms":100000,"album":{"id":"album","uri":"spotify:album:album","name":"Album","artists":[]}}}"#
+        let item = try JSONDecoder().decode(SpotifyPlaylistItem.self, from: Data(itemJSON.utf8))
+        #expect(item.addedDate == nil)
     }
 }

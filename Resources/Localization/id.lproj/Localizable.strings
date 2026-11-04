@@ -395,3 +395,8 @@
 "Update Soloist" = "Perbarui Soloist";
 "Waiting for pairing and account verification…" = "Menunggu pemasangan dan verifikasi akun…";
 "Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "Kunci Anda tetap berada di Rantai Kunci Mac. Saat Soloist berjalan, proses lain di akun pengguna Anda dapat membaca kunci dari argumen peluncurannya.";
+
+"Added" = "Ditambahkan";
+"Artist" = "Artis";
+"Go to album" = "Buka album";
+"Go to artist" = "Buka artis";

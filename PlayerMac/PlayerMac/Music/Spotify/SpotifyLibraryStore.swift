@@ -81,9 +81,14 @@ final class SpotifyLibraryStore: MusicLibraryStore {
         library = snapshot.library
         catalog = snapshot.catalog
         resources = snapshot.resources
-        if let id = queuePlaylistID {
-            library.playlists.removeAll { $0.id == id }
-            resources["playlist:" + id] = nil
+        let excludedIDs = Set(
+            library.playlists.filter {
+                isExcludedQueuePlaylist(id: $0.id, title: $0.title, ownerID: $0.ownerID)
+            }.map(\.id)
+        ).union(queuePlaylistID.map { [$0] } ?? [])
+        if !excludedIDs.isEmpty {
+            library.playlists.removeAll { excludedIDs.contains($0.id) }
+            for id in excludedIDs { resources["playlist:" + id] = nil }
         }
         rebuildIndex()
         onChange?()
@@ -109,6 +114,11 @@ final class SpotifyLibraryStore: MusicLibraryStore {
         library.playlists.removeAll { $0.id == id }
         resources["playlist:" + id] = nil
         rebuildIndex()
+    }
+
+    func isExcludedQueuePlaylist(id: String, title: String, ownerID: String) -> Bool {
+        if id == queuePlaylistID { return true }
+        return title == "Kinrox Queue" && !library.userID.isEmpty && ownerID == library.userID
     }
 
     func refresh() async throws {

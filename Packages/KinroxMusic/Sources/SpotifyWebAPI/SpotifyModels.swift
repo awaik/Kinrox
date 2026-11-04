@@ -65,18 +65,43 @@ public struct SpotifyTrack: Decodable, Sendable {
         public let uri: String?
     }
 
-    public func model(album fallback: SpotifyAlbum? = nil) -> MusicTrack? {
+    public func model(
+        album fallback: SpotifyAlbum? = nil, addedAt: Date? = nil,
+        playlistAddedAt: [String: Date]? = nil
+    ) -> MusicTrack? {
         guard let id, let uri, uri.hasPrefix("spotify:track:"), isLocal != true,
             type == nil || type == "track", let album = album ?? fallback
         else { return nil }
         return MusicTrack(
             id: id, uri: uri, title: name, artists: artists ?? [],
             albumID: album.id, albumTitle: album.name, duration: durationMS / 1000,
-            explicit: explicit, isPlayable: isPlayable)
+            explicit: explicit, isPlayable: isPlayable, addedAt: addedAt,
+            playlistAddedAt: playlistAddedAt)
     }
 }
 
-public struct SpotifySavedTrack: Decodable, Sendable { public let track: SpotifyTrack? }
+public enum SpotifyDateParser {
+    private static let standard = Date.ISO8601FormatStyle(includingFractionalSeconds: false)
+    private static let fractional = Date.ISO8601FormatStyle(includingFractionalSeconds: true)
+
+    public static func parse(_ raw: String?) -> Date? {
+        guard let raw, !raw.isEmpty else { return nil }
+        guard let date = (try? standard.parse(raw)) ?? (try? fractional.parse(raw)),
+            date.timeIntervalSince1970 > 0
+        else { return nil }
+        return date
+    }
+}
+
+public struct SpotifySavedTrack: Decodable, Sendable {
+    private enum CodingKeys: String, CodingKey {
+        case track
+        case addedAt = "added_at"
+    }
+    public let addedAt: String?
+    public let track: SpotifyTrack?
+    public var addedDate: Date? { SpotifyDateParser.parse(addedAt) }
+}
 public struct SpotifySavedAlbum: Decodable, Sendable { public let album: SpotifyAlbum }
 public struct SpotifyFollowedArtists: Decodable, Sendable {
     public let artists: SpotifyPage<MusicArtist>
@@ -105,10 +130,16 @@ public struct SpotifyPlaylist: Decodable, Sendable {
 }
 
 public struct SpotifyPlaylistItem: Decodable, Sendable {
+    private enum CodingKeys: String, CodingKey {
+        case item, track
+        case addedAt = "added_at"
+    }
+    public let addedAt: String?
     public let item: SpotifyTrack?
     // Read the pre-migration spelling only as a compatibility fallback.
     public let track: SpotifyTrack?
     public var value: SpotifyTrack? { item ?? track }
+    public var addedDate: Date? { SpotifyDateParser.parse(addedAt) }
 }
 
 public struct SpotifySnapshot: Decodable, Sendable {

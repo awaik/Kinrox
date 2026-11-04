@@ -395,3 +395,8 @@
 "Update Soloist" = "Soloist frissítése";
 "Waiting for pairing and account verification…" = "Várakozás a párosításra és a fiók ellenőrzésére…";
 "Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "A kulcs a Mac Kulcskarikájában marad. Amíg a Soloist fut, a felhasználói fiókja más folyamatai kiolvashatják a kulcsot az indítási argumentumokból.";
+
+"Added" = "Hozzáadva";
+"Artist" = "Előadó";
+"Go to album" = "Ugrás az albumhoz";
+"Go to artist" = "Ugrás az előadóhoz";

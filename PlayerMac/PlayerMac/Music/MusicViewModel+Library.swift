@@ -29,8 +29,7 @@ extension MusicViewModel {
         undoSnapshots = [:]
         retryChange = nil
         retryPlaylist = nil
-        likeOptionsTrackID = nil
-        likeOptionsAnchor = nil
+        dismissPopovers()
         isLoading = false
         isRefreshing = false
         isMutating = false
@@ -44,12 +43,38 @@ extension MusicViewModel {
         acceptsPlayback = !(store is DisconnectedMusicLibraryStore)
         statusMessage =
             store is DisconnectedMusicLibraryStore ? L10n.text("Connect Spotify in Settings.") : nil
-        select(.albums)
+        if !(store is DisconnectedMusicLibraryStore),
+            let persisted = Self.loadPersistedSelection(from: defaults)
+        {
+            selection = persisted
+            if case .albums = selection.source, selection.albumID == nil {
+                selection.select(
+                    albumID: catalog.albums.first { library.savedAlbumIDs.contains($0.id) }?.id)
+            }
+            refreshContents()
+            if case .artist(let id) = selection.source {
+                loadSelection(artistID: id)
+            } else if case .playlist(let id) = selection.source {
+                loadSelection(playlistID: id)
+            } else if let id = selection.albumID {
+                loadSelection(albumID: id)
+            }
+        } else {
+            select(.albums)
+        }
         notifyPlayback()
     }
 
+    var preservesLikedRows: Bool {
+        selection.source == .liked && !isRefreshing
+            && (store as? SpotifyLibraryStore)?.isRestoring != true
+            && contents.tracks.contains { !library.likedTrackIDs.contains($0.id) }
+    }
+
     func acceptLibrary(_ store: SpotifyLibraryStore) {
-        let updatesRows = isRefreshing || catalog != store.catalog || library != store.library
+        let preservesLiked = preservesLikedRows
+        let updatesRows =
+            isRefreshing || catalog != store.catalog || (!isMutating && library != store.library)
         if !isMutating { library = store.library }
         catalog = store.catalog
         isLoading = store.isInitialLoading && isRefreshing
@@ -60,7 +85,9 @@ extension MusicViewModel {
                 loadSelection(albumID: id)
             }
         }
-        if updatesRows { refreshContents() }
+        if updatesRows, !preservesLiked, !preservesLikedRows {
+            refreshContents()
+        }
         notifyPlayback()
     }
 

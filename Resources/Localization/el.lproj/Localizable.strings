@@ -395,3 +395,8 @@
 "Update Soloist" = "Ενημέρωση Soloist";
 "Waiting for pairing and account verification…" = "Αναμονή σύζευξης και επαλήθευσης λογαριασμού…";
 "Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "Το κλειδί σας παραμένει στην Κλειδοθήκη του Mac. Όσο εκτελείται το Soloist, άλλες διεργασίες του λογαριασμού χρήστη σας μπορούν να διαβάσουν το κλειδί από τα ορίσματα εκκίνησής του.";
+
+"Added" = "Προστέθηκε";
+"Artist" = "Καλλιτέχνης";
+"Go to album" = "Μετάβαση στο άλμπουμ";
+"Go to artist" = "Μετάβαση στον καλλιτέχνη";

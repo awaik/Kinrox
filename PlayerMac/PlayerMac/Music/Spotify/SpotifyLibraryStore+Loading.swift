@@ -26,7 +26,7 @@ extension SpotifyLibraryStore {
                     let tracks = values.compactMap(\.track)
                     library.likedTrackIDs = Set(tracks.compactMap(\.id))
                     catalog.merge(
-                        tracks: tracks.compactMap { $0.model() },
+                        tracks: values.compactMap { $0.track?.model(addedAt: $0.addedDate) },
                         albums: tracks.compactMap { $0.album?.model() })
                 }
                 mark(key, etag: result.etag)
@@ -41,7 +41,9 @@ extension SpotifyLibraryStore {
                     SpotifyPlaylist.self, path: "me/playlists?limit=50", etag: etag)
                 guard accepts(key, stamp: version) else { return }
                 if let values = result.value {
-                    library.playlists = values.filter { $0.id != queuePlaylistID }.map { remote in
+                    library.playlists = values.filter {
+                        !isExcludedQueuePlaylist(id: $0.id, title: $0.name, ownerID: $0.owner.id)
+                    }.map { remote in
                         let ids =
                             index.trackIDs(
                                 playlistID: remote.id, snapshotID: remote.snapshotID ?? "") ?? []
@@ -150,7 +152,9 @@ extension SpotifyLibraryStore {
             let version = stamp(key)
             for _ in 0..<3 {
                 let remote = try await client.playlist(id, live: true)
-                guard remote.model().isEditable(by: library.userID), id != queuePlaylistID else {
+                guard remote.model().isEditable(by: library.userID),
+                    !isExcludedQueuePlaylist(id: id, title: remote.name, ownerID: remote.owner.id)
+                else {
                     throw SpotifyError.forbidden
                 }
                 guard let snapshot = remote.snapshotID, !snapshot.isEmpty else {
@@ -176,7 +180,9 @@ extension SpotifyLibraryStore {
                     entry.value?.model()?.id ?? "unavailable:\(offset)"
                 }
                 catalog.merge(
-                    tracks: entries.compactMap { $0.value?.model() },
+                    tracks: entries.compactMap { entry in
+                        entry.value?.model(playlistAddedAt: entry.addedDate.map { [id: $0] })
+                    },
                     albums: entries.compactMap { $0.value?.album?.model() })
                 installPlaylist(after.model(trackIDs: ids))
                 mark(key, snapshot: snapshot)

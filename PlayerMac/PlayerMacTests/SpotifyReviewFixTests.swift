@@ -184,4 +184,76 @@ extension SpotifyLibraryTests {
         await client.close()
         await engine.shutdown()
     }
+
+    @Test func spotifyUnlikeUpdatesOptimisticallyKeepsRowAndFiltersQueuePlaylists() async throws {
+        let gate = MusicResponseGate()
+        let queueHelper =
+            #"{"id":"legacy-queue-1","uri":"spotify:playlist:legacy-queue-1","name":"Kinrox Queue","owner":{"id":"owner"},"snapshot_id":"v1"}"#
+        let client = routedClient([
+            "GET /v1/me/playlists": [
+                .init(body: #"{"items":[\#(queueHelper)],"next":null}"#)
+            ],
+            "DELETE /v1/me/library": [.init(status: 204, gate: gate)],
+        ])
+        let store = SpotifyLibraryStore(client: client, profile: try profile)
+        let track = MusicTrack(
+            id: "track-1", uri: "spotify:track:track-1", title: "Track 1", artists: [],
+            albumID: "album", albumTitle: "Album", duration: 180)
+        store.catalog.merge(
+            tracks: [track],
+            albums: [
+                MusicAlbum(
+                    id: "album", uri: "spotify:album:album", title: "Album", artists: [],
+                    year: "2026", trackIDs: ["track-1"])
+            ])
+        store.library.likedTrackIDs = ["track-1"]
+        store.mark("liked")
+        store.mark("albums")
+        let model = MusicViewModel(store: DisconnectedMusicLibraryStore())
+        model.replaceStore(store)
+        model.select(.liked)
+        #expect(model.contents.tracks.map(\.id) == ["track-1"])
+
+        model.toggleTrack(track, anchor: "track-0")
+        // Optimistic update is immediate before any network round-trip completes.
+        #expect(!model.library.likedTrackIDs.contains("track-1"))
+        #expect(model.contents.tracks.map(\.id) == ["track-1"])
+
+        await gate.release()
+        try await waitFor { !model.isMutating }
+        #expect(!model.library.likedTrackIDs.contains("track-1"))
+        #expect(model.contents.tracks.map(\.id) == ["track-1"])
+        #expect(store.library.playlists.isEmpty)
+        store.retire()
+        await client.close()
+    }
+
+    @Test func unsaveAlbumRefreshesConfirmedContents() async throws {
+        let first = savedAlbumPage
+        let secondAlbum =
+            #"{"items":[{"album":{"id":"other","uri":"spotify:album:other","name":"Other","artists":[],"total_tracks":0,"tracks":{"items":[],"next":null}}}],"next":null}"#
+        let a = try JSONSerialization.jsonObject(with: Data(first.utf8)) as? [String: Any]
+        let b = try JSONSerialization.jsonObject(with: Data(secondAlbum.utf8)) as? [String: Any]
+        let initialItems = (a?["items"] as? [Any] ?? []) + (b?["items"] as? [Any] ?? [])
+        let initial = String(
+            data: try JSONSerialization.data(
+                withJSONObject: ["items": initialItems, "next": NSNull()]),
+            encoding: .utf8)!
+        let client = routedClient([
+            "GET /v1/me/albums": [.init(body: initial), .init(body: first)],
+            "DELETE /v1/me/library": [.init(status: 204)],
+        ])
+        let store = SpotifyLibraryStore(client: client, profile: try profile)
+        try await store.loadCollection("albums")
+        let model = MusicViewModel(store: DisconnectedMusicLibraryStore())
+        model.replaceStore(store)
+        await model.browsingTask?.value
+        #expect(model.contents.albums.count == 2)
+        model.toggleAlbum(try #require(model.catalog.album(id: "other")))
+        try await waitFor { !model.isMutating && store.revalidationTask == nil }
+        #expect(!model.library.savedAlbumIDs.contains("other"))
+        #expect(model.contents.albums.map(\.id) == ["album"])
+        store.retire()
+        await client.close()
+    }
 }

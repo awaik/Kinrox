@@ -8,17 +8,28 @@ struct QueueView: View {
         VStack(spacing: 0) {
             CollectionHeader(model: model)
             MusicServiceStatus(model: model)
-            MusicTrackHeader(showAlbum: true).padding(.horizontal, 12)
-            ScrollViewReader { proxy in
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 0) {
-                        section(
-                            L10n.text("Now Playing"), items: model.queue.current.map { [$0] } ?? [])
-                        section(L10n.text("Added manually"), items: model.queue.manual)
-                        section(L10n.text("From the source list"), items: model.queue.source)
-                    }.padding(.horizontal, 12)
-                }.onChange(of: model.focusedQueueID) { _, id in
-                    if let id { proxy.scrollTo(id) }
+            GeometryReader { geometry in
+                let columns = MusicTrackColumns(
+                    width: max(0, geometry.size.width - 24), showAlbum: true)
+                VStack(spacing: 0) {
+                    MusicTrackHeader(showAlbum: true, columns: columns).padding(.horizontal, 12)
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            LazyVStack(alignment: .leading, spacing: 0) {
+                                section(
+                                    L10n.text("Now Playing"),
+                                    items: model.queue.current.map { [$0] } ?? [], columns: columns)
+                                section(
+                                    L10n.text("Added manually"), items: model.queue.manual,
+                                    columns: columns)
+                                section(
+                                    L10n.text("From the source list"), items: model.queue.source,
+                                    columns: columns)
+                            }.padding(.horizontal, 12)
+                        }.onChange(of: model.focusedQueueID) { _, id in
+                            if let id { proxy.scrollTo(id) }
+                        }
+                    }
                 }
             }
         }.background(Palette.canvas).accessibilityElement(children: .contain).accessibilityLabel(
@@ -26,7 +37,9 @@ struct QueueView: View {
     }
 
     @ViewBuilder
-    private func section(_ title: String, items: [MusicQueueItem]) -> some View {
+    private func section(
+        _ title: String, items: [MusicQueueItem], columns: MusicTrackColumns
+    ) -> some View {
         if !items.isEmpty {
             Text(title).font(.system(size: 10, weight: .semibold)).tracking(0.8).textCase(
                 .uppercase
@@ -37,7 +50,8 @@ struct QueueView: View {
                 MusicTrackRow(
                     model: model, track: item.track,
                     index: model.queue.items.firstIndex { $0.id == item.id } ?? 0,
-                    showAlbum: true, anchor: item.id.uuidString, queueID: item.id
+                    showAlbum: true, columns: columns, anchor: item.id.uuidString,
+                    queueID: item.id
                 ) {
                     let items = model.queue.items
                     if let index = items.firstIndex(where: { $0.id == item.id }) {

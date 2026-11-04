@@ -98,6 +98,90 @@ struct MusicViewModelTests {
         #expect(session.music.currentTrack == current)
     }
 
+    @Test func addedColumnVisibilityPerSourceSortingAndPersistence() throws {
+        let defaults = try #require(
+            UserDefaults(suiteName: "app.kinrox.tests.browsing.\(UUID())"))
+        let model = MusicViewModel(store: DemoMusicLibraryStore(), defaults: defaults)
+        #expect(!model.showsAddedColumn)
+
+        model.select(.liked)
+        #expect(model.showsAddedColumn)
+        #expect(model.currentTrackSortOrder == .default)
+
+        // First click on Added sorts newest-first (descending), second click sorts oldest-first.
+        model.toggleTrackSort(.added)
+        #expect(
+            model.currentTrackSortOrder == TrackSortOrder(column: .added, ascending: false))
+        #expect(model.contents.tracks.first?.id == "evening-0")
+        #expect(model.contents.tracks.last?.id == "neon-0")
+
+        model.toggleTrackSort(.added)
+        #expect(
+            model.currentTrackSortOrder == TrackSortOrder(column: .added, ascending: true))
+        #expect(model.contents.tracks.first?.id == "neon-0")
+        #expect(model.contents.tracks.last?.id == "evening-0")
+
+        model.focusTrack("evening-4")
+        #expect(model.focusedTrackID == "evening-4")
+
+        // Playlist has its own independent sort order and also shows Added column.
+        model.select(.playlist("evening"))
+        #expect(model.showsAddedColumn)
+        #expect(model.currentTrackSortOrder == .default)
+        model.toggleTrackSort(.title)
+        #expect(
+            model.currentTrackSortOrder == TrackSortOrder(column: .title, ascending: true))
+
+        // Artist and Queue hide the Added column.
+        model.select(.artist("north"))
+        #expect(!model.showsAddedColumn)
+        model.select(.queue)
+        #expect(!model.showsAddedColumn)
+
+        // Return to Liked tracks before restarting to verify full state restoration.
+        model.select(.liked)
+        #expect(
+            model.currentTrackSortOrder == TrackSortOrder(column: .added, ascending: true))
+        #expect(model.focusedTrackID == "evening-4")
+
+        let reopened = MusicViewModel(store: DemoMusicLibraryStore(), defaults: defaults)
+        #expect(reopened.selection.source == .liked)
+        #expect(reopened.showsAddedColumn)
+        #expect(
+            reopened.currentTrackSortOrder == TrackSortOrder(column: .added, ascending: true))
+        #expect(reopened.focusedTrackID == "evening-4")
+        #expect(reopened.contents.tracks.first?.id == "neon-0")
+    }
+
+    @Test func artistAndAlbumPreviewPopoversAndDirectNavigation() throws {
+        let model = MusicViewModel()
+        model.select(.liked)
+        let track = try #require(model.contents.tracks.first { $0.id == "evening-2" })
+        #expect(track.artists.count == 2)
+
+        model.openArtistPreview(for: track, anchor: "artist-track-0")
+        #expect(model.hasActivePopover)
+        #expect(model.previewArtistAnchor == "artist-track-0")
+        #expect(model.previewArtistID == track.artists[0].id)
+
+        model.selectPreviewArtist(track.artists[1].id)
+        #expect(model.previewArtistID == track.artists[1].id)
+
+        model.openAlbumPreview(for: track, anchor: "album-track-0")
+        #expect(model.previewArtistAnchor == nil)
+        #expect(model.previewAlbumAnchor == "album-track-0")
+        #expect(model.previewAlbumID == track.albumID)
+
+        model.navigateToAlbum(albumID: track.albumID, trackID: track.id)
+        #expect(!model.hasActivePopover)
+        #expect(model.selection.source == .albums)
+        #expect(model.selection.albumID == track.albumID)
+        #expect(model.focusedTrackID == track.id)
+
+        model.navigateToArtist(track.artists[1])
+        #expect(model.selection.source == .artist(track.artists[1].id))
+    }
+
     private func settle(_ model: MusicViewModel) async {
         for _ in 0..<1_000 where model.isMutating { await Task.yield() }
         #expect(!model.isMutating)

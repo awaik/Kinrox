@@ -1,10 +1,21 @@
 import Foundation
 
-public enum MusicSource: Hashable, Sendable {
+public enum MusicSource: Hashable, Codable, Sendable {
     case albums, liked, queue
     case playlist(String)
     case artist(String)
     case search(String)
+
+    public var storageKey: String {
+        switch self {
+        case .albums: "albums"
+        case .liked: "liked"
+        case .queue: "queue"
+        case .playlist(let id): "playlist:\(id)"
+        case .artist(let id): "artist:\(id)"
+        case .search(let query): "search:\(query)"
+        }
+    }
 }
 
 public struct BrowserContents: Equatable, Sendable {
@@ -19,10 +30,15 @@ public struct BrowserContents: Equatable, Sendable {
     }
 }
 
-public struct BrowserSelection: Equatable, Sendable {
+public struct BrowserSelection: Equatable, Codable, Sendable {
     public var source: MusicSource
     public var albumID: String?
     public var trackID: String?
+
+    public var storageKey: String {
+        if let albumID { return "\(source.storageKey)#album:\(albumID)" }
+        return source.storageKey
+    }
 
     public init(source: MusicSource = .albums, albumID: String? = nil, trackID: String? = nil) {
         self.source = source
@@ -49,7 +65,7 @@ public struct BrowserSelection: Equatable, Sendable {
         var artists = catalog.artists
         switch source {
         case .albums:
-            albums = albums.filter { library.savedAlbumIDs.contains($0.id) }
+            albums = albums.filter { library.savedAlbumIDs.contains($0.id) || $0.id == albumID }
             let ids = Set(albums.map(\.id))
             tracks = catalog.tracks.filter { ids.contains($0.albumID) }
         case .liked:
@@ -84,7 +100,7 @@ public struct BrowserSelection: Equatable, Sendable {
         }
         let filtered: [MusicTrack]
         if let albumID, source == .albums,
-            let album = catalog.album(id: albumID)
+            let album = catalog.album(id: albumID), !album.trackIDs.isEmpty
         {
             filtered = catalog.tracks(in: album)
         } else {

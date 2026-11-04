@@ -6,7 +6,7 @@ struct SourceColumn: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 2) {
+            LazyVStack(alignment: .leading, spacing: 2) {
                 if !model.query.isEmpty {
                     heading(L10n.text("Search"))
                     row(
@@ -36,7 +36,7 @@ struct SourceColumn: View {
                             model.focusedColumn = .source
                             model.select(.artist(artist.id))
                         } label: {
-                            Text(artist.name).help(artist.name).lineLimit(1).frame(
+                            Text(artist.name).lineLimit(1).frame(
                                 maxWidth: .infinity, alignment: .leading
                             )
                             .frame(height: 30).contentShape(Rectangle())
@@ -74,7 +74,7 @@ struct SourceColumn: View {
         } label: {
             HStack(spacing: 8) {
                 if let symbol { Image(systemName: symbol).frame(width: 14) }
-                Text(title).help(title).lineLimit(1)
+                Text(title).lineLimit(1)
                 Spacer(minLength: 4)
                 Text(count.formatted()).monospacedDigit().foregroundStyle(Palette.textTertiary)
             }.padding(.horizontal, 10).frame(height: 30).contentShape(Rectangle())

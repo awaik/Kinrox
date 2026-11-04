@@ -47,10 +47,13 @@ public struct MusicTrack: Identifiable, Codable, Hashable, Sendable {
     public let duration: Double
     public let explicit: Bool?
     public let isPlayable: Bool?
+    public var addedAt: Date?
+    public var playlistAddedAt: [String: Date]?
 
     public init(
         id: String, uri: String, title: String, artists: [MusicArtist], albumID: String,
-        albumTitle: String, duration: Double, explicit: Bool? = nil, isPlayable: Bool? = nil
+        albumTitle: String, duration: Double, explicit: Bool? = nil, isPlayable: Bool? = nil,
+        addedAt: Date? = nil, playlistAddedAt: [String: Date]? = nil
     ) {
         self.id = id
         self.uri = uri
@@ -61,9 +64,18 @@ public struct MusicTrack: Identifiable, Codable, Hashable, Sendable {
         self.explicit = explicit
         self.isPlayable = isPlayable
         self.duration = duration.isFinite ? max(0, duration) : 0
+        self.addedAt = addedAt
+        self.playlistAddedAt = playlistAddedAt?.isEmpty == true ? nil : playlistAddedAt
     }
 
     public var artistNames: String { artists.map(\.name).joined(separator: ", ") }
+
+    public func addedDate(for playlistID: String? = nil) -> Date? {
+        if let playlistID {
+            return playlistAddedAt?[playlistID]
+        }
+        return addedAt
+    }
 }
 
 public struct MusicPlaylist: Identifiable, Codable, Equatable, Sendable {

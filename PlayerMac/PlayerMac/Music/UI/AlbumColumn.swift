@@ -67,11 +67,9 @@ struct AlbumColumn: View {
                 model.focusedColumn = .albums
             } label: {
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(album.title).help(album.title).fontWeight(.medium).foregroundStyle(
+                    Text(album.title).fontWeight(.medium).foregroundStyle(
                         current ? Palette.flame : Palette.textPrimary)
-                    Text(album.artistNames + " · " + album.year).help(
-                        album.artistNames + " · " + album.year
-                    ).font(.system(size: 12))
+                    Text(album.artistNames + " · " + album.year).font(.system(size: 12))
                         .foregroundStyle(Palette.textSecondary)
                 }.lineLimit(1).frame(maxWidth: .infinity, alignment: .leading)
                     .frame(height: 52).contentShape(Rectangle())

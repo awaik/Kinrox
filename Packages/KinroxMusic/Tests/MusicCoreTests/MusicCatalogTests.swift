@@ -23,5 +23,15 @@ struct MusicCatalogTests {
         #expect(restored.track(id: track.id) == track)
         #expect(restored.artist(id: track.artists[0].id) == track.artists[0])
         #expect(restored == catalog)
+        let stripped = MusicTrack(
+            id: track.id, uri: track.uri, title: track.title, artists: track.artists,
+            albumID: track.albumID, albumTitle: track.albumTitle, duration: track.duration,
+            playlistAddedAt: ["extra": Date(timeIntervalSince1970: 1_793_000_000)])
+        catalog.merge(tracks: [stripped])
+        #expect(catalog.track(id: track.id)?.addedAt == track.addedAt)
+        #expect(
+            catalog.track(id: track.id)?.addedDate(for: "extra")
+                == Date(timeIntervalSince1970: 1_793_000_000))
+        #expect(catalog.track(id: track.id)?.addedDate(for: "unknown-playlist") == nil)
     }
 }

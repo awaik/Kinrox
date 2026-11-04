@@ -25,7 +25,17 @@ public struct MusicCatalog: Codable, Equatable, Sendable {
     ) {
         for track in tracks {
             if let index = trackIndices[track.id] {
-                self.tracks[index] = track
+                let existing = self.tracks[index]
+                var merged = track
+                if merged.addedAt == nil { merged.addedAt = existing.addedAt }
+                if existing.playlistAddedAt != nil || merged.playlistAddedAt != nil {
+                    var combined = existing.playlistAddedAt ?? [:]
+                    if let incoming = merged.playlistAddedAt {
+                        combined.merge(incoming) { _, new in new }
+                    }
+                    merged.playlistAddedAt = combined.isEmpty ? nil : combined
+                }
+                self.tracks[index] = merged
             } else {
                 trackIndices[track.id] = self.tracks.count
                 self.tracks.append(track)

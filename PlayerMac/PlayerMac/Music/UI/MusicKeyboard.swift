@@ -43,13 +43,12 @@ struct MusicKeyboard: NSViewRepresentable {
                 model.searchRequested = true
                 return true
             }
-            if event.keyCode == 53, model.likeOptionsTrackID != nil {
-                model.likeOptionsTrackID = nil
-                model.likeOptionsAnchor = nil
+            if event.keyCode == 53, model.hasActivePopover {
+                model.dismissPopovers()
                 return true
             }
             guard !(window.firstResponder is NSTextView), !model.isSearching,
-                model.likeOptionsTrackID == nil
+                !model.hasActivePopover
             else { return false }
             if flags == .command, MusicKeyboard.matchesKey(event, character: "z", keyCode: 6) {
                 model.undo()
@@ -149,8 +148,9 @@ extension MusicViewModel {
             } else {
                 guard !contents.tracks.isEmpty else { return }
                 let index = contents.tracks.firstIndex { $0.id == focusedTrackID } ?? -1
-                focusedTrackID =
+                let nextID =
                     contents.tracks[min(max(0, index + step), contents.tracks.count - 1)].id
+                focusTrack(nextID)
             }
         }
     }

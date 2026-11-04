@@ -27,11 +27,15 @@ final class PlayerSession {
 
     init(
         recents: RecentFilesStore,
-        demoMusic: Bool = ProcessInfo.processInfo.environment["KINROX_MUSIC_DEMO"] == "1"
+        demoMusic: Bool = ProcessInfo.processInfo.environment["KINROX_MUSIC_DEMO"] == "1",
+        musicDefaults: UserDefaults? =
+            ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil
+            ? .standard : nil
     ) {
         self.recents = recents
         music = MusicViewModel(
-            store: demoMusic ? DemoMusicLibraryStore() : DisconnectedMusicLibraryStore())
+            store: demoMusic ? DemoMusicLibraryStore() : DisconnectedMusicLibraryStore(),
+            defaults: musicDefaults)
         spotify.onInteractiveConnection = { [weak self] in
             guard let self, !demoMusic else { return }
             (self.music.store as? SpotifyLibraryStore)?.retire()

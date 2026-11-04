@@ -395,3 +395,8 @@
 "Update Soloist" = "עדכון Soloist";
 "Waiting for pairing and account verification…" = "ממתין לקישור ולאימות החשבון…";
 "Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "המפתח נשאר בצרור המפתחות של ה-Mac. בזמן ש-Soloist פועל, תהליכים אחרים בחשבון המשתמש שלך יכולים לקרוא את המפתח מארגומנטי ההפעלה שלו.";
+
+"Added" = "נוסף";
+"Artist" = "אמן";
+"Go to album" = "מעבר לאלבום";
+"Go to artist" = "מעבר לאמן";

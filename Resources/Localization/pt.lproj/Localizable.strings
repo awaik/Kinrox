@@ -395,3 +395,8 @@
 "Update Soloist" = "Atualizar Soloist";
 "Waiting for pairing and account verification…" = "A aguardar emparelhamento e verificação da conta…";
 "Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "A sua chave fica no Porta-chaves do Mac. Enquanto o Soloist estiver em execução, outros processos da sua conta de utilizador podem ler a chave nos argumentos de arranque.";
+
+"Added" = "Adicionado";
+"Artist" = "Artista";
+"Go to album" = "Ir para o álbum";
+"Go to artist" = "Ir para o artista";

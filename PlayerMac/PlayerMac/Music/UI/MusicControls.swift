@@ -23,7 +23,6 @@ struct MusicHeart: View {
         .buttonStyle(.plain)
         .accessibilityLabel(L10n.format("Favorite: %@", title))
         .accessibilityValue(liked ? L10n.text("On") : L10n.text("Off"))
-        .help(L10n.text("Favorite"))
     }
 }
 
@@ -32,6 +31,10 @@ struct TrackHeart: View {
     let track: MusicTrack
     let anchor: String
     var labeled = false
+
+    private var isPopoverPresented: Bool {
+        model.likeOptionsAnchor == anchor && model.likeOptionsTrackID == track.id
+    }
 
     var body: some View {
         Button {
@@ -53,18 +56,22 @@ struct TrackHeart: View {
         .disabled(!model.canMutate)
         .accessibilityLabel(L10n.format("Favorite: %@", track.title))
         .accessibilityValue(liked ? L10n.text("On") : L10n.text("Off"))
-        .popover(
-            isPresented: Binding(
-                get: { model.likeOptionsAnchor == anchor && model.likeOptionsTrackID == track.id },
-                set: {
-                    if !$0 {
-                        model.likeOptionsTrackID = nil
-                        model.likeOptionsAnchor = nil
-                    }
+        .background {
+            if isPopoverPresented {
+                Color.clear.popover(
+                    isPresented: Binding(
+                        get: { isPopoverPresented },
+                        set: {
+                            if !$0 {
+                                model.likeOptionsTrackID = nil
+                                model.likeOptionsAnchor = nil
+                            }
+                        }
+                    ), arrowEdge: .bottom
+                ) {
+                    LikePopover(model: model, track: track)
                 }
-            ), arrowEdge: .bottom
-        ) {
-            LikePopover(model: model, track: track)
+            }
         }
     }
 

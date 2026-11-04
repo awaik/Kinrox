@@ -182,6 +182,73 @@ struct MusicReviewRegressionTests {
         #expect(defaults.string(forKey: "unrelated.preference") == "keep")
         #expect(credentials.removed == ["client"])
     }
+
+    @Test func displayClockQuantizesToWholeSecondsAndAvoidsSubsecondMutations() {
+        let clock = MusicDisplayClock()
+        clock.sync(0.25)
+        clock.sync(0.50)
+        clock.sync(0.99)
+        #expect(clock.position == 0)
+        #expect(clock.updates == 0)
+
+        clock.sync(1.05)
+        #expect(clock.position == 1)
+        #expect(clock.updates == 1)
+
+        clock.sync(1.85)
+        #expect(clock.position == 1)
+        #expect(clock.updates == 1)
+    }
+
+    @Test func musicViewUsesLazySourceColumnAndAvoidsAppKitSliders() throws {
+        let session = PlayerSession(recents: RecentFilesStore(), demoMusic: true)
+        session.mode = .music
+        let artists = (0..<900).map {
+            MusicArtist(id: "ar-\($0)", uri: "spotify:artist:ar-\($0)", name: "Artist \($0)")
+        }
+        session.music.catalog = MusicCatalog(
+            tracks: session.music.catalog.tracks,
+            albums: session.music.catalog.albums,
+            artists: artists)
+        let size = NSSize(width: 1440, height: 900)
+        let host = NSHostingView(rootView: MusicView(session: session, model: session.music))
+        let window = NSWindow(
+            contentRect: NSRect(origin: .zero, size: size), styleMask: .borderless,
+            backing: .buffered, defer: false)
+        window.contentView = host
+        host.frame = NSRect(origin: .zero, size: size)
+        host.layoutSubtreeIfNeeded()
+
+        func countSubviews(in view: NSView, matching predicate: (NSView) -> Bool) -> Int {
+            (predicate(view) ? 1 : 0)
+                + view.subviews.reduce(0) { $0 + countSubviews(in: $1, matching: predicate) }
+        }
+        #expect(countSubviews(in: host) { $0 is NSSlider } == 0)
+        #expect(countSubviews(in: host) { _ in true } < 400)
+    }
+
+    @Test func deckWindowObserverTracksOwnWindowInsteadOfOtherVisibleWindows() {
+        var reportedVisible: Bool?
+        let observerView = DeckWindowObserver.ObserverView { visible in
+            reportedVisible = visible
+        }
+        let playerWindow = NSWindow(
+            contentRect: NSRect(x: 40, y: 40, width: 320, height: 120),
+            styleMask: [.titled, .closable], backing: .buffered, defer: false)
+        let settingsWindow = NSWindow(
+            contentRect: NSRect(x: 400, y: 40, width: 320, height: 120),
+            styleMask: [.titled, .closable], backing: .buffered, defer: false)
+        defer {
+            playerWindow.orderOut(nil)
+            settingsWindow.orderOut(nil)
+        }
+        settingsWindow.makeKeyAndOrderFront(nil)
+        playerWindow.contentView = observerView
+        playerWindow.orderOut(nil)
+        NotificationCenter.default.post(
+            name: NSWindow.didChangeOcclusionStateNotification, object: settingsWindow)
+        #expect(reportedVisible == false)
+    }
 }
 
 @MainActor

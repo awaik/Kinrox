@@ -395,3 +395,8 @@
 "Update Soloist" = "Soloist 업데이트";
 "Waiting for pairing and account verification…" = "연결 및 계정 확인 대기 중…";
 "Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "키는 Mac 키체인에 저장됩니다. Soloist가 실행되는 동안 같은 사용자 계정의 다른 프로세스가 실행 인수에서 키를 읽을 수 있습니다.";
+
+"Added" = "추가일";
+"Artist" = "아티스트";
+"Go to album" = "앨범으로 이동";
+"Go to artist" = "아티스트로 이동";

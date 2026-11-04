@@ -395,3 +395,8 @@
 "Update Soloist" = "Actualizează Soloist";
 "Waiting for pairing and account verification…" = "Se așteaptă asocierea și verificarea contului…";
 "Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "Cheia rămâne în Portchei pe Mac. Cât timp Soloist rulează, alte procese din contul tău de utilizator pot citi cheia din argumentele de pornire.";
+
+"Added" = "Adăugat";
+"Artist" = "Artist";
+"Go to album" = "Mergi la album";
+"Go to artist" = "Mergi la artist";
