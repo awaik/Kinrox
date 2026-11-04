@@ -29,15 +29,15 @@ continue to work without internet access.
 ## Project Status
 
 The Mac player and real iPhone remote are implemented through M5. The current
-standalone Mac release is **0.5.1**, for Apple Silicon and macOS 14+:
-[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.5.1/Kinrox-0.5.1-arm64.dmg)
-or read the [release notes](docs/releases/0.5.1.md).
+standalone Mac release is **0.5.2**, for Apple Silicon and macOS 14+:
+[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.5.2/Kinrox-0.5.2-arm64.dmg)
+or read the [release notes](docs/releases/0.5.2.md).
 The installer bundles libmpv and its dependencies, is Developer ID signed, and
 is notarized by Apple. Homebrew is only needed for the default development setup.
 Users of Mac 0.2.0 or earlier install 0.3.0 manually once to enable future update reminders.
 The iPhone App Store release remains separate; the remote can be built from source.
 
-Mac release: **0.5.1, build 11**. See the [release notes](docs/releases/0.5.1.md).
+Mac release: **0.5.2, build 12**. See the [release notes](docs/releases/0.5.2.md).
 
 Music mode includes Spotify library browsing, favorites with undo, a local queue
 and iPhone controls. From **0.5.0**, playback uses Spotify Soloist and works with
@@ -46,7 +46,7 @@ Client ID, a personal [Soloist API key](https://developer.spotify.com/dashboard/
 and one-time pairing from Spotify on iPhone. The engine downloads directly from
 Spotify and requires periodic updates; it is not bundled with Kinrox.
 Setup, limitations and measured performance are in the
-[release notes](docs/releases/0.5.1.md) and
+[release notes](docs/releases/0.5.2.md) and
 [Soloist Verification](docs/runbooks/SOLOIST-VERIFICATION.md).
 
 The `kinrox-cli` executable is a stub; its implementation is an

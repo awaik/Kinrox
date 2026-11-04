@@ -6,6 +6,23 @@
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
     <item>
+      <title>Kinrox 0.5.2</title>
+      <pubDate>Wed, 04 Nov 2026 08:41:08 +0000</pubDate>
+      <sparkle:version>12</sparkle:version>
+      <sparkle:shortVersionString>0.5.2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.5.2</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Mac player release for Apple Silicon (arm64), macOS 14 or newer. The companion iPhone remote is not published to the App Store in this release.&lt;/p&gt;
+&lt;h3&gt;What's New&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;b&gt;Lower Music CPU and memory footprint.&lt;/b&gt; The playback clock now ticks at 1 Hz aligned to whole seconds, pauses when the player window is hidden or occluded, and uses a native SwiftUI capsule slider instead of AppKit &lt;code&gt;NSSlider&lt;/code&gt;. The source sidebar uses &lt;code&gt;LazyVStack&lt;/code&gt; and lighter row modifiers, eliminating eager instantiation of off-screen artist and playlist rows.&lt;/li&gt;&lt;li&gt;&lt;b&gt;&lt;code&gt;Added&lt;/code&gt; column and per-collection track sorting.&lt;/b&gt; Liked Songs and Playlists now display the date each track was added (&lt;code&gt;Added&lt;/code&gt;) and support sorting by track number, title, artists, album, date added, or duration, with sort order remembered independently per collection.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Interactive artist and album popovers.&lt;/b&gt; Clicking an artist or album name in the track table or player deck opens a metadata popover with follower/save toggles, release details, and direct navigation to the artist or album inside Kinrox or in Spotify.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Persisted browsing state and immediate favorite updates.&lt;/b&gt; Kinrox restores your selected source, album, and focused track across launches, updates favorite icons immediately on click while keeping unliked rows visible in Liked Songs until navigation or refresh, and refreshes collection contents after confirmed mutations.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Included in 0.5.2&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;Standalone Spotify playback through separately downloaded &lt;b&gt;Spotify Soloist&lt;/b&gt;, with &lt;code&gt;Spotify.app&lt;/code&gt; fully closed, plus local queue management, favorites with undo, and encrypted LAN iPhone remote controls.&lt;/li&gt;&lt;li&gt;Local video playback for MP4, MKV, MOV, M4V, AVI, WebM, and TS powered by bundled libmpv 0.41.0, FFmpeg 9.0.1, OpenGL, and VideoToolbox hardware acceleration.&lt;/li&gt;&lt;li&gt;Audio and subtitle track selection, recursive external subtitle/audio discovery, and per-folder track preferences.&lt;/li&gt;&lt;li&gt;Matrix screensaver (&lt;code&gt;Screensaver → Matrix&lt;/code&gt;) and Sparkle 2 update reminders (&lt;code&gt;Kinrox → Check for Updates…&lt;/code&gt;).&lt;/li&gt;&lt;li&gt;Shared localization in 30 languages with English fallback.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Requirements and Notes&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;macOS 14.0 or newer on Apple Silicon (arm64).&lt;/li&gt;&lt;li&gt;Runtime verification for this release was performed on macOS 26.5.2 (Apple Silicon). Minimum-OS metadata was verified for all bundled binaries; a separate macOS 14 machine was not tested.&lt;/li&gt;&lt;li&gt;To install manually, open &lt;code&gt;Kinrox-0.5.2-arm64.dmg&lt;/code&gt; and drag &lt;code&gt;Kinrox.app&lt;/code&gt; to &lt;code&gt;Applications&lt;/code&gt;. Existing installations of Kinrox 0.3.0 or newer can also update through &lt;code&gt;Kinrox → Check for Updates…&lt;/code&gt;.&lt;/li&gt;&lt;li&gt;&lt;code&gt;Kinrox-0.5.2-dependency-sources.tar.gz&lt;/code&gt; contains the corresponding source archives, build recipes, patches, and license texts for the bundled open-source libraries.&lt;/li&gt;&lt;li&gt;&lt;code&gt;SHA256SUMS.txt&lt;/code&gt; lists SHA-256 checksums for the release assets.&lt;/li&gt;&lt;/ul&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.5.2/Kinrox-0.5.2-arm64.dmg" length="32758888" type="application/octet-stream" sparkle:edSignature="zv4AmeMwX185WR2p6Fe2/g8wT38FznA5V+CcydzyulSucvHevQeEcTMoEvDCOi546LtWu71401GUNqXHOPaPCA==" />
+    </item>
+    <item>
       <title>Kinrox 0.5.1</title>
       <pubDate>Wed, 04 Nov 2026 03:26:27 +0000</pubDate>
       <sparkle:version>11</sparkle:version>
