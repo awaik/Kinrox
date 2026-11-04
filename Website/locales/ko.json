@@ -89,7 +89,7 @@
   "kinrox-is-written-in-swift-6-and-swiftui-on": "Kinrox는 libmpv 위에 Swift 6 및 SwiftUI로 작성되었습니다. 플레이어, 리모컨 및 프로토콜의 모든 라인은 GitHub에 있습니다.",
   "mac-player-works": "{0}{1}Mac 플레이어 — 작동",
   "iphone-remote-build-from-source": "{0}{1}iPhone 원격 — 소스에서 빌드",
-  "mac-v0-3-0-signed-and-notarized-dmg": "{0}{1}Mac v0.5.0 — 서명 및 공증된 DMG",
+  "mac-v0-3-0-signed-and-notarized-dmg": "{0}{1}Mac v0.5.1 — 서명 및 공증된 DMG",
   "remote-on-the-app-store-planned": "App Store의 {0}{1}Remote — 계획됨",
   "releases": "릴리스",
   "build-from-source": "{0}소스에서 빌드",
