@@ -489,12 +489,12 @@ releasing version 0.5.0 on 2026-11-04; build 10 is built from that source snapsh
 
 ## Publication verification — 2026-11-04
 
-The owner requested commit and release. Post-build-9 fixes required build 10;
-build 9 remains preserved. The new source manifest is in `dist/0.5.0-build10/`.
+Published `v0.5.0`, build 10, from commit `e06e4d9` at the owner's request.
+Both Apple notarizations and mounted-DMG startup/signature/library checks passed.
+Build 9 and the build-10 source manifest remain in their respective `dist/` folders.
 Passed: 290 Mac tests / 61 suites, 37 music tests / seven suites, 127 protocol
 tests / 22 suites in a fresh scratch build, 52 Python tests, strict Swift lint,
 and generation checks for 120 pages / 30 languages. iOS simulator tests also
 passed: 62 tests in 12 suites. The first incremental
 protocol run failed six socket assertions; both logs are retained separately.
-Historical live evidence and the physical sleep/reboot and macOS 14 runtime
-verification boundaries above remain unchanged.
+Historical live evidence and sleep/reboot/macOS 14 verification boundaries remain unchanged.

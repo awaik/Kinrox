@@ -6,6 +6,27 @@
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
     <item>
+      <title>Kinrox 0.5.0</title>
+      <pubDate>Wed, 04 Nov 2026 00:58:21 +0000</pubDate>
+      <sparkle:version>10</sparkle:version>
+      <sparkle:shortVersionString>0.5.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.5.0</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Spotify playback now runs directly on your Mac through Spotify Soloist, with Spotify.app fully closed. Requires an &lt;b&gt;Apple Silicon Mac with macOS 14 or later&lt;/b&gt;. Version 0.5.0, build 10.&lt;/p&gt;
+&lt;p&gt;Download &lt;code&gt;Kinrox-0.5.0-arm64.dmg&lt;/code&gt;, open it, and drag Kinrox to Applications. Users of 0.3.0 or later can use Check for Updates. Video libraries are bundled; Homebrew and Xcode are not required.&lt;/p&gt;
+&lt;h3&gt;Spotify setup&lt;/h3&gt;
+&lt;p&gt;Spotify Premium, your own Spotify developer Client ID and a personal &lt;a href="https://developer.spotify.com/dashboard/soloist"&gt;Soloist API key&lt;/a&gt; are required. Accept the updated connection terms in Settings, enter the key and download the engine directly from Spotify. Pair once using Spotify on iPhone on the same local network. After pairing, Spotify on both Mac and iPhone can be closed.&lt;/p&gt;
+&lt;p&gt;Soloist is downloaded separately and is not bundled or redistributed by Kinrox. Its builds expire after 90 days; Settings provides an engine update action. Keys stay in the Mac Keychain, but are passed to Soloist in process arguments readable by other programs under the same user account. The local playback socket has no authentication. The connection terms explain these limitations and cleanup.&lt;/p&gt;
+&lt;h3&gt;Changes&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;Play, pause, seek, volume and track changes use the native engine. There is no Spotify.app or embedded browser fallback.&lt;/li&gt;&lt;li&gt;Kinrox owns the queue locally, including repeated tracks, shuffle and repeat. Playback no longer creates or rewrites a Spotify helper playlist; existing helper playlists remain untouched and excluded from bulk favorite changes.&lt;/li&gt;&lt;li&gt;After 20 seconds paused, the audio process stops. Play restores the saved position; recovery after a long pause typically takes 2–3 seconds.&lt;/li&gt;&lt;li&gt;iPhone controls remain on the encrypted local connection. The updated remote handles unknown volume and recovery states; App Store publication is separate.&lt;/li&gt;&lt;li&gt;Fixed video opening failing when the music engine had never started, and recovery after an audio process or its supervisor exited unexpectedly.&lt;/li&gt;&lt;li&gt;Improved recovery from interrupted engine setup, stale playback endpoints and externally resumed playback after a pause.&lt;/li&gt;&lt;li&gt;Setup and recovery screens, connection terms and privacy documents support all 30 application languages.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Verification and limitations&lt;/h3&gt;
+&lt;p&gt;Live tests ran with Spotify.app absent. The owner confirmed audible playback. A 30-minute run measured Soloist at 24.73–27.30 MiB and about 1% of one CPU core. On a physical iPhone, 1,003 commands completed without failure; 200 Next samples had p95 3.095 seconds, within the owner-approved 3.2-second limit. The slowest Next in that run took 4.066 seconds. Cold/warm startup p95 was 2.93/2.23 seconds.&lt;/p&gt;
+&lt;p&gt;MP4/MKV rendering, audio-output changes, a brief network interruption and process crash recovery were verified. Physical Mac sleep and system reboot checks were waived by the owner for this release and remain untested. Runtime verification used macOS 26.5.2; macOS 14 is the deployment minimum, without a separate runtime check. These boundaries and automated results are recorded in &lt;a href="https://github.com/awaik/Kinrox/blob/v0.5.0/docs/runbooks/SOLOIST-VERIFICATION.md"&gt;Standalone Spotify Verification&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Kinrox-0.5.0-dependency-sources.tar.gz&lt;/code&gt; contains the bundled open-source dependency sources, build recipes and patches; it contains no Soloist binary or archive. Licenses are included in the app. &lt;code&gt;SHA256SUMS.txt&lt;/code&gt; provides asset checksums; matching application source is available at tag &lt;code&gt;v0.5.0&lt;/code&gt; after publication.&lt;/p&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.5.0/Kinrox-0.5.0-arm64.dmg" length="31915711" type="application/octet-stream" sparkle:edSignature="mcCjOkNwTPUJvM0ldPQNTdD+Bsykkz/PVlqRPic3Poy6K4gQ4HLCgKIkFlRUdJsTB0XN4moNlSzSWNjLZ2i1DQ==" />
+    </item>
+    <item>
       <title>Kinrox 0.4.2</title>
       <pubDate>Mon, 02 Nov 2026 06:56:45 +0000</pubDate>
       <sparkle:version>8</sparkle:version>
