@@ -47,6 +47,13 @@ targets:
         SWIFT_OBJC_BRIDGING_HEADER: PlayerMac/MPVKit/PlayerMac-Bridging-Header.h
         CODE_SIGN_ENTITLEMENTS: PlayerMac/PlayerMac.entitlements
     dependencies:
+      - target: KinroxSoloistHost
+        link: false
+        embed: true
+        codeSign: true
+        copy:
+          destination: wrapper
+          subpath: Contents/Helpers
       - package: KinroxMusic
         product: MusicCore
       - package: KinroxMusic
@@ -57,6 +64,24 @@ targets:
         product: RemoteTransport
       - package: Sparkle
         product: Sparkle
+  KinroxSoloistHost:
+    type: tool
+    platform: macOS
+    sources: [SoloistHost]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(KINROX_BUNDLE_ID_PREFIX).soloist-host
+        OTHER_CODE_SIGN_FLAGS: $(inherited) --identifier $(PRODUCT_BUNDLE_IDENTIFIER)
+        OTHER_LDFLAGS: ""
+        HEADER_SEARCH_PATHS: ""
+        LIBRARY_SEARCH_PATHS: ""
+        CODE_SIGN_ENTITLEMENTS: ""
+        CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+        PROVISIONING_PROFILE_SPECIFIER: ""
+        PROVISIONING_PROFILE: ""
+        ENABLE_HARDENED_RUNTIME: YES
+        SKIP_INSTALL: YES
+        GCC_TREAT_WARNINGS_AS_ERRORS: YES
   PlayerMacTests:
     type: bundle.unit-test
     platform: macOS

@@ -64,7 +64,8 @@ struct PlayerCommands: Commands {
                 }
             }
             .keyboardShortcut(.space, modifiers: [])
-            .disabled(!session.canControl)
+            .disabled(
+                !session.canControl || (session.controlsMusic && !session.music.canTogglePause))
             Divider()
             seekButton(L10n.text("Backward 5s"), -PlayerViewModel.shortSeek, .leftArrow, [])
             seekButton(L10n.text("Forward 5s"), PlayerViewModel.shortSeek, .rightArrow, [])
@@ -79,7 +80,7 @@ struct PlayerCommands: Commands {
             .keyboardShortcut(.leftArrow, modifiers: .command)
             .disabled(
                 session.controlsMusic
-                    ? !session.musicShortcutsAllowed
+                    ? (!session.musicShortcutsAllowed || !session.music.canPrevious)
                     : (!session.trackShortcutsAllowed || !(model?.canPrevious ?? false)))
             Button(session.controlsMusic ? L10n.text("Next track") : L10n.text("Next File")) {
                 if session.controlsMusic { session.music.next() } else { model?.next() }
@@ -87,15 +88,21 @@ struct PlayerCommands: Commands {
             .keyboardShortcut(.rightArrow, modifiers: .command)
             .disabled(
                 session.controlsMusic
-                    ? !session.musicShortcutsAllowed
+                    ? (!session.musicShortcutsAllowed || !session.music.canNext)
                     : (!session.trackShortcutsAllowed || !(model?.canNext ?? false)))
             Divider()
             Button(L10n.text("Louder")) { changeVolume(by: PlayerViewModel.volumeStep) }
                 .keyboardShortcut(.upArrow, modifiers: [])
-                .disabled(!session.canControl)
+                .disabled(
+                    session.controlsMusic
+                        ? (!session.musicShortcutsAllowed || !session.music.canAdjustVolume)
+                        : !session.canControl)
             Button(L10n.text("Quieter")) { changeVolume(by: -PlayerViewModel.volumeStep) }
                 .keyboardShortcut(.downArrow, modifiers: [])
-                .disabled(!session.canControl)
+                .disabled(
+                    session.controlsMusic
+                        ? (!session.musicShortcutsAllowed || !session.music.canAdjustVolume)
+                        : !session.canControl)
         }
         CommandGroup(before: .windowSize) {
             Button(
@@ -123,13 +130,13 @@ struct PlayerCommands: Commands {
     ) -> some View {
         Button(title) {
             if session.controlsMusic {
-                session.music.seek(session.music.position + seconds)
+                session.music.seek(session.music.displayedPosition + seconds)
             } else {
                 model?.seek(by: seconds)
             }
         }
         .keyboardShortcut(key, modifiers: modifiers)
-        .disabled(!session.canControl)
+        .disabled(!session.canControl || (session.controlsMusic && !session.music.canSeek))
     }
 }
 

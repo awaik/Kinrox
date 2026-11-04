@@ -4,6 +4,37 @@ import Testing
 
 @Suite("Additive music protocol")
 struct MusicProtocolTests {
+    @Test func volumeKnowledgeIsAnAdditiveV1Capability() throws {
+        let bytes = try FixtureSamples.data("state-music")
+        guard case .state(let header, var state) = try Codec.decode(bytes) else { return }
+        #expect(header.v == 1)
+        #expect(state.music?.volumeKnown == nil)
+        #expect(try Codec.encode(.state(header, state)) == bytes)
+        state.music?.volumeKnown = false
+        state.music?.disallowedActions = ["volume"]
+        let updated = Message.state(header, state)
+        let encoded = try Codec.encode(updated)
+        #expect(try Codec.decode(encoded) == updated)
+        struct OldMusic: Decodable { let disallowedActions: [String]? }
+        struct OldState: Decodable {
+            let volume: Double
+            let music: OldMusic
+        }
+        struct OldEnvelope: Decodable {
+            let v: Int
+            let body: OldState
+        }
+        let old = try JSONDecoder().decode(OldEnvelope.self, from: encoded)
+        #expect(old.v == 1 && old.body.volume == 0)
+        #expect(old.body.music.disallowedActions?.contains("volume") == true)
+        state.music?.disallowedActions = []
+        #expect(throws: Codec.Failure.self) { try Codec.encode(.state(header, state)) }
+        state.music?.disallowedActions = ["volume"]
+        state.volume = 35
+        #expect(throws: Codec.Failure.self) { try Codec.encode(.state(header, state)) }
+        state.music?.volumeKnown = true
+        #expect(try Codec.decode(Codec.encode(.state(header, state))) == .state(header, state))
+    }
     @Test func oldStateKeepsExactBytesAndHasNoMusicCapability() throws {
         let bytes = try FixtureSamples.data("state")
         guard case .state(let header, let state) = try Codec.decode(bytes) else {

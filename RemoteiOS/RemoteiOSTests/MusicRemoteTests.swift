@@ -104,6 +104,28 @@ struct MusicRemoteTests {
         #expect(h.current.messages.count == 1)
     }
 
+    @Test func unknownVolumeDisablesCommandsAndOlderMacRemainsCompatible() async {
+        let h = RemoteModelHarness()
+        defer { h.model.stop() }
+        h.connect()
+        var state = musicState
+        state.music?.volumeKnown = false
+        h.current.emit(state)
+        #expect(!h.model.musicAllows("volume"))
+        h.model.setVolume(50)
+        await settleTasks()
+        #expect(h.current.messages.isEmpty)
+        state.music?.volumeKnown = nil
+        h.current.emit(state)
+        h.clock.advance(0.1)
+        await settleTasks()
+        #expect(h.current.messages.isEmpty)
+        #expect(h.model.musicAllows("volume"))
+        h.model.setVolume(50)
+        await settleTasks()
+        #expect(h.current.messages.count == 1)
+    }
+
     private var track: RemoteMusicTrack {
         .init(
             id: "track", title: "Test", artists: ["Artist"], album: "Album", year: "2025",

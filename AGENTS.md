@@ -3,6 +3,16 @@
 > This document is the source of truth for any agent or developer. Read it completely before beginning work.
 > Documentation, specifications, code comments, identifiers, diagnostics, and source keys remain English. User-facing localization resources may contain translations, authorized by the owner on 2026-10-27.
 >
+> **Critical requirements — mandatory owner decisions, 2026-11-02:**
+> - **Spotify playback must work with Spotify.app fully terminated.** Kinrox must start and continue playback, pause/resume, seek, skip tracks, and change volume without a running Spotify.app process. Closing only Spotify's window or keeping its process hidden does not meet this requirement.
+> - **Never use WebView anywhere in Kinrox.** This applies to both applications and all features, including authentication and playback. Embedded `WKWebView`, hidden WebViews, and embedded browser runtimes used for UI or audio playback are prohibited.
+> - **Keep the native Swift/SwiftUI application.** Rust is not required; a native playback dependency may use another language, provided it satisfies the requirements above.
+> - **Spotify must be responsive and use little memory.** Measure command latency and memory during startup, playback, pause, and sustained use before claiming the replacement meets this requirement; Owner accepted Soloist ≤120 MiB physical footprint, ≤3% of one core, and approximately 21 interrupt wakeups/s during a short pause with process termination after 20 seconds (2026-11-03). Long-pause recovery of 2–3 seconds, cold startup p95 ≤4 seconds, warm startup ≤3 seconds and Next ≤3.2 seconds are accepted.
+>
+> **Owner decision, 2026-11-03:** Release authorized with the remaining physical sleep/reboot checks waived (not passed). Do not perform or request a separate macOS 14 runtime test. Continue checking minimum-OS metadata and build deployment targets; actual runtime verification is limited to the macOS version tested.
+>
+> These requirements supersede earlier decisions that require Spotify.app or permit an embedded web player. The historical Connect-only releases described below do **not** establish standalone acceptance. The default production path now uses separately downloaded Soloist; live evidence and accepted limits are in [Soloist Verification](docs/runbooks/SOLOIST-VERIFICATION.md).
+>
 > **Status:** M1 implemented 2026-10-25: libmpv + OpenGL, opening via ⌘O, playback of MP4/MKV, events and clean teardown. MPVKit placed inside PlayerMac with bridging header per owner confirmation. Checks and limitations — [M1 Report](docs/runbooks/M1-VERIFICATION.md).
 > M2 implemented 2026-10-26 in design from Figma: controls panel, shortcuts, fullscreen, drag-and-drop, menus, recent files, folder playlist and auto-advance. Remote screens (M5) built in advance on demo data, without network; server and protocol — M4.
 > M3 implemented 2026-10-26: MediaPlayer system commands, "Now Playing", artwork, and teardown cleanup. Automated tests and manual limits — [M3 Report](docs/runbooks/M3-VERIFICATION.md).
@@ -88,8 +98,9 @@ ls /opt/homebrew/include/mpv             # client.h render.h render_gl.h stream_
    the HTTPS appcast at most once a day, without identifiers or system profile.
    Additional exception (owner decision 2026-11-01): optional Spotify access on
    Mac, disabled until the user connects an account using their own Client ID.
-   OAuth, catalogue, library and Spotify Connect use Spotify's official services;
-   audio plays on the selected Spotify device. No Kinrox server or analytics.
+   OAuth, catalogue and library use Spotify's official services; standalone audio
+   uses separately downloaded Spotify Soloist with the user's own key and one-time
+   phone pairing (owner decisions, 2026-11-03). No Kinrox server or analytics.
    The iPhone sends controls over the LAN and never calls Spotify’s API. Owner decision
    2026-11-01 additionally permits user-initiated contextual links to Spotify on iPhone.
 
@@ -142,7 +153,7 @@ Playback position memory, custom playlists, network streams and URLs, YouTube (`
 - **PlayerMac** — macOS application (SwiftUI + AppKit). Contains **MPVKit** — wrapper around C API of libmpv in a subdirectory inside PlayerMac with bridging header (approved by owner 2026-10-25, see 3.3).
 - **RemoteiOS** — iPhone remote application (SwiftUI); music metadata and controls use only the encrypted LAN protocol.
 - **KinroxMusic** — shared package: `MusicCore` contains models, favorites policy, occurrence-based queue and selection; `SpotifyWebAPI` is linked only into PlayerMac.
-- **Mac Music services** — account/PKCE/Keychain, cached library and favorites transactions, Spotify Connect engine and `PlaybackCoordinator`. The coordinator serializes observed pauses between video and music and owns one Now Playing session. View switching alone never starts or pauses audio.
+- **Mac Music services** — account/PKCE/Keychain, cached library and favorites transactions, native Soloist engine and `PlaybackCoordinator`. The coordinator serializes observed pauses between video and music and owns one Now Playing session. View switching alone never starts or pauses audio.
 - **RemoteProtocol** — shared Swift Package. Targets within:
   - `RemoteProtocol` — command and state models, JSON codec, versioning, handshake cryptography (Foundation + CryptoKit, free of Network.framework, making it straightforward to test);
   - `RemoteTransport` — Network.framework abstractions: Bonjour advertiser and browser, server and client;
@@ -674,6 +685,8 @@ See [signing runbook](docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md#real-iphone) fo
 6. Verify changes with unit and integration tests before handoff.
 7. Set playback volume to 0 within Kinrox during test media verifications; do not touch Mac system volume.
 8. Local network operations exclusively, except the Mac player's approved Sparkle appcast check and opt-in Spotify integration (principle 4). No telemetry or analytics.
+9. **No WebView:** follow the critical requirements at the top of this document. Never introduce an embedded WebView or browser runtime, including a hidden one, into either application.
+10. **Standalone Spotify acceptance:** verify playback and controls with Spotify.app fully terminated, including a cold start of Kinrox in that state. Do not launch Spotify.app as a dependency or workaround. Record latency and memory measurements; tests with Spotify.app running do not establish acceptance of this requirement.
 
 ---
 

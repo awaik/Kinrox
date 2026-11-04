@@ -42,10 +42,20 @@ extension SpotifyConnectMusicEngine {
     }
 
     func publish(_ state: SpotifyPlayback, detectAdvance: Bool, boundaryPosition: Double? = nil) {
-        guard state.device.id == deviceID, let playlistID,
+        guard state.device.id == deviceID else { return }
+        guard let playlistID,
             state.context?.uri == "spotify:playlist:" + playlistID,
             mirrored.indices.contains(cursor)
-        else { return }
+        else {
+            let snapshot = MusicPlaybackSnapshot(
+                uri: nil, position: 0, duration: 0, paused: true,
+                volume: state.device.volumePercent, deviceName: state.device.name,
+                occurrenceID: nil, disallowedActions: Self.restrictions(state))
+            lastState = snapshot
+            confirmedQueue = nil
+            continuation.yield(.state(snapshot))
+            return
+        }
         let position = (state.progressMS ?? 0) / 1000
         let elapsed = stateTimestamp.duration(to: .now).components
         let seconds = Double(elapsed.seconds) + Double(elapsed.attoseconds) / 1e18
@@ -75,7 +85,7 @@ extension SpotifyConnectMusicEngine {
             uri: mirrored[cursor].track.uri,
             position: position, duration: (state.item?.durationMS ?? 0) / 1000,
             paused: !state.isPlaying,
-            volume: state.device.volumePercent ?? lastState?.volume ?? 0,
+            volume: state.device.volumePercent,
             deviceName: state.device.name, occurrenceID: mirrored[cursor].id,
             disallowedActions: Self.restrictions(state))
         let wasPaused = lastState?.paused == true
@@ -95,7 +105,7 @@ extension SpotifyConnectMusicEngine {
             snapshot.duration > 0, position >= snapshot.duration - 2
         {
             endReported = true
-            continuation.yield(.ended)
+            continuation.yield(.ended(occurrenceID: mirrored[cursor].id))
         }
     }
 

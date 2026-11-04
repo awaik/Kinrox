@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-02",
+  "version": "2026-11-03",
   "locale": "zh-Hans",
   "language": "简体中文",
   "terms": [
@@ -10,7 +10,7 @@
     },
     {
       "title": "你的账户与选择",
-      "body": "连接是可选的。请使用自己的 Spotify 开发者应用和获准使用的 Spotify Premium 账户。Spotify 控制 API 访问权限和配额；访问权限可能变化或终止。Spotify 自身的条款仍然适用。Kinrox 控制 Mac 上官方 Spotify 应用的播放，不会下载、录制或缓存音频。",
+      "body": "连接是可选的。请使用自己的 Spotify 开发者应用和获准使用的 Spotify Premium 账户。Spotify 控制 API 访问权限和配额；访问权限可能变化或终止。Spotify 自身的条款仍然适用。 音频通过 Spotify Soloist 播放。应您的请求，Soloist 会直接从 Spotify 下载到 Mac。每位用户须提供个人 Soloist API 密钥。首次配对使用 iPhone 上的 Spotify；之后，即使 Mac 和 iPhone 上的 Spotify 均已退出，也能播放。Soloist 负责解码并管理自身的音频缓存；Kinrox 不录制或导出音频。Soloist 构建版本会在 90 天后过期，届时需要更新。",
       "id": "account"
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "title": "播放队列",
-      "body": "Kinrox 会创建名为 Kinrox Queue 的私密播放列表，并在你更改播放队列时替换其内容。断开连接会在 Spotify 中保留该播放列表，但清除其本地关联。重新连接可能会创建另一个辅助播放列表。请自行在 Spotify 中删除不需要的辅助播放列表。",
+      "body": "Kinrox 在本地保存播放队列，并为队列中的每一项启动一个 Soloist 进程。它不会创建用于播放的辅助播放列表。现有的 Kinrox Queue 播放列表会保留在 Spotify 中。其非机密标识符会保存在本地，以将这些列表排除在曲库修改之外；您可以自行在 Spotify 中删除这些列表。",
       "id": "queue"
     },
     {
@@ -47,17 +47,17 @@
   "privacy": [
     {
       "title": "隐私政策 — Spotify 连接",
-      "body": "版本 2026-11-02。Kinrox 的维护者 awaik 对此处所述的 Kinrox 数据处理负责。本补充政策适用于可选的 Spotify 集成。Kinrox 通用隐私政策见 https://kinrox.app/privacy/。联系方式：https://github.com/awaik/Kinrox/issues。请勿在公开问题报告中发布令牌、个人资料库内容或其他私人信息。",
+      "body": "版本 2026-11-03。Kinrox 的维护者 awaik 对此处所述的 Kinrox 数据处理负责。本补充政策适用于可选的 Spotify 集成。Kinrox 通用隐私政策见 https://kinrox.app/privacy/。联系方式：https://github.com/awaik/Kinrox/issues。请勿在公开问题报告中发布令牌、个人资料库内容或其他私人信息。",
       "id": "overview"
     },
     {
       "title": "访问与目的",
-      "body": "接受条款并授权 Spotify 后，Mac 上的 Kinrox 会读取你的账户标识符和显示名称、已保存的歌曲和专辑、已关注的艺人、可访问的播放列表及其内容、播放状态和可用设备。这些信息用于显示资料库和控制 Spotify。当你使用相应控件时，它可以保存或移除收藏、关注艺人、创建播放列表，以及编辑你拥有的或协作播放列表。移除收藏也会从可编辑的播放列表中移除其出现项。Kinrox 维护一个私密的 Kinrox Queue 播放列表用于播放。",
+      "body": "接受条款并授权 Spotify 后，Mac 上的 Kinrox 会读取你的账户标识符和显示名称、已保存的歌曲和专辑、已关注的艺人、可访问的播放列表及其内容、播放状态和可用设备。这些信息用于显示资料库和控制 Spotify。当你使用相应控件时，它可以保存或移除收藏、关注艺人、创建播放列表，以及编辑你拥有的或协作播放列表。移除收藏也会从可编辑的播放列表中移除其出现项。",
       "id": "access"
     },
     {
       "title": "存储与接收方",
-      "body": "用于刷新访问权限的凭据存储在 Mac 的 Data Protection Keychain 中。 访问令牌保留在内存中。资料库元数据缓存在 Mac 应用 Caches 文件夹中的本地 SQLite 数据库内。已验证的账户标识符和显示名称存储在 Mac 偏好设置中。 提供的 Client ID、辅助播放列表关联和已接受的文档版本存储在 Mac 偏好设置中。Kinrox 没有服务器、分析或遥测，维护者不会收到这些 Spotify 数据。Spotify 直接接收来自 Mac 的请求，并根据其隐私政策进行处理：https://www.spotify.com/legal/privacy-policy/。Spotify 会看到网络信息，例如 Mac 的公网 IP 地址。",
+      "body": "用于刷新访问权限的凭据存储在 Mac 的 Data Protection Keychain 中。 访问令牌保留在内存中。资料库元数据缓存在 Mac 应用 Caches 文件夹中的本地 SQLite 数据库内。已验证的账户标识符和显示名称存储在 Mac 偏好设置中。 提供的 Client ID、辅助播放列表关联和已接受的文档版本存储在 Mac 偏好设置中。Kinrox 没有服务器、分析或遥测，维护者不会收到这些 Spotify 数据。Spotify 直接接收来自 Mac 的请求，并根据其隐私政策进行处理：https://www.spotify.com/legal/privacy-policy/。Spotify 会看到网络信息，例如 Mac 的公网 IP 地址。\n\n个人 Soloist API 密钥保存在钥匙串中。Connect 会话保存在账户的私有文件夹中；Soloist 使用独立的音频缓存，上限为 200 MB。密钥通过启动参数传递给已签名的 Soloist 进程，同一用户账户下的其他进程可以读取这些参数。Soloist 的回环控制套接字没有身份验证或 Origin 检查；能够访问回环接口的本地程序或网页可以发送播放命令。",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "断开连接与保留",
-      "body": "在 Mac 上的 Kinrox 中，打开“设置 → Spotify → 断开连接”。Kinrox 会处理完待完成的播放操作、停止请求、移除刷新凭据和辅助播放列表的本地关联，并清除内存中的账户和资料库状态。自动重新连接也会停止。接受的版本是一项不关联账户的偏好设置。已在 Spotify 中作出的更改，包括播放列表和收藏，仍会保留。断开连接不会撤销 Spotify 中的授权；要撤销，请在 https://www.spotify.com/account/apps/ 移除应用。你可以直接在 Spotify 中删除保留的辅助播放列表。 缓存的元数据如未重新验证，将在 7 天后过期。断开连接会自动删除 SQLite 缓存、其附属文件和已保存的账户关联。",
+      "body": "在 Mac 上的 Kinrox 中，打开“设置 → Spotify → 断开连接”。 Kinrox 会停止其 Soloist 进程和请求，删除刷新凭据、Soloist API 密钥以及自身的会话和音频缓存，并清除内存中的账户数据。旧队列播放列表的非机密标识符和已下载的引擎会保留。自动重新连接也会停止。接受的版本是一项不关联账户的偏好设置。已在 Spotify 中作出的更改，包括播放列表和收藏，仍会保留。断开连接不会撤销 Spotify 中的授权；要撤销，请在 https://www.spotify.com/account/apps/ 移除应用。你可以直接在 Spotify 中删除保留的辅助播放列表。 缓存的元数据如未重新验证，将在 7 天后过期。断开连接会自动删除 SQLite 缓存、其附属文件和已保存的账户关联。",
       "id": "retention"
     },
     {

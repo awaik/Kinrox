@@ -97,9 +97,13 @@ for item in "$SPARKLE/Versions/B/Autoupdate" "$SPARKLE/Versions/B/Updater.app" "
     codesign --force --sign "$APPLE_SIGNING_IDENTITY" --options runtime --timestamp "$item"
 done
 codesign --force --sign "$APPLE_SIGNING_IDENTITY" --options runtime --timestamp \
+    --identifier app.kinrox.soloist-host \
+    "$APP/Contents/Helpers/KinroxSoloistHost"
+codesign --force --sign "$APPLE_SIGNING_IDENTITY" --options runtime --timestamp \
     --entitlements "$RELEASE_DIR/entitlements.plist" "$APP"
 codesign --verify --deep --strict "$APP"
 python3 Scripts/bundle-libmpv.py "$APP" --verify-only
+python3 Scripts/check-soloist-bundle.py "$APP"
 python3 Scripts/check-release-launch.py "$APP"
 ditto -c -k --keepParent "$APP" "$RELEASE_DIR/Kinrox-notarization.zip"
 xcrun notarytool submit "$RELEASE_DIR/Kinrox-notarization.zip" \

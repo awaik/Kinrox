@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-02",
+  "version": "2026-11-03",
   "locale": "vi",
   "language": "Tiếng Việt",
   "terms": [
@@ -10,7 +10,7 @@
     },
     {
       "title": "Tài khoản và lựa chọn của bạn",
-      "body": "Kết nối là tùy chọn. Hãy dùng ứng dụng dành cho nhà phát triển Spotify của riêng bạn và tài khoản Spotify Premium được phép truy cập. Spotify kiểm soát quyền truy cập API và hạn mức; quyền truy cập có thể thay đổi hoặc ngừng. Điều khoản riêng của Spotify vẫn áp dụng. Kinrox điều khiển phát nhạc trong ứng dụng Spotify chính thức trên Mac của bạn. Kinrox không tải xuống, ghi âm hoặc lưu âm thanh vào bộ nhớ đệm.",
+      "body": "Kết nối là tùy chọn. Hãy dùng ứng dụng dành cho nhà phát triển Spotify của riêng bạn và tài khoản Spotify Premium được phép truy cập. Spotify kiểm soát quyền truy cập API và hạn mức; quyền truy cập có thể thay đổi hoặc ngừng. Điều khoản riêng của Spotify vẫn áp dụng. Âm thanh được phát qua Spotify Soloist, được tải trực tiếp từ Spotify về Mac theo yêu cầu của bạn. Mỗi người dùng cung cấp khóa API Soloist cá nhân. Việc ghép nối một lần dùng Spotify trên iPhone; sau đó vẫn phát được khi Spotify trên Mac và iPhone đã đóng. Soloist xử lý giải mã và bộ nhớ đệm âm thanh riêng; Kinrox không ghi âm hay xuất âm thanh. Các bản dựng Soloist hết hạn sau 90 ngày và cần cập nhật.",
       "id": "account"
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "title": "Hàng đợi phát",
-      "body": "Kinrox tạo danh sách phát riêng tư Kinrox Queue và thay thế nội dung khi bạn thay đổi hàng đợi phát. Ngắt kết nối vẫn giữ danh sách đó trong Spotify nhưng quên liên kết cục bộ. Kết nối lại có thể tạo một danh sách hỗ trợ khác. Hãy tự xóa các danh sách hỗ trợ không cần thiết trong Spotify.",
+      "body": "Kinrox lưu hàng đợi phát cục bộ và khởi chạy một tiến trình Soloist cho mỗi mục trong hàng đợi. Ứng dụng không tạo danh sách phát phụ trợ để phát nhạc. Các danh sách Kinrox Queue hiện có vẫn nằm trong Spotify. Mã định danh không bí mật của chúng được giữ cục bộ để loại chúng khỏi các thay đổi thư viện; bạn có thể tự xóa các danh sách này trong Spotify.",
       "id": "queue"
     },
     {
@@ -47,17 +47,17 @@
   "privacy": [
     {
       "title": "Chính sách quyền riêng tư — kết nối Spotify",
-      "body": "Phiên bản 2026-11-02. Người duy trì Kinrox, awaik, chịu trách nhiệm về hoạt động xử lý dữ liệu của Kinrox được mô tả ở đây. Phụ lục này áp dụng cho tích hợp Spotify tùy chọn. Chính sách quyền riêng tư chung của Kinrox có tại https://kinrox.app/privacy/. Liên hệ: https://github.com/awaik/Kinrox/issues. Không đăng mã thông báo, nội dung thư viện cá nhân hoặc thông tin riêng tư khác trong báo cáo công khai.",
+      "body": "Phiên bản 2026-11-03. Người duy trì Kinrox, awaik, chịu trách nhiệm về hoạt động xử lý dữ liệu của Kinrox được mô tả ở đây. Phụ lục này áp dụng cho tích hợp Spotify tùy chọn. Chính sách quyền riêng tư chung của Kinrox có tại https://kinrox.app/privacy/. Liên hệ: https://github.com/awaik/Kinrox/issues. Không đăng mã thông báo, nội dung thư viện cá nhân hoặc thông tin riêng tư khác trong báo cáo công khai.",
       "id": "overview"
     },
     {
       "title": "Quyền truy cập và mục đích",
-      "body": "Sau khi bạn chấp nhận điều khoản và cấp quyền Spotify, Kinrox trên Mac đọc mã định danh và tên hiển thị tài khoản, bài hát và album đã lưu, nghệ sĩ đang theo dõi, danh sách phát có thể truy cập và nội dung, trạng thái phát cùng thiết bị khả dụng. Thông tin được dùng để hiển thị thư viện và điều khiển Spotify. Khi bạn dùng các điều khiển tương ứng, Kinrox có thể lưu và xóa mục yêu thích, theo dõi nghệ sĩ, tạo danh sách phát và chỉnh sửa danh sách thuộc sở hữu của bạn hoặc danh sách cộng tác. Xóa mục yêu thích cũng xóa các lần xuất hiện của nó khỏi danh sách có thể chỉnh sửa. Kinrox duy trì danh sách riêng tư Kinrox Queue để phát nhạc.",
+      "body": "Sau khi bạn chấp nhận điều khoản và cấp quyền Spotify, Kinrox trên Mac đọc mã định danh và tên hiển thị tài khoản, bài hát và album đã lưu, nghệ sĩ đang theo dõi, danh sách phát có thể truy cập và nội dung, trạng thái phát cùng thiết bị khả dụng. Thông tin được dùng để hiển thị thư viện và điều khiển Spotify. Khi bạn dùng các điều khiển tương ứng, Kinrox có thể lưu và xóa mục yêu thích, theo dõi nghệ sĩ, tạo danh sách phát và chỉnh sửa danh sách thuộc sở hữu của bạn hoặc danh sách cộng tác. Xóa mục yêu thích cũng xóa các lần xuất hiện của nó khỏi danh sách có thể chỉnh sửa.",
       "id": "access"
     },
     {
       "title": "Lưu trữ và bên nhận",
-      "body": "Thông tin xác thực làm mới được lưu trong Data Protection Keychain của Mac. Mã thông báo truy cập vẫn ở trong bộ nhớ. Siêu dữ liệu thư viện được lưu đệm trong cơ sở dữ liệu SQLite cục bộ tại thư mục Caches của ứng dụng trên Mac. Mã định danh tài khoản đã xác minh và tên hiển thị được lưu trong tùy chọn của Mac. Client ID được cung cấp, liên kết danh sách hỗ trợ và phiên bản tài liệu đã chấp nhận được lưu trong tùy chọn của Mac. Kinrox không có máy chủ, phân tích hay đo từ xa, và người duy trì không nhận bất kỳ dữ liệu Spotify nào trong số này. Spotify nhận yêu cầu trực tiếp từ Mac và xử lý theo chính sách quyền riêng tư của mình: https://www.spotify.com/legal/privacy-policy/. Spotify thấy thông tin mạng như địa chỉ IP công khai của Mac.",
+      "body": "Thông tin xác thực làm mới được lưu trong Data Protection Keychain của Mac. Mã thông báo truy cập vẫn ở trong bộ nhớ. Siêu dữ liệu thư viện được lưu đệm trong cơ sở dữ liệu SQLite cục bộ tại thư mục Caches của ứng dụng trên Mac. Mã định danh tài khoản đã xác minh và tên hiển thị được lưu trong tùy chọn của Mac. Client ID được cung cấp, liên kết danh sách hỗ trợ và phiên bản tài liệu đã chấp nhận được lưu trong tùy chọn của Mac. Kinrox không có máy chủ, phân tích hay đo từ xa, và người duy trì không nhận bất kỳ dữ liệu Spotify nào trong số này. Spotify nhận yêu cầu trực tiếp từ Mac và xử lý theo chính sách quyền riêng tư của mình: https://www.spotify.com/legal/privacy-policy/. Spotify thấy thông tin mạng như địa chỉ IP công khai của Mac.\n\nKhóa API Soloist cá nhân được lưu trong Chuỗi khóa. Phiên Connect được lưu trong thư mục riêng của tài khoản; Soloist dùng bộ nhớ đệm âm thanh riêng với giới hạn 200 MB. Khóa được chuyển cho tiến trình Soloist đã ký qua các đối số khởi chạy mà những tiến trình khác trong cùng tài khoản người dùng có thể đọc. Socket điều khiển loopback của Soloist không có xác thực hay kiểm tra Origin; chương trình cục bộ hoặc trang web có quyền truy cập loopback có thể gửi lệnh phát.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Ngắt kết nối và lưu giữ",
-      "body": "Trong Kinrox trên Mac, mở Cài đặt → Spotify → Ngắt kết nối. Kinrox hoàn tất công việc phát đang chờ, dừng yêu cầu, xóa thông tin xác thực làm mới và liên kết cục bộ của danh sách hỗ trợ, đồng thời xóa trạng thái tài khoản và thư viện khỏi bộ nhớ. Việc tự động kết nối lại dừng. Phiên bản đã chấp nhận là tùy chọn không gắn với tài khoản. Những thay đổi đã thực hiện trong Spotify, gồm danh sách phát và mục yêu thích, vẫn ở đó. Ngắt kết nối không thu hồi quyền đã cấp tại Spotify; hãy xóa ứng dụng tại https://www.spotify.com/account/apps/ để thu hồi. Bạn có thể xóa các danh sách hỗ trợ còn lại trực tiếp trong Spotify. Siêu dữ liệu trong bộ nhớ đệm hết hạn sau 7 ngày nếu không được xác minh lại. Ngắt kết nối tự động xóa bộ nhớ đệm SQLite, các tệp phụ trợ và liên kết tài khoản đã lưu.",
+      "body": "Trong Kinrox trên Mac, mở Cài đặt → Spotify → Ngắt kết nối. Kinrox dừng tiến trình Soloist và các yêu cầu của mình, xóa thông tin xác thực làm mới, khóa API Soloist cùng phiên và bộ nhớ đệm âm thanh của mình, đồng thời xóa dữ liệu tài khoản khỏi bộ nhớ. Mã định danh không bí mật của các danh sách hàng đợi cũ và bộ máy đã tải xuống vẫn được giữ lại. Việc tự động kết nối lại dừng. Phiên bản đã chấp nhận là tùy chọn không gắn với tài khoản. Những thay đổi đã thực hiện trong Spotify, gồm danh sách phát và mục yêu thích, vẫn ở đó. Ngắt kết nối không thu hồi quyền đã cấp tại Spotify; hãy xóa ứng dụng tại https://www.spotify.com/account/apps/ để thu hồi. Bạn có thể xóa các danh sách hỗ trợ còn lại trực tiếp trong Spotify. Siêu dữ liệu trong bộ nhớ đệm hết hạn sau 7 ngày nếu không được xác minh lại. Ngắt kết nối tự động xóa bộ nhớ đệm SQLite, các tệp phụ trợ và liên kết tài khoản đã lưu.",
       "id": "retention"
     },
     {

@@ -24,12 +24,12 @@ struct CollectionHeader: View {
                         primary: true
                     ) {
                         model.play(model.contents.tracks)
-                    }.disabled(!model.allows("interrupting_playback"))
+                    }.disabled(!model.canPlayLibrary)
                 }
                 MusicActionButton(title: L10n.text("Shuffle"), symbol: "shuffle") {
                     model.shuffleCollection()
                 }.disabled(
-                    !model.allows("toggling_shuffle") || !model.allows("interrupting_playback"))
+                    !model.allows("toggling_shuffle") || !model.canPlayLibrary)
                 if let album = model.album {
                     Button {
                         model.toggleAlbum(album)

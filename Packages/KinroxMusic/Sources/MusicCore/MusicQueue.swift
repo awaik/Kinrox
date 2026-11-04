@@ -103,13 +103,22 @@ public struct MusicQueue: Equatable, Sendable {
     /// Repeat-one applies at EOF, not to an explicit Next command.
     @discardableResult
     public mutating func next(automatically: Bool = false) -> MusicQueueItem? {
+        var random = SystemRandomNumberGenerator()
+        return next(automatically: automatically, using: &random)
+    }
+
+    /// Preserve the caller's random stream when Repeat All reshuffles a new cycle.
+    @discardableResult
+    public mutating func next<R: RandomNumberGenerator>(
+        automatically: Bool = false, using random: inout R
+    ) -> MusicQueueItem? {
         if automatically, repeatMode == .one { return current }
         if manual.isEmpty && source.isEmpty {
             guard repeatMode == .all, !context.isEmpty else { return nil }
             source = context.map {
                 MusicQueueItem(track: $0.track, origin: .source, sourceOrder: $0.sourceOrder)
             }
-            if shuffled { source.shuffle() }
+            if shuffled { source.shuffle(using: &random) }
         }
         if let current { history.append(current) }
         current = !manual.isEmpty ? manual.removeFirst() : source.removeFirst()

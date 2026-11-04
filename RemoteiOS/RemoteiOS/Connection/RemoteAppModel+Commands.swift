@@ -148,6 +148,7 @@ extension RemoteAppModel {
     /// Last value is not lost on release. Even final frame respects 10 Hz.
     func setVolume(_ value: Double) {
         guard controlsEnabled, value.isFinite else { return }
+        guard state.source != .music || musicAllows("volume") else { return }
         pendingVolume = min(100, max(0, value))
         let delay = max(0, 0.1 - (scheduler.now - lastVolumeSent))
         if delay <= 0.000_001 {

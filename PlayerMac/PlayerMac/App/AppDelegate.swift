@@ -184,6 +184,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let tasks = Array(closingTasks.values)
         Task {
             for task in tasks { await task.value }
+            await session.soloist.cancel()
             sender.reply(toApplicationShouldTerminate: true)
         }
         return .terminateLater

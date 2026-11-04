@@ -4,7 +4,8 @@ import RemoteTransport
 
 extension RemoteAppModel {
     func musicAllows(_ action: String) -> Bool {
-        state.music?.disallowedActions?.contains(action) != true
+        (action != "volume" || state.music?.volumeKnown != false)
+            && state.music?.disallowedActions?.contains(action) != true
     }
 
     enum MusicPageRequest {

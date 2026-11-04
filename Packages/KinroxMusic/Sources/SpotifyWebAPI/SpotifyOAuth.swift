@@ -6,7 +6,7 @@ public struct SpotifyAuthorization: Sendable {
     public static let scopes = [
         "user-library-read", "user-library-modify", "user-follow-read", "user-follow-modify",
         "playlist-read-private", "playlist-read-collaborative", "playlist-modify-private",
-        "playlist-modify-public", "user-read-playback-state", "user-modify-playback-state",
+        "playlist-modify-public", "user-read-playback-state",
     ].joined(separator: " ")
     public let verifier: String
     public let state: String

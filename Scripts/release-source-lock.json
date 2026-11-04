@@ -1,4 +1,5 @@
 {
+  "externalRuntimePolicy": "soloist-policy.json",
   "buildscriptsRevision": "f86d54276547df6d14104583ea604af67433f1e1",
   "releases": {
     "libjxl/libjxl": "v0.11.2",

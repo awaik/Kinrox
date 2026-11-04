@@ -361,3 +361,37 @@
 "Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Acces Spotify: bibliotecă, redare, favorite și playlisturi editabile. Eliminarea unui favorit îl elimină și din playlisturile editabile.";
 "Open album in Spotify" = "Deschide albumul în Spotify";
 "Connection terms" = "Condiții de conectare";
+
+/* Standalone Spotify setup and recovery. */
+"A different Spotify account is paired. Pair again." = "Este asociat alt cont Spotify. Asociază din nou.";
+"Add your personal Soloist API key in Settings." = "Adaugă cheia API personală Soloist în configurări.";
+"After pairing, you can close Spotify on your iPhone. Spotify on Mac is not required." = "După asociere, poți închide Spotify pe iPhone. Spotify nu este necesar pe Mac.";
+"Connection to Soloist was lost." = "Conexiunea cu Soloist s-a pierdut.";
+"Could not prepare Soloist. Check Settings." = "Soloist nu a putut fi pregătit. Verifică configurările.";
+"Could not save the Soloist key in Keychain." = "Cheia Soloist nu a putut fi salvată în Portchei.";
+"Could not start Soloist. Check Settings." = "Soloist nu a putut fi pornit. Verifică configurările.";
+"Download Soloist" = "Descarcă Soloist";
+"Download Soloist in Settings to play on this Mac." = "Descarcă Soloist din configurări pentru a reda pe acest Mac.";
+"Downloading and verifying Soloist…" = "Se descarcă și se verifică Soloist…";
+"Get a Soloist API key" = "Obține o cheie API Soloist";
+"Music is playing on another device." = "Muzica este redată pe alt dispozitiv.";
+"Open Spotify on your iPhone. Connect iPhone and Mac to the same Wi-Fi network and allow Spotify to access the local network." = "Deschide Spotify pe iPhone. Conectează iPhone-ul și Mac-ul la aceeași rețea Wi-Fi și permite accesul Spotify la rețeaua locală.";
+"Pair Spotify from your iPhone in Settings." = "Asociază Spotify de pe iPhone în configurări.";
+"Pair Spotify with this Mac" = "Asociază Spotify cu acest Mac";
+"Pair again" = "Asociază din nou";
+"Personal Soloist API key" = "Cheie API personală Soloist";
+"Play on this Mac" = "Redă pe acest Mac";
+"Ready on this Mac" = "Gata pe acest Mac";
+"Save key and set up Soloist" = "Salvează cheia și configurează Soloist";
+"Select this device in Spotify:" = "Selectează acest dispozitiv în Spotify:";
+"Soloist could not confirm the playback command." = "Soloist nu a putut confirma comanda de redare.";
+"Soloist downloads directly from Spotify. After installation, select Kinrox once in Spotify on your iPhone." = "Soloist se descarcă direct de la Spotify. După instalare, selectează o singură dată Kinrox în Spotify pe iPhone.";
+"Soloist has expired. Download a current version." = "Soloist a expirat. Descarcă o versiune actuală.";
+"Soloist playback stopped." = "Redarea Soloist s-a oprit.";
+"Spotify Premium is required. Create your personal Soloist API key in Spotify for Developers." = "Este necesar Spotify Premium. Creează cheia API personală Soloist în Spotify for Developers.";
+"Spotify on this Mac" = "Spotify pe acest Mac";
+"Start pairing" = "Începe asocierea";
+"Starting playback…" = "Se pornește redarea…";
+"Update Soloist" = "Actualizează Soloist";
+"Waiting for pairing and account verification…" = "Se așteaptă asocierea și verificarea contului…";
+"Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "Cheia rămâne în Portchei pe Mac. Cât timp Soloist rulează, alte procese din contul tău de utilizator pot citi cheia din argumentele de pornire.";

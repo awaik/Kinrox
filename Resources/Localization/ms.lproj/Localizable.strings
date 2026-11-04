@@ -361,3 +361,37 @@
 "Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Akses Spotify: pustaka, main balik, kegemaran dan senarai main boleh sunting. Membuang kegemaran turut membuangnya daripada senarai main boleh sunting.";
 "Open album in Spotify" = "Buka album dalam Spotify";
 "Connection terms" = "Syarat sambungan";
+
+/* Standalone Spotify setup and recovery. */
+"A different Spotify account is paired. Pair again." = "Akaun Spotify lain telah dipasangkan. Pasangkan semula.";
+"Add your personal Soloist API key in Settings." = "Tambahkan kunci API Soloist peribadi anda dalam Seting.";
+"After pairing, you can close Spotify on your iPhone. Spotify on Mac is not required." = "Selepas dipasangkan, anda boleh menutup Spotify pada iPhone. Spotify pada Mac tidak diperlukan.";
+"Connection to Soloist was lost." = "Sambungan kepada Soloist terputus.";
+"Could not prepare Soloist. Check Settings." = "Soloist tidak dapat disediakan. Semak Seting.";
+"Could not save the Soloist key in Keychain." = "Kunci Soloist tidak dapat disimpan dalam Rantai Kunci.";
+"Could not start Soloist. Check Settings." = "Soloist tidak dapat dimulakan. Semak Seting.";
+"Download Soloist" = "Muat turun Soloist";
+"Download Soloist in Settings to play on this Mac." = "Muat turun Soloist dalam Seting untuk memainkan muzik pada Mac ini.";
+"Downloading and verifying Soloist…" = "Memuat turun dan mengesahkan Soloist…";
+"Get a Soloist API key" = "Dapatkan kunci API Soloist";
+"Music is playing on another device." = "Muzik sedang dimainkan pada peranti lain.";
+"Open Spotify on your iPhone. Connect iPhone and Mac to the same Wi-Fi network and allow Spotify to access the local network." = "Buka Spotify pada iPhone. Sambungkan iPhone dan Mac kepada rangkaian Wi-Fi yang sama dan benarkan Spotify mengakses rangkaian setempat.";
+"Pair Spotify from your iPhone in Settings." = "Pasangkan Spotify daripada iPhone anda dalam Seting.";
+"Pair Spotify with this Mac" = "Pasangkan Spotify dengan Mac ini";
+"Pair again" = "Pasangkan semula";
+"Personal Soloist API key" = "Kunci API Soloist peribadi";
+"Play on this Mac" = "Mainkan pada Mac ini";
+"Ready on this Mac" = "Sedia pada Mac ini";
+"Save key and set up Soloist" = "Simpan kunci dan sediakan Soloist";
+"Select this device in Spotify:" = "Pilih peranti ini dalam Spotify:";
+"Soloist could not confirm the playback command." = "Soloist tidak dapat mengesahkan arahan main balik.";
+"Soloist downloads directly from Spotify. After installation, select Kinrox once in Spotify on your iPhone." = "Soloist dimuat turun terus daripada Spotify. Selepas pemasangan, pilih Kinrox sekali dalam Spotify pada iPhone.";
+"Soloist has expired. Download a current version." = "Soloist telah tamat tempoh. Muat turun versi semasa.";
+"Soloist playback stopped." = "Main balik Soloist telah berhenti.";
+"Spotify Premium is required. Create your personal Soloist API key in Spotify for Developers." = "Spotify Premium diperlukan. Cipta kunci API Soloist peribadi anda dalam Spotify for Developers.";
+"Spotify on this Mac" = "Spotify pada Mac ini";
+"Start pairing" = "Mulakan pemasangan";
+"Starting playback…" = "Memulakan main balik…";
+"Update Soloist" = "Kemas kini Soloist";
+"Waiting for pairing and account verification…" = "Menunggu pemasangan dan pengesahan akaun…";
+"Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "Kunci anda kekal dalam Rantai Kunci Mac. Semasa Soloist berjalan, proses lain di bawah akaun pengguna anda boleh membaca kunci daripada argumen pelancarannya.";

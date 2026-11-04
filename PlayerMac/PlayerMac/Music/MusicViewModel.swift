@@ -45,6 +45,9 @@ final class MusicViewModel {
         min(currentTrack?.duration ?? 0, max(0, position + positionAge))
     }
     var volume: Double = 0
+    var volumeKnown = false
+    var engineAvailability = MusicEngineAvailability.ready
+    var engineNeedsSetup = false
     var isLoading = false
     var isRefreshing = false
     var isInitialLoading: Bool {
@@ -60,12 +63,15 @@ final class MusicViewModel {
     @ObservationIgnored var browsingTask: Task<Void, Never>?
     @ObservationIgnored var syncTask: Task<Void, Never>?
     @ObservationIgnored var musicEngine: (any MusicEngine)?
-    @ObservationIgnored var engineFactory: (() -> any MusicEngine)?
+    @ObservationIgnored var engineFactory: (() throws -> any MusicEngine)?
+    @ObservationIgnored var engineRecovery: (() -> Void)?
+    @ObservationIgnored var engineAvailabilityChanged: ((MusicEngineAvailability) -> Void)?
     @ObservationIgnored weak var coordinator: PlaybackCoordinator?
     @ObservationIgnored var engineTask: Task<Void, Never>?
     @ObservationIgnored var playbackObservers: [UUID: (PlaybackEvent?) -> Void] = [:]
     @ObservationIgnored var lastSnapshot: MusicPlaybackSnapshot?
     @ObservationIgnored var retryPlayback: (() -> Void)?
+    @ObservationIgnored var retryPlaybackStartsPlayback = false
     var outputName = L10n.text("This Mac")
     var playbackDuration: Double = 0
     var isPlaybackBusy = false
@@ -74,6 +80,7 @@ final class MusicViewModel {
 
     init(store: any MusicLibraryStore = DemoMusicLibraryStore()) {
         self.store = store
+        volumeKnown = store is DemoMusicLibraryStore
         library = store.library
         catalog = store.catalog
         var queue = MusicQueue()

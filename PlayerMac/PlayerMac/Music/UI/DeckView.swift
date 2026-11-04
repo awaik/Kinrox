@@ -1,13 +1,28 @@
 import MusicCore
+import Observation
 import SwiftUI
 
 struct DeckView: View {
     @Bindable var model: MusicViewModel
     let compact: Bool
     var width: CGFloat = 1440
+    @State private var clock = MusicDisplayClock()
 
     var body: some View {
-        TimelineView(.animation(minimumInterval: 0.25, paused: model.paused)) { _ in deck }
+        deck
+            .task(id: model.paused) {
+                clock.position = model.displayedPosition
+                guard !model.paused else { return }
+                do {
+                    while !Task.isCancelled {
+                        try await Task.sleep(for: .milliseconds(250))
+                        clock.position = model.displayedPosition
+                    }
+                } catch {
+                    // Pausing or leaving Music cancels the clock.
+                }
+            }
+            .onChange(of: model.position) { _, _ in clock.position = model.displayedPosition }
     }
 
     private var deck: some View {
@@ -19,14 +34,11 @@ struct DeckView: View {
                     MusicSwitch(
                         title: L10n.text("Shuffle"), enabled: model.queue.shuffled,
                         action: model.shuffle
-                    ).disabled(!model.allows("toggling_shuffle"))
+                    ).disabled(!model.canShuffle)
                     MusicSwitch(
                         title: L10n.text("Repeat"), enabled: model.queue.repeatMode != .off,
                         value: repeatValue, action: model.cycleRepeat
-                    ).disabled(
-                        !model.allows(
-                            model.queue.repeatMode == .all || model.queue.repeatMode == .one
-                                ? "toggling_repeat_track" : "toggling_repeat_context"))
+                    ).disabled(!model.canRepeat)
                     Spacer(minLength: 0)
                     if let track = model.currentTrack {
                         TrackHeart(model: model, track: track, anchor: "deck", labeled: true)
@@ -40,25 +52,22 @@ struct DeckView: View {
                     }
                 }
                 HStack(spacing: 12) {
-                    Text(TimeFormat.string(model.displayedPosition)).frame(width: 36)
-                    MusicSlider(
-                        value: model.displayedPosition,
-                        range: 0...max(1, model.currentTrack?.duration ?? 1),
-                        label: L10n.text("Playback position"), step: 10
-                    ) { model.seek($0) }.tint(Palette.ember).disabled(!model.allows("seeking"))
-                    Text(
-                        TimeFormat.remaining(
-                            position: model.displayedPosition,
-                            duration: model.currentTrack?.duration ?? 0)
+                    MusicClockText(clock: clock, paused: model.paused, position: model.position)
+                        .frame(width: 36)
+                    MusicClockSlider(clock: clock, model: model)
+                    MusicClockText(
+                        clock: clock, paused: model.paused, position: model.position,
+                        remaining: model.currentTrack?.duration ?? 0
                     )
                     .frame(width: 42)
                     Image(systemName: "speaker.wave.2.fill").accessibilityHidden(true)
                     MusicSlider(
-                        value: model.volume, range: 0...100, label: L10n.text("Volume"), step: 5
-                    ) { model.setVolume($0) }.disabled(!model.allows("volume"))
+                        value: model.volume, range: 0...100, label: L10n.text("Volume"), step: 5,
+                        valueKnown: model.volumeKnown
+                    ) { model.setVolume($0) }.disabled(!model.canAdjustVolume)
                         .frame(width: compact ? 90 : 130).tint(Palette.textPrimary)
                         .accessibilityLabel(L10n.text("Volume"))
-                    Text(Int(model.volume).formatted()).frame(width: 28)
+                    Text(model.volumeKnown ? Int(model.volume).formatted() : "—").frame(width: 28)
                 }.font(KinroxFont.monoDigits(12)).foregroundStyle(Palette.textSecondary)
             }
         }
@@ -72,10 +81,11 @@ struct DeckView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 6) {
                     MusicIcon(name: model.paused ? "MusicPause" : "MusicPlay", size: 10)
-                    Text(TimeFormat.string(model.displayedPosition)).font(
-                        KinroxFont.monoDigits(compact ? 34 : 38)
-                    )
-                    .tracking(-2).minimumScaleFactor(0.7).lineLimit(1)
+                    MusicClockText(clock: clock, paused: model.paused, position: model.position)
+                        .font(
+                            KinroxFont.monoDigits(compact ? 34 : 38)
+                        )
+                        .tracking(-2).minimumScaleFactor(0.7).lineLimit(1)
                 }.foregroundStyle(Palette.flame)
                 HStack(alignment: .bottom, spacing: 2) {
                     ForEach(0..<24) { index in
@@ -119,36 +129,33 @@ struct DeckView: View {
 
     private var transport: some View {
         HStack(spacing: 0) {
-            transportButton("MusicPrev", L10n.text("Previous track"), model.previous)
+            transportButton(
+                "MusicPrev", L10n.text("Previous track"), model.previous,
+                enabled: model.canPrevious)
             Divider().frame(height: 34)
             transportButton(
                 model.paused ? "MusicPlay" : "MusicPause",
                 model.paused ? L10n.text("Play") : L10n.text("Pause"), model.togglePause,
-                active: !model.paused)
+                enabled: model.canTogglePause, active: !model.paused)
             Divider().frame(height: 34)
-            transportButton("MusicStop", L10n.text("Stop"), model.stop)
+            transportButton("MusicStop", L10n.text("Stop"), model.stop, enabled: model.canStop)
             Divider().frame(height: 34)
-            transportButton("MusicNext", L10n.text("Next track"), model.next)
+            transportButton(
+                "MusicNext", L10n.text("Next track"), model.next, enabled: model.canNext)
         }.background(Palette.glass, in: RoundedRectangle(cornerRadius: 8))
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(Palette.hairline))
     }
 
     private func transportButton(
         _ icon: String, _ title: String, _ action: @escaping () -> Void,
-        active: Bool = false
+        enabled: Bool, active: Bool = false
     ) -> some View {
         Button(action: action) {
             MusicIcon(name: icon, size: 14).frame(width: compact ? 38 : 46, height: 36)
                 .foregroundStyle(active ? Palette.ember : Palette.textPrimary).contentShape(
                     Rectangle())
         }.buttonStyle(.plain).accessibilityLabel(title).help(title)
-            .disabled(
-                !model.allows(
-                    icon == "MusicNext"
-                        ? "skipping_next"
-                        : icon == "MusicPrev"
-                            ? "skipping_prev" : icon == "MusicPlay" ? "resuming" : "pausing")
-                    || (icon == "MusicStop" && !model.allows("seeking")))
+            .disabled(!enabled)
     }
 
     private var repeatValue: String {
@@ -157,5 +164,38 @@ struct DeckView: View {
         case .all: L10n.text("Repeat all")
         case .one: L10n.text("Repeat one")
         }
+    }
+}
+
+/// Only the time labels and scrubber observe ticks; the rest of the deck stays unchanged.
+@MainActor @Observable
+private final class MusicDisplayClock {
+    var position: Double = 0
+}
+
+private struct MusicClockText: View {
+    let clock: MusicDisplayClock
+    let paused: Bool
+    let position: Double
+    var remaining: Double?
+
+    var body: some View {
+        let value = paused ? position : clock.position
+        Text(
+            remaining.map { TimeFormat.remaining(position: value, duration: $0) }
+                ?? TimeFormat.string(value))
+    }
+}
+
+private struct MusicClockSlider: View {
+    let clock: MusicDisplayClock
+    let model: MusicViewModel
+
+    var body: some View {
+        MusicSlider(
+            value: model.paused ? model.position : clock.position,
+            range: 0...max(1, model.currentTrack?.duration ?? 1),
+            label: L10n.text("Playback position"), step: 10
+        ) { model.seek($0) }.tint(Palette.ember).disabled(!model.canSeek)
     }
 }

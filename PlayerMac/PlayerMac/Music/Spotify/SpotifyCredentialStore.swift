@@ -2,25 +2,44 @@ import Foundation
 import Security
 
 @MainActor
-protocol SpotifyCredentialStore {
+protocol SpotifyCredentialStore: Sendable {
     func refreshToken(clientID: String) throws -> String?
+    func refreshTokenAsync(clientID: String) async throws -> String?
     func save(_ token: String, clientID: String) throws
     func remove(clientID: String) throws
+}
+
+extension SpotifyCredentialStore {
+    func refreshTokenAsync(clientID: String) async throws -> String? {
+        try refreshToken(clientID: clientID)
+    }
 }
 
 @MainActor
 final class KeychainSpotifyCredentialStore: SpotifyCredentialStore {
     private let service: String
     init(service: String = "app.kinrox.spotify.account") { self.service = service }
-    private func query(_ clientID: String) -> [String: Any] {
+    nonisolated private static func query(_ clientID: String, service: String) -> [String: Any] {
         [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service, kSecAttrAccount as String: clientID,
             kSecUseDataProtectionKeychain as String: true, kSecAttrSynchronizable as String: false,
         ]
     }
+    private func query(_ clientID: String) -> [String: Any] {
+        Self.query(clientID, service: service)
+    }
     func refreshToken(clientID: String) throws -> String? {
-        var query = query(clientID)
+        try Self.read(clientID: clientID, service: service)
+    }
+    func refreshTokenAsync(clientID: String) async throws -> String? {
+        let service = service
+        return try await Task.detached {
+            try Self.read(clientID: clientID, service: service)
+        }.value
+    }
+    nonisolated private static func read(clientID: String, service: String) throws -> String? {
+        var query = query(clientID, service: service)
         query[kSecReturnData as String] = true
         var result: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &result)

@@ -361,3 +361,37 @@
 "Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Spotify-hozzáférés: könyvtár, lejátszás, kedvencek és szerkeszthető listák. A kedvencekből való törlés a szerkeszthető listákból is eltávolítja a számot.";
 "Open album in Spotify" = "Album megnyitása a Spotifyban";
 "Connection terms" = "Kapcsolódási feltételek";
+
+/* Standalone Spotify setup and recovery. */
+"A different Spotify account is paired. Pair again." = "Másik Spotify-fiók van párosítva. Párosítsa újra.";
+"Add your personal Soloist API key in Settings." = "Adja hozzá személyes Soloist API-kulcsát a beállításokban.";
+"After pairing, you can close Spotify on your iPhone. Spotify on Mac is not required." = "A párosítás után bezárhatja a Spotifyt az iPhone-on. A Macen nincs szükség a Spotify alkalmazásra.";
+"Connection to Soloist was lost." = "Megszakadt a kapcsolat a Soloisttal.";
+"Could not prepare Soloist. Check Settings." = "A Soloist előkészítése nem sikerült. Ellenőrizze a beállításokat.";
+"Could not save the Soloist key in Keychain." = "A Soloist-kulcsot nem sikerült a Kulcskarikába menteni.";
+"Could not start Soloist. Check Settings." = "A Soloist indítása nem sikerült. Ellenőrizze a beállításokat.";
+"Download Soloist" = "Soloist letöltése";
+"Download Soloist in Settings to play on this Mac." = "A Macen való lejátszáshoz töltse le a Soloistot a beállításokban.";
+"Downloading and verifying Soloist…" = "Soloist letöltése és ellenőrzése…";
+"Get a Soloist API key" = "Soloist API-kulcs beszerzése";
+"Music is playing on another device." = "A zene másik eszközön szól.";
+"Open Spotify on your iPhone. Connect iPhone and Mac to the same Wi-Fi network and allow Spotify to access the local network." = "Nyissa meg a Spotifyt az iPhone-on. Csatlakoztassa az iPhone-t és a Macet ugyanahhoz a Wi-Fi-hálózathoz, és engedélyezze a Spotify hozzáférését a helyi hálózathoz.";
+"Pair Spotify from your iPhone in Settings." = "Párosítsa a Spotifyt az iPhone-ról a beállításokban.";
+"Pair Spotify with this Mac" = "Spotify párosítása ezzel a Mackel";
+"Pair again" = "Újrapárosítás";
+"Personal Soloist API key" = "Személyes Soloist API-kulcs";
+"Play on this Mac" = "Lejátszás ezen a Macen";
+"Ready on this Mac" = "Készen áll ezen a Macen";
+"Save key and set up Soloist" = "Kulcs mentése és Soloist beállítása";
+"Select this device in Spotify:" = "Válassza ezt az eszközt a Spotifyban:";
+"Soloist could not confirm the playback command." = "A Soloist nem tudta megerősíteni a lejátszási parancsot.";
+"Soloist downloads directly from Spotify. After installation, select Kinrox once in Spotify on your iPhone." = "A Soloist közvetlenül a Spotifytól töltődik le. A telepítés után egyszer válassza a Kinroxot az iPhone Spotify alkalmazásában.";
+"Soloist has expired. Download a current version." = "A Soloist lejárt. Töltsön le egy aktuális verziót.";
+"Soloist playback stopped." = "A Soloist lejátszása leállt.";
+"Spotify Premium is required. Create your personal Soloist API key in Spotify for Developers." = "Spotify Premium szükséges. Hozza létre személyes Soloist API-kulcsát a Spotify for Developers oldalán.";
+"Spotify on this Mac" = "Spotify ezen a Macen";
+"Start pairing" = "Párosítás indítása";
+"Starting playback…" = "Lejátszás indítása…";
+"Update Soloist" = "Soloist frissítése";
+"Waiting for pairing and account verification…" = "Várakozás a párosításra és a fiók ellenőrzésére…";
+"Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "A kulcs a Mac Kulcskarikájában marad. Amíg a Soloist fut, a felhasználói fiókja más folyamatai kiolvashatják a kulcsot az indítási argumentumokból.";

@@ -34,7 +34,7 @@ struct MusicKeyboard: NSViewRepresentable {
         required init?(coder: NSCoder) { nil }
         isolated deinit { if let monitor { NSEvent.removeMonitor(monitor) } }
 
-        private func handle(_ event: NSEvent) -> Bool {
+        func handle(_ event: NSEvent) -> Bool {
             guard enabled, let window, event.window === window, window.isKeyWindow,
                 window.attachedSheet == nil
             else { return false }
@@ -64,6 +64,9 @@ struct MusicKeyboard: NSViewRepresentable {
             }
             guard flags.isEmpty else { return false }
             switch event.keyCode {
+            case 49:
+                // A focused SwiftUI button can consume Space before the menu shortcut.
+                if !event.isARepeat, model.canTogglePause { model.togglePause() }
             case 53: model.leaveSearch()
             case 36, 76: model.playFocused()
             case 51, 117:
@@ -91,6 +94,7 @@ struct MusicKeyboard: NSViewRepresentable {
 
 extension MusicViewModel {
     func playFocused() {
+        guard canPlayLibrary else { return }
         if focusedColumn == .albums, let album {
             playAlbum(album)
             return

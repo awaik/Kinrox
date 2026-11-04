@@ -31,12 +31,15 @@ struct MusicRemoteView: View {
                         Image(systemName: "speaker.wave.2.fill").font(.system(size: 16))
                         MusicSlider(
                             value: store.state.volume, range: 0...100, label: L10n.text("Volume"),
-                            step: 5
+                            step: 5, valueKnown: music?.volumeKnown != false
                         ) { store.setVolume($0) }
                         .tint(Palette.textPrimary).disabled(
                             !store.controlsEnabled || !store.musicAllows("volume"))
-                        Text(Int(store.state.volume).formatted()).font(KinroxFont.monoDigits(13))
-                            .frame(width: 28)
+                        Text(
+                            music?.volumeKnown == false ? "—" : Int(store.state.volume).formatted()
+                        )
+                        .font(KinroxFont.monoDigits(13))
+                        .frame(width: 28)
                     }.foregroundStyle(Palette.textSecondary).frame(height: 28)
                     Spacer(minLength: 16)
                     if let status = music?.status ?? store.commandError {

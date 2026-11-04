@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-02",
+  "version": "2026-11-03",
   "locale": "ms",
   "language": "Bahasa Melayu",
   "terms": [
@@ -10,7 +10,7 @@
     },
     {
       "title": "Akaun dan pilihan anda",
-      "body": "Sambungan adalah pilihan. Gunakan aplikasi pembangun Spotify anda sendiri dan akaun Spotify Premium yang dibenarkan. Spotify mengawal akses API dan kuota; akses boleh berubah atau dihentikan. Syarat Spotify sendiri terus terpakai. Kinrox mengawal main balik dalam aplikasi rasmi Spotify pada Mac anda. Ia tidak memuat turun, merakam atau menyimpan audio dalam cache.",
+      "body": "Sambungan adalah pilihan. Gunakan aplikasi pembangun Spotify anda sendiri dan akaun Spotify Premium yang dibenarkan. Spotify mengawal akses API dan kuota; akses boleh berubah atau dihentikan. Syarat Spotify sendiri terus terpakai. Audio dimainkan melalui Spotify Soloist, yang dimuat turun terus daripada Spotify ke Mac atas permintaan anda. Setiap pengguna menyediakan kunci API Soloist peribadi. Penggandingan sekali sahaja menggunakan Spotify pada iPhone; selepas itu main balik berfungsi walaupun Spotify pada Mac dan iPhone ditutup. Soloist mengendalikan penyahkodan dan cache audionya sendiri; Kinrox tidak merakam atau mengeksport audio. Binaan Soloist tamat tempoh selepas 90 hari dan perlu dikemas kini.",
       "id": "account"
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "title": "Baris gilir main balik",
-      "body": "Kinrox mencipta senarai main peribadi Kinrox Queue dan menggantikan kandungannya apabila anda mengubah baris gilir main balik. Pemutusan sambungan mengekalkan senarai itu dalam Spotify tetapi melupakan kaitan setempatnya. Menyambung semula boleh mencipta satu lagi senarai main pembantu. Padam sendiri senarai main pembantu yang tidak diperlukan dalam Spotify.",
+      "body": "Kinrox menyimpan baris gilir main balik secara setempat dan memulakan satu proses Soloist untuk setiap entri dalam baris gilir. Tiada senarai main bantuan dicipta untuk main balik. Senarai main Kinrox Queue sedia ada kekal dalam Spotify. Pengecamnya yang bukan rahsia disimpan secara setempat untuk mengecualikannya daripada perubahan pustaka; anda boleh memadam senarai main itu sendiri dalam Spotify.",
       "id": "queue"
     },
     {
@@ -47,17 +47,17 @@
   "privacy": [
     {
       "title": "Dasar privasi — sambungan Spotify",
-      "body": "Versi 2026-11-02. Penyelenggara Kinrox, awaik, bertanggungjawab terhadap pemprosesan data Kinrox yang diterangkan di sini. Tambahan ini terpakai pada integrasi Spotify pilihan. Dasar privasi umum Kinrox tersedia di https://kinrox.app/privacy/. Hubungi: https://github.com/awaik/Kinrox/issues. Jangan siarkan token, kandungan pustaka peribadi atau maklumat peribadi lain dalam laporan isu awam.",
+      "body": "Versi 2026-11-03. Penyelenggara Kinrox, awaik, bertanggungjawab terhadap pemprosesan data Kinrox yang diterangkan di sini. Tambahan ini terpakai pada integrasi Spotify pilihan. Dasar privasi umum Kinrox tersedia di https://kinrox.app/privacy/. Hubungi: https://github.com/awaik/Kinrox/issues. Jangan siarkan token, kandungan pustaka peribadi atau maklumat peribadi lain dalam laporan isu awam.",
       "id": "overview"
     },
     {
       "title": "Akses dan tujuan",
-      "body": "Selepas anda menerima syarat dan memberikan kebenaran Spotify, Kinrox pada Mac membaca pengecam dan nama paparan akaun anda, lagu dan album tersimpan, artis yang diikuti, senarai main yang boleh diakses serta kandungannya, status main balik dan peranti tersedia. Maklumat ini digunakan untuk memaparkan pustaka anda dan mengawal Spotify. Apabila anda menggunakan kawalan berkenaan, ia boleh menyimpan dan mengalih keluar kegemaran, mengikuti artis, mencipta senarai main serta menyunting senarai main milik anda atau kolaboratif. Mengalih keluar kegemaran turut mengalih keluar kemunculannya daripada senarai main boleh sunting. Kinrox menyelenggara senarai main peribadi Kinrox Queue untuk main balik.",
+      "body": "Selepas anda menerima syarat dan memberikan kebenaran Spotify, Kinrox pada Mac membaca pengecam dan nama paparan akaun anda, lagu dan album tersimpan, artis yang diikuti, senarai main yang boleh diakses serta kandungannya, status main balik dan peranti tersedia. Maklumat ini digunakan untuk memaparkan pustaka anda dan mengawal Spotify. Apabila anda menggunakan kawalan berkenaan, ia boleh menyimpan dan mengalih keluar kegemaran, mengikuti artis, mencipta senarai main serta menyunting senarai main milik anda atau kolaboratif. Mengalih keluar kegemaran turut mengalih keluar kemunculannya daripada senarai main boleh sunting.",
       "id": "access"
     },
     {
       "title": "Penyimpanan dan penerima",
-      "body": "Bukti kelayakan pembaharuan disimpan dalam Data Protection Keychain Mac. Token akses kekal dalam memori. Metadata pustaka dicache dalam pangkalan data SQLite tempatan di folder Caches aplikasi pada Mac. Pengecam akaun yang disahkan dan nama paparan disimpan dalam keutamaan Mac. Client ID yang diberikan, kaitan senarai main pembantu dan versi dokumen yang diterima disimpan dalam keutamaan Mac. Kinrox tidak mempunyai pelayan, analitik atau telemetri dan penyelenggaranya tidak menerima sebarang data Spotify ini. Spotify menerima permintaan terus daripada Mac dan mengendalikannya mengikut dasar privasinya: https://www.spotify.com/legal/privacy-policy/. Spotify melihat maklumat rangkaian seperti alamat IP awam Mac.",
+      "body": "Bukti kelayakan pembaharuan disimpan dalam Data Protection Keychain Mac. Token akses kekal dalam memori. Metadata pustaka dicache dalam pangkalan data SQLite tempatan di folder Caches aplikasi pada Mac. Pengecam akaun yang disahkan dan nama paparan disimpan dalam keutamaan Mac. Client ID yang diberikan, kaitan senarai main pembantu dan versi dokumen yang diterima disimpan dalam keutamaan Mac. Kinrox tidak mempunyai pelayan, analitik atau telemetri dan penyelenggaranya tidak menerima sebarang data Spotify ini. Spotify menerima permintaan terus daripada Mac dan mengendalikannya mengikut dasar privasinya: https://www.spotify.com/legal/privacy-policy/. Spotify melihat maklumat rangkaian seperti alamat IP awam Mac.\n\nKunci API Soloist peribadi disimpan dalam Rantai Kunci. Sesi Connect disimpan dalam folder akaun peribadi; Soloist menggunakan cache audio berasingan yang terhad kepada 200 MB. Kunci dihantar kepada proses Soloist yang ditandatangani melalui argumen pelancaran, yang boleh dibaca oleh proses lain di bawah akaun pengguna yang sama. Soket kawalan gelung balik Soloist tiada pengesahan atau semakan Origin; program setempat atau halaman web dengan akses gelung balik boleh menghantar arahan main balik.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Pemutusan sambungan dan pengekalan",
-      "body": "Dalam Kinrox pada Mac, buka Seting → Spotify → Putuskan Sambungan. Kinrox menyelesaikan kerja main balik tertunda, menghentikan permintaan, mengalih keluar bukti kelayakan pembaharuan dan kaitan setempat senarai main pembantu, serta mengosongkan status akaun dan pustaka daripada memori. Penyambungan semula automatik dihentikan. Versi penerimaan ialah keutamaan yang tidak terikat pada akaun. Perubahan yang telah dibuat dalam Spotify, termasuk senarai main dan kegemaran, kekal di sana. Memutuskan sambungan tidak membatalkan kebenaran di Spotify; alih keluar aplikasi di https://www.spotify.com/account/apps/ untuk membatalkannya. Anda boleh memadam senarai main pembantu yang dikekalkan terus dalam Spotify. Metadata cache luput selepas 7 hari tanpa pengesahan semula. Memutuskan sambungan memadam cache SQLite, fail sampingannya dan kaitan akaun yang disimpan secara automatik.",
+      "body": "Dalam Kinrox pada Mac, buka Seting → Spotify → Putuskan Sambungan. Kinrox menghentikan proses Soloist dan permintaannya, memadam kelayakan penyegaran, kunci API Soloist serta sesi/cache audionya sendiri, dan mengosongkan data akaun daripada memori. Pengecam bukan rahsia bagi senarai main baris gilir lama serta enjin yang dimuat turun dikekalkan. Penyambungan semula automatik dihentikan. Versi penerimaan ialah keutamaan yang tidak terikat pada akaun. Perubahan yang telah dibuat dalam Spotify, termasuk senarai main dan kegemaran, kekal di sana. Memutuskan sambungan tidak membatalkan kebenaran di Spotify; alih keluar aplikasi di https://www.spotify.com/account/apps/ untuk membatalkannya. Anda boleh memadam senarai main pembantu yang dikekalkan terus dalam Spotify. Metadata cache luput selepas 7 hari tanpa pengesahan semula. Memutuskan sambungan memadam cache SQLite, fail sampingannya dan kaitan akaun yang disimpan secara automatik.",
       "id": "retention"
     },
     {

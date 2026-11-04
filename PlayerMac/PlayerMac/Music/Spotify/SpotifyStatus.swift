@@ -4,6 +4,12 @@ import SpotifyWebAPI
 @MainActor
 enum SpotifyStatus {
     static func message(_ error: any Error) -> String {
+        if let failure = error as? SoloistFailure {
+            if failure == .accountMismatch {
+                return L10n.text("A different Spotify account is paired. Pair again.")
+            }
+            return L10n.text("Soloist could not confirm the playback command.")
+        }
         if case SpotifyPlaybackError.otherDevice = error {
             return L10n.text("Spotify is playing on another device or outside Kinrox.")
         }

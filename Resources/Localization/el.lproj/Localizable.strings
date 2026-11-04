@@ -361,3 +361,37 @@
 "Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Πρόσβαση Spotify: βιβλιοθήκη, αναπαραγωγή, αγαπημένα και επεξεργάσιμες λίστες. Η αφαίρεση από τα αγαπημένα αφαιρεί το κομμάτι και από τις επεξεργάσιμες λίστες.";
 "Open album in Spotify" = "Άνοιγμα άλμπουμ στο Spotify";
 "Connection terms" = "Όροι σύνδεσης";
+
+/* Standalone Spotify setup and recovery. */
+"A different Spotify account is paired. Pair again." = "Έχει συζευχθεί διαφορετικός λογαριασμός Spotify. Κάντε ξανά σύζευξη.";
+"Add your personal Soloist API key in Settings." = "Προσθέστε το προσωπικό σας κλειδί API Soloist στις ρυθμίσεις.";
+"After pairing, you can close Spotify on your iPhone. Spotify on Mac is not required." = "Μετά τη σύζευξη, μπορείτε να κλείσετε το Spotify στο iPhone. Δεν απαιτείται Spotify στο Mac.";
+"Connection to Soloist was lost." = "Η σύνδεση με το Soloist χάθηκε.";
+"Could not prepare Soloist. Check Settings." = "Δεν ήταν δυνατή η προετοιμασία του Soloist. Ελέγξτε τις ρυθμίσεις.";
+"Could not save the Soloist key in Keychain." = "Δεν ήταν δυνατή η αποθήκευση του κλειδιού Soloist στην Κλειδοθήκη.";
+"Could not start Soloist. Check Settings." = "Δεν ήταν δυνατή η εκκίνηση του Soloist. Ελέγξτε τις ρυθμίσεις.";
+"Download Soloist" = "Λήψη Soloist";
+"Download Soloist in Settings to play on this Mac." = "Κατεβάστε το Soloist στις ρυθμίσεις για αναπαραγωγή σε αυτό το Mac.";
+"Downloading and verifying Soloist…" = "Λήψη και επαλήθευση του Soloist…";
+"Get a Soloist API key" = "Απόκτηση κλειδιού API Soloist";
+"Music is playing on another device." = "Η μουσική αναπαράγεται σε άλλη συσκευή.";
+"Open Spotify on your iPhone. Connect iPhone and Mac to the same Wi-Fi network and allow Spotify to access the local network." = "Ανοίξτε το Spotify στο iPhone. Συνδέστε το iPhone και το Mac στο ίδιο δίκτυο Wi-Fi και επιτρέψτε στο Spotify την πρόσβαση στο τοπικό δίκτυο.";
+"Pair Spotify from your iPhone in Settings." = "Συζεύξτε το Spotify από το iPhone στις ρυθμίσεις.";
+"Pair Spotify with this Mac" = "Σύζευξη Spotify με αυτό το Mac";
+"Pair again" = "Νέα σύζευξη";
+"Personal Soloist API key" = "Προσωπικό κλειδί API Soloist";
+"Play on this Mac" = "Αναπαραγωγή σε αυτό το Mac";
+"Ready on this Mac" = "Έτοιμο σε αυτό το Mac";
+"Save key and set up Soloist" = "Αποθήκευση κλειδιού και ρύθμιση Soloist";
+"Select this device in Spotify:" = "Επιλέξτε αυτή τη συσκευή στο Spotify:";
+"Soloist could not confirm the playback command." = "Το Soloist δεν μπόρεσε να επιβεβαιώσει την εντολή αναπαραγωγής.";
+"Soloist downloads directly from Spotify. After installation, select Kinrox once in Spotify on your iPhone." = "Το Soloist λαμβάνεται απευθείας από το Spotify. Μετά την εγκατάσταση, επιλέξτε μία φορά το Kinrox στο Spotify στο iPhone.";
+"Soloist has expired. Download a current version." = "Το Soloist έληξε. Κατεβάστε μια τρέχουσα έκδοση.";
+"Soloist playback stopped." = "Η αναπαραγωγή του Soloist σταμάτησε.";
+"Spotify Premium is required. Create your personal Soloist API key in Spotify for Developers." = "Απαιτείται Spotify Premium. Δημιουργήστε το προσωπικό σας κλειδί API Soloist στο Spotify for Developers.";
+"Spotify on this Mac" = "Spotify σε αυτό το Mac";
+"Start pairing" = "Έναρξη σύζευξης";
+"Starting playback…" = "Έναρξη αναπαραγωγής…";
+"Update Soloist" = "Ενημέρωση Soloist";
+"Waiting for pairing and account verification…" = "Αναμονή σύζευξης και επαλήθευσης λογαριασμού…";
+"Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "Το κλειδί σας παραμένει στην Κλειδοθήκη του Mac. Όσο εκτελείται το Soloist, άλλες διεργασίες του λογαριασμού χρήστη σας μπορούν να διαβάσουν το κλειδί από τα ορίσματα εκκίνησής του.";

@@ -6,7 +6,7 @@ struct MusicPlaybackSnapshot: Equatable, Sendable {
     var position: Double
     var duration: Double
     var paused: Bool
-    var volume: Double
+    var volume: Double?
     var deviceName: String
     var occurrenceID: UUID?
     var disallowedActions: Set<String> = []
@@ -14,8 +14,15 @@ struct MusicPlaybackSnapshot: Equatable, Sendable {
 
 enum MusicEngineEvent: Sendable {
     case state(MusicPlaybackSnapshot)
-    case ended
+    case ended(occurrenceID: UUID)
+    case availability(MusicEngineAvailability)
     case failure(String)
+}
+
+enum MusicEngineAvailability: Equatable, Sendable {
+    case notInstalled, downloading, needsKey, needsPairing, starting, ready
+    case reconnecting, expired, externalTakeover
+    case failed(String)
 }
 
 /// Commands complete only after the service confirms the requested state.

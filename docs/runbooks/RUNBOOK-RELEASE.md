@@ -35,6 +35,22 @@ When updating upstream build recipes, review and update this lock explicitly.
 Artifacts remain in ignored `Vendor/`. Existing mismatched files are rejected,
 and incomplete downloads are preserved for inspection.
 
+Soloist is a separately downloaded proprietary runtime, not a corresponding-source
+dependency. The lock's `externalRuntimePolicy` points to `Scripts/soloist-policy.json`;
+source preparation continues to read only `sources`. The policy records the reviewed
+CDN, publisher identity, expiry rules and locally tested artifacts, not a permanent
+download pin. Never copy Spotify's binary or archive into the app, dependency-source
+archive, CI artifacts, DMG or releases. Only the Kinrox-owned `KinroxSoloistHost`
+reaper is bundled. The release script signs it with Hardened Runtime before signing
+the app and runs `check-soloist-bundle.py` to reject known artifacts and rolling
+Soloist executable/archive layouts. Standalone live evidence and accepted limits are recorded in
+[the verification report](SOLOIST-VERIFICATION.md); the owner waived remaining physical
+sleep/reboot checks and authorized default cutover/release on 2026-11-03. The owner
+permanently excluded a separate macOS 14 execution test on 2026-11-03; continue
+checking deployment targets and Mach-O minimum-OS metadata, and report actual
+runtime verification only for the tested macOS version. Packaging checks do not
+substitute for live playback evidence.
+
 ## Update Signing Key
 
 Sparkle 2 verifies every update with an EdDSA key ([details](UPDATES-VERIFICATION.md)).

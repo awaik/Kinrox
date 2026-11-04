@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-02",
+  "version": "2026-11-03",
   "locale": "tr",
   "language": "Türkçe",
   "terms": [
@@ -10,7 +10,7 @@
     },
     {
       "title": "Hesabınız ve seçimleriniz",
-      "body": "Bağlanmak isteğe bağlıdır. Kendi Spotify geliştirici uygulamanızı ve yetkilendirilmiş bir Spotify Premium hesabını kullanın. API erişimini ve kotaları Spotify yönetir; erişim değişebilir veya sona erebilir. Spotify’ın kendi koşulları geçerliliğini korur. Kinrox, Mac’inizdeki resmi Spotify uygulamasında oynatmayı kontrol eder. Ses indirmez, kaydetmez veya önbelleğe almaz.",
+      "body": "Bağlanmak isteğe bağlıdır. Kendi Spotify geliştirici uygulamanızı ve yetkilendirilmiş bir Spotify Premium hesabını kullanın. API erişimini ve kotaları Spotify yönetir; erişim değişebilir veya sona erebilir. Spotify’ın kendi koşulları geçerliliğini korur. Ses, isteğiniz üzerine Spotify’dan doğrudan Mac’inize indirilen Spotify Soloist aracılığıyla çalınır. Her kullanıcı kişisel bir Soloist API anahtarı sağlar. Bir defalık eşleştirme iPhone’daki Spotify ile yapılır; ardından Mac ve iPhone’da Spotify kapalıyken de çalma çalışır. Soloist, kod çözmeyi ve kendi ses önbelleğini yönetir; Kinrox ses kaydetmez veya dışa aktarmaz. Soloist derlemelerinin süresi 90 gün sonra dolar ve güncellenmeleri gerekir.",
       "id": "account"
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "title": "Oynatma sırası",
-      "body": "Kinrox, Kinrox Queue adlı özel bir çalma listesi oluşturur ve oynatma sırasını değiştirdiğinizde içeriğini yenisiyle değiştirir. Bağlantıyı kesmek listeyi Spotify’da tutar ancak yerel ilişkilendirmesini unutur. Yeniden bağlanmak başka bir yardımcı liste oluşturabilir. İstemediğiniz yardımcı listeleri Spotify’da kendiniz silin.",
+      "body": "Kinrox çalma kuyruğunu yerel olarak saklar ve kuyruktaki her parça girdisi için bir Soloist işlemi başlatır. Çalma için yardımcı çalma listesi oluşturmaz. Mevcut Kinrox Queue çalma listeleri Spotify’da kalır. Gizli olmayan kimlikleri, bu listeleri kitaplık değişikliklerinden hariç tutmak için yerel olarak saklanır; bu listeleri Spotify’da kendiniz silebilirsiniz.",
       "id": "queue"
     },
     {
@@ -47,17 +47,17 @@
   "privacy": [
     {
       "title": "Gizlilik politikası — Spotify bağlantısı",
-      "body": "Sürüm 2026-11-02. Kinrox’un bakımını yapan awaik, burada açıklanan Kinrox veri işlemesinden sorumludur. Bu ek, isteğe bağlı Spotify entegrasyonu için geçerlidir. Kinrox’un genel gizlilik politikası https://kinrox.app/privacy/ adresindedir. İletişim: https://github.com/awaik/Kinrox/issues. Herkese açık bildirimlerde belirteçleri, kişisel kitaplık içeriğini veya başka özel bilgileri paylaşmayın.",
+      "body": "Sürüm 2026-11-03. Kinrox’un bakımını yapan awaik, burada açıklanan Kinrox veri işlemesinden sorumludur. Bu ek, isteğe bağlı Spotify entegrasyonu için geçerlidir. Kinrox’un genel gizlilik politikası https://kinrox.app/privacy/ adresindedir. İletişim: https://github.com/awaik/Kinrox/issues. Herkese açık bildirimlerde belirteçleri, kişisel kitaplık içeriğini veya başka özel bilgileri paylaşmayın.",
       "id": "overview"
     },
     {
       "title": "Erişim ve amaçlar",
-      "body": "Koşulları kabul edip Spotify yetkisini verdikten sonra Mac’teki Kinrox; hesap kimliğinizi ve görünen adınızı, kayıtlı parçaları ve albümleri, takip edilen sanatçıları, erişilebilir listeleri ve içeriklerini, oynatma durumunu ve kullanılabilir cihazları okur. Bu bilgileri kitaplığınızı göstermek ve Spotify’ı kontrol etmek için kullanır. İlgili kontrolleri kullandığınızda favorileri kaydedip kaldırabilir, sanatçıları takip edebilir, listeler oluşturabilir ve size ait veya ortak listeleri düzenleyebilir. Bir favoriyi kaldırmak, düzenlenebilir listelerdeki tekrarlarını da kaldırır. Kinrox, oynatma için özel bir Kinrox Queue listesi tutar.",
+      "body": "Koşulları kabul edip Spotify yetkisini verdikten sonra Mac’teki Kinrox; hesap kimliğinizi ve görünen adınızı, kayıtlı parçaları ve albümleri, takip edilen sanatçıları, erişilebilir listeleri ve içeriklerini, oynatma durumunu ve kullanılabilir cihazları okur. Bu bilgileri kitaplığınızı göstermek ve Spotify’ı kontrol etmek için kullanır. İlgili kontrolleri kullandığınızda favorileri kaydedip kaldırabilir, sanatçıları takip edebilir, listeler oluşturabilir ve size ait veya ortak listeleri düzenleyebilir. Bir favoriyi kaldırmak, düzenlenebilir listelerdeki tekrarlarını da kaldırır.",
       "id": "access"
     },
     {
       "title": "Saklama ve alıcılar",
-      "body": "Yenileme kimlik bilgileri Mac’in Data Protection Keychain alanında saklanır. Erişim belirteçleri bellekte kalır. Kitaplık meta verileri Mac uygulamasının Caches klasöründeki yerel SQLite veritabanında önbelleğe alınır. Doğrulanmış hesap kimliği ve görünen ad Mac tercihlerinde saklanır. Verilen Client ID, yardımcı liste ilişkilendirmesi ve kabul edilen belge sürümü Mac tercihlerinde saklanır. Kinrox’un sunucusu, analitiği veya telemetrisi yoktur; bakımını yapan kişi bu Spotify verilerinin hiçbirini almaz. Spotify istekleri doğrudan Mac’ten alır ve kendi gizlilik politikasına göre işler: https://www.spotify.com/legal/privacy-policy/. Spotify, Mac’in genel IP adresi gibi ağ bilgilerini görür.",
+      "body": "Yenileme kimlik bilgileri Mac’in Data Protection Keychain alanında saklanır. Erişim belirteçleri bellekte kalır. Kitaplık meta verileri Mac uygulamasının Caches klasöründeki yerel SQLite veritabanında önbelleğe alınır. Doğrulanmış hesap kimliği ve görünen ad Mac tercihlerinde saklanır. Verilen Client ID, yardımcı liste ilişkilendirmesi ve kabul edilen belge sürümü Mac tercihlerinde saklanır. Kinrox’un sunucusu, analitiği veya telemetrisi yoktur; bakımını yapan kişi bu Spotify verilerinin hiçbirini almaz. Spotify istekleri doğrudan Mac’ten alır ve kendi gizlilik politikasına göre işler: https://www.spotify.com/legal/privacy-policy/. Spotify, Mac’in genel IP adresi gibi ağ bilgilerini görür.\n\nKişisel Soloist API anahtarı Anahtar Zinciri’nde saklanır. Connect oturumu hesaba ait özel bir klasörde tutulur; Soloist, 200 MB ile sınırlı ayrı bir ses önbelleği kullanır. Anahtar, imzalı Soloist işlemine başlatma argümanlarıyla aktarılır; aynı kullanıcı hesabındaki diğer işlemler bunları okuyabilir. Soloist’in loopback denetim soketinde kimlik doğrulama veya Origin denetimi yoktur; loopback erişimi olan yerel programlar veya web sayfaları çalma komutları gönderebilir.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Bağlantıyı kesme ve saklama süresi",
-      "body": "Mac’te Kinrox içinde Ayarlar → Spotify → Bağlantıyı Kes’i açın. Kinrox bekleyen oynatma işlemlerini sonuçlandırır, istekleri durdurur, yenileme kimlik bilgisini ve yerel yardımcı liste ilişkilendirmelerini kaldırır, hesap ve kitaplık durumunu bellekten temizler. Otomatik yeniden bağlanmayı durdurur. Kabul edilen sürüm, hesaptan bağımsız bir tercihtir. Listeler ve favoriler dahil Spotify’da zaten yapılmış değişiklikler orada kalır. Bağlantıyı kesmek Spotify yetkisini iptal etmez; iptal etmek için https://www.spotify.com/account/apps/ adresinden uygulamayı kaldırın. Tutulan yardımcı listeleri doğrudan Spotify’da silebilirsiniz. Önbellekteki meta verilerin süresi yeniden doğrulama yapılmadan 7 gün sonra dolar. Bağlantı kesildiğinde SQLite önbelleği, yardımcı dosyaları ve kayıtlı hesap ilişkilendirmesi otomatik olarak silinir.",
+      "body": "Mac’te Kinrox içinde Ayarlar → Spotify → Bağlantıyı Kes’i açın. Kinrox kendi Soloist işlemini ve isteklerini durdurur, yenileme kimlik bilgisini, Soloist API anahtarını ve kendi oturum/ses önbelleğini siler, hesap verilerini bellekten temizler. Eski kuyruk çalma listelerinin gizli olmayan kimlikleri ve indirilen motor kalır. Otomatik yeniden bağlanmayı durdurur. Kabul edilen sürüm, hesaptan bağımsız bir tercihtir. Listeler ve favoriler dahil Spotify’da zaten yapılmış değişiklikler orada kalır. Bağlantıyı kesmek Spotify yetkisini iptal etmez; iptal etmek için https://www.spotify.com/account/apps/ adresinden uygulamayı kaldırın. Tutulan yardımcı listeleri doğrudan Spotify’da silebilirsiniz. Önbellekteki meta verilerin süresi yeniden doğrulama yapılmadan 7 gün sonra dolar. Bağlantı kesildiğinde SQLite önbelleği, yardımcı dosyaları ve kayıtlı hesap ilişkilendirmesi otomatik olarak silinir.",
       "id": "retention"
     },
     {

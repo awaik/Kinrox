@@ -30,6 +30,8 @@ extension Message {
                 && music.disallowedActions?.allSatisfy { $0.utf8.count <= 64 } != false
                 && music.track.map(Self.validTrack) != false
                 && music.nextTrack.map(Self.validTrack) != false
+                && (music.volumeKnown != false
+                    || (state.volume == 0 && music.disallowedActions?.contains("volume") == true))
         default: return
         }
         guard valid else {

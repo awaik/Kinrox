@@ -10,6 +10,7 @@ final class PlayerSession {
     var mode = AppMode.video
     let music: MusicViewModel
     let spotify = SpotifyAccount()
+    let soloist = SoloistSetup()
     let playback = PlaybackCoordinator()
     var model: PlayerViewModel? {
         didSet {
@@ -41,6 +42,7 @@ final class PlayerSession {
         spotify.onRestore = { [weak self] client, binding, cache in
             guard let self, !demoMusic else { return }
             let store = SpotifyLibraryStore(client: client, cache: cache, connected: false)
+            self.excludeLegacyQueue(from: store, clientID: binding.clientID, userID: binding.userID)
             self.music.replaceStore(store, accountName: binding.accountName)
             self.music.acceptsPlayback = false
             await store.restore()
@@ -56,26 +58,17 @@ final class PlayerSession {
             } else {
                 (self.music.store as? SpotifyLibraryStore)?.retire()
                 store = SpotifyLibraryStore(client: client, profile: profile, cache: cache)
+                self.excludeLegacyQueue(
+                    from: store, clientID: self.spotify.clientID, userID: profile.id)
                 self.music.replaceStore(store, accountName: self.spotify.accountName)
                 await store.restore()
             }
             guard !store.isClosed else { return }
             let clientID = self.spotify.clientID
             let userID = self.spotify.userID ?? ""
-            let factory: () -> any MusicEngine = { [weak store, weak self] in
-                let engine = SpotifyConnectMusicEngine(
-                    client: client, clientID: clientID, userID: userID)
-                store?.queuePlaylistID = engine.playlistID
-                engine.onPlaylistCreated = { [weak store, weak self] id in
-                    store?.excludeQueuePlaylist(id)
-                    if let store { self?.music.library = store.library }
-                }
-                return engine
-            }
             self.music.accountName = self.spotify.accountName
-            self.music.acceptsPlayback = true
-            self.music.engineFactory = factory
-            self.music.connect(engine: factory())
+            self.music.acceptsPlayback = false
+            await self.soloist.configure(client: client, clientID: clientID, userID: userID)
             self.music.syncLibrary()
         }
         spotify.onDisconnected = { [weak self] in
@@ -88,11 +81,13 @@ final class PlayerSession {
             self.playback.cancelPending(.music)
             await self.playback.settle()
             await self.music.shutdownPlayback()
+            try await self.soloist.disconnect()
             self.music.syncTask?.cancel()
             self.music.browsingTask?.cancel()
             (self.music.store as? SpotifyLibraryStore)?.retire()
         }
         playback.connect(video: nil, music: music)
+        if !demoMusic { configureSoloist() }
     }
 
     var canControl: Bool {

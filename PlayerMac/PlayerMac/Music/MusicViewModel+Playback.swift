@@ -5,13 +5,28 @@ extension MusicViewModel {
     func connect(engine: any MusicEngine) {
         engineTask?.cancel()
         musicEngine = engine
+        volumeKnown = false
+        lastSnapshot = nil
+        engineAvailability = .ready
+        disallowedActions = []
+        notifyPlayback()
         engineTask = Task { [weak self] in
             for await event in engine.events {
-                guard let self, self.musicEngine === engine else { return }
+                guard let self, !Task.isCancelled, self.musicEngine === engine else { return }
                 switch event {
                 case .state(let state): self.receive(state)
-                case .ended: self.advance(automatically: true)
-                case .failure(let message): self.statusMessage = message
+                case .ended(let id):
+                    if id == self.queue.current?.id {
+                        self.advance(automatically: true, occurrenceID: id)
+                    }
+                case .availability(let availability):
+                    self.engineAvailability = availability
+                    self.engineAvailabilityChanged?(availability)
+                    if availability != .ready { self.volumeKnown = false }
+                    self.notifyPlayback()
+                case .failure(let message):
+                    self.statusMessage = message
+                    self.notifyPlayback()
                 }
             }
         }
@@ -20,23 +35,29 @@ extension MusicViewModel {
     func receive(_ state: MusicPlaybackSnapshot) {
         lastSnapshot = state
         disallowedActions = state.disallowedActions
+        if let value = state.volume, value.isFinite, (0...100).contains(value) {
+            volume = value
+            volumeKnown = true
+        }
+        outputName = state.deviceName
         if let id = state.occurrenceID, queue.current?.id != id,
             queue.upcoming.contains(where: { $0.id == id })
         {
             while queue.current?.id != id { guard queue.next() != nil else { break } }
             if isQueue { refreshContents() }
         }
-        guard state.occurrenceID == queue.current?.id else { return }
+        guard let id = state.occurrenceID, id == queue.current?.id else {
+            notifyPlayback()
+            return
+        }
         paused = state.paused
         position = state.position
-        volume = state.volume
-        outputName = state.deviceName
         playbackDuration = state.duration
         notifyPlayback(.property(.position, .number(position)))
     }
 
     func play(_ tracks: [MusicTrack], at index: Int = 0) {
-        guard allows("interrupting_playback"), tracks.indices.contains(index),
+        guard canPlayLibrary, tracks.indices.contains(index),
             tracks[index].isPlayable != false
         else { return }
         runPlayback(startsPlayback: true) { model in
@@ -91,7 +112,7 @@ extension MusicViewModel {
         }
     }
     func stop() {
-        guard allows("pausing"), allows("seeking") else { return }
+        guard canStop else { return }
         coordinator?.cancelPending(.music)
         runPlayback { model in
             if let engine = model.musicEngine {
@@ -104,16 +125,28 @@ extension MusicViewModel {
         }
     }
     func next() { advance(automatically: false) }
-    func advance(automatically: Bool) {
-        guard automatically || allows("skipping_next") else { return }
+    func advance(automatically: Bool, occurrenceID: UUID? = nil) {
+        guard hasTrack, automatically || canNext else { return }
+        // No source transition is needed when the final occurrence has finished.
+        if automatically, queue.upcoming.isEmpty, queue.repeatMode == .off {
+            runPlayback { model in
+                guard occurrenceID == nil || occurrenceID == model.queue.current?.id else { return }
+                try await model.musicEngine?.stop()
+                model.paused = true
+                model.position = 0
+                model.notifyPlayback()
+            }
+            return
+        }
         runPlayback(startsPlayback: true) { model in
+            guard occurrenceID == nil || occurrenceID == model.queue.current?.id else { return }
             var next = model.queue
             guard next.next(automatically: automatically) != nil else { return }
             try await model.startQueue(next)
         }
     }
     func previous() {
-        guard allows("skipping_prev") else { return }
+        guard canPrevious else { return }
         runPlayback(startsPlayback: true) { model in
             var next = model.queue
             guard next.previous() != nil else { return }
@@ -121,7 +154,7 @@ extension MusicViewModel {
         }
     }
     func seek(_ value: Double) {
-        guard value.isFinite, allows("seeking"), acceptsPlayback else { return }
+        guard value.isFinite, canSeek else { return }
         pendingSeek = value
         guard !seekScheduled else { return }
         seekScheduled = true
@@ -148,7 +181,7 @@ extension MusicViewModel {
         }
     }
     func setVolume(_ value: Double) {
-        guard value.isFinite, allows("volume"), acceptsPlayback else { return }
+        guard value.isFinite, canAdjustVolume else { return }
         pendingVolume = value
         guard !volumeScheduled else { return }
         volumeScheduled = true
@@ -182,7 +215,7 @@ extension MusicViewModel {
     }
 
     func playShuffled(_ tracks: [MusicTrack]) {
-        guard allows("interrupting_playback"), allows("toggling_shuffle"), !tracks.isEmpty else {
+        guard canPlayLibrary, allows("toggling_shuffle"), !tracks.isEmpty else {
             return
         }
         runPlayback(startsPlayback: true) { model in
@@ -194,7 +227,7 @@ extension MusicViewModel {
     }
 
     func shuffle() {
-        guard allows("toggling_shuffle") else { return }
+        guard canShuffle else { return }
         editQueue { queue in
             var random = SystemRandomNumberGenerator()
             queue.setShuffle(!queue.shuffled, using: &random)
@@ -204,7 +237,7 @@ extension MusicViewModel {
         setRepeat(queue.repeatMode == .off ? .all : queue.repeatMode == .all ? .one : .off)
     }
     func setRepeat(_ value: MusicRepeat) {
-        guard
+        guard hasTrack,
             allows(
                 value == .one || queue.repeatMode == .one
                     ? "toggling_repeat_track" : "toggling_repeat_context")
@@ -212,7 +245,7 @@ extension MusicViewModel {
         editQueue { $0.repeatMode = value }
     }
     func setShuffle(_ value: Bool) {
-        guard allows("toggling_shuffle") else { return }
+        guard canShuffle else { return }
         editQueue { queue in
             var random = SystemRandomNumberGenerator()
             queue.setShuffle(value, using: &random)
@@ -242,7 +275,7 @@ extension MusicViewModel {
     }
 
     private func startQueue(_ next: MusicQueue, position: Double = 0) async throws {
-        if musicEngine == nil, let engineFactory { connect(engine: engineFactory()) }
+        if musicEngine == nil, let engineFactory { connect(engine: try engineFactory()) }
         guard next.current?.track.isPlayable != false else { throw SpotifyPlaybackError.restricted }
         let original = queue
         queue = next
@@ -282,7 +315,9 @@ extension MusicViewModel {
                 try await action(self)
                 self.statusMessage = nil
                 self.retryPlayback = nil
+                self.retryPlaybackStartsPlayback = false
             } catch {
+                self.retryPlaybackStartsPlayback = startsPlayback
                 self.retryPlayback = { [weak self] in
                     self?.runPlayback(startsPlayback: startsPlayback, action: action)
                 }
@@ -301,12 +336,22 @@ extension MusicViewModel {
     }
 
     func shutdownPlayback() async {
-        if let musicEngine { await musicEngine.shutdown() }
+        let retiring = musicEngine
         engineTask?.cancel()
         engineTask = nil
         musicEngine = nil
+        if let retiring { await retiring.shutdown() }
+        guard musicEngine == nil else { return }
+        // A cold replacement can reload a queue, but cannot replay mutations of the old process.
+        if !retryPlaybackStartsPlayback { retryPlayback = nil }
+        pendingSeek = nil
+        pendingVolume = nil
+        seekScheduled = false
+        volumeScheduled = false
         paused = true
         lastSnapshot = nil
+        volumeKnown = isDemo
+        engineAvailability = .ready
         notifyPlayback()
     }
     @discardableResult

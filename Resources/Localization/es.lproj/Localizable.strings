@@ -361,3 +361,37 @@
 "Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Acceso a Spotify: biblioteca, reproducción, favoritos y listas editables. Quitar un favorito también lo elimina de las listas editables.";
 "Open album in Spotify" = "Abrir álbum en Spotify";
 "Connection terms" = "Condiciones de conexión";
+
+/* Standalone Spotify setup and recovery. */
+"A different Spotify account is paired. Pair again." = "Se ha vinculado otra cuenta de Spotify. Vuelve a vincularla.";
+"Add your personal Soloist API key in Settings." = "Añade tu clave API personal de Soloist en Ajustes.";
+"After pairing, you can close Spotify on your iPhone. Spotify on Mac is not required." = "Tras vincularlo, puedes cerrar Spotify en el iPhone. No se necesita Spotify en el Mac.";
+"Connection to Soloist was lost." = "Se perdió la conexión con Soloist.";
+"Could not prepare Soloist. Check Settings." = "No se pudo preparar Soloist. Revisa los ajustes.";
+"Could not save the Soloist key in Keychain." = "No se pudo guardar la clave de Soloist en el Llavero.";
+"Could not start Soloist. Check Settings." = "No se pudo iniciar Soloist. Revisa los ajustes.";
+"Download Soloist" = "Descargar Soloist";
+"Download Soloist in Settings to play on this Mac." = "Descarga Soloist en Ajustes para reproducir en este Mac.";
+"Downloading and verifying Soloist…" = "Descargando y verificando Soloist…";
+"Get a Soloist API key" = "Obtener una clave API de Soloist";
+"Music is playing on another device." = "La música se está reproduciendo en otro dispositivo.";
+"Open Spotify on your iPhone. Connect iPhone and Mac to the same Wi-Fi network and allow Spotify to access the local network." = "Abre Spotify en el iPhone. Conecta el iPhone y el Mac a la misma red Wi-Fi y permite que Spotify acceda a la red local.";
+"Pair Spotify from your iPhone in Settings." = "Vincula Spotify desde el iPhone en Ajustes.";
+"Pair Spotify with this Mac" = "Vincular Spotify con este Mac";
+"Pair again" = "Volver a vincular";
+"Personal Soloist API key" = "Clave API personal de Soloist";
+"Play on this Mac" = "Reproducir en este Mac";
+"Ready on this Mac" = "Listo en este Mac";
+"Save key and set up Soloist" = "Guardar clave y configurar Soloist";
+"Select this device in Spotify:" = "Selecciona este dispositivo en Spotify:";
+"Soloist could not confirm the playback command." = "Soloist no pudo confirmar la orden de reproducción.";
+"Soloist downloads directly from Spotify. After installation, select Kinrox once in Spotify on your iPhone." = "Soloist se descarga directamente de Spotify. Tras instalarlo, selecciona Kinrox una vez en Spotify en el iPhone.";
+"Soloist has expired. Download a current version." = "Soloist ha caducado. Descarga una versión actual.";
+"Soloist playback stopped." = "La reproducción de Soloist se detuvo.";
+"Spotify Premium is required. Create your personal Soloist API key in Spotify for Developers." = "Se requiere Spotify Premium. Crea tu clave API personal de Soloist en Spotify for Developers.";
+"Spotify on this Mac" = "Spotify en este Mac";
+"Start pairing" = "Iniciar vinculación";
+"Starting playback…" = "Iniciando reproducción…";
+"Update Soloist" = "Actualizar Soloist";
+"Waiting for pairing and account verification…" = "Esperando la vinculación y la verificación de la cuenta…";
+"Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "Tu clave se guarda en el Llavero del Mac. Mientras Soloist se ejecuta, otros procesos de tu cuenta de usuario pueden leerla en sus argumentos de inicio.";

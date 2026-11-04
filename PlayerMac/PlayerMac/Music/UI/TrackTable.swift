@@ -131,7 +131,7 @@ struct MusicTrackRow: View {
                     kind: "album", id: track.albumID, title: L10n.text("Open album in Spotify"))
                 Divider()
                 Button(L10n.text("Play"), action: play).disabled(
-                    track.isPlayable == false || !model.allows("interrupting_playback"))
+                    track.isPlayable == false || !model.canPlayLibrary)
                 Button(L10n.text("Add to queue")) { model.addToQueue(track) }.disabled(
                     track.isPlayable == false)
                 if let queueID, model.queue.current?.id != queueID {

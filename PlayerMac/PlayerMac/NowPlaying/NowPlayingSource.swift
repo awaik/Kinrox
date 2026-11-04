@@ -65,14 +65,12 @@ extension MusicViewModel: NowPlayingSource {
     var nowPlayingCommands: Set<NowPlayingCommand> {
         guard currentTrack != nil else { return [] }
         var enabled = Set(NowPlayingCommand.allCases)
-        if queue.upcoming.isEmpty && queue.repeatMode != .all { enabled.remove(.nextTrack) }
-        if queue.history.isEmpty { enabled.remove(.previousTrack) }
-        if !allows("skipping_next") { enabled.remove(.nextTrack) }
-        if !allows("skipping_prev") { enabled.remove(.previousTrack) }
+        if !canNext { enabled.remove(.nextTrack) }
+        if !canPrevious { enabled.remove(.previousTrack) }
         if !allows("resuming") { enabled.remove(.play) }
         if !allows("pausing") { enabled.remove(.pause) }
-        if !allows(paused ? "resuming" : "pausing") { enabled.remove(.togglePlayPause) }
-        if !allows("seeking") {
+        if !canTogglePause { enabled.remove(.togglePlayPause) }
+        if !canSeek {
             enabled.subtract([.skipForward, .skipBackward, .changePlaybackPosition])
         }
         return enabled

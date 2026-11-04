@@ -8,6 +8,63 @@ import Testing
 @Suite("Music playback coordination", .timeLimit(.minutes(1)))
 @MainActor
 struct MusicPlaybackTests {
+    @Test(arguments: ["volume", "seek", "pause"])
+    func engineReplacementDiscardsFailedMutationAndLoadsCurrentOccurrence(command: String)
+        async throws
+    {
+        let model = MusicViewModel()
+        let old = FakeMusicEngine()
+        let coordinator = PlaybackCoordinator()
+        coordinator.connect(video: nil, music: model)
+        model.connect(engine: old)
+        let item = try #require(model.queue.current)
+        model.receive(
+            .init(
+                uri: item.track.uri, position: 35, duration: item.track.duration, paused: true,
+                volume: 0, deviceName: "Mac", occurrenceID: item.id))
+        old.volumeError = SoloistFailure.unavailable
+        old.seekError = SoloistFailure.unavailable
+        old.pauseError = SoloistFailure.unavailable
+        switch command {
+        case "volume": model.setVolume(25)
+        case "seek": model.seek(25)
+        default: model.setPaused(true)
+        }
+        await coordinator.settle()
+        #expect(model.retryPlayback != nil)
+        await model.shutdownPlayback()
+        #expect(model.retryPlayback == nil)
+        #expect(model.pendingVolume == nil && model.pendingSeek == nil)
+        let replacement = FakeMusicEngine()
+        model.connect(engine: replacement)
+        if let retry = model.retryPlayback { retry() } else { model.setPaused(false) }
+        await coordinator.settle()
+        #expect(replacement.commands == [.play(model.queue.items.map(\.id), 35)])
+        await coordinator.close()
+    }
+
+    @Test func engineReplacementPreservesFailedNewQueueStart() async throws {
+        let model = MusicViewModel()
+        let old = FakeMusicEngine()
+        let coordinator = PlaybackCoordinator()
+        coordinator.connect(video: nil, music: model)
+        model.connect(engine: old)
+        old.playError = SoloistFailure.unavailable
+        let track = try #require(model.catalog.tracks.last)
+        model.play([track])
+        await coordinator.settle()
+        #expect(model.retryPlayback != nil)
+        await model.shutdownPlayback()
+        #expect(model.retryPlayback != nil)
+        let replacement = FakeMusicEngine()
+        model.connect(engine: replacement)
+        model.retryPlayback?()
+        await coordinator.settle()
+        #expect(model.currentTrack == track)
+        #expect(replacement.commands == [.play(model.queue.items.map(\.id), 0)])
+        await coordinator.close()
+    }
+
     @Test func musicWaitsForConfirmedVideoPause() async throws {
         let engine = FakePlayerEngine()
         let video = PlayerViewModel(engine: engine)
@@ -156,6 +213,10 @@ struct MusicProgressClockTests {
         let model = MusicViewModel()
         let engine = FakeMusicEngine()
         model.connect(engine: engine)
+        model.receive(
+            .init(
+                uri: nil, position: 0, duration: 0, paused: true,
+                volume: 0, deviceName: "Test output", occurrenceID: nil))
         engine.waitsForSlider = true
         if seek { model.seek(10) } else { model.setVolume(10) }
         for _ in 0..<1000 where engine.sliderGate == nil { await Task.yield() }

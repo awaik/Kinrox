@@ -71,15 +71,15 @@ work directories are not deleted. ImageMagick and cwebp must already be installe
 The canonical address is `https://kinrox.app/` (`CNAME`). `sitemap.xml`, `robots.txt`
 and all 30 reciprocal language alternatives are generated together.
 
-Mac download buttons and JSON-LD currently target the existing, versioned GitHub Release
-asset `releases/download/v0.4.2/Kinrox-0.4.2-arm64.dmg`. For a release, publish and verify
+Mac download buttons and JSON-LD target the versioned GitHub Release
+asset `releases/download/v0.5.0/Kinrox-0.5.0-arm64.dmg`. For a release, publish and verify
 the asset before updating the template, catalog version labels and generator metadata.
 The iPhone App Store release remains separately planned. See
 [`RUNBOOK-RELEASE.md`](../docs/runbooks/RUNBOOK-RELEASE.md).
 
 Licensing copy distinguishes the GPL Mac player from new personal-use-only remote
 revisions; [LICENSING.md](../LICENSING.md) defines the scope and preserves earlier
-GPL grants. The landing's JSON-LD describes the downloadable Mac 0.4.2 DMG only,
+GPL grants. The landing's JSON-LD describes the downloadable Mac 0.5.0 DMG only,
 so its GPL metadata must not also claim to describe the newly licensed iPhone app.
 
 Repository Settings → Pages → Source must be **GitHub Actions**. Pushes to `main`
@@ -108,7 +108,7 @@ python3 Scripts/check-localization.py
 The Pages workflow runs the site and document checks and watches the document
 sources. Publish all localized terms and privacy routes with the music release,
 before enabling its download. After deployment, check HTTP success, version
-`2026-11-02`, language, complete text and language-switch links at `/spotify-terms/`,
+`2026-11-03`, language, complete text and language-switch links at `/spotify-terms/`,
 `/privacy/`, and their 29 locale-prefixed equivalents. English uses no prefix.
 For a substantive future change, update every translation and the app's consent
 version together. Local generation and verification do not publish the pages.

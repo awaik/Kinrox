@@ -6,10 +6,22 @@ struct MusicSlider: View {
     let range: ClosedRange<Double>
     let label: String
     let step: Double
+    var valueKnown = true
     let commit: (Double) -> Void
     @State private var draft: Double?
 
     var body: some View {
+        if valueKnown {
+            slider
+        } else {
+            Capsule().fill(.secondary.opacity(0.3)).frame(height: 4)
+                .accessibilityElement()
+                .accessibilityLabel(label)
+                .accessibilityValue("—")
+        }
+    }
+
+    private var slider: some View {
         Slider(
             value: Binding(
                 get: { min(range.upperBound, max(range.lowerBound, draft ?? value)) },

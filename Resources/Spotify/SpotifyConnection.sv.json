@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-02",
+  "version": "2026-11-03",
   "locale": "sv",
   "language": "Svenska",
   "terms": [
@@ -10,7 +10,7 @@
     },
     {
       "title": "Ditt konto och dina val",
-      "body": "Anslutningen är valfri. Använd din egen Spotify-utvecklarapp och ett behörigt Spotify Premium-konto. Spotify styr API-åtkomst och kvoter; åtkomsten kan ändras eller upphöra. Spotifys egna villkor gäller fortfarande. Kinrox styr uppspelningen i den officiella Spotify-appen på din Mac. Det laddar inte ned, spelar in eller cachelagrar ljud.",
+      "body": "Anslutningen är valfri. Använd din egen Spotify-utvecklarapp och ett behörigt Spotify Premium-konto. Spotify styr API-åtkomst och kvoter; åtkomsten kan ändras eller upphöra. Spotifys egna villkor gäller fortfarande. Ljud spelas upp via Spotify Soloist, som på din begäran hämtas direkt från Spotify till din Mac. Varje användare anger en personlig Soloist-API-nyckel. Engångsparkopplingen använder Spotify på iPhone; därefter fungerar uppspelningen med Spotify stängt på både Mac och iPhone. Soloist sköter avkodning och sin ljudcache; Kinrox spelar inte in eller exporterar ljud. Soloist-versioner upphör att gälla efter 90 dagar och måste uppdateras.",
       "id": "account"
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "title": "Uppspelningskö",
-      "body": "Kinrox skapar en privat spellista med namnet Kinrox Queue och ersätter dess innehåll när du ändrar uppspelningskön. Vid frånkoppling finns spellistan kvar i Spotify, men dess lokala koppling glöms bort. En ny anslutning kan skapa ytterligare en hjälpspellista. Ta själv bort oönskade hjälpspellistor i Spotify.",
+      "body": "Kinrox lagrar uppspelningskön lokalt och startar en Soloist-process för varje förekomst i kön. Ingen hjälpspellista skapas för uppspelning. Befintliga Kinrox Queue-spellistor finns kvar i Spotify. Deras icke-hemliga identifierare sparas lokalt för att undanta dem från biblioteksändringar; du kan själv radera dessa spellistor i Spotify.",
       "id": "queue"
     },
     {
@@ -47,17 +47,17 @@
   "privacy": [
     {
       "title": "Integritetspolicy — Spotify-anslutning",
-      "body": "Version 2026-11-02. Kinrox underhållare, awaik, ansvarar för Kinrox behandling av uppgifter som beskrivs här. Detta tillägg gäller den valfria Spotify-integrationen. Kinrox allmänna integritetspolicy finns på https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Publicera inte token, innehåll i ditt personliga bibliotek eller annan privat information i offentliga ärenden.",
+      "body": "Version 2026-11-03. Kinrox underhållare, awaik, ansvarar för Kinrox behandling av uppgifter som beskrivs här. Detta tillägg gäller den valfria Spotify-integrationen. Kinrox allmänna integritetspolicy finns på https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Publicera inte token, innehåll i ditt personliga bibliotek eller annan privat information i offentliga ärenden.",
       "id": "overview"
     },
     {
       "title": "Åtkomst och ändamål",
-      "body": "När du accepterar villkoren och godkänner Spotify läser Kinrox på Mac ditt konto-ID och visningsnamn, sparade spår och album, följda artister, tillgängliga spellistor och deras innehåll, uppspelningsstatus och tillgängliga enheter. Informationen används för att visa biblioteket och styra Spotify. När du använder motsvarande reglage kan det spara och ta bort favoriter, följa artister, skapa spellistor samt redigera egna eller gemensamma spellistor. Att ta bort en favorit tar även bort dess förekomster från redigerbara spellistor. Kinrox underhåller en privat Kinrox Queue-spellista för uppspelning.",
+      "body": "När du accepterar villkoren och godkänner Spotify läser Kinrox på Mac ditt konto-ID och visningsnamn, sparade spår och album, följda artister, tillgängliga spellistor och deras innehåll, uppspelningsstatus och tillgängliga enheter. Informationen används för att visa biblioteket och styra Spotify. När du använder motsvarande reglage kan det spara och ta bort favoriter, följa artister, skapa spellistor samt redigera egna eller gemensamma spellistor. Att ta bort en favorit tar även bort dess förekomster från redigerbara spellistor.",
       "id": "access"
     },
     {
       "title": "Lagring och mottagare",
-      "body": "Förnyelseuppgifter lagras i Macens Data Protection Keychain. Åtkomsttoken stannar i minnet. Biblioteksmetadata cachas i en lokal SQLite-databas i Mac-appens Caches-mapp. Det verifierade konto-ID:t och visningsnamnet sparas i Macens inställningar. Angivet Client ID, hjälpspellistans koppling och accepterad dokumentversion lagras i Macens inställningar. Kinrox har ingen server, användningsanalys eller telemetri, och underhållaren får inga av dessa Spotify-uppgifter. Spotify tar emot förfrågningar direkt från Macen och behandlar dem enligt sin integritetspolicy: https://www.spotify.com/legal/privacy-policy/. Spotify ser nätverksinformation som Macens offentliga IP-adress.",
+      "body": "Förnyelseuppgifter lagras i Macens Data Protection Keychain. Åtkomsttoken stannar i minnet. Biblioteksmetadata cachas i en lokal SQLite-databas i Mac-appens Caches-mapp. Det verifierade konto-ID:t och visningsnamnet sparas i Macens inställningar. Angivet Client ID, hjälpspellistans koppling och accepterad dokumentversion lagras i Macens inställningar. Kinrox har ingen server, användningsanalys eller telemetri, och underhållaren får inga av dessa Spotify-uppgifter. Spotify tar emot förfrågningar direkt från Macen och behandlar dem enligt sin integritetspolicy: https://www.spotify.com/legal/privacy-policy/. Spotify ser nätverksinformation som Macens offentliga IP-adress.\n\nDen personliga Soloist-API-nyckeln lagras i Nyckelhanterare. Connect-sessionen lagras i en privat kontomapp; Soloist använder en separat ljudcache på högst 200 MB. Nyckeln skickas till den signerade Soloist-processen som startargument, som andra processer under samma användarkonto kan läsa. Soloists loopback-kontrollsocket saknar autentisering och Origin-kontroll; lokala program eller webbsidor med loopback-åtkomst kan skicka uppspelningskommandon.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Frånkoppling och lagringstid",
-      "body": "Öppna Inställningar → Spotify → Koppla från i Kinrox på Mac. Kinrox slutför väntande uppspelningsåtgärder, stoppar förfrågningar, tar bort förnyelseuppgifter och lokala kopplingar till hjälpspellistor samt rensar konto- och biblioteksstatus ur minnet. Automatisk återanslutning stoppas. Den accepterade versionen är en inställning utan kontokoppling. Ändringar som redan gjorts i Spotify, inklusive spellistor och favoriter, finns kvar där. Frånkoppling återkallar inte auktoriseringen hos Spotify; ta bort appen på https://www.spotify.com/account/apps/ för att återkalla den. Kvarvarande hjälpspellistor kan du radera direkt i Spotify. Cachade metadata upphör att gälla efter 7 dagar utan ny kontroll. När anslutningen kopplas från raderas SQLite-cachen, dess sidofiler och den sparade kontokopplingen automatiskt.",
+      "body": "Öppna Inställningar → Spotify → Koppla från i Kinrox på Mac. Kinrox stoppar sin Soloist-process och sina förfrågningar, tar bort förnyelseuppgiften, Soloist-API-nyckeln och sin egen session/ljudcache samt rensar kontodata från minnet. Icke-hemliga identifierare för äldre köspellistor och den hämtade motorn finns kvar. Automatisk återanslutning stoppas. Den accepterade versionen är en inställning utan kontokoppling. Ändringar som redan gjorts i Spotify, inklusive spellistor och favoriter, finns kvar där. Frånkoppling återkallar inte auktoriseringen hos Spotify; ta bort appen på https://www.spotify.com/account/apps/ för att återkalla den. Kvarvarande hjälpspellistor kan du radera direkt i Spotify. Cachade metadata upphör att gälla efter 7 dagar utan ny kontroll. När anslutningen kopplas från raderas SQLite-cachen, dess sidofiler och den sparade kontokopplingen automatiskt.",
       "id": "retention"
     },
     {

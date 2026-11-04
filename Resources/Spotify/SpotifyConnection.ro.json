@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-02",
+  "version": "2026-11-03",
   "locale": "ro",
   "language": "Română",
   "terms": [
@@ -10,7 +10,7 @@
     },
     {
       "title": "Contul și alegerile tale",
-      "body": "Conectarea este opțională. Folosește propria aplicație de dezvoltator Spotify și un cont Spotify Premium autorizat. Spotify controlează accesul la API și cotele; accesul se poate modifica sau opri. Condițiile proprii Spotify continuă să se aplice. Kinrox controlează redarea în aplicația oficială Spotify de pe Mac. Nu descarcă, nu înregistrează și nu stochează sunet în cache.",
+      "body": "Conectarea este opțională. Folosește propria aplicație de dezvoltator Spotify și un cont Spotify Premium autorizat. Spotify controlează accesul la API și cotele; accesul se poate modifica sau opri. Condițiile proprii Spotify continuă să se aplice. Sunetul este redat prin Spotify Soloist, descărcat direct de la Spotify pe Mac la cererea ta. Fiecare utilizator furnizează o cheie API Soloist personală. Asocierea inițială folosește Spotify pe iPhone; apoi redarea funcționează cu Spotify închis pe Mac și iPhone. Soloist gestionează decodarea și propriul cache audio; Kinrox nu înregistrează și nu exportă sunet. Versiunile Soloist expiră după 90 de zile și necesită actualizare.",
       "id": "account"
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "title": "Coada de redare",
-      "body": "Kinrox creează o listă privată Kinrox Queue și îi înlocuiește conținutul când schimbi coada de redare. Deconectarea păstrează lista în Spotify, dar uită asocierea locală. Reconectarea poate crea o altă listă auxiliară. Șterge singur listele auxiliare nedorite în Spotify.",
+      "body": "Kinrox păstrează local coada de redare și pornește un proces Soloist pentru fiecare apariție din coadă. Nu creează playlisturi auxiliare pentru redare. Playlisturile Kinrox Queue existente rămân în Spotify. Identificatorii lor neconfidențiali sunt păstrați local pentru a le exclude din modificările bibliotecii; poți șterge singur aceste playlisturi din Spotify.",
       "id": "queue"
     },
     {
@@ -47,17 +47,17 @@
   "privacy": [
     {
       "title": "Politica de confidențialitate — conectarea la Spotify",
-      "body": "Versiunea 2026-11-02. Responsabilul cu întreținerea Kinrox, awaik, răspunde pentru prelucrarea datelor de către Kinrox descrisă aici. Acest supliment se aplică integrării opționale cu Spotify. Politica generală de confidențialitate Kinrox este disponibilă la https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Nu publica tokenuri, conținutul bibliotecii personale sau alte informații private în sesizări publice.",
+      "body": "Versiunea 2026-11-03. Responsabilul cu întreținerea Kinrox, awaik, răspunde pentru prelucrarea datelor de către Kinrox descrisă aici. Acest supliment se aplică integrării opționale cu Spotify. Politica generală de confidențialitate Kinrox este disponibilă la https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Nu publica tokenuri, conținutul bibliotecii personale sau alte informații private în sesizări publice.",
       "id": "overview"
     },
     {
       "title": "Acces și scopuri",
-      "body": "După ce accepți condițiile și autorizezi Spotify, Kinrox pe Mac citește identificatorul și numele afișat al contului, piesele și albumele salvate, artiștii urmăriți, listele accesibile și conținutul lor, starea redării și dispozitivele disponibile. Folosește aceste informații pentru a afișa biblioteca și a controla Spotify. Când folosești comenzile corespunzătoare, poate salva și elimina favorite, urmări artiști, crea liste și edita liste proprii sau colaborative. Eliminarea unui favorit elimină și aparițiile sale din listele editabile. Kinrox menține o listă privată Kinrox Queue pentru redare.",
+      "body": "După ce accepți condițiile și autorizezi Spotify, Kinrox pe Mac citește identificatorul și numele afișat al contului, piesele și albumele salvate, artiștii urmăriți, listele accesibile și conținutul lor, starea redării și dispozitivele disponibile. Folosește aceste informații pentru a afișa biblioteca și a controla Spotify. Când folosești comenzile corespunzătoare, poate salva și elimina favorite, urmări artiști, crea liste și edita liste proprii sau colaborative. Eliminarea unui favorit elimină și aparițiile sale din listele editabile.",
       "id": "access"
     },
     {
       "title": "Stocare și destinatari",
-      "body": "Datele de autentificare pentru reînnoire sunt stocate în Data Protection Keychain de pe Mac. Tokenurile de acces rămân în memorie. Metadatele bibliotecii sunt memorate într-o bază SQLite locală, în directorul Caches al aplicației pe Mac. Identificatorul verificat al contului și numele afișat sunt salvate în preferințele Macului. Client ID furnizat, asocierea listei auxiliare și versiunea acceptată a documentelor sunt stocate în preferințele Macului. Kinrox nu are server, analiză a utilizării sau telemetrie, iar responsabilul său nu primește niciuna dintre aceste date Spotify. Spotify primește solicitări direct de la Mac și le prelucrează conform politicii sale de confidențialitate: https://www.spotify.com/legal/privacy-policy/. Spotify vede informații de rețea, precum adresa IP publică a Macului.",
+      "body": "Datele de autentificare pentru reînnoire sunt stocate în Data Protection Keychain de pe Mac. Tokenurile de acces rămân în memorie. Metadatele bibliotecii sunt memorate într-o bază SQLite locală, în directorul Caches al aplicației pe Mac. Identificatorul verificat al contului și numele afișat sunt salvate în preferințele Macului. Client ID furnizat, asocierea listei auxiliare și versiunea acceptată a documentelor sunt stocate în preferințele Macului. Kinrox nu are server, analiză a utilizării sau telemetrie, iar responsabilul său nu primește niciuna dintre aceste date Spotify. Spotify primește solicitări direct de la Mac și le prelucrează conform politicii sale de confidențialitate: https://www.spotify.com/legal/privacy-policy/. Spotify vede informații de rețea, precum adresa IP publică a Macului.\n\nCheia API Soloist personală este stocată în Portchei. Sesiunea Connect este stocată într-un dosar privat al contului; Soloist folosește un cache audio separat, limitat la 200 MB. Cheia este transmisă procesului Soloist semnat în argumentele de lansare, pe care alte procese ale aceluiași cont de utilizator le pot citi. Socketul de control loopback al Soloist nu are autentificare sau verificare Origin; programele locale sau paginile web cu acces loopback pot trimite comenzi de redare.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Deconectare și păstrarea datelor",
-      "body": "În Kinrox pe Mac, deschide Configurări → Spotify → Deconectare. Kinrox finalizează operațiunile de redare în așteptare, oprește solicitările, elimină datele de autentificare pentru reînnoire și asocierile locale ale listelor auxiliare și șterge din memorie starea contului și a bibliotecii. Oprește reconectarea automată. Versiunea acceptată este o preferință independentă de cont. Modificările deja făcute în Spotify, inclusiv listele și favoritele, rămân acolo. Deconectarea nu revocă autorizarea la Spotify; elimină aplicația la https://www.spotify.com/account/apps/ pentru a o revoca. Poți șterge listele auxiliare păstrate direct în Spotify. Metadatele din cache expiră după 7 zile fără revalidare. Deconectarea șterge automat cache-ul SQLite, fișierele sale auxiliare și asocierea contului salvată.",
+      "body": "În Kinrox pe Mac, deschide Configurări → Spotify → Deconectare. Kinrox oprește propriul proces Soloist și cererile, elimină acreditarea de reînnoire, cheia API Soloist și propria sesiune/cache audio și șterge datele contului din memorie. Identificatorii neconfidențiali ai vechilor playlisturi de coadă și motorul descărcat rămân. Oprește reconectarea automată. Versiunea acceptată este o preferință independentă de cont. Modificările deja făcute în Spotify, inclusiv listele și favoritele, rămân acolo. Deconectarea nu revocă autorizarea la Spotify; elimină aplicația la https://www.spotify.com/account/apps/ pentru a o revoca. Poți șterge listele auxiliare păstrate direct în Spotify. Metadatele din cache expiră după 7 zile fără revalidare. Deconectarea șterge automat cache-ul SQLite, fișierele sale auxiliare și asocierea contului salvată.",
       "id": "retention"
     },
     {

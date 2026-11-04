@@ -1,0 +1,47 @@
+{
+  "distribution": "user-initiated-direct-download-only",
+  "bundled": false,
+  "officialDownloads": "https://developer.spotify.com/documentation/soloist/reference/downloads-and-updates",
+  "downloadURL": "https://soloist-builds.spotifycdn.com/soloist_release_osx_arm64.tar.gz",
+  "allowedRedirectHosts": [
+    "soloist-builds.spotifycdn.com"
+  ],
+  "identifier": "com.spotify.soloist",
+  "teamID": "2FNC3A47ZF",
+  "architecture": "arm64",
+  "maximumMinimumOS": "14.0",
+  "buildLifetimeDays": 90,
+  "offerUpdateAfterDays": 60,
+  "testedArtifacts": [
+    {
+      "version": "1.3.10.33",
+      "buildTimestamp": 1793599271,
+      "verifiedOn": "2026-11-03",
+      "archiveSHA256": "779e849d1fb2da55623a4fef4079c0cf223f0f0afc1d72245ca42585dcf3026e",
+      "binarySHA256": "2a4f1b9474b8799c8fe79376e90ae4976afe51e169918497859305baa2df8d40",
+      "binaryMinimumOS": "13.0",
+      "runtimeTestedOS": "26.5.2",
+      "playbackTested": true
+    },
+    {
+      "version": "1.3.10.36",
+      "buildTimestamp": 1793664117,
+      "verifiedOn": "2026-11-03",
+      "archiveSHA256": "c7642737b472211fb75af9102b98beb1b08064d9c9de926d634f9e6b131ac435",
+      "binarySHA256": "3eaf30f975cbef3395645d2bbfd1f3725bdd2139defc8974b14f36165e634d90",
+      "checks": [
+        "download",
+        "architecture",
+        "signature",
+        "notarization",
+        "quarantine",
+        "version",
+        "native-driver",
+        "ten-distinct-track-30-minute-soak"
+      ],
+      "runtimeTestedOS": "26.5.2",
+      "playbackTested": true,
+      "binaryMinimumOS": "13.0"
+    }
+  ]
+}

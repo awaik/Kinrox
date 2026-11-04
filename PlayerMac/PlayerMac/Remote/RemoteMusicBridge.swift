@@ -51,11 +51,11 @@ final class RemoteMusicBridge {
             queueCount: confirmedQueue.items.count, queueRevision: queueRevision,
             libraryRevision: libraryRevision,
             outputName: Self.text(music.outputName),
-            status: music.statusMessage.map { Self.text($0) },
-            disallowedActions: music.disallowedActions.sorted(),
+            status: music.playbackStatusMessage.map { Self.text($0) },
+            disallowedActions: music.effectiveDisallowedActions.sorted(),
             favoriteFeedback: music.favoriteFeedbackID.flatMap { id in
                 music.favoriteFeedbackLiked.map { .init(id: id, liked: $0) }
-            }, positionAge: music.positionAge)
+            }, positionAge: music.positionAge, volumeKnown: music.volumeKnown)
     }
     func snapshot(fullscreen: Bool, screensaver: Screensaver) -> PlayerState {
         let hasMedia = confirmedQueue.current != nil
@@ -63,11 +63,12 @@ final class RemoteMusicBridge {
             title: confirmedQueue.current.map { Self.text($0.track.title) } ?? "",
             position: hasMedia ? music.position : 0,
             duration: hasMedia ? music.currentTrack?.duration ?? 0 : 0,
-            paused: !hasMedia || music.paused, volume: music.volume, fullscreen: fullscreen,
+            paused: !hasMedia || music.paused,
+            volume: music.volumeKnown ? music.volume : 0, fullscreen: fullscreen,
             hasMedia: hasMedia,
-            canNext: music.allows("skipping_next")
+            canNext: music.canNext
                 && (!confirmedQueue.upcoming.isEmpty || confirmedQueue.repeatMode == .all),
-            canPrevious: music.allows("skipping_prev") && !confirmedQueue.history.isEmpty,
+            canPrevious: music.canPrevious && !confirmedQueue.history.isEmpty,
             screensaver: screensaver, source: .music,
             music: state)
     }
@@ -141,7 +142,7 @@ final class RemoteMusicBridge {
     func execute(_ command: Command) -> ProtocolError.Code? {
         guard active else { return .noMedia }
         if let action = command.musicAction(paused: music.paused, repeatMode: state.repeatMode),
-            !music.allows(action)
+            music.effectiveDisallowedActions.contains(action)
         {
             return .invalidPayload
         }

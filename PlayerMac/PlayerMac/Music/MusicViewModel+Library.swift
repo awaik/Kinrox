@@ -19,6 +19,10 @@ extension MusicViewModel {
         queue = MusicQueue()
         paused = true
         position = 0
+        volume = 0
+        volumeKnown = store is DemoMusicLibraryStore
+        engineAvailability = .ready
+        lastSnapshot = nil
         query = ""
         searchResults = nil
         undoMutations = []

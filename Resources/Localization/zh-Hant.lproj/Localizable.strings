@@ -361,3 +361,37 @@
 "Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Spotify 存取權限：音樂庫、播放、收藏和可編輯的播放清單。取消收藏也會從可編輯的播放清單移除該曲目。";
 "Open album in Spotify" = "在 Spotify 中開啟專輯";
 "Connection terms" = "連線條款";
+
+/* Standalone Spotify setup and recovery. */
+"A different Spotify account is paired. Pair again." = "已配對其他 Spotify 帳號。請重新配對。";
+"Add your personal Soloist API key in Settings." = "請在設定中加入你的個人 Soloist API 金鑰。";
+"After pairing, you can close Spotify on your iPhone. Spotify on Mac is not required." = "配對後，你可以關閉 iPhone 上的 Spotify。無需在 Mac 上執行 Spotify。";
+"Connection to Soloist was lost." = "與 Soloist 的連線已中斷。";
+"Could not prepare Soloist. Check Settings." = "無法準備 Soloist。請檢查設定。";
+"Could not save the Soloist key in Keychain." = "無法將 Soloist 金鑰儲存到鑰匙圈。";
+"Could not start Soloist. Check Settings." = "無法啟動 Soloist。請檢查設定。";
+"Download Soloist" = "下載 Soloist";
+"Download Soloist in Settings to play on this Mac." = "請在設定中下載 Soloist，以便在這部 Mac 上播放。";
+"Downloading and verifying Soloist…" = "正在下載並驗證 Soloist…";
+"Get a Soloist API key" = "取得 Soloist API 金鑰";
+"Music is playing on another device." = "音樂正在其他裝置上播放。";
+"Open Spotify on your iPhone. Connect iPhone and Mac to the same Wi-Fi network and allow Spotify to access the local network." = "在 iPhone 上開啟 Spotify。將 iPhone 和 Mac 連接到同一個 Wi-Fi 網路，並允許 Spotify 存取區域網路。";
+"Pair Spotify from your iPhone in Settings." = "請在設定中透過 iPhone 配對 Spotify。";
+"Pair Spotify with this Mac" = "將 Spotify 與這部 Mac 配對";
+"Pair again" = "重新配對";
+"Personal Soloist API key" = "個人 Soloist API 金鑰";
+"Play on this Mac" = "在這部 Mac 上播放";
+"Ready on this Mac" = "已在這部 Mac 上就緒";
+"Save key and set up Soloist" = "儲存金鑰並設定 Soloist";
+"Select this device in Spotify:" = "請在 Spotify 中選取此裝置：";
+"Soloist could not confirm the playback command." = "Soloist 無法確認播放指令。";
+"Soloist downloads directly from Spotify. After installation, select Kinrox once in Spotify on your iPhone." = "Soloist 直接從 Spotify 下載。安裝後，在 iPhone 的 Spotify 中選取一次 Kinrox。";
+"Soloist has expired. Download a current version." = "Soloist 已到期。請下載目前版本。";
+"Soloist playback stopped." = "Soloist 播放已停止。";
+"Spotify Premium is required. Create your personal Soloist API key in Spotify for Developers." = "需要 Spotify Premium。請在 Spotify for Developers 中建立個人 Soloist API 金鑰。";
+"Spotify on this Mac" = "這部 Mac 上的 Spotify";
+"Start pairing" = "開始配對";
+"Starting playback…" = "正在開始播放…";
+"Update Soloist" = "更新 Soloist";
+"Waiting for pairing and account verification…" = "正在等待配對並驗證帳號…";
+"Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "金鑰儲存在 Mac 鑰匙圈中。Soloist 執行時，你的使用者帳號下的其他程序可以從啟動參數中讀取金鑰。";

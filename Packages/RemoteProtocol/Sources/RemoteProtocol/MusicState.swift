@@ -45,11 +45,14 @@ public struct MusicState: Codable, Sendable, Equatable {
     public var favoriteFeedback: RemoteFavoriteFeedback?
     /// Seconds since the Mac's confirmed position anchor, measured with its monotonic clock.
     public var positionAge: Double?
+    /// Nil preserves older Macs' behavior; false requires a disabled, zero-valued wire volume.
+    public var volumeKnown: Bool?
     public init(
         track: RemoteMusicTrack?, nextTrack: RemoteMusicTrack?, liked: Bool, shuffle: Bool,
         repeatMode: RemoteMusicRepeat, queueCount: Int, queueRevision: UUID, libraryRevision: UUID,
         outputName: String, status: String? = nil, disallowedActions: [String]? = nil,
-        favoriteFeedback: RemoteFavoriteFeedback? = nil, positionAge: Double? = nil
+        favoriteFeedback: RemoteFavoriteFeedback? = nil, positionAge: Double? = nil,
+        volumeKnown: Bool? = nil
     ) {
         self.track = track
         self.nextTrack = nextTrack
@@ -64,6 +67,7 @@ public struct MusicState: Codable, Sendable, Equatable {
         self.disallowedActions = disallowedActions
         self.favoriteFeedback = favoriteFeedback
         self.positionAge = positionAge
+        self.volumeKnown = volumeKnown
     }
 }
 

@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-02",
+  "version": "2026-11-03",
   "locale": "nl",
   "language": "Nederlands",
   "terms": [
@@ -10,7 +10,7 @@
     },
     {
       "title": "Je account en je keuzes",
-      "body": "Verbinding maken is optioneel. Gebruik je eigen Spotify-ontwikkelaarsapp en een geautoriseerd Spotify Premium-account. Spotify beheert API-toegang en quota; toegang kan veranderen of stoppen. De eigen voorwaarden van Spotify blijven gelden. Kinrox bestuurt het afspelen in de officiële Spotify-app op je Mac. Het downloadt geen audio, neemt geen audio op en slaat geen audio op in een cache.",
+      "body": "Verbinding maken is optioneel. Gebruik je eigen Spotify-ontwikkelaarsapp en een geautoriseerd Spotify Premium-account. Spotify beheert API-toegang en quota; toegang kan veranderen of stoppen. De eigen voorwaarden van Spotify blijven gelden. Audio wordt afgespeeld via Spotify Soloist, dat op jouw verzoek rechtstreeks van Spotify naar je Mac wordt gedownload. Elke gebruiker verstrekt een persoonlijke Soloist-API-sleutel. Voor de eenmalige koppeling gebruik je Spotify op iPhone; daarna werkt afspelen met Spotify op Mac en iPhone afgesloten. Soloist verzorgt de decodering en zijn audiocache; Kinrox neemt geen audio op en exporteert geen audio. Soloist-versies verlopen na 90 dagen en moeten worden bijgewerkt.",
       "id": "account"
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "title": "Afspeelwachtrij",
-      "body": "Kinrox maakt een privéafspeellijst Kinrox Queue en vervangt de inhoud wanneer je de afspeelwachtrij wijzigt. Bij verbreken van de verbinding blijft deze lijst in Spotify staan, maar wordt de lokale koppeling vergeten. Opnieuw verbinden kan een nieuwe hulplijst maken. Verwijder ongewenste hulplijsten zelf in Spotify.",
+      "body": "Kinrox bewaart de afspeelwachtrij lokaal en start voor elke vermelding in de wachtrij één Soloist-proces. Er wordt geen hulpafspeellijst aangemaakt. Bestaande Kinrox Queue-afspeellijsten blijven in Spotify staan. Hun niet-geheime identificaties worden lokaal bewaard om ze uit te sluiten van bibliotheekwijzigingen; je kunt die afspeellijsten zelf in Spotify verwijderen.",
       "id": "queue"
     },
     {
@@ -47,17 +47,17 @@
   "privacy": [
     {
       "title": "Privacybeleid — Spotify-verbinding",
-      "body": "Versie 2026-11-02. De beheerder van Kinrox, awaik, is verantwoordelijk voor de hier beschreven gegevensverwerking door Kinrox. Deze aanvulling geldt voor de optionele Spotify-integratie. Het algemene privacybeleid van Kinrox staat op https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Plaats geen tokens, inhoud van je persoonlijke bibliotheek of andere privégegevens in openbare issues.",
+      "body": "Versie 2026-11-03. De beheerder van Kinrox, awaik, is verantwoordelijk voor de hier beschreven gegevensverwerking door Kinrox. Deze aanvulling geldt voor de optionele Spotify-integratie. Het algemene privacybeleid van Kinrox staat op https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Plaats geen tokens, inhoud van je persoonlijke bibliotheek of andere privégegevens in openbare issues.",
       "id": "overview"
     },
     {
       "title": "Toegang en doeleinden",
-      "body": "Nadat je de voorwaarden accepteert en Spotify autoriseert, leest Kinrox op de Mac je account-ID en weergavenaam, opgeslagen nummers en albums, gevolgde artiesten, toegankelijke afspeellijsten en hun inhoud, de afspeelstatus en beschikbare apparaten. Het gebruikt deze informatie om je bibliotheek te tonen en Spotify te bedienen. Als je de betreffende knoppen gebruikt, kan het favorieten opslaan en verwijderen, artiesten volgen, afspeellijsten maken en eigen of gezamenlijke lijsten bewerken. Een favoriet verwijderen verwijdert ook de exemplaren ervan uit bewerkbare afspeellijsten. Kinrox onderhoudt een privéafspeellijst Kinrox Queue voor het afspelen.",
+      "body": "Nadat je de voorwaarden accepteert en Spotify autoriseert, leest Kinrox op de Mac je account-ID en weergavenaam, opgeslagen nummers en albums, gevolgde artiesten, toegankelijke afspeellijsten en hun inhoud, de afspeelstatus en beschikbare apparaten. Het gebruikt deze informatie om je bibliotheek te tonen en Spotify te bedienen. Als je de betreffende knoppen gebruikt, kan het favorieten opslaan en verwijderen, artiesten volgen, afspeellijsten maken en eigen of gezamenlijke lijsten bewerken. Een favoriet verwijderen verwijdert ook de exemplaren ervan uit bewerkbare afspeellijsten.",
       "id": "access"
     },
     {
       "title": "Opslag en ontvangers",
-      "body": "Vernieuwingsgegevens worden opgeslagen in de Data Protection Keychain van de Mac. Toegangstokens blijven in het geheugen. Bibliotheekmetadata worden gecachet in een lokale SQLite-database in de map Caches van de Mac-app. De geverifieerde accountidentificatie en weergavenaam worden opgeslagen in de voorkeuren van de Mac. De opgegeven Client ID, de koppeling met de hulplijst en de geaccepteerde documentversie worden opgeslagen in de voorkeuren van de Mac. Kinrox heeft geen server, gebruiksanalyse of telemetrie en de beheerder ontvangt geen van deze Spotify-gegevens. Spotify ontvangt verzoeken rechtstreeks van de Mac en verwerkt die volgens zijn privacybeleid: https://www.spotify.com/legal/privacy-policy/. Spotify ziet netwerkgegevens zoals het openbare IP-adres van de Mac.",
+      "body": "Vernieuwingsgegevens worden opgeslagen in de Data Protection Keychain van de Mac. Toegangstokens blijven in het geheugen. Bibliotheekmetadata worden gecachet in een lokale SQLite-database in de map Caches van de Mac-app. De geverifieerde accountidentificatie en weergavenaam worden opgeslagen in de voorkeuren van de Mac. De opgegeven Client ID, de koppeling met de hulplijst en de geaccepteerde documentversie worden opgeslagen in de voorkeuren van de Mac. Kinrox heeft geen server, gebruiksanalyse of telemetrie en de beheerder ontvangt geen van deze Spotify-gegevens. Spotify ontvangt verzoeken rechtstreeks van de Mac en verwerkt die volgens zijn privacybeleid: https://www.spotify.com/legal/privacy-policy/. Spotify ziet netwerkgegevens zoals het openbare IP-adres van de Mac.\n\nDe persoonlijke Soloist-API-sleutel wordt in Sleutelhanger bewaard. De Connect-sessie staat in een privémap voor het account; Soloist gebruikt een afzonderlijke audiocache van maximaal 200 MB. De sleutel wordt via opstartargumenten aan het ondertekende Soloist-proces doorgegeven; andere processen onder hetzelfde gebruikersaccount kunnen deze lezen. De loopback-besturingssocket van Soloist heeft geen authenticatie of Origin-controle; lokale programma’s of webpagina’s met loopback-toegang kunnen afspeelopdrachten verzenden.",
       "id": "storage"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "title": "Verbinding verbreken en bewaartermijnen",
-      "body": "Open in Kinrox op de Mac Instellingen → Spotify → Verbinding verbreken. Kinrox rondt lopende afspeelhandelingen af, stopt verzoeken, verwijdert zijn vernieuwingsgegevens en lokale hulplijstkoppelingen en wist account- en bibliotheekgegevens uit het geheugen. Automatisch opnieuw verbinden stopt. De geaccepteerde versie is een accountonafhankelijke voorkeur. Wijzigingen die al in Spotify zijn aangebracht, waaronder afspeellijsten en favorieten, blijven daar staan. De verbinding verbreken trekt de Spotify-autorisatie niet in; verwijder de app op https://www.spotify.com/account/apps/ om die in te trekken. Bewaarde hulplijsten kun je rechtstreeks in Spotify verwijderen. Gecachete metadata verlopen na 7 dagen zonder nieuwe validatie. Bij het verbreken van de verbinding worden de SQLite-cache, bijbehorende bestanden en opgeslagen accountkoppeling automatisch verwijderd.",
+      "body": "Open in Kinrox op de Mac Instellingen → Spotify → Verbinding verbreken. Kinrox stopt zijn Soloist-proces en verzoeken, verwijdert de vernieuwingsreferentie, de Soloist-API-sleutel en zijn eigen sessie/audiocache en wist accountgegevens uit het geheugen. Niet-geheime identificaties van oude wachtrijafspeellijsten en de gedownloade engine blijven bewaard. Automatisch opnieuw verbinden stopt. De geaccepteerde versie is een accountonafhankelijke voorkeur. Wijzigingen die al in Spotify zijn aangebracht, waaronder afspeellijsten en favorieten, blijven daar staan. De verbinding verbreken trekt de Spotify-autorisatie niet in; verwijder de app op https://www.spotify.com/account/apps/ om die in te trekken. Bewaarde hulplijsten kun je rechtstreeks in Spotify verwijderen. Gecachete metadata verlopen na 7 dagen zonder nieuwe validatie. Bij het verbreken van de verbinding worden de SQLite-cache, bijbehorende bestanden en opgeslagen accountkoppeling automatisch verwijderd.",
       "id": "retention"
     },
     {

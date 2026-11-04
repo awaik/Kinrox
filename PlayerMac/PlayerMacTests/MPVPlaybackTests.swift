@@ -8,6 +8,35 @@ import Testing
 @Suite("libmpv: real playback", .serialized, .timeLimit(.minutes(1)))
 @MainActor
 struct MPVPlaybackTests {
+    @Test(arguments: ["h264.mp4", "h264.mkv"])
+    func videoRendersWithIdleStandaloneMusic(_ name: String) async throws {
+        let music = MusicViewModel()
+        music.queue.clear()
+        music.connect(
+            engine: SoloistMusicEngine(runtime: SoloistRuntime(driver: FakeSoloistDriver())))
+        let player = try MPVPlayer()
+        let model = PlayerViewModel(engine: player)
+        let coordinator = PlaybackCoordinator()
+        coordinator.connect(video: model, music: music)
+        let window = window(for: player)
+        do {
+            try player.setVolume(0)
+            #expect(model.open(url: try media(name)))
+            await coordinator.settle()
+            try await waitUntil { model.hasMedia && model.position > 0.3 }
+            #expect(model.errorMessage == nil && model.playbackVolume == 0)
+            #expect(player.videoLayer.resources.renderedFrameCount > 2)
+        } catch {
+            window.close()
+            await coordinator.close()
+            await model.shutdown()
+            throw error
+        }
+        window.close()
+        await coordinator.close()
+        await model.shutdown()
+    }
+
     @Test("Live publication preserves pause, advances at EOF, and leaves later downloads stopped")
     func liveFolderPlayback() async throws {
         let folder = try LivePlaylistFolder()

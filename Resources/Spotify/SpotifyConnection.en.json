@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-02",
+  "version": "2026-11-03",
   "language": "English",
   "terms": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "title": "Your account and choices",
-      "body": "Connecting is optional. Use your own Spotify developer app and an authorized Spotify Premium account. Spotify controls API access and quotas; access may change or stop. Spotify's own terms continue to apply. Kinrox controls playback in the official Spotify app on your Mac. It does not download, record or cache audio.",
+      "body": "Connecting is optional. Use your own Spotify developer app and an authorized Spotify Premium account. Spotify controls API access and quotas; access may change or stop. Spotify's own terms continue to apply. Audio plays through Spotify Soloist, downloaded directly from Spotify to your Mac at your request. Each user supplies a personal Soloist API key. One-time pairing uses Spotify on iPhone; playback then works with Spotify on Mac and iPhone closed. Soloist handles decoding and its audio cache; Kinrox does not record or export audio. Soloist builds expire after 90 days and require an update.",
       "id": "account"
     },
     {
@@ -19,7 +19,7 @@
     },
     {
       "title": "Playback queue",
-      "body": "Kinrox creates a private Kinrox Queue playlist and replaces its contents as you change the playback queue. Disconnect keeps that playlist in Spotify but forgets its local association. Reconnecting can create another helper playlist. Delete unwanted helper playlists yourself in Spotify.",
+      "body": "Kinrox keeps the playback queue locally and starts one Soloist process for each queue occurrence. It creates no playback helper playlist. Existing Kinrox Queue playlists remain in Spotify. Their non-secret identifiers are retained locally to exclude them from library changes; you may delete those playlists yourself in Spotify.",
       "id": "queue"
     },
     {
@@ -46,17 +46,17 @@
   "privacy": [
     {
       "title": "Privacy Policy — Spotify connection",
-      "body": "Version 2026-11-02. The Kinrox maintainer, awaik, is responsible for Kinrox's processing described here. This supplement applies to the optional Spotify integration. The general Kinrox privacy policy is available at https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Do not post tokens, personal library contents or other private information in public issues.",
+      "body": "Version 2026-11-03. The Kinrox maintainer, awaik, is responsible for Kinrox's processing described here. This supplement applies to the optional Spotify integration. The general Kinrox privacy policy is available at https://kinrox.app/privacy/. Contact: https://github.com/awaik/Kinrox/issues. Do not post tokens, personal library contents or other private information in public issues.",
       "id": "overview"
     },
     {
       "title": "Access and purposes",
-      "body": "After you accept the terms and authorize Spotify, Kinrox on Mac reads your account identifier and display name, saved tracks and albums, followed artists, accessible playlists and their contents, playback state and available devices. It uses this information to show your library and control Spotify. It can save and remove favorites, follow artists, create playlists and edit owned or collaborative playlists when you use those controls. Removing a favorite also removes its occurrences from editable playlists. Kinrox maintains a private Kinrox Queue playlist for playback.",
+      "body": "After you accept the terms and authorize Spotify, Kinrox on Mac reads your account identifier and display name, saved tracks and albums, followed artists, accessible playlists and their contents, playback state and available devices. It uses this information to show your library and control Spotify. It can save and remove favorites, follow artists, create playlists and edit owned or collaborative playlists when you use those controls. Removing a favorite also removes its occurrences from editable playlists.",
       "id": "access"
     },
     {
       "title": "Storage and recipients",
-      "body": "Refresh credentials are stored in the Mac Data Protection Keychain. Access tokens stay in memory. Library metadata is cached in a local SQLite database in the Mac app’s Caches directory. The verified account identifier and display name are stored in Mac preferences. The supplied Client ID, helper playlist association and accepted document version are stored in Mac preferences. Kinrox has no server, analytics or telemetry, and the maintainer receives none of this Spotify data. Spotify receives requests directly from the Mac and handles them under its privacy policy: https://www.spotify.com/legal/privacy-policy/. Spotify sees network information such as the Mac's public IP address.",
+      "body": "Refresh credentials are stored in the Mac Data Protection Keychain. Access tokens stay in memory. Library metadata is cached in a local SQLite database in the Mac app’s Caches directory. The verified account identifier and display name are stored in Mac preferences. The supplied Client ID, helper playlist association and accepted document version are stored in Mac preferences. Kinrox has no server, analytics or telemetry, and the maintainer receives none of this Spotify data. Spotify receives requests directly from the Mac and handles them under its privacy policy: https://www.spotify.com/legal/privacy-policy/. Spotify sees network information such as the Mac's public IP address.\n\nThe personal Soloist API key is stored in Keychain. The Connect session is stored in a private account directory; Soloist uses a separate audio cache limited to 200 MB. The key is passed to the signed Soloist process in launch arguments, which other processes under the same user account can read. Soloist's loopback control socket has no authentication or Origin check; local programs or web pages with loopback access can send playback commands.",
       "id": "storage"
     },
     {
@@ -66,7 +66,7 @@
     },
     {
       "title": "Disconnect and retention",
-      "body": "In Kinrox on Mac, open Settings → Spotify → Disconnect. Kinrox settles pending playback work, stops requests, removes its refresh credential and local helper-playlist associations, and clears account and library state from memory. It stops automatic reconnection. The acceptance version is an account-free preference. Changes already made in Spotify, including playlists and favorites, remain there. Disconnect does not revoke the authorization at Spotify; remove the app at https://www.spotify.com/account/apps/ to revoke it. You can delete retained helper playlists directly in Spotify. Cached metadata expires after 7 days without revalidation. Disconnect automatically deletes the SQLite cache, its sidecar files and the saved account binding.",
+      "body": "In Kinrox on Mac, open Settings → Spotify → Disconnect. Kinrox stops its Soloist process and requests, removes the refresh credential, Soloist API key and its own session/audio cache, and clears account data from memory. Non-secret legacy queue playlist identifiers and the downloaded engine remain. It stops automatic reconnection. The acceptance version is an account-free preference. Changes already made in Spotify, including playlists and favorites, remain there. Disconnect does not revoke the authorization at Spotify; remove the app at https://www.spotify.com/account/apps/ to revoke it. You can delete retained helper playlists directly in Spotify. Cached metadata expires after 7 days without revalidation. Disconnect automatically deletes the SQLite cache, its sidecar files and the saved account binding.",
       "id": "retention"
     },
     {

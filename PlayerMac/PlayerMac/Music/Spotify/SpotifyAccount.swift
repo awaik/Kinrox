@@ -21,7 +21,7 @@ final class SpotifyAccount {
     private var pendingClient: SpotifyClient?
     static let bindingPreference = "app.kinrox.spotify.verifiedAccount"
     var onDisconnected: (() -> Void)?
-    var beforeDisconnect: (() async -> Void)?
+    var beforeDisconnect: (() async throws -> Void)?
     private let credentials: any SpotifyCredentialStore
     private let defaults: UserDefaults
     private var activeClientID: String?
@@ -202,7 +202,12 @@ final class SpotifyAccount {
         isDisconnecting = true
         connectionTask = Task { [weak self] in
             guard let self else { return }
-            await self.beforeDisconnect?()
+            do { try await self.beforeDisconnect?() } catch {
+                self.errorMessage = SpotifyStatus.message(error)
+                self.isConnecting = false
+                self.isDisconnecting = false
+                return
+            }
             if let client = self.client { await client.close() }
             if let client = self.pendingClient { await client.close() }
             self.pendingClient = nil
@@ -232,10 +237,8 @@ final class SpotifyAccount {
         isDisconnecting = false
         defaults.removeObject(forKey: Self.preference)
         defaults.removeObject(forKey: Self.bindingPreference)
-        for key in defaults.dictionaryRepresentation().keys
-        where key.hasPrefix(Self.queuePreferencePrefix) {
-            defaults.removeObject(forKey: key)
-        }
+        // Retain non-secret legacy playlist IDs as exclusion tombstones. Disconnect must not
+        // make old Kinrox Queue playlists eligible for subsequent bulk favorite mutations.
         if let id = activeClientID ?? (clientID.isEmpty ? nil : clientID) {
             do { try credentials.remove(clientID: id) } catch {
                 errorMessage = SpotifyStatus.message(error)

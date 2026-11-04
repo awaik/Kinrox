@@ -159,7 +159,7 @@ struct MusicReviewRegressionTests {
         await session.playback.close()
     }
 
-    @Test func disconnectForgetsQueueBindingsAfterPendingWorkSettles() async throws {
+    @Test func disconnectPreservesQueueExclusionsAfterPendingWorkSettles() async throws {
         let defaults = try #require(UserDefaults(suiteName: "app.kinrox.tests.review.\(UUID())"))
         defaults.set("client", forKey: SpotifyAccount.preference)
         defaults.set("helper", forKey: "app.kinrox.spotify.queue.client.user")
@@ -174,10 +174,11 @@ struct MusicReviewRegressionTests {
         account.disconnect()
         while account.isConnecting { await Task.yield() }
         #expect(defaults.object(forKey: SpotifyAccount.preference) == nil)
+        #expect(defaults.string(forKey: "app.kinrox.spotify.queue.client.user") == "helper")
         #expect(
-            defaults.dictionaryRepresentation().keys.filter {
-                $0.hasPrefix("app.kinrox.spotify.queue.")
-            }.isEmpty)
+            defaults.string(forKey: "app.kinrox.spotify.queue.old-client.old-user") == "old-helper")
+        #expect(
+            defaults.string(forKey: "app.kinrox.spotify.queue.client.late-user") == "late-helper")
         #expect(defaults.string(forKey: "unrelated.preference") == "keep")
         #expect(credentials.removed == ["client"])
     }

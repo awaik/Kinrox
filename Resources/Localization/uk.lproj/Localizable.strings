@@ -361,3 +361,37 @@
 "Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Доступ Spotify: бібліотека, відтворення, улюблене та редаговані плейлисти. Видалення з улюбленого також видаляє трек із редагованих плейлистів.";
 "Open album in Spotify" = "Відкрити альбом у Spotify";
 "Connection terms" = "Умови підключення";
+
+/* Standalone Spotify setup and recovery. */
+"A different Spotify account is paired. Pair again." = "Прив’язано інший обліковий запис Spotify. Виконайте прив’язку знову.";
+"Add your personal Soloist API key in Settings." = "Додайте особистий ключ API Soloist у налаштуваннях.";
+"After pairing, you can close Spotify on your iPhone. Spotify on Mac is not required." = "Після прив’язки Spotify на iPhone можна закрити. Spotify на Mac не потрібен.";
+"Connection to Soloist was lost." = "Зв’язок із Soloist втрачено.";
+"Could not prepare Soloist. Check Settings." = "Не вдалося підготувати Soloist. Перевірте налаштування.";
+"Could not save the Soloist key in Keychain." = "Не вдалося зберегти ключ Soloist у В’язці ключів.";
+"Could not start Soloist. Check Settings." = "Не вдалося запустити Soloist. Перевірте налаштування.";
+"Download Soloist" = "Завантажити Soloist";
+"Download Soloist in Settings to play on this Mac." = "Завантажте Soloist у налаштуваннях для відтворення на цьому Mac.";
+"Downloading and verifying Soloist…" = "Завантажуємо й перевіряємо Soloist…";
+"Get a Soloist API key" = "Отримати ключ API Soloist";
+"Music is playing on another device." = "Музика відтворюється на іншому пристрої.";
+"Open Spotify on your iPhone. Connect iPhone and Mac to the same Wi-Fi network and allow Spotify to access the local network." = "Відкрийте Spotify на iPhone. Під’єднайте iPhone і Mac до однієї мережі Wi-Fi та дозвольте Spotify доступ до локальної мережі.";
+"Pair Spotify from your iPhone in Settings." = "Виконайте прив’язку Spotify з iPhone у налаштуваннях.";
+"Pair Spotify with this Mac" = "Прив’язати Spotify до цього Mac";
+"Pair again" = "Прив’язати знову";
+"Personal Soloist API key" = "Особистий ключ API Soloist";
+"Play on this Mac" = "Відтворювати на цьому Mac";
+"Ready on this Mac" = "Готово на цьому Mac";
+"Save key and set up Soloist" = "Зберегти ключ і налаштувати Soloist";
+"Select this device in Spotify:" = "Виберіть цей пристрій у Spotify:";
+"Soloist could not confirm the playback command." = "Soloist не підтвердив команду відтворення.";
+"Soloist downloads directly from Spotify. After installation, select Kinrox once in Spotify on your iPhone." = "Soloist завантажується безпосередньо зі Spotify. Після встановлення один раз виберіть Kinrox у Spotify на iPhone.";
+"Soloist has expired. Download a current version." = "Термін дії Soloist минув. Завантажте актуальну версію.";
+"Soloist playback stopped." = "Відтворення Soloist зупинено.";
+"Spotify Premium is required. Create your personal Soloist API key in Spotify for Developers." = "Потрібна підписка Spotify Premium. Створіть особистий ключ API Soloist у Spotify for Developers.";
+"Spotify on this Mac" = "Spotify на цьому Mac";
+"Start pairing" = "Почати прив’язку";
+"Starting playback…" = "Починаємо відтворення…";
+"Update Soloist" = "Оновити Soloist";
+"Waiting for pairing and account verification…" = "Очікуємо прив’язку та перевіряємо обліковий запис…";
+"Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "Ключ зберігається у В’язці ключів Mac. Поки працює Soloist, інші процеси вашого користувача можуть прочитати ключ з аргументів запуску.";

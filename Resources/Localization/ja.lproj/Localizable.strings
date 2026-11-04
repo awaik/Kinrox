@@ -361,3 +361,37 @@
 "Spotify access: library, playback, favorites and editable playlists. Removing a favorite also removes it from editable playlists." = "Spotifyへのアクセス：ライブラリ、再生、お気に入り、編集可能なプレイリスト。お気に入りから削除すると、編集可能なプレイリストからも削除されます。";
 "Open album in Spotify" = "Spotifyでアルバムを開く";
 "Connection terms" = "接続規約";
+
+/* Standalone Spotify setup and recovery. */
+"A different Spotify account is paired. Pair again." = "別のSpotifyアカウントが連携されています。もう一度連携してください。";
+"Add your personal Soloist API key in Settings." = "設定で個人用Soloist APIキーを追加してください。";
+"After pairing, you can close Spotify on your iPhone. Spotify on Mac is not required." = "連携後はiPhoneのSpotifyを終了できます。MacのSpotifyアプリは必要ありません。";
+"Connection to Soloist was lost." = "Soloistとの接続が切れました。";
+"Could not prepare Soloist. Check Settings." = "Soloistを準備できませんでした。設定を確認してください。";
+"Could not save the Soloist key in Keychain." = "Soloistのキーをキーチェーンに保存できませんでした。";
+"Could not start Soloist. Check Settings." = "Soloistを起動できませんでした。設定を確認してください。";
+"Download Soloist" = "Soloistをダウンロード";
+"Download Soloist in Settings to play on this Mac." = "このMacで再生するには、設定からSoloistをダウンロードしてください。";
+"Downloading and verifying Soloist…" = "Soloistをダウンロードして検証中…";
+"Get a Soloist API key" = "Soloist APIキーを取得";
+"Music is playing on another device." = "別のデバイスで音楽を再生しています。";
+"Open Spotify on your iPhone. Connect iPhone and Mac to the same Wi-Fi network and allow Spotify to access the local network." = "iPhoneでSpotifyを開いてください。iPhoneとMacを同じWi-Fiネットワークに接続し、Spotifyにローカルネットワークへのアクセスを許可してください。";
+"Pair Spotify from your iPhone in Settings." = "設定でiPhoneからSpotifyを連携してください。";
+"Pair Spotify with this Mac" = "SpotifyをこのMacと連携";
+"Pair again" = "もう一度連携";
+"Personal Soloist API key" = "個人用Soloist APIキー";
+"Play on this Mac" = "このMacで再生";
+"Ready on this Mac" = "このMacで準備完了";
+"Save key and set up Soloist" = "キーを保存してSoloistを設定";
+"Select this device in Spotify:" = "Spotifyでこのデバイスを選択してください：";
+"Soloist could not confirm the playback command." = "Soloistが再生コマンドを確認できませんでした。";
+"Soloist downloads directly from Spotify. After installation, select Kinrox once in Spotify on your iPhone." = "SoloistはSpotifyから直接ダウンロードされます。インストール後、iPhoneのSpotifyで一度Kinroxを選択してください。";
+"Soloist has expired. Download a current version." = "Soloistの有効期限が切れました。最新のバージョンをダウンロードしてください。";
+"Soloist playback stopped." = "Soloistの再生が停止しました。";
+"Spotify Premium is required. Create your personal Soloist API key in Spotify for Developers." = "Spotify Premiumが必要です。Spotify for Developersで個人用Soloist APIキーを作成してください。";
+"Spotify on this Mac" = "このMacのSpotify";
+"Start pairing" = "連携を開始";
+"Starting playback…" = "再生を開始中…";
+"Update Soloist" = "Soloistを更新";
+"Waiting for pairing and account verification…" = "連携とアカウントの確認を待機中…";
+"Your key stays in the Mac Keychain. While Soloist runs, other processes under your user account can read the key from its launch arguments." = "キーはMacのキーチェーンに保存されます。Soloistの実行中は、同じユーザーアカウントの他のプロセスが起動引数からキーを読み取ることができます。";

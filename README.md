@@ -2,8 +2,8 @@
 
 Kinrox is a minimalist video player for macOS with a native iPhone remote.
 Open a movie on your Mac and control it from the couch over your local network.
-No Kinrox backend, Kinrox accounts, analytics, or telemetry. Development builds
-include an optional Spotify connection on Mac; local video and the LAN remote
+No Kinrox backend, Kinrox accounts, analytics, or telemetry. The Mac app
+includes an optional Spotify connection; local video and the LAN remote
 continue to work without internet access.
 
 ## Features
@@ -29,20 +29,25 @@ continue to work without internet access.
 ## Project Status
 
 The Mac player and real iPhone remote are implemented through M5. The current
-standalone Mac release is **0.4.2**, for Apple Silicon and macOS 14+:
-[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.4.2/Kinrox-0.4.2-arm64.dmg)
-or read the [release notes](docs/releases/0.4.2.md).
+standalone Mac release is **0.5.0**, for Apple Silicon and macOS 14+:
+[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.5.0/Kinrox-0.5.0-arm64.dmg)
+or read the [release notes](docs/releases/0.5.0.md).
 The installer bundles libmpv and its dependencies, is Developer ID signed, and
 is notarized by Apple. Homebrew is only needed for the default development setup.
 Users of Mac 0.2.0 or earlier install 0.3.0 manually once to enable future update reminders.
 The iPhone App Store release remains separate; the remote can be built from source.
 
-Music mode v2 is included in **0.4.0**.
-It adds Spotify library browsing, favorites with undo, queue editing and iPhone
-music controls. It requires Spotify Premium, the official Spotify app on the same
-Mac, and your own Spotify developer Client ID. Setup and limits are in the
-[music release notes](docs/releases/0.4.0.md); checks are in
-[Music Verification](docs/runbooks/MUSIC-VERIFICATION.md).
+Mac release: **0.5.0, build 10**. See the [release notes](docs/releases/0.5.0.md).
+
+Music mode includes Spotify library browsing, favorites with undo, a local queue
+and iPhone controls. From **0.5.0**, playback uses Spotify Soloist and works with
+Spotify.app fully closed. Setup requires Spotify Premium, your own developer
+Client ID, a personal [Soloist API key](https://developer.spotify.com/dashboard/soloist)
+and one-time pairing from Spotify on iPhone. The engine downloads directly from
+Spotify and requires periodic updates; it is not bundled with Kinrox.
+Setup, limitations and measured performance are in the
+[release notes](docs/releases/0.5.0.md) and
+[Soloist Verification](docs/runbooks/SOLOIST-VERIFICATION.md).
 
 The `kinrox-cli` executable is a stub; its implementation is an
 [optional task](docs/TODO/05-kinrox-cli.md). Network streams,

@@ -138,6 +138,43 @@ struct MusicQueueTests {
         #expect(queue.current?.track == tracks[0])
         #expect(queue.context.count == 1)
     }
+
+    @Test func repeatAllShuffleRemainsReproducibleAcrossCycles() throws {
+        var random = SeededQueueRandom()
+        var queue = MusicQueue()
+        queue.startShuffled(tracks + [tracks[0]], using: &random)
+        let removed = try #require(queue.source.last)
+        queue.remove(removed.id)
+        queue.repeatMode = .all
+        var replay = queue
+        var replayRandom = random
+        queue.add(tracks[0])
+        replay.add(tracks[0])
+        let beforeManual = random.state
+        #expect(queue.next(using: &random)?.origin == .manual)
+        #expect(replay.next(using: &replayRandom)?.origin == .manual)
+        #expect(random.state == beforeManual)
+
+        for _ in 0..<3 {
+            while !queue.upcoming.isEmpty {
+                let next = queue.next(using: &random)
+                let repeated = replay.next(using: &replayRandom)
+                #expect(next?.sourceOrder == repeated?.sourceOrder)
+            }
+            let consumed = Set(queue.history.map(\.id) + [try #require(queue.current?.id)])
+            let previousRandomState = random.state
+            let next = try #require(queue.next(automatically: true, using: &random))
+            let repeated = try #require(replay.next(automatically: true, using: &replayRandom))
+            #expect(random.state != previousRandomState)
+            #expect(random.state == replayRandom.state)
+            #expect(next.sourceOrder == repeated.sourceOrder)
+            #expect(queue.items.map(\.sourceOrder) == replay.items.map(\.sourceOrder))
+            #expect(Set(queue.items.map(\.sourceOrder)) == Set(queue.context.map(\.sourceOrder)))
+            #expect(Set(queue.items.map(\.id)).count == queue.context.count)
+            #expect(Set(queue.items.map(\.id)).isDisjoint(with: consumed))
+            #expect(!queue.items.contains { $0.sourceOrder == removed.sourceOrder })
+        }
+    }
 }
 
 private struct SeededQueueRandom: RandomNumberGenerator {
