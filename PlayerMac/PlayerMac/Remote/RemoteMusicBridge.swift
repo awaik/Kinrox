@@ -7,6 +7,7 @@ import RemoteProtocol
 final class RemoteMusicBridge {
     let music: MusicViewModel
     let coordinator: PlaybackCoordinator
+    private let isActive: () -> Bool
     var changed: (() -> Void)?
     private var observation: UUID?
     private var confirmedQueue = MusicQueue()
@@ -14,9 +15,13 @@ final class RemoteMusicBridge {
     private(set) var queueRevision = UUID()
     private(set) var libraryRevision = UUID()
 
-    init(music: MusicViewModel, coordinator: PlaybackCoordinator) {
+    init(
+        music: MusicViewModel, coordinator: PlaybackCoordinator,
+        isActive: @escaping () -> Bool = { false }
+    ) {
         self.music = music
         self.coordinator = coordinator
+        self.isActive = isActive
         confirmedLibrary = music.store.library
         confirmedQueue = music.queue
         observation = music.observePlayback { [weak self] _ in self?.update() }
@@ -38,7 +43,7 @@ final class RemoteMusicBridge {
         }
         changed?()
     }
-    var active: Bool { coordinator.activeSource == .music }
+    var active: Bool { coordinator.activeSource == .music || isActive() }
     var state: MusicState {
         .init(
             track: confirmedQueue.current.map { track($0.track) },

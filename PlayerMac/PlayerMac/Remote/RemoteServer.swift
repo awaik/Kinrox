@@ -207,12 +207,16 @@ final class RemoteServer {
             }
             self.publisher.update(self.snapshot, immediate: immediate)
         }
+        musicBridge?.update()
         publisher.update(snapshot, immediate: true)
     }
 
-    func connectMusic(_ music: MusicViewModel, coordinator: PlaybackCoordinator) {
+    func connectMusic(
+        _ music: MusicViewModel, coordinator: PlaybackCoordinator,
+        isActive: @escaping () -> Bool = { false }
+    ) {
         musicBridge?.disconnect()
-        let bridge = RemoteMusicBridge(music: music, coordinator: coordinator)
+        let bridge = RemoteMusicBridge(music: music, coordinator: coordinator, isActive: isActive)
         bridge.changed = { [weak self] in
             guard let self else { return }
             self.publisher.update(self.snapshot)
@@ -223,6 +227,11 @@ final class RemoteServer {
             self.musicBridge?.update()
             self.publisher.update(self.snapshot, immediate: true)
         }
+    }
+
+    func modeChanged() {
+        musicBridge?.update()
+        publisher.update(snapshot, immediate: true)
     }
 
     func windowClosed() { declinePairing() }
@@ -335,7 +344,7 @@ final class RemoteServer {
             hasMedia: hasMedia, canNext: hasMedia && model?.canNext == true,
             canPrevious: hasMedia && model?.canPrevious == true,
             screensaver: model?.screensaver ?? .off, source: musicBridge == nil ? nil : .video,
-            music: musicBridge?.state)
+            music: nil)
     }
 
     private var recentSnapshot: [RemoteProtocol.RecentItem] {

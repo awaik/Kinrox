@@ -2,8 +2,16 @@ import Foundation
 import MusicCore
 
 extension MusicViewModel {
+    var engineCanPlay: Bool {
+        switch engineAvailability {
+        case .ready: true
+        case .reconnecting, .externalTakeover, .failed: !engineNeedsSetup
+        case .notInstalled, .downloading, .needsKey, .needsPairing, .starting, .expired: false
+        }
+    }
+
     func allows(_ action: String) -> Bool {
-        acceptsPlayback && engineAvailability == .ready && !disallowedActions.contains(action)
+        acceptsPlayback && engineCanPlay && !disallowedActions.contains(action)
             && (action != "volume" || volumeKnown)
     }
 
@@ -33,7 +41,7 @@ extension MusicViewModel {
         ]
         var result = disallowedActions
         if !hasTrack { result.formUnion(transport) }
-        if !acceptsPlayback || engineAvailability != .ready {
+        if !acceptsPlayback || !engineCanPlay {
             result.formUnion(transport.union(["interrupting_playback", "volume"]))
         }
         if !volumeKnown { result.insert("volume") }

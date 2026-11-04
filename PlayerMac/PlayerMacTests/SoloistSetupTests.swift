@@ -22,6 +22,8 @@ struct SoloistSetupTests {
             model.engineAvailability = availability
             model.engineNeedsSetup = !fixture.setup.canRecoverPlayback
             #expect(!MusicServiceStatus(model: model).needsSettings(availability.message ?? ""))
+            #expect(model.canPlayLibrary == (availability != .starting))
+            #expect(model.canTogglePause == (availability != .starting))
         }
         await fixture.configure("second")
         #expect(fixture.setup.showsKeyFields)
@@ -31,12 +33,14 @@ struct SoloistSetupTests {
         model.engineAvailability = fixture.setup.availability
         model.engineNeedsSetup = !fixture.setup.canRecoverPlayback
         #expect(MusicServiceStatus(model: model).needsSettings("Setup failed"))
+        #expect(!model.canPlayLibrary && !model.canTogglePause)
         for availability: MusicEngineAvailability in [
             .needsKey, .needsPairing, .notInstalled, .expired,
         ] {
             model.engineAvailability = availability
             model.engineNeedsSetup = false
             #expect(MusicServiceStatus(model: model).needsSettings(availability.message ?? ""))
+            #expect(!model.canPlayLibrary && !model.canTogglePause)
             model.isRefreshing = true
             #expect(MusicServiceStatus(model: model).showsAction)
             model.isRefreshing = false

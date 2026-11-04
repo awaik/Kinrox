@@ -313,6 +313,10 @@ extension MusicViewModel {
             }
             do {
                 try await action(self)
+                if startsPlayback, self.engineAvailability != .ready, !self.engineNeedsSetup {
+                    self.engineAvailability = .ready
+                    self.engineAvailabilityChanged?(.ready)
+                }
                 self.statusMessage = nil
                 self.retryPlayback = nil
                 self.retryPlaybackStartsPlayback = false

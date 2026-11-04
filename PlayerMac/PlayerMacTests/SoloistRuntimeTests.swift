@@ -139,6 +139,23 @@ struct SoloistRuntimeTests {
         await runtime.shutdown()
     }
 
+    @Test func pauseAndSeekNearEndOfTrackConfirmWithoutStoppingProcess() async throws {
+        let driver = FakeSoloistDriver()
+        let runtime = SoloistRuntime(
+            driver: driver, dispatchTimeout: 0.2, observationTimeout: 0.2)
+        try await runtime.perform(.load(uri: uri, occurrenceID: UUID(), position: 0))
+        try await driver.simulatePositionSync(seconds: 99.4)
+        #expect(await !runtime.confirmedSnapshot().paused)
+        try await runtime.perform(.pause(true))
+        try await runtime.perform(.seek(10))
+        let paused = await runtime.confirmedSnapshot()
+        #expect(paused.paused && abs(paused.position - 10) < 1)
+        #expect(await driver.stops == 0)
+        try await runtime.perform(.pause(false))
+        #expect(await !runtime.confirmedSnapshot().paused)
+        await runtime.shutdown()
+    }
+
     @Test func observationTimeoutQueriesSameProcessButMissingACKRetiresIt() async throws {
         let driver = FakeSoloistDriver()
         let runtime = SoloistRuntime(

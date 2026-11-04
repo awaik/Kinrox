@@ -7,7 +7,7 @@ enum AppMode { case video, music }
 /// Shared application state upon which menus and player window depend.
 @MainActor @Observable
 final class PlayerSession {
-    var mode = AppMode.video
+    var mode = AppMode.video { didSet { remote?.modeChanged() } }
     let music: MusicViewModel
     let spotify = SpotifyAccount()
     let soloist = SoloistSetup()
@@ -18,7 +18,14 @@ final class PlayerSession {
             if model != nil { playback.connect(video: model, music: music) }
         }
     }
-    var remote: RemoteServer? { didSet { remote?.connectMusic(music, coordinator: playback) } }
+    var remote: RemoteServer? {
+        didSet {
+            if let model { remote?.connect(to: model) }
+            remote?.connectMusic(
+                music, coordinator: playback,
+                isActive: { [weak self] in self?.controlsMusic == true })
+        }
+    }
     /// While file open panel is displayed, unmodified keys belong to it.
     var isOpenPanelShown = false
     let recents: RecentFilesStore

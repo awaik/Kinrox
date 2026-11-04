@@ -12,7 +12,14 @@ struct SoloistStateReducer: Sendable {
     private(set) var snapshot = MusicPlaybackSnapshot(
         uri: nil, position: 0, duration: 0, paused: true, volume: nil,
         deviceName: "This Mac", occurrenceID: nil)
-    var suppressEnd = false
+    var suppressEnd = false {
+        didSet {
+            if suppressEnd {
+                terminalBoundary = false
+                terminalBuffering = false
+            }
+        }
+    }
     private var anchor = ContinuousClock.now
     private var hasPlayed = false
     private var finished = false
@@ -73,21 +80,48 @@ struct SoloistStateReducer: Sendable {
                 // Keep the paused occurrence; only an explicit Play can reclaim it.
                 if (frame.status ?? wireStatus) == "paused" {
                     snapshot.disallowedActions.insert("volume")
-                } else {
+                } else if !terminalBoundary {
                     return takeOver(now: now)
                 }
             }
         }
-        if let status = frame.status {
-            if status == "buffering", !snapshot.paused, snapshot.duration > 0,
-                position(at: now) >= snapshot.duration - 1.5
+        if let status = frame.status, status == "buffering", hasPlayed, !suppressEnd,
+            snapshot.duration > 0
+        {
+            let framePosition = (frame.position?.positionMS ?? 0) / 1000
+            if position(at: now) >= snapshot.duration - 1.5
+                || framePosition >= snapshot.duration - 1.5
             {
                 terminalBuffering = true
             }
+        }
+        let foreign = frame.item?.uri.map { !$0.isEmpty && $0 != snapshot.uri } == true
+        if !foreign, let pos = frame.position?.positionMS,
+            pos > 0, pos / 1000 < snapshot.duration - 1.5
+        {
+            terminalBoundary = false
+            terminalBuffering = false
+        }
+        if hasPlayed, !suppressEnd, terminalBuffering, atBoundary(now) {
+            snapshot.position = position(at: now)
+            snapshot.paused = true
+            anchor = now
+            ready = false
+            terminalBoundary = true
+        }
+        if terminalBoundary, !suppressEnd {
+            if foreign, frame.status == "playing" { return takeOver(now: now) }
+            if !foreign, let value = frame.position,
+                value.positionMS / 1000 >= snapshot.duration - 1.5
+            {
+                snapshot.position = min(snapshot.duration, value.positionMS / 1000)
+            }
+            if foreign || frame.status != "playing" { return [] }
+        }
+        if let status = frame.status {
             if status == "paused" || status == "idle" { terminalBuffering = false }
             wireStatus = status
         }
-        let foreign = frame.item?.uri.map { !$0.isEmpty && $0 != snapshot.uri } == true
         if foreign {
             // Single-track mode may publish recommendation metadata while exiting at EOF.
             // Preserve the original anchor until the owned process exits. Never play that item.

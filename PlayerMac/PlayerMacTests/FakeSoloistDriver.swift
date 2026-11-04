@@ -40,6 +40,13 @@ actor FakeSoloistDriver: SoloistDriving {
     func simulateSocketLoss() async {
         await callback?(.disconnected(epoch: epoch))
     }
+    func simulatePositionSync(seconds: Double) async throws {
+        position = seconds
+        try await emit([
+            "type": "position_sync",
+            "position": ["position_ms": seconds * 1000, "speed": paused ? 0 : 1],
+        ])
+    }
     func start(
         uri: String, epoch: UInt64, receive: @escaping @Sendable (SoloistInput) async -> Void
     ) async throws {

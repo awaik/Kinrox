@@ -166,12 +166,68 @@ struct SoloistStateReducerTests {
         _ = state.receive(
             try frame("playback_state", status: "buffering", item: "foreign"),
             epoch: 1, now: now.advanced(by: .seconds(100.337)))
+        _ = state.receive(
+            try SoloistFrame.decode(
+                Data(#"{"type":"position_sync","position":{"position_ms":0,"speed":0}}"#.utf8)),
+            epoch: 1, now: now.advanced(by: .seconds(100.338)))
         #expect(state.snapshot.uri == uri)
+        #expect(state.snapshot.position >= 99)
         #expect(
             state.processExited(code: 0, epoch: 1, now: now.advanced(by: .seconds(100.4))).contains
             {
                 if case .ended(let value) = $0 { value == id } else { false }
             })
+    }
+
+    @Test func naturalExitWithoutForeignRecommendationSurvivesTimeoutResetFrames() throws {
+        var state = SoloistStateReducer()
+        let now = ContinuousClock.now
+        let id = UUID()
+        state.begin(epoch: 1, occurrenceID: id, uri: uri, now: now)
+        _ = state.receive(try playing(), epoch: 1, now: now)
+        // playback_changed arrives slightly before the 1.5s threshold, then playback_state
+        // reports the authoritative buffering position near EOF.
+        _ = state.receive(
+            try frame("playback_changed", status: "buffering"),
+            epoch: 1, now: now.advanced(by: .seconds(98.4)))
+        _ = state.receive(
+            try frame("playback_state", status: "buffering", item: uri, position: 99.058),
+            epoch: 1, now: now.advanced(by: .seconds(99.035)))
+        // Autoplay context request times out 10s later without a foreign track and resets to 0:00.
+        _ = state.receive(
+            try frame("playback_changed", status: "paused"),
+            epoch: 1, now: now.advanced(by: .seconds(109.99)))
+        _ = state.receive(
+            try frame("playback_state", status: "paused", item: uri, position: 0, speed: 0),
+            epoch: 1, now: now.advanced(by: .seconds(109.991)))
+        _ = state.receive(
+            try SoloistFrame.decode(
+                Data(#"{"type":"position_sync","position":{"position_ms":0,"speed":0}}"#.utf8)),
+            epoch: 1, now: now.advanced(by: .seconds(109.992)))
+        #expect(state.snapshot.position >= 99)
+        let events = state.processExited(code: 0, epoch: 1, now: now.advanced(by: .seconds(110.0)))
+        #expect(events.contains { if case .ended(let value) = $0 { value == id } else { false } })
+    }
+
+    @Test func positionSyncNearEndDoesNotLatchPauseOrBlockSeek() throws {
+        var state = SoloistStateReducer()
+        let now = ContinuousClock.now
+        state.begin(epoch: 1, occurrenceID: UUID(), uri: uri, now: now)
+        _ = state.receive(try playing(), epoch: 1, now: now)
+        _ = state.receive(
+            try SoloistFrame.decode(
+                Data(#"{"type":"position_sync","position":{"position_ms":99400,"speed":1}}"#.utf8)),
+            epoch: 1, now: now.advanced(by: .seconds(99.4)))
+        #expect(!state.snapshot.paused && state.ready)
+        state.suppressEnd = true
+        _ = state.receive(
+            try frame("playback_state", status: "paused", item: uri, position: 99.4, speed: 0),
+            epoch: 1, now: now.advanced(by: .seconds(99.5)))
+        #expect(state.snapshot.paused)
+        _ = state.receive(
+            try frame("playback_state", status: "paused", item: uri, position: 10, speed: 0),
+            epoch: 1, now: now.advanced(by: .seconds(99.6)))
+        #expect(state.snapshot.paused && state.snapshot.position == 10)
     }
 
     @Test func deviceVolumeIsIndependentAndInputIsBounded() throws {

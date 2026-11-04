@@ -204,6 +204,41 @@ struct MusicStandaloneContractTests {
         await coordinator.close()
     }
 
+    @Test func remoteSnapshotEncodesWhenMusicVolumeUnknownAcrossModes() async throws {
+        let defaults = try #require(UserDefaults(suiteName: "app.kinrox.tests.remote.\(UUID())"))
+        let recents = RecentFilesStore()
+        let session = PlayerSession(recents: recents, demoMusic: true, musicDefaults: defaults)
+        let video = PlayerViewModel(engine: FakePlayerEngine())
+        let remote = RemoteServer(
+            defaults: defaults, store: MemoryPairedDevices(), recents: recents,
+            pairing: session.pairing, serverName: "Test Mac")
+        session.model = video
+        session.remote = remote
+        session.music.volumeKnown = false
+
+        session.mode = .video
+        let videoSnapshot = remote.snapshot
+        #expect(videoSnapshot.source == .video && videoSnapshot.music == nil)
+        let videoMessage = Message.state(.init(), videoSnapshot)
+        #expect(try Codec.decode(Codec.encode(videoMessage)) == videoMessage)
+
+        session.mode = .music
+        let musicSnapshot = remote.snapshot
+        #expect(musicSnapshot.source == .music && musicSnapshot.volume == 0)
+        #expect(musicSnapshot.music?.volumeKnown == false)
+        let musicMessage = Message.state(.init(), musicSnapshot)
+        #expect(try Codec.decode(Codec.encode(musicMessage)) == musicMessage)
+
+        session.model = nil
+        let closedSnapshot = remote.snapshot
+        #expect(closedSnapshot.source == .video && closedSnapshot.music == nil)
+        #expect(!closedSnapshot.hasMedia && !closedSnapshot.canNext && closedSnapshot.paused)
+        #expect(remote.execute(.togglePause) == .noMedia)
+
+        await video.shutdown()
+        await session.playback.close()
+    }
+
     @Test(arguments: [MusicRepeat.off, .one, .all])
     func endOfFinalOccurrenceStopsOrRestarts(mode: MusicRepeat) async throws {
         let model = MusicViewModel()

@@ -200,11 +200,12 @@ final class SoloistSetup {
     }
 
     func makeEngine() throws -> SoloistMusicEngine {
-        guard availability == .ready else { throw SoloistFailure.unavailable }
+        guard availability == .ready || canRecoverPlayback else { throw SoloistFailure.unavailable }
         guard let installation, installation.expiryDate > Date() else {
             change(.expired)
             throw SoloistFailure.unavailable
         }
+        if availability != .ready { change(.ready) }
         let initialVolume: Double
         if defaults.object(forKey: Self.volumePreference) != nil {
             initialVolume = min(100, max(0, defaults.double(forKey: Self.volumePreference)))
