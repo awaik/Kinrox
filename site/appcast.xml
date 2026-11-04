@@ -6,6 +6,23 @@
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
     <item>
+      <title>Kinrox 0.5.3</title>
+      <pubDate>Wed, 04 Nov 2026 14:32:36 +0000</pubDate>
+      <sparkle:version>13</sparkle:version>
+      <sparkle:shortVersionString>0.5.3</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.5.3</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Mac player release for Apple Silicon (arm64), macOS 14 or newer. Companion iPhone remote 0.2.1 (build 3) is delivered to TestFlight; App Store publication remains separate.&lt;/p&gt;
+&lt;h3&gt;What's New&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;b&gt;Active music transport controls on launch.&lt;/b&gt; Restoring a cached Spotify library on startup now enables the configured standalone Soloist engine once the saved setup, credentials, and consent are verified, instead of leaving transport controls disabled until Settings is opened.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Reliable track-end progression and near-EOF seeking.&lt;/b&gt; Soloist occurrence state preserves natural track completion when final buffering is followed by an autoplay context timeout, without latching premature pause state on normal near-end progress frames or blocking pause and seek commands near the end of a track.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Stable iPhone remote connection across mode and window changes.&lt;/b&gt; Switching between Music and Video modes when device volume is not yet confirmed no longer produces an invalid LAN state frame, and closing the Mac player window publishes an idle remote snapshot consistent with command availability.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Included in 0.5.3&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;Standalone Spotify playback through separately downloaded &lt;b&gt;Spotify Soloist&lt;/b&gt;, with &lt;code&gt;Spotify.app&lt;/code&gt; fully closed, plus local queue management, favorites with undo, artist/album popovers, per-collection sorting, and encrypted LAN iPhone remote controls.&lt;/li&gt;&lt;li&gt;Local video playback for MP4, MKV, MOV, M4V, AVI, WebM, and TS powered by bundled libmpv 0.41.0, FFmpeg 9.0.1, OpenGL, and VideoToolbox hardware acceleration.&lt;/li&gt;&lt;li&gt;Audio and subtitle track selection, recursive external subtitle/audio discovery, and per-folder track preferences.&lt;/li&gt;&lt;li&gt;Matrix screensaver (&lt;code&gt;Screensaver → Matrix&lt;/code&gt;) and Sparkle 2 update reminders (&lt;code&gt;Kinrox → Check for Updates…&lt;/code&gt;).&lt;/li&gt;&lt;li&gt;Shared localization in 30 languages with English fallback.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Requirements and Notes&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;macOS 14.0 or newer on Apple Silicon (arm64).&lt;/li&gt;&lt;li&gt;Runtime verification for this release was performed on macOS 26.5.2 (Apple Silicon). Minimum-OS metadata was verified for all bundled binaries; a separate macOS 14 machine was not tested.&lt;/li&gt;&lt;li&gt;To install manually, open &lt;code&gt;Kinrox-0.5.3-arm64.dmg&lt;/code&gt; and drag &lt;code&gt;Kinrox.app&lt;/code&gt; to &lt;code&gt;Applications&lt;/code&gt;. Existing installations of Kinrox 0.3.0 or newer can also update through &lt;code&gt;Kinrox → Check for Updates…&lt;/code&gt;.&lt;/li&gt;&lt;li&gt;&lt;code&gt;Kinrox-0.5.3-dependency-sources.tar.gz&lt;/code&gt; contains the corresponding source archives, build recipes, patches, and license texts for the bundled open-source libraries.&lt;/li&gt;&lt;li&gt;&lt;code&gt;SHA256SUMS.txt&lt;/code&gt; lists SHA-256 checksums for the release assets.&lt;/li&gt;&lt;/ul&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.5.3/Kinrox-0.5.3-arm64.dmg" length="32760947" type="application/octet-stream" sparkle:edSignature="4HIynKNuvP9use2eCh036ZG/IiM73qh8bGoLkTyvOMPIa+qC+RhswclnoHwT1LUPftJqLPxc+YFEKmNs5Tp9Bg==" />
+    </item>
+    <item>
       <title>Kinrox 0.5.2</title>
       <pubDate>Wed, 04 Nov 2026 08:41:08 +0000</pubDate>
       <sparkle:version>12</sparkle:version>
