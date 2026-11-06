@@ -166,5 +166,14 @@
   "spotify-terms-description": "Spotify 접근: 라이브러리, 재생, 즐겨찾기 및 편집 가능한 플레이리스트. 즐겨찾기에서 삭제하면 편집 가능한 플레이리스트에서도 삭제됩니다.",
   "spotify-terms": "연결 약관",
   "spotify-disclosure": "Spotify 접근: 라이브러리, 재생, 즐겨찾기 및 편집 가능한 플레이리스트. 즐겨찾기에서 삭제하면 편집 가능한 플레이리스트에서도 삭제됩니다. 인증 정보는 Mac 키체인에 저장됩니다. 연결 해제 시 로컬 Spotify 데이터는 지워지지만 플레이리스트는 유지됩니다. Kinrox 서버나 사용 분석은 없습니다.",
-  "spotify-links": "Spotify에서 열기"
+  "spotify-links": "Spotify에서 열기",
+  "spotify-section-title": "무거운 데스크톱 앱 없이 즐기는 Spotify.",
+  "spotify-section-lead": "네이티브 SwiftUI 음악 모드는 최대 200MB의 메모리만 사용합니다. 최대 2GB까지 차지하는 Spotify 기본 클라이언트보다 2~10배 적으며, Spotify.app을 완전히 종료한 상태로 재생할 수 있습니다.",
+  "spotify-shot-alt": "Mac용 Kinrox 음악 모드에서 Spotify 라이브러리, 앨범 및 좋아요 표시한 곡을 탐색하는 화면.",
+  "spotify-card-memory-title": "2GB 대신 최대 200MB",
+  "spotify-card-memory-body": "내장 브라우저 런타임 없이 네이티브 SwiftUI 화면과 가벼운 오디오 엔진으로 데스크톱 Spotify 클라이언트보다 훨씬 적은 메모리를 사용합니다.",
+  "spotify-card-standalone-title": "Spotify.app을 끈 채로 재생",
+  "spotify-card-standalone-body": "라이브러리, 앨범, 플레이리스트, 검색, ⌘Z 실행 취소가 지원되는 즐겨찾기, 로컬 대기열을 Kinrox에서 바로 이용하세요.",
+  "spotify-card-remote-title": "동일한 iPhone 리모컨",
+  "spotify-card-remote-body": "암호화된 로컬 네트워크를 통해 소파에서 곡 넘기기, 대기열 탐색, 볼륨 조절 및 즐겨찾기를 제어하세요."
 }

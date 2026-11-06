@@ -166,5 +166,14 @@
   "spotify-terms-description": "Spotify-Zugriff: Bibliothek, Wiedergabe, Favoriten und bearbeitbare Playlists. Entfernte Favoriten werden auch aus bearbeitbaren Playlists entfernt.",
   "spotify-terms": "Verbindungsbedingungen",
   "spotify-disclosure": "Spotify-Zugriff: Bibliothek, Wiedergabe, Favoriten und bearbeitbare Playlists. Entfernte Favoriten werden auch aus bearbeitbaren Playlists entfernt. Zugangsdaten bleiben im Mac-Schlüsselbund. Trennen löscht lokale Spotify-Daten und behält Spotify-Playlists. Keine Kinrox-Server oder Nutzungsanalyse.",
-  "spotify-links": "In Spotify öffnen"
+  "spotify-links": "In Spotify öffnen",
+  "spotify-section-title": "Spotify ohne die schwerfällige Desktop-App.",
+  "spotify-section-lead": "Der native SwiftUI-Musikmodus belegt bis zu 200 MB Speicher — 2- bis 10-mal weniger als Spotify selbst, dessen Desktop-Client bis zu 2 GB verbrauchen kann. Spotify.app bleibt komplett geschlossen.",
+  "spotify-shot-alt": "Kinrox-Musikmodus auf dem Mac mit Spotify-Mediathek, Alben und Lieblingssongs.",
+  "spotify-card-memory-title": "Bis zu 200 MB statt 2 GB",
+  "spotify-card-memory-body": "Kein eingebetteter Browser: Native SwiftUI-Ansichten und eine schlanke Audio-Engine nutzen nur einen Bruchteil des Speichers des Spotify-Clients.",
+  "spotify-card-standalone-title": "Spielt bei geschlossenem Spotify.app",
+  "spotify-card-standalone-body": "Mediathek, Alben, Playlists und Suche durchstöbern, Favoriten mit ⌘Z rückgängig machen und die lokale Warteschlange direkt in Kinrox abspielen.",
+  "spotify-card-remote-title": "Dieselbe iPhone-Fernbedienung",
+  "spotify-card-remote-body": "Titel überspringen, Warteschlange prüfen, Lautstärke regeln und Favoriten vom Sofa aus über das verschlüsselte lokale Netzwerk steuern."
 }

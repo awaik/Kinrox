@@ -166,5 +166,14 @@
   "spotify-terms-description": "Spotify 存取權限：音樂庫、播放、收藏和可編輯的播放清單。取消收藏也會從可編輯的播放清單移除該曲目。",
   "spotify-terms": "連線條款",
   "spotify-disclosure": "Spotify 存取權限：音樂庫、播放、收藏和可編輯的播放清單。取消收藏也會從可編輯的播放清單移除該曲目。 登入憑證儲存在 Mac 鑰匙圈中。中斷連線會清除本機 Spotify 資料，但保留 Spotify 播放清單。沒有 Kinrox 伺服器或使用分析。",
-  "spotify-links": "在 Spotify 中開啟"
+  "spotify-links": "在 Spotify 中開啟",
+  "spotify-section-title": "無需臃腫桌面用戶端的 Spotify。",
+  "spotify-section-lead": "原生 SwiftUI 音樂模式僅佔用最多 200 MB 記憶體——比可高達 2 GB 的 Spotify 官方桌面用戶端少 2 至 10 倍。可完全關閉 Mac 上的 Spotify.app。",
+  "spotify-shot-alt": "Mac 上的 Kinrox 音樂模式，顯示 Spotify 音樂庫、專輯與喜愛的歌曲。",
+  "spotify-card-memory-title": "最多 200 MB，而非 2 GB",
+  "spotify-card-memory-body": "無內嵌瀏覽器執行環境：原生 SwiftUI 介面與輕量音訊引擎僅需 Spotify 桌面用戶端一小部分的記憶體。",
+  "spotify-card-standalone-title": "完全關閉 Spotify.app 也能播放",
+  "spotify-card-standalone-body": "在 Kinrox 中直接瀏覽音樂庫、專輯、播放清單與搜尋，使用 ⌘Z 復原管理收藏，並播放本機佇列。",
+  "spotify-card-remote-title": "同一個 iPhone 遙控器",
+  "spotify-card-remote-body": "透過加密區域網路在沙發上切歌、查看佇列、調整音量與切換收藏。"
 }

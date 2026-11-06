@@ -166,5 +166,14 @@
   "spotify-terms-description": "Přístup Spotify: knihovna, přehrávání, oblíbené a upravitelné playlisty. Odebrání z oblíbených odstraní skladbu i z upravitelných playlistů.",
   "spotify-terms": "Podmínky připojení",
   "spotify-disclosure": "Přístup Spotify: knihovna, přehrávání, oblíbené a upravitelné playlisty. Odebrání z oblíbených odstraní skladbu i z upravitelných playlistů. Přihlašovací údaje zůstávají v Klíčence Macu. Odpojení smaže místní data Spotify a zachová playlisty Spotify. Bez serveru Kinrox a analýzy používání.",
-  "spotify-links": "Otevřít ve Spotify"
+  "spotify-links": "Otevřít ve Spotify",
+  "spotify-section-title": "Spotify bez těžkopádné desktopové aplikace.",
+  "spotify-section-lead": "Nativní hudební režim ve SwiftUI zabírá do 200 MB paměti — 2× až 10× méně než samotné Spotify, jehož desktopový klient může spotřebovat až 2 GB. Spotify.app můžete nechat úplně zavřené.",
+  "spotify-shot-alt": "Hudební režim Kinroxu na Macu s knihovnou Spotify, alby a oblíbenými skladbami.",
+  "spotify-card-memory-title": "Do 200 MB místo 2 GB",
+  "spotify-card-memory-body": "Žádný vestavěný prohlížeč: nativní rozhraní SwiftUI a úsporný zvukový engine spotřebují jen zlomek paměti desktopového klienta Spotify.",
+  "spotify-card-standalone-title": "Hraje i se zavřeným Spotify.app",
+  "spotify-card-standalone-body": "Procházejte knihovnu, alba, playlisty a vyhledávání, spravujte oblíbené s vrácením ⌘Z a přehrávejte místní frontu přímo v Kinroxu.",
+  "spotify-card-remote-title": "Stejný ovladač na iPhonu",
+  "spotify-card-remote-body": "Přeskakujte skladby, prohlížejte frontu, měňte hlasitost a oblíbené z gauče přes šifrovanou místní síť."
 }

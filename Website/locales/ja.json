@@ -166,5 +166,14 @@
   "spotify-terms-description": "Spotifyへのアクセス：ライブラリ、再生、お気に入り、編集可能なプレイリスト。お気に入りから削除すると、編集可能なプレイリストからも削除されます。",
   "spotify-terms": "接続規約",
   "spotify-disclosure": "Spotifyへのアクセス：ライブラリ、再生、お気に入り、編集可能なプレイリスト。お気に入りから削除すると、編集可能なプレイリストからも削除されます。 認証情報はMacのキーチェーンに保存されます。接続解除でSpotifyのローカルデータは消去されますが、プレイリストは残ります。Kinroxのサーバーや利用分析はありません。",
-  "spotify-links": "Spotifyで開く"
+  "spotify-links": "Spotifyで開く",
+  "spotify-section-title": "重いデスクトップアプリ不要の Spotify。",
+  "spotify-section-lead": "ネイティブ SwiftUI のミュージックモードはメモリ使用量が最大 200 MB。最大 2 GB 消費することもある Spotify 公式クライアントの 2〜10 分の 1 に収まり、Spotify.app を完全に終了したまま再生できます。",
+  "spotify-shot-alt": "Mac の Kinrox ミュージックモードで Spotify ライブラリ、アルバム、お気に入り曲を表示している画面。",
+  "spotify-card-memory-title": "2 GB ではなく最大 200 MB",
+  "spotify-card-memory-body": "埋め込みブラウザなし。ネイティブ SwiftUI と軽量オーディオエンジンにより、デスクトップ版 Spotify のわずかなメモリで動作します。",
+  "spotify-card-standalone-title": "Spotify.app を閉じたまま再生",
+  "spotify-card-standalone-body": "ライブラリ、アルバム、プレイリスト、検索、⌘Z 取り消し対応のお気に入り、ローカルキューを Kinrox だけで直接操作できます。",
+  "spotify-card-remote-title": "同じ iPhone リモコンで操作",
+  "spotify-card-remote-body": "暗号化されたローカルネットワーク経由で、ソファから曲送り、キュー確認、音量調整、お気に入り登録が可能です。"
 }

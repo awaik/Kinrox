@@ -166,5 +166,14 @@
   "spotify-terms-description": "Akses Spotify: pustaka, main balik, kegemaran dan senarai main boleh sunting. Membuang kegemaran turut membuangnya daripada senarai main boleh sunting.",
   "spotify-terms": "Syarat sambungan",
   "spotify-disclosure": "Akses Spotify: pustaka, main balik, kegemaran dan senarai main boleh sunting. Membuang kegemaran turut membuangnya daripada senarai main boleh sunting. Kelayakan disimpan dalam Rantai Kunci Mac. Memutuskan sambungan memadam data Spotify setempat dan mengekalkan senarai main Spotify. Tiada pelayan Kinrox atau analitik.",
-  "spotify-links": "Buka dalam Spotify"
+  "spotify-links": "Buka dalam Spotify",
+  "spotify-section-title": "Spotify tanpa aplikasi desktop yang berat.",
+  "spotify-section-lead": "Mod muzik SwiftUI asli menggunakan sehingga 200 MB memori — 2 hingga 10× lebih rendah daripada Spotify sendiri, yang klien desktopnya boleh mengambil sehingga 2 GB. Biarkan Spotify.app ditutup sepenuhnya.",
+  "spotify-shot-alt": "Mod Muzik Kinrox pada Mac memaparkan pustaka Spotify, album dan lagu yang disukai.",
+  "spotify-card-memory-title": "Sehingga 200 MB bukannya 2 GB",
+  "spotify-card-memory-body": "Tiada pelayar terbenam: paparan SwiftUI asli dan enjin audio ringan menggunakan sebahagian kecil memori klien desktop Spotify.",
+  "spotify-card-standalone-title": "Dimainkan dengan Spotify.app ditutup",
+  "spotify-card-standalone-body": "Layari pustaka, album, senarai main dan carian, urus kegemaran dengan buat asal ⌘Z, serta mainkan giliran tempatan terus dalam Kinrox.",
+  "spotify-card-remote-title": "Alat kawalan jauh iPhone yang sama",
+  "spotify-card-remote-body": "Langkau lagu, semak giliran, laraskan kelantangan dan tanda kegemaran dari sofa melalui rangkaian tempatan tersulit."
 }

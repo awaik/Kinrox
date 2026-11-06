@@ -166,5 +166,14 @@
   "spotify-terms-description": "Dostęp Spotify: biblioteka, odtwarzanie, ulubione i edytowalne playlisty. Usunięcie z ulubionych usuwa też utwór z edytowalnych playlist.",
   "spotify-terms": "Warunki połączenia",
   "spotify-disclosure": "Dostęp Spotify: biblioteka, odtwarzanie, ulubione i edytowalne playlisty. Usunięcie z ulubionych usuwa też utwór z edytowalnych playlist. Dane logowania pozostają w Pęku kluczy Maca. Rozłączenie usuwa lokalne dane Spotify i zachowuje playlisty Spotify. Bez serwera Kinrox i analityki.",
-  "spotify-links": "Otwórz w Spotify"
+  "spotify-links": "Otwórz w Spotify",
+  "spotify-section-title": "Spotify bez ciężkiej aplikacji desktopowej.",
+  "spotify-section-lead": "Natywny tryb muzyki w SwiftUI zużywa do 200 MB pamięci — od 2 do 10 razy mniej niż sam Spotify, którego klient desktopowy potrafi zająć do 2 GB. Spotify.app może pozostać całkowicie zamknięty.",
+  "spotify-shot-alt": "Tryb Muzyka w Kinrox na Macu z biblioteką Spotify, albumami i polubionymi utworami.",
+  "spotify-card-memory-title": "Do 200 MB zamiast 2 GB",
+  "spotify-card-memory-body": "Bez wbudowanej przeglądarki: natywny interfejs SwiftUI i lekki silnik audio zużywają ułamek pamięci klienta Spotify.",
+  "spotify-card-standalone-title": "Gra przy zamkniętym Spotify.app",
+  "spotify-card-standalone-body": "Przeglądaj bibliotekę, albumy, playlisty i wyszukiwarkę, zarządzaj ulubionymi z cofaniem ⌘Z i odtwarzaj lokalną kolejkę bezpośrednio w Kinrox.",
+  "spotify-card-remote-title": "Ten sam pilot na iPhonie",
+  "spotify-card-remote-body": "Przełączaj utwory, przeglądaj kolejkę, reguluj głośność i oznaczaj ulubione z kanapy przez szyfrowaną sieć lokalną."
 }

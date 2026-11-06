@@ -166,5 +166,14 @@
   "spotify-terms-description": "Acces Spotify: bibliotecă, redare, favorite și playlisturi editabile. Eliminarea unui favorit îl elimină și din playlisturile editabile.",
   "spotify-terms": "Condiții de conectare",
   "spotify-disclosure": "Acces Spotify: bibliotecă, redare, favorite și playlisturi editabile. Eliminarea unui favorit îl elimină și din playlisturile editabile. Datele de conectare rămân în Portcheiul Mac. Deconectarea șterge datele Spotify locale și păstrează playlisturile Spotify. Fără server Kinrox sau analiză de utilizare.",
-  "spotify-links": "Deschide în Spotify"
+  "spotify-links": "Deschide în Spotify",
+  "spotify-section-title": "Spotify fără aplicația greoaie de desktop.",
+  "spotify-section-lead": "Modul nativ de muzică în SwiftUI folosește până la 200 MB de memorie — de 2 până la 10 ori mai puțin decât Spotify în sine, al cărui client desktop poate ocupa până la 2 GB. Poți ține Spotify.app complet închis.",
+  "spotify-shot-alt": "Modul Muzică din Kinrox pe Mac afișând biblioteca Spotify, albumele și piesele apreciate.",
+  "spotify-card-memory-title": "Până la 200 MB în loc de 2 GB",
+  "spotify-card-memory-body": "Fără browser încorporat: interfața nativă SwiftUI și motorul audio ușor consumă o fracțiune din memoria clientului desktop Spotify.",
+  "spotify-card-standalone-title": "Redă cu Spotify.app închis",
+  "spotify-card-standalone-body": "Explorează biblioteca, albumele, playlisturile și căutarea, gestionează favoritele cu anulare ⌘Z și redă coada locală direct în Kinrox.",
+  "spotify-card-remote-title": "Aceeași telecomandă pe iPhone",
+  "spotify-card-remote-body": "Schimbă piesele, vezi coada, reglează volumul și marchează favoritele de pe canapea prin rețeaua locală criptată."
 }

@@ -166,5 +166,14 @@
   "spotify-terms-description": "Spotify-hozzáférés: könyvtár, lejátszás, kedvencek és szerkeszthető listák. A kedvencekből való törlés a szerkeszthető listákból is eltávolítja a számot.",
   "spotify-terms": "Kapcsolódási feltételek",
   "spotify-disclosure": "Spotify-hozzáférés: könyvtár, lejátszás, kedvencek és szerkeszthető listák. A kedvencekből való törlés a szerkeszthető listákból is eltávolítja a számot. A bejelentkezési adatok a Mac Kulcskarikában maradnak. A leválasztás törli a helyi Spotify-adatokat, és megőrzi a Spotify-listákat. Nincs Kinrox-szerver vagy használati elemzés.",
-  "spotify-links": "Megnyitás a Spotifyban"
+  "spotify-links": "Megnyitás a Spotifyban",
+  "spotify-section-title": "Spotify a nehézkes asztali alkalmazás nélkül.",
+  "spotify-section-lead": "A natív SwiftUI zenei mód legfeljebb 200 MB memóriát használ — 2–10-szer kevesebbet, mint maga a Spotify, amelynek asztali kliense akár 2 GB-ot is lefoglalhat. A Spotify.app teljesen bezárva maradhat.",
+  "spotify-shot-alt": "A Kinrox Zene módja Macen a Spotify-könyvtárral, albumokkal és kedvelt dalokkal.",
+  "spotify-card-memory-title": "Legfeljebb 200 MB 2 GB helyett",
+  "spotify-card-memory-body": "Nincs beágyazott böngésző: a natív SwiftUI felület és a könnyű hangmotor a Spotify asztali kliens memóriájának töredékét igényli.",
+  "spotify-card-standalone-title": "Bezárt Spotify.app mellett is játszik",
+  "spotify-card-standalone-body": "Böngéssze könyvtárát, albumait, lejátszási listáit és a keresőt, kezelje a kedvenceket ⌘Z visszavonással, és játssza le a helyi várólistát közvetlenül a Kinroxban.",
+  "spotify-card-remote-title": "Ugyanaz az iPhone-távirányító",
+  "spotify-card-remote-body": "Léptessen számokat, nézze meg a várólistát, állítsa a hangerőt és a kedvenceket a kanapéról a titkosított helyi hálózaton."
 }

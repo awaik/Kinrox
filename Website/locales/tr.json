@@ -166,5 +166,14 @@
   "spotify-terms-description": "Spotify erişimi: kitaplık, çalma, favoriler ve düzenlenebilir çalma listeleri. Favorilerden kaldırmak parçayı düzenlenebilir çalma listelerinden de kaldırır.",
   "spotify-terms": "Bağlantı koşulları",
   "spotify-disclosure": "Spotify erişimi: kitaplık, çalma, favoriler ve düzenlenebilir çalma listeleri. Favorilerden kaldırmak parçayı düzenlenebilir çalma listelerinden de kaldırır. Kimlik bilgileri Mac Anahtar Zinciri’nde kalır. Bağlantıyı kesmek yerel Spotify verilerini siler, Spotify çalma listelerini korur. Kinrox sunucusu veya kullanım analizi yoktur.",
-  "spotify-links": "Spotify’da aç"
+  "spotify-links": "Spotify’da aç",
+  "spotify-section-title": "Ağır masaüstü uygulaması olmadan Spotify.",
+  "spotify-section-lead": "Yerel SwiftUI müzik modu en fazla 200 MB bellek kullanır — masaüstü istemcisi 2 GB’a kadar çıkabilen Spotify’ın kendisinden 2 ila 10 kat daha az. Spotify.app’i tamamen kapalı tutabilirsiniz.",
+  "spotify-shot-alt": "Mac’teki Kinrox Müzik modunda Spotify kitaplığı, albümler ve beğenilen parçalar.",
+  "spotify-card-memory-title": "2 GB yerine en fazla 200 MB",
+  "spotify-card-memory-body": "Gömülü tarayıcı yok: yerel SwiftUI arayüzü ve hafif ses motoru, masaüstü Spotify istemcisinin kullandığı belleğin yalnızca küçük bir kısmını tüketir.",
+  "spotify-card-standalone-title": "Spotify.app kapalıyken çalar",
+  "spotify-card-standalone-body": "Kitaplığınızı, albümleri, çalma listelerini ve aramayı gezin, ⌘Z geri alma ile favorileri yönetin ve yerel sıranızı doğrudan Kinrox’ta çalın.",
+  "spotify-card-remote-title": "Aynı iPhone kumandası",
+  "spotify-card-remote-body": "Şifreli yerel ağınız üzerinden koltuktan kalkmadan parçaları geçin, sırayı görün, sesi ve favorileri yönetin."
 }

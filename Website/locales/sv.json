@@ -166,5 +166,14 @@
   "spotify-terms-description": "Spotify-åtkomst: bibliotek, uppspelning, favoriter och redigerbara spellistor. Om du tar bort en favorit tas låten även bort från redigerbara spellistor.",
   "spotify-terms": "Anslutningsvillkor",
   "spotify-disclosure": "Spotify-åtkomst: bibliotek, uppspelning, favoriter och redigerbara spellistor. Om du tar bort en favorit tas låten även bort från redigerbara spellistor. Inloggningsuppgifter sparas i Mac-nyckelringen. Frånkoppling raderar lokala Spotify-data och behåller Spotify-spellistor. Ingen Kinrox-server eller användningsanalys.",
-  "spotify-links": "Öppna i Spotify"
+  "spotify-links": "Öppna i Spotify",
+  "spotify-section-title": "Spotify utan den tunga datorappen.",
+  "spotify-section-lead": "Det inbyggda musikläget i SwiftUI använder upp till 200 MB minne — 2 till 10 gånger mindre än Spotify självt, vars skrivbordsklient kan ta upp till 2 GB. Håll Spotify.app helt stängt.",
+  "spotify-shot-alt": "Musikläget i Kinrox på Mac visar Spotify-bibliotek, album och gillade låtar.",
+  "spotify-card-memory-title": "Upp till 200 MB istället för 2 GB",
+  "spotify-card-memory-body": "Ingen inbäddad webbläsare: inbyggda SwiftUI-vyer och en lätt ljudmotor använder en bråkdel av minnet jämfört med Spotifys datorapp.",
+  "spotify-card-standalone-title": "Spelar med Spotify.app stängt",
+  "spotify-card-standalone-body": "Bläddra i bibliotek, album, spellistor och sök, hantera favoriter med ⌘Z-ångra och spela din lokala kö direkt i Kinrox.",
+  "spotify-card-remote-title": "Samma iPhone-fjärrkontroll",
+  "spotify-card-remote-body": "Hoppa över spår, se kön, justera volymen och växla favoriter från soffan över ditt krypterade lokala nätverk."
 }

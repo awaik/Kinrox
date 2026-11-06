@@ -166,5 +166,14 @@
   "spotify-terms-description": "גישת Spotify: ספרייה, השמעה, מועדפים ופלייליסטים ניתנים לעריכה. הסרה מהמועדפים מסירה את הרצועה גם מפלייליסטים ניתנים לעריכה.",
   "spotify-terms": "תנאי החיבור",
   "spotify-disclosure": "גישת Spotify: ספרייה, השמעה, מועדפים ופלייליסטים ניתנים לעריכה. הסרה מהמועדפים מסירה את הרצועה גם מפלייליסטים ניתנים לעריכה. פרטי ההתחברות נשמרים בצרור המפתחות של ה-Mac. ניתוק מוחק נתוני Spotify מקומיים ושומר על הפלייליסטים ב-Spotify. אין שרת Kinrox או ניתוח שימוש.",
-  "spotify-links": "פתיחה ב-Spotify"
+  "spotify-links": "פתיחה ב-Spotify",
+  "spotify-section-title": "Spotify בלי אפליקציית שולחן העבודה הכבדה.",
+  "spotify-section-lead": "מצב המוזיקה הטבעי ב-SwiftUI צורך עד 200 MB זיכרון — פי 2 עד 10 פחות מ-Spotify עצמו, שלקוח שולחן העבודה שלו עלול לתפוס עד 2 GB. אפשר להשאיר את Spotify.app סגור לגמרי.",
+  "spotify-shot-alt": "מצב מוזיקה ב-Kinrox ב-Mac המציג ספריית Spotify, אלבומים ושירים שאהבת.",
+  "spotify-card-memory-title": "עד 200 MB במקום 2 GB",
+  "spotify-card-memory-body": "ללא דפדפן מוטמע: תצוגות SwiftUI טבעיות ומנוע שמע קל צורכים שבריר מהזיכרון של לקוח Spotify לשולחן העבודה.",
+  "spotify-card-standalone-title": "מנגן כש-Spotify.app סגור",
+  "spotify-card-standalone-body": "דפדף בספרייה, באלבומים, בפלייליסטים ובחיפוש, נהל מועדפים עם ביטול ב-⌘Z ונגן את התור המקומי ישירות ב-Kinrox.",
+  "spotify-card-remote-title": "אותו שלט ב-iPhone",
+  "spotify-card-remote-body": "דלג על שירים, צפה בתור, כוון עוצמת שמע וסמן מועדפים מהספה דרך הרשת המקומית המוצפנת."
 }

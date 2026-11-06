@@ -166,5 +166,14 @@
   "spotify-terms-description": "Quyền truy cập Spotify: thư viện, phát nhạc, mục yêu thích và danh sách phát có thể sửa. Bỏ yêu thích cũng xóa bài hát khỏi các danh sách phát có thể sửa.",
   "spotify-terms": "Điều khoản kết nối",
   "spotify-disclosure": "Quyền truy cập Spotify: thư viện, phát nhạc, mục yêu thích và danh sách phát có thể sửa. Bỏ yêu thích cũng xóa bài hát khỏi các danh sách phát có thể sửa. Thông tin đăng nhập nằm trong Chuỗi khóa Mac. Ngắt kết nối xóa dữ liệu Spotify cục bộ và giữ danh sách phát Spotify. Không có máy chủ Kinrox hay phân tích sử dụng.",
-  "spotify-links": "Mở trong Spotify"
+  "spotify-links": "Mở trong Spotify",
+  "spotify-section-title": "Spotify không cần ứng dụng máy tính nặng nề.",
+  "spotify-section-lead": "Chế độ nhạc SwiftUI thuần gốc chỉ dùng tối đa 200 MB bộ nhớ — ít hơn từ 2 đến 10 lần so với chính Spotify, khi ứng dụng máy tính có thể chiếm tới 2 GB. Bạn có thể đóng hoàn toàn Spotify.app.",
+  "spotify-shot-alt": "Chế độ Nhạc của Kinrox trên Mac hiển thị thư viện Spotify, album và bài hát đã thích.",
+  "spotify-card-memory-title": "Tối đa 200 MB thay vì 2 GB",
+  "spotify-card-memory-body": "Không nhúng trình duyệt: giao diện SwiftUI gốc và bộ phát âm thanh gọn nhẹ chỉ tốn một phần nhỏ bộ nhớ so với ứng dụng Spotify.",
+  "spotify-card-standalone-title": "Phát ngay cả khi đã đóng Spotify.app",
+  "spotify-card-standalone-body": "Duyệt thư viện, album, danh sách phát và tìm kiếm, quản lý yêu thích có hoàn tác ⌘Z và phát hàng đợi cục bộ ngay trong Kinrox.",
+  "spotify-card-remote-title": "Cùng điều khiển từ xa trên iPhone",
+  "spotify-card-remote-body": "Chuyển bài, xem hàng đợi, chỉnh âm lượng và đánh dấu yêu thích từ ghế sofa qua mạng nội bộ được mã hóa."
 }

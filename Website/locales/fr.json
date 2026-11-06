@@ -166,5 +166,14 @@
   "spotify-terms-description": "Accès Spotify : bibliothèque, lecture, favoris et playlists modifiables. Retirer un favori le supprime aussi des playlists modifiables.",
   "spotify-terms": "Conditions de connexion",
   "spotify-disclosure": "Accès Spotify : bibliothèque, lecture, favoris et playlists modifiables. Retirer un favori le supprime aussi des playlists modifiables. Les identifiants restent dans le trousseau du Mac. La déconnexion efface les données locales Spotify et conserve ses playlists. Aucun serveur Kinrox ni analyse d’utilisation.",
-  "spotify-links": "Ouvrir dans Spotify"
+  "spotify-links": "Ouvrir dans Spotify",
+  "spotify-section-title": "Spotify sans la lourde application de bureau.",
+  "spotify-section-lead": "Le mode musique natif en SwiftUI utilise jusqu’à 200 Mo de mémoire — 2 à 10 fois moins que Spotify lui-même, dont le client de bureau peut atteindre 2 Go. Gardez Spotify.app complètement fermé.",
+  "spotify-shot-alt": "Mode Musique de Kinrox sur Mac affichant la bibliothèque Spotify, les albums et les titres aimés.",
+  "spotify-card-memory-title": "Jusqu’à 200 Mo au lieu de 2 Go",
+  "spotify-card-memory-body": "Aucun navigateur intégré : l’interface SwiftUI native et le moteur audio léger consomment une fraction de la mémoire du client Spotify.",
+  "spotify-card-standalone-title": "Fonctionne avec Spotify.app fermé",
+  "spotify-card-standalone-body": "Parcourez votre bibliothèque, vos albums et playlists, gérez vos favoris avec annulation ⌘Z et écoutez votre file locale directement dans Kinrox.",
+  "spotify-card-remote-title": "La même télécommande iPhone",
+  "spotify-card-remote-body": "Changez de piste, consultez la file d’attente, réglez le volume et vos favoris depuis le canapé via votre réseau local chiffré."
 }
