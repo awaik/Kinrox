@@ -89,7 +89,7 @@
   "kinrox-is-written-in-swift-6-and-swiftui-on": "Το Kinrox είναι γραμμένο στο Swift 6 και SwiftUI πάνω από το libmpv. Κάθε γραμμή του προγράμματος αναπαραγωγής, του τηλεχειριστηρίου και του πρωτοκόλλου είναι στο GitHub.",
   "mac-player-works": "{0}{1}Mac player — λειτουργεί",
   "iphone-remote-build-from-source": "{0}{1}iPhone απομακρυσμένη — δημιουργία από την πηγή",
-  "mac-v0-3-0-signed-and-notarized-dmg": "{0}{1}Mac v0.5.3 — υπογεγραμμένο και συμβολαιογραφικό DMG",
+  "mac-v0-3-0-signed-and-notarized-dmg": "{0}{1}Mac v0.5.4 — υπογεγραμμένο και συμβολαιογραφικό DMG",
   "remote-on-the-app-store-planned": "{0}{1}Τηλεχειριστήριο στο App Store — έχει προγραμματιστεί",
   "releases": "Εκδόσεις",
   "build-from-source": "{0}Δημιουργία από πηγή",
