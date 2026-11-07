@@ -400,3 +400,30 @@
 "Artist" = "Artis";
 "Go to album" = "Buka album";
 "Go to artist" = "Buka artis";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Kembali ke pustaka";
+"Similar & discovery" = "Serupa & penemuan";
+"Similar" = "Serupa";
+"Mine" = "Milik saya";
+"Subscribed" = "Diikuti";
+"Themes" = "Tema";
+"Saved" = "Tersimpan";
+"Same spirit" = "Nuansa serupa";
+"Underground" = "Underground";
+"Fresh" = "Terbaru";
+"Hide liked" = "Sembunyikan yang disukai";
+"Mixes & compilations" = "Mix & kompilasi";
+"Recommended tracks" = "Lagu rekomendasi";
+"Why this track" = "Mengapa lagu ini";
+"In %@ playlists: %@" = "Di %@ playlist: %@";
+"Compilation: %@" = "Kompilasi: %@";
+"Underground · tag:hipster" = "Underground · tag:hipster";
+"Fresh release · tag:new" = "Rilisan baru · tag:new";
+"Genre: %@" = "Genre: %@";
+"Artist: %@" = "Artis: %@";
+"Clear manual" = "Hapus manual";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Taruh lagu, album, atau playlist di sini — album dan playlist akan diurai menjadi lagu";
+"Move up" = "Pindah ke atas";
+"Move down" = "Pindah ke bawah";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify hanya menyediakan lagu untuk playlist milik Anda atau yang Anda kolaborasikan.";

@@ -50,8 +50,12 @@ extension SpotifyLibraryStore {
                         if resources["playlist:" + remote.id]?.snapshotID != remote.snapshotID {
                             resources["playlist:" + remote.id] = nil
                         }
-                        return remote.model(trackIDs: ids)
-                    }.filter { $0.isEditable(by: library.userID) }
+                        var model = remote.model(trackIDs: ids)
+                        if restrictedPlaylistIDs.contains(remote.id) {
+                            model.itemsAvailable = false
+                        }
+                        return model
+                    }
                     rebuildIndex()
                 }
                 mark(key, etag: result.etag)
@@ -137,7 +141,8 @@ extension SpotifyLibraryStore {
             let version = stamp(key)
             let result = try await client.resourcePages(
                 SpotifyAlbum.self,
-                path: "artists/" + id + "/albums?limit=50&include_groups=album,single",
+                path: "artists/" + id
+                    + "/albums?limit=50&include_groups=album,single,appears_on,compilation",
                 etag: resources[key]?.etag)
             guard accepts(key, stamp: version) else { return }
             if let albums = result.value { catalog.merge(albums: albums.map { $0.model() }) }
@@ -146,15 +151,18 @@ extension SpotifyLibraryStore {
         }
     }
 
-    func ensurePlaylistLoaded(_ id: String) async throws {
+    func ensurePlaylistLoaded(_ id: String, requireEditable: Bool = false) async throws {
         let key = "playlist:" + id
         try await shared(key) { [self] in
             let version = stamp(key)
             for _ in 0..<3 {
                 let remote = try await client.playlist(id, live: true)
-                guard remote.model().isEditable(by: library.userID),
-                    !isExcludedQueuePlaylist(id: id, title: remote.name, ownerID: remote.owner.id)
+                guard !isExcludedQueuePlaylist(id: id, title: remote.name, ownerID: remote.owner.id)
                 else {
+                    throw SpotifyError.forbidden
+                }
+                let editable = remote.model().isEditable(by: library.userID)
+                guard !requireEditable || editable else {
                     throw SpotifyError.forbidden
                 }
                 guard let snapshot = remote.snapshotID, !snapshot.isEmpty else {
@@ -164,14 +172,29 @@ extension SpotifyLibraryStore {
                     resources[key]?.isComplete == true
                 {
                     guard accepts(key, stamp: version) else { return }
+                    restrictedPlaylistIDs.remove(id)
                     installPlaylist(remote.model(trackIDs: ids))
                     mark(key, snapshot: snapshot)
                     await publish()
                     return
                 }
-                let entries = try await client.playlistItems(id)
+                let entries: [SpotifyPlaylistItem]
+                do {
+                    entries = try await client.playlistItems(id)
+                } catch SpotifyError.forbidden where !requireEditable {
+                    guard accepts(key, stamp: version) else { return }
+                    restrictedPlaylistIDs.insert(id)
+                    resources[key] = nil
+                    let existingIDs =
+                        library.playlists.first(where: { $0.id == id })?.trackIDs ?? []
+                    var restrictedModel = remote.model(trackIDs: existingIDs)
+                    restrictedModel.itemsAvailable = false
+                    installPlaylist(restrictedModel)
+                    await publish()
+                    throw SpotifyPlaylistError.itemsUnavailable
+                }
                 let after = try await client.playlist(id, live: true)
-                guard after.model().isEditable(by: library.userID) else {
+                guard !requireEditable || after.model().isEditable(by: library.userID) else {
                     throw SpotifyError.forbidden
                 }
                 guard after.snapshotID == snapshot else { continue }
@@ -184,6 +207,7 @@ extension SpotifyLibraryStore {
                         entry.value?.model(playlistAddedAt: entry.addedDate.map { [id: $0] })
                     },
                     albums: entries.compactMap { $0.value?.album?.model() })
+                restrictedPlaylistIDs.remove(id)
                 installPlaylist(after.model(trackIDs: ids))
                 mark(key, snapshot: snapshot)
                 index.update(playlistID: id, snapshotID: snapshot, trackIDs: ids)
@@ -202,7 +226,9 @@ extension SpotifyLibraryStore {
     }
     func ensureEditablePlaylistsLoaded() async throws {
         try await loadCollection("playlists", force: true)
-        for playlist in library.editablePlaylists { try await ensurePlaylistLoaded(playlist.id) }
+        for playlist in library.editablePlaylists {
+            try await ensurePlaylistLoaded(playlist.id, requireEditable: true)
+        }
     }
 
     func search(_ query: String) async throws -> MusicCatalog {

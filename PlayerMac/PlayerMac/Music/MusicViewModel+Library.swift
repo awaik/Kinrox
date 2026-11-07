@@ -3,6 +3,7 @@ import MusicCore
 
 extension MusicViewModel {
     func replaceStore(_ store: any MusicLibraryStore, accountName: String? = nil) {
+        discoveryRequestID = UUID()
         browsingTask?.cancel()
         syncTask?.cancel()
         (self.store as? SpotifyLibraryStore)?.onChange = nil
@@ -25,6 +26,15 @@ extension MusicViewModel {
         lastSnapshot = nil
         query = ""
         searchResults = nil
+        leftSection = .home
+        leftFilterQuery = ""
+        playlistFilter = .all
+        selectedPlaylistTheme = nil
+        discoveredThemePlaylists = []
+        isAlbumsOverview = false
+        collectionFilterQuery = ""
+        discoverySnapshot = nil
+        isDiscovering = false
         undoMutations = []
         undoSnapshots = [:]
         retryChange = nil
@@ -126,13 +136,38 @@ extension MusicViewModel {
             guard let self else { return }
             do {
                 if let albumID { try await store.loadAlbum(albumID) }
-                if let artistID { try await store.loadArtist(artistID) }
+                if let artistID {
+                    try await store.loadArtist(artistID)
+                    let artistAlbums = store.catalog.albums.filter {
+                        $0.artists.contains { $0.id == artistID }
+                    }
+                    let hasArtistTracks = store.catalog.tracks.contains {
+                        $0.artists.contains { $0.id == artistID }
+                    }
+                    if let firstAlbum = artistAlbums.first,
+                        artistAlbums.count == 1 || !hasArtistTracks,
+                        firstAlbum.trackIDs.isEmpty
+                    {
+                        try? await store.loadAlbum(firstAlbum.id)
+                    }
+                }
                 if let playlistID { try await store.ensurePlaylistLoaded(playlistID) }
                 guard self.store === store, self.selection == selection else { return }
                 self.catalog = store.catalog
+                self.library = store.library
+                if self.statusMessage
+                    == L10n.text(
+                        "Spotify only provides tracks for playlists you own or collaborate on.")
+                {
+                    self.statusMessage = nil
+                }
                 self.refreshContents()
             } catch is CancellationError {} catch {
+                guard self.store === store, self.selection == selection else { return }
+                self.catalog = store.catalog
+                self.library = store.library
                 self.statusMessage = SpotifyStatus.message(error)
+                self.refreshContents()
             }
         }
     }
@@ -146,7 +181,11 @@ extension MusicViewModel {
             select(.albums)
             return
         }
-        if selection.source != .search(query) { searchResults = MusicCatalog() }
+        isAlbumsOverview = false
+        if selection.source != .search(query) {
+            collectionFilterQuery = ""
+            searchResults = MusicCatalog()
+        }
         selection.select(source: .search(query))
         refreshContents()
         browsingTask = Task { [weak self] in

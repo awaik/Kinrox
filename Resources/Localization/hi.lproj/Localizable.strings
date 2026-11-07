@@ -400,3 +400,30 @@
 "Artist" = "कलाकार";
 "Go to album" = "एल्बम पर जाएँ";
 "Go to artist" = "कलाकार पर जाएँ";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ लाइब्रेरी पर वापस जाएँ";
+"Similar & discovery" = "मिलते-जुलते और खोज";
+"Similar" = "मिलते-जुलते";
+"Mine" = "मेरे";
+"Subscribed" = "सब्सक्राइब किए गए";
+"Themes" = "थीम";
+"Saved" = "सहेजे गए";
+"Same spirit" = "वैसा ही मिज़ाज";
+"Underground" = "अंडरग्राउंड";
+"Fresh" = "नया";
+"Hide liked" = "पसंद किए गए छिपाएँ";
+"Mixes & compilations" = "मिक्स और संकलन";
+"Recommended tracks" = "सुझाए गए ट्रैक";
+"Why this track" = "यह ट्रैक क्यों";
+"In %@ playlists: %@" = "%@ प्लेलिस्ट में: %@";
+"Compilation: %@" = "संकलन: %@";
+"Underground · tag:hipster" = "अंडरग्राउंड · tag:hipster";
+"Fresh release · tag:new" = "नई रिलीज़ · tag:new";
+"Genre: %@" = "शैली: %@";
+"Artist: %@" = "कलाकार: %@";
+"Clear manual" = "मैनुअल साफ़ करें";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "यहाँ ट्रैक, एल्बम या प्लेलिस्ट छोड़ें — एल्बम और प्लेलिस्ट ट्रैक में खुल जाएँगे";
+"Move up" = "ऊपर ले जाएँ";
+"Move down" = "नीचे ले जाएँ";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify केवल उन प्लेलिस्ट के ट्रैक प्रदान करता है जिनके आप स्वामी या सहयोगी हैं।";

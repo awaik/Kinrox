@@ -400,3 +400,30 @@
 "Artist" = "فنکار";
 "Go to album" = "البم پر جائیں";
 "Go to artist" = "فنکار پر جائیں";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ لائبریری پر واپس جائیں";
+"Similar & discovery" = "ملتے جلتے اور دریافت";
+"Similar" = "ملتے جلتے";
+"Mine" = "میری";
+"Subscribed" = "سبسکرائب کردہ";
+"Themes" = "موضوعات";
+"Saved" = "محفوظ کردہ";
+"Same spirit" = "ایک جیسا انداز";
+"Underground" = "انڈرگراؤنڈ";
+"Fresh" = "تازہ";
+"Hide liked" = "پسندیدہ چھپائیں";
+"Mixes & compilations" = "مکسز اور مجموعے";
+"Recommended tracks" = "تجویز کردہ ٹریکس";
+"Why this track" = "یہ ٹریک کیوں";
+"In %@ playlists: %@" = "%@ پلے لسٹس میں: %@";
+"Compilation: %@" = "مجموعہ: %@";
+"Underground · tag:hipster" = "انڈرگراؤنڈ · tag:hipster";
+"Fresh release · tag:new" = "نئی ریلیز · tag:new";
+"Genre: %@" = "صنف: %@";
+"Artist: %@" = "فنکار: %@";
+"Clear manual" = "دستی شامل کردہ صاف کریں";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "یہاں ٹریک، البم یا پلے لسٹ چھوڑیں — البمز اور پلے لسٹس ٹریکس میں کھل جاتی ہیں";
+"Move up" = "اوپر منتقل کریں";
+"Move down" = "نیچے منتقل کریں";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify صرف ان پلے لسٹس کے ٹریکس فراہم کرتا ہے جو آپ کی ملکیت ہیں یا جن میں آپ شریک کار ہیں۔";

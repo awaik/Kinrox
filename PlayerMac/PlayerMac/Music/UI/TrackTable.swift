@@ -170,6 +170,21 @@ struct MusicTrackRow: View {
                     Image(systemName: "xmark").frame(width: 56, height: 28).contentShape(
                         Rectangle())
                 }.buttonStyle(.plain).accessibilityLabel(L10n.text("Remove from queue"))
+            } else if queueID == nil, hovered, track.isPlayable != false {
+                Button {
+                    model.addToQueue(track)
+                } label: {
+                    HStack(spacing: 3) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 9, weight: .bold))
+                        Text(L10n.text("Queue"))
+                            .font(.system(size: 10, weight: .medium))
+                    }
+                    .foregroundStyle(Palette.textPrimary)
+                    .frame(width: 56, height: 24)
+                    .background(Palette.glassStrong, in: RoundedRectangle(cornerRadius: 5))
+                    .contentShape(Rectangle())
+                }.buttonStyle(.plain).accessibilityLabel(L10n.text("Add to queue"))
             } else {
                 Text(TimeFormat.string(track.duration)).font(KinroxFont.monoDigits(12))
                     .foregroundStyle(Palette.textTertiary).frame(
@@ -209,19 +224,20 @@ struct MusicTrackRow: View {
                 track.isPlayable == false || !model.canPlayLibrary)
             Button(L10n.text("Add to queue")) { model.addToQueue(track) }.disabled(
                 track.isPlayable == false)
+            Button(L10n.text("Similar")) { model.openSimilar(forTrack: track) }
             if let queueID, model.queue.current?.id != queueID {
                 Button(L10n.text("Remove from queue")) { model.removeFromQueue(queueID) }
             }
         }
+        .draggable(queueID?.uuidString ?? "track:\(track.id)")
         .accessibilityElement(children: .contain)
         .accessibilityAddTraits(selected ? .isSelected : [])
         .accessibilityAction(named: L10n.text("Play"), play)
         .dropDestination(for: String.self) { values, _ in
-            guard let queueID, let value = values.first, let id = UUID(uuidString: value) else {
+            guard let queueID, let value = values.first else {
                 return false
             }
-            model.moveQueue(id, before: queueID)
-            return true
+            return model.handleQueueDrop(value, before: queueID)
         }
     }
 

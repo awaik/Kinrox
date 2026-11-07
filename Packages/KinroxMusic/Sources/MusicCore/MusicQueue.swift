@@ -59,7 +59,58 @@ public struct MusicQueue: Equatable, Sendable {
     }
 
     public mutating func add(_ track: MusicTrack) {
+        guard track.isPlayable != false else { return }
         manual.append(MusicQueueItem(track: track, origin: .manual))
+    }
+
+    public mutating func add(_ tracks: [MusicTrack]) {
+        _ = insert(tracks, before: nil)
+    }
+
+    /// Inserts one or more tracks (such as an expanded album or playlist) before a target
+    /// queue item, or appends them to the manual queue when `destination` is nil.
+    @discardableResult
+    public mutating func insert(
+        _ tracks: [MusicTrack], before destination: UUID? = nil
+    ) -> [UUID] {
+        let playable = tracks.filter { $0.isPlayable != false }
+        guard !playable.isEmpty else { return [] }
+        if let destination, let target = upcoming.first(where: { $0.id == destination }) {
+            let items = playable.map { MusicQueueItem(track: $0, origin: target.origin) }
+            if target.origin == .manual {
+                let index = manual.firstIndex { $0.id == destination } ?? manual.count
+                manual.insert(contentsOf: items, at: index)
+            } else {
+                let index = source.firstIndex { $0.id == destination } ?? source.count
+                source.insert(contentsOf: items, at: index)
+            }
+            return items.map(\.id)
+        }
+        let items = playable.map { MusicQueueItem(track: $0, origin: .manual) }
+        manual.append(contentsOf: items)
+        return items.map(\.id)
+    }
+
+    public mutating func clearManual() {
+        for id in manual.map(\.id) {
+            _ = remove(id)
+        }
+    }
+
+    @discardableResult
+    public mutating func moveOffset(_ id: UUID, by delta: Int) -> Bool {
+        guard delta != 0 else { return false }
+        let items = upcoming
+        guard let index = items.firstIndex(where: { $0.id == id }) else { return false }
+        let targetIndex = min(max(0, index + delta), items.count - 1)
+        guard targetIndex != index else { return false }
+        if delta < 0 {
+            return move(id, before: items[targetIndex].id)
+        }
+        if targetIndex + 1 < items.count {
+            return move(id, before: items[targetIndex + 1].id)
+        }
+        return move(id, before: nil)
     }
 
     /// Current playback is kept separate; removal only affects pending entries.
@@ -73,8 +124,22 @@ public struct MusicQueue: Equatable, Sendable {
     }
 
     /// Dropping into a section adopts that section, preserving manual-before-source order.
+    /// Passing `nil` for `destination` moves the item to the tail of the upcoming queue.
     @discardableResult
-    public mutating func move(_ id: UUID, before destination: UUID) -> Bool {
+    public mutating func move(_ id: UUID, before destination: UUID? = nil) -> Bool {
+        guard let destination else {
+            guard var item = upcoming.first(where: { $0.id == id }) else { return false }
+            manual.removeAll { $0.id == id }
+            source.removeAll { $0.id == id }
+            if !source.isEmpty {
+                item.origin = .source
+                source.append(item)
+            } else {
+                item.origin = .manual
+                manual.append(item)
+            }
+            return true
+        }
         guard id != destination, var item = upcoming.first(where: { $0.id == id }),
             let target = upcoming.first(where: { $0.id == destination })
         else { return false }

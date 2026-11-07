@@ -400,3 +400,30 @@
 "Artist" = "শিল্পী";
 "Go to album" = "অ্যালবামে যান";
 "Go to artist" = "শিল্পীতে যান";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ লাইব্রেরিতে ফিরে যান";
+"Similar & discovery" = "অনুরূপ ও আবিষ্কার";
+"Similar" = "অনুরূপ";
+"Mine" = "আমার";
+"Subscribed" = "সাবস্ক্রাইব করা";
+"Themes" = "থিম";
+"Saved" = "সংরক্ষিত";
+"Same spirit" = "একই মেজাজ";
+"Underground" = "আন্ডারগ্রাউন্ড";
+"Fresh" = "নতুন";
+"Hide liked" = "পছন্দের ট্র্যাক লুকান";
+"Mixes & compilations" = "মিক্স ও সংকলন";
+"Recommended tracks" = "প্রস্তাবিত ট্র্যাক";
+"Why this track" = "কেন এই ট্র্যাক";
+"In %@ playlists: %@" = "%@টি প্লেলিস্টে: %@";
+"Compilation: %@" = "সংকলন: %@";
+"Underground · tag:hipster" = "আন্ডারগ্রাউন্ড · tag:hipster";
+"Fresh release · tag:new" = "নতুন রিলিজ · tag:new";
+"Genre: %@" = "ধরন: %@";
+"Artist: %@" = "শিল্পী: %@";
+"Clear manual" = "ম্যানুয়াল তালিকা মুছুন";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "এখানে ট্র্যাক, অ্যালবাম বা প্লেলিস্ট টেনে আনুন — অ্যালবাম ও প্লেলিস্ট ট্র্যাকে প্রসারিত হবে";
+"Move up" = "উপরে সরান";
+"Move down" = "নিচে সরান";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify কেবল আপনার নিজের বা যৌথ প্লেলিস্টের ট্র্যাক প্রদান করে।";

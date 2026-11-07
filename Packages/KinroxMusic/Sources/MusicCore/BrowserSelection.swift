@@ -1,7 +1,7 @@
 import Foundation
 
 public enum MusicSource: Hashable, Codable, Sendable {
-    case albums, liked, queue
+    case albums, liked, queue, similar
     case playlist(String)
     case artist(String)
     case search(String)
@@ -11,6 +11,7 @@ public enum MusicSource: Hashable, Codable, Sendable {
         case .albums: "albums"
         case .liked: "liked"
         case .queue: "queue"
+        case .similar: "similar"
         case .playlist(let id): "playlist:\(id)"
         case .artist(let id): "artist:\(id)"
         case .search(let query): "search:\(query)"
@@ -79,6 +80,8 @@ public struct BrowserSelection: Equatable, Codable, Sendable {
             tracks = catalog.tracks.filter { $0.artists.contains { $0.id == id } }
         case .queue:
             tracks = queue.items.map(\.track)
+        case .similar:
+            tracks = MusicDiscoveryEngine.build(catalog: catalog, library: library).tracks
         case .search(let query):
             let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
             func matches(_ value: String) -> Bool {
@@ -99,7 +102,7 @@ public struct BrowserSelection: Equatable, Codable, Sendable {
             }
         }
         let filtered: [MusicTrack]
-        if let albumID, source == .albums,
+        if let albumID,
             let album = catalog.album(id: albumID), !album.trackIDs.isEmpty
         {
             filtered = catalog.tracks(in: album)

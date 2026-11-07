@@ -66,7 +66,12 @@ struct MusicKeyboard: NSViewRepresentable {
             case 49:
                 // A focused SwiftUI button can consume Space before the menu shortcut.
                 if !event.isARepeat, model.canTogglePause { model.togglePause() }
-            case 53: model.leaveSearch()
+            case 53:
+                if model.leftSection != .home {
+                    model.collapseLeftSection()
+                } else {
+                    model.leaveSearch()
+                }
             case 36, 76: model.playFocused()
             case 51, 117:
                 if model.isQueue, let id = model.focusedQueueID { model.removeFromQueue(id) }
@@ -129,7 +134,7 @@ extension MusicViewModel {
         switch focusedColumn {
         case .source:
             let sources: [MusicSource] =
-                (query.isEmpty ? [] : [.search(query)]) + [.liked, .albums, .queue]
+                (query.isEmpty ? [] : [.search(query)]) + [.liked, .albums, .similar, .queue]
                 + library.playlists.map { .playlist($0.id) }
                 + catalog.artists.map { .artist($0.id) }
             let index = sources.firstIndex(of: selection.source) ?? 0

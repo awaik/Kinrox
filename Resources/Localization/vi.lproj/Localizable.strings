@@ -400,3 +400,30 @@
 "Artist" = "Nghệ sĩ";
 "Go to album" = "Đi tới album";
 "Go to artist" = "Đi tới nghệ sĩ";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Quay lại thư viện";
+"Similar & discovery" = "Tương tự & khám phá";
+"Similar" = "Tương tự";
+"Mine" = "Của tôi";
+"Subscribed" = "Đã theo dõi";
+"Themes" = "Chủ đề";
+"Saved" = "Đã lưu";
+"Same spirit" = "Cùng âm hưởng";
+"Underground" = "Underground";
+"Fresh" = "Mới phát hành";
+"Hide liked" = "Ẩn bài đã thích";
+"Mixes & compilations" = "Tuyển tập & hợp tuyển";
+"Recommended tracks" = "Bài hát gợi ý";
+"Why this track" = "Vì sao gợi ý bài này";
+"In %@ playlists: %@" = "Trong %@ playlist: %@";
+"Compilation: %@" = "Tuyển tập: %@";
+"Underground · tag:hipster" = "Underground · tag:hipster";
+"Fresh release · tag:new" = "Phát hành mới · tag:new";
+"Genre: %@" = "Thể loại: %@";
+"Artist: %@" = "Nghệ sĩ: %@";
+"Clear manual" = "Xóa mục thêm thủ công";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Thả bài hát, album hoặc playlist vào đây — album và playlist sẽ tách thành từng bài hát";
+"Move up" = "Chuyển lên";
+"Move down" = "Chuyển xuống";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify chỉ cung cấp danh sách bài hát cho các playlist bạn sở hữu hoặc cộng tác.";

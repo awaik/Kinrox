@@ -48,16 +48,23 @@ extension SpotifyClient {
     public func albumTracks(_ id: String) async throws -> [SpotifyTrack] {
         try await pages(SpotifyTrack.self, "albums/" + Self.identifier(id) + "/tracks?limit=50")
     }
-    public func artistAlbums(_ id: String) async throws -> [SpotifyAlbum] {
+    public func artist(_ id: String) async throws -> SpotifyArtistDetails {
+        try await get(SpotifyArtistDetails.self, "artists/" + Self.identifier(id))
+    }
+    public func artistAlbums(
+        _ id: String, includeGroups: String = "album,single"
+    ) async throws -> [SpotifyAlbum] {
         try await pages(
             SpotifyAlbum.self,
-            "artists/" + Self.identifier(id) + "/albums?limit=50&include_groups=album,single")
+            "artists/" + Self.identifier(id) + "/albums?limit=50&include_groups=" + includeGroups)
     }
-    public func search(_ text: String, offset: Int = 0) async throws -> SpotifySearchResults {
+    public func search(
+        _ text: String, offset: Int = 0, types: String = "track,album,artist", limit: Int = 10
+    ) async throws -> SpotifySearchResults {
         try await get(
             SpotifySearchResults.self, "search",
             query: [
-                "q": text, "type": "track,album,artist", "limit": "10",
+                "q": text, "type": types, "limit": String(max(1, min(10, limit))),
                 "offset": String(max(0, offset)),
             ])
     }

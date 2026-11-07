@@ -400,3 +400,30 @@
 "Artist" = "Artista";
 "Go to album" = "Ir al álbum";
 "Go to artist" = "Ir al artista";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Volver a la biblioteca";
+"Similar & discovery" = "Similares y descubrimiento";
+"Similar" = "Similar";
+"Mine" = "Mías";
+"Subscribed" = "Suscritas";
+"Themes" = "Temas";
+"Saved" = "Guardados";
+"Same spirit" = "Misma esencia";
+"Underground" = "Underground";
+"Fresh" = "Novedades";
+"Hide liked" = "Ocultar favoritos";
+"Mixes & compilations" = "Mezclas y recopilaciones";
+"Recommended tracks" = "Canciones recomendadas";
+"Why this track" = "Por qué esta canción";
+"In %@ playlists: %@" = "En %@ listas: %@";
+"Compilation: %@" = "Recopilación: %@";
+"Underground · tag:hipster" = "Underground · tag:hipster";
+"Fresh release · tag:new" = "Nuevo lanzamiento · tag:new";
+"Genre: %@" = "Género: %@";
+"Artist: %@" = "Artista: %@";
+"Clear manual" = "Borrar manuales";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Arrastra aquí una canción, álbum o lista — los álbumes y listas se expanden en canciones";
+"Move up" = "Subir";
+"Move down" = "Bajar";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify solo proporciona canciones de las listas que posees o en las que colaboras.";

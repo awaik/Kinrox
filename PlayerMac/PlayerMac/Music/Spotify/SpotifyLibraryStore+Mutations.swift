@@ -58,12 +58,12 @@ extension SpotifyLibraryStore {
             }
         case .album: try await loadCollection("albums")
         case .artist: try await loadCollection("artists")
-        case .membership(_, let id, _): try await ensurePlaylistLoaded(id)
+        case .membership(_, let id, _): try await ensurePlaylistLoaded(id, requireEditable: true)
         case .undo(let mutations, let expected):
             for key in Set(mutations.flatMap(\.resourceKeys)).sorted() where key != "playlists" {
                 if key.hasPrefix("playlist:") {
                     let id = String(key.dropFirst(9))
-                    try await ensurePlaylistLoaded(id)
+                    try await ensurePlaylistLoaded(id, requireEditable: true)
                     guard let version = expected[id],
                         library.playlists.first(where: { $0.id == id })?.snapshotID == version
                     else {

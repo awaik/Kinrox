@@ -400,3 +400,30 @@
 "Artist" = "אמן";
 "Go to album" = "מעבר לאלבום";
 "Go to artist" = "מעבר לאמן";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ חזרה לספרייה";
+"Similar & discovery" = "דומים וגילוי";
+"Similar" = "דומה";
+"Mine" = "שלי";
+"Subscribed" = "במעקב";
+"Themes" = "נושאים";
+"Saved" = "שמורים";
+"Same spirit" = "אותה אווירה";
+"Underground" = "מחתרתי";
+"Fresh" = "חדש";
+"Hide liked" = "הסתר אהובים";
+"Mixes & compilations" = "מיקסים ואוספים";
+"Recommended tracks" = "רצועות מומלצות";
+"Why this track" = "למה הרצועה הזו";
+"In %@ playlists: %@" = "ב־%@ פלייליסטים: %@";
+"Compilation: %@" = "אוסף: %@";
+"Underground · tag:hipster" = "מחתרתי · tag:hipster";
+"Fresh release · tag:new" = "הוצאה חדשה · tag:new";
+"Genre: %@" = "ז׳אנר: %@";
+"Artist: %@" = "אמן: %@";
+"Clear manual" = "נקה הוספות ידניות";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "גרור לכאן רצועה, אלבום או פלייליסט — אלבומים ופלייליסטים נפרשים לרצועות";
+"Move up" = "הזז למעלה";
+"Move down" = "הזז למטה";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify מספק רצועות רק עבור פלייליסטים שבבעלותך או בשיתוף פעולה איתך.";

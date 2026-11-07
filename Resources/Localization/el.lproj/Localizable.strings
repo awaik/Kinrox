@@ -400,3 +400,30 @@
 "Artist" = "Καλλιτέχνης";
 "Go to album" = "Μετάβαση στο άλμπουμ";
 "Go to artist" = "Μετάβαση στον καλλιτέχνη";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Πίσω στη βιβλιοθήκη";
+"Similar & discovery" = "Παρόμοια & ανακάλυψη";
+"Similar" = "Παρόμοια";
+"Mine" = "Δικά μου";
+"Subscribed" = "Ακολουθούμενα";
+"Themes" = "Θέματα";
+"Saved" = "Αποθηκευμένα";
+"Same spirit" = "Ίδια ατμόσφαιρα";
+"Underground" = "Underground";
+"Fresh" = "Φρέσκα";
+"Hide liked" = "Απόκρυψη αγαπημένων";
+"Mixes & compilations" = "Μιξ & συλλογές";
+"Recommended tracks" = "Προτεινόμενα κομμάτια";
+"Why this track" = "Γιατί αυτό το κομμάτι";
+"In %@ playlists: %@" = "Σε %@ λίστες: %@";
+"Compilation: %@" = "Συλλογή: %@";
+"Underground · tag:hipster" = "Underground · tag:hipster";
+"Fresh release · tag:new" = "Νέα κυκλοφορία · tag:new";
+"Genre: %@" = "Είδος: %@";
+"Artist: %@" = "Καλλιτέχνης: %@";
+"Clear manual" = "Εκκαθάριση χειροκίνητων";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Σύρετε κομμάτι, άλμπουμ ή λίστα εδώ — τα άλμπουμ και οι λίστες αναπτύσσονται σε κομμάτια";
+"Move up" = "Μετακίνηση πάνω";
+"Move down" = "Μετακίνηση κάτω";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Το Spotify παρέχει κομμάτια μόνο για λίστες αναπαραγωγής που σας ανήκουν ή στις οποίες συνεργάζεστε.";

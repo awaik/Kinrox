@@ -400,3 +400,30 @@
 "Artist" = "Előadó";
 "Go to album" = "Ugrás az albumhoz";
 "Go to artist" = "Ugrás az előadóhoz";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Vissza a könyvtárhoz";
+"Similar & discovery" = "Hasonlók és felfedezés";
+"Similar" = "Hasonló";
+"Mine" = "Saját";
+"Subscribed" = "Követett";
+"Themes" = "Témák";
+"Saved" = "Mentett";
+"Same spirit" = "Azonos hangulat";
+"Underground" = "Underground";
+"Fresh" = "Friss";
+"Hide liked" = "Kedveltek elrejtése";
+"Mixes & compilations" = "Mixek és válogatások";
+"Recommended tracks" = "Ajánlott számok";
+"Why this track" = "Miért ez a szám";
+"In %@ playlists: %@" = "%@ lejátszási listában: %@";
+"Compilation: %@" = "Válogatás: %@";
+"Underground · tag:hipster" = "Underground · tag:hipster";
+"Fresh release · tag:new" = "Új megjelenés · tag:new";
+"Genre: %@" = "Műfaj: %@";
+"Artist: %@" = "Előadó: %@";
+"Clear manual" = "Kézi elemek törlése";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Húzzon ide számot, albumot vagy listát — az albumok és listák számokra bomlanak";
+"Move up" = "Mozgatás fel";
+"Move down" = "Mozgatás le";
+"Spotify only provides tracks for playlists you own or collaborate on." = "A Spotify csak a saját vagy közös szerkesztésű lejátszási listák számait teszi elérhetővé.";

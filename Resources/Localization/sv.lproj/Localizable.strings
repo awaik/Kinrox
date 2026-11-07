@@ -400,3 +400,30 @@
 "Artist" = "Artist";
 "Go to album" = "Gå till album";
 "Go to artist" = "Gå till artist";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Tillbaka till biblioteket";
+"Similar & discovery" = "Liknande och upptäckter";
+"Similar" = "Liknande";
+"Mine" = "Mina";
+"Subscribed" = "Följda";
+"Themes" = "Teman";
+"Saved" = "Sparade";
+"Same spirit" = "Samma känsla";
+"Underground" = "Underground";
+"Fresh" = "Nytt";
+"Hide liked" = "Dölj gillade";
+"Mixes & compilations" = "Mixar och samlingar";
+"Recommended tracks" = "Rekommenderade spår";
+"Why this track" = "Varför detta spår";
+"In %@ playlists: %@" = "I %@ spellistor: %@";
+"Compilation: %@" = "Samling: %@";
+"Underground · tag:hipster" = "Underground · tag:hipster";
+"Fresh release · tag:new" = "Nysläppt · tag:new";
+"Genre: %@" = "Genre: %@";
+"Artist: %@" = "Artist: %@";
+"Clear manual" = "Rensa manuella";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Släpp spår, album eller spellista här — album och spellistor vecklas ut till spår";
+"Move up" = "Flytta upp";
+"Move down" = "Flytta ner";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify tillhandahåller endast spår för spellistor som du äger eller samarbetar i.";

@@ -36,6 +36,7 @@ final class SpotifyLibraryStore: MusicLibraryStore {
     var pendingCreation: (title: String, trackID: String, playlist: MusicPlaylist)?
     var searchCache: [String: (date: Date, catalog: MusicCatalog)] = [:]
     var embeddedAlbums: [String: SpotifyAlbum] = [:]
+    var restrictedPlaylistIDs = Set<String>()
 
     init(
         client: SpotifyClient, profile: SpotifyProfile? = nil, cache: SpotifyCacheStore? = nil,
@@ -106,6 +107,7 @@ final class SpotifyLibraryStore: MusicLibraryStore {
         revalidationTask?.cancel()
         revalidationTask = nil
         searchCache.removeAll()
+        restrictedPlaylistIDs.removeAll()
         onChange = nil
     }
 
@@ -140,7 +142,7 @@ final class SpotifyLibraryStore: MusicLibraryStore {
                 if resources["playlist:" + playlist.id]?.snapshotID != playlist.snapshotID
                     || resources["playlist:" + playlist.id]?.isComplete != true
                 {
-                    try await ensurePlaylistLoaded(playlist.id)
+                    try await ensurePlaylistLoaded(playlist.id, requireEditable: true)
                 }
             }
         }

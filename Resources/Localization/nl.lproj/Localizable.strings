@@ -400,3 +400,30 @@
 "Artist" = "Artiest";
 "Go to album" = "Ga naar album";
 "Go to artist" = "Ga naar artiest";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Terug naar bibliotheek";
+"Similar & discovery" = "Vergelijkbaar & ontdekken";
+"Similar" = "Vergelijkbaar";
+"Mine" = "Van mij";
+"Subscribed" = "Gevolgd";
+"Themes" = "Thema’s";
+"Saved" = "Opgeslagen";
+"Same spirit" = "Zelfde sfeer";
+"Underground" = "Underground";
+"Fresh" = "Nieuw";
+"Hide liked" = "Verberg geliket";
+"Mixes & compilations" = "Mixen & compilaties";
+"Recommended tracks" = "Aanbevolen nummers";
+"Why this track" = "Waarom dit nummer";
+"In %@ playlists: %@" = "In %@ afspeellijsten: %@";
+"Compilation: %@" = "Compilatie: %@";
+"Underground · tag:hipster" = "Underground · tag:hipster";
+"Fresh release · tag:new" = "Nieuwe release · tag:new";
+"Genre: %@" = "Genre: %@";
+"Artist: %@" = "Artiest: %@";
+"Clear manual" = "Handmatig wissen";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Sleep een nummer, album of afspeellijst hierheen — albums en afspeellijsten worden uitgeklapt tot nummers";
+"Move up" = "Omhoog verplaatsen";
+"Move down" = "Omlaag verplaatsen";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify levert alleen nummers voor afspeellijsten waarvan je eigenaar bent of waaraan je meewerkt.";

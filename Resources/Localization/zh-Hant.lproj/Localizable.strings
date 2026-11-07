@@ -400,3 +400,30 @@
 "Artist" = "藝人";
 "Go to album" = "前往專輯";
 "Go to artist" = "前往藝人";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ 返回資料庫";
+"Similar & discovery" = "相似與探索";
+"Similar" = "相似推薦";
+"Mine" = "自建";
+"Subscribed" = "已訂閱";
+"Themes" = "主題";
+"Saved" = "已儲存";
+"Same spirit" = "同頻氛圍";
+"Underground" = "私房獨立";
+"Fresh" = "新作";
+"Hide liked" = "隱藏已按讚";
+"Mixes & compilations" = "精選與合輯";
+"Recommended tracks" = "推薦曲目";
+"Why this track" = "推薦理由";
+"In %@ playlists: %@" = "收錄於 %@ 個播放清單：%@";
+"Compilation: %@" = "合輯：%@";
+"Underground · tag:hipster" = "私房獨立 · tag:hipster";
+"Fresh release · tag:new" = "最新發行 · tag:new";
+"Genre: %@" = "曲風：%@";
+"Artist: %@" = "藝人：%@";
+"Clear manual" = "清除手動加入";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "將曲目、專輯或播放清單拖放到此處 — 專輯與播放清單會展開為單曲";
+"Move up" = "上移";
+"Move down" = "下移";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify 僅提供您擁有或共同編輯的播放清單曲目。";

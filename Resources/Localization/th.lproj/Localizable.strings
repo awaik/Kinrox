@@ -400,3 +400,30 @@
 "Artist" = "ศิลปิน";
 "Go to album" = "ไปที่อัลบั้ม";
 "Go to artist" = "ไปที่ศิลปิน";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ กลับไปที่คลังเพลง";
+"Similar & discovery" = "คล้ายกันและการค้นพบ";
+"Similar" = "คล้ายกัน";
+"Mine" = "ของฉัน";
+"Subscribed" = "ติดตามอยู่";
+"Themes" = "ธีม";
+"Saved" = "บันทึกไว้";
+"Same spirit" = "อารมณ์เดียวกัน";
+"Underground" = "อันเดอร์กราวด์";
+"Fresh" = "มาใหม่";
+"Hide liked" = "ซ่อนเพลงที่ถูกใจ";
+"Mixes & compilations" = "มิกซ์และอัลบั้มรวมเพลง";
+"Recommended tracks" = "เพลงแนะนำ";
+"Why this track" = "ทำไมถึงแนะนำเพลงนี้";
+"In %@ playlists: %@" = "อยู่ใน %@ เพลย์ลิสต์: %@";
+"Compilation: %@" = "อัลบั้มรวมเพลง: %@";
+"Underground · tag:hipster" = "อันเดอร์กราวด์ · tag:hipster";
+"Fresh release · tag:new" = "ออกใหม่ · tag:new";
+"Genre: %@" = "แนวเพลง: %@";
+"Artist: %@" = "ศิลปิน: %@";
+"Clear manual" = "ล้างรายการที่เพิ่มเอง";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "วางเพลง อัลบั้ม หรือเพลย์ลิสต์ที่นี่ — อัลบั้มและเพลย์ลิสต์จะถูกแตกเป็นรายเพลง";
+"Move up" = "ย้ายขึ้น";
+"Move down" = "ย้ายลง";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify ให้ข้อมูลเพลงเฉพาะเพลย์ลิสต์ที่คุณเป็นเจ้าของหรือร่วมแก้ไขเท่านั้น";

@@ -25,7 +25,7 @@ struct PlayerCommands: Commands {
         CommandGroup(after: .toolbar) {
             Button(L10n.text("Video")) { session.mode = .video }
                 .keyboardShortcut("1", modifiers: .command)
-            Button(L10n.text("Music")) { session.mode = .music }
+            Button("Spotify") { session.mode = .music }
                 .keyboardShortcut("2", modifiers: .command)
             if session.mode == .music {
                 Button(L10n.text("Refresh list")) { session.music.syncLibrary() }

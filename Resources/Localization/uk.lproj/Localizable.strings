@@ -400,3 +400,30 @@
 "Artist" = "Виконавець";
 "Go to album" = "Перейти до альбому";
 "Go to artist" = "Перейти до виконавця";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Назад до медіатеки";
+"Similar & discovery" = "Схоже та відкриття";
+"Similar" = "Схоже";
+"Mine" = "Мої";
+"Subscribed" = "Підписки";
+"Themes" = "Тематики";
+"Saved" = "Збережені";
+"Same spirit" = "За духом";
+"Underground" = "Андеграунд";
+"Fresh" = "Свіже";
+"Hide liked" = "Приховати вподобані";
+"Mixes & compilations" = "Добірки та компіляції";
+"Recommended tracks" = "Рекомендовані треки";
+"Why this track" = "Чому цей трек";
+"In %@ playlists: %@" = "У %@ плейлистах: %@";
+"Compilation: %@" = "Збірка: %@";
+"Underground · tag:hipster" = "Андеграунд · tag:hipster";
+"Fresh release · tag:new" = "Свіжий реліз · tag:new";
+"Genre: %@" = "Жанр: %@";
+"Artist: %@" = "Виконавець: %@";
+"Clear manual" = "Очистити ручні";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Перетягніть сюди трек, альбом або плейлист — альбоми та плейлисти розгорнуться у треки";
+"Move up" = "Перемістити вище";
+"Move down" = "Перемістити нижче";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify надає треки лише для плейлистів, якими ви володієте або над якими співпрацюєте.";

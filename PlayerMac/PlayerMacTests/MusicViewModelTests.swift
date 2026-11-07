@@ -182,6 +182,46 @@ struct MusicViewModelTests {
         #expect(model.selection.source == .artist(track.artists[1].id))
     }
 
+    @Test func leftSectionExpansionQueueDropAndSimilarDiscovery() async throws {
+        let model = MusicViewModel()
+        model.expandLeftSection(.playlists)
+        #expect(model.leftSection == .playlists)
+        model.playlistFilter = .subscribed
+        #expect(model.filteredLeftPlaylists.allSatisfy { !$0.isEditable(by: model.library.userID) })
+        model.playlistFilter = .mine
+        #expect(model.filteredLeftPlaylists.allSatisfy { $0.isEditable(by: model.library.userID) })
+        model.collapseLeftSection()
+        #expect(model.leftSection == .home)
+
+        let album = try #require(model.catalog.albums.first { $0.id == "neon" })
+        let beforeManual = model.queue.manual.count
+        #expect(model.handleQueueDrop("album:\(album.id)"))
+        for _ in 0..<50 where model.queue.manual.count == beforeManual { await Task.yield() }
+        #expect(model.queue.manual.count == beforeManual + album.trackIDs.count)
+
+        model.openSimilar(album: album)
+        #expect(model.selection.source == .similar)
+        #expect(model.discoverySnapshot != nil)
+        #expect(!model.contents.tracks.isEmpty)
+        model.setDiscoveryMode(.underground)
+        #expect(model.discoveryMode == .underground)
+        model.toggleDiscoveryHideLiked()
+        #expect(model.discoveryHideLiked)
+        #expect(
+            model.contents.tracks.allSatisfy { !model.library.likedTrackIDs.contains($0.id) })
+
+        model.select(.liked)
+        #expect(!model.isAlbumsOverview)
+        model.select(.albums)
+        #expect(model.isAlbumsOverview)
+
+        let firstUpcoming = try #require(model.queue.upcoming.first)
+        #expect(model.handleQueueDrop(firstUpcoming.id.uuidString, before: nil))
+        for _ in 0..<50 where model.queue.upcoming.last?.id != firstUpcoming.id {
+            await Task.yield()
+        }
+        #expect(model.queue.upcoming.last?.id == firstUpcoming.id)
+    }
     private func settle(_ model: MusicViewModel) async {
         for _ in 0..<1_000 where model.isMutating { await Task.yield() }
         #expect(!model.isMutating)

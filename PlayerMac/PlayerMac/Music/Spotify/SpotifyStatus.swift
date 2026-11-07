@@ -1,9 +1,17 @@
 import Foundation
 import SpotifyWebAPI
 
+enum SpotifyPlaylistError: Error, Equatable {
+    case itemsUnavailable
+}
+
 @MainActor
 enum SpotifyStatus {
     static func message(_ error: any Error) -> String {
+        if case SpotifyPlaylistError.itemsUnavailable = error {
+            return L10n.text(
+                "Spotify only provides tracks for playlists you own or collaborate on.")
+        }
         if let failure = error as? SoloistFailure {
             if failure == .accountMismatch {
                 return L10n.text("A different Spotify account is paired. Pair again.")

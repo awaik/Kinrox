@@ -39,7 +39,7 @@ struct AppModePicker: View {
     var body: some View {
         HStack(spacing: 2) {
             modeButton(.video, title: L10n.text("Video"))
-            modeButton(.music, title: L10n.text("Music"))
+            modeButton(.music, title: "Spotify")
         }.padding(2).frame(height: 30)
             .background(Palette.glass, in: RoundedRectangle(cornerRadius: 8))
             .accessibilityElement(children: .contain)

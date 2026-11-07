@@ -90,6 +90,110 @@ struct SpotifyLibraryTests {
         await client.close()
     }
 
+    @Test func followedPlaylistsStayInLibraryAndReportUnavailableItemsOn403() async throws {
+        let playlists =
+            #"{"items":[{"id":"owned","uri":"spotify:playlist:owned","name":"Owned","owner":{"id":"owner"},"collaborative":false,"snapshot_id":"v1"},{"id":"followed","uri":"spotify:playlist:followed","name":"Followed","owner":{"id":"curator"},"collaborative":false,"snapshot_id":"v2"}],"next":null}"#
+        let followedMetadata =
+            #"{"id":"followed","uri":"spotify:playlist:followed","name":"Followed","owner":{"id":"curator"},"collaborative":false,"snapshot_id":"v2"}"#
+        MusicHTTPStub.state.reset(routes: [
+            "GET /v1/me/playlists": [.init(body: playlists)],
+            "GET /v1/playlists/followed": [
+                .init(body: followedMetadata), .init(body: followedMetadata),
+                .init(body: followedMetadata),
+            ],
+            "GET /v1/playlists/followed/items": [.init(status: 403), .init(status: 403)],
+        ])
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MusicHTTPStub.self]
+        let client = SpotifyClient(configuration: config) { _ in "synthetic" }
+        let profile = try JSONDecoder().decode(
+            SpotifyProfile.self, from: Data(#"{"id":"owner","display_name":"Test"}"#.utf8))
+        let store = SpotifyLibraryStore(client: client, profile: profile)
+        try await store.loadCollection("playlists")
+        #expect(store.library.playlists.map(\.id) == ["owned", "followed"])
+        #expect(store.library.editablePlaylists.map(\.id) == ["owned"])
+        await #expect(throws: SpotifyPlaylistError.itemsUnavailable) {
+            try await store.ensurePlaylistLoaded("followed")
+        }
+        let followed = try #require(store.library.playlists.first { $0.id == "followed" })
+        #expect(!followed.itemsAvailable)
+        #expect(
+            SpotifyStatus.message(SpotifyPlaylistError.itemsUnavailable)
+                == L10n.text(
+                    "Spotify only provides tracks for playlists you own or collaborate on.")
+        )
+        await #expect(throws: SpotifyError.forbidden) {
+            try await store.ensurePlaylistLoaded("followed", requireEditable: true)
+        }
+        store.retire()
+        await client.close()
+    }
+
+    @Test func discoveryUsesAlbumSearchForFreshAndPropagatesCancellation() async throws {
+        let searchReply =
+            #"{"tracks":{"items":[],"next":null},"albums":{"items":[{"id":"freshalb1","uri":"spotify:album:freshalb1","name":"Fresh LP","release_date":"2026-11-01","total_tracks":1,"artists":[{"id":"art1","uri":"spotify:artist:art1","name":"Nova"}]}],"next":null},"artists":{"items":[],"next":null},"playlists":{"items":[],"next":null}}"#
+        let albumTracksReply =
+            #"{"items":[{"id":"freshtrk1","uri":"spotify:track:freshtrk1","name":"Sunrise","duration_ms":180000,"track_number":1,"artists":[{"id":"art1","uri":"spotify:artist:art1","name":"Nova"}]}],"next":null}"#
+        MusicHTTPStub.state.reset(routes: [
+            "GET /v1/search": [.init(body: searchReply), .init(body: searchReply)],
+            "GET /v1/albums/freshalb1/tracks": [.init(body: albumTracksReply)],
+        ])
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MusicHTTPStub.self]
+        let client = SpotifyClient(configuration: config) { _ in "synthetic" }
+        let profile = try JSONDecoder().decode(
+            SpotifyProfile.self, from: Data(#"{"id":"owner","display_name":"Test"}"#.utf8))
+        let store = SpotifyLibraryStore(client: client, profile: profile)
+        let seedArtist = MusicArtist(id: "art1", uri: "spotify:artist:art1", name: "Nova")
+        let snapshot = try await store.discover(
+            seedTitle: "Nova", seedTrack: nil, seedArtist: seedArtist,
+            mode: .fresh, selectedGenre: nil, hideLiked: false)
+        let searchRequests = MusicHTTPStub.state.requests.filter { $0.url?.path == "/v1/search" }
+        #expect(
+            searchRequests.contains {
+                let query = $0.url?.query?.removingPercentEncoding ?? $0.url?.query ?? ""
+                return query.contains("tag:new") && query.contains("type=album")
+            })
+        #expect(snapshot.items.first { $0.track.id == "freshtrk1" }?.reasonKind == .freshRelease)
+
+        let cancelledTask = Task { @MainActor in
+            try await store.discover(
+                seedTitle: "Nova", seedTrack: nil, seedArtist: seedArtist,
+                mode: .fresh, selectedGenre: nil, hideLiked: true)
+        }
+        cancelledTask.cancel()
+        await #expect(throws: CancellationError.self) {
+            _ = try await cancelledTask.value
+        }
+        store.retire()
+        await client.close()
+    }
+
+    @Test func globalSpotifySearchResetsLocalCollectionFilter() async throws {
+        let searchReply =
+            #"{"tracks":{"items":[{"id":"found1","uri":"spotify:track:found1","name":"Found Song","duration_ms":180000,"track_number":1,"artists":[{"id":"a1","uri":"spotify:artist:a1","name":"Artist"}],"album":{"id":"alb1","uri":"spotify:album:alb1","name":"Album","artists":[]}}],"next":null},"albums":{"items":[],"next":null},"artists":{"items":[],"next":null}}"#
+        MusicHTTPStub.state.reset(routes: [
+            "GET /v1/search": [.init(body: searchReply)]
+        ])
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MusicHTTPStub.self]
+        let client = SpotifyClient(configuration: config) { _ in "synthetic" }
+        let profile = try JSONDecoder().decode(
+            SpotifyProfile.self, from: Data(#"{"id":"owner","display_name":"Test"}"#.utf8))
+        let store = SpotifyLibraryStore(client: client, profile: profile)
+        let model = MusicViewModel(store: store)
+        model.collectionFilterQuery = "nonexistent-previous-filter"
+        model.query = "Found"
+        model.search()
+        #expect(model.collectionFilterQuery.isEmpty)
+        for _ in 0..<50 where model.contents.tracks.isEmpty {
+            try? await Task.sleep(for: .milliseconds(20))
+        }
+        #expect(model.contents.tracks.map(\.id) == ["found1"])
+        store.retire()
+        await client.close()
+    }
+
     @Test func disconnectDoesNotAllowPendingOptimisticResultToRestoreOldLibrary() async throws {
         let store = SuspendedMusicStore()
         let model = MusicViewModel(store: store)

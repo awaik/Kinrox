@@ -5,12 +5,35 @@ import Observation
 @MainActor @Observable
 final class MusicViewModel {
     enum Column: Int, CaseIterable { case source, albums, tracks }
+    enum LeftColumnSection: String, CaseIterable, Sendable {
+        case home, playlists, artists, albums
+    }
+    enum PlaylistOwnershipFilter: String, CaseIterable, Sendable {
+        case all, mine, subscribed
+    }
     var store: any MusicLibraryStore
     var library: LibrarySnapshot
     var catalog: MusicCatalog
     var selection = BrowserSelection(source: .albums, albumID: "evening")
     var contents: BrowserContents
     var focusedColumn = Column.tracks
+    var leftSection = LeftColumnSection.home
+    var leftFilterQuery = ""
+    var playlistFilter = PlaylistOwnershipFilter.all
+    var selectedPlaylistTheme: String?
+    var discoveredThemePlaylists: [MusicPlaylist] = []
+    var isAlbumsOverview = false
+    var albumsFilterSavedOnly = true
+    var expandedAlbumCardIDs: Set<String> = []
+    var collectionFilterQuery = ""
+    var discoverySnapshot: MusicDiscoverySnapshot?
+    var discoveryMode = MusicDiscoveryMode.sameSpirit
+    var discoveryHideLiked = false
+    var discoverySelectedGenre: String?
+    var discoverySeedTitle = ""
+    var discoverySeedTrack: MusicTrack?
+    var discoverySeedArtist: MusicArtist?
+    var isDiscovering = false
     var sortAlbumsByArtist = true
     var focusedTrackID: String?
     var focusedQueueID: UUID?
@@ -70,6 +93,7 @@ final class MusicViewModel {
     var accountName: String?
     var searchResults: MusicCatalog?
     @ObservationIgnored var browsingTask: Task<Void, Never>?
+    @ObservationIgnored var discoveryRequestID = UUID()
     @ObservationIgnored var syncTask: Task<Void, Never>?
     @ObservationIgnored var musicEngine: (any MusicEngine)?
     @ObservationIgnored var engineFactory: (() throws -> any MusicEngine)?
@@ -146,14 +170,28 @@ final class MusicViewModel {
 
     func select(_ source: MusicSource) {
         dismissPopovers()
+        if statusMessage
+            == L10n.text("Spotify only provides tracks for playlists you own or collaborate on.")
+        {
+            statusMessage = nil
+        }
+        isAlbumsOverview = (source == .albums)
+        collectionFilterQuery = ""
         selection.select(source: source)
         if case .albums = source {
             selection.select(
                 albumID: catalog.albums.first { library.savedAlbumIDs.contains($0.id) }?.id)
         }
         persistSelection()
+        if case .similar = source, discoverySnapshot == nil {
+            refreshDiscovery()
+        }
         refreshContents()
         if case .artist(let id) = source {
+            if contents.albums.count == 1, contents.tracks.isEmpty {
+                selection.select(albumID: contents.albums[0].id)
+                refreshContents()
+            }
             loadSelection(artistID: id)
         } else if case .playlist(let id) = source {
             loadSelection(playlistID: id)
@@ -164,6 +202,15 @@ final class MusicViewModel {
 
     func selectAlbum(_ id: String?) {
         dismissPopovers()
+        isAlbumsOverview = false
+        collectionFilterQuery = ""
+        if selection.source != .albums && selection.source != .artist("") {
+            if case .artist = selection.source {
+            } else if case .search = selection.source {
+            } else {
+                selection.select(source: .albums)
+            }
+        }
         selection.select(albumID: id)
         persistSelection()
         refreshContents()
@@ -199,10 +246,21 @@ final class MusicViewModel {
                 } ?? searchResults.tracks
             rawContents = BrowserContents(
                 albums: searchResults.albums, artists: searchResults.artists, tracks: tracks)
+        } else if case .similar = selection.source, let discoverySnapshot {
+            rawContents = BrowserContents(
+                albums: catalog.albums, artists: catalog.artists, tracks: discoverySnapshot.tracks)
         } else {
             rawContents = selection.contents(catalog: catalog, library: library, queue: queue)
         }
-        let sorted = sortedTracks(rawContents.tracks)
+        var sorted = sortedTracks(rawContents.tracks)
+        let filter = collectionFilterQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !filter.isEmpty {
+            sorted = sorted.filter { track in
+                track.title.localizedStandardContains(filter)
+                    || track.albumTitle.localizedStandardContains(filter)
+                    || track.artists.contains { $0.name.localizedStandardContains(filter) }
+            }
+        }
         contents = BrowserContents(
             albums: rawContents.albums, artists: rawContents.artists, tracks: sorted)
         if let remembered = rememberedTrackID(for: selection),

@@ -202,6 +202,8 @@ extension MusicViewModel {
     func navigateToAlbum(albumID: String, trackID: String? = nil) {
         guard !albumID.isEmpty else { return }
         dismissPopovers()
+        isAlbumsOverview = false
+        collectionFilterQuery = ""
         selection.select(source: .albums)
         selection.select(albumID: albumID)
         if let trackID {

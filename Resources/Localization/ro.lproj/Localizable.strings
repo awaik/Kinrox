@@ -400,3 +400,30 @@
 "Artist" = "Artist";
 "Go to album" = "Mergi la album";
 "Go to artist" = "Mergi la artist";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Înapoi la bibliotecă";
+"Similar & discovery" = "Similare și descoperire";
+"Similar" = "Similare";
+"Mine" = "Ale mele";
+"Subscribed" = "Abonate";
+"Themes" = "Teme";
+"Saved" = "Salvate";
+"Same spirit" = "Același spirit";
+"Underground" = "Underground";
+"Fresh" = "Noutăți";
+"Hide liked" = "Ascunde apreciate";
+"Mixes & compilations" = "Mixuri și compilații";
+"Recommended tracks" = "Piese recomandate";
+"Why this track" = "De ce această piesă";
+"In %@ playlists: %@" = "În %@ playlisturi: %@";
+"Compilation: %@" = "Compilație: %@";
+"Underground · tag:hipster" = "Underground · tag:hipster";
+"Fresh release · tag:new" = "Lansare nouă · tag:new";
+"Genre: %@" = "Gen: %@";
+"Artist: %@" = "Artist: %@";
+"Clear manual" = "Șterge adăugate manual";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Trage aici o piesă, un album sau un playlist — albumele și playlisturile se desfășoară în piese";
+"Move up" = "Mută mai sus";
+"Move down" = "Mută mai jos";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify oferă piese doar pentru playlisturile pe care le deții sau la care colaborezi.";

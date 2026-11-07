@@ -400,3 +400,30 @@
 "Artist" = "アーティスト";
 "Go to album" = "アルバムへ移動";
 "Go to artist" = "アーティストへ移動";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ ライブラリに戻る";
+"Similar & discovery" = "類似曲とディスカバリー";
+"Similar" = "類似曲";
+"Mine" = "作成済み";
+"Subscribed" = "フォロー中";
+"Themes" = "テーマ";
+"Saved" = "保存済み";
+"Same spirit" = "同じ雰囲気";
+"Underground" = "アンダーグラウンド";
+"Fresh" = "新着";
+"Hide liked" = "お気に入りを隠す";
+"Mixes & compilations" = "ミックス＆コンピレーション";
+"Recommended tracks" = "おすすめのトラック";
+"Why this track" = "おすすめの理由";
+"In %@ playlists: %@" = "%@ 個のプレイリストに収録: %@";
+"Compilation: %@" = "コンピレーション: %@";
+"Underground · tag:hipster" = "アンダーグラウンド · tag:hipster";
+"Fresh release · tag:new" = "新着リリース · tag:new";
+"Genre: %@" = "ジャンル: %@";
+"Artist: %@" = "アーティスト: %@";
+"Clear manual" = "手動追加をクリア";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "トラック、アルバム、プレイリストをここにドロップ — アルバムやプレイリストはトラックに展開されます";
+"Move up" = "上へ移動";
+"Move down" = "下へ移動";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify では、自分が所有または共同編集しているプレイリストのトラックのみ取得できます。";

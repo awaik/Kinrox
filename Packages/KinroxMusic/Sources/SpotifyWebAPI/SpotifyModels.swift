@@ -2,8 +2,42 @@ import Foundation
 import MusicCore
 
 public struct SpotifyPage<Item: Decodable & Sendable>: Decodable, Sendable {
+    private enum CodingKeys: String, CodingKey {
+        case items, next
+    }
+
     public let items: [Item]
     public let next: String?
+
+    public init(items: [Item], next: String? = nil) {
+        self.items = items
+        self.next = next
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let rawItems = try container.decode([Item?].self, forKey: .items)
+        items = rawItems.compactMap { $0 }
+        next = try container.decodeIfPresent(String.self, forKey: .next)
+    }
+}
+
+public struct SpotifyArtistDetails: Decodable, Sendable {
+    public let id: String
+    public let uri: String
+    public let name: String
+    public let genres: [String]?
+
+    public init(id: String, uri: String, name: String, genres: [String]? = nil) {
+        self.id = id
+        self.uri = uri
+        self.name = name
+        self.genres = genres
+    }
+
+    public var model: MusicArtist {
+        MusicArtist(id: id, uri: uri, name: name)
+    }
 }
 
 public struct SpotifyProfile: Decodable, Sendable {
@@ -152,6 +186,7 @@ public struct SpotifySearchResults: Decodable, Sendable {
     public let tracks: SpotifyPage<SpotifyTrack>?
     public let albums: SpotifyPage<SpotifyAlbum>?
     public let artists: SpotifyPage<MusicArtist>?
+    public let playlists: SpotifyPage<SpotifyPlaylist>?
 }
 
 public struct SpotifyDevice: Decodable, Sendable {

@@ -400,3 +400,30 @@
 "Artist" = "الفنان";
 "Go to album" = "الانتقال إلى الألبوم";
 "Go to artist" = "الانتقال إلى الفنان";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ العودة إلى المكتبة";
+"Similar & discovery" = "مشابه واستكشاف";
+"Similar" = "مشابه";
+"Mine" = "الخاصة بي";
+"Subscribed" = "المشترك بها";
+"Themes" = "المواضيع";
+"Saved" = "المحفوظة";
+"Same spirit" = "نفس الروح";
+"Underground" = "مستقل";
+"Fresh" = "جديد";
+"Hide liked" = "إخفاء المعجب بها";
+"Mixes & compilations" = "تشكيلات ومجموعات";
+"Recommended tracks" = "مقاطع موصى بها";
+"Why this track" = "لماذا هذا المقطع";
+"In %@ playlists: %@" = "في %@ قوائم تشغيل: %@";
+"Compilation: %@" = "تجميعة: %@";
+"Underground · tag:hipster" = "مستقل · tag:hipster";
+"Fresh release · tag:new" = "إصدار جديد · tag:new";
+"Genre: %@" = "النوع: %@";
+"Artist: %@" = "الفنان: %@";
+"Clear manual" = "مسح المضافة يدوياً";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "أفلت مقطعاً أو ألبوماً أو قائمة تشغيل هنا — تتوسع الألبومات وقوائم التشغيل إلى مقاطع";
+"Move up" = "تحريك لأعلى";
+"Move down" = "تحريك لأسفل";
+"Spotify only provides tracks for playlists you own or collaborate on." = "يوفر Spotify المقاطع فقط لقوائم التشغيل التي تملكها أو تتعاون فيها.";

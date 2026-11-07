@@ -12,7 +12,13 @@ struct MusicServiceStatus: View {
             HStack(spacing: 16) {
                 Text(message).frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundStyle(Palette.textSecondary)
-                if showsAction {
+                if isPlaylistItemsRestriction(message),
+                    case .playlist(let id) = model.selection.source
+                {
+                    SpotifyContentLink(kind: "playlist", id: id)
+                        .buttonStyle(.plain)
+                        .foregroundStyle(Palette.flame)
+                } else if showsAction {
                     Button(buttonTitle(message)) {
                         if needsSettings(message) {
                             openSettings()
@@ -30,9 +36,17 @@ struct MusicServiceStatus: View {
     }
 
     var showsAction: Bool {
-        model.engineAvailability != .ready
+        if let message = model.playbackStatusMessage, isPlaylistItemsRestriction(message) {
+            return false
+        }
+        return model.engineAvailability != .ready
             ? (model.engineAvailability != .starting && model.engineAvailability != .downloading)
             : (!model.isLoading && !model.isRefreshing)
+    }
+
+    private func isPlaylistItemsRestriction(_ message: String) -> Bool {
+        message
+            == L10n.text("Spotify only provides tracks for playlists you own or collaborate on.")
     }
 
     func needsSettings(_ message: String) -> Bool {

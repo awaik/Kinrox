@@ -87,10 +87,12 @@ public struct MusicPlaylist: Identifiable, Codable, Equatable, Sendable {
     public var snapshotID: String
     /// Ordered occurrences, including duplicates; indices are Spotify positions.
     public var trackIDs: [String]
+    /// Separate from metadata presence: false when Spotify restricts `/items` for a non-editable playlist.
+    public var itemsAvailable: Bool
 
     public init(
         id: String, uri: String, title: String, ownerID: String, collaborative: Bool = false,
-        snapshotID: String = "", trackIDs: [String] = []
+        snapshotID: String = "", trackIDs: [String] = [], itemsAvailable: Bool = true
     ) {
         self.id = id
         self.uri = uri
@@ -99,6 +101,7 @@ public struct MusicPlaylist: Identifiable, Codable, Equatable, Sendable {
         self.collaborative = collaborative
         self.snapshotID = snapshotID
         self.trackIDs = trackIDs
+        self.itemsAvailable = itemsAvailable
     }
 
     public func isEditable(by userID: String) -> Bool {

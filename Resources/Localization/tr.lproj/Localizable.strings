@@ -400,3 +400,30 @@
 "Artist" = "Sanatçı";
 "Go to album" = "Albüme git";
 "Go to artist" = "Sanatçıya git";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Kitaplığa dön";
+"Similar & discovery" = "Benzerler ve keşif";
+"Similar" = "Benzer";
+"Mine" = "Benimkiler";
+"Subscribed" = "Takip edilenler";
+"Themes" = "Temalar";
+"Saved" = "Kaydedilenler";
+"Same spirit" = "Aynı ruh";
+"Underground" = "Underground";
+"Fresh" = "Yeni çıkanlar";
+"Hide liked" = "Beğenilenleri gizle";
+"Mixes & compilations" = "Miksler ve derlemeler";
+"Recommended tracks" = "Önerilen parçalar";
+"Why this track" = "Neden bu parça";
+"In %@ playlists: %@" = "%@ çalma listesinde: %@";
+"Compilation: %@" = "Derleme: %@";
+"Underground · tag:hipster" = "Underground · tag:hipster";
+"Fresh release · tag:new" = "Yeni yayın · tag:new";
+"Genre: %@" = "Tür: %@";
+"Artist: %@" = "Sanatçı: %@";
+"Clear manual" = "Elle eklenenleri temizle";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Parçayı, albümü veya çalma listesini buraya bırakın — albümler ve listeler parçalara açılır";
+"Move up" = "Yukarı taşı";
+"Move down" = "Aşağı taşı";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify yalnızca sahibi olduğunuz veya ortak çalıştığınız çalma listelerinin parçalarını sunar.";

@@ -400,3 +400,30 @@
 "Artist" = "Interpret";
 "Go to album" = "Přejít na album";
 "Go to artist" = "Přejít na interpreta";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Zpět do knihovny";
+"Similar & discovery" = "Podobné a objevování";
+"Similar" = "Podobné";
+"Mine" = "Moje";
+"Subscribed" = "Odebírané";
+"Themes" = "Témata";
+"Saved" = "Uložené";
+"Same spirit" = "Stejná nálada";
+"Underground" = "Underground";
+"Fresh" = "Čerstvé";
+"Hide liked" = "Skrýt oblíbené";
+"Mixes & compilations" = "Mixy a kompilace";
+"Recommended tracks" = "Doporučené skladby";
+"Why this track" = "Proč tato skladba";
+"In %@ playlists: %@" = "V %@ playlistech: %@";
+"Compilation: %@" = "Kompilace: %@";
+"Underground · tag:hipster" = "Underground · tag:hipster";
+"Fresh release · tag:new" = "Nové vydání · tag:new";
+"Genre: %@" = "Žánr: %@";
+"Artist: %@" = "Interpret: %@";
+"Clear manual" = "Vymazat ručně přidané";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Přetáhněte sem skladbu, album nebo playlist — alba a playlisty se rozbalí na jednotlivé skladby";
+"Move up" = "Posunout výše";
+"Move down" = "Posunout níže";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify poskytuje skladby pouze u playlistů, které vlastníte nebo na kterých spolupracujete.";

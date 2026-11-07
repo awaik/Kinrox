@@ -281,9 +281,11 @@ extension MusicViewModel {
         editQueue { $0.add(track) }
     }
     func removeFromQueue(_ id: UUID) { editQueue { $0.remove(id) } }
-    func moveQueue(_ id: UUID, before target: UUID) { editQueue { $0.move(id, before: target) } }
+    func moveQueue(_ id: UUID, before target: UUID? = nil) {
+        editQueue { _ = $0.move(id, before: target) }
+    }
 
-    private func editQueue(_ edit: @escaping (inout MusicQueue) -> Void) {
+    func editQueue(_ edit: @escaping (inout MusicQueue) -> Void) {
         guard paused || allows("interrupting_playback") else { return }
         runPlayback { model in
             var next = model.queue

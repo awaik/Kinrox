@@ -400,3 +400,30 @@
 "Artist" = "아티스트";
 "Go to album" = "앨범으로 이동";
 "Go to artist" = "아티스트로 이동";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ 라이브러리로 돌아가기";
+"Similar & discovery" = "유사곡 및 탐색";
+"Similar" = "유사곡";
+"Mine" = "내 플레이리스트";
+"Subscribed" = "구독 중";
+"Themes" = "테마";
+"Saved" = "저장됨";
+"Same spirit" = "비슷한 분위기";
+"Underground" = "언더그라운드";
+"Fresh" = "최신";
+"Hide liked" = "좋아요 숨기기";
+"Mixes & compilations" = "믹스 및 컴필레이션";
+"Recommended tracks" = "추천 트랙";
+"Why this track" = "추천 이유";
+"In %@ playlists: %@" = "%@개의 플레이리스트에 포함: %@";
+"Compilation: %@" = "컴필레이션: %@";
+"Underground · tag:hipster" = "언더그라운드 · tag:hipster";
+"Fresh release · tag:new" = "신규 발매 · tag:new";
+"Genre: %@" = "장르: %@";
+"Artist: %@" = "아티스트: %@";
+"Clear manual" = "수동 추가 비우기";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "트랙, 앨범 또는 플레이리스트를 여기에 놓으세요 — 앨범과 플레이리스트는 개별 트랙으로 펼쳐집니다";
+"Move up" = "위로 이동";
+"Move down" = "아래로 이동";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify는 내가 소유하거나 공동 작업 중인 플레이리스트의 트랙만 제공합니다.";

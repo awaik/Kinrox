@@ -400,3 +400,30 @@
 "Artist" = "Исполнитель";
 "Go to album" = "Перейти к альбому";
 "Go to artist" = "Перейти к исполнителю";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ Назад в медиатеку";
+"Similar & discovery" = "Похожее и открытия";
+"Similar" = "Похожее";
+"Mine" = "Мои";
+"Subscribed" = "Подписки";
+"Themes" = "Тематики";
+"Saved" = "Сохранённые";
+"Same spirit" = "По духу";
+"Underground" = "Андеграунд";
+"Fresh" = "Свежее";
+"Hide liked" = "Скрыть лайкнутые";
+"Mixes & compilations" = "Подборки и компиляции";
+"Recommended tracks" = "Рекомендованные треки";
+"Why this track" = "Почему этот трек";
+"In %@ playlists: %@" = "В %@ плейлистах: %@";
+"Compilation: %@" = "Сборник: %@";
+"Underground · tag:hipster" = "Андеграунд · tag:hipster";
+"Fresh release · tag:new" = "Свежий релиз · tag:new";
+"Genre: %@" = "Жанр: %@";
+"Artist: %@" = "Артист: %@";
+"Clear manual" = "Очистить ручные";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "Перетащите сюда трек, альбом или плейлист — альбомы и плейлисты развернутся в треки";
+"Move up" = "Переместить выше";
+"Move down" = "Переместить ниже";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify предоставляет треки только для ваших собственных и совместных плейлистов.";

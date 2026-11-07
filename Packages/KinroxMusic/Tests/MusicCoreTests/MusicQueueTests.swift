@@ -175,6 +175,50 @@ struct MusicQueueTests {
             #expect(!queue.items.contains { $0.sourceOrder == removed.sourceOrder })
         }
     }
+
+    @Test func batchInsertMoveOffsetAndClearManual() throws {
+        var queue = MusicQueue()
+        queue.start(Array(tracks.prefix(3)))
+        queue.add([tracks[3], tracks[4]])
+        #expect(queue.manual.map(\.track.id) == [tracks[3].id, tracks[4].id])
+        let manualSecond = try #require(queue.manual.last)
+        let movedUp = queue.moveOffset(manualSecond.id, by: -1)
+        #expect(movedUp)
+        #expect(queue.manual.first?.id == manualSecond.id)
+        let movedPastStart = queue.moveOffset(manualSecond.id, by: -1)
+        #expect(!movedPastStart)
+        queue.clearManual()
+        #expect(queue.manual.isEmpty)
+        #expect(queue.source.count == 2)
+        let sourceSecond = try #require(queue.source.last)
+        let inserted = queue.insert([tracks[3], tracks[4]], before: sourceSecond.id)
+        #expect(inserted.count == 2)
+        #expect(
+            queue.upcoming.map(\.track.id)
+                == [tracks[1].id, tracks[3].id, tracks[4].id, tracks[2].id])
+        let firstUpcoming = try #require(queue.upcoming.first)
+        let movedToTail = queue.move(firstUpcoming.id, before: nil)
+        #expect(movedToTail)
+        #expect(queue.upcoming.last?.id == firstUpcoming.id)
+    }
+
+    @Test func clearingManualRemovesMovedSourceItemsFromRepeatContext() throws {
+        var queue = MusicQueue()
+        queue.start(Array(tracks.prefix(3)))
+        queue.repeatMode = .all
+        queue.add(tracks[3])
+        let manualFirst = try #require(queue.manual.first)
+        let movedSource = try #require(queue.source.first)
+        let moved = queue.move(movedSource.id, before: manualFirst.id)
+        #expect(moved)
+        queue.clearManual()
+        #expect(queue.manual.isEmpty)
+        while !queue.upcoming.isEmpty {
+            _ = queue.next()
+        }
+        _ = queue.next(automatically: true)
+        #expect(!queue.items.contains { $0.track.id == movedSource.track.id })
+    }
 }
 
 private struct SeededQueueRandom: RandomNumberGenerator {

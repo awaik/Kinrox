@@ -400,3 +400,30 @@
 "Artist" = "هنرمند";
 "Go to album" = "رفتن به آلبوم";
 "Go to artist" = "رفتن به هنرمند";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ بازگشت به کتابخانه";
+"Similar & discovery" = "مشابه و اکتشاف";
+"Similar" = "مشابه";
+"Mine" = "مال من";
+"Subscribed" = "دنبال‌شده";
+"Themes" = "موضوعات";
+"Saved" = "ذخیره‌شده";
+"Same spirit" = "هم‌حس‌وحال";
+"Underground" = "زیرزمینی";
+"Fresh" = "تازه";
+"Hide liked" = "پنهان کردن پسندیده‌ها";
+"Mixes & compilations" = "میکس‌ها و مجموعه‌ها";
+"Recommended tracks" = "قطعات پیشنهادی";
+"Why this track" = "چرا این قطعه";
+"In %@ playlists: %@" = "در %@ پلی‌لیست: %@";
+"Compilation: %@" = "مجموعه: %@";
+"Underground · tag:hipster" = "زیرزمینی · tag:hipster";
+"Fresh release · tag:new" = "انتشار تازه · tag:new";
+"Genre: %@" = "ژانر: %@";
+"Artist: %@" = "هنرمند: %@";
+"Clear manual" = "پاک کردن دستی‌ها";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "قطعه، آلبوم یا پلی‌لیست را اینجا رها کنید — آلبوم‌ها و پلی‌لیست‌ها به قطعات باز می‌شوند";
+"Move up" = "انتقال به بالا";
+"Move down" = "انتقال به پایین";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify تنها قطعات پلی‌لیست‌هایی را ارائه می‌دهد که متعلق به شماست یا در آن‌ها مشارکت دارید.";

@@ -400,3 +400,30 @@
 "Artist" = "艺人";
 "Go to album" = "前往专辑";
 "Go to artist" = "前往艺人";
+
+/* Spotify v3 — Figma page 09. */
+"‹ Back to library" = "‹ 返回资料库";
+"Similar & discovery" = "相似与发现";
+"Similar" = "相似推荐";
+"Mine" = "自建";
+"Subscribed" = "已订阅";
+"Themes" = "主题";
+"Saved" = "已保存";
+"Same spirit" = "同频氛围";
+"Underground" = "小众宝藏";
+"Fresh" = "新作";
+"Hide liked" = "隐藏已喜欢";
+"Mixes & compilations" = "精选与合辑";
+"Recommended tracks" = "推荐曲目";
+"Why this track" = "推荐理由";
+"In %@ playlists: %@" = "收录于 %@ 个歌单：%@";
+"Compilation: %@" = "合辑：%@";
+"Underground · tag:hipster" = "小众宝藏 · tag:hipster";
+"Fresh release · tag:new" = "最新发行 · tag:new";
+"Genre: %@" = "流派：%@";
+"Artist: %@" = "艺人：%@";
+"Clear manual" = "清空手动添加";
+"Drop track, album or playlist here — albums and playlists expand into tracks" = "将曲目、专辑或歌单拖放到此处 — 专辑和歌单会展开为单曲";
+"Move up" = "上移";
+"Move down" = "下移";
+"Spotify only provides tracks for playlists you own or collaborate on." = "Spotify 仅提供您拥有或参与协作的歌单中的曲目。";

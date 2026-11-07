@@ -12,18 +12,25 @@ struct MusicView: View {
                 DeckView(model: model, compact: compact, width: geometry.size.width)
                 HStack(spacing: 0) {
                     if !compact {
-                        SourceColumn(model: model).frame(width: 260)
+                        SourceColumn(model: model).frame(width: 268)
                         divider
                     }
-                    AlbumColumn(model: model, compact: compact).frame(width: compact ? 340 : 400)
-                    divider
-                    Group {
-                        if model.isQueue {
-                            QueueView(model: model)
-                        } else {
-                            TrackTable(model: model)
+                    VStack(spacing: 0) {
+                        if compact { MusicSourcePicker(model: model) }
+                        Group {
+                            if model.selection.source == .similar {
+                                DiscoveryWorkspaceView(model: model)
+                            } else if model.selection.source == .albums && model.isAlbumsOverview {
+                                AlbumsWorkspaceView(model: model)
+                            } else if model.isQueue {
+                                QueueView(model: model)
+                            } else {
+                                TrackTable(model: model)
+                            }
                         }
                     }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                    divider
+                    CompactQueueColumn(model: model).frame(width: compact ? 280 : 320)
                 }.frame(maxHeight: .infinity)
                 MusicStatusBar(model: model)
             }.background(Palette.canvas).foregroundStyle(Palette.textPrimary)

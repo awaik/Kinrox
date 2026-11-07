@@ -62,6 +62,9 @@ struct DeckView: View {
                     if !compact {
                         Text(model.outputName).font(.system(size: 11)).foregroundStyle(
                             Palette.textTertiary)
+                        MusicActionButton(title: L10n.text("Similar"), symbol: "sparkles") {
+                            model.openSimilar(forTrack: model.currentTrack)
+                        }
                         MusicActionButton(title: L10n.text("Queue"), symbol: "list.bullet") {
                             model.select(.queue)
                         }
