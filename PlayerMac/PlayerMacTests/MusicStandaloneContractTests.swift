@@ -266,6 +266,71 @@ struct MusicStandaloneContractTests {
         }
         await coordinator.close()
     }
+
+    @Test func automaticAdvanceSkipsUnplayableTracksAndStopsWhenRemainingAreRestricted()
+        async throws
+    {
+        let model = MusicViewModel()
+        let base = try #require(model.catalog.tracks.first)
+        let playable1 = MusicTrack(
+            id: "t1", uri: "spotify:track:1", title: "One", artists: base.artists,
+            albumID: base.albumID, albumTitle: base.albumTitle, duration: 100, isPlayable: true)
+        let restricted2 = MusicTrack(
+            id: "t2", uri: "spotify:track:2", title: "Two", artists: base.artists,
+            albumID: base.albumID, albumTitle: base.albumTitle, duration: 100, isPlayable: false)
+        let playable3 = MusicTrack(
+            id: "t3", uri: "spotify:track:3", title: "Three", artists: base.artists,
+            albumID: base.albumID, albumTitle: base.albumTitle, duration: 100, isPlayable: true)
+        let restricted4 = MusicTrack(
+            id: "t4", uri: "spotify:track:4", title: "Four", artists: base.artists,
+            albumID: base.albumID, albumTitle: base.albumTitle, duration: 100, isPlayable: false)
+        model.queue.start([playable1, restricted2, playable3, restricted4])
+        model.paused = false
+        let engine = FakeMusicEngine()
+        model.connect(engine: engine)
+        let coordinator = PlaybackCoordinator()
+        coordinator.connect(video: nil, music: model)
+
+        let firstID = try #require(model.queue.current?.id)
+        engine.continuation.yield(.ended(occurrenceID: firstID))
+        engine.continuation.yield(.failure("Marker1"))
+        for _ in 0..<1000 where model.statusMessage != "Marker1" { await Task.yield() }
+        await coordinator.settle()
+        #expect(model.currentTrack?.id == "t3")
+        #expect(engine.commands.count == 1)
+
+        let thirdID = try #require(model.queue.current?.id)
+        engine.continuation.yield(.ended(occurrenceID: thirdID))
+        engine.continuation.yield(.failure("Marker2"))
+        for _ in 0..<1000 where model.statusMessage != "Marker2" { await Task.yield() }
+        await coordinator.settle()
+        #expect(engine.commands.last == .stop)
+        #expect(model.paused && model.position == 0)
+        await coordinator.close()
+    }
+
+    @Test func resumingStoppedOccurrenceAtTrackEndAdvancesQueue() async throws {
+        let model = MusicViewModel()
+        let tracks = Array(model.catalog.tracks.prefix(2))
+        #expect(tracks.count == 2)
+        model.queue.start(tracks)
+        let first = try #require(model.queue.current)
+        let engine = FakeMusicEngine()
+        model.connect(engine: engine)
+        let coordinator = PlaybackCoordinator()
+        coordinator.connect(video: nil, music: model)
+        model.receive(
+            .init(
+                uri: first.track.uri, position: first.track.duration - 0.4,
+                duration: first.track.duration, paused: true, volume: 0,
+                deviceName: "Mac", occurrenceID: first.id))
+        model.engineAvailability = .failed("Soloist playback stopped.")
+        model.togglePause()
+        await coordinator.settle()
+        #expect(model.currentTrack?.id == tracks[1].id)
+        #expect(engine.commands == [.play(model.queue.items.map(\.id), 0)])
+        await coordinator.close()
+    }
 }
 
 extension SpotifyLibraryTests {

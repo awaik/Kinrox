@@ -3,7 +3,10 @@ import Foundation
 @testable import Kinrox
 
 actor FakeSoloistDriver: SoloistDriving {
-    enum Mode { case normal, dropAcknowledgement, deferredObservation, deactivateAfterPause }
+    enum Mode {
+        case normal, dropAcknowledgement, deferredObservation, deactivateAfterPause,
+            earlyPlayingBeforeInitialState
+    }
     private var mode = Mode.normal
     private var callback: (@Sendable (SoloistInput) async -> Void)?
     private var epoch: UInt64 = 0
@@ -60,6 +63,10 @@ actor FakeSoloistDriver: SoloistDriving {
         position = 0
         volume = 0
         try await emit(["type": "auth_state", "logged_in": true, "is_active": true])
+        if mode == .earlyPlayingBeforeInitialState {
+            try await emit(["type": "playback_changed", "status": "playing"])
+            if delay != .zero { try await Task.sleep(for: delay) }
+        }
         try await snapshot()
     }
     func send(_ command: SoloistCommand) async throws {

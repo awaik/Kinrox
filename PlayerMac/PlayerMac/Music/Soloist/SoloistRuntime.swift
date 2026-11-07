@@ -23,6 +23,8 @@ actor SoloistRuntime {
     private var jobs: [UUID: Task<Void, Error>] = [:]
     private var parking: Task<Void, Never>?
     private var resumeQuery: Task<Void, Never>?
+    private var resumeRecheck = false
+    private var playbackActivity: (any NSObjectProtocol)?
     private var alive = false
     private var closed = false
     private var gain: Double
@@ -121,7 +123,11 @@ actor SoloistRuntime {
                 guard let uri = state.snapshot.uri, let id = state.snapshot.occurrenceID else {
                     throw SoloistFailure.emptyQueue
                 }
-                try await load(uri: uri, id: id, position: state.snapshot.position)
+                let resumePosition =
+                    state.snapshot.duration > 0
+                        && state.snapshot.position >= state.snapshot.duration - 1.5
+                    ? 0 : state.snapshot.position
+                try await load(uri: uri, id: id, position: resumePosition)
             } else if alive {
                 state.suppressEnd = paused
                 try await mutate(.init(command: paused ? .pause : .play)) {
@@ -175,6 +181,7 @@ actor SoloistRuntime {
         parking = nil
         resumeQuery?.cancel()
         resumeQuery = nil
+        resumeRecheck = false
         state.retire(now: .now)
         alive = false
         epoch &+= 1
@@ -182,13 +189,14 @@ actor SoloistRuntime {
         state.suppressEnd = true
         await output.send(.availability(.starting))
         alive = true
+        setPlaybackActivity(true)
         try await driver.replace(uri: uri, epoch: epoch) { [weak self] input in
             await self?.receive(input)
         }
         let socketStart = ContinuousClock.now
         try await wait(seconds: 15) { self.state.ready && self.state.loggedIn }
         SoloistTiming.record(.socketToPlayback, since: socketStart)
-        if position >= 1 {
+        if position >= 1, state.snapshot.duration <= 0 || position < state.snapshot.duration - 1.5 {
             let target = min(position, max(0, state.snapshot.duration - 1))
             try await mutate(.init(command: .seek, positionMS: target * 1000)) {
                 $0.ready && abs($0.snapshot.position - target) < 1
@@ -279,9 +287,12 @@ actor SoloistRuntime {
                 parking?.cancel()
                 parking = nil
             }
-            if frame.type == "playback_changed", frame.status == "playing", state.snapshot.paused {
+            if frame.type == "playback_changed", frame.status == "playing",
+                state.snapshot.paused, state.hasPlayed, !state.terminalBoundary
+            {
                 reconcileResume()
             }
+            setPlaybackActivity(alive && (!state.snapshot.paused || !state.hasPlayed))
             for event in events {
                 await output.send(event)
                 if case .availability(.externalTakeover) = event { await park() }
@@ -290,7 +301,11 @@ actor SoloistRuntime {
             guard source == epoch, alive else { return }
             alive = false
             parking?.cancel()
-            for event in state.processExited(code: code, epoch: source, now: .now) {
+            let events = state.processExited(code: code, epoch: source, now: .now)
+            if !events.contains(where: { if case .ended = $0 { true } else { false } }) {
+                setPlaybackActivity(false)
+            }
+            for event in events {
                 await output.send(event)
             }
         case .disconnected(let source), .protocolFailure(let source):
@@ -308,15 +323,30 @@ actor SoloistRuntime {
     private func reconcileResume() {
         parking?.cancel()
         parking = nil
-        guard resumeQuery == nil else { return }
+        if resumeQuery != nil {
+            resumeRecheck = true
+            return
+        }
         let expected = epoch
         // Do not await inside receive: the socket loop must deliver the requested full state.
         resumeQuery = Task {
-            defer { if self.epoch == expected { self.resumeQuery = nil } }
+            defer {
+                if self.epoch == expected {
+                    self.resumeQuery = nil
+                    self.resumeRecheck = false
+                }
+            }
             do {
-                try await self.query()
-                guard self.epoch == expected, self.alive else { return }
-                if self.state.snapshot.paused { self.scheduleParking() }
+                repeat {
+                    self.resumeRecheck = false
+                    try await self.query()
+                    guard self.epoch == expected, self.alive else { return }
+                } while self.resumeRecheck && self.state.snapshot.paused
+                if self.state.snapshot.paused, self.state.wireStatus == "paused",
+                    !self.state.terminalBoundary
+                {
+                    self.scheduleParking()
+                }
             } catch {
                 guard self.epoch == expected, self.alive, !self.closed else { return }
                 await self.park()
@@ -343,8 +373,10 @@ actor SoloistRuntime {
     private func park() async {
         resumeQuery?.cancel()
         resumeQuery = nil
+        resumeRecheck = false
         parking?.cancel()
         parking = nil
+        setPlaybackActivity(false)
         let position = state.position(at: .now)
         state.retire(now: .now)
         alive = false
@@ -359,9 +391,11 @@ actor SoloistRuntime {
     func shutdown() async {
         guard !closed else { return }
         closed = true
+        setPlaybackActivity(false)
         await output.finish()
         resumeQuery?.cancel()
         resumeQuery = nil
+        resumeRecheck = false
         parking?.cancel()
         for job in jobs.values { job.cancel() }
         state.retire(now: .now)
@@ -369,5 +403,17 @@ actor SoloistRuntime {
         epoch &+= 1
         await driver.close()
         await tail?.value
+    }
+
+    private func setPlaybackActivity(_ active: Bool) {
+        if active, !closed {
+            guard playbackActivity == nil else { return }
+            playbackActivity = ProcessInfo.processInfo.beginActivity(
+                options: [.userInitiated, .idleSystemSleepDisabled],
+                reason: "Kinrox Spotify playback")
+        } else if let activity = playbackActivity {
+            playbackActivity = nil
+            ProcessInfo.processInfo.endActivity(activity)
+        }
     }
 }

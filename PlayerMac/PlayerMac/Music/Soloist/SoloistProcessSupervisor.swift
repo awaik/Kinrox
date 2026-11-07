@@ -195,7 +195,7 @@ actor SoloistProcessSupervisor: SoloistDriving {
                     pid == String(process.processIdentifier), let value = Int(port),
                     (1...65535).contains(value)
                 {
-                    let actual = try await SoloistInstaller.offMain {
+                    let actual = try? await SoloistInstaller.offMain {
                         try SoloistInstaller.utility(
                             "/usr/sbin/lsof",
                             [
@@ -207,13 +207,14 @@ actor SoloistProcessSupervisor: SoloistDriving {
                     guard attempt == generation, !closed, process.isRunning else {
                         throw SoloistFailure.closed
                     }
-                    guard
+                    if let actual,
                         String(data: actual, encoding: .utf8)?.split(separator: "\n").contains(
                             "n127.0.0.1:" + port) == true
-                    else { throw SoloistFailure.endpoint }
-                    ownedEndpoint = .init(
-                        profile: config.profile, pid: process.processIdentifier, port: port)
-                    endpoint = URL(string: "ws://127.0.0.1:" + port)
+                    {
+                        ownedEndpoint = .init(
+                            profile: config.profile, pid: process.processIdentifier, port: port)
+                        endpoint = URL(string: "ws://127.0.0.1:" + port)
+                    }
                 }
                 guard ContinuousClock.now < deadline else { throw SoloistFailure.endpoint }
                 if endpoint == nil { try await Task.sleep(for: .milliseconds(25)) }
@@ -232,7 +233,7 @@ actor SoloistProcessSupervisor: SoloistDriving {
             self.socket = socket
             socket.resume()
             SoloistTiming.record(.spawnToSocket, since: spawnStart)
-            receiver = Task {
+            receiver = Task { [weak self] in
                 do {
                     while !Task.isCancelled {
                         let data: Data
@@ -244,11 +245,18 @@ actor SoloistProcessSupervisor: SoloistDriving {
                         await receive(.frame(try SoloistFrame.decode(data), epoch: epoch))
                     }
                 } catch {
-                    if !Task.isCancelled {
-                        await receive(
-                            error as? SoloistFailure == .invalidFrame
-                                ? .protocolFailure(epoch: epoch) : .disconnected(epoch: epoch))
+                    guard !Task.isCancelled else { return }
+                    if error as? SoloistFailure == .invalidFrame {
+                        await receive(.protocolFailure(epoch: epoch))
+                        return
                     }
+                    for _ in 0..<20 where process.isRunning && !Task.isCancelled {
+                        try? await Task.sleep(for: .milliseconds(5))
+                    }
+                    guard !Task.isCancelled, process.isRunning,
+                        await self?.shouldReportDisconnect(for: process) == true
+                    else { return }
+                    await receive(.disconnected(epoch: epoch))
                 }
             }
         } catch {
@@ -404,5 +412,9 @@ actor SoloistProcessSupervisor: SoloistDriving {
     private func childExited(_ process: Process) async {
         guard child === process, !stopping else { return }
         await stop()
+    }
+
+    private func shouldReportDisconnect(for process: Process) -> Bool {
+        !closed && !stopping && child === process && process.isRunning
     }
 }

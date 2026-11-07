@@ -95,6 +95,13 @@ extension MusicViewModel {
         runPlayback(startsPlayback: !value) { model in
             if value {
                 try await model.pauseForSourceChange()
+            } else if model.isStoppedAtTrackEnd {
+                var next = model.queue
+                if Self.advancePlayable(&next, automatically: false) {
+                    try await model.startQueue(next)
+                } else {
+                    try await model.startQueue(model.queue, position: 0)
+                }
             } else if let engine = model.musicEngine, engine.canResume(model.queue) {
                 try await engine.setPaused(false)
             } else {
@@ -127,8 +134,9 @@ extension MusicViewModel {
     func next() { advance(automatically: false) }
     func advance(automatically: Bool, occurrenceID: UUID? = nil) {
         guard hasTrack, automatically || canNext else { return }
+        var preview = queue
         // No source transition is needed when the final occurrence has finished.
-        if automatically, queue.upcoming.isEmpty, queue.repeatMode == .off {
+        if automatically, !Self.advancePlayable(&preview, automatically: true) {
             runPlayback { model in
                 guard occurrenceID == nil || occurrenceID == model.queue.current?.id else { return }
                 try await model.musicEngine?.stop()
@@ -141,9 +149,26 @@ extension MusicViewModel {
         runPlayback(startsPlayback: true) { model in
             guard occurrenceID == nil || occurrenceID == model.queue.current?.id else { return }
             var next = model.queue
-            guard next.next(automatically: automatically) != nil else { return }
+            guard Self.advancePlayable(&next, automatically: automatically) else { return }
             try await model.startQueue(next)
         }
+    }
+
+    private var isStoppedAtTrackEnd: Bool {
+        let duration = playbackDuration > 0 ? playbackDuration : (currentTrack?.duration ?? 0)
+        guard paused, duration > 0, displayedPosition >= duration - 1.5 else { return false }
+        return engineAvailability != .ready || musicEngine?.canResume(queue) != true
+    }
+
+    private static func advancePlayable(
+        _ queue: inout MusicQueue, automatically: Bool
+    ) -> Bool {
+        let limit = max(1, queue.items.count)
+        for _ in 0..<limit {
+            guard let item = queue.next(automatically: automatically) else { return false }
+            if item.track.isPlayable != false { return true }
+        }
+        return false
     }
     func previous() {
         guard canPrevious else { return }

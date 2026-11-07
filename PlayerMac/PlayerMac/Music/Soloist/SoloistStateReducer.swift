@@ -21,13 +21,21 @@ struct SoloistStateReducer: Sendable {
         }
     }
     private var anchor = ContinuousClock.now
-    private var hasPlayed = false
+    private(set) var hasPlayed = false
     private var finished = false
-    private var terminalBoundary = false
+    private(set) var terminalBoundary = false
     private var takeover = false
-    private var wireStatus = "idle"
+    private(set) var wireStatus = "idle"
     private var naturalEnd: ContinuousClock.Instant?
     private var terminalBuffering = false
+
+    private var nearEndWindow: Double {
+        min(5.0, max(1.5, snapshot.duration * 0.05))
+    }
+
+    private var boundaryTolerance: Double {
+        min(1.5, max(0.75, snapshot.duration * 0.015))
+    }
 
     mutating func begin(
         epoch: UInt64, occurrenceID: UUID, uri: String, now: ContinuousClock.Instant
@@ -73,6 +81,43 @@ struct SoloistStateReducer: Sendable {
         if let value = frame.volume { snapshot.volume = value }
         if let value = frame.loggedIn { loggedIn = value }
         if frame.type == "playback_state" { stateRevision &+= 1 }
+        let foreign = frame.item?.uri.map { !$0.isEmpty && $0 != snapshot.uri } == true
+        if let status = frame.status, status == "buffering", hasPlayed, !suppressEnd,
+            snapshot.duration > 0
+        {
+            let framePosition = (frame.position?.positionMS ?? 0) / 1000
+            if position(at: now) >= snapshot.duration - nearEndWindow
+                || framePosition >= snapshot.duration - nearEndWindow
+            {
+                terminalBuffering = true
+            }
+        }
+        if !foreign, let pos = frame.position?.positionMS,
+            pos > 0, pos / 1000 < snapshot.duration - nearEndWindow
+        {
+            terminalBoundary = false
+            terminalBuffering = false
+        }
+        let zeroReset = frame.position?.positionMS == 0 && frame.position?.speed == 0
+        let endedWhileBuffering =
+            terminalBuffering
+            && (atBoundary(now) || frame.status == "paused" || frame.status == "idle" || zeroReset)
+        let endedAtBoundary =
+            !foreign && atBoundary(now)
+            && ((frame.status != nil && frame.status != "playing") || zeroReset)
+        if hasPlayed, !suppressEnd, endedWhileBuffering || endedAtBoundary {
+            snapshot.position = max(snapshot.position, position(at: now))
+            snapshot.paused = true
+            anchor = now
+            ready = false
+            terminalBoundary = true
+        }
+        if let status = frame.status {
+            if status == "paused" || status == "idle", !terminalBoundary {
+                terminalBuffering = false
+            }
+            wireStatus = status
+        }
         if let active = frame.isActive {
             inactive = !active
             if !active, hasPlayed {
@@ -85,42 +130,15 @@ struct SoloistStateReducer: Sendable {
                 }
             }
         }
-        if let status = frame.status, status == "buffering", hasPlayed, !suppressEnd,
-            snapshot.duration > 0
-        {
-            let framePosition = (frame.position?.positionMS ?? 0) / 1000
-            if position(at: now) >= snapshot.duration - 1.5
-                || framePosition >= snapshot.duration - 1.5
-            {
-                terminalBuffering = true
-            }
-        }
-        let foreign = frame.item?.uri.map { !$0.isEmpty && $0 != snapshot.uri } == true
-        if !foreign, let pos = frame.position?.positionMS,
-            pos > 0, pos / 1000 < snapshot.duration - 1.5
-        {
-            terminalBoundary = false
-            terminalBuffering = false
-        }
-        if hasPlayed, !suppressEnd, terminalBuffering, atBoundary(now) {
-            snapshot.position = position(at: now)
-            snapshot.paused = true
-            anchor = now
-            ready = false
-            terminalBoundary = true
-        }
         if terminalBoundary, !suppressEnd {
             if foreign, frame.status == "playing" { return takeOver(now: now) }
             if !foreign, let value = frame.position,
-                value.positionMS / 1000 >= snapshot.duration - 1.5
+                value.positionMS / 1000 >= snapshot.duration - nearEndWindow
             {
                 snapshot.position = min(snapshot.duration, value.positionMS / 1000)
             }
-            if foreign || frame.status != "playing" { return [] }
-        }
-        if let status = frame.status {
-            if status == "paused" || status == "idle" { terminalBuffering = false }
-            wireStatus = status
+            if foreign { return [] }
+            if frame.status != "playing" { return [.state(current(at: now))] }
         }
         if foreign {
             // Single-track mode may publish recommendation metadata while exiting at EOF.
@@ -197,8 +215,11 @@ struct SoloistStateReducer: Sendable {
 
     private func atBoundary(_ now: ContinuousClock.Instant) -> Bool {
         guard snapshot.duration > 0 else { return false }
-        if terminalBuffering, let naturalEnd { return now >= naturalEnd }
-        return position(at: now) >= snapshot.duration - 0.75
+        if position(at: now) >= snapshot.duration - boundaryTolerance { return true }
+        if terminalBuffering, let naturalEnd {
+            return now >= naturalEnd.advanced(by: .seconds(-boundaryTolerance))
+        }
+        return false
     }
 
     private mutating func takeOver(now: ContinuousClock.Instant) -> [MusicEngineEvent] {

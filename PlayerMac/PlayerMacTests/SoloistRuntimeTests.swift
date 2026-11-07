@@ -222,4 +222,32 @@ struct SoloistRuntimeTests {
         }
         #expect(await output.next() == nil)
     }
+
+    @Test func earlyPlayingEventDuringStartupDoesNotTriggerResumeReconcileQuery() async throws {
+        let driver = FakeSoloistDriver()
+        await driver.configure(.earlyPlayingBeforeInitialState, delay: .milliseconds(50))
+        let runtime = SoloistRuntime(driver: driver)
+        try await runtime.perform(.load(uri: uri, occurrenceID: UUID(), position: 0))
+        #expect(await !driver.commands.contains(.state))
+        #expect(await driver.stops == 0)
+        #expect(await !runtime.confirmedSnapshot().paused)
+        await runtime.shutdown()
+    }
+
+    @Test func parkedResumeAtTrackEndRestartsFromBeginningInsteadOfSeekingToBoundary()
+        async throws
+    {
+        let driver = FakeSoloistDriver()
+        let runtime = SoloistRuntime(driver: driver, parkDelay: .milliseconds(20))
+        try await runtime.perform(.load(uri: uri, occurrenceID: UUID(), position: 0))
+        try await driver.simulatePositionSync(seconds: 99.2)
+        try await runtime.perform(.pause(true))
+        try await Task.sleep(for: .milliseconds(60))
+        #expect(await driver.stops == 1)
+        try await runtime.perform(.pause(false))
+        #expect(await driver.starts == 2)
+        #expect(await !driver.commands.contains(.seek))
+        #expect(await runtime.confirmedSnapshot().position < 5)
+        await runtime.shutdown()
+    }
 }

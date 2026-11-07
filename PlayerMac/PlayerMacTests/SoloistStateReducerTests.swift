@@ -230,6 +230,43 @@ struct SoloistStateReducerTests {
         #expect(state.snapshot.paused && state.snapshot.position == 10)
     }
 
+    @Test func earlyTerminalBufferingWithoutSubsequentStateFrameEmitsEnded() throws {
+        var state = SoloistStateReducer()
+        let now = ContinuousClock.now
+        let id = UUID()
+        state.begin(epoch: 1, occurrenceID: id, uri: uri, now: now)
+        _ = state.receive(try playing(), epoch: 1, now: now)
+        // Final buffering starts 3.5s before nominal duration with no follow-up playback_state.
+        _ = state.receive(
+            try frame("playback_changed", status: "buffering"),
+            epoch: 1, now: now.advanced(by: .seconds(96.5)))
+        let events = state.processExited(code: 0, epoch: 1, now: now.advanced(by: .seconds(99.1)))
+        #expect(events.contains { if case .ended(let value) = $0 { value == id } else { false } })
+    }
+
+    @Test func directPauseAndZeroResetAtBoundaryWithoutPriorBufferingEmitsEnded() throws {
+        var state = SoloistStateReducer()
+        let now = ContinuousClock.now
+        let id = UUID()
+        state.begin(epoch: 1, occurrenceID: id, uri: uri, now: now)
+        _ = state.receive(try playing(), epoch: 1, now: now)
+        _ = state.receive(
+            try frame("playback_changed", status: "paused"),
+            epoch: 1, now: now.advanced(by: .seconds(99.5)))
+        _ = state.receive(
+            try frame("playback_state", status: "paused", item: uri, position: 0, speed: 0),
+            epoch: 1, now: now.advanced(by: .seconds(99.51)))
+        _ = state.receive(
+            try SoloistFrame.decode(
+                Data(
+                    #"{"type":"playback_state","is_active":false,"status":"idle","position":{"position_ms":0,"speed":0}}"#
+                        .utf8)),
+            epoch: 1, now: now.advanced(by: .seconds(99.52)))
+        #expect(state.snapshot.position >= 99)
+        let events = state.processExited(code: 0, epoch: 1, now: now.advanced(by: .seconds(99.55)))
+        #expect(events.contains { if case .ended(let value) = $0 { value == id } else { false } })
+    }
+
     @Test func deviceVolumeIsIndependentAndInputIsBounded() throws {
         var state = SoloistStateReducer()
         let now = ContinuousClock.now
