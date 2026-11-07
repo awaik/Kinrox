@@ -56,7 +56,7 @@ class SiteLocalizationTests(unittest.TestCase):
     def test_language_set_matches_both_apps(self):
         app = {p.stem for p in (ROOT / "Resources/Localization").glob("*.lproj")}
         self.assertEqual(set(builder.LANGUAGES), app)
-        self.assertEqual(len(self.documents), len(app) * len(builder.PAGES))
+        self.assertEqual(len(self.documents), len(app) * len(builder.PAGES) + len(builder.blog_builder.blog_urls()))
 
     def test_committed_output_is_current(self):
         for name, source in self.generated.items():
@@ -100,7 +100,11 @@ class SiteLocalizationTests(unittest.TestCase):
                         target = (ROOT / "site" / directory / a["href"] / "index.html").resolve()
                         expected = ROOT / "site" / builder.page_path(a["data-language"], page) / "index.html"
                         self.assertEqual(target, expected.resolve())
-                    alternates = {el["attrs"]["hreflang"]: el["attrs"]["href"] for el in doc.select("link") if el["attrs"].get("rel") == "alternate"}
+                    alternates = {
+                        el["attrs"]["hreflang"]: el["attrs"]["href"]
+                        for el in doc.select("link")
+                        if el["attrs"].get("rel") == "alternate" and "hreflang" in el["attrs"]
+                    }
                     self.assertEqual(set(alternates), set(builder.LANGUAGES) | {"x-default"})
                     for code in builder.LANGUAGES:
                         self.assertEqual(alternates[code], f"{builder.ORIGIN}/{builder.page_path(code, page)}")
@@ -140,7 +144,33 @@ class SiteLocalizationTests(unittest.TestCase):
         root = ET.fromstring(self.generated["sitemap.xml"])
         urls = {node.text for node in root.findall("{*}url/{*}loc")}
         expected = {f"{builder.ORIGIN}/{builder.page_path(locale, page)}" for locale in builder.LANGUAGES for page in builder.PAGES}
+        expected |= set(builder.blog_builder.blog_urls())
         self.assertEqual(urls, expected)
+
+    def test_blog_rss_and_llms_txt(self):
+        posts = builder.blog_builder.load_posts()
+        self.assertGreaterEqual(len(posts), 1)
+        blog_pages = ["blog/index.html"] + [f'blog/{p["slug"]}/index.html' for p in posts]
+        for name in blog_pages:
+            with self.subTest(path=name):
+                doc = self.documents[name]
+                self.assertEqual(doc.errors, [])
+                self.assertEqual(doc.select("html")[0]["attrs"]["lang"], "en")
+                self.assertEqual(len(doc.select("h1")), 1)
+                self.assertTrue(doc.select("h1")[0]["text"].strip())
+                ids = [el["attrs"]["id"] for el in doc.elements if "id" in el["attrs"]]
+                self.assertEqual(len(ids), len(set(ids)))
+                for anchor in doc.select("a"):
+                    self.assertTrue(anchor["text"].strip(), anchor)
+                for img in doc.select("img"):
+                    self.assertIn("alt", img["attrs"])
+        rss_root = ET.fromstring(self.generated["rss.xml"])
+        rss_links = [node.text for node in rss_root.findall("./channel/item/link")]
+        self.assertEqual(rss_links, [p["canonical_url"] for p in posts])
+        llms = self.generated["llms.txt"]
+        self.assertTrue(llms.startswith("# Kinrox"))
+        for post in posts:
+            self.assertIn(post["canonical_url"], llms)
 
     def test_translations_escape_html_and_preserve_trusted_markup(self):
         text = builder.localized_text("example", {"example": '{0}A & "B"{1}'}, {"example": ["<strong>", "</strong>"]}, "./")

@@ -1,0 +1,27 @@
+# Kinrox
+
+> Kinrox is a native macOS video and Spotify music player written in Swift 6 and SwiftUI (built on libmpv and Spotify Soloist) with an encrypted local-network iPhone companion remote and a built-in 30 fps Matrix screensaver. No WebViews, no Electron, no cloud accounts, and no telemetry.
+
+## Key Facts & Architecture
+
+- **Platform**: macOS 14+ on Apple Silicon (`arm64`) for the Mac player (`PlayerMac`); iOS 17+ for the companion iPhone remote (`RemoteiOS`).
+- **Video Engine**: `libmpv 0.41.0` (`FFmpeg 9.0.1`, OpenGL render context, hardware decoding via `VideoToolbox`), isolated behind the Swift `PlayerEngine` protocol. Supports `MKV`, `MP4`, `M4V`, `MOV`, `AVI`, `WebM`, `TS`, recursive external audio/subtitle track discovery in nested folders, and natural Finder-ordered folder playlists.
+- **Standalone Spotify Music Mode**: Uses 180–196 MB of RAM in `Kinrox.app` + 25–27 MiB in Spotify's official headless `com.spotify.soloist` binary (~10x less memory than the ~2 GB Electron-based `Spotify.app`) and <1% of a single CPU core (~0% when occluded/minimized). Operates with `Spotify.app` completely closed. Includes a local `SQLite` library cache (opens 10,000 tracks in 40.98 ms with 0 HTTP requests), `O(1)` catalog indexing, a 20-second pause-parking mechanism (0 MB RAM and 0% CPU during long pauses), and a 53 KB C watchdog reaper (`KinroxSoloistHost`) to prevent orphaned audio processes on `SIGKILL`.
+- **Encrypted LAN iPhone Remote**: Zero-configuration discovery via Bonjour (`_kinrox._tcp`), 6-digit PIN pairing, and authenticated Diffie-Hellman handshake using Apple `CryptoKit` (`X25519` ECDH + `HKDF-SHA256` + `ChaCha20-Poly1305` AEAD) over local WebSocket (`Network.framework`). Pairing tokens are stored in the macOS Data Protection Keychain and iOS Keychain.
+- **Matrix Screensaver**: Built-in 30 fps falling katakana/glyph rain on `SwiftUI Canvas`, triggered from Mac (`Screensaver -> Matrix`) or directly from the iPhone remote after hardware pause confirmation.
+- **Localization**: Full UI and website support for 30 languages (including RTL layout for Arabic, Hebrew, Persian, and Urdu).
+- **Licensing**: Mac player is open source under `GPL-3.0-only`; iPhone remote source code is available under the Kinrox Remote Personal Use License 1.0 (free for personal non-commercial use and source-sharing forks).
+
+## Primary Links
+
+- [Official Website](https://kinrox.app/): Landing page, feature overview, and localized documentation in 30 languages.
+- [Signed & Notarized Mac Download (v0.5.5 DMG)](https://github.com/awaik/Kinrox/releases/download/v0.5.5/Kinrox-0.5.5-arm64.dmg): Direct download for Apple Silicon Macs (macOS 14+).
+- [GitHub Repository](https://github.com/awaik/Kinrox): Complete Swift 6 source code for `PlayerMac`, `RemoteiOS`, `KinroxMusic`, `RemoteProtocol`, and engineering research reports (`docs/RESEARCHES`).
+- [Engineering Blog](https://kinrox.app/blog/): Deep-dive articles on architecture, benchmarks, and debugging.
+- [RSS Feed](https://kinrox.app/rss.xml): RSS 2.0 feed with full article content.
+- [Support & Troubleshooting](https://kinrox.app/support/): Pairing instructions, local network setup, and demo mode (`-KinroxDemo`).
+- [Privacy Policy](https://kinrox.app/privacy/): Local-first data handling and optional Spotify connection terms.
+
+## Blog Articles
+
+- [What Happens When a Developer Has Unused AI Tokens Left: A 196 MB Spotify Player (Instead of 2 GB), a Mac Video Player with an iPhone Remote, and—Most Importantly—a Matrix Screensaver](https://kinrox.app/blog/spotify-196mb-video-player-iphone-remote-matrix-screensaver/): How leftover token quota turned into Kinrox: a native Swift 6 & SwiftUI macOS video player on libmpv with an encrypted iPhone remote, a standalone 196 MB Spotify player powered by Spotify Soloist, a C watchdog reaper, an AttributeGraph deep dive, and a 30 fps Matrix screensaver.

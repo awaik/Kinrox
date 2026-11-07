@@ -10,6 +10,9 @@ import posixpath
 import re
 import sys
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import blog_builder
+
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "Website"
 OUTPUT = ROOT / "site"
@@ -104,6 +107,7 @@ def head(locale, page, strings, root):
         lines.append(f'  <link rel="alternate" hreflang="{code}" href="{ORIGIN}/{page_path(code, page)}">')
     lines.extend([
         f'  <link rel="alternate" hreflang="x-default" href="{ORIGIN}/{page_path("en", page)}">',
+        f'  <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="{ORIGIN}/rss.xml">',
         '  <meta property="og:type" content="website">',
         '  <meta property="og:site_name" content="Kinrox">',
         f'  <meta property="og:title" content="{social_title}">',
@@ -235,8 +239,10 @@ def outputs():
     for locale in LANGUAGES:
         for page in PAGES:
             yield page_path(locale, page) + "index.html", render(locale, page, LANGUAGES, catalogs[locale], markup)
+    yield from blog_builder.blog_outputs()
     sitemap = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     sitemap.extend(f"  <url><loc>{ORIGIN}/{page_path(locale, page)}</loc></url>" for locale in LANGUAGES for page in PAGES)
+    sitemap.extend(f"  <url><loc>{url}</loc></url>" for url in blog_builder.blog_urls())
     yield "sitemap.xml", "\n".join(sitemap + ["</urlset>", ""])
     yield "robots.txt", f"User-agent: *\nAllow: /\nSitemap: {ORIGIN}/sitemap.xml\n"
 

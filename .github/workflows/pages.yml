@@ -11,6 +11,7 @@ on:
       - "Resources/Localization/**"
       - "Resources/Spotify/**"
       - "Scripts/build-site.py"
+      - "Scripts/blog_builder.py"
       - "Scripts/tests/test_site_localization.py"
       - "Scripts/tests/test_spotify_documents.py"
       - ".github/workflows/pages.yml"
