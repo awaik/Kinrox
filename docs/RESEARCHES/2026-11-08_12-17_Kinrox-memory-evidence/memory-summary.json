@@ -1,0 +1,67 @@
+{
+  "samples": 61,
+  "elapsed_seconds": 120.101,
+  "first_utc": "2026-11-08T09:18:28.182103+00:00",
+  "last_utc": "2026-11-08T09:20:28.283221+00:00",
+  "incomplete_samples": 0,
+  "process_counts": [
+    4
+  ],
+  "roles": {
+    "Kinrox": {
+      "samples": 61,
+      "pids": [
+        45801
+      ],
+      "min_MiB": 416.90782928466797,
+      "median_MiB": 416.93907928466797,
+      "max_MiB": 455.45470428466797,
+      "first_MiB": 452.39220428466797,
+      "last_MiB": 416.95470428466797
+    },
+    "KinroxSoloistHost": {
+      "samples": 61,
+      "pids": [
+        48336
+      ],
+      "min_MiB": 0.922149658203125,
+      "median_MiB": 0.922149658203125,
+      "max_MiB": 0.922149658203125,
+      "first_MiB": 0.922149658203125,
+      "last_MiB": 0.922149658203125
+    },
+    "Soloist playback": {
+      "samples": 61,
+      "pids": [
+        48335
+      ],
+      "min_MiB": 28.09436798095703,
+      "median_MiB": 29.10999298095703,
+      "max_MiB": 29.56311798095703,
+      "first_MiB": 28.14124298095703,
+      "last_MiB": 28.84436798095703
+    },
+    "Soloist secondary (same executable path)": {
+      "samples": 61,
+      "pids": [
+        48338
+      ],
+      "min_MiB": 3.7191619873046875,
+      "median_MiB": 3.7191619873046875,
+      "max_MiB": 3.7191619873046875,
+      "first_MiB": 3.7191619873046875,
+      "last_MiB": 3.7191619873046875
+    },
+    "TOTAL": {
+      "samples": 61,
+      "pids": [],
+      "min_MiB": 449.9247589111328,
+      "median_MiB": 450.7528839111328,
+      "max_MiB": 488.1903839111328,
+      "first_MiB": 485.1747589111328,
+      "last_MiB": 450.4403839111328
+    }
+  },
+  "main_uptime_first": "17:24:41",
+  "main_uptime_last": "17:26:41"
+}

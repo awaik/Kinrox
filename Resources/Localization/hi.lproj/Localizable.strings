@@ -427,3 +427,15 @@
 "Move up" = "ऊपर ले जाएँ";
 "Move down" = "नीचे ले जाएँ";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify केवल उन प्लेलिस्ट के ट्रैक प्रदान करता है जिनके आप स्वामी या सहयोगी हैं।";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "वीडियो होम";
+"Back to Video" = "वीडियो पर वापस जाएँ";
+"Close Video" = "वीडियो बंद करें";
+"Home & Recent" = "होम और हालिया";
+"Open Video Home" = "वीडियो होम खोलें";
+"Now open · Paused at %@ of %@" = "अभी खुला है · %@ / %@ पर रुका हुआ";
+"Now open · Paused" = "अभी खुला है · रुका हुआ";
+"Want to watch another video?" = "कोई दूसरा वीडियो देखना चाहते हैं?";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "नीचे इतिहास से कोई कार्ड चुनें, विंडो में फ़ाइल ड्रॉप करें, या डायलॉग से खोलें।";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — वीडियो पर वापस   ·   ⌘O — फ़ाइल खोलें   ·   ⌘⌫ — वीडियो बंद करें";

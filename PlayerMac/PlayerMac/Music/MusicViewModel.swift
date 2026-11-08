@@ -3,6 +3,25 @@ import MusicCore
 import Observation
 
 @MainActor @Observable
+final class MusicPopoverState {
+    var likeOptionsTrackID: String?
+    var likeOptionsAnchor: String?
+    var previewAlbumID: String?
+    var previewAlbumTrack: MusicTrack?
+    var previewAlbumAnchor: String?
+    var previewArtists: [MusicArtist] = []
+    var previewArtistID: String?
+    var previewArtistAnchor: String?
+}
+
+@MainActor @Observable
+final class MusicFocusState {
+    var focusedColumn = MusicViewModel.Column.tracks
+    var focusedTrackID: String?
+    var focusedQueueID: UUID?
+}
+
+@MainActor @Observable
 final class MusicViewModel {
     enum Column: Int, CaseIterable { case source, albums, tracks }
     enum LeftColumnSection: String, CaseIterable, Sendable {
@@ -16,7 +35,12 @@ final class MusicViewModel {
     var catalog: MusicCatalog
     var selection = BrowserSelection(source: .albums, albumID: "evening")
     var contents: BrowserContents
-    var focusedColumn = Column.tracks
+    @ObservationIgnored let focus = MusicFocusState()
+    @ObservationIgnored let popovers = MusicPopoverState()
+    var focusedColumn: Column {
+        get { focus.focusedColumn }
+        set { focus.focusedColumn = newValue }
+    }
     var leftSection = LeftColumnSection.home
     var leftFilterQuery = ""
     var playlistFilter = PlaylistOwnershipFilter.all
@@ -35,19 +59,49 @@ final class MusicViewModel {
     var discoverySeedArtist: MusicArtist?
     var isDiscovering = false
     var sortAlbumsByArtist = true
-    var focusedTrackID: String?
-    var focusedQueueID: UUID?
+    var focusedTrackID: String? {
+        get { focus.focusedTrackID }
+        set { focus.focusedTrackID = newValue }
+    }
+    var focusedQueueID: UUID? {
+        get { focus.focusedQueueID }
+        set { focus.focusedQueueID = newValue }
+    }
     var query = ""
     var searchRequested = false
     var isSearching = false
-    var likeOptionsTrackID: String?
-    var likeOptionsAnchor: String?
-    var previewAlbumID: String?
-    var previewAlbumTrack: MusicTrack?
-    var previewAlbumAnchor: String?
-    var previewArtists: [MusicArtist] = []
-    var previewArtistID: String?
-    var previewArtistAnchor: String?
+    var likeOptionsTrackID: String? {
+        get { popovers.likeOptionsTrackID }
+        set { popovers.likeOptionsTrackID = newValue }
+    }
+    var likeOptionsAnchor: String? {
+        get { popovers.likeOptionsAnchor }
+        set { popovers.likeOptionsAnchor = newValue }
+    }
+    var previewAlbumID: String? {
+        get { popovers.previewAlbumID }
+        set { popovers.previewAlbumID = newValue }
+    }
+    var previewAlbumTrack: MusicTrack? {
+        get { popovers.previewAlbumTrack }
+        set { popovers.previewAlbumTrack = newValue }
+    }
+    var previewAlbumAnchor: String? {
+        get { popovers.previewAlbumAnchor }
+        set { popovers.previewAlbumAnchor = newValue }
+    }
+    var previewArtists: [MusicArtist] {
+        get { popovers.previewArtists }
+        set { popovers.previewArtists = newValue }
+    }
+    var previewArtistID: String? {
+        get { popovers.previewArtistID }
+        set { popovers.previewArtistID = newValue }
+    }
+    var previewArtistAnchor: String? {
+        get { popovers.previewArtistAnchor }
+        set { popovers.previewArtistAnchor = newValue }
+    }
     var trackSortOrders: [String: TrackSortOrder] = [:]
     var rememberedTrackIDs: [String: String] = [:]
     @ObservationIgnored let defaults: UserDefaults?

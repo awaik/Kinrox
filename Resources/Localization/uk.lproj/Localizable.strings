@@ -427,3 +427,15 @@
 "Move up" = "Перемістити вище";
 "Move down" = "Перемістити нижче";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify надає треки лише для плейлистів, якими ви володієте або над якими співпрацюєте.";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "Головна відео";
+"Back to Video" = "До відео";
+"Close Video" = "Закрити відео";
+"Home & Recent" = "Головна та історія";
+"Open Video Home" = "Відкрити головну відео";
+"Now open · Paused at %@ of %@" = "Зараз відкрито · Пауза на %@ із %@";
+"Now open · Paused" = "Зараз відкрито · На паузі";
+"Want to watch another video?" = "Хочете увімкнути інше відео?";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "Виберіть картку з історії нижче, перетягніть файл у вікно або відкрийте через діалог.";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — повернутися до відео   ·   ⌘O — відкрити файл   ·   ⌘⌫ — закрити відео";

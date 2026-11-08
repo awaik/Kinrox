@@ -11,6 +11,10 @@ final class PlayerViewModel {
     var volume: Double = 100
     private(set) var hasMedia = false
     private(set) var isLoading = false
+    /// Shows the Video Home & History screen while preserving the paused movie.
+    private(set) var isShowingHome = false
+    var isStartingHome = false
+    var isShowingConnectPhone = false
     private(set) var hardwareDecoder = ""
     private(set) var audioOutput = ""
     /// Most recently requested file (before engine confirmation).
@@ -118,6 +122,9 @@ final class PlayerViewModel {
         guard !isClosing else { return false }
         stopScreensaver()
         cancelEOFRefresh()
+        isStartingHome = false
+        isShowingHome = false
+        isShowingConnectPhone = false
         errorMessage = nil
         do {
             try engine.load(url: url)
@@ -186,6 +193,7 @@ final class PlayerViewModel {
         case .loaded:
             hasMedia = true
             isLoading = false
+            if !isShowingHome { isShowingConnectPhone = false }
             if let currentURL {
                 recents?.noteOpened(currentURL)
                 recents?.updateDuration(duration, for: currentURL)
@@ -202,6 +210,11 @@ final class PlayerViewModel {
             if error != nil { clearCurrentFile() }
         case .failure(let error):
             if isStartingScreensaver { stopScreensaver() }
+            isStartingHome = false
+            if !paused {
+                setShowingHome(false)
+                isShowingConnectPhone = false
+            }
             isLoading = false
             requestedPause = nil
             replayPending = false
@@ -227,7 +240,18 @@ final class PlayerViewModel {
         case (.paused, .flag(let paused)):
             self.paused = paused
             if requestedPause == paused { requestedPause = nil }
-            if paused { position = latestPosition }
+            if paused {
+                position = latestPosition
+                if isStartingHome {
+                    isStartingHome = false
+                    recents?.refreshAvailability()
+                    isShowingHome = true
+                }
+            } else {
+                isStartingHome = false
+                isShowingHome = false
+                isShowingConnectPhone = false
+            }
             if paused, isStartingScreensaver { activateMatrix() }
             if !paused, screensaver == .matrix { setPaused(true) }
         case (.endReached, .flag(let reached)):
@@ -313,9 +337,24 @@ final class PlayerViewModel {
         duration = 0
         hasMedia = false
         isLoading = false
+        isStartingHome = false
+        isShowingHome = false
+        isShowingConnectPhone = false
         hardwareDecoder = ""
         audioOutput = ""
         lastPositionUpdate = -Double.infinity
+    }
+
+    func setShowingHome(_ showing: Bool) {
+        guard isShowingHome != showing else { return }
+        isShowingHome = showing
+        notifyPlayback()
+    }
+
+    func clearMedia() {
+        resetMedia()
+        clearCurrentFile()
+        notifyPlayback()
     }
 
     func shutdown() async {
@@ -353,6 +392,9 @@ final class PlayerViewModel {
         if let completion { screensaverStartCompletions.append(completion) }
         guard !isStartingScreensaver else { return true }
         cancelEOFRefresh()
+        isStartingHome = false
+        isShowingHome = false
+        isShowingConnectPhone = false
         trackController.presentation = nil
         if !hasMedia || (paused && requestedPause != false) {
             activateMatrix()

@@ -1,19 +1,25 @@
 import AppKit
 import SwiftUI
 
-/// Empty window: welcome screen to open video and recents.
+/// Empty window or paused-video home screen to open video and recents.
 struct WelcomeView: View {
+    var model: PlayerViewModel? = nil
     let recents: RecentFilesStore?
     let actions: PlayerActions
     var remote: RemoteServer? = nil
     var updates: UpdateCenter? = nil
     var connectPhone: () -> Void = {}
     @State private var showsAll = false
+    @State private var collapsedWhilePaused = false
 
     private static let collapsedCount = 4
     private static let cardWidth: CGFloat = 240
     private static let cardSpacing: CGFloat = 24
     private var items: [RecentItem] { recents?.items ?? [] }
+    private var hasActiveVideo: Bool { model?.hasMedia == true }
+    private var isHistoryExpanded: Bool {
+        hasActiveVideo ? !collapsedWhilePaused : showsAll
+    }
     private var update: AvailableUpdate? {
         guard let updates, updates.showsReminder else { return nil }
         return updates.available
@@ -21,6 +27,7 @@ struct WelcomeView: View {
 
     var body: some View {
         GeometryReader { geometry in
+            let contentWidth = max(240, geometry.size.width - 80)
             ZStack(alignment: .bottom) {
                 Palette.base
                     .overlay(alignment: .top) {
@@ -44,21 +51,36 @@ struct WelcomeView: View {
                             // Figma page 05: banner follows the recent-files grid width.
                             UpdateBanner(center: updates, update: update)
                                 .frame(maxWidth: 1032)
-                                .padding(.bottom, 40)
+                                .padding(.bottom, hasActiveVideo ? 24 : 40)
                                 .transition(.move(edge: .top).combined(with: .opacity))
                         }
-                        hero
-                        if !items.isEmpty {
-                            recentSection(width: geometry.size.width - 80)
-                                .padding(.top, update == nil ? 64 : 48)
+                        if let model, model.hasMedia {
+                            ContinueWatchingBanner(model: model, availableWidth: contentWidth)
+                                .padding(.bottom, 20)
+                            QuickOpenBar(
+                                actions: actions, remote: remote, connectPhone: connectPhone,
+                                availableWidth: contentWidth
+                            )
+                        } else {
+                            hero
                         }
-                        Text(L10n.text("Space — pause   ·   ← → — 5s   ·   F — full screen"))
-                            .font(KinroxFont.caption)
-                            .foregroundStyle(Palette.textTertiary)
-                            .padding(.top, 56)
+                        if !items.isEmpty {
+                            recentSection(width: contentWidth)
+                                .padding(.top, hasActiveVideo ? 32 : (update == nil ? 64 : 48))
+                        }
+                        Text(
+                            hasActiveVideo
+                                ? L10n.text(
+                                    "Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video"
+                                )
+                                : L10n.text("Space — pause   ·   ← → — 5s   ·   F — full screen")
+                        )
+                        .font(KinroxFont.caption)
+                        .foregroundStyle(Palette.textTertiary)
+                        .padding(.top, hasActiveVideo ? 36 : 56)
                     }
                     .padding(.horizontal, 40)
-                    .padding(.top, update == nil ? 72 : 64)
+                    .padding(.top, hasActiveVideo ? 52 : (update == nil ? 72 : 64))
                     .animation(.spring(duration: 0.4), value: update)
                     .padding(.bottom, 24)
                     .frame(maxWidth: .infinity, minHeight: geometry.size.height)
@@ -132,16 +154,26 @@ struct WelcomeView: View {
 
     /// Card row centered: columns as space allows, up to four.
     private func recentSection(width: CGFloat) -> some View {
-        let shown = showsAll ? items : Array(items.prefix(Self.collapsedCount))
+        let shown = isHistoryExpanded ? items : Array(items.prefix(Self.collapsedCount))
         let fitting = Int((width + Self.cardSpacing) / (Self.cardWidth + Self.cardSpacing))
         let columns = max(1, min(Self.collapsedCount, fitting, shown.count))
+        let currentKey = model?.currentURL.map(VideoFiles.key)
         return VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text(L10n.text("Recent")).overlineStyle()
                 Spacer()
                 if items.count > Self.collapsedCount {
-                    Button(showsAll ? L10n.text("Collapse") : L10n.text("Show all  →")) {
-                        withAnimation(.spring(duration: 0.35)) { showsAll.toggle() }
+                    Button(
+                        isHistoryExpanded
+                            ? L10n.text("Collapse") : L10n.text("Show all  →")
+                    ) {
+                        withAnimation(.spring(duration: 0.35)) {
+                            if hasActiveVideo {
+                                collapsedWhilePaused.toggle()
+                            } else {
+                                showsAll.toggle()
+                            }
+                        }
                     }
                     .buttonStyle(.plain)
                     .font(KinroxFont.caption)
@@ -155,10 +187,20 @@ struct WelcomeView: View {
                 alignment: .leading, spacing: Self.cardSpacing
             ) {
                 ForEach(shown) { item in
+                    let isCurrent =
+                        hasActiveVideo
+                        && VideoFiles.key(URL(fileURLWithPath: item.path)) == currentKey
                     RecentCard(
                         item: item,
                         isAvailable: !(recents?.unavailable.contains(item.id) ?? false),
-                        open: { actions.openRecent(item) },
+                        isCurrent: isCurrent,
+                        open: {
+                            if isCurrent, let model {
+                                _ = model.returnToVideo()
+                            } else {
+                                actions.openRecent(item)
+                            }
+                        },
                         revealInFinder: {
                             if let url = recents?.resolve(item) {
                                 NSWorkspace.shared.activateFileViewerSelecting([url])

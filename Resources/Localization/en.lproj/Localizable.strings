@@ -427,3 +427,15 @@
 "Move up" = "Move up";
 "Move down" = "Move down";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify only provides tracks for playlists you own or collaborate on.";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "Video Home";
+"Back to Video" = "Back to Video";
+"Close Video" = "Close Video";
+"Home & Recent" = "Home & Recent";
+"Open Video Home" = "Open Video Home";
+"Now open · Paused at %@ of %@" = "Now open · Paused at %@ of %@";
+"Now open · Paused" = "Now open · Paused";
+"Want to watch another video?" = "Want to watch another video?";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "Choose a card from history below, drop a file into the window, or open via dialog.";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video";

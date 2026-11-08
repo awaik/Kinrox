@@ -142,7 +142,7 @@ struct MusicTrackRow: View {
             }.frame(width: 28, alignment: .trailing).foregroundStyle(Palette.textTertiary)
             HStack(spacing: 5) {
                 if track.explicit == true { SpotifyExplicitBadge() }
-                Text(track.title).help(track.title).foregroundStyle(
+                Text(track.title).hoverHelp(track.title, active: hovered).foregroundStyle(
                     playing ? Palette.flame : Palette.textPrimary
                 )
             }.frame(maxWidth: .infinity, alignment: .leading)

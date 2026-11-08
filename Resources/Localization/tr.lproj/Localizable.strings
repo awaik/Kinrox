@@ -427,3 +427,15 @@
 "Move up" = "Yukarı taşı";
 "Move down" = "Aşağı taşı";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify yalnızca sahibi olduğunuz veya ortak çalıştığınız çalma listelerinin parçalarını sunar.";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "Video Ana Sayfası";
+"Back to Video" = "Videoya Dön";
+"Close Video" = "Videoyu Kapat";
+"Home & Recent" = "Ana Sayfa ve Son Açılanlar";
+"Open Video Home" = "Video Ana Sayfasını Aç";
+"Now open · Paused at %@ of %@" = "Şu an açık · %@ / %@ konumunda duraklatıldı";
+"Now open · Paused" = "Şu an açık · Duraklatıldı";
+"Want to watch another video?" = "Başka bir video izlemek ister misiniz?";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "Aşağıdaki geçmişten bir kart seçin, pencereye bir dosya bırakın veya iletişim kutusuyla açın.";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — videoya dön   ·   ⌘O — dosya aç   ·   ⌘⌫ — videoyu kapat";

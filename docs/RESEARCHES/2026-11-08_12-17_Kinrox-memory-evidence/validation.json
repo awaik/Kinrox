@@ -1,0 +1,17 @@
+{
+  "validated_utc": "2026-11-08T09:26:31.076105+00:00",
+  "checks": {
+    "python_syntax": "passed; ast.parse; no bytecode artifacts created",
+    "json_and_series_statistics": "passed; all 61 samples, totals and per-role statistics recalculated",
+    "report_local_links": {
+      "passed": 10
+    },
+    "source_and_document_line_limits": "passed; each authored Markdown/Python file at most 500 lines",
+    "redaction_and_token_pattern_scan": "passed; aggregate-only collection; no real home paths or bearer-token patterns",
+    "diagnostic_outcomes": "vmmap/heap succeeded; leaks exit 1 retained and explained (2 leaks / 112 bytes)",
+    "git_diff_check": "passed; untracked authored files checked separately",
+    "authored_file_whitespace": "passed",
+    "initial_validation_correction": "Initial whitespace check also included captured vmmap output and rejected its native trailing spaces; corrected check to authored files. Raw diagnostics were preserved without whitespace normalization.",
+    "scope": "Only new research documentation, diagnostic scripts and evidence; no app implementation or app test changes"
+  }
+}

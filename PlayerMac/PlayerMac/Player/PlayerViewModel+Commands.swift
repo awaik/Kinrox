@@ -39,6 +39,11 @@ extension PlayerViewModel {
     private func setPausedForPlayback(_ paused: Bool) -> Bool {
         guard canControl, paused || !isScreensaverEngaged else { return false }
         return perform {
+            if !paused {
+                isStartingHome = false
+                isShowingConnectPhone = false
+                setShowingHome(false)
+            }
             if !paused, isAtEnd, !replayPending {
                 try engine.seek(absolute: 0)
                 replayPending = true
@@ -46,6 +51,52 @@ extension PlayerViewModel {
             try engine.setPaused(paused)
             requestedPause = paused
         }
+    }
+
+    @discardableResult
+    func showHome() -> Bool {
+        guard hasMedia, !isClosing, !isLoading else { return false }
+        cancelPendingPlayback?()
+        stopScreensaver()
+        cancelEOFRefresh()
+        trackController.presentation = nil
+        if paused, requestedPause != false {
+            isStartingHome = false
+            recents?.refreshAvailability()
+            setShowingHome(true)
+            return true
+        }
+        isStartingHome = true
+        guard setPaused(true) else {
+            isStartingHome = false
+            return false
+        }
+        return true
+    }
+
+    @discardableResult
+    func returnToVideo() -> Bool {
+        guard hasMedia, !isClosing else { return false }
+        isStartingHome = false
+        isShowingConnectPhone = false
+        setShowingHome(false)
+        return true
+    }
+
+    @discardableResult
+    func toggleHome() -> Bool {
+        isShowingHome || isStartingHome ? returnToVideo() : showHome()
+    }
+
+    @discardableResult
+    func closeVideo() -> Bool {
+        guard !isClosing, hasMedia || isLoading || currentURL != nil else { return false }
+        guard perform({ try engine.stop() }) else { return false }
+        cancelPendingPlayback?()
+        stopScreensaver()
+        trackController.close()
+        clearMedia()
+        return true
     }
 
     @discardableResult

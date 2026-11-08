@@ -427,3 +427,15 @@
 "Move up" = "Omhoog verplaatsen";
 "Move down" = "Omlaag verplaatsen";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify levert alleen nummers voor afspeellijsten waarvan je eigenaar bent of waaraan je meewerkt.";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "Video-startpagina";
+"Back to Video" = "Terug naar video";
+"Close Video" = "Video sluiten";
+"Home & Recent" = "Start & recent";
+"Open Video Home" = "Video-startpagina openen";
+"Now open · Paused at %@ of %@" = "Nu geopend · Gepauzeerd op %@ van %@";
+"Now open · Paused" = "Nu geopend · Gepauzeerd";
+"Want to watch another video?" = "Wil je een andere video bekijken?";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "Kies hieronder een kaart uit de geschiedenis, sleep een bestand naar het venster of open via het dialoogvenster.";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — terug naar video   ·   ⌘O — bestand openen   ·   ⌘⌫ — video sluiten";

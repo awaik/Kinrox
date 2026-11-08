@@ -24,4 +24,5 @@
 
 ## Blog Articles
 
+- [Part 2: How Our '196 MB' Spotify Player Quietly Grew to 450 MB Overnight—Wait, 168 Dead WebSockets, SwiftUI's Secret Tax, and Why foobar2000's mmap Trick Still Rules](https://kinrox.app/blog/why-our-196mb-macos-player-grew-to-450mb-swiftui-sqlite-mmap-foobar2000/): An 18-hour memory investigation on macOS: how we dissected foobar2000, IINA, and Audirvana, caught 168 zombie URLSessions red-handed in heap dumps, learned why 22-byte Spotify IDs defeat ARM64 SmallString, switched SQLite to zero-copy mmap, and tamed SwiftUI's AttributeGraph without rewriting the app in AppKit.
 - [What Happens When a Developer Has Unused AI Tokens Left: A 196 MB Spotify Player (Instead of 2 GB), a Mac Video Player with an iPhone Remote, and—Most Importantly—a Matrix Screensaver](https://kinrox.app/blog/spotify-196mb-video-player-iphone-remote-matrix-screensaver/): How leftover token quota turned into Kinrox: a native Swift 6 & SwiftUI macOS video player on libmpv with an encrypted iPhone remote, a standalone 196 MB Spotify player powered by Spotify Soloist, a C watchdog reaper, an AttributeGraph deep dive, and a 30 fps Matrix screensaver.

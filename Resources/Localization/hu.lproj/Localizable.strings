@@ -427,3 +427,15 @@
 "Move up" = "Mozgatás fel";
 "Move down" = "Mozgatás le";
 "Spotify only provides tracks for playlists you own or collaborate on." = "A Spotify csak a saját vagy közös szerkesztésű lejátszási listák számait teszi elérhetővé.";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "Videó kezdőlap";
+"Back to Video" = "Vissza a videóhoz";
+"Close Video" = "Videó bezárása";
+"Home & Recent" = "Kezdőlap és előzmények";
+"Open Video Home" = "Videó kezdőlap megnyitása";
+"Now open · Paused at %@ of %@" = "Megnyitva · Szüneteltetve itt: %@ / %@";
+"Now open · Paused" = "Megnyitva · Szüneteltetve";
+"Want to watch another video?" = "Másik videót szeretne nézni?";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "Válasszon egy kártyát az alábbi előzményekből, húzzon egy fájlt az ablakba, vagy nyissa meg a párbeszédablakkal.";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — vissza a videóhoz   ·   ⌘O — fájl megnyitása   ·   ⌘⌫ — videó bezárása";

@@ -427,3 +427,15 @@
 "Move up" = "Pindah ke atas";
 "Move down" = "Pindah ke bawah";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify hanya menyediakan lagu untuk playlist milik Anda atau yang Anda kolaborasikan.";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "Beranda Video";
+"Back to Video" = "Kembali ke Video";
+"Close Video" = "Tutup Video";
+"Home & Recent" = "Beranda & Terbaru";
+"Open Video Home" = "Buka Beranda Video";
+"Now open · Paused at %@ of %@" = "Sedang dibuka · Dijeda di %@ dari %@";
+"Now open · Paused" = "Sedang dibuka · Dijeda";
+"Want to watch another video?" = "Ingin menonton video lain?";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "Pilih kartu dari riwayat di bawah, tarik file ke jendela, atau buka lewat dialog.";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — kembali ke video   ·   ⌘O — buka file   ·   ⌘⌫ — tutup video";

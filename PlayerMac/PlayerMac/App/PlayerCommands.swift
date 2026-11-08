@@ -103,6 +103,19 @@ struct PlayerCommands: Commands {
                     session.controlsMusic
                         ? (!session.musicShortcutsAllowed || !session.music.canAdjustVolume)
                         : !session.canControl)
+            Divider()
+            Button(
+                model?.isShowingHome == true
+                    ? L10n.text("Back to Video") : L10n.text("Video Home")
+            ) {
+                model?.toggleHome()
+            }
+            .disabled(!session.videoNavigationAllowed)
+            Button(L10n.text("Close Video")) {
+                model?.closeVideo()
+            }
+            .keyboardShortcut(.delete, modifiers: .command)
+            .disabled(!session.videoCloseAllowed)
         }
         CommandGroup(before: .windowSize) {
             Button(

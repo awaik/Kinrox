@@ -427,3 +427,15 @@
 "Move up" = "הזז למעלה";
 "Move down" = "הזז למטה";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify מספק רצועות רק עבור פלייליסטים שבבעלותך או בשיתוף פעולה איתך.";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "מסך הבית של הווידאו";
+"Back to Video" = "חזרה לווידאו";
+"Close Video" = "סגירת הווידאו";
+"Home & Recent" = "בית ואחרונים";
+"Open Video Home" = "פתיחת מסך הבית של הווידאו";
+"Now open · Paused at %@ of %@" = "פתוח כעת · מושהה ב־%@ מתוך %@";
+"Now open · Paused" = "פתוח כעת · מושהה";
+"Want to watch another video?" = "רוצה לצפות בווידאו אחר?";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "אפשר לבחור כרטיס מההיסטוריה למטה, לגרור קובץ אל החלון או לפתוח דרך תיבת הדו־שיח.";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — חזרה לווידאו   ·   ⌘O — פתיחת קובץ   ·   ⌘⌫ — סגירת הווידאו";

@@ -22,7 +22,11 @@ final class VideoHostView: NSView {
 
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
-        updateGeometry()
+        if window == nil {
+            videoLayer.releaseBacking()
+        } else {
+            updateGeometry()
+        }
     }
 
     override func viewDidChangeBackingProperties() {

@@ -427,3 +427,15 @@
 "Move up" = "上移";
 "Move down" = "下移";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify 仅提供您拥有或参与协作的歌单中的曲目。";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "视频主页";
+"Back to Video" = "返回视频";
+"Close Video" = "关闭视频";
+"Home & Recent" = "主页与最近播放";
+"Open Video Home" = "打开视频主页";
+"Now open · Paused at %@ of %@" = "当前打开 · 已暂停于 %@ / %@";
+"Now open · Paused" = "当前打开 · 已暂停";
+"Want to watch another video?" = "想看其他视频吗？";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "从下方历史记录中选择卡片、将文件拖入窗口，或通过对话框打开。";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — 返回视频   ·   ⌘O — 打开文件   ·   ⌘⌫ — 关闭视频";

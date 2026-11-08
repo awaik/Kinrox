@@ -1,0 +1,110 @@
+Process:         Kinrox [45801]
+Path:            /Applications/Kinrox.app/Contents/MacOS/Kinrox
+Load Address:    0x10040c000
+Identifier:      app.kinrox.player
+Version:         0.5.5 (15)
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  launchd [1]
+Target Type:     live task
+
+Date/Time:       2026-11-08 16:20:56.871 +0700
+Launch Time:     2026-11-07 22:53:47.636 +0700
+OS Version:      macOS 26.5.2 (25F84)
+Report Version:  7
+Analysis Tool:   /usr/bin/heap
+
+Physical footprint:         416.9M
+Physical footprint (peak):  743.1M
+Idle exit:                  untracked
+----
+
+Process 45801: 8 zones
+
+All zones: 231806 nodes malloced - Sizes: 4752KB[1] 1952KB[1] 1024KB[3] 928KB[3] 912KB[1] 528KB[2] 512KB[23] 400KB[6] 384KB[3] 336KB[1] 272KB[2] 256KB[7] 240KB[4] 224KB[3] 208KB[3] 192KB[2] 176KB[1] 160KB[1] 144KB[9] 128KB[5] 112KB[4] 96KB[3] 80KB[3] 64KB[35] 48KB[81] 32KB[29] 28KB[5] 24KB[8] 20KB[63] 16KB[275] 14KB[12] 12KB[13] 10KB[97] 8KB[111] 7KB[56] 6KB[33] 5KB[68] 4KB[147] 3.5KB[170] 3KB[111] 2.5KB[103] 2KB[169] 1.75KB[394] 1.5KB[135] 1.25KB[670] 1KB[673] 896[503] 768[678] 640[909] 512[630] 448[2113] 432[1] 396[2] 384[1885] 375[1] 351[1] 348[16] 336[1] 332[2] 320[1758] 312[3] 304[16] 300[2] 295[1] 288[2] 286[1] 284[1] 280[3] 278[15] 276[30] 272[25] 264[3] 260[2] 256[3302] 252[1] 248[4] 240[2] 232[2] 228[5] 224[3841] 218[7] 216[1] 212[40] 211[1] 208[8] 204[3] 200[11] 196[5] 192[2648] 188[6] 184[5] 180[3] 179[1] 176[9] 175[1] 173[1] 172[13] 171[1] 168[7] 164[4] 160[5623] 158[20] 156[
+
+Found:  1669 ObjC classes  1931 Swift classes  347 C++ classes  367 CFTypes
+Type names for non-objects could be derived from allocation backtraces if the process used MallocStackLogging
+
+-----------------------------------------------------------------------
+All zones: 231806 nodes (79347716 bytes)
+
+   COUNT      BYTES       AVG   CLASS_NAME                                        TYPE    BINARY
+   =====      =====       ===   ==========                                        ====    ======
+   64663   48612332     751.8   non-object                                                
+       4    4868352  1217088.0   Swift._DictionaryStorage<SwiftUI.DisplayList.ViewUpdater.ViewCache.Key, SwiftUI.DisplayList.ViewUpdater.ViewInfo>  Swift   libswiftCore.dylib
+     182    2896000   15912.1   Swift Metadata                                    C       libswiftCore.dylib
+   23139    1655504      71.5   Swift.StringStorage                               Swift   libswiftCore.dylib
+     512    1084672    2118.5   Swift._ContiguousArrayStorage<SwiftUI.PlatformItemList.Item>  Swift   libswiftCore.dylib
+       4     934464  233616.0   Swift._DictionaryStorage<Swift.OpaquePointer, SwiftUI.DisplayList.ViewUpdater.ViewCache.Key>  Swift   libswiftCore.dylib
+    1542     805760     522.5   Class.methodCache._buckets (bucket_t)             C       libobjc.A.dylib
+      16     786432   49152.0   MTLResourceList                                   ObjC    Metal
+    2356     608720     258.4   NSMutableDictionary (Storage)                     C       CoreFoundation
+   10353     543280      52.5   CFString                                          ObjC    CoreFoundation
+       1     540672  540672.0   GLDDeviceRec                                      C++     AppleMetalOpenGLRenderer
+    3467     492528     142.1   Swift._ContiguousArrayStorage<MusicCore.MusicArtist>  Swift   libswiftCore.dylib
+       3     442368  147456.0   Swift._ContiguousArrayStorage<MusicCore.MusicTrack>  Swift   libswiftCore.dylib
+    3766     421792     112.0   SVGAttribute                                      C++     CoreSVG
+       1     409600  409600.0   Swift._DictionaryStorage<__C.AGWeakAttribute, (mutation: SwiftUI.ObservationGraphMutation, accessList: Observation.ObservationTracking._AccessList)>  Swift   libswiftCore.dylib
+    2118     408608     192.9   NSDictionary                                      ObjC    CoreFoundation
+       7     395008   56429.7   Swift._DictionaryStorage<Swift.String, Swift.Int>  Swift   libswiftCore.dylib
+    3466     359472     103.7   Closure context                                   Swift   <unknown>
+      11     351488   31953.5   Swift._DictionaryStorage<Swift.Int, Observation.ObservationRegistrar.(State in $293993570).Observation>  Swift   libswiftCore.dylib
+       3     330752  110250.7   Swift._ContiguousArrayStorage<MusicCore.MusicQueueItem>  Swift   libswiftCore.dylib
+      57     283200    4968.4   CFData (Bytes Storage)                            C       CoreFoundation
+    1009     279872     277.4   CFHTTPMessage                                     CFType  CFNetwork
+       3     278528   92842.7   Swift._ContiguousArrayStorage<MusicCore.MusicAlbum>  Swift   libswiftCore.dylib
+    1204     262880     218.3   CFDictionary (Value Storage)                      C       CoreFoundation
+       4     235776   58944.0   Swift._DictionaryStorage<Swift.String, Swift.String>  Swift   libswiftCore.dylib
+    1047     234528     224.0   Endpoint                                          Swift   Network
+     840     215040     256.0   NSURLRequestInternal                              ObjC    CFNetwork
+     248     204864     826.1   Swift._DictionaryStorage<Swift.ObjectIdentifier, SwiftUI.(AnyTrackedValue in $23cbe7d14)>  Swift   libswiftCore.dylib
+     168     172032    1024.0   URLProtocol                                       CFType  CFNetwork
+     168     172032    1024.0   __NSURLSessionWebSocketTask                       ObjC    CFNetwork
+    5302     169664      32.0   Class.data (class_rw_t)                           C       libobjc.A.dylib
+    2533     162112      64.0   SVGPathCommand                                    C++     CoreSVG
+    1038     157888     152.1   CFDictionary (Key Storage)                        C       CoreFoundation
+     349     156352     448.0   MutableParametersStorage                          Swift   Network
+    1194     152832     128.0   dispatch_queue_t (serial)                         ObjC    libdispatch.dylib
+     848     135680     160.0   Network.ProtocolOptions<Network.CProtocol>        Swift   Network
+    1752     130976      74.8   Closure context (unknown layout)                  Swift   <unknown>
+     476     130544     274.3   CFData                                            ObjC    CoreFoundation
+     169     129792     768.0   std::__shared_ptr_emplace<NWIOConnection>         C++     CFNetwork
+    3766     120512      32.0   SVGAttribute                                      CFType  <unknown>
+     712     113824     159.9   CGPath                                            CFType  CoreGraphics
+     170     108800     640.0   NSURLSessionConfiguration                         ObjC    CFNetwork
+    1692     108288      64.0   CFDictionary                                      ObjC    CoreFoundation
+    2238     107424      48.0   NSMutableArray                                    ObjC    CoreFoundation
+     166     104992     632.5   CFDictionary (Weak Key Storage)                   C       CoreFoundation
+    3233     103456      32.0   NSMutableDictionary                               ObjC    CoreFoundation
+    1218      97440      80.0   SwiftUI.(TypedElement in $23cbe7e24)<SwiftUI.(StyleInput in $23cbdce84)<SwiftUI.HelpStyleConfiguration>>  Swift   SwiftUI
+    1194      95520      80.0   SwiftUI.(TypedElement in $23cbe7e24)<SwiftUI.(SourceInput in $1c5431e10)<SwiftUI.HelpStyleConfiguration.Content>>  Swift   SwiftUI
+    1793      92800      51.8   __NSMallocBlock__                                 ObjC    libsystem_blocks.dylib
+     772      91744     118.8   NSURL                                             ObjC    CoreFoundation
+    1382      88528      64.1   Swift HeapGenericLocalVariable                    C       libswiftCore.dylib
+    2619      83808      32.0   SystemLock._Storage                               Swift   Network
+    2533      81056      32.0   SVGPathCommand                                    CFType  <unknown>
+     807      80176      99.4   Swift._DictionaryStorage<Network.EndpointStorageKeys, Network.CString>  Swift   libswiftCore.dylib
+     176      78848     448.0   __NWPath                                          Swift   Network
+    1599      78528      49.1   NSMutableArray (Storage)                          C       CoreFoundation
+     346      77504     224.0   Network.ProtocolOptions<Network.TCPProtocol>      Swift   Network
+     169      75712     448.0   __NSURLSessionLocal                               ObjC    CFNetwork
+     911      72880      80.0   SVGAttributeMap                                   C++     CoreSVG
+     859      68720      80.0   SwiftUI.(TypedElement in $23cbe7e24)<SwiftUI.(StyleInput in $23cbdce84)<SwiftUI.PrimitiveButtonStyleConfiguration>>  Swift   SwiftUI
+     706      67776      96.0   ModifiedViewList.ListModifier                     Swift   SwiftUICore
+     175      67200     384.0   SVGShapeNode                                      C++     CoreSVG
+      44      65536    1489.5   Task stack                                        Swift   libswift_Concurrency.dylib
+       1      65536   65536.0   Swift._ContiguousArrayStorage<MusicCore.MusicDiscoveryItem>  Swift   libswiftCore.dylib
+     787      62960      80.0   SwiftUI.(TypedElement in $23cbe7e24)<SwiftUI.(StyleableViewContextInput in $23cbdcfdc)>  Swift   SwiftUI
+     758      60640      80.0   SwiftUI.(TypedElement in $23cbe7e24)<SwiftUI.(SourceInput in $1c5431e10)<SwiftUI.ButtonStyleConfiguration.Label>>  Swift   SwiftUI
+     217      55552     256.0   SwiftUI.(BoxVTable in $23cbc92c0)<SwiftUI.(EnvironmentBox in $23cbda8a8)<SwiftUI.OpenURLAction>>  Swift   SwiftUI
+     143      54912     384.0   IOGPUMetalPooledResource                          ObjC    IOGPU
+     339      54240     160.0   NWConcrete_nw_context                             ObjC    Network
+      12      54112    4509.3   Swift._SetStorage<Swift.String>                   Swift   libswiftCore.dylib
+     168      53760     320.0   __CFN_TransactionMetrics                          ObjC    CFNetwork
+     717      49600      69.2   CProtocol.COptions.allocatedHandle (malloc)               Network
+       1      49152   49152.0   GLDContextRec                                     C++     AppleMetalOpenGLRenderer
+     173      47360     273.8   CollectionsInternal._DequeBuffer<Network.PathFlow>  Swift   CollectionsInternal
+      44      45056    1024.0   CGDisplayList                                     CFType  CoreGraphics
+     100      44800     448.0   _NSViewLayoutAux                                  ObjC    AppKit
+     348      44544     128.0   ParametersStorage                                 Swift   Network

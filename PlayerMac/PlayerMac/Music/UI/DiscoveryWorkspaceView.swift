@@ -210,23 +210,24 @@ struct DiscoveryWorkspaceView: View {
         }
     }
 
+    @ViewBuilder
     private var tracksSection: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(L10n.text("Recommended tracks"))
-                    .font(.system(size: 10, weight: .semibold))
-                    .tracking(0.8)
-                    .textCase(.uppercase)
-                    .foregroundStyle(Palette.textTertiary)
-                Spacer()
-                Text(L10n.text("Why this track"))
-                    .font(.system(size: 10, weight: .semibold))
-                    .tracking(0.8)
-                    .textCase(.uppercase)
-                    .foregroundStyle(Palette.textTertiary)
-            }
-            .padding(.horizontal, 8)
+        HStack {
+            Text(L10n.text("Recommended tracks"))
+                .font(.system(size: 10, weight: .semibold))
+                .tracking(0.8)
+                .textCase(.uppercase)
+                .foregroundStyle(Palette.textTertiary)
+            Spacer()
+            Text(L10n.text("Why this track"))
+                .font(.system(size: 10, weight: .semibold))
+                .tracking(0.8)
+                .textCase(.uppercase)
+                .foregroundStyle(Palette.textTertiary)
+        }
+        .padding(.horizontal, 8)
 
+        LazyVStack(alignment: .leading, spacing: 6) {
             ForEach(Array(snapshot.items.enumerated()), id: \.element.id) { index, item in
                 DiscoveryTrackRow(
                     model: model,
@@ -237,12 +238,12 @@ struct DiscoveryWorkspaceView: View {
                     model.play(snapshot.tracks, at: index)
                 }
             }
+        }
 
-            if snapshot.items.isEmpty {
-                Text(L10n.text("No results"))
-                    .foregroundStyle(Palette.textSecondary)
-                    .padding(24)
-            }
+        if snapshot.items.isEmpty {
+            Text(L10n.text("No results"))
+                .foregroundStyle(Palette.textSecondary)
+                .padding(24)
         }
     }
 

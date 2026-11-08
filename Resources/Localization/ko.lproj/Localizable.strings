@@ -427,3 +427,15 @@
 "Move up" = "위로 이동";
 "Move down" = "아래로 이동";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify는 내가 소유하거나 공동 작업 중인 플레이리스트의 트랙만 제공합니다.";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "비디오 홈";
+"Back to Video" = "비디오로 돌아가기";
+"Close Video" = "비디오 닫기";
+"Home & Recent" = "홈 및 최근 항목";
+"Open Video Home" = "비디오 홈 열기";
+"Now open · Paused at %@ of %@" = "열려 있음 · %@ / %@에서 일시정지됨";
+"Now open · Paused" = "열려 있음 · 일시정지됨";
+"Want to watch another video?" = "다른 비디오를 보시겠습니까?";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "아래 기록에서 카드를 선택하거나 창에 파일을 끌어다 놓거나 대화상자로 여세요.";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — 비디오로 돌아가기   ·   ⌘O — 파일 열기   ·   ⌘⌫ — 비디오 닫기";

@@ -167,6 +167,24 @@ extension SpotifyLibraryStore {
 
         try Task.checkCancellation()
         guard !isClosed, session == sessionGeneration else { throw CancellationError() }
+        var discoveryTracks = Set<String>()
+        var discoveryAlbums = Set<String>()
+        for entry in compilationAlbums {
+            discoveryAlbums.insert(entry.album.id)
+            discoveryTracks.formUnion(entry.tracks.map(\.id))
+        }
+        for entry in cooccurringPlaylists {
+            discoveryTracks.formUnion(entry.tracks.map(\.id))
+        }
+        for track in undergroundTracks + freshTracks + operatorTracks {
+            discoveryTracks.insert(track.id)
+            discoveryAlbums.insert(track.albumID)
+        }
+        recentDiscoveryTrackIDs = discoveryTracks
+        recentDiscoveryAlbumIDs = discoveryAlbums
+        pruneDisposableCatalog(
+            pinnedTrackIDs: seedTrack.map { [$0.id] } ?? [],
+            pinnedArtistIDs: primaryArtist.map { [$0.id] } ?? [])
         await publish()
 
         let seedTrackIDs: Set<String> = seedTrack.map { [$0.id] } ?? library.likedTrackIDs

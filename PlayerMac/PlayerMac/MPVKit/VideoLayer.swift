@@ -43,6 +43,18 @@ final class VideoLayer: CAOpenGLLayer, @unchecked Sendable {
         }
     }
 
+    @MainActor
+    func releaseBacking() {
+        guard frame != .zero || contents != nil else { return }
+        resources.displayLock.withLock {
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            frame = .zero
+            contents = nil
+            CATransaction.commit()
+        }
+    }
+
     func requestDisplay() {
         resources.queue.async { [weak self] in self?.display() }
     }

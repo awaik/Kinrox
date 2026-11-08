@@ -166,4 +166,89 @@ struct PlayerCommandsTests {
         await model.shutdown()
     }
 
+    @Test("Show Home pauses movie, Return to Video restores view, and Close Video clears media")
+    func showHomeReturnAndCloseVideo() async {
+        let engine = FakePlayerEngine()
+        let model = makeModel(engine)
+        #expect(!model.showHome())
+        #expect(!model.returnToVideo())
+        #expect(!model.closeVideo())
+
+        await open(episodes[0], in: model)
+        model.receive(.property(.duration, .number(120)))
+        model.receive(.property(.position, .number(42)))
+        model.receive(
+            .tracksLoaded(
+                path: episodes[0].path,
+                tracks: [
+                    MediaTrack(
+                        number: 1, kind: .audio, title: "Main", language: "en", isSelected: true)
+                ]
+            ))
+        engine.commands.removeAll()
+
+        // Synchronous pause error rejects showHome without opening Home.
+        engine.commandError = CocoaError(.fileReadUnknown)
+        #expect(!model.showHome())
+        #expect(!model.isShowingHome)
+        #expect(!model.isStartingHome)
+        engine.commandError = nil
+        model.errorMessage = nil
+
+        // Asynchronous command failure cancels pending Home transition.
+        #expect(model.showHome())
+        #expect(model.isStartingHome)
+        #expect(!model.isShowingHome)
+        model.receive(.failure("Pause rejected"))
+        #expect(!model.isStartingHome)
+        #expect(!model.isShowingHome)
+        model.errorMessage = nil
+        engine.commands.removeAll()
+
+        // Home opens once mpv confirms the pause.
+        #expect(model.showHome())
+        #expect(model.isStartingHome)
+        #expect(!model.isShowingHome)
+        #expect(engine.commands == [.paused(true)])
+        model.receive(.property(.paused, .flag(true)))
+        #expect(!model.isStartingHome)
+        #expect(model.isShowingHome)
+
+        #expect(model.returnToVideo())
+        #expect(!model.isShowingHome)
+        #expect(model.currentURL == episodes[0])
+        #expect(model.position == 42)
+
+        // When already paused, toggling home opens immediately; resuming exits Home view.
+        #expect(model.toggleHome())
+        #expect(model.isShowingHome)
+        model.setPaused(false)
+        #expect(!model.isShowingHome)
+        model.receive(.property(.paused, .flag(false)))
+
+        #expect(model.showHome())
+        model.receive(.property(.paused, .flag(true)))
+        #expect(model.isShowingHome)
+        engine.commands.removeAll()
+
+        // A failed stop preserves media and trackController state.
+        engine.commandError = CocoaError(.fileReadUnknown)
+        #expect(!model.closeVideo())
+        #expect(model.hasMedia)
+        #expect(model.trackController.isReady)
+        #expect(model.trackController.video != nil)
+        #expect(model.trackController.tracks.count == 1)
+        engine.commandError = nil
+        model.errorMessage = nil
+
+        #expect(model.closeVideo())
+        #expect(engine.commands == [.stop])
+        #expect(!model.hasMedia)
+        #expect(!model.isShowingHome)
+        #expect(!model.trackController.isReady)
+        #expect(model.trackController.video == nil)
+        #expect(model.playlist == nil)
+        await model.shutdown()
+    }
+
 }

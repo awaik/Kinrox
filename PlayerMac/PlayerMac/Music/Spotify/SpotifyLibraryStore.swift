@@ -32,9 +32,12 @@ final class SpotifyLibraryStore: MusicLibraryStore {
     var cacheIsStale = false
     var onChange: (() -> Void)?
     var queuePlaylistID: String?
+    static let maxCachedSearches = 10
     var confirmedMutationSnapshots: [String: String] = [:]
     var pendingCreation: (title: String, trackID: String, playlist: MusicPlaylist)?
     var searchCache: [String: (date: Date, catalog: MusicCatalog)] = [:]
+    var recentDiscoveryTrackIDs = Set<String>()
+    var recentDiscoveryAlbumIDs = Set<String>()
     var embeddedAlbums: [String: SpotifyAlbum] = [:]
     var restrictedPlaylistIDs = Set<String>()
 
@@ -107,6 +110,9 @@ final class SpotifyLibraryStore: MusicLibraryStore {
         revalidationTask?.cancel()
         revalidationTask = nil
         searchCache.removeAll()
+        recentDiscoveryTrackIDs.removeAll()
+        recentDiscoveryAlbumIDs.removeAll()
+        embeddedAlbums.removeAll()
         restrictedPlaylistIDs.removeAll()
         onChange = nil
     }
@@ -223,5 +229,64 @@ final class SpotifyLibraryStore: MusicLibraryStore {
                 playlistID: playlist.id, snapshotID: playlist.snapshotID,
                 trackIDs: playlist.trackIDs)
         }
+    }
+
+    func pruneDisposableCatalog(
+        pinnedTrackIDs: Set<String> = [],
+        pinnedAlbumIDs: Set<String> = [],
+        pinnedArtistIDs: Set<String> = []
+    ) {
+        let current = now()
+        searchCache = searchCache.filter { current.timeIntervalSince($0.value.date) < 60 }
+        var trackIDs = library.likedTrackIDs
+            .union(recentDiscoveryTrackIDs)
+            .union(pinnedTrackIDs)
+        for playlist in library.playlists { trackIDs.formUnion(playlist.trackIDs) }
+        if let pending = pendingCreation { trackIDs.insert(pending.trackID) }
+        for entry in searchCache.values {
+            trackIDs.formUnion(entry.catalog.tracks.map(\.id))
+        }
+        var albumIDs = library.savedAlbumIDs
+            .union(recentDiscoveryAlbumIDs)
+            .union(pinnedAlbumIDs)
+            .union(embeddedAlbums.keys)
+        for entry in searchCache.values {
+            albumIDs.formUnion(entry.catalog.albums.map(\.id))
+        }
+        for album in catalog.albums {
+            if resources["album:" + album.id] != nil
+                || album.artists.contains(where: { resources["artist:" + $0.id] != nil })
+            {
+                albumIDs.insert(album.id)
+            }
+        }
+        for track in catalog.tracks where trackIDs.contains(track.id) {
+            albumIDs.insert(track.albumID)
+        }
+        for album in catalog.albums where albumIDs.contains(album.id) {
+            trackIDs.formUnion(album.trackIDs)
+        }
+        let tracks = catalog.tracks.filter { trackIDs.contains($0.id) }
+        let albums = catalog.albums.filter { albumIDs.contains($0.id) }
+        var artistIDs = library.followedArtistIDs.union(pinnedArtistIDs)
+        for key in resources.keys where key.hasPrefix("artist:") {
+            artistIDs.insert(String(key.dropFirst(7)))
+        }
+        for entry in searchCache.values {
+            artistIDs.formUnion(entry.catalog.artists.map(\.id))
+        }
+        for track in tracks {
+            for artist in track.artists { artistIDs.insert(artist.id) }
+        }
+        for album in albums {
+            for artist in album.artists { artistIDs.insert(artist.id) }
+        }
+        let artists = catalog.artists.filter { artistIDs.contains($0.id) }
+        guard
+            tracks.count != catalog.tracks.count
+                || albums.count != catalog.albums.count
+                || artists.count != catalog.artists.count
+        else { return }
+        catalog = MusicCatalog(tracks: tracks, albums: albums, artists: artists)
     }
 }

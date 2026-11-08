@@ -87,22 +87,29 @@ struct ControlsBar: View {
 
     private var recentsPopover: some View {
         let items = recents?.items ?? []
+        let currentKey = model.currentURL.map(VideoFiles.key)
         return MediaListPopover(
             title: L10n.text("Recent"), emptyText: L10n.text("Opened videos will appear here."),
-            isEmpty: items.isEmpty
-        ) {
-            ForEach(items) { item in
-                let available = !(recents?.unavailable.contains(item.id) ?? false)
-                MediaListRow(
-                    title: item.title, subtitle: item.subtitle(available: available),
-                    isCurrent: VideoFiles.key(URL(fileURLWithPath: item.path))
-                        == model.currentURL.map(VideoFiles.key),
-                    isAvailable: available
-                ) {
-                    showsRecents = false
-                    actions.openRecent(item)
+            isEmpty: items.isEmpty,
+            headerActionTitle: L10n.text("Video Home"),
+            footerActionTitle: L10n.text("Open Video Home"),
+            headerAction: {
+                showsRecents = false
+                _ = model.showHome()
+            },
+            rows: {
+                ForEach(items) { item in
+                    let available = !(recents?.unavailable.contains(item.id) ?? false)
+                    let isCurrent = VideoFiles.key(URL(fileURLWithPath: item.path)) == currentKey
+                    MediaListRow(
+                        title: item.title, subtitle: item.subtitle(available: available),
+                        isCurrent: isCurrent,
+                        isAvailable: available
+                    ) {
+                        showsRecents = false
+                        if !isCurrent { actions.openRecent(item) }
+                    }
                 }
-            }
-        }
+            })
     }
 }

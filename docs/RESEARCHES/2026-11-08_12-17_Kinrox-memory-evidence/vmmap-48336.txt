@@ -1,0 +1,57 @@
+Process:         KinroxSoloistHost [48336]
+Path:            /Applications/Kinrox.app/Contents/Helpers/KinroxSoloistHost
+Load Address:    0x1041d8000
+Identifier:      KinroxSoloistHost
+Version:         0
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  Kinrox [45801]
+Target Type:     live task
+
+Date/Time:       2026-11-08 16:20:50.208 +0700
+Launch Time:     2026-11-08 16:18:08.980 +0700
+OS Version:      macOS 26.5.2 (25F84)
+Report Version:  7
+Analysis Tool:   /usr/bin/vmmap
+
+Physical footprint:         944K
+Physical footprint (peak):  944K
+Idle exit:                  untracked
+----
+
+ReadOnly portion of Libraries: Total=579.0M resident=34.8M(6%) swapped_out_or_unallocated=544.1M(94%)
+Writable regions: Total=89.0M written=608K(1%) resident=240K(0%) swapped_out=368K(0%) unallocated=88.4M(99%)
+
+                                VIRTUAL RESIDENT    DIRTY  SWAPPED VOLATILE   NONVOL    EMPTY   REGION 
+REGION TYPE                        SIZE     SIZE     SIZE     SIZE     SIZE     SIZE     SIZE    COUNT (non-coalesced) 
+===========                     ======= ========    =====  ======= ========   ======    =====  ======= 
+Kernel Alloc Once                   32K       0K       0K      16K       0K       0K       0K        1 
+MALLOC guard page                 3680K       0K       0K       0K       0K       0K       0K        4 
+MALLOC metadata                    784K       0K       0K     256K       0K       0K       0K        4 
+MALLOC_NANO metadata                32K       0K       0K      16K       0K       0K       0K        1         see MALLOC ZONE table below
+MALLOC_SMALL                      12.0M       0K       0K      48K       0K       0K       0K        3         see MALLOC ZONE table below
+MALLOC_TINY                       4096K       0K       0K      32K       0K       0K       0K        1         see MALLOC ZONE table below
+Memory Tag 22                     64.0M      16K      16K       0K       0K       0K       0K        1 
+STACK GUARD                       56.0M       0K       0K       0K       0K       0K       0K        1 
+Stack                             8176K      16K      16K      16K       0K       0K       0K        1 
+__AUTH                              35K      34K       0K       0K       0K       0K       0K       12 
+__AUTH_CONST                       224K     190K       0K       0K       0K       0K       0K       45 
+__DATA                             190K      98K       0K      58K       0K       0K       0K       33 
+__DATA_CONST                       106K     106K       0K       0K       0K       0K       0K       43 
+__DATA_DIRTY                       153K      70K      48K      84K       0K       0K       0K       35 
+__LINKEDIT                       573.0M    29.2M       0K       0K       0K       0K       0K        2 
+__OBJC_RO                         79.1M    48.6M       0K       0K       0K       0K       0K        1 
+__OBJC_RW                         2598K    1616K       0K      22K       0K       0K       0K        1 
+__TEXT                            6112K    5744K       0K       0K       0K       0K       0K       46 
+__TPRO_CONST                       128K      64K      16K      16K       0K       0K       0K        2 
+page table in kernel               208K     208K     208K       0K       0K       0K       0K        1 
+shared memory                       32K      32K      32K       0K       0K       0K       0K        1 
+unused but dirty shlib __DATA       59K      16K      16K      43K       0K       0K       0K       19 
+===========                     ======= ========    =====  ======= ========   ======    =====  ======= 
+TOTAL                            810.2M    85.8M     352K     608K       0K       0K       0K      258 
+
+                                 VIRTUAL   RESIDENT      DIRTY    SWAPPED ALLOCATION      BYTES DIRTY+SWAP          REGION
+MALLOC ZONE                         SIZE       SIZE       SIZE       SIZE      COUNT  ALLOCATED  FRAG SIZE  % FRAG   COUNT
+===========                      =======  =========  =========  =========  =========  =========  =========  ======  ======
+DefaultMallocZone_0x104794000      16.8M         0K         0K       336K        181        25K       311K     93%       7
+

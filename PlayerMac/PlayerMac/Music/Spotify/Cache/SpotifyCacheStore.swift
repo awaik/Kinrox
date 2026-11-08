@@ -30,7 +30,7 @@ actor SpotifyCacheStore {
     private var committedRevision: UInt64 = 0
     private var activeSession: UUID?
     private var storageGeneration: UInt64 = 0
-    private var previous: SpotifyCachedLibrary?
+    private var previous: SpotifyCacheSummary?
 
     init(
         clientID: String, userID: String, displayName: String,
@@ -54,21 +54,22 @@ actor SpotifyCacheStore {
         let db = try open()
         var value = try metadata(db)
         let generation = storageGeneration
-        let rows = try db.rows("SELECT kind, payload_json FROM catalog_entities ORDER BY rowid")
-        value.catalog = try await SpotifyCacheDecoder.catalog(rows)
+        let batches = try db.catalogBatches(
+            "SELECT kind, payload_json FROM catalog_entities ORDER BY rowid")
+        value.catalog = try await SpotifyCacheDecoder.catalog(batches)
         guard !destroyed, database === db, storageGeneration == generation else {
             throw CancellationError()
         }
-        previous = value
+        let diskSummary = SpotifyCacheSummary(value)
         removeExpiredResources(from: &value)
         value = Self.pruned(value)
-        if previous?.library != value.library || previous?.catalog != value.catalog
-            || previous?.resources != value.resources
-        {
-            try write(value, to: db)
+        let nextSummary = SpotifyCacheSummary(value)
+        if diskSummary != nextSummary {
+            previous = diskSummary
+            try write(value, summary: nextSummary, to: db)
             storageGeneration &+= 1
         }
-        previous = value
+        previous = nextSummary
         return value
     }
 
@@ -78,7 +79,7 @@ actor SpotifyCacheStore {
         let db = try open()
         let generation = storageGeneration
         var value = try metadata(db)
-        let summaries = try db.rows(
+        let summaries = try db.catalogBatches(
             "SELECT kind, payload_json FROM catalog_entities WHERE kind IN ('album', 'artist') ORDER BY rowid"
         )
         value.catalog = try await SpotifyCacheDecoder.catalog(summaries)
@@ -88,15 +89,16 @@ actor SpotifyCacheStore {
         if let album = value.catalog.albums.first(where: {
             value.library.savedAlbumIDs.contains($0.id)
         }) {
-            var rows: [[Data?]] = []
+            var trackBatches = SpotifyCatalogBatches()
             for offset in stride(from: 0, to: album.trackIDs.count, by: 500) {
                 let ids = Array(album.trackIDs[offset..<min(offset + 500, album.trackIDs.count)])
                 let parameters = Array(repeating: "?", count: ids.count).joined(separator: ",")
-                rows += try db.rows(
+                let batch = try db.catalogBatches(
                     "SELECT kind, payload_json FROM catalog_entities WHERE kind = 'track' AND id IN ("
                         + parameters + ")", ids.map(SpotifyCacheDatabase.Value.text))
+                trackBatches.tracks += batch.tracks
             }
-            let tracks = try await SpotifyCacheDecoder.catalog(rows)
+            let tracks = try await SpotifyCacheDecoder.catalog(trackBatches)
             guard !destroyed, database === db, storageGeneration == generation else {
                 throw CancellationError()
             }
@@ -177,10 +179,11 @@ actor SpotifyCacheStore {
         else { return }
         let db = try open()
         let value = Self.pruned(snapshot)
-        try write(value, to: db)
+        let summary = SpotifyCacheSummary(value)
+        try write(value, summary: summary, to: db)
         committedRevision = revision
         storageGeneration &+= 1
-        previous = value
+        previous = summary
     }
 
     func destroyAccountCache() throws {
@@ -311,7 +314,9 @@ extension SpotifyCacheStore {
         return value
     }
 
-    private func write(_ value: SpotifyCachedLibrary, to db: SpotifyCacheDatabase) throws {
+    private func write(
+        _ value: SpotifyCachedLibrary, summary: SpotifyCacheSummary, to db: SpotifyCacheDatabase
+    ) throws {
         try db.execute("BEGIN IMMEDIATE")
         do {
             if previous == nil {
@@ -345,13 +350,12 @@ extension SpotifyCacheStore {
                         .number(value.resources[key]?.fetchedAt.timeIntervalSince1970 ?? 0),
                     ])
             }
-            let nextIDs = Set(value.library.playlists.map(\.id))
-            for playlist in previous?.library.playlists ?? [] where !nextIDs.contains(playlist.id) {
-                try db.execute("DELETE FROM playlists WHERE id = ?", [.text(playlist.id)])
+            for id in previous?.playlists.keys ?? [String: UInt64]().keys
+            where summary.playlists[id] == nil {
+                try db.execute("DELETE FROM playlists WHERE id = ?", [.text(id)])
             }
-            let prior = Dictionary(
-                uniqueKeysWithValues: (previous?.library.playlists ?? []).map { ($0.id, $0) })
-            for playlist in value.library.playlists where prior[playlist.id] != playlist {
+            for playlist in value.library.playlists
+            where previous?.playlists[playlist.id] != summary.playlists[playlist.id] {
                 let resource = value.resources["playlist:" + playlist.id]
                 try db.execute(
                     "INSERT OR REPLACE INTO playlists VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -367,28 +371,30 @@ extension SpotifyCacheStore {
                     ])
             }
             try entities(
-                value.catalog.tracks, previous?.catalog.tracks ?? [], kind: "track", db: db)
+                value.catalog.tracks, next: summary.tracks, old: previous?.tracks ?? [:],
+                kind: "track", db: db)
             try entities(
-                value.catalog.albums, previous?.catalog.albums ?? [], kind: "album", db: db)
+                value.catalog.albums, next: summary.albums, old: previous?.albums ?? [:],
+                kind: "album", db: db)
             try entities(
-                value.catalog.artists, previous?.catalog.artists ?? [], kind: "artist", db: db)
+                value.catalog.artists, next: summary.artists, old: previous?.artists ?? [:],
+                kind: "artist", db: db)
             try db.execute("COMMIT")
         } catch {
             try? db.execute("ROLLBACK")
             throw error
         }
     }
-    private func entities<T: Identifiable & Encodable & Equatable>(
-        _ values: [T], _ old: [T], kind: String, db: SpotifyCacheDatabase
+    private func entities<T: Identifiable & Encodable>(
+        _ values: [T], next: [String: UInt64], old: [String: UInt64],
+        kind: String, db: SpotifyCacheDatabase
     ) throws where T.ID == String {
-        let prior = Dictionary(uniqueKeysWithValues: old.map { ($0.id, $0) })
-        let ids = Set(values.map(\.id))
-        for item in old where !ids.contains(item.id) {
+        for id in old.keys where next[id] == nil {
             try db.execute(
                 "DELETE FROM catalog_entities WHERE kind = ? AND id = ?",
-                [.text(kind), .text(item.id)])
+                [.text(kind), .text(id)])
         }
-        for item in values where prior[item.id] != item {
+        for item in values where old[item.id] != next[item.id] {
             try db.execute(
                 "INSERT OR REPLACE INTO catalog_entities VALUES (?, ?, ?, ?)",
                 [

@@ -54,12 +54,24 @@ struct MediaListPopover<Rows: View>: View {
     let title: String
     let emptyText: String
     let isEmpty: Bool
+    var headerActionTitle: String? = nil
+    var footerActionTitle: String? = nil
+    var headerAction: (() -> Void)? = nil
     @ViewBuilder let rows: () -> Rows
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(title).overlineStyle()
-                .padding(.horizontal, 8)
+            HStack {
+                Text(title).overlineStyle()
+                Spacer()
+                if let headerActionTitle, let headerAction {
+                    Button("\(headerActionTitle)  →", action: headerAction)
+                        .buttonStyle(.plain)
+                        .font(KinroxFont.caption)
+                        .foregroundStyle(Palette.flame)
+                }
+            }
+            .padding(.horizontal, 8)
             if isEmpty {
                 Text(emptyText)
                     .font(KinroxFont.body)
@@ -70,6 +82,30 @@ struct MediaListPopover<Rows: View>: View {
                     VStack(spacing: 2) { rows() }
                 }
                 .frame(maxHeight: 360)
+            }
+            if let footerTitle = footerActionTitle ?? headerActionTitle, let headerAction {
+                Button(action: headerAction) {
+                    HStack {
+                        Text(footerTitle)
+                            .font(KinroxFont.bodyStrong)
+                            .foregroundStyle(Palette.textPrimary)
+                            .lineLimit(1)
+                        Spacer(minLength: 8)
+                        Text("Esc  →")
+                            .font(KinroxFont.caption)
+                            .foregroundStyle(Palette.flame)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 10)
+                    .background(Palette.glassStrong, in: RoundedRectangle(cornerRadius: 12))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(Palette.ember.opacity(0.4), lineWidth: 1)
+                    )
+                    .contentShape(RoundedRectangle(cornerRadius: 12))
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("popover-open-video-home-button")
             }
         }
         .padding(12)

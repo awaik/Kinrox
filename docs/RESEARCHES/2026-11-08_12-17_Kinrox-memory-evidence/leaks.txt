@@ -1,0 +1,28 @@
+Process:         Kinrox [45801]
+Path:            /Applications/Kinrox.app/Contents/MacOS/Kinrox
+Load Address:    0x10040c000
+Identifier:      app.kinrox.player
+Version:         0.5.5 (15)
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  launchd [1]
+Target Type:     live task
+
+Date/Time:       2026-11-08 16:21:11.262 +0700
+Launch Time:     2026-11-07 22:53:47.636 +0700
+OS Version:      macOS 26.5.2 (25F84)
+Report Version:  7
+Analysis Tool:   /usr/bin/leaks
+
+Physical footprint:         417.1M
+Physical footprint (peak):  743.1M
+Idle exit:                  untracked
+----
+
+leaks Report Version: 4.0
+Process 45801: 232291 nodes malloced for 77709 KB
+Process 45801: 2 leaks for 112 total leaked bytes.
+
+    2 (112 bytes) ROOT LEAK: <CFData 0xc1c80b480> [48]
+       1 (64 bytes) <CFData (Bytes Storage) 0x4781c0a80> [64]
+

@@ -138,6 +138,16 @@ The author's own fact and plan checks remain part of the investigation; add the
 
 An investigation with a plan still awaiting implementation stays in the root.
 
+An explicit request to execute a research document (for example, `Execute
+docs/RESEARCHES/<document>.md` or the equivalent request in the user's language)
+authorizes both independent plan review and local implementation through
+[research-execute](../../.agents/skills/research-execute/SKILL.md). The
+orchestrator launches Gemini review followed by Codex implementation, handles
+questions, and verifies the result. This exception applies to the requested
+document only; it does not authorize publication, release, or a separate
+post-implementation code review. Creating a plan or adapting the skill does not
+start the pipeline.
+
 ## Preservation and privacy
 
 - Do not include secrets, personal data, or private payloads.

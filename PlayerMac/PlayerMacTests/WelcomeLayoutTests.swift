@@ -64,6 +64,62 @@ struct WelcomeLayoutTests {
         }
     }
 
+    @Test("Continue watching banner and quick-open bar fit without horizontal overflow")
+    func continueWatchingBannerFitsAcrossWindowWidths() async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("kinrox-welcome-active-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let fileURL = directory.appendingPathComponent("recent.json")
+        let movieURL = directory.appendingPathComponent(
+            "A long series name - Season 01 Episode 02 - 2160p WEB-DL.mkv")
+        let items = (0..<6).map { index in
+            RecentItem(
+                id: UUID(),
+                title: "A long series name - Season 01 Episode 0\(index) - 2160p WEB-DL.mkv",
+                path: directory.appendingPathComponent(
+                    "A long series name - Season 01 Episode 0\(index) - 2160p WEB-DL.mkv"
+                ).path,
+                openedAt: Date(), duration: 3600, bookmark: nil)
+        }
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        try encoder.encode(items).write(to: fileURL)
+        let recents = RecentFilesStore(fileURL: fileURL)
+        let engine = FakePlayerEngine()
+        let model = PlayerViewModel(engine: engine, recents: recents)
+        model.open(url: movieURL)
+        model.receive(.started)
+        model.receive(.loaded)
+        model.receive(.property(.duration, .number(3600)))
+        model.receive(.property(.position, .number(1240)))
+        _ = model.showHome()
+        model.receive(.property(.paused, .flag(true)))
+
+        let host = NSHostingView(
+            rootView: WelcomeView(model: model, recents: recents, actions: PlayerActions())
+                .preferredColorScheme(.dark))
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 1120, height: 630), styleMask: .borderless,
+            backing: .buffered, defer: false)
+        window.isReleasedWhenClosed = false
+        window.contentView = host
+        defer { window.close() }
+
+        for width: CGFloat in [1120, 640, 1440, 1120] {
+            window.setContentSize(NSSize(width: width, height: 630))
+            host.layoutSubtreeIfNeeded()
+            try await Task.sleep(for: .milliseconds(150))
+            host.layoutSubtreeIfNeeded()
+
+            let scroll = try #require(scrollView(in: host))
+            let document = try #require(scroll.documentView)
+            #expect(abs(host.bounds.width - width) < 1)
+            #expect(document.frame.width <= scroll.contentView.bounds.width + 1)
+        }
+        await model.shutdown()
+    }
+
     private func scrollView(in view: NSView) -> NSScrollView? {
         if let scroll = view as? NSScrollView { return scroll }
         return view.subviews.compactMap { scrollView(in: $0) }.first

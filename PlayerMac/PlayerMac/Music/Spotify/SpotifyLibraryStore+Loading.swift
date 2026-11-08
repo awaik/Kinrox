@@ -247,13 +247,20 @@ extension SpotifyLibraryStore {
         let result = MusicCatalog(
             tracks: tracks.compactMap { $0.model() }, albums: albums,
             artists: results.artists?.items ?? [])
-        catalog.merge(tracks: result.tracks, albums: result.albums, artists: result.artists)
-        if searchCache.count >= 20,
+        let current = now()
+        var evicted = false
+        let beforeCount = searchCache.count
+        searchCache = searchCache.filter { current.timeIntervalSince($0.value.date) < 60 }
+        if searchCache.count != beforeCount { evicted = true }
+        while searchCache.count >= Self.maxCachedSearches,
             let oldest = searchCache.min(by: { $0.value.date < $1.value.date })?.key
         {
             searchCache[oldest] = nil
+            evicted = true
         }
-        searchCache[key] = (now(), result)
+        searchCache[key] = (current, result)
+        if evicted { pruneDisposableCatalog() }
+        catalog.merge(tracks: result.tracks, albums: result.albums, artists: result.artists)
         return result
     }
 }

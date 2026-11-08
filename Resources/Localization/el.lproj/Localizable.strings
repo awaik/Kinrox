@@ -427,3 +427,15 @@
 "Move up" = "Μετακίνηση πάνω";
 "Move down" = "Μετακίνηση κάτω";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Το Spotify παρέχει κομμάτια μόνο για λίστες αναπαραγωγής που σας ανήκουν ή στις οποίες συνεργάζεστε.";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "Αρχική βίντεο";
+"Back to Video" = "Επιστροφή στο βίντεο";
+"Close Video" = "Κλείσιμο βίντεο";
+"Home & Recent" = "Αρχική και πρόσφατα";
+"Open Video Home" = "Άνοιγμα αρχικής βίντεο";
+"Now open · Paused at %@ of %@" = "Ανοιχτό τώρα · Σε παύση στο %@ από %@";
+"Now open · Paused" = "Ανοιχτό τώρα · Σε παύση";
+"Want to watch another video?" = "Θέλετε να δείτε άλλο βίντεο;";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "Επιλέξτε μια κάρτα από το ιστορικό παρακάτω, σύρετε ένα αρχείο στο παράθυρο ή ανοίξτε το από το παράθυρο διαλόγου.";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — επιστροφή στο βίντεο   ·   ⌘O — άνοιγμα αρχείου   ·   ⌘⌫ — κλείσιμο βίντεο";

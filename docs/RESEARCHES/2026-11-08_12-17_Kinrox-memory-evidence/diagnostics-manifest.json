@@ -1,0 +1,79 @@
+[
+  {
+    "pid": 45801,
+    "ppid": 1,
+    "uptime": "17:26:50",
+    "role": "Kinrox",
+    "command": [
+      "vmmap",
+      "-summary",
+      "45801"
+    ],
+    "started_utc": "2026-11-08T09:20:37.095254+00:00",
+    "finished_utc": "2026-11-08T09:20:44.762179+00:00",
+    "returncode": 0
+  },
+  {
+    "pid": 48335,
+    "ppid": 45801,
+    "uptime": "02:29",
+    "role": "Soloist playback",
+    "command": [
+      "vmmap",
+      "-summary",
+      "48335"
+    ],
+    "started_utc": "2026-11-08T09:20:44.762927+00:00",
+    "finished_utc": "2026-11-08T09:20:50.173463+00:00",
+    "returncode": 0
+  },
+  {
+    "pid": 48336,
+    "ppid": 45801,
+    "uptime": "02:29",
+    "role": "KinroxSoloistHost",
+    "command": [
+      "vmmap",
+      "-summary",
+      "48336"
+    ],
+    "started_utc": "2026-11-08T09:20:50.174068+00:00",
+    "finished_utc": "2026-11-08T09:20:52.598296+00:00",
+    "returncode": 0
+  },
+  {
+    "pid": 48338,
+    "ppid": 1,
+    "uptime": "02:29",
+    "role": "Soloist secondary (same executable path)",
+    "command": [
+      "vmmap",
+      "-summary",
+      "48338"
+    ],
+    "started_utc": "2026-11-08T09:20:52.600190+00:00",
+    "finished_utc": "2026-11-08T09:20:56.845377+00:00",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "heap",
+      "-s",
+      "45801"
+    ],
+    "started_utc": "2026-11-08T09:20:56.845874+00:00",
+    "finished_utc": "2026-11-08T09:21:11.187949+00:00",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "leaks",
+      "--noContent",
+      "--nostacks",
+      "45801"
+    ],
+    "started_utc": "2026-11-08T09:21:11.194117+00:00",
+    "finished_utc": "2026-11-08T09:21:28.993768+00:00",
+    "returncode": 1
+  }
+]

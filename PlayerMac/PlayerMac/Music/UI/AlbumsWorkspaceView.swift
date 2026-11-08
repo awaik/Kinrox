@@ -238,7 +238,7 @@ private struct AlbumWorkspaceCard: View {
             if isExpanded {
                 let tracks = model.catalog.tracks(in: album)
                 Rectangle().fill(Palette.hairline).frame(height: 1)
-                VStack(spacing: 2) {
+                LazyVStack(spacing: 2) {
                     ForEach(Array(tracks.enumerated()), id: \.element.id) { index, track in
                         HStack(spacing: 10) {
                             Text((index + 1).formatted())

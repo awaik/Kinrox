@@ -32,23 +32,28 @@ struct TrackArtistLink: View {
         }
         .buttonStyle(.plain)
         .disabled(track.artists.isEmpty)
-        .help(track.artistNames)
+        .hoverHelp(track.artistNames, active: hovered)
         .onHover { hovered = $0 }
-        .popover(
-            isPresented: Binding(
-                get: { isPresented },
-                set: { if !$0 { model.dismissPopovers() } }
-            ),
-            arrowEdge: .bottom
-        ) {
-            ArtistPreviewPopover(
-                model: model,
-                artists: model.previewArtists.isEmpty ? track.artists : model.previewArtists)
+        .background {
+            if isPresented {
+                Color.clear.popover(
+                    isPresented: Binding(
+                        get: { isPresented },
+                        set: { if !$0 { model.dismissPopovers() } }
+                    ),
+                    arrowEdge: .bottom
+                ) {
+                    ArtistPreviewPopover(
+                        model: model,
+                        artists: model.previewArtists.isEmpty ? track.artists : model.previewArtists
+                    )
+                }
+            }
         }
     }
 
     private var isPresented: Bool {
-        model.previewArtistAnchor == anchor && !track.artists.isEmpty
+        model.popovers.previewArtistAnchor == anchor && !track.artists.isEmpty
     }
 }
 
@@ -82,24 +87,40 @@ struct TrackAlbumLink: View {
         }
         .buttonStyle(.plain)
         .disabled(track.albumID.isEmpty)
-        .help(track.albumTitle)
+        .hoverHelp(track.albumTitle, active: hovered)
         .onHover { hovered = $0 }
-        .popover(
-            isPresented: Binding(
-                get: { isPresented },
-                set: { if !$0 { model.dismissPopovers() } }
-            ),
-            arrowEdge: .bottom
-        ) {
-            AlbumPreviewPopover(
-                model: model,
-                albumID: model.previewAlbumID ?? track.albumID,
-                fallbackTrack: model.previewAlbumTrack ?? track)
+        .background {
+            if isPresented {
+                Color.clear.popover(
+                    isPresented: Binding(
+                        get: { isPresented },
+                        set: { if !$0 { model.dismissPopovers() } }
+                    ),
+                    arrowEdge: .bottom
+                ) {
+                    AlbumPreviewPopover(
+                        model: model,
+                        albumID: model.previewAlbumID ?? track.albumID,
+                        fallbackTrack: model.previewAlbumTrack ?? track)
+                }
+            }
         }
     }
 
     private var isPresented: Bool {
-        model.previewAlbumAnchor == anchor && model.previewAlbumID == track.albumID
+        model.popovers.previewAlbumAnchor == anchor
+            && model.popovers.previewAlbumID == track.albumID
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func hoverHelp(_ text: String, active: Bool) -> some View {
+        if active && !text.isEmpty {
+            self.help(text)
+        } else {
+            self
+        }
     }
 }
 

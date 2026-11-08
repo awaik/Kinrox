@@ -36,6 +36,7 @@
 > Mac 0.5.3 (build 13) and iPhone Remote 0.2.1 (build 3, TestFlight) released at the owner's request on 2026-11-04: startup Soloist transport activation after cached library restore, natural EOF vs. near-end pause/seek handling, and LAN remote state consistency across mode switches and window closure. Signed/notarized Mac app and DMG; source tag `v0.5.3`; see [release notes](docs/releases/0.5.3.md).
 > Mac 0.5.4 (build 14) released at the owner's request on 2026-11-07: uninterrupted long Spotify album playback (broadened terminal-buffering and boundary detection, exit-vs-disconnect race prevention, startup/resume reconciliation guards, macOS playback activity assertion, and automatic skipping of restricted tracks). Signed/notarized Mac app and DMG; source tag `v0.5.4`; see [release notes](docs/releases/0.5.4.md).
 > Mac 0.5.5 (build 15) released at the owner's request on 2026-11-07: Spotify v3 three-column navigation with left-column drill-down (`Show all →` / `‹ Back to library`, ownership and theme filters), dynamic center workspace (`AlbumsWorkspaceView`, `DiscoveryWorkspaceView`), persistent right-hand `CompactQueueColumn` with drag-and-drop album/playlist expansion, and post-2026 Similar & Discovery engine (`09 · Spotify — v3`, `166:304`). Signed/notarized Mac app and DMG; source tag `v0.5.5`; see [release notes](docs/releases/0.5.5.md) and [research](<docs/RESEARCHES/DONE/DONE - 2026-11-07_11-12_Spotify-v3-three-column-queue-and-discovery.md>).
+> Mac 0.5.6 (build 16) released at the owner's request on 2026-11-08: Video Home & Recent navigation while media is loaded (`10 · Video — Home & Recent`, `ContinueWatchingBanner`, titlebar `‹ Recent` / `▶ Back to Video · 0:42:15`, Close Video, Folder Playlist header and clear action), Music & Video memory reductions (SQLite `mmap` streaming batch decoding, digest-based cache diff, `MusicCatalog` string/artist interning and disposable catalog pruning, conditional popovers/tooltips and lazy workspace stacks, idle `VideoLayer` OpenGL backing release in Music mode, and single `URLSession` + nanosecond-verified binary stamp caching in `SoloistProcessSupervisor`), plus Part 2 of the engineering blog. Signed/notarized Mac app and DMG; source tag `v0.5.6`; see [release notes](docs/releases/0.5.6.md) and [research](docs/RESEARCHES/2026-11-08_12-17_Kinrox-memory-reduction-research.md).
 > All design work is done in Figma file [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U) (owner decision 2026-10-27), see Section 3.5.
 > Landing site added 2026-10-27: static GitHub Pages site in `site/` (English + Russian), deployed by `.github/workflows/pages.yml`; see Section 3.6.
 > Website localization implemented 2026-10-30 at the owner's request: landing, support and privacy pages in all 30 app locales, localized screenshots, language navigation, RTL and offline generation. Owner authorized deployment on 2026-10-30; [verification](docs/runbooks/SITE-LOCALIZATION-VERIFICATION.md).
@@ -694,6 +695,22 @@ See [signing runbook](docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md#real-iphone) fo
 8. Local network operations exclusively, except the Mac player's approved Sparkle appcast check and opt-in Spotify integration (principle 4). No telemetry or analytics.
 9. **No WebView:** follow the critical requirements at the top of this document. Never introduce an embedded WebView or browser runtime, including a hidden one, into either application.
 10. **Standalone Spotify acceptance:** verify playback and controls with Spotify.app fully terminated, including a cold start of Kinrox in that state. Do not launch Spotify.app as a dependency or workaround. Record latency and memory measurements; tests with Spotify.app running do not establish acceptance of this requirement.
+
+### 9.1. Shared Project Skills
+
+Project skills live in `.agents/skills/`. The `.claude/skills`, `.codex/skills`,
+and `.gemini/skills` directories are relative symlinks to that central directory.
+Keep one canonical copy of each skill there; do not duplicate agent-specific copies.
+Both `CLAUDE.md` and `GEMINI.md` import this document.
+
+Available project skill:
+
+- [research-execute](.agents/skills/research-execute/SKILL.md): orchestrates Gemini
+  plan review, Codex implementation, and result verification when the user asks
+  to execute a document in `docs/RESEARCHES/`. Read the skill before use. It uses
+  Kinrox's English document format and subsystem verification commands; scope is
+  local implementation without release. This document and the research README
+  take precedence.
 
 ---
 

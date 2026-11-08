@@ -132,4 +132,16 @@ final class PlayerSession {
             && model?.trackController.isChoosingFile != true
             && model?.isScreensaverEngaged != true
     }
+
+    var videoNavigationAllowed: Bool {
+        mode == .video && !isOpenPanelShown && pairing.prompt == nil
+            && model?.trackController.presentation == nil
+            && model?.trackController.isChoosingFile != true
+            && model?.isScreensaverEngaged != true
+            && model?.hasMedia == true
+    }
+
+    var videoCloseAllowed: Bool {
+        videoNavigationAllowed
+    }
 }

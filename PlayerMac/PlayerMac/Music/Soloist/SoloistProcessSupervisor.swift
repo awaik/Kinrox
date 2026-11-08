@@ -39,6 +39,48 @@ private final class SoloistSocketDelegate: NSObject, URLSessionTaskDelegate, Sen
     ) { completionHandler(nil) }
 }
 
+struct SoloistVerifiedStamp: Equatable, Sendable {
+    struct FileStamp: Equatable, Sendable {
+        let path: String
+        let dev: dev_t
+        let ino: ino_t
+        let mode: mode_t
+        let uid: uid_t
+        let size: off_t
+        let mtimeSec: Int
+        let mtimeNsec: Int
+        let ctimeSec: Int
+        let ctimeNsec: Int
+        let btimeSec: Int
+        let btimeNsec: Int
+
+        static func capture(path: String) -> Self? {
+            var info = stat()
+            guard lstat(path, &info) == 0, (info.st_mode & S_IFMT) == S_IFREG else { return nil }
+            return Self(
+                path: path, dev: info.st_dev, ino: info.st_ino, mode: info.st_mode,
+                uid: info.st_uid, size: info.st_size,
+                mtimeSec: info.st_mtimespec.tv_sec, mtimeNsec: info.st_mtimespec.tv_nsec,
+                ctimeSec: info.st_ctimespec.tv_sec, ctimeNsec: info.st_ctimespec.tv_nsec,
+                btimeSec: info.st_birthtimespec.tv_sec, btimeNsec: info.st_birthtimespec.tv_nsec)
+        }
+    }
+
+    let binary: FileStamp
+    let reaper: FileStamp
+    let digest: String
+    let hostRequirement: String
+
+    static func capture(_ config: SoloistProcessSupervisor.Configuration) -> Self? {
+        guard let binary = FileStamp.capture(path: config.installation.binary.path),
+            let reaper = FileStamp.capture(path: config.reaper.path)
+        else { return nil }
+        return Self(
+            binary: binary, reaper: reaper, digest: config.installation.digest,
+            hostRequirement: config.hostRequirement)
+    }
+}
+
 /// Owns the profile lock, exact child handles and bounded socket. No raw output is persisted.
 actor SoloistProcessSupervisor: SoloistDriving {
     struct Configuration: Sendable {
@@ -63,6 +105,7 @@ actor SoloistProcessSupervisor: SoloistDriving {
     private var stopping = false
     private var launching = false
     private var ownedEndpoint: SoloistEndpointFiles?
+    private var verifiedStamp: SoloistVerifiedStamp?
 
     init(config: Configuration) { self.config = config }
 
@@ -82,6 +125,25 @@ actor SoloistProcessSupervisor: SoloistDriving {
         else { throw SoloistFailure.signature }
         return "anchor apple generic and certificate leaf[subject.OU] = \"" + team
             + "\" and identifier \"" + identifier + "\""
+    }
+
+    nonisolated static func verify(
+        _ config: Configuration, cachedStamp: SoloistVerifiedStamp?, inspect: () throws -> Void
+    ) throws -> SoloistVerifiedStamp {
+        if let current = SoloistVerifiedStamp.capture(config), current == cachedStamp {
+            return current
+        }
+        for _ in 0..<3 {
+            guard let before = SoloistVerifiedStamp.capture(config) else {
+                throw SoloistFailure.installation
+            }
+            try inspect()
+            guard let after = SoloistVerifiedStamp.capture(config) else {
+                throw SoloistFailure.installation
+            }
+            if before == after { return after }
+        }
+        throw SoloistFailure.signature
     }
 
     func start(
@@ -120,25 +182,30 @@ actor SoloistProcessSupervisor: SoloistDriving {
         launching = true
         defer { launching = false }
         let config = config
+        let cachedStamp = verifiedStamp
         let verificationStart = ContinuousClock.now
-        let verification = Task.detached {
-            let bytes = try Data(contentsOf: config.installation.binary, options: .mappedIfSafe)
-            guard bytes.count <= SoloistArchive.maximumBytes else {
-                throw SoloistFailure.installation
+        let verification = Task.detached { () -> SoloistVerifiedStamp in
+            let stamp = try Self.verify(config, cachedStamp: cachedStamp) {
+                let bytes = try Data(
+                    contentsOf: config.installation.binary, options: .mappedIfSafe)
+                guard bytes.count <= SoloistArchive.maximumBytes else {
+                    throw SoloistFailure.installation
+                }
+                guard
+                    SHA256.hash(data: bytes).map({ String(format: "%02x", $0) }).joined()
+                        == config.installation.digest
+                else { throw SoloistFailure.signature }
+                try SoloistArchive.validateMachO(bytes)
+                try SoloistInstaller.verifySignature(config.installation.binary)
+                _ = try SoloistInstaller.utility(
+                    "/usr/bin/codesign",
+                    [
+                        "--verify", "--strict",
+                        "-R=" + config.hostRequirement, config.reaper.path,
+                    ])
             }
-            guard
-                SHA256.hash(data: bytes).map({ String(format: "%02x", $0) }).joined()
-                    == config.installation.digest
-            else { throw SoloistFailure.signature }
-            try SoloistArchive.validateMachO(bytes)
-            try SoloistInstaller.verifySignature(config.installation.binary)
-            _ = try SoloistInstaller.utility(
-                "/usr/bin/codesign",
-                [
-                    "--verify", "--strict",
-                    "-R=" + config.hostRequirement, config.reaper.path,
-                ])
             SoloistTiming.record(.verification, since: verificationStart)
+            return stamp
         }
         async let credential: String = {
             let start = ContinuousClock.now
@@ -151,7 +218,7 @@ actor SoloistProcessSupervisor: SoloistDriving {
         generation &+= 1
         let attempt = generation
         defer { verification.cancel() }
-        try await SoloistInstaller.value(of: verification)
+        verifiedStamp = try await SoloistInstaller.value(of: verification)
         let key = try await credential
         guard attempt == generation, !closed, !Task.isCancelled else { throw SoloistFailure.closed }
         guard !key.isEmpty, key.utf8.count <= 16_384 else { throw SoloistFailure.unavailable }
@@ -220,16 +287,8 @@ actor SoloistProcessSupervisor: SoloistDriving {
                 if endpoint == nil { try await Task.sleep(for: .milliseconds(25)) }
             }
             guard attempt == generation, !closed, let endpoint else { throw SoloistFailure.closed }
-            let settings = URLSessionConfiguration.ephemeral
-            settings.connectionProxyDictionary = [:]
-            settings.httpCookieStorage = nil
-            settings.urlCache = nil
-            settings.timeoutIntervalForRequest = 5
-            let session = URLSession(
-                configuration: settings, delegate: SoloistSocketDelegate(), delegateQueue: nil)
-            let socket = session.webSocketTask(with: endpoint)
+            let socket = activeSession().webSocketTask(with: endpoint)
             socket.maximumMessageSize = 65_536
-            self.session = session
             self.socket = socket
             socket.resume()
             SoloistTiming.record(.spawnToSocket, since: spawnStart)
@@ -286,10 +345,11 @@ actor SoloistProcessSupervisor: SoloistDriving {
         generation &+= 1
         receiver?.cancel()
         receiver = nil
-        socket?.cancel(with: .goingAway, reason: nil)
-        socket = nil
-        session?.invalidateAndCancel()
-        session = nil
+        if let activeSocket = socket {
+            socket = nil
+            activeSocket.cancel(with: .goingAway, reason: nil)
+            (activeSocket as URLSessionTask).cancel()
+        }
         try? lifetime?.fileHandleForWriting.close()
         lifetime = nil
         let process = child
@@ -318,9 +378,24 @@ actor SoloistProcessSupervisor: SoloistDriving {
         await Task.detached { try? await Task.sleep(for: .milliseconds(10)) }.value
     }
 
+    func activeSession() -> URLSession {
+        if let session { return session }
+        let settings = URLSessionConfiguration.ephemeral
+        settings.connectionProxyDictionary = [:]
+        settings.httpCookieStorage = nil
+        settings.urlCache = nil
+        settings.timeoutIntervalForRequest = 5
+        let created = URLSession(
+            configuration: settings, delegate: SoloistSocketDelegate(), delegateQueue: nil)
+        session = created
+        return created
+    }
+
     func close() async {
         closed = true
         await stop()
+        session?.invalidateAndCancel()
+        session = nil
         if lock >= 0 {
             flock(lock, LOCK_UN)
             Darwin.close(lock)

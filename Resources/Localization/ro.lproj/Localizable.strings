@@ -427,3 +427,15 @@
 "Move up" = "Mută mai sus";
 "Move down" = "Mută mai jos";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify oferă piese doar pentru playlisturile pe care le deții sau la care colaborezi.";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "Acasă video";
+"Back to Video" = "Înapoi la video";
+"Close Video" = "Închide videoclipul";
+"Home & Recent" = "Acasă și recente";
+"Open Video Home" = "Deschide pagina video";
+"Now open · Paused at %@ of %@" = "Deschis acum · În pauză la %@ din %@";
+"Now open · Paused" = "Deschis acum · În pauză";
+"Want to watch another video?" = "Vrei să urmărești alt videoclip?";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "Alege un card din istoricul de mai jos, trage un fișier în fereastră sau deschide-l din dialog.";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — înapoi la video   ·   ⌘O — deschide fișier   ·   ⌘⌫ — închide video";

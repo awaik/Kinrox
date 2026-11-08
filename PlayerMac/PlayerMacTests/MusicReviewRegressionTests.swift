@@ -249,6 +249,101 @@ struct MusicReviewRegressionTests {
             name: NSWindow.didChangeOcclusionStateNotification, object: settingsWindow)
         #expect(reportedVisible == false)
     }
+
+    @Test func soloistSupervisorReusesSingleURLSessionAcrossLaunchesUntilClosed() async {
+        let root = URL(fileURLWithPath: "/tmp")
+        let config = SoloistProcessSupervisor.Configuration(
+            installation: .init(
+                binary: root.appendingPathComponent("soloist"), digest: "", version: "1.0",
+                buildDate: Date()),
+            profile: root, cache: root, reaper: root, hostRequirement: "", deviceName: "Test",
+            key: { "" })
+        let supervisor = SoloistProcessSupervisor(config: config)
+        let first = await supervisor.activeSession()
+        let second = await supervisor.activeSession()
+        #expect(first === second)
+        await supervisor.close()
+        let third = await supervisor.activeSession()
+        #expect(first !== third)
+        await supervisor.close()
+    }
+
+    @Test func soloistVerifiedStampDetectsSameSecondOverwriteAndMidVerificationMutation() throws {
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(
+            "kinrox-soloist-stamp-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: dir) }
+
+        let binary = dir.appendingPathComponent("soloist")
+        let reaper = dir.appendingPathComponent("reaper")
+        try Data("binary-v1".utf8).write(to: binary)
+        try Data("reaper-v1".utf8).write(to: reaper)
+        let config = SoloistProcessSupervisor.Configuration(
+            installation: .init(
+                binary: binary, digest: "digest-1", version: "1.0", buildDate: Date()),
+            profile: dir, cache: dir, reaper: reaper, hostRequirement: "req", deviceName: "Test",
+            key: { "" })
+
+        let initial = try #require(SoloistVerifiedStamp.capture(config))
+        // Overwrite in-place preserving inode and size within the same second.
+        let fd = open(binary.path, O_WRONLY)
+        #expect(fd >= 0)
+        _ = "binary-v2".withCString { write(fd, $0, 9) }
+        close(fd)
+        let afterOverwrite = try #require(SoloistVerifiedStamp.capture(config))
+        #expect(initial != afterOverwrite)
+
+        // If the binary mutates during verification, verify() repeats until metadata stabilizes.
+        var inspectCalls = 0
+        let stabilized = try SoloistProcessSupervisor.verify(config, cachedStamp: initial) {
+            inspectCalls += 1
+            if inspectCalls == 1 {
+                let descriptor = open(binary.path, O_WRONLY)
+                _ = "binary-v3".withCString { write(descriptor, $0, 9) }
+                close(descriptor)
+            }
+        }
+        #expect(inspectCalls == 2)
+        #expect(stabilized == SoloistVerifiedStamp.capture(config))
+
+        // Subsequent verify with unchanged stamp skips inspect().
+        var cachedCalls = 0
+        let reused = try SoloistProcessSupervisor.verify(config, cachedStamp: stabilized) {
+            cachedCalls += 1
+        }
+        #expect(cachedCalls == 0)
+        #expect(reused == stabilized)
+    }
+
+    @Test func videoHostViewUnmountsInMusicModeWhenNoVideoIsLoaded() async throws {
+        let session = PlayerSession(recents: RecentFilesStore(), demoMusic: true)
+        let controller = try PlayerWindowController(session: session) { _ in }
+        controller.model.setVolume(0)
+        let window = try #require(controller.window)
+        let host = try #require(window.contentView as? NSHostingView<PlayerRootView>)
+        func hasVideoHost(in view: NSView) -> Bool {
+            if view is VideoHostView { return true }
+            return view.subviews.contains { hasVideoHost(in: $0) }
+        }
+        host.layoutSubtreeIfNeeded()
+        #expect(hasVideoHost(in: host))
+
+        session.mode = .music
+        host.rootView.modeChanged(.music)
+        try await Task.sleep(for: .milliseconds(100))
+        host.layoutSubtreeIfNeeded()
+        #expect(!hasVideoHost(in: host))
+
+        session.mode = .video
+        host.rootView.modeChanged(.video)
+        try await Task.sleep(for: .milliseconds(100))
+        host.layoutSubtreeIfNeeded()
+        #expect(hasVideoHost(in: host))
+
+        controller.close()
+        await controller.model.shutdown()
+        await session.playback.close()
+    }
 }
 
 @MainActor

@@ -49,7 +49,10 @@ final class FakePlayerEngine: PlayerEngine {
         commands.append(.seekAbsolute(seconds))
     }
     func setVolume(_ volume: Double) throws { commands.append(.volume(volume)) }
-    func stop() throws { commands.append(.stop) }
+    func stop() throws {
+        if let commandError { throw commandError }
+        commands.append(.stop)
+    }
     func selectTrack(kind: MediaTrackKind, number: Int64?, requestID: UInt64) throws {
         if let commandError { throw commandError }
         commands.append(.selectTrack(kind, number, requestID))

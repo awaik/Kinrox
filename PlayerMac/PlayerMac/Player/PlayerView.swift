@@ -11,31 +11,46 @@ struct PlayerView: View {
     let actions: PlayerActions
     let chrome: WindowChrome
     var overlay = OverlayController()
+    var isVideoMode = true
     @State private var isDropTargeted = false
-    @State private var showsConnect = false
+
+    func videoMode(_ active: Bool) -> PlayerView {
+        var copy = self
+        copy.isVideoMode = active
+        return copy
+    }
 
     private var canHideControls: Bool {
-        !model.isScreensaverEngaged && model.hasMedia && !model.paused && !model.isAtEnd
-            && model.errorMessage == nil && pairing?.prompt == nil && !showsConnect
+        !model.isScreensaverEngaged && model.hasMedia && !model.isShowingHome && !model.paused
+            && !model.isAtEnd
+            && model.errorMessage == nil && pairing?.prompt == nil && !model.isShowingConnectPhone
             && model.trackController.presentation == nil && !model.trackController.isChoosingFile
     }
 
     var body: some View {
         ZStack {
             Palette.base
-            VideoView(videoLayer: videoLayer)
-            // Transparent layer catches double-click: video NSView does not forward SwiftUI gestures.
-            Color.clear
-                .contentShape(Rectangle())
-                .onTapGesture(count: 2) { model.toggleFullscreen() }
-            content
-                .accessibilityHidden(model.trackController.presentation != nil)
+            if isVideoMode || model.hasMedia || model.isLoading {
+                VideoView(videoLayer: videoLayer)
+                // Transparent layer catches double-click: video NSView does not forward SwiftUI gestures.
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture(count: 2) {
+                        if !model.isShowingHome { model.toggleFullscreen() }
+                    }
+                content
+                    .accessibilityHidden(model.trackController.presentation != nil)
+            }
             if model.screensaver == .matrix { MatrixScreensaverView(model: model) }
-            if model.hasMedia, model.trackController.presentation != nil, pairing?.prompt == nil {
+            if model.hasMedia, !model.isShowingHome, model.trackController.presentation != nil,
+                pairing?.prompt == nil
+            {
                 TrackPanelsOverlay(controller: model.trackController)
             }
-            if showsConnect, !model.isScreensaverEngaged, let remote, pairing?.prompt == nil {
-                ConnectPhoneView(remote: remote) { showsConnect = false }
+            if model.isShowingConnectPhone, !model.isScreensaverEngaged, let remote,
+                pairing?.prompt == nil
+            {
+                ConnectPhoneView(remote: remote) { model.isShowingConnectPhone = false }
             }
             if let pairing, let prompt = pairing.prompt {
                 PairingCodeView(prompt: prompt) { pairing.decline() }
@@ -45,14 +60,17 @@ struct PlayerView: View {
         }
         .ignoresSafeArea()
         .animation(.easeOut(duration: 0.25), value: model.hasMedia)
+        .animation(.easeOut(duration: 0.25), value: model.isShowingHome)
         .animation(.spring(duration: 0.35), value: pairing?.prompt)
-        .onChange(of: pairing?.prompt) { _, prompt in if prompt != nil { showsConnect = false } }
-        .onChange(of: model.hasMedia || model.isLoading) { _, active in
-            if active { showsConnect = false }
+        .onChange(of: pairing?.prompt) { _, prompt in
+            if prompt != nil { model.isShowingConnectPhone = false }
+        }
+        .onChange(of: (model.hasMedia && !model.isShowingHome) || model.isLoading) { _, active in
+            if active { model.isShowingConnectPhone = false }
         }
         .onChange(of: model.isScreensaverEngaged) { _, engaged in
             if engaged {
-                showsConnect = false
+                model.isShowingConnectPhone = false
                 overlay.set(.titlebar, active: false)
             }
         }
@@ -106,7 +124,7 @@ struct PlayerView: View {
     private var content: some View {
         if model.screensaver == .matrix {
             EmptyView()
-        } else if model.hasMedia {
+        } else if model.hasMedia, !model.isShowingHome {
             PlaybackOverlay(
                 model: model, recents: recents, remote: remote, updates: updates, overlay: overlay,
                 actions: actions
@@ -122,15 +140,15 @@ struct PlayerView: View {
                 .kinroxGlass(in: Capsule())
         } else {
             WelcomeView(
-                recents: recents, actions: actions, remote: remote, updates: updates,
-                connectPhone: { showsConnect = true }
+                model: model, recents: recents, actions: actions, remote: remote, updates: updates,
+                connectPhone: { model.isShowingConnectPhone = true }
             )
             .transition(.opacity)
         }
     }
 
     private var controlsVisible: Bool {
-        model.screensaver == .off && (overlay.isVisible || !model.hasMedia)
+        model.screensaver == .off && (overlay.isVisible || !model.hasMedia || model.isShowingHome)
     }
 }
 
@@ -160,7 +178,7 @@ private struct PlaybackOverlay: View {
             VStack(spacing: 0) {
                 TitleHeader(title: model.displayTitle, caption: model.playlistCaption)
                     .padding(.top, 14)
-                    .padding(.horizontal, 96)
+                    .padding(.horizontal, 236)
                 if let updates, let update = updates.available,
                     updates.showsPill(paused: model.paused)
                 {
@@ -176,6 +194,15 @@ private struct PlaybackOverlay: View {
                     .padding(.bottom, 28)
             }
             .animation(.spring(duration: 0.35), value: updates?.showsPill(paused: model.paused))
+            VStack {
+                HStack {
+                    OverlayHomeButton(overlay: overlay) { _ = model.showHome() }
+                    Spacer()
+                }
+                Spacer()
+            }
+            .padding(.top, 14)
+            .padding(.leading, 20)
             if let text = remote?.controllerText {
                 VStack {
                     HStack {
@@ -186,6 +213,44 @@ private struct PlaybackOverlay: View {
                 }.padding(.top, 54).padding(.trailing, 20).allowsHitTesting(false)
             }
         }
+    }
+}
+
+private struct OverlayHomeButton: View {
+    let overlay: OverlayController
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(Palette.textPrimary)
+                Text(L10n.text("Video Home"))
+                    .font(KinroxFont.bodyStrong)
+                    .foregroundStyle(Palette.textPrimary)
+                Text("·  \(L10n.text("Recent"))")
+                    .font(KinroxFont.caption)
+                    .foregroundStyle(Palette.textSecondary)
+                Text("Esc")
+                    .font(KinroxFont.caption)
+                    .foregroundStyle(Palette.textSecondary)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(.black.opacity(0.35), in: RoundedRectangle(cornerRadius: 6))
+            }
+            .padding(.leading, 12)
+            .padding(.trailing, 10)
+            .padding(.vertical, 7)
+            .background(.black.opacity(0.28), in: Capsule())
+            .kinroxGlass(in: Capsule(), interactive: true)
+            .contentShape(Capsule())
+        }
+        .buttonStyle(PressScaleStyle())
+        .onHover { overlay.set(.hover, active: $0) }
+        .help(L10n.text("Home & Recent"))
+        .accessibilityLabel(L10n.text("Home & Recent"))
+        .accessibilityIdentifier("video-home-overlay-button")
     }
 }
 

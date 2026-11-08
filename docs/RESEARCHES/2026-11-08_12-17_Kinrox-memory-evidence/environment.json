@@ -1,0 +1,13 @@
+{
+  "recorded_utc": "2026-11-08T09:21:00.934468+00:00",
+  "git_HEAD": "243ecb7d91be0741154a82ec2cd7868873609055",
+  "git_describe": "v0.5.5-2-g243ecb7",
+  "app_source_diff_since_v0.5.5": "",
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t26.5.2\nBuildVersion:\t\t25F84",
+  "model": "MacBookPro18,2",
+  "physical_memory_bytes": 34359738368,
+  "installed_version": "0.5.5",
+  "installed_build": "15",
+  "working_tree_before_research": "clean (git status --short produced no entries)",
+  "behavior": "No application controls, restart, navigation, account data, or playback volume changed; owner reports long playback; no full-session playback trace."
+}

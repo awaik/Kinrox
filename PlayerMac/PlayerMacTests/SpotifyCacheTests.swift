@@ -94,4 +94,36 @@ struct SpotifyCacheTests {
         #expect(try await cache.restore().library.userID == "user")
         #expect(try await cache.restore().catalog.tracks.isEmpty)
     }
+
+    @Test func enablesMmapWalAndStreamsIncrementalDigestWrites() async throws {
+        let root = root()
+        let date = Date(timeIntervalSince1970: 2_000_000)
+        let cache = SpotifyCacheStore(
+            clientID: "client", userID: MusicDemo.library.userID, displayName: "Test", root: root,
+            now: { date })
+        var initial = value(date: date)
+        try await cache.save(initial, revision: 1)
+
+        let previewed = try await cache.preview()
+        #expect(!previewed.catalog.albums.isEmpty)
+        #expect(!previewed.catalog.tracks.isEmpty)
+
+        // Mutate a single track title and verify incremental digest update persists it cleanly.
+        var editedTrack = try #require(initial.catalog.tracks.first)
+        editedTrack = MusicTrack(
+            id: editedTrack.id, uri: editedTrack.uri, title: "Updated Title",
+            artists: editedTrack.artists, albumID: editedTrack.albumID,
+            albumTitle: editedTrack.albumTitle, duration: editedTrack.duration)
+        initial.catalog.merge(tracks: [editedTrack])
+        try await cache.save(initial, revision: 2)
+
+        let restored = try await cache.restore()
+        #expect(restored.catalog.track(id: editedTrack.id)?.title == "Updated Title")
+
+        let db = try SpotifyCacheDatabase(
+            url: cache.directory.appendingPathComponent("library.sqlite"))
+        defer { db.close() }
+        #expect(try db.scalar("PRAGMA journal_mode")?.lowercased() == "wal")
+        #expect((Int(try db.scalar("PRAGMA mmap_size") ?? "0") ?? 0) >= 67_108_864)
+    }
 }

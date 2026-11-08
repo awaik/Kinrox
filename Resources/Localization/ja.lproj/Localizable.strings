@@ -427,3 +427,15 @@
 "Move up" = "上へ移動";
 "Move down" = "下へ移動";
 "Spotify only provides tracks for playlists you own or collaborate on." = "Spotify では、自分が所有または共同編集しているプレイリストのトラックのみ取得できます。";
+
+/* Video Home navigation while movie is loaded — Figma page 10. */
+"Video Home" = "ビデオホーム";
+"Back to Video" = "ビデオに戻る";
+"Close Video" = "ビデオを閉じる";
+"Home & Recent" = "ホームと履歴";
+"Open Video Home" = "ビデオホームを開く";
+"Now open · Paused at %@ of %@" = "再生中 · %@ / %@ で一時停止";
+"Now open · Paused" = "再生中 · 一時停止";
+"Want to watch another video?" = "別のビデオを見ますか？";
+"Choose a card from history below, drop a file into the window, or open via dialog." = "下の履歴からカードを選ぶか、ウィンドウにファイルをドロップするか、ダイアログから開きます。";
+"Esc — back to video   ·   ⌘O — open file   ·   ⌘⌫ — close video" = "Esc — ビデオに戻る   ·   ⌘O — ファイルを開く   ·   ⌘⌫ — ビデオを閉じる";

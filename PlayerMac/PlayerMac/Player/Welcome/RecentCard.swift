@@ -4,6 +4,7 @@ import SwiftUI
 struct RecentCard: View {
     let item: RecentItem
     let isAvailable: Bool
+    var isCurrent = false
     let open: () -> Void
     let revealInFinder: () -> Void
     let remove: () -> Void
@@ -44,6 +45,17 @@ struct RecentCard: View {
     private var artwork: some View {
         StillArtwork(seed: StillArtwork.seed(for: item.title))
             .aspectRatio(16 / 9, contentMode: .fit)
+            .overlay(alignment: .topLeading) {
+                if isCurrent {
+                    Text(L10n.text("Paused"))
+                        .font(KinroxFont.caption)
+                        .foregroundStyle(Palette.flame)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(.black.opacity(0.72), in: RoundedRectangle(cornerRadius: 6))
+                        .padding(10)
+                }
+            }
             .overlay(alignment: .topTrailing) {
                 if let duration = item.duration {
                     Text(TimeFormat.string(duration))
@@ -69,7 +81,8 @@ struct RecentCard: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 14)
                     .strokeBorder(
-                        isHovering && isAvailable ? Palette.ember.opacity(0.7) : Palette.hairline,
-                        lineWidth: 1))
+                        (isCurrent || isHovering) && isAvailable
+                            ? Palette.ember.opacity(0.75) : Palette.hairline,
+                        lineWidth: isCurrent ? 1.5 : 1))
     }
 }

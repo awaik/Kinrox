@@ -81,7 +81,10 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
                     chrome: chrome, overlay: overlay),
                 modeChanged: { [weak self, weak window] mode in
                     guard let window else { return }
-                    if mode != .video { self?.overlay.set(.titlebar, active: false) }
+                    if mode != .video {
+                        self?.overlay.set(.titlebar, active: false)
+                        self?.model.isShowingConnectPhone = false
+                    }
                     window.contentMinSize =
                         mode == .music
                         ? NSSize(width: 1024, height: 768) : NSSize(width: 640, height: 360)
@@ -99,11 +102,9 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
             let consumed = MainActor.assumeIsolated {
                 guard let self, event.window === self.window, event.keyCode == 53,
                     self.window?.attachedSheet == nil, pairing?.prompt == nil,
-                    self.model.isScreensaverEngaged,
                     event.modifierFlags.intersection([.command, .control, .option, .shift]).isEmpty
                 else { return false }
-                self.model.stopScreensaver()
-                return true
+                return self.handleEscapeKey()
             }
             // Consume the first Esc before AppKit exits native fullscreen.
             return consumed ? nil : event
@@ -144,6 +145,29 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
         }
         guard !isFullscreen else { return false }
         return location.y >= bounds.maxY - titlebarHeight
+    }
+
+    @discardableResult
+    func handleEscapeKey() -> Bool {
+        if model.isScreensaverEngaged {
+            model.stopScreensaver()
+            return true
+        }
+        guard session?.mode == .video, session?.isOpenPanelShown != true,
+            model.trackController.presentation == nil,
+            !model.trackController.isChoosingFile
+        else { return false }
+        if model.isShowingConnectPhone {
+            model.isShowingConnectPhone = false
+            return true
+        }
+        if model.isShowingHome || model.isStartingHome, model.hasMedia {
+            return model.returnToVideo()
+        }
+        if !model.isFullscreen, model.hasMedia {
+            return model.showHome()
+        }
+        return false
     }
 
     func handlePointerEvent(at point: NSPoint? = nil) {
