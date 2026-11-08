@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "Memutar saat Spotify.app ditutup",
   "spotify-card-standalone-body": "Jelajahi koleksi, album, playlist, dan pencarian, kelola favorit dengan urungkan ⌘Z, serta putar antrean lokal langsung di Kinrox.",
   "spotify-card-remote-title": "Remote iPhone yang sama",
-  "spotify-card-remote-body": "Lewati lagu, lihat antrean, atur volume, dan tandai favorit dari sofa melalui jaringan lokal terenkripsi."
+  "spotify-card-remote-body": "Lewati lagu, lihat antrean, atur volume, dan tandai favorit dari sofa melalui jaringan lokal terenkripsi.",
+  "spotify-memory-measurement": "Diukur pada 2026-11-08: total sekitar 158 MB — 123 MB untuk Kinrox dan 35 MB untuk Soloist serta proses pendukung. Memori fisik menurut macOS footprint; pengukuran sesaat, bukan batas maksimum."
 }

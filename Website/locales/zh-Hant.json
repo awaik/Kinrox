@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "完全關閉 Spotify.app 也能播放",
   "spotify-card-standalone-body": "在 Kinrox 中直接瀏覽音樂庫、專輯、播放清單與搜尋，使用 ⌘Z 復原管理收藏，並播放本機佇列。",
   "spotify-card-remote-title": "同一個 iPhone 遙控器",
-  "spotify-card-remote-body": "透過加密區域網路在沙發上切歌、查看佇列、調整音量與切換收藏。"
+  "spotify-card-remote-body": "透過加密區域網路在沙發上切歌、查看佇列、調整音量與切換收藏。",
+  "spotify-memory-measurement": "2026-11-08 實測：總計約 158 MB，其中 Kinrox 為 123 MB，Soloist 及輔助程序約 35 MB。使用 macOS footprint 測得實體記憶體用量；這是單次測量，並非上限。"
 }

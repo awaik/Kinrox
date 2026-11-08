@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "Spotify.app kapalıyken çalar",
   "spotify-card-standalone-body": "Kitaplığınızı, albümleri, çalma listelerini ve aramayı gezin, ⌘Z geri alma ile favorileri yönetin ve yerel sıranızı doğrudan Kinrox’ta çalın.",
   "spotify-card-remote-title": "Aynı iPhone kumandası",
-  "spotify-card-remote-body": "Şifreli yerel ağınız üzerinden koltuktan kalkmadan parçaları geçin, sırayı görün, sesi ve favorileri yönetin."
+  "spotify-card-remote-body": "Şifreli yerel ağınız üzerinden koltuktan kalkmadan parçaları geçin, sırayı görün, sesi ve favorileri yönetin.",
+  "spotify-memory-measurement": "2026-11-08 ölçümü: toplam yaklaşık 158 MB — Kinrox 123 MB, Soloist ve yardımcı süreçler 35 MB. macOS footprint ile ölçülen fiziksel bellek; anlık ölçüm, üst sınır değil."
 }

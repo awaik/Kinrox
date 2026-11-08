@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "Spotify.app을 끈 채로 재생",
   "spotify-card-standalone-body": "라이브러리, 앨범, 플레이리스트, 검색, ⌘Z 실행 취소가 지원되는 즐겨찾기, 로컬 대기열을 Kinrox에서 바로 이용하세요.",
   "spotify-card-remote-title": "동일한 iPhone 리모컨",
-  "spotify-card-remote-body": "암호화된 로컬 네트워크를 통해 소파에서 곡 넘기기, 대기열 탐색, 볼륨 조절 및 즐겨찾기를 제어하세요."
+  "spotify-card-remote-body": "암호화된 로컬 네트워크를 통해 소파에서 곡 넘기기, 대기열 탐색, 볼륨 조절 및 즐겨찾기를 제어하세요.",
+  "spotify-memory-measurement": "2026-11-08 측정: 총 약 158 MB — Kinrox 123 MB, Soloist 및 보조 프로세스 35 MB. macOS footprint로 측정한 물리 메모리 사용량이며, 단일 시점의 측정값으로 최대치가 아닙니다."
 }

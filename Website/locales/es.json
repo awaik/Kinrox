@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "Funciona con Spotify.app cerrado",
   "spotify-card-standalone-body": "Explora tu biblioteca, álbumes, listas y búsqueda, gestiona favoritos con deshacer (⌘Z) y reproduce tu cola local directamente en Kinrox.",
   "spotify-card-remote-title": "El mismo mando en el iPhone",
-  "spotify-card-remote-body": "Cambia de canción, revisa la cola, ajusta el volumen y marca favoritos desde el sofá por tu red local cifrada."
+  "spotify-card-remote-body": "Cambia de canción, revisa la cola, ajusta el volumen y marca favoritos desde el sofá por tu red local cifrada.",
+  "spotify-memory-measurement": "Medición del 2026-11-08: unos 158 MB en total — 123 MB de Kinrox y 35 MB de Soloist y procesos auxiliares. Huella física según macOS footprint; una medición puntual, no un máximo."
 }

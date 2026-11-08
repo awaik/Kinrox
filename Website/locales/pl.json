@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "Gra przy zamkniętym Spotify.app",
   "spotify-card-standalone-body": "Przeglądaj bibliotekę, albumy, playlisty i wyszukiwarkę, zarządzaj ulubionymi z cofaniem ⌘Z i odtwarzaj lokalną kolejkę bezpośrednio w Kinrox.",
   "spotify-card-remote-title": "Ten sam pilot na iPhonie",
-  "spotify-card-remote-body": "Przełączaj utwory, przeglądaj kolejkę, reguluj głośność i oznaczaj ulubione z kanapy przez szyfrowaną sieć lokalną."
+  "spotify-card-remote-body": "Przełączaj utwory, przeglądaj kolejkę, reguluj głośność i oznaczaj ulubione z kanapy przez szyfrowaną sieć lokalną.",
+  "spotify-memory-measurement": "Pomiar z 2026-11-08: łącznie około 158 MB — Kinrox 123 MB, Soloist i procesy pomocnicze 35 MB. Pamięć fizyczna według macOS footprint; pomiar chwilowy, nie maksimum."
 }

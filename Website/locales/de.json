@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "Spielt bei geschlossenem Spotify.app",
   "spotify-card-standalone-body": "Mediathek, Alben, Playlists und Suche durchstöbern, Favoriten mit ⌘Z rückgängig machen und die lokale Warteschlange direkt in Kinrox abspielen.",
   "spotify-card-remote-title": "Dieselbe iPhone-Fernbedienung",
-  "spotify-card-remote-body": "Titel überspringen, Warteschlange prüfen, Lautstärke regeln und Favoriten vom Sofa aus über das verschlüsselte lokale Netzwerk steuern."
+  "spotify-card-remote-body": "Titel überspringen, Warteschlange prüfen, Lautstärke regeln und Favoriten vom Sofa aus über das verschlüsselte lokale Netzwerk steuern.",
+  "spotify-memory-measurement": "Messung am 2026-11-08: insgesamt etwa 158 MB — 123 MB für Kinrox und 35 MB für Soloist und Hilfsprozesse. Physischer Speicher laut macOS footprint; eine Momentaufnahme, kein Höchstwert."
 }

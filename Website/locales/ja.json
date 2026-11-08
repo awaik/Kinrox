@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "Spotify.app を閉じたまま再生",
   "spotify-card-standalone-body": "ライブラリ、アルバム、プレイリスト、検索、⌘Z 取り消し対応のお気に入り、ローカルキューを Kinrox だけで直接操作できます。",
   "spotify-card-remote-title": "同じ iPhone リモコンで操作",
-  "spotify-card-remote-body": "暗号化されたローカルネットワーク経由で、ソファから曲送り、キュー確認、音量調整、お気に入り登録が可能です。"
+  "spotify-card-remote-body": "暗号化されたローカルネットワーク経由で、ソファから曲送り、キュー確認、音量調整、お気に入り登録が可能です。",
+  "spotify-memory-measurement": "2026-11-08 の測定：合計約 158 MB（Kinrox 123 MB、Soloist と補助プロセス 35 MB）。macOS footprint による物理メモリ使用量です。単発の測定値であり、上限ではありません。"
 }

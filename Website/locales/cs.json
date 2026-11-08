@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "Hraje i se zavřeným Spotify.app",
   "spotify-card-standalone-body": "Procházejte knihovnu, alba, playlisty a vyhledávání, spravujte oblíbené s vrácením ⌘Z a přehrávejte místní frontu přímo v Kinroxu.",
   "spotify-card-remote-title": "Stejný ovladač na iPhonu",
-  "spotify-card-remote-body": "Přeskakujte skladby, prohlížejte frontu, měňte hlasitost a oblíbené z gauče přes šifrovanou místní síť."
+  "spotify-card-remote-body": "Přeskakujte skladby, prohlížejte frontu, měňte hlasitost a oblíbené z gauče přes šifrovanou místní síť.",
+  "spotify-memory-measurement": "Měření z 2026-11-08: celkem přibližně 158 MB — Kinrox 123 MB, Soloist a pomocné procesy 35 MB. Fyzická paměť podle macOS footprint; okamžitý snímek, nikoli maximum."
 }

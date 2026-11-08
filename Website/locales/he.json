@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "מנגן כש-Spotify.app סגור",
   "spotify-card-standalone-body": "דפדף בספרייה, באלבומים, בפלייליסטים ובחיפוש, נהל מועדפים עם ביטול ב-⌘Z ונגן את התור המקומי ישירות ב-Kinrox.",
   "spotify-card-remote-title": "אותו שלט ב-iPhone",
-  "spotify-card-remote-body": "דלג על שירים, צפה בתור, כוון עוצמת שמע וסמן מועדפים מהספה דרך הרשת המקומית המוצפנת."
+  "spotify-card-remote-body": "דלג על שירים, צפה בתור, כוון עוצמת שמע וסמן מועדפים מהספה דרך הרשת המקומית המוצפנת.",
+  "spotify-memory-measurement": "מדידה מ־2026-11-08: כ־158 MB בסך הכול — 123 MB עבור Kinrox ו־35 MB עבור Soloist ותהליכי העזר. זיכרון פיזי לפי macOS footprint; מדידה נקודתית, לא תקרה."
 }

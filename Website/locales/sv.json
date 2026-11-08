@@ -175,5 +175,6 @@
   "spotify-card-standalone-title": "Spelar med Spotify.app stängt",
   "spotify-card-standalone-body": "Bläddra i bibliotek, album, spellistor och sök, hantera favoriter med ⌘Z-ångra och spela din lokala kö direkt i Kinrox.",
   "spotify-card-remote-title": "Samma iPhone-fjärrkontroll",
-  "spotify-card-remote-body": "Hoppa över spår, se kön, justera volymen och växla favoriter från soffan över ditt krypterade lokala nätverk."
+  "spotify-card-remote-body": "Hoppa över spår, se kön, justera volymen och växla favoriter från soffan över ditt krypterade lokala nätverk.",
+  "spotify-memory-measurement": "Mätt 2026-11-08: totalt cirka 158 MB — 123 MB för Kinrox och 35 MB för Soloist och hjälpprocesser. Fysiskt minne enligt macOS footprint; en ögonblicksbild, inget maxvärde."
 }

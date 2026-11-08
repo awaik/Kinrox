@@ -164,6 +164,18 @@ All five steps are now live and verified across **362 automated tests** (`43` in
 | SQLite cache storage & incremental diffing | Standard buffer cache + `[[Data?]]` row copies + full duplicate `SpotifyCachedLibrary` in `SpotifyCacheStore.previous` | **64 MiB SQLite `mmap`** (Clean Page Cache), 2 MiB private cache, streaming `catalogBatches`, and 64-bit `FNV-1a` digest diffing |
 | SwiftUI rows, popovers & Discovery lists | Unconditional `.popover`/`.help` per link, root `MusicViewModel` observation, eager inner `VStack` in Discovery & expanded albums | Conditional `.popover` (`if isPresented`), `.hoverHelp`, isolated `MusicPopoverState`/`MusicFocusState`, and full `LazyVStack` |
 
+### Live Result After the Changes: About 158 MB Total
+
+On **November 8, 2026, at approximately 21:04 (UTC+07:00)**, we measured the running installation with macOS `footprint`, including every running Soloist and helper process:
+
+| Process | Physical Footprint |
+|---|---|
+| Kinrox | **123 MB** |
+| Soloist and helper processes combined | **About 35 MB** |
+| **Combined footprint reported by macOS** | **158 MB** |
+
+The main Kinrox process had a lifetime peak of **153 MB** in this run; that peak excludes Soloist and helpers. The combined current footprint is roughly **65% below** the earlier **450.75 MiB** observation. This is a live snapshot after the changes, rather than a repeat of the earlier 17.5-hour session under identical conditions: it demonstrates the observed result, not a maximum or a long-session guarantee. We did not record the playback state or library size for this snapshot.
+
 ## Five Lessons From This Investigation
 
 1. **`leaks` showing 0 leaks does not mean you don't have unwanted retention.** Reachable objects inside `CFNetwork`, SwiftUI view caches, and growing catalog dictionaries all have valid pointers—`leaks` will bless them while your process footprint grows over an 18-hour session. Always inspect `heap <PID>` object counts alongside `vmmap -summary`, and separate what is directly measured from what requires allocation backtraces.
