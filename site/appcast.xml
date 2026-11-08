@@ -6,6 +6,23 @@
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
     <item>
+      <title>Kinrox 0.5.6</title>
+      <pubDate>Sun, 08 Nov 2026 13:46:17 +0000</pubDate>
+      <sparkle:version>16</sparkle:version>
+      <sparkle:shortVersionString>0.5.6</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.5.6</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Mac player release for Apple Silicon (arm64), macOS 14 or newer. The companion iPhone remote is not published to the App Store in this release.&lt;/p&gt;
+&lt;h3&gt;What's New&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;b&gt;Video Home &amp;amp; Recent while a movie is open.&lt;/b&gt; Press &lt;code&gt;Esc&lt;/code&gt; in windowed mode, click &lt;code&gt;‹ Home &amp;amp; Recent&lt;/code&gt; in the titlebar or &lt;code&gt;Video Home&lt;/code&gt; in the playback overlay, or choose &lt;code&gt;View → Show Video Home&lt;/code&gt; to pause playback and browse &lt;code&gt;Recent&lt;/code&gt; files without closing the current video. Includes a &lt;b&gt;Continue Watching&lt;/b&gt; banner (&lt;code&gt;Back to Video&lt;/code&gt; / &lt;code&gt;Close Video ⌘⌫&lt;/code&gt;), quick file/remote actions, and compact titlebar navigation at narrow window widths.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Long-session memory and CPU optimizations in Spotify &amp;amp; Video modes.&lt;/b&gt; Reused a single &lt;code&gt;URLSession&lt;/code&gt; across Soloist track launches with immediate task cancellation on teardown and nanosecond pre/post-verified binary stamp caching; unmounted idle OpenGL video surfaces in Spotify mode when no video is loaded; enabled 64 MiB SQLite &lt;code&gt;mmap&lt;/code&gt; (&lt;code&gt;WAL&lt;/code&gt;) with streaming batch decoding and 64-bit &lt;code&gt;FNV-1a&lt;/code&gt; digest diffing; interned &lt;code&gt;String&lt;/code&gt; and &lt;code&gt;[MusicArtist]&lt;/code&gt; buffers in &lt;code&gt;MusicCatalog.merge&lt;/code&gt; while pruning disposable search/discovery entities; and isolated SwiftUI row popover/focus observation and lazy stack boundaries.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Included in 0.5.6&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;Standalone Spotify playback through separately downloaded &lt;b&gt;Spotify Soloist&lt;/b&gt;, with &lt;code&gt;Spotify.app&lt;/code&gt; fully closed, plus v3 three-column navigation, persistent compact queue with drag-and-drop expansion, Similar &amp;amp; Discovery engine, favorites with undo, and encrypted LAN iPhone remote controls.&lt;/li&gt;&lt;li&gt;Local video playback for MP4, MKV, MOV, M4V, AVI, WebM, and TS powered by bundled libmpv 0.41.0, FFmpeg 9.0.1, OpenGL, and VideoToolbox hardware acceleration.&lt;/li&gt;&lt;li&gt;Audio and subtitle track selection, recursive external subtitle/audio discovery, and per-folder track preferences.&lt;/li&gt;&lt;li&gt;Matrix screensaver (&lt;code&gt;Screensaver → Matrix&lt;/code&gt;) and Sparkle 2 update reminders (&lt;code&gt;Kinrox → Check for Updates…&lt;/code&gt;).&lt;/li&gt;&lt;li&gt;Shared localization in 30 languages with English fallback.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Requirements and Notes&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;macOS 14.0 or newer on Apple Silicon (arm64).&lt;/li&gt;&lt;li&gt;Runtime verification for this release was performed on macOS 26.5.2 (Apple Silicon). Minimum-OS metadata was verified for all bundled binaries; a separate macOS 14 machine was not tested.&lt;/li&gt;&lt;li&gt;To install manually, open &lt;code&gt;Kinrox-0.5.6-arm64.dmg&lt;/code&gt; and drag &lt;code&gt;Kinrox.app&lt;/code&gt; to &lt;code&gt;Applications&lt;/code&gt;. Existing installations of Kinrox 0.3.0 or newer can also update through &lt;code&gt;Kinrox → Check for Updates…&lt;/code&gt;.&lt;/li&gt;&lt;li&gt;&lt;code&gt;Kinrox-0.5.6-dependency-sources.tar.gz&lt;/code&gt; contains the corresponding source archives, build recipes, patches, and license texts for the bundled open-source libraries.&lt;/li&gt;&lt;li&gt;&lt;code&gt;SHA256SUMS.txt&lt;/code&gt; lists SHA-256 checksums for the release assets.&lt;/li&gt;&lt;/ul&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.5.6/Kinrox-0.5.6-arm64.dmg" length="33246164" type="application/octet-stream" sparkle:edSignature="MswwbVUWKNfC+OYFV2EV6E/nFEL+rSwvQM/FIdFGU79bP7UBjEN/NcoUz0rVSDqbaxGorHTXBahQJ73YaOyrDg==" />
+    </item>
+    <item>
       <title>Kinrox 0.5.5</title>
       <pubDate>Sat, 07 Nov 2026 06:32:54 +0000</pubDate>
       <sparkle:version>15</sparkle:version>
