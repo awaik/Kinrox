@@ -176,5 +176,5 @@
   "spotify-card-standalone-body": "Browse your library, albums, playlists and search, manage favorites with ⌘Z undo, and play your local queue directly in Kinrox with Spotify.app quit.",
   "spotify-card-remote-title": "Same iPhone remote",
   "spotify-card-remote-body": "Skip tracks, browse the queue, adjust volume and toggle favorites from the couch over your encrypted local network.",
-  "spotify-memory-measurement": "Measured on 2026-11-08: about 158 MB total — 123 MB for Kinrox and 35 MB for Soloist and helpers. Physical memory footprint reported by macOS footprint; a single snapshot, not a maximum."
+  "spotify-memory-measurement": "Measured on 2026-11-09 after 12 hours of playback: about 193 MB total — 161 MB for Kinrox and 32 MB for Soloist and helpers. Physical memory footprint reported by macOS footprint; a single snapshot, not a maximum."
 }

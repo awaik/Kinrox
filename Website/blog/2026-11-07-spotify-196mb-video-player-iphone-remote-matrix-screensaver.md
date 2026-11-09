@@ -22,14 +22,14 @@ The first annoyance is the couch and the projector. Your MacBook is plugged into
 
 The second annoyance is Apple's memory pricing. My MacBook Pro (`MacBookPro18,2`, Apple Silicon) has 32 GB of unified memory, and the official `Spotify.app` desktop client happily devours around 2 GB of it just for the privilege of playing music in the background.
 
-In my short release post, I joked:
+In my short release post, I wrote:
 
 > Memory is so expensive these days. My MacBook only has 32 GB, and Spotify takes up 2 GB of it. So I decided to rewrite the Spotify client in Rust. Now it uses 196 MB and three times less CPU.
 > The app is open source, of course. It also has a built-in video player with iPhone remote control.
 > Since Apple's review process can now take 2-3 weeks, the app is currently available for Mac download only.
 > Now, when I watch videos on a projector through HDMI, I can control everything from my iPhone and hardly have to get up at all. Hehe.
 
-In a short post, writing "rewrote it in Rust" is the easiest punchline, but here is the full, unabridged engineering breakdown. The player itself and its interface are written in native **Swift 6 and SwiftUI** (plus a tiny watchdog reaper process in C), and in our quest for a lightweight audio engine we went through an entire zoo of Spotify clients—from the standard Web API and studying the Rust `librespot` crate to Spotify's brand-new official headless binary **Spotify Soloist**, which came out just days ago and uses 25–27 MiB of RAM.
+The Rust line came from the first, now legacy, version of the app. Here is the full, unabridged engineering breakdown of the current one. The player itself and its interface are written in native **Swift 6 and SwiftUI** (plus a tiny watchdog reaper process in C), and in our quest for a lightweight audio engine we went through an entire zoo of Spotify clients—from the standard Web API and studying the Rust `librespot` crate to Spotify's brand-new official headless binary **Spotify Soloist**, which came out just days ago and uses 25–27 MiB of RAM.
 
 Here is a short live video demo showing how it all works together:
 
