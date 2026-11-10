@@ -6,6 +6,21 @@
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
     <item>
+      <title>Kinrox 0.5.7</title>
+      <pubDate>Tue, 10 Nov 2026 14:54:46 +0000</pubDate>
+      <sparkle:version>17</sparkle:version>
+      <sparkle:shortVersionString>0.5.7</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.5.7</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Mac player release for Apple Silicon (arm64), macOS 14 or newer. The companion iPhone remote is not published to the App Store in this release.&lt;/p&gt;
+&lt;h3&gt;What's New&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;b&gt;Similar &amp;amp; discovery v4.&lt;/b&gt; Choose a track, artist, album or playlist as a starting point, revisit previous seeds, switch discovery modes, and browse results grouped by why they were suggested. Ranking combines confirmed artist, collaborator, genre and listener signals, avoids alternate versions of the starting recording, and balances artists.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Listen to similar.&lt;/b&gt; Start the suggested tracks and keep adding similar music as you listen. The queue shows when automatic additions are active and offers a Stop action; manually queued tracks retain their order.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Personal discovery controls.&lt;/b&gt; Local listening history and Not interested feedback refine suggestions, with undo for feedback. History stays on the Mac and is removed on Disconnect.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Recommendations from other listeners.&lt;/b&gt; ListenBrainz/MusicBrainz similarity is enabled after connecting Spotify and accepting the updated privacy policy. Turn it off at any time in Settings → Spotify. Requests contain music metadata, without user identifiers or cookies; turning it off stops these requests. Updated connection and privacy documents cover all 30 app languages.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Discovery interface refinements.&lt;/b&gt; Adaptive controls, keyboard and VoiceOver actions, clearer loading and empty states, real mixes, and a persistent queue banner accompany the new engine.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Requirements and Notes&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;macOS 14.0 or newer on Apple Silicon (arm64).&lt;/li&gt;&lt;li&gt;Standalone Spotify playback continues to use separately downloaded Spotify Soloist, with Spotify.app fully closed. Spotify Premium, your own Client ID, a Soloist API key and one-time phone pairing are required; Soloist is not bundled with Kinrox.&lt;/li&gt;&lt;li&gt;Runtime verification is limited to macOS 26.5.2 (Apple Silicon). Minimum-OS metadata is checked for bundled binaries; no separate macOS 14 runtime test was performed.&lt;/li&gt;&lt;li&gt;Discovery regressions use local HTTP fixtures. Live external-service result quality, request latency and new Spotify performance measurements were not reverified for this release; prior accepted playback limits remain documented in &lt;a href="https://github.com/awaik/Kinrox/blob/v0.5.7/docs/runbooks/SOLOIST-VERIFICATION.md"&gt;Soloist Verification&lt;/a&gt;.&lt;/li&gt;&lt;li&gt;To install manually, open &lt;code&gt;Kinrox-0.5.7-arm64.dmg&lt;/code&gt; and drag &lt;code&gt;Kinrox.app&lt;/code&gt; to &lt;code&gt;Applications&lt;/code&gt;. Existing installations of Kinrox 0.3.0 or newer can also update through &lt;code&gt;Kinrox → Check for Updates…&lt;/code&gt;.&lt;/li&gt;&lt;li&gt;&lt;code&gt;Kinrox-0.5.7-dependency-sources.tar.gz&lt;/code&gt; contains corresponding sources, build recipes, patches and license texts for bundled open-source libraries. &lt;code&gt;SHA256SUMS.txt&lt;/code&gt; lists release-asset checksums.&lt;/li&gt;&lt;/ul&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg" length="33548960" type="application/octet-stream" sparkle:edSignature="HYvwYR0SwzjQtjcQ2+Zbm7ZtZbyy8yEZ1IA7JWOn54V/yFSTlXFSa5/ewCeI4KOZmZOgV7uJR3XZolYAQMzZAg==" />
+    </item>
+    <item>
       <title>Kinrox 0.5.6</title>
       <pubDate>Sun, 08 Nov 2026 13:46:17 +0000</pubDate>
       <sparkle:version>16</sparkle:version>

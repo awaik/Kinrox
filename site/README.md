@@ -72,14 +72,14 @@ The canonical address is `https://kinrox.app/` (`CNAME`). `sitemap.xml`, `robots
 and all 30 reciprocal language alternatives are generated together.
 
 Mac download buttons and JSON-LD target the versioned GitHub Release
-asset `releases/download/v0.5.6/Kinrox-0.5.6-arm64.dmg`. For a release, publish and verify
+asset `releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg`. For a release, publish and verify
 the asset before updating the template, catalog version labels and generator metadata.
 The iPhone App Store release remains separately planned. See
 [`RUNBOOK-RELEASE.md`](../docs/runbooks/RUNBOOK-RELEASE.md).
 
 Licensing copy distinguishes the GPL Mac player from new personal-use-only remote
 revisions; [LICENSING.md](../LICENSING.md) defines the scope and preserves earlier
-GPL grants. The landing's JSON-LD describes the downloadable Mac 0.5.6 DMG only,
+GPL grants. The landing's JSON-LD describes the downloadable Mac 0.5.7 DMG only,
 so its GPL metadata must not also claim to describe the newly licensed iPhone app.
 
 Repository Settings → Pages → Source must be **GitHub Actions**. Pushes to `main`

@@ -126,8 +126,8 @@ def head(locale, page, strings, root):
         data = {
             "@context": "https://schema.org", "@type": "SoftwareApplication",
             "name": "Kinrox", "applicationCategory": "MultimediaApplication",
-            "softwareVersion": "0.5.6",
-            "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.6/Kinrox-0.5.6-arm64.dmg",
+            "softwareVersion": "0.5.7",
+            "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg",
             "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html",
             "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
             "url": url, "inLanguage": locale, "description": strings["home-social-description"],
