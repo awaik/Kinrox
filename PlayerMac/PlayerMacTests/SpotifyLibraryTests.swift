@@ -137,6 +137,12 @@ struct SpotifyLibraryTests {
         MusicHTTPStub.state.reset(routes: [
             "GET /v1/search": [.init(body: searchReply), .init(body: searchReply)],
             "GET /v1/albums/freshalb1/tracks": [.init(body: albumTracksReply)],
+            "GET /v1/artists/art1": [
+                .init(
+                    body:
+                        #"{"id":"art1","uri":"spotify:artist:art1","name":"Nova","genres":["ambient"]}"#
+                )
+            ],
         ])
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [MusicHTTPStub.self]
@@ -147,7 +153,7 @@ struct SpotifyLibraryTests {
         let seedArtist = MusicArtist(id: "art1", uri: "spotify:artist:art1", name: "Nova")
         let snapshot = try await store.discover(
             seedTitle: "Nova", seedTrack: nil, seedArtist: seedArtist,
-            mode: .fresh, selectedGenre: nil, hideLiked: false)
+            mode: .fresh, selectedGenre: "ambient", hideLiked: false)
         let searchRequests = MusicHTTPStub.state.requests.filter { $0.url?.path == "/v1/search" }
         #expect(
             searchRequests.contains {

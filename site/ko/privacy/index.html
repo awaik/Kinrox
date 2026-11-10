@@ -108,15 +108,19 @@
 <p><a href="../spotify-terms/">연결 약관</a></p>
 <p><a href="https://www.spotify.com/legal/privacy-policy/">Spotify · 개인정보 처리방침</a></p>
 <section id="spotify-documents" lang="ko" dir="ltr">
-<p class="muted"><bdi>한국어</bdi> · <bdi dir="ltr">2026-11-03</bdi></p>
+<p class="muted"><bdi>한국어</bdi> · <bdi dir="ltr">2026-11-10</bdi></p>
 <h2 id="spotify-privacy-overview">개인정보 처리방침 — Spotify 연결</h2>
-<p>버전 2026-11-03. Kinrox 유지 관리자 awaik은 여기에 설명된 Kinrox의 데이터 처리에 책임을 집니다. 이 부록은 선택적 Spotify 연동에 적용됩니다. Kinrox 일반 개인정보 처리방침: <a href="https://kinrox.app/privacy/"><bdi dir="ltr">https://kinrox.app/privacy/</bdi></a>. 문의: <a href="https://github.com/awaik/Kinrox/issues"><bdi dir="ltr">https://github.com/awaik/Kinrox/issues</bdi></a>. 공개 이슈에 토큰, 개인 라이브러리 내용 또는 기타 비공개 정보를 게시하지 마세요.</p>
+<p>버전 2026-11-10. Kinrox 유지 관리자 awaik은 여기에 설명된 Kinrox의 데이터 처리에 책임을 집니다. 이 부록은 선택적 Spotify 연동에 적용됩니다. Kinrox 일반 개인정보 처리방침: <a href="https://kinrox.app/privacy/"><bdi dir="ltr">https://kinrox.app/privacy/</bdi></a>. 문의: <a href="https://github.com/awaik/Kinrox/issues"><bdi dir="ltr">https://github.com/awaik/Kinrox/issues</bdi></a>. 공개 이슈에 토큰, 개인 라이브러리 내용 또는 기타 비공개 정보를 게시하지 마세요.</p>
 <h2 id="spotify-privacy-access">접근과 목적</h2>
-<p>약관에 동의하고 Spotify를 승인하면 Mac의 Kinrox는 계정 식별자와 표시 이름, 저장된 곡과 앨범, 팔로우한 아티스트, 접근 가능한 플레이리스트와 그 내용, 재생 상태 및 사용 가능한 기기를 읽습니다. 이 정보는 라이브러리 표시와 Spotify 제어에 사용됩니다. 해당 제어 기능을 사용하면 즐겨찾기를 저장하거나 제거하고, 아티스트를 팔로우하고, 플레이리스트를 만들며, 소유하거나 공동 편집하는 플레이리스트를 편집할 수 있습니다. 즐겨찾기를 제거하면 편집 가능한 플레이리스트의 해당 항목도 제거됩니다.</p>
+<p>약관에 동의하고 Spotify를 승인하면 Mac의 Kinrox는 계정 식별자와 표시 이름, 저장된 곡과 앨범, 팔로우한 아티스트, 접근 가능한 플레이리스트와 그 내용, 재생 상태 및 사용 가능한 기기를 읽습니다. 이 정보는 라이브러리 표시와 Spotify 제어에 사용됩니다. 해당 제어 기능을 사용하면 즐겨찾기를 저장하거나 제거하고, 아티스트를 팔로우하고, 플레이리스트를 만들며, 소유하거나 공동 편집하는 플레이리스트를 편집할 수 있습니다. 즐겨찾기를 제거하면 편집 가능한 플레이리스트의 해당 항목도 제거됩니다.
+
+ListenBrainz / MusicBrainz(MetaBrainz Foundation)를 통한 유사 음악 검색은 Spotify 연결 후 기본적으로 켜져 있으며, Mac의 Kinrox에서 설정 → Spotify를 통해 언제든지 끌 수 있습니다. 켜져 있는 동안에는 유사한 음악을 찾기 위해 아티스트 이름, 곡 제목, ISRC 및 MBID가 해당 서비스로 전송되며 사용자 식별자나 쿠키는 전송되지 않습니다. 꺼져 있는 동안에는 요청을 보내지 않습니다.</p>
 <h2 id="spotify-privacy-storage">저장과 수신자</h2>
 <p>갱신 자격 증명은 Mac의 Data Protection Keychain에 저장됩니다. 접근 토큰은 메모리에 남습니다. 라이브러리 메타데이터는 Mac 앱의 Caches 폴더에 있는 로컬 SQLite 데이터베이스에 캐시됩니다. 확인된 계정 식별자와 표시 이름은 Mac 환경설정에 저장됩니다. 입력한 Client ID, 보조 플레이리스트 연결 정보 및 동의한 문서 버전은 Mac 환경설정에 저장됩니다. Kinrox에는 서버, 분석 또는 원격 측정이 없으며 유지 관리자는 이 Spotify 데이터를 받지 않습니다. Spotify는 Mac에서 직접 요청을 받고 자체 개인정보 처리방침에 따라 처리합니다: <a href="https://www.spotify.com/legal/privacy-policy/"><bdi dir="ltr">https://www.spotify.com/legal/privacy-policy/</bdi></a>. Spotify는 Mac의 공인 IP 주소와 같은 네트워크 정보를 볼 수 있습니다.
 
-개인 Soloist API 키는 키체인에 저장됩니다. Connect 세션은 계정 전용 비공개 폴더에 저장되며, Soloist는 최대 200 MB의 별도 오디오 캐시를 사용합니다. 키는 서명된 Soloist 프로세스의 실행 인수로 전달되며 같은 사용자 계정의 다른 프로세스가 읽을 수 있습니다. Soloist의 루프백 제어 소켓에는 인증이나 Origin 검사가 없습니다. 루프백에 접근할 수 있는 로컬 프로그램이나 웹 페이지는 재생 명령을 보낼 수 있습니다.</p>
+개인 Soloist API 키는 키체인에 저장됩니다. Connect 세션은 계정 전용 비공개 폴더에 저장되며, Soloist는 최대 200 MB의 별도 오디오 캐시를 사용합니다. 키는 서명된 Soloist 프로세스의 실행 인수로 전달되며 같은 사용자 계정의 다른 프로세스가 읽을 수 있습니다. Soloist의 루프백 제어 소켓에는 인증이나 Origin 검사가 없습니다. 루프백에 접근할 수 있는 로컬 프로그램이나 웹 페이지는 재생 명령을 보낼 수 있습니다.
+
+추가 로컬 SQLite 캐시는 검색 결과를 24시간, 유사성 데이터를 7일, MBID 매핑을 30일간 보관합니다. 청취 기록은 최대 180일 및 20,000회 재생분까지 Mac에만 보관되며 외부 서비스나 iPhone으로 전송되지 않습니다. 연결을 해제하면 이 캐시와 기록이 삭제됩니다.</p>
 <h2 id="spotify-privacy-iphone">iPhone과 링크</h2>
 <p>페어링된 iPhone은 Kinrox의 암호화된 로컬 네트워크 연결을 통해 곡, 앨범, 아티스트 및 플레이리스트 메타데이터, 대기열 상태와 재생 제어 정보를 받습니다. Spotify 자격 증명을 받거나 Spotify Web API를 호출하지 않습니다. Spotify에서 열기를 탭하면 iPhone 또는 Mac이 해당 항목을 Spotify 또는 그 웹사이트에서 엽니다. 이 전달은 인터넷을 사용할 수 있으며 Spotify 개인정보 처리방침이 적용됩니다. 리모컨 메타데이터는 메모리에 보관되며 연결 해제 또는 소스나 계정 초기화 시 삭제됩니다.</p>
 <h2 id="spotify-privacy-retention">연결 해제와 보관</h2>

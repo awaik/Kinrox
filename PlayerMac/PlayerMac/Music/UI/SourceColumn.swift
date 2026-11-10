@@ -165,8 +165,7 @@ struct SourceColumn: View {
         heading(L10n.text("Library"))
         row(
             .similar, title: L10n.text("Similar & discovery"), symbol: "sparkles",
-            count: model.discoverySnapshot?.items.count ?? model.catalog.tracks.count,
-            accent: true
+            count: nil, accent: true
         ) {
             model.focusedColumn = .source
             model.openSimilar()
@@ -209,10 +208,15 @@ struct SourceColumn: View {
         }
         ForEach(model.library.playlists.prefix(6)) { playlistRow($0) }
 
-        sectionHeader(L10n.text("Artists"), count: model.catalog.artists.count) {
+        sectionHeader(
+            L10n.text("Artists"),
+            count: model.catalog.artists.filter { !$0.isVariousArtists }.count
+        ) {
             model.expandLeftSection(.artists)
         }
-        ForEach(model.catalog.artists.prefix(6)) { artistRow($0) }
+        ForEach(model.catalog.artists.filter { !$0.isVariousArtists }.prefix(6)) {
+            artistRow($0)
+        }
     }
 
     private func albumRow(_ album: MusicAlbum) -> some View {
@@ -271,11 +275,17 @@ struct SourceColumn: View {
                     .font(.system(size: 11)).foregroundStyle(Palette.textTertiary).frame(width: 14)
                     Text(playlist.title).lineLimit(1)
                     Spacer(minLength: 4)
-                    Text(
-                        playlist.itemsAvailable
-                            ? playlist.trackIDs.count.formatted() : "—"
-                    )
-                    .monospacedDigit().foregroundStyle(Palette.textTertiary)
+                    if tracksReadable(playlist) {
+                        Text(playlist.trackIDs.count.formatted())
+                            .monospacedDigit().foregroundStyle(Palette.textTertiary)
+                    } else {
+                        Image(systemName: "lock.fill").font(.system(size: 9))
+                            .foregroundStyle(Palette.textTertiary)
+                            .help(
+                                L10n.text(
+                                    "Spotify only provides tracks for playlists you own or collaborate on."
+                                ))
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading).frame(height: 30)
                 .contentShape(Rectangle())
@@ -306,6 +316,12 @@ struct SourceColumn: View {
             Divider()
             SpotifyContentLink(kind: "playlist", id: playlist.id)
         }
+    }
+
+    /// Spotify returns tracks only for playlists the user owns or collaborates on.
+    private func tracksReadable(_ playlist: MusicPlaylist) -> Bool {
+        playlist.itemsAvailable
+            && (playlist.isEditable(by: model.library.userID) || !playlist.trackIDs.isEmpty)
     }
 
     private func artistRow(_ artist: MusicArtist) -> some View {
@@ -362,7 +378,7 @@ struct SourceColumn: View {
     }
 
     private func row(
-        _ source: MusicSource, title: String, symbol: String? = nil, count: Int,
+        _ source: MusicSource, title: String, symbol: String? = nil, count: Int?,
         accent: Bool = false, customAction: (() -> Void)? = nil
     ) -> some View {
         let isSelected =
@@ -384,7 +400,10 @@ struct SourceColumn: View {
                 Text(title).lineLimit(1)
                     .foregroundStyle(accent && isSelected ? Palette.flame : Palette.textPrimary)
                 Spacer(minLength: 4)
-                Text(count.formatted()).monospacedDigit().foregroundStyle(Palette.textTertiary)
+                if let count {
+                    Text(count.formatted()).monospacedDigit().foregroundStyle(
+                        Palette.textTertiary)
+                }
             }
             .padding(.horizontal, 10).frame(height: 30).contentShape(Rectangle())
             .background(
@@ -423,6 +442,8 @@ struct MusicSourcePicker: View {
                     set: { source in
                         if case .albums = source {
                             model.openAlbumsOverview()
+                        } else if source == .similar {
+                            model.openSimilar()
                         } else {
                             model.select(source)
                         }
@@ -433,7 +454,9 @@ struct MusicSourcePicker: View {
                 Text(L10n.text("All albums")).tag(MusicSource.albums)
                 Text(L10n.text("Queue")).tag(MusicSource.queue)
                 ForEach(model.library.playlists) { Text($0.title).tag(MusicSource.playlist($0.id)) }
-                ForEach(model.catalog.artists) { Text($0.name).tag(MusicSource.artist($0.id)) }
+                ForEach(model.catalog.artists.filter { !$0.isVariousArtists }) {
+                    Text($0.name).tag(MusicSource.artist($0.id))
+                }
                 if !model.query.isEmpty { Text(model.query).tag(MusicSource.search(model.query)) }
             }.labelsHidden().pickerStyle(.menu).controlSize(.large)
             if model.selection.source == .albums && !model.isAlbumsOverview {
@@ -451,5 +474,13 @@ struct MusicSourcePicker: View {
             }
         }
         .padding(8)
+    }
+}
+
+extension MusicArtist {
+    /// Spotify's placeholder credit for compilations; not a real artist to browse.
+    var isVariousArtists: Bool {
+        name.compare("Various Artists", options: [.caseInsensitive, .diacriticInsensitive])
+            == .orderedSame
     }
 }

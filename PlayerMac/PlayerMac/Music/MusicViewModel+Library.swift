@@ -3,16 +3,35 @@ import MusicCore
 
 extension MusicViewModel {
     func replaceStore(_ store: any MusicLibraryStore, accountName: String? = nil) {
+        stopDiscoveryRadio()
+        finishPlayHistory()
+        playHistory = []
+        listeningSessionID = UUID()
+        lastCompletedTrackID = nil
+        discoverySeedHistory = []
+        discoveryHistoryTracks = [:]
+        discoveryHistoryArtists = [:]
+        discoverySeedTrack = nil
+        discoverySeedArtist = nil
+        discoverySeedTitle = ""
+        discoverySeedAlbumID = nil
+        discoverySeedPlaylistID = nil
+        discoveryHasConnectedRefresh = false
+        discoverySelectedGenre = nil
         discoveryRequestID = UUID()
         browsingTask?.cancel()
         syncTask?.cancel()
         (self.store as? SpotifyLibraryStore)?.onChange = nil
         self.store = store
-        if let spotify = store as? SpotifyLibraryStore {
-            spotify.onChange = { [weak self, weak spotify] in
-                guard let self, let spotify, self.store === spotify else { return }
-                self.acceptLibrary(spotify)
-            }
+        _ = synchronizeDiscoveryConsent()
+        listenBrainzStatus = listenBrainzEnabled ? .ready : .off
+        observeDiscoveryStore()
+        if store is DisconnectedMusicLibraryStore {
+            notInterestedTrackIDs.removeAll()
+            notInterestedArtistIDs.removeAll()
+            notInterestedUndo.removeAll()
+            defaults?.removeObject(forKey: "app.kinrox.music.notInterestedTracks")
+            defaults?.removeObject(forKey: "app.kinrox.music.notInterestedArtists")
         }
         self.accountName = accountName
         catalog = store.catalog
@@ -62,6 +81,7 @@ extension MusicViewModel {
                     albumID: catalog.albums.first { library.savedAlbumIDs.contains($0.id) }?.id)
             }
             refreshContents()
+            if selection.source == .similar { refreshDiscovery() }
             if case .artist(let id) = selection.source {
                 loadSelection(artistID: id)
             } else if case .playlist(let id) = selection.source {
@@ -98,6 +118,11 @@ extension MusicViewModel {
         if updatesRows, !preservesLiked, !preservesLikedRows {
             refreshContents()
         }
+        if selection.source == .similar, !isDiscovering,
+            discoverySnapshot == nil || !discoveryHasConnectedRefresh
+        {
+            refreshDiscovery()
+        }
         notifyPlayback()
     }
 
@@ -120,6 +145,9 @@ extension MusicViewModel {
                 self.acceptLibrary(store)
                 if let id = self.selection.albumID { try await store.loadAlbum(id) }
                 self.statusMessage = nil
+                if self.selection.source == .similar, !self.isDiscovering {
+                    self.refreshDiscovery()
+                }
             } catch is CancellationError {} catch {
                 if self.store === store { self.statusMessage = SpotifyStatus.message(error) }
             }

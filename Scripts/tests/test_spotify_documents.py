@@ -29,6 +29,23 @@ class SpotifyDocumentTests(unittest.TestCase):
                 self.assertIn("SQLite", privacy["retention"])
                 self.assertIn("7", privacy["retention"])
 
+    def test_discovery_privacy_in_every_locale(self):
+        for locale in builder.LANGUAGES:
+            with self.subTest(locale=locale):
+                document = builder.spotify_document(locale)
+                privacy = {part["id"]: part["body"] for part in document["privacy"]}
+                self.assertEqual(document["version"], "2026-11-10")
+                for term in ("ListenBrainz", "MusicBrainz", "ISRC", "MBID", "Mac", "Spotify"):
+                    self.assertIn(term, privacy["access"])
+                self.assertRegex(privacy["access"], r"[←→] Spotify")
+                if locale == "en":
+                    self.assertIn("on by default after connecting Spotify", privacy["access"])
+                    self.assertIn("turned off at any time", privacy["access"])
+                    self.assertIn("Settings → Spotify", privacy["access"])
+                    self.assertIn("No requests are sent while it is off.", privacy["access"])
+                for term in ("SQLite", "24", "7", "30", "180", "20", "iPhon"):
+                    self.assertIn(term, privacy["storage"])
+
     def test_standalone_engine_disclosure_in_every_locale(self):
         for locale in builder.LANGUAGES:
             with self.subTest(locale=locale):

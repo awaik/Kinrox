@@ -4,6 +4,8 @@ import SwiftUI
 struct SpotifySettingsSection: View {
     @Bindable var account: SpotifyAccount
     @State private var document: Bool?
+    @AppStorage(ListenBrainzPreference.key)
+    private var listenBrainz = ListenBrainzPreference.defaultValue
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Spotify").font(KinroxFont.bodyStrong)
@@ -26,6 +28,13 @@ struct SpotifySettingsSection: View {
             Text(
                 L10n.text(
                     "Credentials stay in the Mac Keychain. Disconnect clears local Spotify data and keeps Spotify playlists. No Kinrox server or analytics."
+                )
+            )
+            .font(KinroxFont.caption).foregroundStyle(Palette.textSecondary)
+            Toggle(L10n.text("Recommendations from other listeners"), isOn: $listenBrainz)
+            Text(
+                L10n.text(
+                    "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library."
                 )
             )
             .font(KinroxFont.caption).foregroundStyle(Palette.textSecondary)

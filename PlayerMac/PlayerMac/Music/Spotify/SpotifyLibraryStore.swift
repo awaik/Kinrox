@@ -1,4 +1,5 @@
 import Foundation
+import MetaBrainzAPI
 import MusicCore
 import OSLog
 import SpotifyWebAPI
@@ -25,7 +26,9 @@ final class SpotifyLibraryStore: MusicLibraryStore {
     var mutationWaiters: [CheckedContinuation<Void, Never>] = []
     var publicationRevision: UInt64 = 0
     var isClosed = false
-    var isConnected: Bool
+    var isConnected: Bool {
+        didSet { if oldValue != isConnected { onChange?() } }
+    }
     var isRefreshing = false
     var isRestoring = false
     var restoreWaiters: [CheckedContinuation<Void, Never>] = []
@@ -40,6 +43,13 @@ final class SpotifyLibraryStore: MusicLibraryStore {
     var recentDiscoveryAlbumIDs = Set<String>()
     var embeddedAlbums: [String: SpotifyAlbum] = [:]
     var restrictedPlaylistIDs = Set<String>()
+    var discoveryCache: [String: (date: Date, value: SpotifyDiscoveryData)] = [:]
+    var playHistory: [MusicPlayHistoryEntry] = []
+    var listenBrainzStatus = MusicListenBrainzStatus.off
+    var metaBrainzClient: MetaBrainzClient?
+    var metaBrainzFactory: (() -> MetaBrainzClient)?
+    var listenBrainzEnabled = false
+    var consentGeneration = UUID()
 
     init(
         client: SpotifyClient, profile: SpotifyProfile? = nil, cache: SpotifyCacheStore? = nil,
@@ -78,6 +88,11 @@ final class SpotifyLibraryStore: MusicLibraryStore {
             let restored = try await cache.restore()
             guard !isClosed, session == sessionGeneration else { return }
             install(restored)
+            let history = try await cache.playHistory()
+            guard !isClosed, session == sessionGeneration else { return }
+            playHistory = MusicPlayHistoryEntry.retained(
+                history + playHistory.filter { item in !history.contains { $0.id == item.id } },
+                now: now())
         } catch is CancellationError {} catch { cacheFailure() }
     }
 
@@ -115,6 +130,9 @@ final class SpotifyLibraryStore: MusicLibraryStore {
         embeddedAlbums.removeAll()
         restrictedPlaylistIDs.removeAll()
         onChange = nil
+        discoveryCache.removeAll()
+        playHistory.removeAll()
+        setListenBrainzEnabled(false)
     }
 
     func excludeQueuePlaylist(_ id: String) {

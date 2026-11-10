@@ -17,6 +17,7 @@ extension MusicViewModel {
                 case .state(let state): self.receive(state)
                 case .ended(let id):
                     if id == self.queue.current?.id {
+                        self.finishPlayHistory(completedNaturally: true)
                         self.advance(automatically: true, occurrenceID: id)
                     }
                 case .availability(let availability):
@@ -53,10 +54,13 @@ extension MusicViewModel {
         paused = state.paused
         position = state.position
         playbackDuration = state.duration
+        updatePlayHistory()
+        refillDiscoveryRadioIfNeeded()
         notifyPlayback(.property(.position, .number(position)))
     }
 
     func play(_ tracks: [MusicTrack], at index: Int = 0) {
+        stopDiscoveryRadio()
         guard canPlayLibrary, tracks.indices.contains(index),
             tracks[index].isPlayable != false
         else { return }
@@ -68,6 +72,7 @@ extension MusicViewModel {
     }
 
     func playAlbum(_ album: MusicAlbum) {
+        stopDiscoveryRadio()
         guard let store = store as? SpotifyLibraryStore else {
             play(catalog.tracks(in: album))
             return
@@ -115,10 +120,12 @@ extension MusicViewModel {
         } else if isDemo {
             position = displayedPosition
             paused = true
+            updatePlayHistory()
             notifyPlayback()
         }
     }
     func stop() {
+        stopDiscoveryRadio()
         guard canStop else { return }
         coordinator?.cancelPending(.music)
         runPlayback { model in
@@ -128,6 +135,7 @@ extension MusicViewModel {
                 model.paused = true
                 model.position = 0
             }
+            model.finishPlayHistory()
             model.notifyPlayback()
         }
     }
@@ -240,6 +248,7 @@ extension MusicViewModel {
     }
 
     func playShuffled(_ tracks: [MusicTrack]) {
+        stopDiscoveryRadio()
         guard canPlayLibrary, allows("toggling_shuffle"), !tracks.isEmpty else {
             return
         }
@@ -280,7 +289,10 @@ extension MusicViewModel {
         guard track.isPlayable != false else { return }
         editQueue { $0.add(track) }
     }
-    func removeFromQueue(_ id: UUID) { editQueue { $0.remove(id) } }
+    func removeFromQueue(_ id: UUID) {
+        radioAttemptedOccurrences.removeAll()
+        editQueue { $0.remove(id) }
+    }
     func moveQueue(_ id: UUID, before target: UUID? = nil) {
         editQueue { _ = $0.move(id, before: target) }
     }
@@ -296,12 +308,13 @@ extension MusicViewModel {
                     next, position: model.displayedPosition, paused: model.paused)
             }
             model.queue = next
+            model.refillDiscoveryRadioIfNeeded()
             if model.isQueue { model.refreshContents() }
             model.notifyPlayback()
         }
     }
 
-    private func startQueue(_ next: MusicQueue, position: Double = 0) async throws {
+    func startQueue(_ next: MusicQueue, position: Double = 0) async throws {
         if musicEngine == nil, let engineFactory { connect(engine: try engineFactory()) }
         guard next.current?.track.isPlayable != false else { throw SpotifyPlaybackError.restricted }
         let original = queue
@@ -317,6 +330,12 @@ extension MusicViewModel {
                 queue = original
                 return
             }
+            if isDemo && musicEngine == nil {
+                updatePlayHistory()
+            } else if activePlaySession?.occurrenceID != queue.current?.id {
+                finishPlayHistory()
+            }
+            refillDiscoveryRadioIfNeeded()
             if isQueue { refreshContents() }
             notifyPlayback(.playbackRestarted)
         } catch {
@@ -325,7 +344,7 @@ extension MusicViewModel {
         }
     }
 
-    private func runPlayback(
+    func runPlayback(
         startsPlayback: Bool = false,
         action: @escaping @MainActor (MusicViewModel) async throws -> Void
     ) {
@@ -367,6 +386,8 @@ extension MusicViewModel {
     }
 
     func shutdownPlayback() async {
+        stopDiscoveryRadio()
+        finishPlayHistory()
         let retiring = musicEngine
         engineTask?.cancel()
         engineTask = nil

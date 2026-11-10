@@ -8,9 +8,12 @@ let package = Package(
     products: [
         .library(name: "MusicCore", targets: ["MusicCore"]),
         .library(name: "SpotifyWebAPI", targets: ["SpotifyWebAPI"]),
+        .library(name: "MetaBrainzAPI", targets: ["MetaBrainzAPI"]),
     ],
     targets: [
         .target(name: "MusicCore"),
+        .target(name: "MetaBrainzAPI"),
+        .testTarget(name: "MetaBrainzAPITests", dependencies: ["MetaBrainzAPI"]),
         .target(name: "SpotifyWebAPI", dependencies: ["MusicCore"]),
         .testTarget(name: "SpotifyWebAPITests", dependencies: ["SpotifyWebAPI"]),
         .testTarget(name: "MusicCoreTests", dependencies: ["MusicCore"]),

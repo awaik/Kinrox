@@ -18,18 +18,20 @@ public struct MusicAlbum: Identifiable, Codable, Hashable, Sendable {
     public let title: String
     public let artists: [MusicArtist]
     public let year: String
+    public let releaseDate: String?
     public let trackIDs: [String]
     public let totalTrackCount: Int
 
     public init(
         id: String, uri: String, title: String, artists: [MusicArtist], year: String,
-        trackIDs: [String], totalTrackCount: Int? = nil
+        trackIDs: [String], totalTrackCount: Int? = nil, releaseDate: String? = nil
     ) {
         self.id = id
         self.uri = uri
         self.title = title
         self.artists = artists
         self.year = year
+        self.releaseDate = releaseDate
         self.trackIDs = trackIDs
         self.totalTrackCount = max(trackIDs.count, totalTrackCount ?? 0)
     }
@@ -45,6 +47,8 @@ public struct MusicTrack: Identifiable, Codable, Hashable, Sendable {
     public let albumID: String
     public let albumTitle: String
     public let duration: Double
+    public let isrc: String?
+    public let releaseDate: String?
     public let explicit: Bool?
     public let isPlayable: Bool?
     public var addedAt: Date?
@@ -53,7 +57,8 @@ public struct MusicTrack: Identifiable, Codable, Hashable, Sendable {
     public init(
         id: String, uri: String, title: String, artists: [MusicArtist], albumID: String,
         albumTitle: String, duration: Double, explicit: Bool? = nil, isPlayable: Bool? = nil,
-        addedAt: Date? = nil, playlistAddedAt: [String: Date]? = nil
+        addedAt: Date? = nil, playlistAddedAt: [String: Date]? = nil,
+        isrc: String? = nil, releaseDate: String? = nil
     ) {
         self.id = id
         self.uri = uri
@@ -61,6 +66,8 @@ public struct MusicTrack: Identifiable, Codable, Hashable, Sendable {
         self.artists = artists
         self.albumID = albumID
         self.albumTitle = albumTitle
+        self.isrc = isrc
+        self.releaseDate = releaseDate
         self.explicit = explicit
         self.isPlayable = isPlayable
         self.duration = duration.isFinite ? max(0, duration) : 0

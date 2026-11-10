@@ -54,6 +54,8 @@ public struct SpotifyAlbum: Decodable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case id, uri, name, artists, tracks
         case totalTracks = "total_tracks"
+        case albumGroup = "album_group"
+        case albumType = "album_type"
         case releaseDate = "release_date"
     }
 
@@ -62,6 +64,8 @@ public struct SpotifyAlbum: Decodable, Sendable {
     public let name: String
     public let artists: [MusicArtist]
     public let totalTracks: Int?
+    public let albumGroup: String?
+    public let albumType: String?
     public let releaseDate: String?
     public let tracks: SpotifyPage<SpotifyTrack>?
 
@@ -69,7 +73,7 @@ public struct SpotifyAlbum: Decodable, Sendable {
         MusicAlbum(
             id: id, uri: uri, title: name, artists: artists,
             year: String((releaseDate ?? "").prefix(4)), trackIDs: trackIDs,
-            totalTrackCount: totalTracks)
+            totalTrackCount: totalTracks, releaseDate: releaseDate)
     }
 }
 
@@ -80,6 +84,7 @@ public struct SpotifyTrack: Decodable, Sendable {
         case isLocal = "is_local"
         case isPlayable = "is_playable"
         case linkedFrom = "linked_from"
+        case externalIDs = "external_ids"
     }
 
     public let id: String?
@@ -93,6 +98,11 @@ public struct SpotifyTrack: Decodable, Sendable {
     public let isPlayable: Bool?
     public let type: String?
     public let linkedFrom: LinkedTrack?
+    public let externalIDs: ExternalIDs?
+
+    public struct ExternalIDs: Decodable, Sendable {
+        public let isrc: String?
+    }
 
     public struct LinkedTrack: Decodable, Sendable {
         public let id: String
@@ -110,7 +120,8 @@ public struct SpotifyTrack: Decodable, Sendable {
             id: id, uri: uri, title: name, artists: artists ?? [],
             albumID: album.id, albumTitle: album.name, duration: durationMS / 1000,
             explicit: explicit, isPlayable: isPlayable, addedAt: addedAt,
-            playlistAddedAt: playlistAddedAt)
+            playlistAddedAt: playlistAddedAt, isrc: externalIDs?.isrc,
+            releaseDate: album.releaseDate)
     }
 }
 

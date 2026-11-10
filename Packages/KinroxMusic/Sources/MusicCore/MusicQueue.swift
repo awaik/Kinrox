@@ -91,6 +91,15 @@ public struct MusicQueue: Equatable, Sendable {
         return items.map(\.id)
     }
 
+    public mutating func appendSource(_ tracks: [MusicTrack]) {
+        let start = (context.map(\.sourceOrder).max() ?? -1) + 1
+        let items = tracks.filter { $0.isPlayable != false }.enumerated().map {
+            MusicQueueItem(track: $0.element, origin: .source, sourceOrder: start + $0.offset)
+        }
+        source.append(contentsOf: items)
+        context.append(contentsOf: items)
+    }
+
     public mutating func clearManual() {
         for id in manual.map(\.id) {
             _ = remove(id)

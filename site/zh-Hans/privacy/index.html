@@ -108,15 +108,19 @@
 <p><a href="../spotify-terms/">连接条款</a></p>
 <p><a href="https://www.spotify.com/legal/privacy-policy/">Spotify · 隐私政策</a></p>
 <section id="spotify-documents" lang="zh-Hans" dir="ltr">
-<p class="muted"><bdi>简体中文</bdi> · <bdi dir="ltr">2026-11-03</bdi></p>
+<p class="muted"><bdi>简体中文</bdi> · <bdi dir="ltr">2026-11-10</bdi></p>
 <h2 id="spotify-privacy-overview">隐私政策 — Spotify 连接</h2>
-<p>版本 2026-11-03。Kinrox 的维护者 awaik 对此处所述的 Kinrox 数据处理负责。本补充政策适用于可选的 Spotify 集成。Kinrox 通用隐私政策见 <a href="https://kinrox.app/privacy/"><bdi dir="ltr">https://kinrox.app/privacy/</bdi></a>。联系方式：<a href="https://github.com/awaik/Kinrox/issues"><bdi dir="ltr">https://github.com/awaik/Kinrox/issues</bdi></a>。请勿在公开问题报告中发布令牌、个人资料库内容或其他私人信息。</p>
+<p>版本 2026-11-10。Kinrox 的维护者 awaik 对此处所述的 Kinrox 数据处理负责。本补充政策适用于可选的 Spotify 集成。Kinrox 通用隐私政策见 <a href="https://kinrox.app/privacy/"><bdi dir="ltr">https://kinrox.app/privacy/</bdi></a>。联系方式：<a href="https://github.com/awaik/Kinrox/issues"><bdi dir="ltr">https://github.com/awaik/Kinrox/issues</bdi></a>。请勿在公开问题报告中发布令牌、个人资料库内容或其他私人信息。</p>
 <h2 id="spotify-privacy-access">访问与目的</h2>
-<p>接受条款并授权 Spotify 后，Mac 上的 Kinrox 会读取你的账户标识符和显示名称、已保存的歌曲和专辑、已关注的艺人、可访问的播放列表及其内容、播放状态和可用设备。这些信息用于显示资料库和控制 Spotify。当你使用相应控件时，它可以保存或移除收藏、关注艺人、创建播放列表，以及编辑你拥有的或协作播放列表。移除收藏也会从可编辑的播放列表中移除其出现项。</p>
+<p>接受条款并授权 Spotify 后，Mac 上的 Kinrox 会读取你的账户标识符和显示名称、已保存的歌曲和专辑、已关注的艺人、可访问的播放列表及其内容、播放状态和可用设备。这些信息用于显示资料库和控制 Spotify。当你使用相应控件时，它可以保存或移除收藏、关注艺人、创建播放列表，以及编辑你拥有的或协作播放列表。移除收藏也会从可编辑的播放列表中移除其出现项。
+
+通过 ListenBrainz / MusicBrainz（MetaBrainz Foundation）查找相似音乐的功能在连接 Spotify 后默认开启，可随时在 Mac 上的 Kinrox 中通过「设置 → Spotify」关闭。开启时，艺人姓名、曲目名称、ISRC 和 MBID 会发送给这些服务以查找相似音乐；不会发送用户标识或 Cookie。关闭时不会发送任何请求。</p>
 <h2 id="spotify-privacy-storage">存储与接收方</h2>
 <p>用于刷新访问权限的凭据存储在 Mac 的 Data Protection Keychain 中。 访问令牌保留在内存中。资料库元数据缓存在 Mac 应用 Caches 文件夹中的本地 SQLite 数据库内。已验证的账户标识符和显示名称存储在 Mac 偏好设置中。 提供的 Client ID、辅助播放列表关联和已接受的文档版本存储在 Mac 偏好设置中。Kinrox 没有服务器、分析或遥测，维护者不会收到这些 Spotify 数据。Spotify 直接接收来自 Mac 的请求，并根据其隐私政策进行处理：<a href="https://www.spotify.com/legal/privacy-policy/"><bdi dir="ltr">https://www.spotify.com/legal/privacy-policy/</bdi></a>。Spotify 会看到网络信息，例如 Mac 的公网 IP 地址。
 
-个人 Soloist API 密钥保存在钥匙串中。Connect 会话保存在账户的私有文件夹中；Soloist 使用独立的音频缓存，上限为 200 MB。密钥通过启动参数传递给已签名的 Soloist 进程，同一用户账户下的其他进程可以读取这些参数。Soloist 的回环控制套接字没有身份验证或 Origin 检查；能够访问回环接口的本地程序或网页可以发送播放命令。</p>
+个人 Soloist API 密钥保存在钥匙串中。Connect 会话保存在账户的私有文件夹中；Soloist 使用独立的音频缓存，上限为 200 MB。密钥通过启动参数传递给已签名的 Soloist 进程，同一用户账户下的其他进程可以读取这些参数。Soloist 的回环控制套接字没有身份验证或 Origin 检查；能够访问回环接口的本地程序或网页可以发送播放命令。
+
+额外的本地 SQLite 缓存将发现结果保留 24 小时，相似性数据保留 7 天，MBID 映射保留 30 天。收听历史仅保存在 Mac 上，最多保留 180 天和 20,000 次播放记录，绝不会发送给外部服务或 iPhone。断开连接会删除这些缓存和历史记录。</p>
 <h2 id="spotify-privacy-iphone">iPhone 与链接</h2>
 <p>已配对的 iPhone 通过 Kinrox 的加密局域网连接接收歌曲、专辑、艺人和播放列表元数据、队列状态及播放控件。它绝不会收到 Spotify 凭据，也不会调用 Spotify Web API。点击“在 Spotify 中打开”后，iPhone 或 Mac 会在 Spotify 或其网站中打开对应项目。此跳转可能使用互联网，并受 Spotify 隐私政策约束。遥控端元数据保存在内存中，在断开连接或重置来源或账户时清除。</p>
 <h2 id="spotify-privacy-retention">断开连接与保留</h2>

@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-03",
+  "version": "2026-11-10",
   "locale": "zh-Hant",
   "language": "繁體中文",
   "terms": [
@@ -47,17 +47,17 @@
   "privacy": [
     {
       "title": "隱私權政策 — Spotify 連線",
-      "body": "版本 2026-11-03。Kinrox 的維護者 awaik 對此處所述的 Kinrox 資料處理負責。本補充政策適用於選用的 Spotify 整合功能。Kinrox 一般隱私權政策見 https://kinrox.app/privacy/。聯絡方式：https://github.com/awaik/Kinrox/issues。請勿在公開問題回報中發布權杖、個人資料庫內容或其他私人資訊。",
+      "body": "版本 2026-11-10。Kinrox 的維護者 awaik 對此處所述的 Kinrox 資料處理負責。本補充政策適用於選用的 Spotify 整合功能。Kinrox 一般隱私權政策見 https://kinrox.app/privacy/。聯絡方式：https://github.com/awaik/Kinrox/issues。請勿在公開問題回報中發布權杖、個人資料庫內容或其他私人資訊。",
       "id": "overview"
     },
     {
       "title": "存取與目的",
-      "body": "接受條款並授權 Spotify 後，Mac 上的 Kinrox 會讀取你的帳號識別碼與顯示名稱、已儲存的歌曲與專輯、已追蹤的藝人、可存取的播放清單及其內容、播放狀態和可用裝置。這些資訊用於顯示資料庫及控制 Spotify。當你使用對應控制項時，它可以儲存或移除喜好項目、追蹤藝人、建立播放清單，以及編輯你擁有的或協作播放清單。移除喜好項目也會從可編輯的播放清單中移除其出現項目。",
+      "body": "接受條款並授權 Spotify 後，Mac 上的 Kinrox 會讀取你的帳號識別碼與顯示名稱、已儲存的歌曲與專輯、已追蹤的藝人、可存取的播放清單及其內容、播放狀態和可用裝置。這些資訊用於顯示資料庫及控制 Spotify。當你使用對應控制項時，它可以儲存或移除喜好項目、追蹤藝人、建立播放清單，以及編輯你擁有的或協作播放清單。移除喜好項目也會從可編輯的播放清單中移除其出現項目。\n\n透過 ListenBrainz / MusicBrainz（MetaBrainz Foundation）尋找相似音樂的功能在連接 Spotify 後預設開啟，可隨時在 Mac 上的 Kinrox 中透過「設定 → Spotify」關閉。開啟時，藝人姓名、曲目名稱、ISRC 和 MBID 會傳送給這些服務以尋找相似音樂；不會傳送使用者識別碼或 Cookie。關閉時不會傳送任何請求。",
       "id": "access"
     },
     {
       "title": "儲存與接收方",
-      "body": "用於更新存取權限的憑證儲存在 Mac 的 Data Protection Keychain 中。 存取權杖保留在記憶體中。資料庫中繼資料會快取至 Mac App 的 Caches 資料夾中的本機 SQLite 資料庫。已驗證的帳號識別碼和顯示名稱儲存在 Mac 偏好設定中。 提供的 Client ID、輔助播放清單關聯及已接受的文件版本儲存在 Mac 偏好設定中。Kinrox 沒有伺服器、分析或遙測，維護者不會收到這些 Spotify 資料。Spotify 直接接收來自 Mac 的請求，並依其隱私權政策處理：https://www.spotify.com/legal/privacy-policy/。Spotify 會看到網路資訊，例如 Mac 的公用 IP 位址。\n\n個人 Soloist API 金鑰儲存在鑰匙圈中。Connect 工作階段儲存在帳號的私有資料夾中；Soloist 使用獨立的音訊快取，上限為 200 MB。金鑰透過啟動引數傳遞給已簽署的 Soloist 程序，同一使用者帳號下的其他程序可以讀取這些引數。Soloist 的迴路控制通訊端沒有身分驗證或 Origin 檢查；能存取迴路介面的本機程式或網頁可以傳送播放命令。",
+      "body": "用於更新存取權限的憑證儲存在 Mac 的 Data Protection Keychain 中。 存取權杖保留在記憶體中。資料庫中繼資料會快取至 Mac App 的 Caches 資料夾中的本機 SQLite 資料庫。已驗證的帳號識別碼和顯示名稱儲存在 Mac 偏好設定中。 提供的 Client ID、輔助播放清單關聯及已接受的文件版本儲存在 Mac 偏好設定中。Kinrox 沒有伺服器、分析或遙測，維護者不會收到這些 Spotify 資料。Spotify 直接接收來自 Mac 的請求，並依其隱私權政策處理：https://www.spotify.com/legal/privacy-policy/。Spotify 會看到網路資訊，例如 Mac 的公用 IP 位址。\n\n個人 Soloist API 金鑰儲存在鑰匙圈中。Connect 工作階段儲存在帳號的私有資料夾中；Soloist 使用獨立的音訊快取，上限為 200 MB。金鑰透過啟動引數傳遞給已簽署的 Soloist 程序，同一使用者帳號下的其他程序可以讀取這些引數。Soloist 的迴路控制通訊端沒有身分驗證或 Origin 檢查；能存取迴路介面的本機程式或網頁可以傳送播放命令。\n\n額外的本機 SQLite 快取會將探索結果保留 24 小時，相似性資料保留 7 天，MBID 對應資料保留 30 天。聆聽記錄僅保存在 Mac 上，最多保留 180 天和 20,000 次播放記錄，絕不會傳送給外部服務或 iPhone。中斷連線會刪除這些快取與記錄。",
       "id": "storage"
     },
     {

@@ -60,8 +60,13 @@ struct DeckView: View {
                         TrackHeart(model: model, track: track, anchor: "deck", labeled: true)
                     }
                     if !compact {
-                        Text(model.outputName).font(.system(size: 11)).foregroundStyle(
-                            Palette.textTertiary)
+                        // The output label only fits beside the deck buttons in wide windows.
+                        if width >= 1280 {
+                            Text(model.outputName).font(.system(size: 11)).foregroundStyle(
+                                Palette.textTertiary
+                            )
+                            .lineLimit(1).fixedSize().help(model.outputName)
+                        }
                         MusicActionButton(title: L10n.text("Similar"), symbol: "sparkles") {
                             model.openSimilar(forTrack: model.currentTrack)
                         }

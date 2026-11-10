@@ -108,6 +108,13 @@ ls /opt/homebrew/include/mpv             # client.h render.h render_gl.h stream_
    OAuth, catalogue and library use Spotify's official services; standalone audio
    uses separately downloaded Spotify Soloist with the user's own key and one-time
    phone pairing (owner decisions, 2026-11-03). No Kinrox server or analytics.
+   Additional exception (owner decision 2026-11-10, revised the same day): ListenBrainz /
+   MusicBrainz similarity on Mac is on by default after the Spotify connection,
+   disclosed in the accepted Spotify privacy policy. It can be turned off at any time
+   in Settings → Spotify.
+   Requests send artist names, track titles, ISRCs and MBIDs to MetaBrainz services,
+   without user identifiers or cookies; disabled integration sends no requests.
+   Listening history remains local to Mac and is deleted on Disconnect.
    The iPhone sends controls over the LAN and never calls Spotify’s API. Owner decision
    2026-11-01 additionally permits user-initiated contextual links to Spotify on iPhone.
 
@@ -332,11 +339,12 @@ The file is the source of truth for layouts, texts in mockups, components, and t
 | [07 · Screensaver — Matrix](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=63-304) | Mac menu and animation, iPhone entry/ready/active/paused states; approved 2026-10-29 with a one-shot 3-second exit hint (`67:491`) |
 | [08 · Music — Spotify](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=88-304) | Three-column Mac library, fixed deck, narrow window, iPhone remote/queue/favorites; official attribution and inline recovery variants approved 2026-11-01 (`116:3116`) |
 | [09 · Spotify — v3 · Навигация, Похожее и Очередь](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=166-304) | Renamed `Spotify` tab, expandable Left Column (`Show all →` + `‹ Back to library`, ownership & theme filters), dynamic Center Workspace (`TrackTable`, `AlbumsWorkspaceView`, `DiscoveryWorkspaceView`), persistent Right Column (`CompactQueueColumn` with album/playlist expansion on drop), and post-2026 Discovery Engine (`166:304`) |
+| [11 · Spotify — Discovery v4](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=191-304) | Similar & discovery v4: seed card with history, mode segmented control, results grouped by reason (listened together, collaborators, your library, genre) without technical source names, hover row actions and Not interested, real mixes, "Listen to similar" with queue banner, Settings → Spotify "Recommendations from other listeners" toggle (on by default), loading and empty states (`191:304`) |
 
 Working with the file:
 - new screens and states are designed in this file before implementation; existing pages follow `NN · <milestone> — <topic>`;
 - mockup copy in Figma is currently Russian; app source strings stay English (Section 9);
-- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, `88:304`, and `166:304`; component library in section `3:2`.
+- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, `88:304`, `166:304`, and `191:304`; component library in section `3:2`.
 
 Project information links share one destination catalog in both apps and open in
 the system browser only when activated. The license label, description and destination
@@ -692,7 +700,7 @@ See [signing runbook](docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md#real-iphone) fo
 5. Max file length is 500 lines. Split large files logically.
 6. Verify changes with unit and integration tests before handoff.
 7. Set playback volume to 0 within Kinrox during test media verifications; do not touch Mac system volume.
-8. Local network operations exclusively, except the Mac player's approved Sparkle appcast check and opt-in Spotify integration (principle 4). No telemetry or analytics.
+8. Local network operations exclusively, except the Mac player's approved Sparkle appcast check, opt-in Spotify integration, and Mac-only ListenBrainz/MusicBrainz similarity (principle 4): on by default after the Spotify connection, disclosed in the accepted Spotify privacy policy, and can be turned off in Settings → Spotify (owner decision 2026-11-10, revised the same day). No telemetry or analytics.
 9. **No WebView:** follow the critical requirements at the top of this document. Never introduce an embedded WebView or browser runtime, including a hidden one, into either application.
 10. **Standalone Spotify acceptance:** verify playback and controls with Spotify.app fully terminated, including a cold start of Kinrox in that state. Do not launch Spotify.app as a dependency or workaround. Record latency and memory measurements; tests with Spotify.app running do not establish acceptance of this requirement.
 

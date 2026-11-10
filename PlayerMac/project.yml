@@ -58,6 +58,8 @@ targets:
         product: MusicCore
       - package: KinroxMusic
         product: SpotifyWebAPI
+      - package: KinroxMusic
+        product: MetaBrainzAPI
       - package: RemoteProtocol
         product: RemoteProtocol
       - package: RemoteProtocol
@@ -95,6 +97,8 @@ targets:
         product: MusicCore
       - package: KinroxMusic
         product: SpotifyWebAPI
+      - package: KinroxMusic
+        product: MetaBrainzAPI
       - target: PlayerMac
       - package: RemoteProtocol
         product: RemoteProtocol

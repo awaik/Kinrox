@@ -17,18 +17,18 @@ struct SpotifyCachedLibrary: Sendable {
     var resources: [String: SpotifyResourceState] = [:]
 }
 
-/// Disposable metadata only. All SQL, encoding and decoding stay on this serial actor.
+/// Account-local metadata and listening history. SQL and encoding stay on this serial actor.
 actor SpotifyCacheStore {
     static let retention: TimeInterval = 7 * 24 * 3600
     nonisolated let directory: URL
     nonisolated let clientID: String
     nonisolated let userID: String
     let displayName: String
-    private let now: @Sendable () -> Date
+    let now: @Sendable () -> Date
     private var database: SpotifyCacheDatabase?
-    private var destroyed = false
+    var destroyed = false
     private var committedRevision: UInt64 = 0
-    private var activeSession: UUID?
+    var activeSession: UUID?
     private var storageGeneration: UInt64 = 0
     private var previous: SpotifyCacheSummary?
 
@@ -198,7 +198,7 @@ actor SpotifyCacheStore {
         }
     }
 
-    private func open() throws -> SpotifyCacheDatabase {
+    func open() throws -> SpotifyCacheDatabase {
         guard !destroyed else { throw CancellationError() }
         if let database { return database }
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -237,6 +237,7 @@ actor SpotifyCacheStore {
             try db.execute(
                 "CREATE TABLE IF NOT EXISTS catalog_entities (kind TEXT, id TEXT, payload_json BLOB, updated_at REAL, PRIMARY KEY (kind, id))"
             )
+            try createDiscoveryTables(db)
             let binding = try db.rows("SELECT client_id, user_id FROM account_meta")
             guard
                 binding.isEmpty
@@ -302,7 +303,8 @@ extension SpotifyCacheStore {
             guard value.resources["album:" + album.id]?.isComplete != true else { return album }
             return MusicAlbum(
                 id: album.id, uri: album.uri, title: album.title, artists: album.artists,
-                year: album.year, trackIDs: [], totalTrackCount: album.totalTrackCount)
+                year: album.year, trackIDs: [], totalTrackCount: album.totalTrackCount,
+                releaseDate: album.releaseDate)
         }
         for album in albums { trackIDs.formUnion(album.trackIDs) }
         let tracks = value.catalog.tracks.filter { trackIDs.contains($0.id) }

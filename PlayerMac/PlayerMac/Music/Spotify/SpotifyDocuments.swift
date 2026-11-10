@@ -11,7 +11,7 @@ struct SpotifyDocuments: Decodable {
     let language: String
     let terms: [Section]
     let privacy: [Section]
-    static let currentVersion = "2026-11-03"
+    static let currentVersion = "2026-11-10"
     static let bundled = load()
 
     var isRightToLeft: Bool { ["ar", "fa", "he", "ur"].contains(locale) }

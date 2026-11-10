@@ -24,6 +24,9 @@ final class FakeMusicEngine: MusicEngine {
     var sliderGate: CheckedContinuation<Void, Never>?
     var waitsForSlider = false
     var volumeError: Error?
+    var updateError: Error?
+    var waitsForUpdate = false
+    var updateGate: CheckedContinuation<Void, Never>?
     var waitsForShutdown = false
     var shutdownGate: CheckedContinuation<Void, Never>?
     var shutdownCount = 0
@@ -49,6 +52,8 @@ final class FakeMusicEngine: MusicEngine {
     }
     func updateQueue(_ queue: MusicQueue, position: Double, paused: Bool) async throws {
         commands.append(.update(queue.items.map(\.id)))
+        if waitsForUpdate { await withCheckedContinuation { updateGate = $0 } }
+        if let updateError { throw updateError }
     }
     func stop() async throws { commands.append(.stop) }
     func shutdown() async {

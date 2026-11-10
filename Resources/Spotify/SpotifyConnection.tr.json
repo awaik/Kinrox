@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-03",
+  "version": "2026-11-10",
   "locale": "tr",
   "language": "Türkçe",
   "terms": [
@@ -47,17 +47,17 @@
   "privacy": [
     {
       "title": "Gizlilik politikası — Spotify bağlantısı",
-      "body": "Sürüm 2026-11-03. Kinrox’un bakımını yapan awaik, burada açıklanan Kinrox veri işlemesinden sorumludur. Bu ek, isteğe bağlı Spotify entegrasyonu için geçerlidir. Kinrox’un genel gizlilik politikası https://kinrox.app/privacy/ adresindedir. İletişim: https://github.com/awaik/Kinrox/issues. Herkese açık bildirimlerde belirteçleri, kişisel kitaplık içeriğini veya başka özel bilgileri paylaşmayın.",
+      "body": "Sürüm 2026-11-10. Kinrox’un bakımını yapan awaik, burada açıklanan Kinrox veri işlemesinden sorumludur. Bu ek, isteğe bağlı Spotify entegrasyonu için geçerlidir. Kinrox’un genel gizlilik politikası https://kinrox.app/privacy/ adresindedir. İletişim: https://github.com/awaik/Kinrox/issues. Herkese açık bildirimlerde belirteçleri, kişisel kitaplık içeriğini veya başka özel bilgileri paylaşmayın.",
       "id": "overview"
     },
     {
       "title": "Erişim ve amaçlar",
-      "body": "Koşulları kabul edip Spotify yetkisini verdikten sonra Mac’teki Kinrox; hesap kimliğinizi ve görünen adınızı, kayıtlı parçaları ve albümleri, takip edilen sanatçıları, erişilebilir listeleri ve içeriklerini, oynatma durumunu ve kullanılabilir cihazları okur. Bu bilgileri kitaplığınızı göstermek ve Spotify’ı kontrol etmek için kullanır. İlgili kontrolleri kullandığınızda favorileri kaydedip kaldırabilir, sanatçıları takip edebilir, listeler oluşturabilir ve size ait veya ortak listeleri düzenleyebilir. Bir favoriyi kaldırmak, düzenlenebilir listelerdeki tekrarlarını da kaldırır.",
+      "body": "Koşulları kabul edip Spotify yetkisini verdikten sonra Mac’teki Kinrox; hesap kimliğinizi ve görünen adınızı, kayıtlı parçaları ve albümleri, takip edilen sanatçıları, erişilebilir listeleri ve içeriklerini, oynatma durumunu ve kullanılabilir cihazları okur. Bu bilgileri kitaplığınızı göstermek ve Spotify’ı kontrol etmek için kullanır. İlgili kontrolleri kullandığınızda favorileri kaydedip kaldırabilir, sanatçıları takip edebilir, listeler oluşturabilir ve size ait veya ortak listeleri düzenleyebilir. Bir favoriyi kaldırmak, düzenlenebilir listelerdeki tekrarlarını da kaldırır.\n\nListenBrainz / MusicBrainz (MetaBrainz Foundation) ile benzer müzik arama, Spotify bağlandıktan sonra varsayılan olarak açıktır ve Mac’teki Kinrox’ta Ayarlar → Spotify bölümünden istendiği zaman kapatılabilir. Açıkken benzer müzik bulmak için sanatçı adları, parça başlıkları, ISRC ve MBID bu hizmetlere gönderilir; kullanıcı tanımlayıcıları veya çerezler gönderilmez. Kapalıyken hiçbir istek gönderilmez.",
       "id": "access"
     },
     {
       "title": "Saklama ve alıcılar",
-      "body": "Yenileme kimlik bilgileri Mac’in Data Protection Keychain alanında saklanır. Erişim belirteçleri bellekte kalır. Kitaplık meta verileri Mac uygulamasının Caches klasöründeki yerel SQLite veritabanında önbelleğe alınır. Doğrulanmış hesap kimliği ve görünen ad Mac tercihlerinde saklanır. Verilen Client ID, yardımcı liste ilişkilendirmesi ve kabul edilen belge sürümü Mac tercihlerinde saklanır. Kinrox’un sunucusu, analitiği veya telemetrisi yoktur; bakımını yapan kişi bu Spotify verilerinin hiçbirini almaz. Spotify istekleri doğrudan Mac’ten alır ve kendi gizlilik politikasına göre işler: https://www.spotify.com/legal/privacy-policy/. Spotify, Mac’in genel IP adresi gibi ağ bilgilerini görür.\n\nKişisel Soloist API anahtarı Anahtar Zinciri’nde saklanır. Connect oturumu hesaba ait özel bir klasörde tutulur; Soloist, 200 MB ile sınırlı ayrı bir ses önbelleği kullanır. Anahtar, imzalı Soloist işlemine başlatma argümanlarıyla aktarılır; aynı kullanıcı hesabındaki diğer işlemler bunları okuyabilir. Soloist’in loopback denetim soketinde kimlik doğrulama veya Origin denetimi yoktur; loopback erişimi olan yerel programlar veya web sayfaları çalma komutları gönderebilir.",
+      "body": "Yenileme kimlik bilgileri Mac’in Data Protection Keychain alanında saklanır. Erişim belirteçleri bellekte kalır. Kitaplık meta verileri Mac uygulamasının Caches klasöründeki yerel SQLite veritabanında önbelleğe alınır. Doğrulanmış hesap kimliği ve görünen ad Mac tercihlerinde saklanır. Verilen Client ID, yardımcı liste ilişkilendirmesi ve kabul edilen belge sürümü Mac tercihlerinde saklanır. Kinrox’un sunucusu, analitiği veya telemetrisi yoktur; bakımını yapan kişi bu Spotify verilerinin hiçbirini almaz. Spotify istekleri doğrudan Mac’ten alır ve kendi gizlilik politikasına göre işler: https://www.spotify.com/legal/privacy-policy/. Spotify, Mac’in genel IP adresi gibi ağ bilgilerini görür.\n\nKişisel Soloist API anahtarı Anahtar Zinciri’nde saklanır. Connect oturumu hesaba ait özel bir klasörde tutulur; Soloist, 200 MB ile sınırlı ayrı bir ses önbelleği kullanır. Anahtar, imzalı Soloist işlemine başlatma argümanlarıyla aktarılır; aynı kullanıcı hesabındaki diğer işlemler bunları okuyabilir. Soloist’in loopback denetim soketinde kimlik doğrulama veya Origin denetimi yoktur; loopback erişimi olan yerel programlar veya web sayfaları çalma komutları gönderebilir.\n\nEk yerel SQLite önbellekleri keşif sonuçlarını 24 saat, benzerlik verilerini 7 gün ve MBID eşleştirmelerini 30 gün saklar. Dinleme geçmişi en fazla 180 gün ve 20.000 çalma boyunca Mac’te kalır; harici hizmetlere veya iPhone’a asla gönderilmez. Bağlantıyı kesmek bu önbellekleri ve geçmişi siler.",
       "id": "storage"
     },
     {

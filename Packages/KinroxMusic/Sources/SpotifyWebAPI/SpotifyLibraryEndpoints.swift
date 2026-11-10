@@ -39,6 +39,9 @@ extension SpotifyClient {
         try await pages(
             SpotifyPlaylistItem.self, "playlists/" + Self.identifier(id) + "/items?limit=50")
     }
+    public func track(_ id: String) async throws -> SpotifyTrack {
+        try await get(SpotifyTrack.self, "tracks/" + Self.identifier(id))
+    }
     public func album(_ id: String) async throws -> SpotifyAlbum {
         try await get(SpotifyAlbum.self, "albums/" + Self.identifier(id))
     }

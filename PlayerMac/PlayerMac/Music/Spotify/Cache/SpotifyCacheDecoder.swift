@@ -126,6 +126,7 @@ struct SpotifyCacheSummary: Equatable, Sendable {
         hasher.mix(album.uri)
         hasher.mix(album.title)
         hasher.mix(album.year)
+        hasher.mix(album.releaseDate ?? "")
         hasher.mix(album.totalTrackCount)
         hasher.mix(album.artists.count)
         for artist in album.artists { hasher.mix(artist) }
@@ -142,6 +143,8 @@ struct SpotifyCacheSummary: Equatable, Sendable {
         hasher.mix(track.albumID)
         hasher.mix(track.albumTitle)
         hasher.mix(track.duration)
+        hasher.mix(track.isrc ?? "")
+        hasher.mix(track.releaseDate ?? "")
         hasher.mix(track.explicit)
         hasher.mix(track.isPlayable)
         hasher.mix(track.addedAt)

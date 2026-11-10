@@ -45,7 +45,7 @@ struct BrowserSelectionTests {
         #expect(!contents.tracks.isEmpty)
         let snapshot = MusicDiscoveryEngine.build(
             seedTitle: catalog.tracks.first?.title ?? "",
-            seedTrackIDs: catalog.tracks.first.map { [$0.id] } ?? [],
+            seedTrackIDs: ["evening-2"],
             mode: .sameSpirit, hideLiked: true,
             catalog: catalog, library: library)
         #expect(snapshot.items.allSatisfy { !library.likedTrackIDs.contains($0.track.id) })

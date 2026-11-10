@@ -1,37 +1,84 @@
 import Foundation
 
 public enum MusicDiscoveryMode: String, Codable, CaseIterable, Sendable {
-    case sameSpirit
-    case underground
-    case fresh
+    case sameSpirit, underground, fresh
 }
 
 public enum MusicDiscoveryReasonKind: String, Codable, Equatable, Sendable {
-    case playlistCooccurrence
-    case compilation
-    case underground
-    case freshRelease
-    case sharedGenre
-    case sharedArtist
+    case listenBrainzRecording, listenBrainzArtist, collaborator, remixer, compilation
+    case ownPlaylist, likedSameDay, playHistory, sharedGenre, freshRelease, underground
+}
+
+public struct MusicDiscoveryReason: Codable, Equatable, Sendable {
+    public let kind: MusicDiscoveryReasonKind
+    public let detail: String
+    public let matchCount: Int
+
+    public init(kind: MusicDiscoveryReasonKind, detail: String = "", matchCount: Int = 1) {
+        self.kind = kind
+        self.detail = detail
+        self.matchCount = max(1, matchCount)
+    }
+}
+
+public enum MusicDiscoverySectionKind: String, Codable, CaseIterable, Sendable {
+    case listeners, collaborators, yourPlaylists, genre
+
+    public init(reason: MusicDiscoveryReasonKind) {
+        switch reason {
+        case .listenBrainzRecording, .listenBrainzArtist: self = .listeners
+        case .collaborator, .remixer, .compilation: self = .collaborators
+        case .ownPlaylist, .likedSameDay, .playHistory: self = .yourPlaylists
+        case .sharedGenre, .freshRelease, .underground: self = .genre
+        }
+    }
+}
+
+public struct MusicDiscoverySection: Identifiable, Codable, Equatable, Sendable {
+    public var id: String { kind.rawValue }
+    public let kind: MusicDiscoverySectionKind
+    public let items: [MusicDiscoveryItem]
+}
+
+public struct MusicDiscoverySeed: Codable, Equatable, Sendable {
+    public let title: String
+    public let artistNames: String
+    public let trackID: String?
+    public let artistID: String?
+
+    public init(
+        title: String = "", artistNames: String = "", trackID: String? = nil,
+        artistID: String? = nil
+    ) {
+        self.title = title
+        self.artistNames = artistNames
+        self.trackID = trackID
+        self.artistID = artistID
+    }
+}
+
+public enum MusicGenreSource: String, Codable, Equatable, Sendable {
+    case spotify, musicBrainz, none
+}
+
+public enum MusicListenBrainzStatus: String, Codable, Equatable, Sendable {
+    case off, ready, unavailable
 }
 
 public struct MusicDiscoveryItem: Identifiable, Codable, Equatable, Sendable {
     public var id: String { track.id }
     public let track: MusicTrack
-    public let reasonKind: MusicDiscoveryReasonKind
-    public let contextName: String
-    public let matchCount: Int
-    public let score: Int
+    public let reasons: [MusicDiscoveryReason]
+    public let score: Double
+    public let section: MusicDiscoverySectionKind
+    public var primaryReason: MusicDiscoveryReason? { reasons.first }
+    public var reasonKind: MusicDiscoveryReasonKind { reasons.first?.kind ?? .sharedGenre }
 
-    public init(
-        track: MusicTrack, reasonKind: MusicDiscoveryReasonKind, contextName: String = "",
-        matchCount: Int = 1, score: Int = 1
-    ) {
+    public init(track: MusicTrack, reasons: [MusicDiscoveryReason], score: Double) {
         self.track = track
-        self.reasonKind = reasonKind
-        self.contextName = contextName
-        self.matchCount = max(1, matchCount)
+        self.reasons = reasons
         self.score = score
+        section = .init(reason: reasons.first?.kind ?? .sharedGenre)
     }
 }
 
@@ -40,213 +87,104 @@ public struct MusicDiscoveryMix: Identifiable, Codable, Equatable, Sendable {
     public let title: String
     public let subtitle: String
     public let trackIDs: [String]
-
-    public init(id: String, title: String, subtitle: String, trackIDs: [String]) {
-        self.id = id
-        self.title = title
-        self.subtitle = subtitle
-        self.trackIDs = trackIDs
-    }
 }
 
 public struct MusicDiscoverySnapshot: Codable, Equatable, Sendable {
-    public var seedTitle: String
+    public var seed: MusicDiscoverySeed
     public var mode: MusicDiscoveryMode
     public var genres: [String]
+    public var genreSource: MusicGenreSource
     public var selectedGenre: String?
     public var hideLiked: Bool
+    public var sections: [MusicDiscoverySection]
     public var items: [MusicDiscoveryItem]
     public var mixes: [MusicDiscoveryMix]
+    public var tracks: [MusicTrack] { items.map(\.track) }
+    public var displayItems: [MusicDiscoveryItem] { sections.flatMap(\.items) }
+    public var displayTracks: [MusicTrack] { displayItems.map(\.track) }
 
     public init(
-        seedTitle: String = "", mode: MusicDiscoveryMode = .sameSpirit,
-        genres: [String] = [], selectedGenre: String? = nil, hideLiked: Bool = true,
+        seed: MusicDiscoverySeed = .init(), mode: MusicDiscoveryMode = .sameSpirit,
+        genres: [String] = [], genreSource: MusicGenreSource = .none,
+        selectedGenre: String? = nil, hideLiked: Bool = true,
         items: [MusicDiscoveryItem] = [], mixes: [MusicDiscoveryMix] = []
     ) {
-        self.seedTitle = seedTitle
+        self.seed = seed
         self.mode = mode
         self.genres = genres
+        self.genreSource = genres.isEmpty ? .none : genreSource
         self.selectedGenre = selectedGenre
         self.hideLiked = hideLiked
         self.items = items
         self.mixes = mixes
+        sections = MusicDiscoverySectionKind.allCases.compactMap { kind in
+            let members = items.filter { $0.section == kind }
+            return members.isEmpty ? nil : MusicDiscoverySection(kind: kind, items: members)
+        }
     }
-
-    public var tracks: [MusicTrack] { items.map(\.track) }
 }
 
-public enum MusicDiscoveryEngine {
-    public static let defaultGenres = [
-        "psybient", "organic electronic", "downtempo", "handpan", "ambient", "melodic techno",
+/// Signals are persisted with complete candidate metadata, then ranked against current local feedback.
+public struct MusicDiscoverySignal: Codable, Equatable, Sendable {
+    public let track: MusicTrack
+    public let reason: MusicDiscoveryReason
+    public let strength: Double
+    public let lowerHalf: Bool
+
+    public init(
+        track: MusicTrack, kind: MusicDiscoveryReasonKind, detail: String = "",
+        matchCount: Int = 1, strength: Double = 1, lowerHalf: Bool = false
+    ) {
+        self.track = track
+        reason = MusicDiscoveryReason(kind: kind, detail: detail, matchCount: matchCount)
+        self.strength = strength.isFinite ? min(1, max(0, strength)) : 0
+        self.lowerHalf = lowerHalf
+    }
+
+    public static let weights: [MusicDiscoveryReasonKind: Double] = [
+        .listenBrainzRecording: 1, .listenBrainzArtist: 0.8, .collaborator: 0.7,
+        .remixer: 0.6, .ownPlaylist: 0.7, .compilation: 0.5, .likedSameDay: 0.4,
+        .playHistory: 0.6, .sharedGenre: 0.35, .freshRelease: 0.45, .underground: 0.45,
     ]
+    public var contribution: Double { strength * Self.weights[reason.kind, default: 0] }
 
-    public static func build(
-        seedTitle: String = "",
-        seedTrackIDs: Set<String> = [],
-        seedArtistIDs: Set<String> = [],
-        seedArtistName: String = "",
-        mode: MusicDiscoveryMode = .sameSpirit,
-        genres: [String] = [],
-        selectedGenre: String? = nil,
-        hideLiked: Bool = true,
-        catalog: MusicCatalog,
-        library: LibrarySnapshot,
-        cooccurringPlaylists: [(playlist: MusicPlaylist, tracks: [MusicTrack])] = [],
-        compilationAlbums: [(album: MusicAlbum, tracks: [MusicTrack])] = [],
-        undergroundTracks: [MusicTrack] = [],
-        freshTracks: [MusicTrack] = [],
-        operatorTracks: [MusicTrack] = []
-    ) -> MusicDiscoverySnapshot {
-        let excludedIDs = seedTrackIDs.union(hideLiked ? library.likedTrackIDs : [])
-        var bestByTrackID: [String: MusicDiscoveryItem] = [:]
-        var cooccurrenceCounts: [String: Int] = [:]
-
-        func consider(_ candidate: MusicDiscoveryItem) {
-            guard candidate.track.isPlayable != false, !excludedIDs.contains(candidate.track.id)
-            else { return }
-            if let existing = bestByTrackID[candidate.track.id] {
-                if candidate.score > existing.score {
-                    bestByTrackID[candidate.track.id] = candidate
-                }
-            } else {
-                bestByTrackID[candidate.track.id] = candidate
-            }
+    public static func normalizedScores(_ scores: [Double]) -> [Double] {
+        let maximum = scores.filter(\.isFinite).max() ?? 0
+        return scores.enumerated().map { index, score in
+            maximum > 0
+                ? (score.isFinite ? max(0, min(1, score / maximum)) : 0)
+                : 1 - Double(index) / Double(max(1, scores.count))
         }
+    }
+}
 
-        // 1. Co-occurring public/library playlists
-        for (playlist, tracks) in cooccurringPlaylists {
-            for track in tracks {
-                cooccurrenceCounts[track.id, default: 0] += 1
-                let count = cooccurrenceCounts[track.id, default: 1]
-                consider(
-                    MusicDiscoveryItem(
-                        track: track,
-                        reasonKind: .playlistCooccurrence,
-                        contextName: seedArtistName.isEmpty ? playlist.title : seedArtistName,
-                        matchCount: count,
-                        score: 90 + count * 10))
-            }
-        }
+public struct MusicPlayHistoryEntry: Codable, Equatable, Sendable, Identifiable {
+    public let id: UUID
+    public let sessionID: UUID
+    public let trackID: String
+    public let previousTrackID: String?
+    public let playedAt: Date
+    public let playedSeconds: Double
+    public let completed: Bool
+    public let skipped: Bool
 
-        // 2. Collaborator & compilation releases (appears_on / compilation)
-        for (album, tracks) in compilationAlbums {
-            for track in tracks {
-                consider(
-                    MusicDiscoveryItem(
-                        track: track,
-                        reasonKind: .compilation,
-                        contextName: album.title,
-                        matchCount: 1,
-                        score: 80))
-            }
-        }
+    public init(
+        id: UUID = UUID(), sessionID: UUID, trackID: String, previousTrackID: String? = nil,
+        playedAt: Date, playedSeconds: Double, completed: Bool, skipped: Bool
+    ) {
+        self.id = id
+        self.sessionID = sessionID
+        self.trackID = trackID
+        self.previousTrackID = previousTrackID
+        self.playedAt = playedAt
+        self.playedSeconds = playedSeconds
+        self.completed = completed
+        self.skipped = skipped
+    }
 
-        // 3. Confirmed album tag searches (tag:hipster / tag:new) and genre/spirit searches
-        for (offset, track) in undergroundTracks.enumerated() {
-            consider(
-                MusicDiscoveryItem(
-                    track: track,
-                    reasonKind: .underground,
-                    contextName: track.albumTitle.isEmpty ? seedArtistName : track.albumTitle,
-                    matchCount: 1,
-                    score: (mode == .underground ? 95 : 75) - min(20, offset)))
-        }
-
-        for (offset, track) in freshTracks.enumerated() {
-            consider(
-                MusicDiscoveryItem(
-                    track: track,
-                    reasonKind: .freshRelease,
-                    contextName: track.albumTitle.isEmpty ? seedArtistName : track.albumTitle,
-                    matchCount: 1,
-                    score: (mode == .fresh ? 95 : 75) - min(20, offset)))
-        }
-
-        for (offset, track) in operatorTracks.enumerated() {
-            let sharesArtist = !seedArtistIDs.isDisjoint(with: track.artists.map(\.id))
-            consider(
-                MusicDiscoveryItem(
-                    track: track,
-                    reasonKind: sharesArtist ? .sharedArtist : .sharedGenre,
-                    contextName: sharesArtist
-                        ? track.artistNames
-                        : (selectedGenre ?? genres.first ?? track.albumTitle),
-                    matchCount: 1,
-                    score: max(40, 85 - offset)))
-        }
-
-        // 4. Local catalog & playlist graph fallback (only assigns confirmed relationships)
-        for playlist in library.playlists {
-            let playlistTracks = playlist.trackIDs.compactMap { catalog.track(id: $0) }
-            let overlapsSeed =
-                seedTrackIDs.isEmpty
-                || playlistTracks.contains {
-                    seedTrackIDs.contains($0.id)
-                        || !seedArtistIDs.isDisjoint(with: $0.artists.map(\.id))
-                }
-            if overlapsSeed {
-                for track in playlistTracks {
-                    cooccurrenceCounts[track.id, default: 0] += 1
-                    let count = cooccurrenceCounts[track.id, default: 1]
-                    consider(
-                        MusicDiscoveryItem(
-                            track: track,
-                            reasonKind: .playlistCooccurrence,
-                            contextName: playlist.title,
-                            matchCount: count,
-                            score: 70 + count * 5))
-                }
-            }
-        }
-
-        for track in catalog.tracks {
-            let sharesArtist = !seedArtistIDs.isDisjoint(with: track.artists.map(\.id))
-            let reason: MusicDiscoveryReasonKind = sharesArtist ? .sharedArtist : .sharedGenre
-            let baseScore = sharesArtist ? 65 : 50
-            consider(
-                MusicDiscoveryItem(
-                    track: track,
-                    reasonKind: reason,
-                    contextName: sharesArtist
-                        ? track.artistNames : (selectedGenre ?? track.albumTitle),
-                    matchCount: 1,
-                    score: baseScore))
-        }
-
-        let ordered = bestByTrackID.values.sorted { lhs, rhs in
-            if lhs.score != rhs.score { return lhs.score > rhs.score }
-            return lhs.track.title.localizedStandardCompare(rhs.track.title) == .orderedAscending
-        }
-
-        var mixes: [MusicDiscoveryMix] = []
-        for (playlist, tracks) in cooccurringPlaylists.prefix(3) where !tracks.isEmpty {
-            mixes.append(
-                MusicDiscoveryMix(
-                    id: "playlist:\(playlist.id)",
-                    title: playlist.title,
-                    subtitle: "\(tracks.count)",
-                    trackIDs: tracks.map(\.id)))
-        }
-        if mixes.isEmpty {
-            let topIDs = Array(ordered.prefix(8).map(\.track.id))
-            if !topIDs.isEmpty {
-                mixes.append(
-                    MusicDiscoveryMix(
-                        id: "mix:spirit",
-                        title: seedTitle.isEmpty ? "Discovery Wave" : seedTitle,
-                        subtitle: "\(topIDs.count)",
-                        trackIDs: topIDs))
-            }
-        }
-
-        let resolvedGenres = genres.isEmpty ? defaultGenres : genres
-        return MusicDiscoverySnapshot(
-            seedTitle: seedTitle,
-            mode: mode,
-            genres: resolvedGenres,
-            selectedGenre: selectedGenre,
-            hideLiked: hideLiked,
-            items: ordered,
-            mixes: mixes)
+    public static func retained(_ rows: [Self], now: Date) -> [Self] {
+        Array(
+            rows.filter { $0.playedAt > now.addingTimeInterval(-180 * 86400) }
+                .sorted { $0.playedAt < $1.playedAt }.suffix(20_000))
     }
 }

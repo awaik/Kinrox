@@ -71,7 +71,9 @@ struct CompactQueueColumn: View {
     var body: some View {
         VStack(spacing: 0) {
             header
-            dropBanner
+            if model.isDiscoveryRadioActive { radioBanner }
+            // The drop hint appears only while something is dragged over the queue.
+            if dropTargeted { dropBanner }
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 2) {
@@ -151,46 +153,33 @@ struct CompactQueueColumn: View {
                 .frame(height: 18)
                 .background(Palette.glass, in: Capsule())
             Spacer(minLength: 4)
-            Button {
-                model.shuffle()
-            } label: {
-                Image(systemName: "shuffle")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(
-                        model.queue.shuffled ? Palette.flame : Palette.textSecondary
-                    )
-                    .frame(width: 26, height: 24)
-                    .background(
-                        model.queue.shuffled ? Palette.ember.opacity(0.18) : Palette.glass,
-                        in: RoundedRectangle(cornerRadius: 6))
-            }
-            .buttonStyle(.plain)
-            .disabled(!model.canShuffle)
-            .help(L10n.text("Shuffle"))
-
-            Button {
-                model.cycleRepeat()
-            } label: {
-                Image(
-                    systemName: model.queue.repeatMode == .one ? "repeat.1" : "repeat"
-                )
-                .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(
-                    model.queue.repeatMode != .off ? Palette.flame : Palette.textSecondary
-                )
-                .frame(width: 26, height: 24)
-                .background(
-                    model.queue.repeatMode != .off
-                        ? Palette.ember.opacity(0.18) : Palette.glass,
-                    in: RoundedRectangle(cornerRadius: 6))
-            }
-            .buttonStyle(.plain)
-            .disabled(!model.canRepeat)
-            .help(L10n.text("Repeat"))
         }
         .padding(.horizontal, 12)
         .frame(height: 42)
         .overlay(alignment: .bottom) { Rectangle().fill(Palette.hairline).frame(height: 1) }
+    }
+
+    private var radioBanner: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "infinity")
+                .font(.system(size: 11, weight: .semibold))
+            Text(L10n.text("Adding similar tracks as you listen"))
+                .font(.system(size: 11, weight: .medium))
+                .lineLimit(1)
+            Spacer(minLength: 4)
+            Button(L10n.text("Stop"), action: model.stopDiscoveryRadio)
+                .accessibilityLabel(L10n.text("Stop adding similar tracks"))
+                .buttonStyle(.plain)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(Palette.textPrimary)
+        }
+        .foregroundStyle(Palette.flame)
+        .padding(.horizontal, 10)
+        .frame(height: 32)
+        .background(Palette.ember.opacity(0.14), in: RoundedRectangle(cornerRadius: 7))
+        .overlay(RoundedRectangle(cornerRadius: 7).stroke(Palette.flame.opacity(0.4)))
+        .padding(.horizontal, 8)
+        .padding(.top, 8)
     }
 
     private var dropBanner: some View {

@@ -77,8 +77,9 @@ extension MusicViewModel {
 
     var filteredLeftArtists: [MusicArtist] {
         let filter = leftFilterQuery.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !filter.isEmpty else { return catalog.artists }
-        return catalog.artists.filter { $0.name.localizedStandardContains(filter) }
+        let artists = catalog.artists.filter { !$0.isVariousArtists }
+        guard !filter.isEmpty else { return artists }
+        return artists.filter { $0.name.localizedStandardContains(filter) }
     }
 
     var filteredLeftAlbums: [MusicAlbum] {
@@ -145,9 +146,13 @@ extension MusicViewModel {
         playlist: MusicPlaylist? = nil,
         artist: MusicArtist? = nil
     ) {
+        let previousSeed = currentDiscoverySeed
+        rememberDiscoverySeed(previousSeed)
         dismissPopovers()
         isAlbumsOverview = false
         collectionFilterQuery = ""
+        discoverySeedAlbumID = nil
+        discoverySeedPlaylistID = nil
         if let track {
             discoverySeedTrack = track
             discoverySeedArtist = track.artists.first
@@ -156,16 +161,16 @@ extension MusicViewModel {
             let firstTrack = catalog.tracks(in: album).first
             discoverySeedTrack = firstTrack
             discoverySeedArtist = album.artists.first ?? firstTrack?.artists.first
-            discoverySeedTitle = "\(album.artistNames) — \(album.title)"
+            discoverySeedTitle = album.title
+            if firstTrack == nil { discoverySeedAlbumID = album.id }
         } else if let playlist {
             let firstTrack = playlist.trackIDs.compactMap { catalog.track(id: $0) }.first
             discoverySeedTrack = firstTrack
             discoverySeedArtist = firstTrack?.artists.first
             discoverySeedTitle = playlist.title
+            if firstTrack == nil, playlist.itemsAvailable { discoverySeedPlaylistID = playlist.id }
         } else if let artist {
-            discoverySeedTrack = catalog.tracks.first {
-                $0.artists.contains { $0.id == artist.id }
-            }
+            discoverySeedTrack = nil
             discoverySeedArtist = artist
             discoverySeedTitle = artist.name
         } else if let current = currentTrack {
@@ -182,6 +187,15 @@ extension MusicViewModel {
                 fallback.map { "\($0.artistNames) — \($0.title)" }
                 ?? L10n.text("Liked tracks")
         }
+        if previousSeed != currentDiscoverySeed, !previousSeed.title.isEmpty,
+            discoverySeedHistory.last != previousSeed
+        {
+            discoverySeedHistory.append(previousSeed)
+            discoverySeedHistory = Array(discoverySeedHistory.suffix(10))
+            pruneDiscoverySeedHistory()
+        }
+        discoverySnapshot = nil
+        discoverySelectedGenre = nil
         selection.select(source: .similar)
         persistSelection()
         refreshDiscovery()
@@ -305,66 +319,4 @@ extension MusicViewModel {
     }
     func clearManualQueue() { editQueue { $0.clearManual() } }
 
-    func refreshDiscovery() {
-        let seedTitle =
-            discoverySeedTitle.isEmpty
-            ? (currentTrack.map { "\($0.artistNames) — \($0.title)" }
-                ?? L10n.text("Liked tracks"))
-            : discoverySeedTitle
-        let seedTrack = discoverySeedTrack ?? currentTrack ?? catalog.tracks.first
-        let seedArtist = discoverySeedArtist ?? seedTrack?.artists.first ?? catalog.artists.first
-        let seedTrackIDs: Set<String> = seedTrack.map { [$0.id] } ?? library.likedTrackIDs
-        let seedArtistIDs: Set<String> = seedArtist.map { [$0.id] } ?? library.followedArtistIDs
-
-        discoverySnapshot = MusicDiscoveryEngine.build(
-            seedTitle: seedTitle,
-            seedTrackIDs: seedTrackIDs,
-            seedArtistIDs: seedArtistIDs,
-            seedArtistName: seedArtist?.name ?? "",
-            mode: discoveryMode,
-            genres: discoverySnapshot?.genres ?? [],
-            selectedGenre: discoverySelectedGenre,
-            hideLiked: discoveryHideLiked,
-            catalog: catalog,
-            library: library)
-        refreshContents()
-
-        guard let store = store as? SpotifyLibraryStore else { return }
-        let requestID = UUID()
-        discoveryRequestID = requestID
-        browsingTask?.cancel()
-        isDiscovering = true
-        let mode = discoveryMode
-        let selectedGenre = discoverySelectedGenre
-        let hideLiked = discoveryHideLiked
-        browsingTask = Task { [weak self] in
-            guard let self else { return }
-            defer {
-                if self.store === store, self.discoveryRequestID == requestID {
-                    self.isDiscovering = false
-                }
-            }
-            do {
-                let remoteSnapshot = try await store.discover(
-                    seedTitle: seedTitle,
-                    seedTrack: seedTrack,
-                    seedArtist: seedArtist,
-                    mode: mode,
-                    selectedGenre: selectedGenre,
-                    hideLiked: hideLiked)
-                guard !Task.isCancelled, self.store === store,
-                    self.discoveryRequestID == requestID,
-                    self.selection.source == .similar
-                else { return }
-                self.catalog = store.catalog
-                self.discoverySnapshot = remoteSnapshot
-                self.refreshContents()
-            } catch is CancellationError {} catch {
-                guard !Task.isCancelled, self.store === store,
-                    self.discoveryRequestID == requestID
-                else { return }
-                self.statusMessage = SpotifyStatus.message(error)
-            }
-        }
-    }
 }

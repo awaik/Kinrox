@@ -55,10 +55,18 @@ public struct MusicCatalog: Codable, Equatable, Sendable {
             let canonicalArtists = internedArtists(album.artists)
             let internedAlbum = MusicAlbum(
                 id: canonicalID, uri: canonicalURI, title: canonicalTitle,
-                artists: canonicalArtists, year: album.year, trackIDs: album.trackIDs,
-                totalTrackCount: album.totalTrackCount)
+                artists: canonicalArtists, year: album.year,
+                trackIDs: album.trackIDs.isEmpty ? existing?.trackIDs ?? [] : album.trackIDs,
+                totalTrackCount: max(album.totalTrackCount, existing?.totalTrackCount ?? 0),
+                releaseDate: album.releaseDate ?? existing?.releaseDate)
             if let index = albumIndices[canonicalID] {
-                if !internedAlbum.trackIDs.isEmpty || self.albums[index].trackIDs.isEmpty {
+                if album.trackIDs.isEmpty, let existing, !existing.trackIDs.isEmpty {
+                    self.albums[index] = MusicAlbum(
+                        id: existing.id, uri: existing.uri, title: existing.title,
+                        artists: existing.artists, year: existing.year, trackIDs: existing.trackIDs,
+                        totalTrackCount: existing.totalTrackCount,
+                        releaseDate: album.releaseDate ?? existing.releaseDate)
+                } else {
                     self.albums[index] = internedAlbum
                 }
             } else {
@@ -91,7 +99,10 @@ public struct MusicCatalog: Codable, Equatable, Sendable {
                 explicit: track.explicit,
                 isPlayable: track.isPlayable,
                 addedAt: track.addedAt ?? existing?.addedAt,
-                playlistAddedAt: track.playlistAddedAt)
+                playlistAddedAt: track.playlistAddedAt,
+                isrc: track.isrc ?? existing?.isrc,
+                releaseDate: track.releaseDate ?? canonicalAlbum?.releaseDate
+                    ?? existing?.releaseDate)
             if let existing, existing.playlistAddedAt != nil || merged.playlistAddedAt != nil {
                 var combined = existing.playlistAddedAt ?? [:]
                 if let incoming = merged.playlistAddedAt {

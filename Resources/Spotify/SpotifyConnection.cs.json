@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-03",
+  "version": "2026-11-10",
   "locale": "cs",
   "language": "Čeština",
   "terms": [
@@ -47,17 +47,17 @@
   "privacy": [
     {
       "title": "Zásady ochrany soukromí — připojení ke Spotify",
-      "body": "Verze 2026-11-03. Správce Kinrox, awaik, odpovídá za zde popsané zpracování údajů aplikací Kinrox. Tento dodatek se vztahuje na volitelnou integraci Spotify. Obecné zásady ochrany soukromí Kinrox jsou na https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Nezveřejňujte tokeny, obsah osobní knihovny ani jiné soukromé informace ve veřejných hlášeních.",
+      "body": "Verze 2026-11-10. Správce Kinrox, awaik, odpovídá za zde popsané zpracování údajů aplikací Kinrox. Tento dodatek se vztahuje na volitelnou integraci Spotify. Obecné zásady ochrany soukromí Kinrox jsou na https://kinrox.app/privacy/. Kontakt: https://github.com/awaik/Kinrox/issues. Nezveřejňujte tokeny, obsah osobní knihovny ani jiné soukromé informace ve veřejných hlášeních.",
       "id": "overview"
     },
     {
       "title": "Přístup a účely",
-      "body": "Po přijetí podmínek a autorizaci Spotify čte Kinrox na Macu identifikátor a zobrazované jméno vašeho účtu, uložené skladby a alba, sledované interprety, dostupné playlisty a jejich obsah, stav přehrávání a dostupná zařízení. Údaje používá k zobrazení knihovny a ovládání Spotify. Když použijete příslušné ovládací prvky, může ukládat a odebírat oblíbené, sledovat interprety, vytvářet playlisty a upravovat vlastní nebo společné playlisty. Odebrání oblíbené položky odstraní také její výskyty z upravitelných playlistů.",
+      "body": "Po přijetí podmínek a autorizaci Spotify čte Kinrox na Macu identifikátor a zobrazované jméno vašeho účtu, uložené skladby a alba, sledované interprety, dostupné playlisty a jejich obsah, stav přehrávání a dostupná zařízení. Údaje používá k zobrazení knihovny a ovládání Spotify. Když použijete příslušné ovládací prvky, může ukládat a odebírat oblíbené, sledovat interprety, vytvářet playlisty a upravovat vlastní nebo společné playlisty. Odebrání oblíbené položky odstraní také její výskyty z upravitelných playlistů.\n\nVyhledávání podobné hudby přes ListenBrainz / MusicBrainz (MetaBrainz Foundation) je po připojení Spotify ve výchozím stavu zapnuté a lze je kdykoli vypnout v Kinrox na Macu v Nastavení → Spotify. Při zapnutí se těmto službám odesílají jména interpretů, názvy skladeb, ISRC a MBID za účelem vyhledání podobné hudby; neposílají se identifikátory uživatele ani cookies. Při vypnutí se neposílají žádné požadavky.",
       "id": "access"
     },
     {
       "title": "Ukládání a příjemci",
-      "body": "Obnovovací přihlašovací údaje jsou uloženy v Data Protection Keychain na Macu. Přístupové tokeny zůstávají v paměti. Metadata knihovny se ukládají do místní databáze SQLite v adresáři Caches aplikace na Macu. Ověřený identifikátor účtu a zobrazované jméno se ukládají do předvoleb Macu. Zadané Client ID, přiřazení pomocného playlistu a přijatá verze dokumentů jsou uloženy v předvolbách Macu. Kinrox nemá server, analytiku ani telemetrii a jeho správce nedostává žádné z těchto údajů Spotify. Spotify dostává požadavky přímo z Macu a zpracovává je podle svých zásad ochrany soukromí: https://www.spotify.com/legal/privacy-policy/. Spotify vidí síťové údaje, například veřejnou IP adresu Macu.\n\nOsobní API klíč Soloist se ukládá do Klíčenky. Relace Connect se ukládá do soukromé složky účtu; Soloist používá samostatnou zvukovou mezipaměť s limitem 200 MB. Klíč se předává podepsanému procesu Soloist v argumentech spuštění, které mohou číst jiné procesy stejného uživatelského účtu. Řídicí socket Soloist na loopbacku nemá ověřování ani kontrolu Origin; místní programy nebo webové stránky s přístupem k loopbacku mohou odesílat příkazy přehrávání.",
+      "body": "Obnovovací přihlašovací údaje jsou uloženy v Data Protection Keychain na Macu. Přístupové tokeny zůstávají v paměti. Metadata knihovny se ukládají do místní databáze SQLite v adresáři Caches aplikace na Macu. Ověřený identifikátor účtu a zobrazované jméno se ukládají do předvoleb Macu. Zadané Client ID, přiřazení pomocného playlistu a přijatá verze dokumentů jsou uloženy v předvolbách Macu. Kinrox nemá server, analytiku ani telemetrii a jeho správce nedostává žádné z těchto údajů Spotify. Spotify dostává požadavky přímo z Macu a zpracovává je podle svých zásad ochrany soukromí: https://www.spotify.com/legal/privacy-policy/. Spotify vidí síťové údaje, například veřejnou IP adresu Macu.\n\nOsobní API klíč Soloist se ukládá do Klíčenky. Relace Connect se ukládá do soukromé složky účtu; Soloist používá samostatnou zvukovou mezipaměť s limitem 200 MB. Klíč se předává podepsanému procesu Soloist v argumentech spuštění, které mohou číst jiné procesy stejného uživatelského účtu. Řídicí socket Soloist na loopbacku nemá ověřování ani kontrolu Origin; místní programy nebo webové stránky s přístupem k loopbacku mohou odesílat příkazy přehrávání.\n\nDalší místní mezipaměti SQLite uchovávají výsledky objevování 24 hodin, údaje o podobnosti 7 dní a přiřazení MBID 30 dní. Historie poslechu zůstává na Macu nejvýše 180 dní a 20 000 přehrání; nikdy se neposílá externím službám ani iPhonu. Odpojení smaže tyto mezipaměti i historii.",
       "id": "storage"
     },
     {

@@ -1,4 +1,5 @@
 import Foundation
+import MetaBrainzAPI
 import MusicCore
 import SpotifyWebAPI
 
@@ -9,223 +10,185 @@ extension SpotifyLibraryStore {
         guard !trimmed.isEmpty else { return [] }
         let session = sessionGeneration
         let results = try await client.search(trimmed, types: "playlist", limit: 10)
-        guard !isClosed, session == sessionGeneration else { throw CancellationError() }
-        let playlists = (results.playlists?.items ?? [])
+        try checkDiscoverySession(session)
+        return (results.playlists?.items ?? [])
             .filter { !isExcludedQueuePlaylist(id: $0.id, title: $0.name, ownerID: $0.owner.id) }
             .map { $0.model() }
-        return playlists
+    }
+
+    func setListenBrainzEnabled(_ enabled: Bool) {
+        guard enabled != listenBrainzEnabled else { return }
+        listenBrainzEnabled = enabled
+        consentGeneration = UUID()
+        listenBrainzStatus = enabled ? .ready : .off
+        if !enabled {
+            let retiring = metaBrainzClient
+            metaBrainzClient = nil
+            Task { await retiring?.close() }
+        }
+    }
+
+    func recordPlay(_ row: MusicPlayHistoryEntry) {
+        guard !isClosed else { return }
+        playHistory = MusicPlayHistoryEntry.retained(playHistory + [row], now: now())
+        guard let cache else { return }
+        let session = sessionGeneration
+        Task { try? await cache.recordPlay(row, session: session) }
     }
 
     func discover(
-        seedTitle: String,
-        seedTrack: MusicTrack?,
-        seedArtist: MusicArtist?,
-        mode: MusicDiscoveryMode,
-        selectedGenre: String?,
-        hideLiked: Bool
+        seedTitle: String, seedTrack: MusicTrack?, seedArtist: MusicArtist?,
+        mode: MusicDiscoveryMode, selectedGenre: String?, hideLiked: Bool,
+        notInterestedTrackIDs: Set<String> = [], notInterestedArtistIDs: Set<String> = []
     ) async throws -> MusicDiscoverySnapshot {
         try requireConnection()
         let session = sessionGeneration
-        let primaryArtist = seedArtist ?? seedTrack?.artists.first ?? catalog.artists.first
-        let queryTitle = seedTrack?.title ?? seedTitle
-        let searchQuery = [primaryArtist?.name, queryTitle]
-            .compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { !$0.isEmpty }
-            .joined(separator: " ")
-
-        var genres: [String] = []
-        var cooccurringPlaylists: [(playlist: MusicPlaylist, tracks: [MusicTrack])] = []
-        var compilationAlbums: [(album: MusicAlbum, tracks: [MusicTrack])] = []
-        var undergroundTracks: [MusicTrack] = []
-        var freshTracks: [MusicTrack] = []
-        var operatorTracks: [MusicTrack] = []
-
-        if let artistID = primaryArtist?.id {
-            if let details = try await optionalDiscoveryRead(
-                session: session, { try await client.artist(artistID) }),
-                let remoteGenres = details.genres, !remoteGenres.isEmpty
-            {
-                genres = Array(remoteGenres.prefix(6))
-            }
-            if let albums = try await optionalDiscoveryRead(
-                session: session,
-                { try await client.artistAlbums(artistID, includeGroups: "appears_on,compilation") }
+        let consent = consentGeneration
+        let artist = seedArtist ?? seedTrack?.artists.first
+        let seedKey = discoverySeedKey(track: seedTrack, artist: artist)
+        var value = try await cachedDiscoveryData(
+            "seed-v2|\(seedKey)|\(listenBrainzEnabled ? 1 : 0)", session: session, consent: consent
+        ) {
+            try await self.fetchDiscovery(
+                seedTrack: seedTrack, artist: artist, session: session, consent: consent)
+        }
+        let selectedGenre = selectedGenre.flatMap { value.genres.contains($0) ? $0 : nil }
+        if let genre = selectedGenre ?? value.genres.first {
+            let search = try await cachedDiscoveryData(
+                "search-v2|\(seedKey)|\(mode.rawValue)|\(genre)", session: session, consent: consent
             ) {
-                for album in albums.prefix(3) {
-                    let items =
-                        (try await optionalDiscoveryRead(
-                            session: session, { try await client.albumTracks(album.id) })) ?? []
-                    let models = items.compactMap { $0.model(album: album) }
-                    if !models.isEmpty {
-                        let albumModel = album.model(trackIDs: models.map(\.id))
-                        catalog.merge(
-                            tracks: models,
-                            albums: [albumModel],
-                            artists: album.artists)
-                        compilationAlbums.append((album: albumModel, tracks: models))
-                    }
-                }
+                try await self.fetchDiscoverySearch(mode: mode, genre: genre, session: session)
             }
+            value.tracks += search.tracks
+            value.albums += search.albums
+            value.signals += search.signals
         }
-
-        if !searchQuery.isEmpty,
-            let results = try await optionalDiscoveryRead(
-                session: session,
-                { try await client.search(searchQuery, types: "playlist,track", limit: 5) })
-        {
-            let directTracks = (results.tracks?.items ?? []).compactMap { $0.model() }
-            if !directTracks.isEmpty {
-                catalog.merge(
-                    tracks: directTracks,
-                    albums: (results.tracks?.items ?? []).compactMap { $0.album?.model() })
-                operatorTracks.append(contentsOf: directTracks)
-            }
-            let readablePlaylists = (results.playlists?.items ?? []).filter {
-                !isExcludedQueuePlaylist(id: $0.id, title: $0.name, ownerID: $0.owner.id)
-                    && !restrictedPlaylistIDs.contains($0.id)
-                    && (library.userID.isEmpty || $0.model().isEditable(by: library.userID))
-            }
-            for remote in readablePlaylists.prefix(3) {
-                guard
-                    let entries = try await optionalDiscoveryRead(
-                        session: session,
-                        {
-                            do {
-                                return try await client.playlistItems(remote.id)
-                            } catch SpotifyError.forbidden {
-                                restrictedPlaylistIDs.insert(remote.id)
-                                throw SpotifyError.forbidden
-                            }
-                        })
-                else { continue }
-                let models = entries.prefix(25).compactMap { $0.value?.model() }
-                if !models.isEmpty {
-                    let playlistModel = remote.model(trackIDs: models.map(\.id))
-                    catalog.merge(
-                        tracks: models,
-                        albums: entries.prefix(25).compactMap { $0.value?.album?.model() })
-                    cooccurringPlaylists.append((playlist: playlistModel, tracks: models))
-                }
-            }
-        }
-
-        let activeGenre = selectedGenre ?? genres.first
-        switch mode {
-        case .underground, .fresh:
-            let tag = mode == .underground ? "tag:hipster" : "tag:new"
-            let albumQuery = [primaryArtist?.name ?? activeGenre ?? queryTitle, tag]
-                .compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
-                .filter { !$0.isEmpty }
-                .joined(separator: " ")
-            if !albumQuery.isEmpty,
-                let extra = try await optionalDiscoveryRead(
-                    session: session,
-                    { try await client.search(albumQuery, types: "album", limit: 5) })
-            {
-                for album in (extra.albums?.items ?? []).prefix(3) {
-                    let items: [SpotifyTrack]
-                    if let embedded = album.tracks?.items, !embedded.isEmpty {
-                        items = embedded
-                    } else {
-                        items =
-                            (try await optionalDiscoveryRead(
-                                session: session, { try await client.albumTracks(album.id) }))
-                            ?? []
-                    }
-                    let models = items.compactMap { $0.model(album: album) }
-                    if !models.isEmpty {
-                        let albumModel = album.model(trackIDs: models.map(\.id))
-                        catalog.merge(
-                            tracks: models,
-                            albums: [albumModel],
-                            artists: album.artists)
-                        if mode == .underground {
-                            undergroundTracks.append(contentsOf: models)
-                        } else {
-                            freshTracks.append(contentsOf: models)
-                        }
-                    }
-                }
-            }
-        case .sameSpirit:
-            let operatorQuery =
-                activeGenre.map { "genre:\"\($0)\"" } ?? primaryArtist?.name ?? searchQuery
-            if !operatorQuery.isEmpty,
-                let extra = try await optionalDiscoveryRead(
-                    session: session,
-                    { try await client.search(operatorQuery, types: "track", limit: 10) })
-            {
-                let models = (extra.tracks?.items ?? []).compactMap { $0.model() }
-                if !models.isEmpty {
-                    catalog.merge(
-                        tracks: models,
-                        albums: (extra.tracks?.items ?? []).compactMap { $0.album?.model() })
-                    operatorTracks.append(contentsOf: models)
-                }
-            }
-        }
-
-        try Task.checkCancellation()
-        guard !isClosed, session == sessionGeneration else { throw CancellationError() }
-        var discoveryTracks = Set<String>()
-        var discoveryAlbums = Set<String>()
-        for entry in compilationAlbums {
-            discoveryAlbums.insert(entry.album.id)
-            discoveryTracks.formUnion(entry.tracks.map(\.id))
-        }
-        for entry in cooccurringPlaylists {
-            discoveryTracks.formUnion(entry.tracks.map(\.id))
-        }
-        for track in undergroundTracks + freshTracks + operatorTracks {
-            discoveryTracks.insert(track.id)
-            discoveryAlbums.insert(track.albumID)
-        }
-        recentDiscoveryTrackIDs = discoveryTracks
-        recentDiscoveryAlbumIDs = discoveryAlbums
+        try checkDiscoverySession(session, consent: consent)
+        catalog.merge(tracks: value.tracks, albums: value.albums)
+        if let seedTrack { catalog.merge(tracks: [seedTrack]) }
+        recentDiscoveryTrackIDs = Set(value.tracks.map(\.id))
+        recentDiscoveryAlbumIDs = Set(value.albums.map(\.id))
         pruneDisposableCatalog(
             pinnedTrackIDs: seedTrack.map { [$0.id] } ?? [],
-            pinnedArtistIDs: primaryArtist.map { [$0.id] } ?? [])
+            pinnedArtistIDs: artist.map { [$0.id] } ?? [])
+        listenBrainzStatus = listenBrainzEnabled ? value.listenBrainzStatus : .off
         await publish()
-
-        let seedTrackIDs: Set<String> = seedTrack.map { [$0.id] } ?? library.likedTrackIDs
-        let seedArtistIDs: Set<String> =
-            primaryArtist.map { [$0.id] } ?? library.followedArtistIDs
-        return MusicDiscoveryEngine.build(
-            seedTitle: seedTitle,
-            seedTrackIDs: seedTrackIDs,
-            seedArtistIDs: seedArtistIDs,
-            seedArtistName: primaryArtist?.name ?? "",
-            mode: mode,
-            genres: genres,
-            selectedGenre: selectedGenre,
-            hideLiked: hideLiked,
-            catalog: catalog,
-            library: library,
-            cooccurringPlaylists: cooccurringPlaylists,
-            compilationAlbums: compilationAlbums,
-            undergroundTracks: undergroundTracks,
-            freshTracks: freshTracks,
-            operatorTracks: operatorTracks)
+        try checkDiscoverySession(session, consent: consent)
+        return buildDiscovery(
+            value, seedTitle: seedTitle, seedTrack: seedTrack, artist: artist, mode: mode,
+            selectedGenre: selectedGenre, hideLiked: hideLiked,
+            notInterestedTrackIDs: notInterestedTrackIDs,
+            notInterestedArtistIDs: notInterestedArtistIDs)
     }
 
-    private func optionalDiscoveryRead<T>(
-        session: UUID,
-        _ operation: () async throws -> T
-    ) async throws -> T? {
+    private func buildDiscovery(
+        _ value: SpotifyDiscoveryData, seedTitle: String, seedTrack: MusicTrack?,
+        artist: MusicArtist?, mode: MusicDiscoveryMode, selectedGenre: String?, hideLiked: Bool,
+        notInterestedTrackIDs: Set<String>, notInterestedArtistIDs: Set<String>
+    ) -> MusicDiscoverySnapshot {
+        var restored = catalog
+        restored.merge(tracks: value.tracks, albums: value.albums)
+        if let seedTrack { restored.merge(tracks: [seedTrack]) }
+        return MusicDiscoveryEngine.build(
+            seedTitle: seedTitle, seedTrackIDs: seedTrack.map { [$0.id] } ?? [],
+            seedArtistIDs: artist.map { [$0.id] } ?? [], seedArtistName: artist?.name ?? "",
+            mode: mode, genres: value.genres, genreSource: value.genreSource,
+            selectedGenre: selectedGenre, hideLiked: hideLiked, catalog: restored, library: library,
+            compilationAlbums: value.compilations.map { ($0.album, $0.tracks) },
+            signals: value.signals,
+            history: playHistory, notInterestedTrackIDs: notInterestedTrackIDs,
+            notInterestedArtistIDs: notInterestedArtistIDs, now: now())
+    }
+
+    func cachedDiscovery(
+        seedTitle: String, seedTrack: MusicTrack?, seedArtist: MusicArtist?,
+        mode: MusicDiscoveryMode, selectedGenre: String?, hideLiked: Bool,
+        notInterestedTrackIDs: Set<String>, notInterestedArtistIDs: Set<String>,
+        previous: MusicDiscoverySnapshot? = nil
+    ) -> MusicDiscoverySnapshot? {
+        let artist = seedArtist ?? seedTrack?.artists.first
+        let seedKey = discoverySeedKey(track: seedTrack, artist: artist)
+        guard var value = memoryDiscovery("seed-v2|\(seedKey)|\(listenBrainzEnabled ? 1 : 0)")
+        else { return nil }
+        let selectedGenre = selectedGenre.flatMap { value.genres.contains($0) ? $0 : nil }
+        var search = (selectedGenre ?? value.genres.first).flatMap {
+            memoryDiscovery("search-v2|\(seedKey)|\(mode.rawValue)|\($0)")
+        }
+        if search == nil, let previous, let genre = previous.selectedGenre ?? previous.genres.first
+        {
+            search = memoryDiscovery("search-v2|\(seedKey)|\(previous.mode.rawValue)|\(genre)")
+        }
+        if let search {
+            value.tracks += search.tracks
+            value.albums += search.albums
+            value.signals += search.signals
+        }
+        return buildDiscovery(
+            value, seedTitle: seedTitle, seedTrack: seedTrack, artist: artist, mode: mode,
+            selectedGenre: selectedGenre, hideLiked: hideLiked,
+            notInterestedTrackIDs: notInterestedTrackIDs,
+            notInterestedArtistIDs: notInterestedArtistIDs)
+    }
+
+    func discoverySeedKey(track: MusicTrack?, artist: MusicArtist?) -> String {
+        "track:\(track?.id ?? "")|artist:\(artist?.id ?? "")"
+    }
+
+    private func memoryDiscovery(_ key: String) -> SpotifyDiscoveryData? {
+        guard let cached = discoveryCache[key], now().timeIntervalSince(cached.date) < 86400
+        else { return nil }
+        return cached.value
+    }
+
+    private func cachedDiscoveryData(
+        _ key: String, session: UUID, consent: UUID,
+        fetch: () async throws -> SpotifyDiscoveryData
+    ) async throws -> SpotifyDiscoveryData {
+        if let cached = memoryDiscovery(key) { return cached }
+        var value = try? await cache?.discovery(key)
+        try checkDiscoverySession(session, consent: consent)
+        if value == nil {
+            value = try await SpotifyRequestContext.$priority.withValue(.background) {
+                try await fetch()
+            }
+        }
+        try checkDiscoverySession(session, consent: consent)
+        let result = value ?? SpotifyDiscoveryData()
+        if result.listenBrainzStatus != .unavailable {
+            discoveryCache = discoveryCache.filter {
+                now().timeIntervalSince($0.value.date) < 86400
+            }
+            if discoveryCache.count >= 40,
+                let oldest = discoveryCache.min(by: { $0.value.date < $1.value.date })
+            {
+                discoveryCache[oldest.key] = nil
+            }
+            discoveryCache[key] = (now(), result)
+            try? await cache?.saveDiscovery(key, value: result, session: session)
+        }
+        try checkDiscoverySession(session, consent: consent)
+        return result
+    }
+
+    func checkDiscoverySession(_ session: UUID, consent: UUID? = nil) throws {
         try Task.checkCancellation()
-        guard !isClosed, session == sessionGeneration else { throw CancellationError() }
+        guard !isClosed, session == sessionGeneration,
+            consent == nil || consent == consentGeneration
+        else { throw CancellationError() }
+    }
+
+    func optionalDiscoveryRead<T: Sendable>(
+        session: UUID, _ operation: @Sendable () async throws -> T
+    ) async throws -> T? {
+        try checkDiscoverySession(session)
         do {
             let value = try await operation()
-            try Task.checkCancellation()
-            guard !isClosed, session == sessionGeneration else { throw CancellationError() }
+            try checkDiscoverySession(session)
             return value
-        } catch is CancellationError {
-            throw CancellationError()
-        } catch let error as URLError where error.code == .cancelled {
-            throw CancellationError()
-        } catch {
-            try Task.checkCancellation()
-            guard !isClosed, session == sessionGeneration else { throw CancellationError() }
+        } catch is CancellationError { throw CancellationError() } catch let error as URLError
+            where error.code == .cancelled
+        { throw CancellationError() } catch {
+            try checkDiscoverySession(session)
             return nil
         }
     }

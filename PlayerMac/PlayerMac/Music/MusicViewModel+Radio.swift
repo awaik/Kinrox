@@ -1,0 +1,142 @@
+import Foundation
+import MusicCore
+
+extension MusicViewModel {
+    func startDiscoveryRadio() {
+        let tracks = (discoverySnapshot?.displayTracks ?? contents.tracks).filter {
+            $0.isPlayable != false
+        }
+        guard canPlayLibrary, !tracks.isEmpty else { return }
+        stopDiscoveryRadio()
+        let session = radioSessionID
+        runPlayback(startsPlayback: true) { model in
+            guard model.radioSessionID == session else { return }
+            var queue = MusicQueue()
+            queue.start(tracks)
+            try await model.startQueue(queue)
+            guard model.radioSessionID == session else { return }
+            model.isDiscoveryRadioActive = true
+            model.radioSeenTrackIDs = Set(tracks.map(\.id))
+            model.radioSeenDedupeKeys = tracks.reduce(into: []) {
+                $0.formUnion(MusicDiscoveryIdentity.keys($1))
+            }
+            model.refillDiscoveryRadioIfNeeded()
+        }
+    }
+
+    func stopDiscoveryRadio() {
+        isDiscoveryRadioActive = false
+        radioSessionID = UUID()
+        radioRefillTask?.cancel()
+        radioRefillTask = nil
+        isRefillingRadio = false
+        radioSeenTrackIDs.removeAll()
+        radioSeenDedupeKeys.removeAll()
+        radioAttemptedOccurrences.removeAll()
+    }
+
+    func refillDiscoveryRadioIfNeeded() {
+        synchronizeDiscoveryConsent()
+        guard isDiscoveryRadioActive, !isRefillingRadio, queue.source.count < 5,
+            let current = queue.current, !radioAttemptedOccurrences.contains(current.id)
+        else { return }
+        isRefillingRadio = true
+        let session = radioSessionID
+        let store = store
+        radioRefillTask = Task { [weak self] in
+            guard let self else { return }
+            defer { if self.radioSessionID == session { self.isRefillingRadio = false } }
+            do {
+                let snapshot: MusicDiscoverySnapshot
+                if let provider = self.radioDiscoveryProvider {
+                    snapshot = try await provider(current.track)
+                } else if let spotify = store as? SpotifyLibraryStore {
+                    self.synchronizeDiscoveryConsent()
+                    spotify.setListenBrainzEnabled(self.listenBrainzEnabled)
+                    guard spotify.isConnected else { return }
+                    snapshot = try await spotify.discover(
+                        seedTitle: current.track.title, seedTrack: current.track,
+                        seedArtist: current.track.artists.first, mode: self.discoveryMode,
+                        selectedGenre: self.discoverySelectedGenre,
+                        hideLiked: self.discoveryHideLiked,
+                        notInterestedTrackIDs: self.notInterestedTrackIDs,
+                        notInterestedArtistIDs: self.notInterestedArtistIDs)
+                } else {
+                    snapshot = MusicDiscoveryEngine.build(
+                        seedTrackIDs: [current.track.id], hideLiked: self.discoveryHideLiked,
+                        catalog: self.catalog, library: self.library, history: self.playHistory,
+                        notInterestedTrackIDs: self.notInterestedTrackIDs,
+                        notInterestedArtistIDs: self.notInterestedArtistIDs)
+                }
+                guard !Task.isCancelled, self.isDiscoveryRadioActive,
+                    self.radioSessionID == session, self.store === store
+                else { return }
+                await self.commitRadioRefill(
+                    snapshot.displayTracks, occurrenceID: current.id, session: session, store: store
+                )
+            } catch {
+                // Discovery failure leaves the current queue playable.
+            }
+        }
+    }
+
+    private func commitRadioRefill(
+        _ candidates: [MusicTrack], occurrenceID: UUID, session: UUID, store: any MusicLibraryStore
+    ) async {
+        // Join the playback coordinator, keeping the refill busy through the actual engine commit.
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            let action: @MainActor () async -> Void = { [weak self] in
+                defer { continuation.resume() }
+                guard let self, self.isDiscoveryRadioActive, self.radioSessionID == session,
+                    self.store === store, self.queue.source.count < 5
+                else { return }
+                let existing = self.queue.items + self.queue.history
+                var ids = self.radioSeenTrackIDs.union(existing.map(\.track.id))
+                var keys = existing.reduce(into: self.radioSeenDedupeKeys) {
+                    $0.formUnion(MusicDiscoveryIdentity.keys($1.track))
+                }
+                var refill: [MusicTrack] = []
+                for track in candidates
+                where track.isPlayable != false && !ids.contains(track.id)
+                    && !self.notInterestedTrackIDs.contains(track.id)
+                    && self.notInterestedArtistIDs.isDisjoint(with: track.artists.map(\.id))
+                {
+                    let trackKeys = MusicDiscoveryIdentity.keys(track)
+                    guard keys.isDisjoint(with: trackKeys) else { continue }
+                    refill.append(track)
+                    ids.insert(track.id)
+                    keys.formUnion(trackKeys)
+                    if refill.count == 10 { break }
+                }
+                guard !refill.isEmpty else {
+                    self.radioAttemptedOccurrences.insert(occurrenceID)
+                    return
+                }
+                var next = self.queue
+                next.appendSource(refill)
+                do {
+                    if let engine = self.musicEngine {
+                        try await engine.updateQueue(
+                            next, position: self.displayedPosition, paused: self.paused)
+                    }
+                    guard self.isDiscoveryRadioActive, self.radioSessionID == session,
+                        self.store === store
+                    else { return }
+                    self.queue = next
+                    self.radioSeenTrackIDs = ids
+                    self.radioSeenDedupeKeys = keys
+                    if self.isQueue { self.refreshContents() }
+                    self.notifyPlayback()
+                } catch {
+                    // No candidates are consumed on a transient engine failure.
+                }
+            }
+            if let coordinator {
+                coordinator.perform(.music, action: action)
+            } else {
+                Task { await action() }
+            }
+        }
+    }
+
+}

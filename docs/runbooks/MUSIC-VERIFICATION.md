@@ -1,5 +1,10 @@
 # Music mode v2 verification
 
+Discovery v4 is implemented locally on 2026-11-10, including the same-day default-on
+revision recorded below; live acceptance remains pending. See the
+[reviewed v4 plan](<../RESEARCHES/REVIEWED - 2026-11-10_13-42_Similar-and-discovery-v4.md>).
+This work is **not released**; the v2 release evidence below remains historical.
+
 SQLite caching and latency work was implemented locally on 2026-11-02; see
 [performance verification](SPOTIFY-PERFORMANCE-VERIFICATION.md) for the current implementation,
 checks and release boundary. The 2026-11-01 behavior below is historical.
@@ -292,3 +297,68 @@ passed; 8 website tests and 5 document publication tests passed. All 120 pages a
 30 locales/348 UI keys passed offline checks. The Mac build and targeted strict
 Swift formatting checks passed. No live Spotify calls or consent acceptance were
 needed. [Details and release status](<../RESEARCHES/DONE/DONE - 2026-11-01_12-23_Spotify-document-localization.md>).
+
+## Discovery v4 backend — 2026-11-10
+
+The pure MusicCore engine now ranks confirmed signals, excludes seed recordings
+and variants, merges reasons, applies listening/feedback penalties and artist caps,
+and exposes ordered sections. There are no invented genres, catalog-wide fallback
+reasons, or synthetic mixes. Spotify discovery uses background scheduling, bounded
+collaborator/ListenBrainz mapping requests, ISRC hydration, and a 24-hour cache of
+complete candidate metadata. MusicBrainz/Labs access is on by default after the Spotify
+connection and acceptance of the Spotify privacy policy (owner decision 2026-11-10,
+revised the same day); it can be turned off at any time in Settings → Spotify.
+Turning it off invalidates pending discovery results and closes the client. MusicBrainz requests
+are serialized at least one second apart; unavailable services retain local results.
+
+Radio appends source occurrences after asynchronous queue startup, preserves manual
+queue ordering, rejects seen recording variants, and invalidates pending refill on
+source replacement or shutdown. Play history begins only on observed unpaused
+playback, distinguishes natural EOF/manual transitions, excludes paused time and
+seeks, and remains local. SQLite retains history for up to 180 days/20,000 rows,
+similarity for 7 days and resolutions for 30 days; account Disconnect removes these
+tables with the existing database. Privacy document version `2026-11-10` covers all
+30 locales, with 60 updated generated privacy/terms pages.
+
+Final verification passed: 60 music-package tests / 12 suites, 334 Mac tests / 63 suites,
+62 iPhone simulator tests / 12 suites, strict lint on 39 changed Swift files, 30-locale
+validation, 8 Spotify-document tests, 9 site tests and the 120-page generation check.
+Checks and retained intermediate failures are recorded in the linked research and
+`.tmp/scratch/research-execute/runs/2026-11-10_17-43-26-BmsgP2/`. Fixtures cover
+ranking regressions, cache restoration/expiry/deletion, request budgets, consent,
+radio races, history and feedback. The only UI edit adapts the reason enum switch
+using the six existing localization calls. The new UI/consent card and live `Refu`
+checks belong to the orchestrator, as specified in plan section 4.7.
+
+No new standalone Spotify acceptance or performance claim is made. An installed
+Kinrox/Soloist session was active and was left untouched. Live volume-zero playback,
+request count/time-to-results, cold/warm startup and command latency, and physical
+footprint/CPU during startup/playback/pause/sustained use were not measured here.
+No physical iPhone checks were performed. The sleep/reboot waiver remains a waiver;
+no separate macOS 14 runtime test was requested or run. Built Mac minimum-OS metadata
+remains 14.0; the development Homebrew libmpv runtime limitation is unchanged.
+
+## Owner revision 2026-11-10: default on
+
+The Spotify privacy policy discloses ListenBrainz/MusicBrainz similarity, enabled by
+default after connection and policy acceptance. Settings → Spotify provides the
+explanation and off switch. `ListenBrainzPreference` shares the key and default:
+an absent preference enables similarity, stored `false` disables it, and models
+without a defaults store remain disabled. Store replacement reapplies the preference
+after Disconnect → Connect. The 30 privacy disclosures and 60 generated privacy/terms
+pages retain the unreleased document version `2026-11-10`.
+
+Regression tests failed before the fix for an absent key, removal of an opt-out, and
+reconnect without a stored preference. After the fix, the focused discovery suite
+passed 23 tests, including runtime toggling, explicit opt-out/no MetaBrainz requests,
+models without defaults, and reconnect for absent/false/true preferences. Both Spotify
+and MetaBrainz clients in these regressions use URLProtocol fixtures.
+
+Required checks passed: `swift test --package-path Packages/KinroxMusic` (65 tests /
+12 suites), the section 8 PlayerMac `xcodebuild ... -derivedDataPath DerivedData test`
+command (353 tests / 64 suites), and full recursive strict Swift lint. Site generation,
+`python3 Scripts/build-site.py --check` (120 pages / 30 locales), and
+`python3 Scripts/tests/test_spotify_documents.py` (8 tests) passed. Red/green, package,
+Mac and lint logs are retained at `/tmp/kinrox-consent-*.log`; the full Mac result is
+`DerivedData/Logs/Test/Test-PlayerMac-2026.11.10_21-10-00-+0700.xcresult`.
+No live external-service tests were enabled; no new live acceptance is claimed.

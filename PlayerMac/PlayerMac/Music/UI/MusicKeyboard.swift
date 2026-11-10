@@ -126,7 +126,11 @@ extension MusicViewModel {
         if isQueue, let item = queue.items.first(where: { $0.id == focusedQueueID }) {
             toggleTrack(item.track, anchor: item.id.uuidString)
         } else if let index = contents.tracks.firstIndex(where: { $0.id == focusedTrackID }) {
-            toggleTrack(contents.tracks[index], anchor: "track-\(index)")
+            let track = contents.tracks[index]
+            // Discovery rows anchor their favorite popover by track ID.
+            toggleTrack(
+                track,
+                anchor: selection.source == .similar ? "discovery-\(track.id)" : "track-\(index)")
         }
     }
 
@@ -136,7 +140,7 @@ extension MusicViewModel {
             let sources: [MusicSource] =
                 (query.isEmpty ? [] : [.search(query)]) + [.liked, .albums, .similar, .queue]
                 + library.playlists.map { .playlist($0.id) }
-                + catalog.artists.map { .artist($0.id) }
+                + catalog.artists.filter { !$0.isVariousArtists }.map { .artist($0.id) }
             let index = sources.firstIndex(of: selection.source) ?? 0
             select(sources[min(max(0, index + step), sources.count - 1)])
         case .albums:

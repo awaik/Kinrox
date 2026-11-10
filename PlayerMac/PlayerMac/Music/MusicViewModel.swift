@@ -58,6 +58,42 @@ final class MusicViewModel {
     var discoverySeedTrack: MusicTrack?
     var discoverySeedArtist: MusicArtist?
     var isDiscovering = false
+    @ObservationIgnored var discoveryHasConnectedRefresh = false
+    @ObservationIgnored var discoverySnapshotConsent = false
+    @ObservationIgnored var discoveryDefaultsObservation: MusicDefaultsObservation?
+    @ObservationIgnored var discoverySeedAlbumID: String?
+    @ObservationIgnored var discoverySeedPlaylistID: String?
+    var discoverySeedHistory: [MusicDiscoverySeed] = []
+    @ObservationIgnored var discoveryHistoryTracks: [String: MusicTrack] = [:]
+    @ObservationIgnored var discoveryHistoryArtists: [String: MusicArtist] = [:]
+    var notInterestedTrackIDs: Set<String> = []
+    var notInterestedArtistIDs: Set<String> = []
+    var notInterestedUndo: [(track: String?, artist: String?)] = []
+    var listenBrainzEnabled = ListenBrainzPreference.defaultValue {
+        didSet {
+            guard oldValue != listenBrainzEnabled else { return }
+            defaults?.set(listenBrainzEnabled, forKey: ListenBrainzPreference.key)
+            (store as? SpotifyLibraryStore)?.setListenBrainzEnabled(listenBrainzEnabled)
+            listenBrainzStatus = listenBrainzEnabled ? .ready : .off
+            if selection.source == .similar { refreshDiscovery() }
+        }
+    }
+    var listenBrainzStatus = MusicListenBrainzStatus.off
+    var isDiscoveryRadioActive = false
+    var isRefillingRadio = false
+    @ObservationIgnored var radioSessionID = UUID()
+    @ObservationIgnored var radioRefillTask: Task<Void, Never>?
+    @ObservationIgnored var radioSeenTrackIDs: Set<String> = []
+    @ObservationIgnored var radioSeenDedupeKeys: Set<String> = []
+    @ObservationIgnored var radioAttemptedOccurrences: Set<UUID> = []
+    @ObservationIgnored var radioDiscoveryProvider:
+        ((MusicTrack) async throws -> MusicDiscoverySnapshot)?
+    var playHistory: [MusicPlayHistoryEntry] = []
+    @ObservationIgnored var activePlaySession: MusicActivePlaySession?
+    @ObservationIgnored var listeningSessionID = UUID()
+    @ObservationIgnored var lastCompletedTrackID: String?
+    @ObservationIgnored var historyNow: () -> Date = { Date() }
+
     var sortAlbumsByArtist = true
     var focusedTrackID: String? {
         get { focus.focusedTrackID }
@@ -195,7 +231,17 @@ final class MusicViewModel {
         }
         selection = initialSelection
         contents = BrowserContents(albums: [], artists: [], tracks: [])
+        listenBrainzEnabled = ListenBrainzPreference.isEnabled(in: defaults)
+        listenBrainzStatus = listenBrainzEnabled ? .ready : .off
+        notInterestedTrackIDs = Set(
+            defaults?.stringArray(forKey: "app.kinrox.music.notInterestedTracks") ?? [])
+        notInterestedArtistIDs = Set(
+            defaults?.stringArray(forKey: "app.kinrox.music.notInterestedArtists") ?? [])
+        (store as? SpotifyLibraryStore)?.setListenBrainzEnabled(listenBrainzEnabled)
         refreshContents()
+        observeDiscoveryPreferences()
+        observeDiscoveryStore()
+        if selection.source == .similar { refreshDiscovery() }
     }
 
     var isDemo: Bool { store is DemoMusicLibraryStore }
@@ -302,11 +348,13 @@ final class MusicViewModel {
                 albums: searchResults.albums, artists: searchResults.artists, tracks: tracks)
         } else if case .similar = selection.source, let discoverySnapshot {
             rawContents = BrowserContents(
-                albums: catalog.albums, artists: catalog.artists, tracks: discoverySnapshot.tracks)
+                albums: catalog.albums, artists: catalog.artists,
+                tracks: discoverySnapshot.displayTracks)
         } else {
             rawContents = selection.contents(catalog: catalog, library: library, queue: queue)
         }
-        var sorted = sortedTracks(rawContents.tracks)
+        var sorted =
+            selection.source == .similar ? rawContents.tracks : sortedTracks(rawContents.tracks)
         let filter = collectionFilterQuery.trimmingCharacters(in: .whitespacesAndNewlines)
         if !filter.isEmpty {
             sorted = sorted.filter { track in

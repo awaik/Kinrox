@@ -10,5 +10,5 @@ ENABLE_APP_SANDBOX = NO
 #include "Shared.xcconfig"
 
 // Mac releases advance independently of the companion iPhone app.
-MARKETING_VERSION = 0.5.6
-CURRENT_PROJECT_VERSION = 16
+MARKETING_VERSION = 0.5.7
+CURRENT_PROJECT_VERSION = 17
