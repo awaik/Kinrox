@@ -40,4 +40,22 @@ struct MusicDiscoveryRegressionTests {
         #expect(result.tracks.count == 64)
         #expect(groups.values.allSatisfy { $0.count <= 2 })
     }
+
+    /// Catches the selection loop going cubic again, for example by normalizing artist names
+    /// or rescanning the picked tracks on every comparison: 600 candidates then take about
+    /// two minutes in a debug build instead of well under a second.
+    @Test(.timeLimit(.minutes(1))) func largeCandidatePoolRanksWithoutStalling() {
+        let seed = track("seed", title: "Seed", artist: "seedArtist")
+        let candidates = (0..<150).flatMap { artist in
+            (0..<4).map {
+                track("\(artist)-\($0)", title: "Song \(artist) \($0)", artist: "other\(artist)")
+            }
+        }
+        let result = MusicDiscoveryEngine.build(
+            seedTrackIDs: [seed.id], hideLiked: false,
+            catalog: MusicCatalog(tracks: [seed]), library: LibrarySnapshot(userID: "u"),
+            freshTracks: candidates)
+        // Every candidate is a distinct recording, so none may be merged or dropped.
+        #expect(result.tracks.count == 600)
+    }
 }

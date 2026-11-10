@@ -49,9 +49,35 @@ public enum MusicDiscoveryIdentity {
     }
 
     public static func sameRecording(_ lhs: MusicTrack, _ rhs: MusicTrack) -> Bool {
-        lhs.id == rhs.id || (isrc(lhs) != nil && isrc(lhs) == isrc(rhs))
-            || key(lhs) == key(rhs)
-            || (baseTitle(lhs.title) == baseTitle(rhs.title) && sharesArtist(lhs, rhs))
+        Recording(lhs).isSame(as: Recording(rhs))
+    }
+
+    /// A track's recording keys, computed once: `baseTitle` runs three regular expressions,
+    /// so comparing many pairs must not recompute them for every pair.
+    public struct Recording: Sendable {
+        let id: String
+        let isrc: String?
+        let key: String
+        let baseTitle: String
+        let artistIDs: Set<String>
+        let artistNames: Set<String>
+
+        public init(_ track: MusicTrack) {
+            id = track.id
+            isrc = MusicDiscoveryIdentity.isrc(track)
+            baseTitle = MusicDiscoveryIdentity.baseTitle(track.title)
+            artistNames = Set(track.artists.map { MusicDiscoveryIdentity.normalized($0.name) })
+            artistIDs = Set(track.artists.map(\.id))
+            key =
+                MusicDiscoveryIdentity.normalized(track.artists.first?.name ?? "") + "|" + baseTitle
+        }
+
+        public func isSame(as other: Recording) -> Bool {
+            id == other.id || (isrc != nil && isrc == other.isrc) || key == other.key
+                || (baseTitle == other.baseTitle
+                    && (!artistIDs.isDisjoint(with: other.artistIDs)
+                        || !artistNames.isDisjoint(with: other.artistNames)))
+        }
     }
 
     public static func isVariousArtists(_ artist: MusicArtist) -> Bool {

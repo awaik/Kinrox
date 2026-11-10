@@ -85,6 +85,7 @@ public enum MusicDiscoveryEngine {
             retainedHistory.filter {
                 $0.completed && now.timeIntervalSince($0.playedAt) < 14 * 86400
             }.map(\.trackID))
+        let seedRecordings = seeds.map(MusicDiscoveryIdentity.Recording.init)
         var candidates: [String: [MusicDiscoverySignal]] = [:]
         for signal in inputs {
             let track = signal.track
@@ -93,7 +94,7 @@ public enum MusicDiscoveryEngine {
                 !notInterestedTrackIDs.contains(track.id),
                 notInterestedArtistIDs.isDisjoint(with: track.artists.map(\.id)),
                 skipped[track.id, default: []].count < 2,
-                !seeds.contains(where: { MusicDiscoveryIdentity.sameRecording(track, $0) })
+                !seedRecordings.contains(where: MusicDiscoveryIdentity.Recording(track).isSame)
             else { continue }
             candidates[track.id, default: []].append(signal)
         }
@@ -130,12 +131,16 @@ public enum MusicDiscoveryEngine {
             }
         scored.sort { precedes($0.item, $1.item) }
         var deduped: [(item: MusicDiscoveryItem, signals: [MusicDiscoverySignal])] = []
+        // Parallel to `deduped`; a merge keeps the first match's track, so its keys stay valid.
+        var dedupedRecordings: [MusicDiscoveryIdentity.Recording] = []
         for candidate in scored {
-            let matches = deduped.indices.filter {
-                MusicDiscoveryIdentity.sameRecording(deduped[$0].item.track, candidate.item.track)
+            let recording = MusicDiscoveryIdentity.Recording(candidate.item.track)
+            let matches = dedupedRecordings.indices.filter {
+                dedupedRecordings[$0].isSame(as: recording)
             }
             guard let first = matches.first else {
                 deduped.append(candidate)
+                dedupedRecordings.append(recording)
                 continue
             }
             let best = deduped[first].item
@@ -144,50 +149,62 @@ public enum MusicDiscoveryEngine {
                 MusicDiscoveryItem(
                     track: best.track, reasons: merged.map(\.reason), score: best.score), merged
             )
-            for index in matches.dropFirst().reversed() { deduped.remove(at: index) }
+            for index in matches.dropFirst().reversed() {
+                deduped.remove(at: index)
+                dedupedRecordings.remove(at: index)
+            }
         }
-        var remaining = deduped.map(\.item)
+        // Every key is normalized once, before the loop, and the selected artists are kept as
+        // sets: normalizing inside the loop and rescanning `ordered` for the diversity penalty
+        // made each pick O(n²) and the ranking O(n³), minutes to hours on a large playlist.
+        var remaining = deduped.map {
+            RankedCandidate($0.item, artistIDs: artistIDs, artistNames: artistNames)
+        }
         var ordered: [MusicDiscoveryItem] = []
         var primaryCounts: [String: Int] = [:]
         var seedCounts: [String: Int] = [:]
+        var selectedArtistIDs: Set<String> = []
+        var selectedArtistNames: Set<String> = []
         while !remaining.isEmpty {
             let seedEligible = remaining.indices.filter { index in
-                let track = remaining[index].track
-                let seedNames = track.artists.filter {
-                    artistIDs.contains($0.id)
-                        || artistNames.contains(MusicDiscoveryIdentity.normalized($0.name))
-                }.map { MusicDiscoveryIdentity.normalized($0.name) }
-                return seedNames.allSatisfy { seedCounts[$0, default: 0] < 3 }
+                remaining[index].seedNames.allSatisfy { seedCounts[$0, default: 0] < 3 }
             }
             func primaryCount(_ index: Int) -> Int {
-                let track = remaining[index].track
-                return primaryCounts[
-                    MusicDiscoveryIdentity.normalized(track.artists.first?.name ?? track.id),
-                    default: 0]
+                primaryCounts[remaining[index].primaryArtist, default: 0]
             }
             var eligible = seedEligible.filter { ordered.count >= 30 || primaryCount($0) < 2 }
             if eligible.isEmpty, let least = seedEligible.map(primaryCount).min() {
                 // Diversity is a first pass; a small artist pool must not lose valid tracks.
                 eligible = seedEligible.filter { primaryCount($0) == least }
             }
-            guard
-                let index = eligible.max(by: { lhs, rhs in
-                    let a = marginal(remaining[lhs], selected: ordered)
-                    let b = marginal(remaining[rhs], selected: ordered)
-                    return a == b ? !precedes(remaining[lhs], remaining[rhs]) : a < b
-                })
-            else { break }
-            let item = remaining.remove(at: index)
-            ordered.append(item)
-            primaryCounts[
-                MusicDiscoveryIdentity.normalized(item.track.artists.first?.name ?? item.track.id),
-                default: 0] += 1
-            for artist in item.track.artists
-            where artistIDs.contains(artist.id)
-                || artistNames.contains(MusicDiscoveryIdentity.normalized(artist.name))
-            {
-                seedCounts[MusicDiscoveryIdentity.normalized(artist.name), default: 0] += 1
+            func marginal(_ index: Int) -> Double {
+                let candidate = remaining[index]
+                let sharesArtist =
+                    !candidate.artistIDs.isDisjoint(with: selectedArtistIDs)
+                    || !candidate.artistNames.isDisjoint(with: selectedArtistNames)
+                return candidate.item.score * (sharesArtist ? 0.8 : 1)
             }
+            // One pass with each marginal computed once; picks what `max(by:)` would: a later
+            // candidate replaces the best only when it ranks strictly higher.
+            var best: (index: Int, marginal: Double)?
+            for index in eligible {
+                let value = marginal(index)
+                if let current = best,
+                    current.marginal == value
+                        ? precedes(remaining[current.index], remaining[index])
+                        : current.marginal > value
+                {
+                    continue
+                }
+                best = (index, value)
+            }
+            guard let index = best?.index else { break }
+            let picked = remaining.remove(at: index)
+            ordered.append(picked.item)
+            primaryCounts[picked.primaryArtist, default: 0] += 1
+            for name in picked.seedNames { seedCounts[name, default: 0] += 1 }
+            selectedArtistIDs.formUnion(picked.artistIDs)
+            selectedArtistNames.formUnion(picked.artistNames)
         }
         var mixes = local.playlists.filter { !$0.trackIDs.allSatisfy { !seedIDs.contains($0) } }.map
         {
@@ -198,7 +215,8 @@ public enum MusicDiscoveryEngine {
         for (album, tracks) in compilationAlbums {
             let ids = tracks.filter { candidate in
                 candidate.isPlayable != false
-                    && !seeds.contains { MusicDiscoveryIdentity.sameRecording(candidate, $0) }
+                    && !seedRecordings.contains(
+                        where: MusicDiscoveryIdentity.Recording(candidate).isSame)
             }.map(\.id)
             if ids.count >= 2 {
                 mixes.append(
@@ -246,16 +264,50 @@ public enum MusicDiscoveryEngine {
         track.artists.first.map(MusicDiscoveryIdentity.isVariousArtists) ?? false
     }
     static func precedes(_ lhs: MusicDiscoveryItem, _ rhs: MusicDiscoveryItem) -> Bool {
+        precedes(
+            lhs, MusicDiscoveryIdentity.stableHash(lhs.id), rhs,
+            MusicDiscoveryIdentity.stableHash(rhs.id))
+    }
+    static func precedes(_ lhs: RankedCandidate, _ rhs: RankedCandidate) -> Bool {
+        precedes(lhs.item, lhs.idHash, rhs.item, rhs.idHash)
+    }
+    /// Higher score first; equal scores fall back to a stable shuffle by id hash.
+    private static func precedes(
+        _ lhs: MusicDiscoveryItem, _ lhsHash: @autoclosure () -> UInt64,
+        _ rhs: MusicDiscoveryItem, _ rhsHash: @autoclosure () -> UInt64
+    ) -> Bool {
         if lhs.score != rhs.score { return lhs.score > rhs.score }
-        let a = MusicDiscoveryIdentity.stableHash(lhs.id)
-        let b = MusicDiscoveryIdentity.stableHash(rhs.id)
+        let a = lhsHash()
+        let b = rhsHash()
         return a == b ? lhs.id < rhs.id : a < b
     }
-    static func marginal(_ item: MusicDiscoveryItem, selected: [MusicDiscoveryItem]) -> Double {
-        let sharesArtist = selected.contains {
-            MusicDiscoveryIdentity.sharesArtist(item.track, $0.track)
+    /// A ranking candidate with its artist keys normalized and its id hashed once. A class, so
+    /// the selection loop reads candidates without copying their sets.
+    final class RankedCandidate {
+        let item: MusicDiscoveryItem
+        let idHash: UInt64
+        let artistIDs: Set<String>
+        let artistNames: Set<String>
+        let primaryArtist: String
+        /// Normalized names of the seed artists credited on the track, one per credit.
+        let seedNames: [String]
+
+        init(
+            _ item: MusicDiscoveryItem, artistIDs seedIDs: Set<String>,
+            artistNames seedNames: Set<String>
+        ) {
+            let artists = item.track.artists
+            let names = artists.map { MusicDiscoveryIdentity.normalized($0.name) }
+            self.item = item
+            idHash = MusicDiscoveryIdentity.stableHash(item.id)
+            artistIDs = Set(artists.map(\.id))
+            artistNames = Set(names)
+            primaryArtist = names.first ?? MusicDiscoveryIdentity.normalized(item.track.id)
+            self.seedNames = zip(artists, names).filter {
+                seedIDs.contains($0.0.id) || seedNames.contains($0.1)
+            }
+            .map(\.1)
         }
-        return item.score * (sharesArtist ? 0.8 : 1)
     }
     static func isFresh(_ track: MusicTrack, catalog: MusicCatalog, now: Date) -> Bool {
         guard
