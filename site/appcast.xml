@@ -6,6 +6,21 @@
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
     <item>
+      <title>Kinrox 0.5.8</title>
+      <pubDate>Wed, 11 Nov 2026 14:59:02 +0000</pubDate>
+      <sparkle:version>18</sparkle:version>
+      <sparkle:shortVersionString>0.5.8</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.5.8</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Mac player release for Apple Silicon (arm64), macOS 14 or newer. Released together with Kinrox Remote 0.2.2 for iPhone.&lt;/p&gt;
+&lt;h3&gt;What's New&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;b&gt;Similar from your iPhone.&lt;/b&gt; Kinrox Remote 0.2.2 can start and stop Similar on the Mac. Starting keeps the current track and tracks you added yourself, replaces the remaining source tracks with similar ones and keeps topping up the queue. Stop keeps what was already added.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Not interested from your iPhone.&lt;/b&gt; While Similar runs, the remote can hide a track or its artist. The Mac removes matching upcoming tracks and skips a matching current track; Undo removes the exclusion.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Get the iPhone remote.&lt;/b&gt; The Connect iPhone window and Settings → Remote show a QR code and an Open in App Store link for Kinrox Remote. Help → Kinrox Remote for iPhone… opens them. The QR code is generated on the Mac and makes no network request.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Lock Screen controls on iPhone.&lt;/b&gt; Kinrox Remote 0.2.2 adds pause, previous/next or ±10 seconds and volume to the iPhone Lock Screen. No Mac setting is needed.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Requirements and Notes&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;macOS 14.0 or newer on Apple Silicon (arm64).&lt;/li&gt;&lt;li&gt;Older remotes keep working with this Mac release; Similar controls on the iPhone require Kinrox Remote 0.2.2. A remote talking to an older Mac explains that the Mac needs an update.&lt;/li&gt;&lt;li&gt;Standalone Spotify playback continues to use separately downloaded Spotify Soloist, with Spotify.app fully closed. Spotify Premium, your own Client ID, a Soloist API key and one-time phone pairing are required; Soloist is not bundled with Kinrox.&lt;/li&gt;&lt;li&gt;Runtime verification is limited to macOS 26.5.2 (Apple Silicon). Minimum-OS metadata is checked for bundled binaries; no separate macOS 14 runtime test was performed.&lt;/li&gt;&lt;li&gt;Automated checks, notarization and mounted-app startup evidence are recorded in &lt;a href="https://github.com/awaik/Kinrox/blob/v0.5.8/docs/runbooks/0.5.8-VERIFICATION.md"&gt;Mac 0.5.8 Verification&lt;/a&gt;.&lt;/li&gt;&lt;li&gt;To install manually, open &lt;code&gt;Kinrox-0.5.8-arm64.dmg&lt;/code&gt; and drag &lt;code&gt;Kinrox.app&lt;/code&gt; to &lt;code&gt;Applications&lt;/code&gt;. Existing installations of Kinrox 0.3.0 or newer can also update through &lt;code&gt;Kinrox → Check for Updates…&lt;/code&gt;.&lt;/li&gt;&lt;li&gt;&lt;code&gt;Kinrox-0.5.8-dependency-sources.tar.gz&lt;/code&gt; contains corresponding sources, build recipes, patches and license texts for bundled open-source libraries. &lt;code&gt;SHA256SUMS.txt&lt;/code&gt; lists release-asset checksums.&lt;/li&gt;&lt;/ul&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.5.8/Kinrox-0.5.8-arm64.dmg" length="33596807" type="application/octet-stream" sparkle:edSignature="6hYTCchzlB2f3BRiEyrG5jzD/YVLxrRFqIxS+liDpusxoQUBziARt8HaXQH6A6ICsL7Fb3Y3KWeu6mrLUytnAg==" />
+    </item>
+    <item>
       <title>Kinrox 0.5.7</title>
       <pubDate>Tue, 10 Nov 2026 14:54:46 +0000</pubDate>
       <sparkle:version>17</sparkle:version>
