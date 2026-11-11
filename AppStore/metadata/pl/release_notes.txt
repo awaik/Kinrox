@@ -1,0 +1,2 @@
+Nowość: sterowanie na ekranie blokady. Pauza, przewijanie i głośność bez odblokowywania iPhone’a.
+Podobne z pilota: muzyka na Macu gra dalej, a niechciane utwory możesz ukryć (wymaga Kinrox na Maca 0.5.8).

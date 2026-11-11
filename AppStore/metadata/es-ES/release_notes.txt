@@ -1,0 +1,2 @@
+Novedad: controles en la pantalla bloqueada. Pausa, salta y ajusta el volumen sin desbloquear el iPhone.
+Similares desde el mando: la música sigue en el Mac y puedes ocultar lo que no te gusta (requiere Kinrox para Mac 0.5.8).

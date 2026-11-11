@@ -1,0 +1,2 @@
+Neu: Steuerung auf dem Sperrbildschirm. Pause, Springen und Lautstärke, ohne das iPhone zu entsperren.
+Ähnliches von der Fernbedienung: Die Musik auf dem Mac läuft weiter, unerwünschte Titel blendest du aus (erfordert Kinrox für Mac 0.5.8).

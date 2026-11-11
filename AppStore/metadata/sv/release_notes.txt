@@ -1,0 +1,2 @@
+Nytt: reglage på låsskärmen. Pausa, hoppa och ändra volym utan att låsa upp iPhone.
+Liknande från fjärrkontrollen: musiken på din Mac fortsätter och du döljer det du inte gillar (kräver Kinrox för Mac 0.5.8).

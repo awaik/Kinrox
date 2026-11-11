@@ -1,0 +1,2 @@
+New: Lock Screen controls. Pause, skip and change the volume without unlocking your iPhone.
+Similar from the remote: keep the music going on your Mac and hide tracks you don't like (requires Kinrox for Mac 0.5.8).

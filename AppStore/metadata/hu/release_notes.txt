@@ -1,0 +1,2 @@
+Újdonság: vezérlés a zárolási képernyőn. Szünet, léptetés és hangerő az iPhone feloldása nélkül.
+Hasonlók a távirányítóról: a zene a Macen tovább szól, és elrejtheted, ami nem tetszik (Kinrox for Mac 0.5.8 szükséges).

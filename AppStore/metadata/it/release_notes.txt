@@ -1,0 +1,2 @@
+Novità: controlli nella schermata di blocco. Pausa, salti e volume senza sbloccare l’iPhone.
+Brani simili dal telecomando: la musica sul Mac continua e puoi nascondere ciò che non ti piace (richiede Kinrox per Mac 0.5.8).

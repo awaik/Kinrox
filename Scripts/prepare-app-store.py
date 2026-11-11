@@ -14,7 +14,8 @@ LOCALES = {
     'id':'id', 'ms':'ms', 'vi':'vi', 'th':'th', 'tr':'tr', 'pl':'pl', 'uk':'uk',
     'nl-NL':'nl', 'ro':'ro', 'el':'el', 'cs':'cs', 'sv':'sv', 'hu':'hu', 'he':'he',
 }
-FIELDS = {'name':30, 'subtitle':30, 'promotional_text':170, 'description':4000, 'keywords':100}
+FIELDS = {'name':30, 'subtitle':30, 'promotional_text':170, 'description':4000, 'keywords':100,
+          'release_notes':4000}
 # Owner decision 2026-11-11: no third-party app or service names anywhere in the listing.
 FORBIDDEN = ('spotify', 'vlc', 'iina', 'mpv', 'plex', 'netflix', 'youtube', 'soloist')
 SCREENSHOTS = 8  # Figma 14 · App Store — Screenshots v2 (229:304)

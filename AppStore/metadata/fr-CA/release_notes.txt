@@ -1,0 +1,2 @@
+Nouveau : commandes sur l’écran verrouillé. Pause, sauts et volume sans déverrouiller l’iPhone.
+Titres similaires depuis la télécommande : la musique continue sur le Mac et vous masquez ce qui ne vous plaît pas (Kinrox pour Mac 0.5.8 requis).

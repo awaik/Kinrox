@@ -1,0 +1,2 @@
+Mới: điều khiển trên Màn hình khóa. Tạm dừng, tua và chỉnh âm lượng mà không cần mở khóa iPhone.
+Nhạc tương tự từ điều khiển: nhạc trên Mac không ngừng và bạn có thể ẩn bài không thích (cần Kinrox cho Mac 0.5.8).

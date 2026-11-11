@@ -1,0 +1,2 @@
+Yeni: Kilitli Ekran denetimleri. iPhone’un kilidini açmadan duraklatın, atlayın, sesi ayarlayın.
+Kumandadan benzerleri: Mac’teki müzik durmaz, sevmediklerinizi gizleyin (Mac için Kinrox 0.5.8 gerekir).

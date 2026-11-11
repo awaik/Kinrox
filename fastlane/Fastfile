@@ -191,13 +191,15 @@ platform :ios do
   end
 
   desc "Upload the prepared localizations and screenshots"
-  lane :metadata do
+  # `fastlane ios metadata skip_screenshots:true` updates only the text fields.
+  lane :metadata do |options = {}|
     ensure_review_contact!
     stage_screenshots
     # A new App Store version starts with a copy of the previous version's screenshots;
     # replace them so the staged set is the whole set (Apple allows ten per slot).
     upload_to_app_store(**kinrox_delivery_options.merge(
-      skip_binary_upload: true, submit_for_review: false, overwrite_screenshots: true
+      skip_binary_upload: true, submit_for_review: false, overwrite_screenshots: true,
+      skip_screenshots: options[:skip_screenshots] == true || options[:skip_screenshots] == "true"
     ))
   end
 

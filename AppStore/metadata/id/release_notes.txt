@@ -1,0 +1,2 @@
+Baru: kontrol di Layar Terkunci. Jeda, lompat, dan atur volume tanpa membuka kunci iPhone.
+Lagu serupa dari remote: musik di Mac terus berlanjut dan Anda bisa menyembunyikan yang tidak disukai (memerlukan Kinrox untuk Mac 0.5.8).

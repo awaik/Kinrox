@@ -1,0 +1,2 @@
+Novidade: pausa, saltos e volume sem desbloquear o iPhone.
+Semelhantes pelo controle: a música no Mac continua, e o que não agrada pode ser ocultado (requer Kinrox para Mac 0.5.8).

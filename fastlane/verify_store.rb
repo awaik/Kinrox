@@ -62,7 +62,9 @@ module KinroxStoreVerification
         [set.screenshot_display_type, report]
       end
     end
-    errors << "Expected 350 screenshots, found #{screenshot_count}" unless screenshot_count == 350
+    # Every one of Apple's 35 store localizations carries the manifest's per-locale set.
+    expected_shots = manifest.fetch("screenshots_per_locale", 10) * 35
+    errors << "Expected #{expected_shots} screenshots, found #{screenshot_count}" unless screenshot_count == expected_shots
     review = version.fetch_app_store_review_detail
     errors << "App Review details are missing" unless review
     contact_path = File.join(root, "fastlane/.env.review.json")

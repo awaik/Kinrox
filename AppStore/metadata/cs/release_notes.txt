@@ -1,0 +1,2 @@
+Novinka: ovládání na zamčené obrazovce. Pauza, přeskakování a hlasitost bez odemykání iPhonu.
+Podobné z ovladače: hudba na Macu nekončí a co se vám nelíbí, skryjete (vyžaduje Kinrox pro Mac 0.5.8).
