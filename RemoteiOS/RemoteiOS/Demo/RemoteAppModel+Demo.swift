@@ -22,6 +22,7 @@ extension RemoteAppModel {
             RecentItem(id: $0.id, title: $0.title, duration: $0.duration, available: $0.available)
         }
         discoveryStatus = .ready
+        lockScreenStateChanged()
     }
     func submitDemoPIN(_ pin: String) {
         guard let demo, let player = demo.players.first(where: { $0.id == selected?.id }) else {
@@ -63,7 +64,7 @@ extension RemoteAppModel {
         case .setFullscreen(let value):
             if demo.state.fullscreen != value { demo.toggleFullscreen() }
         case .setTrackLiked, .setPlaylistMembership, .setArtistFollowed, .createPlaylist,
-            .setShuffle, .setRepeat, .queueMove, .queueRemove:
+            .setShuffle, .setRepeat, .queueMove, .queueRemove, .setSimilar, .setNotInterested:
             break
         }
         syncDemo()

@@ -1,16 +1,28 @@
-Filem pada Mac. Alat kawalan di tangan anda.
+Filem atau muzik anda ada pada Mac. Alat kawalan jauh ada di tangan anda.
 
-Kinrox Remote membolehkan anda mengawal pemain video Kinrox pada Mac daripada iPhone. Kekal di sofa apabila mahu menjeda, menonton semula adegan atau memperlahankan bunyi.
+Kinrox Remote mengawal Kinrox, pemain video dan muzik percuma bersumber terbuka untuk Mac, daripada iPhone anda. Jeda, langkau dan perlahankan kelantangan tanpa bangun dari sofa, atau terus dari Skrin Kunci.
 
-• Main dan jeda video.
-• Langkau ke depan atau belakang sebanyak 10 atau 30 saat, atau pilih masa pada bar main balik.
-• Laraskan kelantangan dan tukar mod skrin penuh pada Mac.
-• Pergi ke video sebelumnya atau seterusnya dalam folder semasa.
-• Buka fail yang tersedia dalam senarai terkini pada Mac.
-• Temui pemain Kinrox dalam rangkaian dan gandingkan dengan kod enam digit.
+FILEM
+• Main dan jeda, undur atau maju 10 atau 30 saat, atau seret ke mana-mana detik.
+• Laraskan kelantangan dan hidupkan atau matikan skrin penuh pada Mac.
+• Pergi ke video sebelumnya atau seterusnya dalam folder, atau buka fail terkini.
+• Mulakan penyelamat skrin Matrix apabila anda berehat.
 
-Peranti berkomunikasi melalui sambungan disulitkan dalam rangkaian setempat. Tanpa akaun, perkhidmatan awan, iklan atau analisis penggunaan. Demo interaktif membolehkan anda mencuba kawalan sebelum menyambungkan Mac.
+MUZIK
+• Main, jeda, langkau dan laraskan kelantangan muzik yang dimainkan pada Mac.
+• Tambah lagu semasa ke kegemaran dan urus baris gilir: susun semula atau alih keluar lagu.
+• Dengar yang serupa: muzik terus dimainkan dengan lagu seperti yang sedang dimainkan, dan sembunyikan lagu atau artis yang tidak anda minati.
 
-Memerlukan iOS 17 atau lebih baharu dan Kinrox yang berjalan pada Mac serasi. Sambungkan kedua-dua peranti ke rangkaian setempat yang sama dan benarkan akses. Aplikasi ini ialah alat kawalan untuk Kinrox; ia tidak memainkan atau menstrim video pada iPhone.
+SKRIN KUNCI
+• Semasa sesuatu dimainkan, kawalan muncul pada Skrin Kunci dan dalam Dynamic Island: jeda, langkau dan kelantangan tanpa membuka kunci iPhone.
 
-Pemain Mac dan persediaan: https://awaik.github.io/Kinrox/
+PRIVASI SEJAK AWAL
+• Berfungsi melalui rangkaian setempat anda dengan sambungan disulitkan, dipasangkan dengan kod enam digit.
+• Tiada akaun, perkhidmatan awan, iklan atau analitis.
+• Demo membolehkan anda mencuba kawalan sebelum menyambungkan Mac.
+
+APA YANG ANDA PERLUKAN
+• Kinrox untuk Mac, percuma di https://kinrox.app
+• iPhone dengan iOS 17 atau lebih baharu dalam rangkaian setempat yang sama dengan Mac.
+
+Mod muzik berfungsi dengan pustaka muzik yang anda sambungkan dalam Kinrox untuk Mac; tapak web menyenaraikan perkhidmatan yang disokong. Kinrox Remote ialah alat kawalan jauh: ia tidak memainkan video atau muzik pada iPhone anda.

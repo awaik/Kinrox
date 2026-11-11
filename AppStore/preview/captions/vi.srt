@@ -1,28 +1,37 @@
 1
-00:00:00,000 --> 00:00:04,000
-Đêm xem phim.
-Trong tầm tay.
+00:00:00,000 --> 00:00:03,000
+Tạm dừng Mac
+từ Màn hình khóa.
 
 2
-00:00:04,000 --> 00:00:09,000
-Khoảnh khắc ấy.
-Xem thêm lần nữa.
+00:00:03,000 --> 00:00:06,000
+Điều khiển phim trên Mac.
 
 3
-00:00:09,000 --> 00:00:13,000
-Ngồi thật
-thoải mái.
+00:00:06,000 --> 00:00:09,000
+Nhạc trên Mac,
+ngay trong tay bạn.
 
 4
-00:00:13,000 --> 00:00:18,000
-Phim tiếp theo.
-Chỉ một chạm.
+00:00:09,000 --> 00:00:12,000
+Âm nhạc không ngừng.
 
 5
-00:00:18,000 --> 00:00:23,000
-Một mã.
-Kết nối xong.
+00:00:12,000 --> 00:00:15,000
+Hàng đợi theo ý bạn.
 
 6
-00:00:23,000 --> 00:00:27,000
-Cần Kinrox trên Mac · Cùng mạng nội bộ
+00:00:15,000 --> 00:00:18,000
+Trình phát miễn phí cho Mac.
+
+7
+00:00:18,000 --> 00:00:21,000
+Không tài khoản. Không đám mây.
+
+8
+00:00:21,000 --> 00:00:24,000
+Nghỉ ngơi thật phong cách.
+
+9
+00:00:24,000 --> 00:00:27,000
+Trình phát Kinrox miễn phí cho Mac · Cùng mạng Wi-Fi

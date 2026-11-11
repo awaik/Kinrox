@@ -30,6 +30,7 @@ extension RemoteAppModel {
             frozenPosition = min(state.duration, state.position + age)
             hasState = true
             musicStateChanged(from: previous)
+            lockScreenStateChanged()
         case .queue(_, let page): receiveQueue(page)
         case .likeOptions(_, let page): receiveLikeOptions(page)
         case .recent(_, let items): recents = items

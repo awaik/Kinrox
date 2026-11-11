@@ -1,28 +1,38 @@
 1
-00:00:00,000 --> 00:00:04,000
-Filmavond.
-Alles binnen bereik.
+00:00:00,000 --> 00:00:03,000
+Pauzeer je Mac
+zonder ontgrendelen.
 
 2
-00:00:04,000 --> 00:00:09,000
-Dat moment.
-Nog een keer.
+00:00:03,000 --> 00:00:06,000
+Afstandsbediening
+voor je films.
 
 3
-00:00:09,000 --> 00:00:13,000
-Ga lekker
-zitten.
+00:00:06,000 --> 00:00:09,000
+Muziek op je Mac.
+In je hand.
 
 4
-00:00:13,000 --> 00:00:18,000
-Je volgende film.
-Eén tik verder.
+00:00:09,000 --> 00:00:12,000
+De muziek gaat door.
 
 5
-00:00:18,000 --> 00:00:23,000
-Eén code.
-Je bent verbonden.
+00:00:12,000 --> 00:00:15,000
+Jouw wachtrij, jouw manier.
 
 6
-00:00:23,000 --> 00:00:27,000
-Vereist Kinrox op de Mac · Hetzelfde lokale netwerk
+00:00:15,000 --> 00:00:18,000
+Gratis speler voor Mac.
+
+7
+00:00:18,000 --> 00:00:21,000
+Geen account. Geen cloud.
+
+8
+00:00:21,000 --> 00:00:24,000
+Pauze met stijl.
+
+9
+00:00:24,000 --> 00:00:27,000
+Gratis Kinrox-speler voor Mac · Zelfde wifinetwerk

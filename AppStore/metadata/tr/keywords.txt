@@ -1,1 +1,1 @@
-video,oynatıcı,film,kanepe,ses,wifi,kumanda
+macbook,bilgisayar,laptop,video,oynatıcı,medya,projeksiyon,duraklat,ses,kilitli,ekran,wifi,dizi

@@ -11,7 +11,9 @@ PROMPTS_DIR="$SKILL_DIR/prompts"
 REPO="$(git -C "$SKILL_DIR" rev-parse --show-toplevel 2>/dev/null)" || fail "The skill must be inside the Kinrox checkout."
 RES_DIR="$REPO/docs/RESEARCHES"
 STATE_ROOT="$REPO/.tmp/scratch/research-execute"
-AGY_MODEL="${AGY_MODEL:-Gemini 4 Argon (High)}"
+# Owner decision 2026-11-11: of Google's models, agents use only Gemini 4 Carbon (High).
+AGY_MODEL="${AGY_MODEL:-Gemini 4 Carbon (High)}"
+AGY_TIMEOUT="${AGY_TIMEOUT:-5400}"
 CODEX_MODEL="${CODEX_MODEL:-gpt-6-astra}"
 CODEX_EFFORT="${CODEX_EFFORT:-xhigh}"
 STAGE_ONLY=""; RESUME_DIR=""; DRY_RUN=0; DOC_ARG=""
@@ -29,6 +31,12 @@ while [ $# -gt 0 ]; do
   shift
 done
 case "$STAGE_ONLY" in ""|review|execute) ;; *) echo "--stage must be review or execute" >&2; exit 2 ;; esac
+# Google models other than Carbon High (Argon, 3.8 Flash, lower Carbon levels) are refused.
+case "$(printf '%s' "$AGY_MODEL" | tr '[:upper:]' '[:lower:]')" in
+  *gemini*) case "$AGY_MODEL" in "Gemini 4 Carbon (High)"|gemini-4-carbon-high) ;;
+    *) fail "Forbidden agy model: $AGY_MODEL. Only Gemini 4 Carbon (High) is allowed (owner decision 2026-11-11)." ;; esac ;;
+esac
+case "$AGY_TIMEOUT" in ""|*[!0-9]*|0*) fail "AGY_TIMEOUT must be a positive number of seconds." ;; esac
 [ -z "${RESEARCH_EXECUTE_STAGE:-}" ] || fail "Nested pipeline execution is prohibited (stage: $RESEARCH_EXECUTE_STAGE)."
 for cmd in git perl node; do command -v "$cmd" >/dev/null || fail "Missing command: $cmd"; done
 
@@ -72,6 +80,19 @@ render() {
   P_ANSWERS="${ANSWERS_TEXT:-none}" P_STAGE="${CUR_STAGE:-}" \
     perl -pe 's/\{\{(\w+)\}\}/exists $ENV{"P_$1"} ? $ENV{"P_$1"} : "{{$1}}"/ge' "$1"
 }
+# Runs a command in its own process group and stops the group after $1 seconds (exit 124).
+with_timeout() {
+  perl -e '
+    my $secs = shift;
+    my $pid = fork() // die "fork: $!\n";
+    if ($pid == 0) { setpgrp(0, 0); exec { $ARGV[0] } @ARGV or die "exec $ARGV[0]: $!\n"; }
+    sub stop { kill "TERM", -$pid; for (1 .. 10) { last if waitpid($pid, 1) > 0; select undef, undef, undef, 0.5 } kill "KILL", -$pid; }
+    $SIG{ALRM} = sub { stop(); print STDERR "Timed out after ${secs}s; agent stopped.\n"; exit 124 };
+    $SIG{$_} = sub { stop(); exit 130 } for qw(INT TERM HUP);
+    alarm $secs; waitpid $pid, 0; my $st = $?; alarm 0;
+    exit($st & 127 ? 128 + ($st & 127) : $st >> 8);
+  ' "$@"
+}
 stage_prompt() {
   render "$PROMPTS_DIR/$1.md"
   if [ -n "${ANSWERS_TEXT:-}" ]; then printf '\n\n'; render "$PROMPTS_DIR/resume.md"; fi
@@ -81,11 +102,13 @@ run_review() {
   STAGE_LOG="$RUN_DIR/review-$ROUND.log"
   prompt="$(stage_prompt review)"
   printf '%s\n' "$prompt" >"$RUN_DIR/review-$ROUND.prompt.md"
-  if [ "$DRY_RUN" = 1 ]; then log "dry-run: agy review ($AGY_MODEL)"; return; fi
-  log "Stage 1 - plan review (agy, $AGY_MODEL), round $ROUND"
+  if [ "$DRY_RUN" = 1 ]; then log "dry-run: agy review ($AGY_MODEL, timeout ${AGY_TIMEOUT}s)"; return; fi
+  log "Stage 1 - plan review (agy, $AGY_MODEL, timeout ${AGY_TIMEOUT}s), round $ROUND"
   start=$(date +%s)
-  ( cd "$REPO" && RESEARCH_EXECUTE_STAGE=review agy --dangerously-skip-permissions --model "$AGY_MODEL" -p "$prompt" </dev/null ) >"$STAGE_LOG" 2>&1
+  ( cd "$REPO" && export RESEARCH_EXECUTE_STAGE=review && with_timeout "$AGY_TIMEOUT" \
+      agy --dangerously-skip-permissions --model "$AGY_MODEL" -p "$prompt" </dev/null ) >"$STAGE_LOG" 2>&1
   STAGE_RC=$?; STAGE_MIN=$(( ($(date +%s) - start) / 60 )); STAGE_RESULT="$(result_line "$STAGE_LOG")"
+  [ "$STAGE_RC" != 124 ] || log "Review timed out after ${AGY_TIMEOUT}s."
 }
 run_execute() {
   local prompt start rc=1 last="$RUN_DIR/execute-$ROUND.last.md" sid
@@ -216,7 +239,7 @@ else
   {
     echo "# Research execution - $(date '+%Y-%m-%d %H:%M %Z')"
     echo "- Document: ${DOC#"$REPO"/}"
-    echo "- Stages: $STAGES; review: agy $AGY_MODEL; implementation: codex $CODEX_MODEL ($CODEX_EFFORT)"
+    echo "- Stages: $STAGES; review: agy $AGY_MODEL (timeout ${AGY_TIMEOUT}s); implementation: codex $CODEX_MODEL ($CODEX_EFFORT)"
     echo "- Initial uncommitted paths: $(wc -l <"$RUN_DIR/git-status-before.txt" | tr -d ' ') (see git-status-before.txt)"
   } >"$RUN_DIR/summary.md"
 fi

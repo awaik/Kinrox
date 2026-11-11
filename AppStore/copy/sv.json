@@ -1,8 +1,52 @@
 {
-  "subtitle": "Fjärrkontroll för film på Mac",
-  "promotional_text": "Sätt dig bekvämt. Pausa, spola och justera volymen på Mac från din iPhone. Kräver Kinrox på Mac i samma lokala nätverk.",
-  "keywords": "video,spelare,film,soffa,volym,wifi,uppspelning",
-  "description": "Filmen är på din Mac. Fjärrkontrollen är i din hand.\n\nMed Kinrox Remote styr du videospelaren Kinrox på Mac från din iPhone. Sitt kvar i soffan när du vill pausa, se en scen igen eller sänka volymen.\n\n• Starta och pausa uppspelning.\n• Hoppa 10 eller 30 sekunder framåt eller bakåt, eller välj ett ögonblick på tidslinjen.\n• Justera volym och växla till helskärm på Mac.\n• Gå till föregående eller nästa video i den aktuella mappen.\n• Öppna tillgängliga filer i Mac-datorns lista över senaste filer.\n• Hitta Kinrox-spelare i nätverket och parkoppla med en sexsiffrig kod.\n\nAnslutningen är krypterad och stannar i det lokala nätverket. Inget konto, ingen molntjänst, reklam eller användningsanalys. En interaktiv demo låter dig prova kontrollerna innan du ansluter en Mac.\n\nKräver iOS 17 eller senare och Kinrox på en kompatibel Mac. Anslut båda enheterna till samma lokala nätverk och tillåt åtkomst. Appen är en fjärrkontroll för Kinrox och spelar eller strömmar inte video på din iPhone.\n\nMac-spelare och installation: https://awaik.github.io/Kinrox/",
-  "screenshots": [["Filmkväll.\nAllt inom räckhåll.", "Styr Kinrox på din Mac.\nDirekt från din iPhone."],["Den där scenen.\nEn gång till.", "Hoppa framåt eller bakåt 10 eller 30 sekunder.\nEller välj ögonblicket du vill se."],["Sätt dig\nbekvämt.", "Justera volymen. Välj helskärm.\nFrån soffan."],["Nästa film.\nEtt tryck bort.", "Öppna en tillgänglig senaste fil\npå Mac från din iPhone."],["En kod.\nSedan är du ansluten.", "Parkoppla i samma lokala nätverk.\nUtan konto. Krypterad anslutning."]],
-  "requirement": "Kräver Kinrox på Mac · Samma lokala nätverk"
+  "subtitle": "Film och musik från soffan",
+  "promotional_text": "Nytt: styr din Mac från låsskärmen. Musikläge med favoriter, kö och liknande låtar. Gratis Kinrox-spelare för Mac på kinrox.app.",
+  "keywords": "macbook,laptop,dator,video,spelare,mediaspelare,projektor,paus,volym,låsskärm,wifi,remote,hemmabio",
+  "description": "Filmen eller musiken finns på din Mac. Fjärrkontrollen har du i handen.\n\nKinrox Remote styr Kinrox, en gratis video- och musikspelare med öppen källkod för Mac, från din iPhone. Pausa, hoppa vidare och sänk volymen utan att lämna soffan, eller direkt från låsskärmen.\n\nFILM\n• Spela upp och pausa, hoppa 10 eller 30 sekunder bakåt eller framåt, eller gå till valfritt ögonblick.\n• Justera volymen och slå på eller av helskärm på din Mac.\n• Gå till föregående eller nästa video i mappen, eller öppna en nyligen använd fil.\n• Starta Matrix-skärmsläckaren när du tar en paus.\n\nMUSIK\n• Spela upp, pausa, hoppa över låtar och justera volymen för musiken som spelas på din Mac.\n• Lägg till aktuell låt bland favoriterna och hantera kön: ändra ordning på låtar eller ta bort dem.\n• Lyssna på liknande: musiken fortsätter med låtar som liknar den som spelas, och du kan dölja låtar eller artister som inte intresserar dig.\n\nLÅSSKÄRM\n• Medan något spelas visas reglage på låsskärmen och i Dynamic Island: paus, nästa låt och volym utan att låsa upp din iPhone.\n\nINTEGRITET FRÅN GRUNDEN\n• Fungerar i ditt lokala nätverk med krypterad anslutning, parkopplad med en sexsiffrig kod.\n• Inget konto, ingen molntjänst, ingen reklam och ingen analys.\n• Med demon kan du prova reglagen innan du ansluter en Mac.\n\nDET HÄR BEHÖVER DU\n• Kinrox för Mac, gratis på https://kinrox.app\n• En iPhone med iOS 17 eller senare i samma lokala nätverk som din Mac.\n\nMusikläget fungerar med det musikbibliotek du ansluter i Kinrox för Mac; webbplatsen listar vilka tjänster som stöds. Kinrox Remote är en fjärrkontroll: appen spelar inte upp video eller musik på din iPhone.",
+  "screenshots": [
+    [
+      "Pausa din Mac.\nFrån låsskärmen.",
+      "Film och musik på din Mac, reglagen direkt på iPhone."
+    ],
+    [
+      "Din filmfjärrkontroll.",
+      "Pausa, hoppa, spola och ändra volym från soffan."
+    ],
+    [
+      "Musiken på din Mac.\nI din hand.",
+      "Spela, hoppa över, gilla och köa det som spelas på din Mac."
+    ],
+    [
+      "Musiken fortsätter.",
+      "Lyssna på liknande låtar. Dölj det du inte gillar."
+    ],
+    [
+      "Din kö, ditt sätt.",
+      "Ändra ordning, ta bort och favoritmarkera från iPhone."
+    ],
+    [
+      "Gratis spelare för Mac.",
+      "MKV, MP4, AVI med mera. Öppen källkod. kinrox.app"
+    ],
+    [
+      "Inget konto. Inget moln.",
+      "Bara lokalt nätverk. Krypterat, parkopplat med en 6-siffrig kod."
+    ],
+    [
+      "En paus med stil.",
+      "Starta skärmsläckaren Matrix på din Mac från iPhone."
+    ]
+  ],
+  "requirement": "Gratis Kinrox-spelare för Mac · Samma wifi-nätverk",
+  "screenshot_ui": {
+    "movies": "Filmer",
+    "sec": "s",
+    "next": "Nästa",
+    "then": "Sedan",
+    "from_album": "Från albumet ”%@”",
+    "time_left": "%@ kvar",
+    "code_valid": "Koden gäller i 2 minuter · 3 försök kvar",
+    "more": "+ fler"
+  },
+  "name": "Kinrox: fjärrkontroll för Mac"
 }

@@ -1,16 +1,28 @@
-De film staat op je Mac. De afstandsbediening ligt in je hand.
+Je film of muziek staat op de Mac. De afstandsbediening heb je in je hand.
 
-Met Kinrox Remote bedien je de Kinrox-videospeler op je Mac vanaf je iPhone. Blijf op de bank als je wilt pauzeren, een scène opnieuw wilt zien of het geluid zachter wilt zetten.
+Kinrox Remote bedient vanaf je iPhone Kinrox, een gratis opensource video- en muziekspeler voor de Mac. Pauzeer, ga door naar het volgende en zet het geluid zachter zonder van de bank op te staan, of direct vanaf het toegangsscherm.
 
-• Start en pauzeer het afspelen.
-• Spring 10 of 30 seconden vooruit of terug, of kies een moment op de tijdlijn.
-• Regel het volume en schakel volledig scherm in op de Mac.
-• Ga naar de vorige of volgende video in de huidige map.
-• Open beschikbare bestanden uit de recente lijst op je Mac.
-• Vind Kinrox-spelers op het netwerk en koppel met een zescijferige code.
+FILMS
+• Speel af en pauzeer, spring 10 of 30 seconden terug of vooruit, of ga naar elk gewenst moment.
+• Stel het volume in en zet volledig scherm aan of uit op de Mac.
+• Ga naar de vorige of volgende video in de map, of open een recent bestand.
+• Start de Matrix-schermbeveiliging als je even pauze neemt.
 
-De verbinding is versleuteld en blijft op het lokale netwerk. Zonder account, clouddienst, advertenties of gebruiksanalyse. Met een interactieve demo probeer je de bediening voordat je een Mac verbindt.
+MUZIEK
+• Speel af, pauzeer, sla nummers over en regel het volume van de muziek op je Mac.
+• Voeg het huidige nummer toe aan je favorieten en beheer de wachtrij: wijzig de volgorde of verwijder nummers.
+• Vergelijkbaar luisteren: de muziek gaat door met nummers die lijken op wat er speelt, en je verbergt nummers of artiesten waarin je geen interesse hebt.
 
-Vereist iOS 17 of nieuwer en Kinrox op een geschikte Mac. Verbind beide apparaten met hetzelfde lokale netwerk en sta toegang toe. Deze app is een afstandsbediening voor Kinrox en speelt of streamt geen video op je iPhone.
+TOEGANGSSCHERM
+• Terwijl er iets speelt, verschijnt de bediening op het toegangsscherm en in het Dynamic Island: pauzeren, overslaan en volume zonder je iPhone te ontgrendelen.
 
-Mac-speler en installatie: https://awaik.github.io/Kinrox/
+PRIVACY VANAF HET BEGIN
+• Werkt via je lokale netwerk met een versleutelde verbinding, gekoppeld met een zescijferige code.
+• Geen account, clouddienst, advertenties of analyses.
+• Met de demo probeer je de bediening uit voordat je een Mac verbindt.
+
+WAT JE NODIG HEBT
+• Kinrox voor Mac, gratis op https://kinrox.app
+• Een iPhone met iOS 17 of nieuwer in hetzelfde lokale netwerk als de Mac.
+
+De muziekmodus werkt met de muziekbibliotheek die je in Kinrox voor Mac koppelt; op de website staan de ondersteunde diensten. Kinrox Remote is een afstandsbediening: de app speelt geen video of muziek af op je iPhone.

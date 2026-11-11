@@ -4,7 +4,7 @@ require "json"
 
 # Read back Apple's stored metadata and compare it with the reviewed local kit.
 module KinroxStoreVerification
-  def self.run(root, app, version)
+  def self.run(root, app, version, build_number = "1")
     manifest = JSON.parse(File.read(File.join(root, "AppStore/manifest.json")))
     expected_locales = manifest.fetch("locales").keys.sort
     localizations = version.get_app_store_version_localizations
@@ -79,9 +79,9 @@ module KinroxStoreVerification
     errors << "Unexpected required demo account" if review&.demo_account_required
     errors << "Review notes differ" unless review&.notes.to_s.strip == File.read(File.join(root, "AppStore/review/notes.txt")).strip
     # The submit lane selects this candidate build; it need not be attached yet.
-    builds = Spaceship::ConnectAPI::Build.all(app_id: app.id, version: version.version_string, build_number: "1", platform: "IOS")
+    builds = Spaceship::ConnectAPI::Build.all(app_id: app.id, version: version.version_string, build_number: build_number, platform: "IOS")
     build = builds.find { |b| b.app_version == version.version_string }
-    errors << "Build #{version.version_string} (1) is not VALID" unless build&.processing_state == "VALID"
+    errors << "Build #{version.version_string} (#{build_number}) is not VALID" unless build&.processing_state == "VALID"
     errors << "Build export-compliance declaration differs" unless build&.uses_non_exempt_encryption == false
     result = { app_id: app.id, version: version.version_string, state: version.app_store_state,
                locales: expected_locales.count, screenshot_count: screenshot_count,

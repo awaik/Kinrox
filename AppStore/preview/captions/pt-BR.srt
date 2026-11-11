@@ -1,28 +1,37 @@
 1
-00:00:00,000 --> 00:00:04,000
-Noite de cinema.
-Tudo à mão.
+00:00:00,000 --> 00:00:03,000
+Pause o Mac sem
+desbloquear o iPhone.
 
 2
-00:00:04,000 --> 00:00:09,000
-Aquela cena.
-Mais uma vez.
+00:00:03,000 --> 00:00:06,000
+O controle dos seus filmes.
 
 3
-00:00:09,000 --> 00:00:13,000
-Fique
-à vontade.
+00:00:06,000 --> 00:00:09,000
+Sua música no Mac.
+Na sua mão.
 
 4
-00:00:13,000 --> 00:00:18,000
-O próximo filme.
-A um toque.
+00:00:09,000 --> 00:00:12,000
+A música não para.
 
 5
-00:00:18,000 --> 00:00:23,000
-Um código.
-Tudo conectado.
+00:00:12,000 --> 00:00:15,000
+Sua fila, do seu jeito.
 
 6
-00:00:23,000 --> 00:00:27,000
-Requer Kinrox para Mac · Mesma rede local
+00:00:15,000 --> 00:00:18,000
+Reprodutor grátis para Mac.
+
+7
+00:00:18,000 --> 00:00:21,000
+Sem conta. Sem nuvem.
+
+8
+00:00:21,000 --> 00:00:24,000
+Uma pausa com estilo.
+
+9
+00:00:24,000 --> 00:00:27,000
+Reprodutor Kinrox grátis para Mac · Mesma rede Wi-Fi

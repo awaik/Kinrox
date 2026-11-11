@@ -1,1 +1,1 @@
-video,player,film,canapea,volum,wifi,telecomandă
+macbook,calculator,laptop,video,player,media,proiector,pauză,volum,ecran,blocare,wifi,cinema

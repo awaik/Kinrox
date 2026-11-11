@@ -40,7 +40,7 @@ else:
 AGENT = '''#!/usr/bin/env python3
 import os
 from pathlib import Path
-import re, sys
+import re, subprocess, sys, time
 stage = os.environ['RESEARCH_EXECUTE_STAGE']
 root = Path.cwd()
 with (root / 'calls.txt').open('a') as calls:
@@ -51,6 +51,11 @@ run = Path(re.search(r'Run directory: (.+)', prompt).group(1)) if 'Run directory
 doc = next((root / 'docs/RESEARCHES').glob('*.md'))
 mode = (root / 'mode.txt').read_text()
 if stage == 'review':
+    (root / 'models.txt').write_text(args[args.index('--model') + 1])
+    if mode == 'hang':
+        child = subprocess.Popen(['sleep', '60'])
+        (root / 'pids.txt').write_text(f'{os.getpid()} {child.pid}')
+        time.sleep(60)
     if mode == 'review-question':
         (run / 'questions.md').write_text('1. Which behavior is intended?')
         print('RESULT: QUESTIONS - needs clarification')
@@ -100,9 +105,9 @@ class RunnerTests(unittest.TestCase):
     def mode(self, value):
         (self.root / 'mode.txt').write_text(value)
 
-    def run_pipeline(self, *args, expected=0):
+    def run_pipeline(self, *args, expected=0, env=None):
         result = subprocess.run([str(self.skill / 'run.sh'), *map(str, args)],
-                                cwd=self.root, env=self.env, text=True,
+                                cwd=self.root, env={**self.env, **(env or {})}, text=True,
                                 capture_output=True, timeout=20)
         self.assertEqual(result.returncode, expected, result.stdout + result.stderr)
         self.assertEqual((self.root / 'user-file.txt').read_text(), 'Pre-existing user work.\n')
@@ -134,6 +139,36 @@ class RunnerTests(unittest.TestCase):
         self.assertFalse(self.doc.exists())
         self.assertEqual(list((self.latest().parents[1] / 'locks').iterdir()), [])
         self.assertIn('no changes since startup', (self.latest() / 'summary.md').read_text())
+
+    def test_review_uses_carbon_high_with_5400_second_timeout(self):
+        self.run_pipeline(self.doc)
+        self.assertEqual((self.root / 'models.txt').read_text(), 'Gemini 4 Carbon (High)')
+        summary = (self.latest() / 'summary.md').read_text()
+        self.assertIn('review: agy Gemini 4 Carbon (High) (timeout 5400s)', summary)
+
+    def test_google_models_other_than_carbon_high_are_refused(self):
+        forbidden = [f'Gemini 4 Argon ({level})' for level in ('Low', 'Medium', 'High')]
+        forbidden += [f'Gemini 3.8 Flash ({level})' for level in ('Low', 'Medium', 'High')]
+        forbidden += ['gemini-4-argon-high', 'gemini-3.8-flash-low', 'Gemini 4 Carbon (Medium)']
+        for model in forbidden:
+            with self.subTest(model=model):
+                result = self.run_pipeline('--dry-run', self.doc, expected=1, env={'AGY_MODEL': model})
+                self.assertIn('Forbidden agy model', result.stderr)
+        self.assertFalse((self.root / '.tmp/scratch/research-execute/runs').exists())
+        self.assertEqual(self.calls(), [])
+        # Non-Google models launched through agy are outside the decision.
+        self.run_pipeline('--dry-run', self.doc, env={'AGY_MODEL': 'Claude Opus 5.5 (High)'})
+
+    def test_review_timeout_stops_agent_process_group(self):
+        self.mode('hang')
+        self.run_pipeline(self.doc, expected=1, env={'AGY_TIMEOUT': '1'})
+        self.assertEqual(self.calls(), ['review'])
+        self.assertIn('Timed out after 1s', (self.latest() / 'review-1.log').read_text())
+        for pid in map(int, (self.root / 'pids.txt').read_text().split()):
+            with self.assertRaises(ProcessLookupError):
+                os.kill(pid, 0)
+        self.assertEqual(list((self.latest().parents[1] / 'locks').iterdir()), [])
+        self.run_pipeline('--dry-run', self.doc, expected=1, env={'AGY_TIMEOUT': '0'})
 
     def test_owner_status_stops_then_resumes_implementation(self):
         self.mode('owner')

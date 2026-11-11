@@ -1,1 +1,1 @@
-video,přehrávač,film,pohovka,hlasitost,wifi,ovladač
+macbook,počítač,notebook,dálkové,ovládání,video,přehrávač,pauza,hlasitost,wifi,kino

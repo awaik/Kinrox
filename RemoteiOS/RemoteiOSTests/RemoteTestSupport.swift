@@ -143,7 +143,8 @@ enum RemoteTestFailure: Error { case storage, timeout }
     let serverId = UUID()
     init(
         paired: Bool = true, demo: Bool = false, restore: Bool = false,
-        discoverImmediately: Bool = true
+        discoverImmediately: Bool = true, lockScreen: LockScreenActivityController? = nil,
+        autostart: Bool = true
     ) {
         defaults = UserDefaults(suiteName: "Kinrox.M5.Tests.\(UUID())")!
         preferences = RemotePreferences(defaults: defaults)
@@ -157,13 +158,13 @@ enum RemoteTestFailure: Error { case storage, timeout }
         if restore { preferences.selected = SavedMac(id: serverId, name: "Mac") }
         model = RemoteAppModel(
             isDemo: demo, credentials: store, preferences: preferences,
-            discovery: discovery, scheduler: clock, monitorNetwork: false
+            discovery: discovery, scheduler: clock, monitorNetwork: false, lockScreen: lockScreen
         ) { [weak self] _, _, mode, save in
             let client = FakeRemoteConnection(mode: mode, save: save)
             self?.connections.append(client)
             return client
         }
-        model.start()
+        if autostart { model.start() }
     }
     static func server(id: UUID, name: String = "Mac", version: Int = 1) -> DiscoveredServer {
         DiscoveredServer(

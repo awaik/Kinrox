@@ -1,8 +1,53 @@
 {
-  "subtitle": "Remote film untuk Mac",
-  "promotional_text": "Duduk santai. Jeda, putar, dan atur volume Mac dari iPhone. Memerlukan Kinrox di Mac pada jaringan lokal yang sama.",
-  "keywords": "video,pemutar,film,sofa,volume,wifi,kontrol",
-  "description": "Film di Mac. Remote di tangan Anda.\n\nKinrox Remote memungkinkan Anda mengontrol pemutar video Kinrox di Mac dari iPhone. Tetap di sofa saat ingin menjeda, menonton ulang adegan, atau mengecilkan suara.\n\n• Putar dan jeda video.\n• Lompat maju atau mundur 10 atau 30 detik, atau pilih momen pada bilah pemutaran.\n• Atur volume dan beralih ke layar penuh di Mac.\n• Buka video sebelumnya atau berikutnya di folder saat ini.\n• Buka file yang tersedia dari daftar terbaru di Mac.\n• Temukan pemutar Kinrox di jaringan dan pasangkan dengan kode enam digit.\n\nPerangkat berkomunikasi melalui koneksi terenkripsi di jaringan lokal. Tanpa akun, layanan cloud, iklan, atau analitik penggunaan. Demo interaktif memungkinkan Anda mencoba kontrol sebelum menghubungkan Mac.\n\nMemerlukan iOS 17 atau lebih baru dan Kinrox yang berjalan di Mac kompatibel. Hubungkan kedua perangkat ke jaringan lokal yang sama dan izinkan akses Jaringan Lokal. Aplikasi ini adalah remote untuk Kinrox, bukan pemutar atau layanan streaming video di iPhone.\n\nPemutar Mac dan pengaturan: https://awaik.github.io/Kinrox/",
-  "screenshots": [["Malam menonton.\nSemua terjangkau.", "Kontrol Kinrox di Mac.\nLangsung dari iPhone."],["Adegan itu.\nSekali lagi.", "Maju atau mundur 10 atau 30 detik.\nAtau pilih momen yang Anda inginkan."],["Duduk\nsantai.", "Atur volume. Aktifkan layar penuh.\nTanpa beranjak dari sofa."],["Film berikutnya.\nSekali ketuk.", "Buka file terbaru yang tersedia\ndi Mac dari iPhone."],["Satu kode.\nLangsung terhubung.", "Pasangkan di jaringan lokal yang sama.\nTanpa akun. Koneksi terenkripsi."]],
-  "requirement": "Memerlukan Kinrox di Mac · Jaringan lokal yang sama"
+  "subtitle": "Atur film & musik dari sofa",
+  "promotional_text": "Baru: kendalikan Mac dari Layar Terkunci. Mode musik dengan favorit, antrean, dan lagu serupa. Pemutar Kinrox gratis untuk Mac di kinrox.app.",
+  "keywords": "macbook,laptop,komputer,pc,video,pemutar,media,proyektor,jeda,volume,layar kunci,wifi,kontrol",
+  "description": "Film atau musik ada di Mac. Remote ada di tangan Anda.\n\nKinrox Remote mengendalikan Kinrox, pemutar video dan musik gratis bersumber terbuka untuk Mac, dari iPhone Anda. Jeda, lewati, dan kecilkan volume tanpa beranjak dari sofa, atau langsung dari Layar Terkunci.\n\nFILM\n• Putar dan jeda, mundur atau maju 10 atau 30 detik, atau geser ke momen mana pun.\n• Atur volume dan beralih ke layar penuh di Mac.\n• Pindah ke video sebelumnya atau berikutnya di folder, atau buka file terbaru.\n• Nyalakan screensaver Matrix saat Anda beristirahat.\n\nMUSIK\n• Putar, jeda, lewati, dan atur volume musik yang sedang diputar di Mac.\n• Tambahkan lagu yang sedang diputar ke favorit dan kelola antrean: ubah urutan atau hapus lagu.\n• Dengarkan yang serupa: musik terus berlanjut dengan lagu yang mirip dengan yang sedang diputar, dan sembunyikan lagu atau artis yang tidak Anda minati.\n\nLAYAR TERKUNCI\n• Selama ada yang diputar, kontrol muncul di Layar Terkunci dan di Dynamic Island: jeda, lewati, dan atur volume tanpa membuka kunci iPhone.\n\nPRIVASI SEJAK AWAL\n• Bekerja melalui jaringan lokal dengan koneksi terenkripsi, dipasangkan dengan kode enam digit.\n• Tanpa akun, layanan cloud, iklan, atau analitik.\n• Mode demo memungkinkan Anda mencoba kontrol sebelum menghubungkan Mac.\n\nYANG ANDA PERLUKAN\n• Kinrox untuk Mac, gratis di https://kinrox.app\n• iPhone dengan iOS 17 atau lebih baru di jaringan lokal yang sama dengan Mac.\n\nMode musik bekerja dengan perpustakaan musik yang Anda hubungkan di Kinrox untuk Mac; situs web mencantumkan layanan yang didukung. Kinrox Remote adalah remote: aplikasi ini tidak memutar video atau musik di iPhone.",
+  "screenshots": [
+    [
+      "Jeda Mac Anda\ndari Layar Terkunci.",
+      "Film dan musik di Mac, kontrolnya langsung di iPhone."
+    ],
+    [
+      "Remote film untuk Mac.",
+      "Jeda, lompat, geser, dan atur volume dari sofa."
+    ],
+    [
+      "Musik di Mac.\nDalam genggaman.",
+      "Putar, lewati, sukai, dan antrekan yang diputar di Mac."
+    ],
+    [
+      "Musik terus berlanjut.",
+      "Dengarkan lagu serupa. Sembunyikan yang tidak Anda sukai."
+    ],
+    [
+      "Antrean sesuka Anda.",
+      "Ubah urutan, hapus, dan favoritkan lagu dari iPhone."
+    ],
+    [
+      "Pemutar gratis untuk Mac.",
+      "MKV, MP4, AVI, dan lainnya. Sumber terbuka. kinrox.app"
+    ],
+    [
+      "Tanpa akun. Tanpa cloud.",
+      "Hanya jaringan lokal. Terenkripsi, dipasangkan dengan kode 6 digit."
+    ],
+    [
+      "Rehat dengan gaya.",
+      "Mulai screensaver Matrix di Mac dari iPhone."
+    ]
+  ],
+  "requirement": "Pemutar Kinrox gratis untuk Mac · Jaringan Wi-Fi yang sama",
+  "screenshot_ui": {
+    "movies": "Film",
+    "sec": "dtk",
+    "next": "Berikutnya",
+    "next_label": "Berikut",
+    "then": "Lalu",
+    "from_album": "Dari album “%@”",
+    "time_left": "sisa %@",
+    "code_valid": "Kode berlaku 2 menit · sisa 3 percobaan",
+    "more": "+ lainnya"
+  },
+  "name": "Kinrox: Remote untuk Mac"
 }

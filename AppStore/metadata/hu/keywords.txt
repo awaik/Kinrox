@@ -1,1 +1,1 @@
-videó,lejátszó,film,kanapé,hangerő,wifi,távirányító
+macbook,számítógép,laptop,videó,lejátszó,média,projektor,szünet,hangerő,wifi,mozi

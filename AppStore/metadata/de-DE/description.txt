@@ -1,16 +1,28 @@
-Der Film läuft auf dem Mac. Die Fernbedienung liegt in deiner Hand.
+Dein Film oder deine Musik läuft auf dem Mac. Die Fernbedienung hast du in der Hand.
 
-Mit Kinrox Remote steuerst du den Kinrox-Videoplayer auf deinem Mac vom iPhone aus. Bleib auf dem Sofa, wenn du pausieren, eine Szene wiederholen oder den Ton leiser stellen möchtest.
+Kinrox Remote steuert vom iPhone aus Kinrox, einen kostenlosen Open-Source-Player für Videos und Musik auf dem Mac. Pausiere, schalte weiter und stell den Ton leiser, ohne vom Sofa aufzustehen – oder direkt vom Sperrbildschirm aus.
 
-• Wiedergabe starten und pausieren.
-• 10 oder 30 Sekunden vor- und zurückspringen oder eine Stelle auf der Zeitleiste wählen.
-• Lautstärke und Vollbildmodus auf dem Mac steuern.
-• Zum vorherigen oder nächsten Video im aktuellen Ordner wechseln.
-• Verfügbare Dateien aus der Liste zuletzt geöffneter Dateien auf dem Mac öffnen.
-• Kinrox-Player im Netzwerk finden und per sechsstelligen Code koppeln.
+FILME
+• Abspielen und pausieren, 10 oder 30 Sekunden zurück- oder vorspringen oder zu jeder beliebigen Stelle wechseln.
+• Lautstärke einstellen und den Vollbildmodus auf dem Mac ein- und ausschalten.
+• Zum vorherigen oder nächsten Video im Ordner wechseln oder eine zuletzt geöffnete Datei öffnen.
+• In der Pause den Matrix-Bildschirmschoner starten.
 
-Die Verbindung ist verschlüsselt und bleibt im lokalen Netzwerk. Ohne Konto, Cloud-Dienst, Werbung oder Analysefunktionen. Eine interaktive Demo zeigt die Steuerung auch ohne verbundenen Mac.
+MUSIK
+• Musik auf dem Mac abspielen, pausieren, Titel überspringen und die Lautstärke einstellen.
+• Den aktuellen Titel zu den Favoriten hinzufügen und die Warteschlange verwalten: Titel umsortieren oder entfernen.
+• Ähnliches hören: Die Musik läuft mit Titeln weiter, die dem aktuellen ähneln. Titel oder Künstler, die dich nicht interessieren, blendest du aus.
 
-Erfordert iOS 17 oder neuer und Kinrox auf einem kompatiblen Mac. Beide Geräte müssen im selben lokalen Netzwerk sein; erlaube den Zugriff darauf. Die App ist eine Fernbedienung für Kinrox und spielt oder streamt keine Videos auf dem iPhone.
+SPERRBILDSCHIRM
+• Solange etwas läuft, erscheint die Steuerung auf dem Sperrbildschirm und in der Dynamic Island: Pause, Titelwechsel und Lautstärke, ohne das iPhone zu entsperren.
 
-Mac-Player und Einrichtung: https://awaik.github.io/Kinrox/
+PRIVAT VON GRUND AUF
+• Funktioniert in deinem lokalen Netzwerk über eine verschlüsselte Verbindung, gekoppelt per sechsstelligem Code.
+• Kein Konto, kein Cloud-Dienst, keine Werbung, keine Analyse.
+• Mit der Demo probierst du die Steuerung aus, bevor du einen Mac verbindest.
+
+DAS BRAUCHST DU
+• Kinrox für Mac, kostenlos auf https://kinrox.app
+• Ein iPhone mit iOS 17 oder neuer im selben lokalen Netzwerk wie der Mac.
+
+Der Musikmodus funktioniert mit der Musikbibliothek, die du in Kinrox für Mac verbindest; welche Dienste unterstützt werden, steht auf der Website. Kinrox Remote ist eine Fernbedienung: Die App spielt weder Videos noch Musik auf dem iPhone ab.

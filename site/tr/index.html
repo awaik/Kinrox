@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — iPhone uzaktan kumandalı Mac video oynatıcı</title>
-  <meta name="description" content="Kinrox, iPhone üzerinden kumanda edilebilen ücretsiz ve açık kaynaklı bir Mac video oynatıcısıdır. Kanepeden kalkmadan duraklatın, ileri geri sarın ve sesi ayarlayın.">
+  <title>Kinrox — iPhone kumandalı Mac video oynatıcı ve yerel Spotify oynatıcı</title>
+  <meta name="description" content="Ücretsiz Mac uygulaması: iPhone’dan kumanda ettiğiniz minimalist bir video oynatıcı ve benzer parçaları bulan hafif, yerel bir Spotify oynatıcı. Kinrox hesabı yok, izleyici yok, kaynak kodu GitHub’da.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/tr/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox — filmi duraklatmak için kalkmayı bırakın">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Kişisel kullanım için ücretsiz.">
+  <meta property="og:title" content="Kinrox — kanepeden filmler, şişkinlik olmadan Spotify">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Kumandalı video, benzer parçalarla Spotify. Kişisel kullanım için ücretsiz.">
   <meta property="og:url" content="https://kinrox.app/tr/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/tr/", "inLanguage": "tr", "description": "Kinrox · Mac + iPhone. Kişisel kullanım için ücretsiz."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/tr/", "inLanguage": "tr", "description": "Kinrox · Mac + iPhone. Kumandalı video, benzer parçalarla Spotify. Kişisel kullanım için ücretsiz."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Kişisel kullanım için ücretsiz · Mac + iPhone</span>
-      <h1 class="display">Filmi duraklatmak için <span class="fire-text">yerinizden kalkmayın.</span></h1>
-      <p class="lead">Kinrox, Mac cihazınızdaki herhangi bir videoyu oynatır ve iPhone cihazınızı uzaktan kumandaya dönüştürür. MacBook projektörde, siz kanepede: duraklatın, 10 saniye geriye gidin, sesi kısın veya battaniyeden ayrılmadan bir sonraki bölüme başlayın.</p>
+      <h1 class="display">Kanepeden filmler. <span class="fire-text">Şişkinlik olmadan Spotify.</span></h1>
+      <p class="lead">Tek bir ücretsiz uygulamada iki yerel Mac oynatıcı. Her videoyu izleyin ve iPhone’dan kumanda edin — kalkmadan duraklatın, atlayın ve sesi ayarlayın. Spotify.app kapalıyken Spotify dinleyin; Kinrox müziğin devam etmesi için benzer parçaları bulsun.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Mac için indirin</a>
-        <a class="btn btn-glass" href="#how">Nasıl çalıştığını görün</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">App Store’da kumanda</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Kinrox hesabı yok</span><span>Kinrox sunucusu yok</span><span>Wi‑Fi&#x27;niz üzerinden çalışır</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Kinrox hesabı yok</span><span>İzleyici yok</span><span>Kaynak kodu GitHub’da</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Ağır masaüstü uygulaması olmadan Spotify.</h2>
-        <p class="lead">Yerel SwiftUI müzik modu en fazla 200 MB bellek kullanır — masaüstü istemcisi 2 GB’a kadar çıkabilen Spotify’ın kendisinden 2 ila 10 kat daha az. Spotify.app’i tamamen kapalı tutabilirsiniz.</p>
+        <p class="lead">Kendi müzik keşfi olan, SwiftUI ile yazılmış yerel bir Spotify oynatıcı. Spotify.app tamamen kapalıyken çalar ve en fazla 200 MB bellek kullanır — 2 GB’a kadar çıkabilen masaüstü Spotify istemcisinden 2 ila 10 kat daha az.</p>
         <p>2026-11-09 ölçümü, 12 saatlik oynatmanın ardından: toplam yaklaşık 193 MB — Kinrox 161 MB, Soloist ve yardımcı süreçler 32 MB. macOS footprint ile ölçülen fiziksel bellek; anlık ölçüm, üst sınır değil.</p>
+        <p>Spotify Premium, kendi Spotify geliştirici Client ID’niz ve kişisel bir Soloist anahtarı gerekir. Kinrox kurulumda size adım adım yol gösterir.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Çalmaya devam eden benzer parçalar</h3>
+          <p>Bir parça, sanatçı, albüm veya çalma listesinden başlayın. Kinrox her önerinin neden uyduğunu gösterir — birlikte dinlenenler, ortak çalışmalar, kitaplığınız, tür — ve “Benzerlerini dinle” kuyruğa uygun müzik eklemeye devam eder. “İlgimi çekmiyor” istemediklerinizi gizler.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>2 GB yerine en fazla 200 MB</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox, Swift 6&#x27;da ve SwiftUI, libmpv&#x27;nin üstünde yazılmıştır. Oynatıcının, uzaktan kumandanın ve protokolün her satırı GitHub üzerindedir.</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac oynatıcı — çalışır</li>
-            <li><i class="ic ic-check"></i>iPhone uzak — kaynaktan derleyin</li>
+            <li><i class="ic ic-check"></i>iPhone kumandası — App Store’da</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 — imzalı ve noter tasdikli DMG</li>
-            <li class="soon"><i class="ic ic-history"></i>App Store&#x27;de uzaktan kumanda — planlanmış</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Mac için indirin</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">App Store’da kumanda</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Bültenler</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Kişisel kullanım için ücretsiz</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Mac için indirin</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Sorun Bildir</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">App Store’da kumanda</a>
       </div>
     </div>
   </section>

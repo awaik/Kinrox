@@ -1,6 +1,7 @@
 import SwiftUI
 
-/// Sheet Figma 14:378; replaced by PIN view upon pairing request.
+/// Sheet Figma 14:378, with the remote QR card from `238:362`; replaced by PIN view upon
+/// pairing request.
 struct ConnectPhoneView: View {
     let remote: RemoteServer
     let done: () -> Void
@@ -11,20 +12,16 @@ struct ConnectPhoneView: View {
             Rectangle().fill(.black.opacity(0.45)).background(.ultraThinMaterial).ignoresSafeArea()
             ScrollView {
                 VStack(spacing: 0) {
-                    Image(systemName: "iphone").font(.system(size: 28, weight: .semibold))
-                        .frame(width: 60, height: 60)
-                        .background(Palette.emberDiagonal, in: RoundedRectangle(cornerRadius: 20))
-                        .emberGlow()
-                    Text(L10n.text("Connect iPhone")).font(KinroxFont.titleLarge()).padding(
-                        .top, 18)
+                    Text(L10n.text("Connect iPhone")).font(KinroxFont.titleLarge())
                     Text(
                         L10n.text(
                             "Remote works over the same Wi-Fi network, without accounts or cloud.")
                     )
                     .font(KinroxFont.body).foregroundStyle(Palette.textSecondary)
                     .multilineTextAlignment(.center).padding(.top, 6)
+                    GetRemoteCard(style: .sheet).padding(.top, 20)
                     VStack(alignment: .leading, spacing: 14) {
-                        step(1, L10n.text("Open Kinrox on iPhone"))
+                        step(1, L10n.text("Install and open Kinrox Remote on iPhone"))
                         step(2, L10n.format("Select “%@” in the players list", remote.serverName))
                         step(3, L10n.text("Enter the code shown here"))
                     }.padding(.vertical, 22)

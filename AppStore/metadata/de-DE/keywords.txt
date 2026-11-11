@@ -1,1 +1,1 @@
-Video,Player,Film,Sofa,Lautstärke,WLAN,Wiedergabe
+macbook,laptop,computer,video,player,medien,beamer,pause,lautstärke,sperrbildschirm,wlan,couch

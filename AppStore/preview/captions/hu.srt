@@ -1,28 +1,37 @@
 1
-00:00:00,000 --> 00:00:04,000
-Filmest.
-Minden kéznél.
+00:00:00,000 --> 00:00:03,000
+Állítsd meg a Macet.
+A zárolási képernyőről.
 
 2
-00:00:04,000 --> 00:00:09,000
-Az a jelenet.
-Még egyszer.
+00:00:03,000 --> 00:00:06,000
+Filmes távirányító.
 
 3
-00:00:09,000 --> 00:00:13,000
-Helyezkedj el
-kényelmesen.
+00:00:06,000 --> 00:00:09,000
+Zene a Macen.
+A kezedben.
 
 4
-00:00:13,000 --> 00:00:18,000
-A következő film.
-Egy érintésre.
+00:00:09,000 --> 00:00:12,000
+Szól tovább a zene.
 
 5
-00:00:18,000 --> 00:00:23,000
-Egy kód.
-Már kapcsolódtál.
+00:00:12,000 --> 00:00:15,000
+A sorod, ahogy szeretnéd.
 
 6
-00:00:23,000 --> 00:00:27,000
-Kinrox szükséges a Macen · Közös helyi hálózat
+00:00:15,000 --> 00:00:18,000
+Ingyenes lejátszó Macre.
+
+7
+00:00:18,000 --> 00:00:21,000
+Nincs fiók. Nincs felhő.
+
+8
+00:00:21,000 --> 00:00:24,000
+Szünet stílusosan.
+
+9
+00:00:24,000 --> 00:00:27,000
+Ingyenes Kinrox lejátszó Macre · Közös Wi-Fi-hálózat

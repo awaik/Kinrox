@@ -100,6 +100,16 @@ public struct MusicQueue: Equatable, Sendable {
         context.append(contentsOf: items)
     }
 
+    /// Replaces pending source occurrences, keeping the current item, manual items and history.
+    public mutating func replaceSource(_ tracks: [MusicTrack]) {
+        // Repeat All reuses source orders; Previous can put a played order back in source.
+        let kept = Set(((current.map { [$0] } ?? []) + history).map(\.sourceOrder))
+        let replaced = Set(source.map(\.sourceOrder)).subtracting(kept)
+        context.removeAll { replaced.contains($0.sourceOrder) }
+        source = []
+        appendSource(tracks)
+    }
+
     public mutating func clearManual() {
         for id in manual.map(\.id) {
             _ = remove(id)

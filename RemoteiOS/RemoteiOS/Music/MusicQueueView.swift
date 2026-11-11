@@ -10,9 +10,16 @@ struct MusicQueueView: View {
                 .font(.system(size: 13)).foregroundStyle(Palette.textSecondary)
                 .listRowInsets(EdgeInsets(top: 8, leading: 24, bottom: 8, trailing: 16))
                 .listRowBackground(Color.clear).listRowSeparator(.hidden)
+            if store.similarActive {
+                MusicSimilarBanner(store: store, offersNotInterested: false)
+                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                    .listRowBackground(Color.clear).listRowSeparator(.hidden)
+            }
             section(.current, title: L10n.text("Now Playing"))
             section(.manual, title: L10n.text("Added manually"))
-            section(.source, title: L10n.text("Source list"))
+            section(
+                .source,
+                title: store.similarActive ? L10n.text("Similar") : L10n.text("Source list"))
             if store.queueLoading { ProgressView().listRowBackground(Color.clear) }
             if let offset = store.queueNextOffset {
                 Color.clear.frame(height: 1).listRowBackground(Color.clear)
@@ -43,7 +50,10 @@ struct MusicQueueView: View {
         }
         .safeAreaInset(edge: .bottom) {
             VStack {
-                if let feedback = store.state.music?.favoriteFeedback {
+                if let feedback = store.similarFeedback {
+                    MusicSimilarFeedbackView(store: store, feedback: feedback).padding(
+                        .horizontal, 16)
+                } else if let feedback = store.state.music?.favoriteFeedback {
                     SpotifyFavoriteFeedback(liked: feedback.liked)
                 }
                 Text(L10n.text("Swipe left to remove · hold to reorder"))
@@ -99,6 +109,10 @@ struct MusicQueueView: View {
                             .accessibilityAction(named: L10n.text("Remove from queue")) {
                                 store.send(.queueRemove(itemId: item.id))
                             }
+                            .modifier(
+                                SimilarRowActions(
+                                    store: store, track: item.track,
+                                    enabled: section == .source && store.similarActive))
                     }
                 }
             }
@@ -145,5 +159,33 @@ struct MusicQueueView: View {
             )
             .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
             .listRowSeparator(.hidden).listRowBackground(Color.clear)
+    }
+}
+
+/// Not interested on pending similar rows: leading swipe and long-press menu.
+private struct SimilarRowActions: ViewModifier {
+    @Bindable var store: RemoteAppModel
+    let track: RemoteMusicTrack
+    let enabled: Bool
+
+    func body(content: Content) -> some View {
+        if enabled {
+            content
+                .swipeActions(edge: .leading) {
+                    Button {
+                        store.hideFromSimilar(track, scope: .track)
+                    } label: {
+                        Label(
+                            L10n.text("Not interested in this track"),
+                            systemImage: "hand.thumbsdown")
+                    }.tint(.gray)
+                }
+                .contextMenu { MusicNotInterestedItems(store: store, track: track) }
+                .accessibilityAction(named: L10n.text("Not interested in this track")) {
+                    store.hideFromSimilar(track, scope: .track)
+                }
+        } else {
+            content
+        }
     }
 }

@@ -1,8 +1,52 @@
 {
-  "subtitle": "Telecomanda filmelor pe Mac",
-  "promotional_text": "Așază-te comod. Controlează pauza, redarea și volumul pe Mac de pe iPhone. Necesită Kinrox pe Mac, în aceeași rețea locală.",
-  "keywords": "video,player,film,canapea,volum,wifi,telecomandă",
-  "description": "Filmul rulează pe Mac. Telecomanda e în mâna ta.\n\nKinrox Remote îți permite să controlezi playerul video Kinrox de pe Mac folosind iPhone-ul. Rămâi pe canapea când vrei să pui pauză, să revezi o scenă sau să reduci volumul.\n\n• Pornește și întrerupe redarea.\n• Sari înainte sau înapoi cu 10 ori 30 de secunde sau alege un moment pe bara de redare.\n• Reglează volumul și activează ecranul complet pe Mac.\n• Treci la videoclipul anterior sau următor din dosarul curent.\n• Deschide fișierele disponibile din lista de fișiere recente a Mac-ului.\n• Găsește playere Kinrox în rețea și asociază-le cu un cod de șase cifre.\n\nConexiunea este criptată și rămâne în rețeaua locală. Fără cont, servicii cloud, reclame sau analiză a utilizării. Un demo interactiv îți permite să încerci comenzile înainte de a conecta un Mac.\n\nNecesită iOS 17 sau ulterior și Kinrox pornit pe un Mac compatibil. Conectează ambele dispozitive la aceeași rețea locală și permite accesul. Aplicația este o telecomandă pentru Kinrox; nu redă și nu transmite video pe iPhone.\n\nPlayer pentru Mac și configurare: https://awaik.github.io/Kinrox/",
-  "screenshots": [["Seară de film.\nTotul la îndemână.", "Controlează Kinrox pe Mac.\nDirect de pe iPhone."],["Scena aceea.\nÎncă o dată.", "Sari înainte sau înapoi cu 10 ori 30 de secunde.\nSau alege momentul dorit."],["Așază-te\ncomod.", "Reglează volumul. Activează ecranul complet.\nFără să te ridici de pe canapea."],["Următorul film.\nO singură atingere.", "Deschide un fișier recent disponibil\npe Mac de pe iPhone."],["Un cod.\nEști conectat.", "Asociere în aceeași rețea locală.\nFără cont. Conexiune criptată."]],
-  "requirement": "Necesită Kinrox pe Mac · Aceeași rețea locală"
+  "subtitle": "Filme și muzică de pe canapea",
+  "promotional_text": "Nou: controlează Mac-ul de pe ecranul de blocare. Modul muzică cu favorite, coadă și piese similare. Playerul Kinrox pentru Mac e gratuit pe kinrox.app.",
+  "keywords": "macbook,calculator,laptop,video,player,media,proiector,pauză,volum,ecran,blocare,wifi,cinema",
+  "description": "Filmul sau muzica sunt pe Mac. Telecomanda e în mâna ta.\n\nKinrox Remote controlează de pe iPhone Kinrox, un player video și muzical pentru Mac, gratuit și cu sursă deschisă. Pune pauză, treci mai departe și dă volumul mai încet fără să te ridici de pe canapea sau direct de pe ecranul de blocare.\n\nFILME\n• Redă și pune pauză, sari înapoi sau înainte cu 10 ori 30 de secunde sau mergi la orice moment pe bara de timp.\n• Reglează volumul și comută ecranul complet pe Mac.\n• Treci la videoclipul anterior sau următor din dosar ori deschide un fișier recent.\n• Pornește economizorul de ecran Matrix când iei o pauză.\n\nMUZICĂ\n• Redă, pune pauză, schimbă piesa și reglează volumul muzicii care se aude pe Mac.\n• Adaugă piesa curentă la favorite și gestionează coada: reordonează sau elimină piese.\n• Ascultă piese similare: muzica merge mai departe cu piese asemănătoare celei care rulează, iar piesele sau artiștii care nu te interesează pot fi ascunși.\n\nECRANUL DE BLOCARE\n• Cât timp se redă ceva, comenzile apar pe ecranul de blocare și în Dynamic Island: pauză, piesa următoare și volum fără să deblochezi iPhone-ul.\n\nCONFIDENȚIALITATE\n• Funcționează în rețeaua locală, printr-o conexiune criptată, iar asocierea se face cu un cod din șase cifre.\n• Fără cont, servicii cloud, reclame sau analize.\n• Modul demo te lasă să încerci comenzile înainte de a conecta un Mac.\n\nDE CE AI NEVOIE\n• Kinrox pentru Mac, gratuit la https://kinrox.app\n• Un iPhone cu iOS 17 sau o versiune ulterioară, în aceeași rețea locală cu Mac-ul.\n\nModul muzică funcționează cu biblioteca muzicală pe care o conectezi în Kinrox pentru Mac; site-ul enumeră serviciile acceptate. Kinrox Remote este o telecomandă: nu redă video sau muzică pe iPhone.",
+  "screenshots": [
+    [
+      "Pauză pe Mac,\nfără deblocare.",
+      "Filme și muzică pe Mac, comenzile direct pe iPhone."
+    ],
+    [
+      "Telecomanda pentru filme.",
+      "Pauză, salturi, derulare și volum, direct de pe canapea."
+    ],
+    [
+      "Muzica de pe Mac.\nÎn mâna ta.",
+      "Redă, sari, apreciază și pune în coadă ce cântă pe Mac."
+    ],
+    [
+      "Muzica nu se oprește.",
+      "Ascultă piese similare. Ascunde ce nu îți place."
+    ],
+    [
+      "Coada ta, cum vrei tu.",
+      "Reordonează, elimină și marchează favorite de pe iPhone."
+    ],
+    [
+      "Player gratuit pentru Mac.",
+      "MKV, MP4, AVI și altele. Open source. kinrox.app"
+    ],
+    [
+      "Fără cont. Fără cloud.",
+      "Doar rețea locală. Criptat, asociat cu un cod din 6 cifre."
+    ],
+    [
+      "O pauză cu stil.",
+      "Pornește protecția de ecran Matrix pe Mac de pe iPhone."
+    ]
+  ],
+  "requirement": "Player Kinrox gratuit pentru Mac · Aceeași rețea Wi-Fi",
+  "screenshot_ui": {
+    "movies": "Filme",
+    "sec": "s",
+    "next": "Urmează",
+    "then": "Apoi",
+    "from_album": "Din albumul „%@”",
+    "time_left": "au rămas %@",
+    "code_valid": "Cod valabil 2 minute · 3 încercări rămase",
+    "more": "+ altele"
+  },
+  "name": "Kinrox: Telecomandă pentru Mac"
 }

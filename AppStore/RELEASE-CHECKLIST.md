@@ -3,6 +3,26 @@
 Updated October 28, 2026. The preparation record below is retained for provenance;
 the following delivery record supersedes its outstanding-account assumptions.
 
+## Remote 0.2.2 listing (prepared 2026-11-11, not uploaded)
+
+- New name, subtitle, keywords, promotional text and description for 35 localizations
+  (`AppStore/copy/`, `AppStore/metadata/`); research and rules in
+  `docs/RESEARCHES/2026-11-11_13-45_App-Store-search-and-conversion.md`.
+- Screenshot set v2: eight per locale and size in `screenshots/export-20261111-v2/`
+  (576 RGB PNGs including `fa`, with `SHA256SUMS` and `provenance.json`), rendered from
+  Figma `229:304`. Screenshot 1 shows the Lock Screen card, so upload the set only with
+  Remote 0.2.2.
+- Before staging, empty `DerivedData/AppStoreDelivery/screenshots`: its links point to the
+  0.1.0 export and `stage_screenshots` refuses links that differ.
+- App Store Connect copies the previous version's five screenshots into a new version.
+  The `metadata` lane uploads with `overwrite_screenshots`, replacing them; appending
+  would exceed the ten-image slot.
+- `AppStore/review/notes.txt` points to Mac 0.5.8 and describes music, Similar and the Lock
+  Screen controls.
+- `fastlane ios build` registers the widget App ID `app.kinrox.remote.lockscreen` if
+  needed and exports both bundles with their App Store profiles; version and build come
+  from `Config/RemoteiOS.xcconfig`.
+
 ## Delivery record
 
 - Owner-created app: **Kinrox Remote**, Apple ID `6827926471`, bundle `app.kinrox.remote`.

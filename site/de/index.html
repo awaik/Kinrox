@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox – Mac-Videoplayer mit einer iPhone-Fernbedienung</title>
-  <meta name="description" content="Kinrox ist ein kostenloser Open-Source-Videoplayer für Mac mit einer iPhone-Fernbedienung. Das MacBook steht am Beamer, du liegst auf dem Sofa: Pause, Spulen und Lautstärke, ohne aufzustehen.">
+  <title>Kinrox – Mac-Videoplayer mit iPhone-Fernbedienung und nativem Spotify-Player</title>
+  <meta name="description" content="Kostenlose Mac-App: ein minimalistischer Videoplayer, den Sie vom iPhone aus steuern, und ein schlanker nativer Spotify-Player, der ähnliche Titel findet. Kein Kinrox-Konto, keine Tracker, Quellcode auf GitHub.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/de/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox – Hören Sie auf aufzustehen, um den Film anzuhalten">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Für private Nutzung kostenlos.">
+  <meta property="og:title" content="Kinrox – Filme vom Sofa, Spotify ohne Ballast">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Video mit Fernbedienung, Spotify mit ähnlichen Titeln. Für private Nutzung kostenlos.">
   <meta property="og:url" content="https://kinrox.app/de/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/de/", "inLanguage": "de", "description": "Kinrox · Mac + iPhone. Für private Nutzung kostenlos."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/de/", "inLanguage": "de", "description": "Kinrox · Mac + iPhone. Video mit Fernbedienung, Spotify mit ähnlichen Titeln. Für private Nutzung kostenlos."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Für private Nutzung kostenlos · Mac + iPhone</span>
-      <h1 class="display">Bleib sitzen. <span class="fire-text">Pausiere den Film.</span></h1>
-      <p class="lead">Kinrox spielt Videos auf deinem Mac ab und macht dein iPhone zur Fernbedienung. Das MacBook steht am Beamer, du liegst auf dem Sofa: pausieren, zehn Sekunden zurückspringen, leiser stellen oder die nächste Folge starten, ohne die Decke zu verlassen.</p>
+      <h1 class="display">Filme vom Sofa. <span class="fire-text">Spotify ohne Ballast.</span></h1>
+      <p class="lead">Zwei native Mac-Player in einer kostenlosen App. Sehen Sie jedes Video und steuern Sie es vom iPhone aus – pausieren, springen und die Lautstärke ändern, ohne aufzustehen. Hören Sie Spotify bei geschlossener Spotify.app, und Kinrox findet ähnliche Titel, damit die Musik weiterläuft.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Herunterladen für Mac</a>
-        <a class="btn btn-glass" href="#how">Sehen Sie, wie es funktioniert</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Fernbedienung im App Store</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Kein Kinrox-Konto</span><span>Kein Kinrox-Server</span><span>Funktioniert über Ihr WLAN</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Kein Kinrox-Konto</span><span>Keine Tracker</span><span>Quellcode auf GitHub</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Spotify ohne die schwerfällige Desktop-App.</h2>
-        <p class="lead">Der native SwiftUI-Musikmodus belegt bis zu 200 MB Speicher — 2- bis 10-mal weniger als Spotify selbst, dessen Desktop-Client bis zu 2 GB verbrauchen kann. Spotify.app bleibt komplett geschlossen.</p>
+        <p class="lead">Ein nativer Spotify-Player in SwiftUI mit eigener Musikentdeckung. Er spielt bei vollständig geschlossener Spotify.app und belegt bis zu 200 MB Speicher – 2- bis 10-mal weniger als der Spotify-Desktop-Client, der bis zu 2 GB verbrauchen kann.</p>
         <p>Messung am 2026-11-09 nach 12 Stunden Wiedergabe: insgesamt etwa 193 MB — 161 MB für Kinrox und 32 MB für Soloist und Hilfsprozesse. Physischer Speicher laut macOS footprint; eine Momentaufnahme, kein Höchstwert.</p>
+        <p>Erfordert Spotify Premium, eine eigene Spotify-Entwickler-Client ID und einen persönlichen Soloist-Schlüssel. Kinrox führt Sie durch die Einrichtung.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Ähnliche Titel, die weiterspielen</h3>
+          <p>Starten Sie mit einem Titel, Künstler, Album oder einer Playlist. Kinrox zeigt, warum jeder Vorschlag passt – zusammen gehört, Kollaborationen, Ihre Mediathek, Genre –, und „Ähnliches hören“ fügt laufend passende Musik zur Warteschlange hinzu. „Kein Interesse“ blendet aus, was Sie nicht hören möchten.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>Bis zu 200 MB statt 2 GB</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox ist in Swift 6 und SwiftUI auf libmpv geschrieben. Jede Zeile des Players, der Fernbedienung und des Protokolls ist auf GitHub.</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac-Player – funktioniert</li>
-            <li><i class="ic ic-check"></i>iPhone Remote – Build aus dem Quellcode</li>
+            <li><i class="ic ic-check"></i>iPhone-Fernbedienung – im App Store</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 — signiertes, von Apple notarisiertes DMG</li>
-            <li class="soon"><i class="ic ic-history"></i>Remote auf dem App Store – geplant</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Herunterladen für Mac</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Fernbedienung im App Store</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Veröffentlichungen</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Für private Nutzung kostenlos</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Herunterladen für Mac</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Problem melden</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Fernbedienung im App Store</a>
       </div>
     </div>
   </section>

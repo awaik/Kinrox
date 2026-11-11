@@ -1,16 +1,28 @@
-Filmen är på din Mac. Fjärrkontrollen är i din hand.
+Filmen eller musiken finns på din Mac. Fjärrkontrollen har du i handen.
 
-Med Kinrox Remote styr du videospelaren Kinrox på Mac från din iPhone. Sitt kvar i soffan när du vill pausa, se en scen igen eller sänka volymen.
+Kinrox Remote styr Kinrox, en gratis video- och musikspelare med öppen källkod för Mac, från din iPhone. Pausa, hoppa vidare och sänk volymen utan att lämna soffan, eller direkt från låsskärmen.
 
-• Starta och pausa uppspelning.
-• Hoppa 10 eller 30 sekunder framåt eller bakåt, eller välj ett ögonblick på tidslinjen.
-• Justera volym och växla till helskärm på Mac.
-• Gå till föregående eller nästa video i den aktuella mappen.
-• Öppna tillgängliga filer i Mac-datorns lista över senaste filer.
-• Hitta Kinrox-spelare i nätverket och parkoppla med en sexsiffrig kod.
+FILM
+• Spela upp och pausa, hoppa 10 eller 30 sekunder bakåt eller framåt, eller gå till valfritt ögonblick.
+• Justera volymen och slå på eller av helskärm på din Mac.
+• Gå till föregående eller nästa video i mappen, eller öppna en nyligen använd fil.
+• Starta Matrix-skärmsläckaren när du tar en paus.
 
-Anslutningen är krypterad och stannar i det lokala nätverket. Inget konto, ingen molntjänst, reklam eller användningsanalys. En interaktiv demo låter dig prova kontrollerna innan du ansluter en Mac.
+MUSIK
+• Spela upp, pausa, hoppa över låtar och justera volymen för musiken som spelas på din Mac.
+• Lägg till aktuell låt bland favoriterna och hantera kön: ändra ordning på låtar eller ta bort dem.
+• Lyssna på liknande: musiken fortsätter med låtar som liknar den som spelas, och du kan dölja låtar eller artister som inte intresserar dig.
 
-Kräver iOS 17 eller senare och Kinrox på en kompatibel Mac. Anslut båda enheterna till samma lokala nätverk och tillåt åtkomst. Appen är en fjärrkontroll för Kinrox och spelar eller strömmar inte video på din iPhone.
+LÅSSKÄRM
+• Medan något spelas visas reglage på låsskärmen och i Dynamic Island: paus, nästa låt och volym utan att låsa upp din iPhone.
 
-Mac-spelare och installation: https://awaik.github.io/Kinrox/
+INTEGRITET FRÅN GRUNDEN
+• Fungerar i ditt lokala nätverk med krypterad anslutning, parkopplad med en sexsiffrig kod.
+• Inget konto, ingen molntjänst, ingen reklam och ingen analys.
+• Med demon kan du prova reglagen innan du ansluter en Mac.
+
+DET HÄR BEHÖVER DU
+• Kinrox för Mac, gratis på https://kinrox.app
+• En iPhone med iOS 17 eller senare i samma lokala nätverk som din Mac.
+
+Musikläget fungerar med det musikbibliotek du ansluter i Kinrox för Mac; webbplatsen listar vilka tjänster som stöds. Kinrox Remote är en fjärrkontroll: appen spelar inte upp video eller musik på din iPhone.

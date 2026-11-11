@@ -1,1 +1,1 @@
-Settle in. Pause, skip and adjust the volume on your Mac from your iPhone. Requires Kinrox for Mac on the same local network.
+New: control your Mac from the Lock Screen. Music mode with favorites, queue and similar tracks. Free Kinrox player for Mac at kinrox.app.

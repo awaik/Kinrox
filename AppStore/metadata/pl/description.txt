@@ -1,16 +1,28 @@
-Film jest na Macu. Pilot — w Twojej dłoni.
+Film albo muzyka są na Macu. Pilot — w Twojej dłoni.
 
-Kinrox Remote pozwala sterować odtwarzaczem wideo Kinrox na Macu z iPhone’a. Zostań na kanapie, gdy chcesz wstrzymać film, powtórzyć scenę lub ściszyć dźwięk.
+Kinrox Remote steruje z iPhone’a Kinrox — darmowym odtwarzaczem wideo i muzyki dla Maca z otwartym kodem źródłowym. Wstrzymuj, przełączaj i ściszaj bez wstawania z kanapy albo prosto z ekranu blokady.
 
-• Uruchamiaj i wstrzymuj odtwarzanie.
-• Przeskakuj o 10 lub 30 sekund w przód i w tył lub wybieraj moment na osi czasu.
+FILMY
+• Odtwarzaj i wstrzymuj, przeskakuj o 10 lub 30 sekund w tył lub w przód albo wybierz dowolny moment na osi czasu.
 • Zmieniaj głośność i włączaj pełny ekran na Macu.
-• Przechodź do poprzedniego lub następnego filmu w bieżącym folderze.
-• Otwieraj dostępne pliki z listy ostatnio używanych na Macu.
-• Wyszukuj odtwarzacze Kinrox w sieci i paruj je sześciocyfrowym kodem.
+• Przechodź do poprzedniego lub następnego wideo w folderze albo otwórz ostatnio używany plik.
+• Włącz wygaszacz ekranu Matrix, gdy robisz przerwę.
 
-Połączenie jest szyfrowane i działa w sieci lokalnej. Bez konta, chmury, reklam i analityki. Interaktywne demo pozwala poznać sterowanie przed podłączeniem Maca.
+MUZYKA
+• Odtwarzaj, wstrzymuj, przełączaj utwory i ustawiaj głośność muzyki grającej na Macu.
+• Dodawaj bieżący utwór do ulubionych i zarządzaj kolejką: zmieniaj kolejność lub usuwaj utwory.
+• Słuchaj podobnych: muzyka gra dalej utworami podobnymi do bieżącego, a utwory lub wykonawców, którzy Cię nie interesują, możesz ukryć.
 
-Wymaga iOS 17 lub nowszego oraz Kinrox uruchomionego na zgodnym Macu. Połącz oba urządzenia z tą samą siecią lokalną i zezwól na dostęp. Aplikacja jest pilotem do Kinrox — nie odtwarza ani nie przesyła wideo na iPhonie.
+EKRAN BLOKADY
+• Podczas odtwarzania sterowanie pojawia się na ekranie blokady i w Dynamic Island: pauza, przełączanie i głośność bez odblokowywania iPhone’a.
 
-Odtwarzacz na Maca i konfiguracja: https://awaik.github.io/Kinrox/
+PRYWATNOŚĆ
+• Działa w sieci lokalnej przez szyfrowane połączenie, a parowanie odbywa się sześciocyfrowym kodem.
+• Bez konta, chmury, reklam i analityki.
+• Tryb demo pozwala wypróbować sterowanie przed podłączeniem Maca.
+
+CZEGO POTRZEBUJESZ
+• Kinrox dla Maca — za darmo na https://kinrox.app
+• iPhone’a z iOS 17 lub nowszym w tej samej sieci lokalnej co Mac.
+
+Tryb muzyki działa z biblioteką muzyczną, którą podłączasz w Kinrox dla Maca; obsługiwane serwisy są wymienione na stronie. Kinrox Remote to pilot: nie odtwarza wideo ani muzyki na iPhonie.

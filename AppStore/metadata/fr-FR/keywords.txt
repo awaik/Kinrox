@@ -1,1 +1,1 @@
-vidéo,lecteur,film,canapé,volume,lecture,wifi
+macbook,ordinateur,portable,vidéo,lecteur,média,projecteur,pause,volume,verrouillage,wifi,canapé

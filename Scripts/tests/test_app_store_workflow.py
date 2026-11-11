@@ -38,9 +38,9 @@ class RegionalCopyTests(unittest.TestCase):
             html = (root / "AppStore/index.html").read_text()
             gallery = json.loads(re.search(r'<script id="data" type="application/json">(.*?)</script>',
                                            html, re.S)[1])
-            self.assertIn("película.", gallery["es-MX"]["screenshots"][3][0])
-            self.assertIn("o ecrã inteiro", gallery["pt-PT"]["screenshots"][2][1])
-            self.assertIn("ligado", gallery["pt-PT"]["screenshots"][4][0])
+            self.assertIn("control remoto", gallery["es-MX"]["screenshots"][1][0])
+            self.assertIn("proteção de ecrã", gallery["pt-PT"]["screenshots"][7][1])
+            self.assertIn("cifrada", gallery["pt-PT"]["screenshots"][6][1])
             self.assertTrue(gallery["es-MX"]["requirement"].endswith("control remoto"))
             prepared = json.loads((root / "AppStore/localized-copy.json").read_text())
             for locale in ["es-MX", "pt-PT"]:
@@ -86,8 +86,8 @@ class ManifestTests(unittest.TestCase):
         for key, value in submission.items():
             self.assertEqual(result.get(key), value, key)
         self.assertEqual(len(result["locales"]), 35)
-        self.assertEqual(result["screenshots_per_locale_per_size"], 5)
-        self.assertEqual(result["screenshots_per_locale"], 10)
+        self.assertEqual(result["screenshots_per_locale_per_size"], 8)
+        self.assertEqual(result["screenshots_per_locale"], 16)
         self.assertEqual(result["screenshots_per_locale"],
                          result["screenshots_per_locale_per_size"] * len(result["screenshot_sizes"]))
         before = self.manifest.read_bytes()

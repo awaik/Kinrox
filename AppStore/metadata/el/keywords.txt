@@ -1,1 +1,1 @@
-βίντεο,ταινία,ένταση,wifi,παύση
+macbook,υπολογιστή,laptop,βίντεο,player,παύση,ένταση,wifi,media,pc

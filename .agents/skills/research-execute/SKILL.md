@@ -12,13 +12,17 @@ result, and report. Reading or copying this skill does not authorize a run.
 
 | Stage | Agent | Output |
 |---|---|---|
-| Plan review | `agy --dangerously-skip-permissions --model "Gemini 4 Argon (High)"` | Updated plan, `REVIEWED - <name>.md` |
+| Plan review | `agy --dangerously-skip-permissions --model "Gemini 4 Carbon (High)"`, timeout 5400 s | Updated plan, `REVIEWED - <name>.md` |
 | Implementation | `codex exec --yolo --model gpt-6-astra -c model_reasoning_effort="xhigh"` | Local changes and verification, `DONE/DONE - <name>.md` |
 | Verification | Orchestrator | Independent inspection and report |
 
 `run.sh` uses `prompts/review.md`, `prompts/execute.md`, and, on continuation,
 `prompts/resume.md`. Keep the inherited model defaults; change `AGY_MODEL`,
-`CODEX_MODEL`, or `CODEX_EFFORT` only at the user's request.
+`AGY_TIMEOUT`, `CODEX_MODEL`, or `CODEX_EFFORT` only at the user's request.
+Of Google's models, only `Gemini 4 Carbon (High)` is allowed (owner decision
+2026-11-11): `run.sh` refuses Gemini 4 Argon, Gemini 3.8 Flash, and lower Carbon
+levels, even with `--dry-run`. A review that exceeds `AGY_TIMEOUT` (default
+5400 s) is stopped with its process group and exits as an incomplete review.
 
 ## Scope and prerequisites
 

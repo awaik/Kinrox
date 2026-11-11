@@ -21,6 +21,7 @@ struct RemoteSettingsView: View {
                     if let spotify { SpotifySettingsSection(account: spotify) }
                     if let soloist, soloist.configured { SoloistSettingsSection(setup: soloist) }
                     serverCard
+                    GetRemoteCard(style: .settings)
                     Text(L10n.text("Paired Remotes")).overlineStyle().padding(.top, 8)
                     VStack(spacing: 0) {
                         if remote.devices.isEmpty {

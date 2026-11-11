@@ -22,8 +22,39 @@ def kinrox_app
   Spaceship::ConnectAPI::App.find("app.kinrox.remote") || UI.user_error!("Create the Kinrox app record first")
 end
 
+# Marketing version and build come from the remote's xcconfig, so the store version,
+# the uploaded build and the archive always agree.
+def kinrox_xcconfig_value(key)
+  File.read(File.join(kinrox_root, "Config/RemoteiOS.xcconfig"))[/^#{key}\s*=\s*(\S+)/, 1] ||
+    UI.user_error!("#{key} is missing from Config/RemoteiOS.xcconfig")
+end
+
 def kinrox_version
-  "0.1.0"
+  kinrox_xcconfig_value("MARKETING_VERSION")
+end
+
+def kinrox_build
+  kinrox_xcconfig_value("CURRENT_PROJECT_VERSION")
+end
+
+# App Store distribution profiles: the app and its Lock Screen widget extension.
+KINROX_PROFILES = {
+  "app.kinrox.remote" => "Kinrox Remote App Store",
+  "app.kinrox.remote.lockscreen" => "Kinrox Remote Lock Screen App Store"
+}.freeze
+
+# Explicit App IDs for the bundles above; the widget's ID is registered on first use.
+KINROX_BUNDLE_NAMES = {
+  "app.kinrox.remote" => "Kinrox Remote",
+  "app.kinrox.remote.lockscreen" => "Kinrox Remote Lock Screen"
+}.freeze
+
+def ensure_bundle_ids!
+  KINROX_BUNDLE_NAMES.each do |identifier, name|
+    next if Spaceship::ConnectAPI::BundleId.find(identifier)
+    Spaceship::ConnectAPI::BundleId.create(name: name, platform: "IOS", identifier: identifier)
+    UI.message("Registered bundle identifier #{identifier}")
+  end
 end
 
 def kinrox_review_contact
@@ -108,15 +139,20 @@ platform :ios do
   lane :build do
     sh(File.join(kinrox_root, "Scripts/generate.sh"))
     key = kinrox_api_key
-    profile = get_provisioning_profile(
-      api_key: key, app_identifier: "app.kinrox.remote", team_id: "HV66937AWS",
-      provisioning_name: "Kinrox Remote App Store", platform: "ios",
-      output_path: File.join(kinrox_root, "DerivedData/AppStoreDelivery"),
-      filename: "KinroxRemote.mobileprovision"
-    )
-    profile_name = lane_context[SharedValues::SIGH_NAME]
+    ensure_bundle_ids!
+    profiles = KINROX_PROFILES.to_h do |identifier, name|
+      get_provisioning_profile(
+        api_key: key, app_identifier: identifier, team_id: "HV66937AWS",
+        provisioning_name: name, platform: "ios",
+        output_path: File.join(kinrox_root, "DerivedData/AppStoreDelivery"),
+        filename: "#{identifier}.mobileprovision"
+      )
+      [identifier, lane_context[SharedValues::SIGH_NAME]]
+    end
     # Xcode's rsync must spawn the system rsync rather than Homebrew's variant.
     ENV["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin:#{ENV.fetch('PATH')}"
+    # The archive is signed automatically for development (each target gets its own
+    # profile); export re-signs both bundles with the App Store profiles above.
     build_app(
       workspace: File.join(kinrox_root, "Kinrox.xcworkspace"), scheme: "RemoteiOS",
       configuration: "Release", destination: "generic/platform=iOS",
@@ -125,11 +161,10 @@ platform :ios do
       output_directory: File.join(kinrox_root, "DerivedData/AppStoreDelivery"),
       output_name: "KinroxRemote.ipa", export_method: "app-store",
       export_team_id: "HV66937AWS", xcodebuild_formatter: "",
-      xcargs: "CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY='Apple Distribution' " \
-        "DEVELOPMENT_TEAM=HV66937AWS PROVISIONING_PROFILE_SPECIFIER='#{profile_name}'",
+      xcargs: "-allowProvisioningUpdates CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=HV66937AWS",
       export_options: {
         signingStyle: "manual", signingCertificate: "Apple Distribution",
-        provisioningProfiles: { "app.kinrox.remote" => profile_name },
+        provisioningProfiles: profiles,
         manageAppVersionAndBuildNumber: false
       }
     )
@@ -149,7 +184,7 @@ platform :ios do
       export_options: {
         signingStyle: "manual",
         signingCertificate: "Apple Distribution",
-        provisioningProfiles: { "app.kinrox.remote" => "Kinrox Remote App Store" },
+        provisioningProfiles: KINROX_PROFILES,
         manageAppVersionAndBuildNumber: false
       }
     )
@@ -159,8 +194,10 @@ platform :ios do
   lane :metadata do
     ensure_review_contact!
     stage_screenshots
+    # A new App Store version starts with a copy of the previous version's screenshots;
+    # replace them so the staged set is the whole set (Apple allows ten per slot).
     upload_to_app_store(**kinrox_delivery_options.merge(
-      skip_binary_upload: true, submit_for_review: false
+      skip_binary_upload: true, submit_for_review: false, overwrite_screenshots: true
     ))
   end
 
@@ -176,7 +213,8 @@ platform :ios do
   desc "Stage only the 35 supported locales without changing source artwork"
   lane :stage_screenshots do
     manifest = JSON.parse(File.read(File.join(kinrox_root, "AppStore/manifest.json")))
-    source_root = File.join(kinrox_root, "AppStore/screenshots/export-20261028-regional")
+    # Screenshot set v2 (Figma 229:304), eight per size; see AppStore/README.md.
+    source_root = File.join(kinrox_root, "AppStore/screenshots/export-20261111-v2")
     staging_root = File.join(kinrox_root, "DerivedData/AppStoreDelivery/screenshots")
     staged_locales = Dir.glob(File.join(staging_root, "*")).select { |path| File.directory?(path) }.map { |path| File.basename(path) }
     extra_locales = staged_locales - manifest.fetch("locales").keys
@@ -185,7 +223,7 @@ platform :ios do
       target = File.join(staging_root, locale)
       screenshots = %w[1206x2622 1320x2868].flat_map do |size|
         sources = Dir.glob(File.join(source_root, locale, size, "*.png")).sort
-        UI.user_error!("Expected five screenshots for #{locale}/#{size}") unless sources.size == 5
+        UI.user_error!("Expected eight screenshots for #{locale}/#{size}") unless sources.size == 8
         sources.map { |source| [source, "#{size}-#{File.basename(source)}"] }
       end
       FileUtils.mkdir_p(target)
@@ -222,7 +260,7 @@ platform :ios do
       # Metadata delivery runs precheck; the verify lane reads back the final kit.
       skip_binary_upload: true, skip_screenshots: true, skip_metadata: true,
       run_precheck_before_submit: false,
-      build_number: "1", submit_for_review: true
+      build_number: kinrox_build, submit_for_review: true
     ))
   end
 
@@ -233,6 +271,6 @@ platform :ios do
     app = kinrox_app
     version = app.get_app_store_versions.find { |v| v.version_string == kinrox_version }
     UI.user_error!("Expected app version is missing") unless version
-    UI.message(JSON.pretty_generate(KinroxStoreVerification.run(kinrox_root, app, version)))
+    UI.message(JSON.pretty_generate(KinroxStoreVerification.run(kinrox_root, app, version, kinrox_build)))
   end
 end

@@ -12,6 +12,8 @@ extension FixtureSamples {
         .createPlaylist(title: "Quiet Hours", trackId: "track1"),
         .setShuffle(shuffle: true), .setRepeat(repeatMode: .all),
         .queueMove(itemId: itemId, beforeId: replyId), .queueRemove(itemId: itemId),
+        .setSimilar(active: true),
+        .setNotInterested(trackId: "track1", scope: .artist, excluded: true),
     ]
     static let musicSamples: [FixtureSample] = [
         FixtureSample(name: "requestQueue", message: .requestQueue(header, .init(offset: 0))),
@@ -49,5 +51,20 @@ extension FixtureSamples {
                         repeatMode: .off,
                         queueCount: 1, queueRevision: serverId, libraryRevision: deviceId,
                         outputName: "Mac mini")))),
+        FixtureSample(
+            name: "state-music-similar",
+            message: .state(
+                header,
+                .init(
+                    title: "Evening Line", position: 42,
+                    duration: 180, paused: false, volume: 0, fullscreen: false, hasMedia: true,
+                    canNext: true,
+                    canPrevious: false, screensaver: .off, source: .music,
+                    music: .init(
+                        track: musicTrack, nextTrack: nil, liked: false, shuffle: false,
+                        repeatMode: .off,
+                        queueCount: 11, queueRevision: serverId, libraryRevision: deviceId,
+                        outputName: "Mac mini",
+                        similar: .init(active: true, finding: false, available: true))))),
     ]
 }

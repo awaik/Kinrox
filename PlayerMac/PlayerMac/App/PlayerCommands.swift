@@ -17,6 +17,16 @@ struct PlayerCommands: Commands {
             if session.updates.isEnabled { UpdateMenuItem(updates: session.updates) }
         }
         CommandGroup(replacing: .help) {
+            // Figma `239:596`: the Connect iPhone sheet carries the remote's QR code.
+            Button(L10n.text("Kinrox Remote for iPhone…")) {
+                guard let model, !model.isScreensaverEngaged else {
+                    RemoteAppLink.open()
+                    return
+                }
+                session.mode = .video
+                model.isShowingConnectPhone = true
+            }
+            Divider()
             ForEach(ProjectLink.allCases) { link in
                 Button(link.title) { NSWorkspace.shared.open(link.url) }
             }

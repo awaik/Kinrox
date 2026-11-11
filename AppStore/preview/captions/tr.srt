@@ -1,28 +1,37 @@
 1
-00:00:00,000 --> 00:00:04,000
-Film gecesi.
-Her şey elinizde.
+00:00:00,000 --> 00:00:03,000
+Mac’i duraklatın.
+Kilitli Ekran’dan.
 
 2
-00:00:04,000 --> 00:00:09,000
-O sahne.
-Bir kez daha.
+00:00:03,000 --> 00:00:06,000
+Film kumandanız.
 
 3
-00:00:09,000 --> 00:00:13,000
-Arkanıza
-yaslanın.
+00:00:06,000 --> 00:00:09,000
+Mac’teki müziğiniz.
+Elinizde.
 
 4
-00:00:13,000 --> 00:00:18,000
-Sıradaki film.
-Bir dokunuşla.
+00:00:09,000 --> 00:00:12,000
+Müzik durmasın.
 
 5
-00:00:18,000 --> 00:00:23,000
-Tek kod.
-Bağlantı hazır.
+00:00:12,000 --> 00:00:15,000
+Sıranız, sizin tarzınız.
 
 6
-00:00:23,000 --> 00:00:27,000
-Mac’te Kinrox gerekir · Aynı yerel ağ
+00:00:15,000 --> 00:00:18,000
+Mac için ücretsiz oynatıcı.
+
+7
+00:00:18,000 --> 00:00:21,000
+Hesap yok. Bulut yok.
+
+8
+00:00:21,000 --> 00:00:24,000
+Tarzınızla mola verin.
+
+9
+00:00:24,000 --> 00:00:27,000
+Mac için ücretsiz Kinrox oynatıcı · Aynı Wi-Fi ağı

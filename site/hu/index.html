@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — Mac videolejátszó iPhone távirányítóval</title>
-  <meta name="description" content="A Kinrox ingyenes, nyílt forráskódú videólejátszó Macre, iPhone-távirányítóval. Szüneteltess, tekerj és állítsd a hangerőt anélkül, hogy felkelnél a kanapéról.">
+  <title>Kinrox — Mac videolejátszó iPhone távirányítóval és natív Spotify-lejátszóval</title>
+  <meta name="description" content="Ingyenes Mac-app: minimalista videolejátszó, amelyet iPhone-ról irányíthat, és könnyű, natív Spotify-lejátszó, amely hasonló számokat talál. Nincs Kinrox-fiók, nincsenek nyomkövetők, a forráskód a GitHubon.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/hu/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox — ne keljen fel, hogy szüneteltesse a filmet">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Személyes használatra ingyenes.">
+  <meta property="og:title" content="Kinrox — filmek a kanapéról, Spotify felesleges teher nélkül">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Videó távirányítóval, Spotify hasonló számokkal. Személyes használatra ingyenes.">
   <meta property="og:url" content="https://kinrox.app/hu/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/hu/", "inLanguage": "hu", "description": "Kinrox · Mac + iPhone. Személyes használatra ingyenes."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/hu/", "inLanguage": "hu", "description": "Kinrox · Mac + iPhone. Videó távirányítóval, Spotify hasonló számokkal. Személyes használatra ingyenes."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Személyes használatra ingyenes · Mac + iPhone</span>
-      <h1 class="display">Ne kelj fel, hogy <span class="fire-text">szüneteltesd a filmet.</span></h1>
-      <p class="lead">A Kinrox bármilyen videót lejátsz a Mac készüléken – és a iPhone készüléket a távirányítójává változtatja. MacBook a kivetítőn, te a kanapén: szünet, ugorj vissza 10 másodpercet, halkítsd le a hangerőt vagy indítsd el a következő epizódot anélkül, hogy elhagynád a takarót.</p>
+      <h1 class="display">Filmek a kanapéról. <span class="fire-text">Spotify felesleges teher nélkül.</span></h1>
+      <p class="lead">Két natív Mac-lejátszó egyetlen ingyenes appban. Nézzen bármilyen videót, és irányítsa iPhone-ról — szüneteltetés, léptetés és hangerő felállás nélkül. Hallgasson Spotifyt bezárt Spotify.app mellett, és a Kinrox hasonló számokat keres, hogy ne álljon le a zene.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Letöltés a Mac készülékhez</a>
-        <a class="btn btn-glass" href="#how">Nézze meg, hogyan működik</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Távirányító az App Store-ban</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Nincs Kinrox-fiók</span><span>Nincs Kinrox-szerver</span><span>Wi-Fi-n keresztül működik</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Nincs Kinrox-fiók</span><span>Nincsenek nyomkövetők</span><span>Forráskód a GitHubon</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Spotify a nehézkes asztali alkalmazás nélkül.</h2>
-        <p class="lead">A natív SwiftUI zenei mód legfeljebb 200 MB memóriát használ — 2–10-szer kevesebbet, mint maga a Spotify, amelynek asztali kliense akár 2 GB-ot is lefoglalhat. A Spotify.app teljesen bezárva maradhat.</p>
+        <p class="lead">Natív SwiftUI Spotify-lejátszó saját zenefelfedezéssel. Teljesen bezárt Spotify.app mellett is játszik, és legfeljebb 200 MB memóriát használ — 2–10-szer kevesebbet, mint az asztali Spotify-kliens, amely akár 2 GB-ot is lefoglalhat.</p>
         <p>Mérés 2026-11-09-én, 12 óra lejátszás után: összesen körülbelül 193 MB — Kinrox 161 MB, Soloist és segédfolyamatok 32 MB. Fizikai memória a macOS footprint szerint; pillanatnyi mérés, nem felső határ.</p>
+        <p>Szükséges hozzá Spotify Premium, saját Spotify-fejlesztői Client ID és személyes Soloist-kulcs. A Kinrox végigvezeti a beállításon.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Hasonló számok, amelyek tovább szólnak</h3>
+          <p>Induljon ki egy számból, előadóból, albumból vagy lejátszási listából. A Kinrox megmutatja, miért illik az egyes javaslat — együtt hallgatják, közreműködők, a könyvtára, műfaj —, a „Hasonlók hallgatása” pedig folyamatosan illő zenét ad a várólistához. A „Nem érdekel” elrejti, amit nem szeretne.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>Legfeljebb 200 MB 2 GB helyett</h3>
@@ -368,12 +375,12 @@
           <p class="lead">A Kinrox Swift 6 és SwiftUI nyelven íródott a libmpv tetejére. A lejátszó, a távirányító és a protokoll minden sora a GitHub-n van.</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac lejátszó — működik</li>
-            <li><i class="ic ic-check"></i>iPhone távirányító – forrásból építve</li>
+            <li><i class="ic ic-check"></i>iPhone-távirányító — az App Store-ban</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 – aláírt és közjegyző által hitelesített DMG</li>
-            <li class="soon"><i class="ic ic-history"></i>Távirányító a App Store-n – tervezett</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Letöltés a Mac készülékhez</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Távirányító az App Store-ban</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Kiadások</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Személyes használatra ingyenes</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Letöltés a Mac készülékhez</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Hiba jelentése</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Távirányító az App Store-ban</a>
       </div>
     </div>
   </section>

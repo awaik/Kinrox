@@ -12,6 +12,9 @@ final class MusicRemoteDemo {
     var volume: Double = 0
     var queueRevision = UUID()
     var libraryRevision = UUID()
+    var similarActive = false
+    var hiddenTrackIDs: Set<String> = []
+    var hiddenArtists: Set<String> = []
     init() {
         if let album = catalog.albums.first(where: { $0.id == "evening" }) {
             queue.start(catalog.tracks(in: album), at: 2)
@@ -49,11 +52,45 @@ final class MusicRemoteDemo {
         case .setRepeat(let value): queue.repeatMode = MusicRepeat(rawValue: value.rawValue) ?? .off
         case .queueMove(let id, let target): queue.move(id, before: target)
         case .queueRemove(let id): queue.remove(id)
+        case .setSimilar(let value): setSimilar(value)
+        case .setNotInterested(let id, let scope, let excluded):
+            guard let track = catalog.tracks.first(where: { $0.id == id }) else { break }
+            hide(track, scope: scope, excluded: excluded)
         default: break
         }
         queueRevision = UUID()
         libraryRevision = UUID()
     }
+    private func setSimilar(_ value: Bool) {
+        similarActive = value && queue.current != nil
+        guard similarActive else { return }
+        let kept = Set((queue.items.prefix(1 + queue.manual.count) + queue.history).map(\.track.id))
+        queue.replaceSource(
+            catalog.tracks.filter {
+                !kept.contains($0.id) && !hiddenTrackIDs.contains($0.id)
+                    && hiddenArtists.isDisjoint(with: $0.artists.map(\.name))
+            })
+    }
+
+    private func hide(_ track: MusicTrack, scope: RemoteNotInterestedScope, excluded: Bool) {
+        let artist = track.artists.first?.name
+        if scope == .artist, let artist {
+            if excluded { hiddenArtists.insert(artist) } else { hiddenArtists.remove(artist) }
+        } else if excluded {
+            hiddenTrackIDs.insert(track.id)
+        } else {
+            hiddenTrackIDs.remove(track.id)
+        }
+        guard excluded, similarActive else { return }
+        let matches: (MusicTrack) -> Bool = {
+            scope == .artist ? $0.artists.first?.name == artist : $0.id == track.id
+        }
+        for item in queue.source where matches(item.track) { queue.remove(item.id) }
+        if let current = queue.current, matches(current.track), queue.next() != nil {
+            position = 0
+        }
+    }
+
     func track(_ item: MusicTrack) -> RemoteMusicTrack {
         .init(
             id: item.id, title: item.title, artists: item.artists.map(\.name),
@@ -78,7 +115,8 @@ final class MusicRemoteDemo {
                 repeatMode: RemoteMusicRepeat(rawValue: queue.repeatMode.rawValue) ?? .off,
                 queueCount: queue.items.count,
                 queueRevision: queueRevision, libraryRevision: libraryRevision,
-                outputName: "MacBook Pro"))
+                outputName: "MacBook Pro",
+                similar: .init(active: similarActive, available: queue.current != nil)))
     }
 }
 
@@ -97,6 +135,7 @@ extension RemoteAppModel {
         hasState = true
         musicStateChanged(from: previous)
         syncMusicDemoPages()
+        lockScreenStateChanged()
     }
     func syncMusicDemoPages() {
         guard let demo = musicDemo else { return }

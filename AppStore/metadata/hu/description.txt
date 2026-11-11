@@ -1,16 +1,28 @@
-A film a Macen. A távirányító a kezedben.
+A film vagy a zene a Macen szól. A távirányító a kezedben.
 
-A Kinrox Remote segítségével iPhone-ról vezérelheted a Macen futó Kinrox videólejátszót. Maradj a kanapén, ha megállítanád a filmet, újranéznél egy jelenetet vagy halkítanál.
+A Kinrox Remote az iPhone-ról vezérli a Kinroxot, a Macre készült ingyenes, nyílt forráskódú videó- és zenelejátszót. Állítsd meg, léptesd és halkítsd le úgy, hogy fel sem kelsz a kanapéról, vagy akár a zárolási képernyőről.
 
-• Indítsd el és szüneteltesd a lejátszást.
-• Ugorj 10 vagy 30 másodpercet előre vagy hátra, vagy válassz időpontot az idővonalon.
-• Állítsd a hangerőt és a teljes képernyőt a Macen.
-• Lépj az aktuális mappa előző vagy következő videójára.
-• Nyisd meg a Mac legutóbbi fájljainak listájából az elérhető fájlokat.
-• Keresd meg a hálózaton a Kinrox lejátszókat, és párosíts hatjegyű kóddal.
+FILMEK
+• Lejátszás és szünet, ugrás 10 vagy 30 másodperccel előre vagy hátra, vagy bármelyik pillanatra az idősávon.
+• Hangerő és teljes képernyő a Macen.
+• Ugrás a mappa előző vagy következő videójára, vagy egy legutóbbi fájl megnyitása.
+• Indítsd el a Matrix képernyővédőt, amikor szünetet tartasz.
 
-A kapcsolat titkosított, és a helyi hálózaton marad. Nincs fiók, felhőszolgáltatás, hirdetés vagy használati elemzés. Az interaktív bemutatóval Mac csatlakoztatása nélkül is kipróbálhatod a vezérlést.
+ZENE
+• Lejátszás, szünet, léptetés és hangerő a Macen szóló zenéhez.
+• Add hozzá az aktuális számot a kedvencekhez, és kezeld a sort: rendezd át vagy távolítsd el a számokat.
+• Hasonlók hallgatása: a zene a mostanihoz hasonló számokkal folytatódik, a nem érdeklő számokat vagy előadókat pedig elrejtheted.
 
-iOS 17 vagy újabb és kompatibilis Macen futó Kinrox szükséges. Csatlakoztasd mindkét eszközt ugyanahhoz a helyi hálózathoz, és engedélyezd a hozzáférést. Ez az app a Kinrox távirányítója; nem játszik le és nem streamel videót az iPhone-on.
+ZÁROLÁSI KÉPERNYŐ
+• Lejátszás közben a vezérlők megjelennek a zárolási képernyőn és a Dynamic Islandben: szünet, léptetés és hangerő az iPhone feloldása nélkül.
 
-Mac-lejátszó és beállítás: https://awaik.github.io/Kinrox/
+ADATVÉDELEM
+• Helyi hálózaton, titkosított kapcsolaton működik, a párosítás hatjegyű kóddal történik.
+• Nincs fiók, felhőszolgáltatás, hirdetés vagy analitika.
+• A demóval kipróbálhatod a vezérlést, mielőtt Machez csatlakoznál.
+
+AMIRE SZÜKSÉGED VAN
+• Kinrox Macre, ingyenesen: https://kinrox.app
+• iOS 17 vagy újabb rendszerű iPhone ugyanazon a helyi hálózaton, mint a Mac.
+
+A zene mód azzal a zenei könyvtárral működik, amelyet a Kinrox Mac-alkalmazásban csatlakoztatsz; a támogatott szolgáltatásokat a weboldal sorolja fel. A Kinrox Remote távirányító: nem játszik le videót vagy zenét az iPhone-on.

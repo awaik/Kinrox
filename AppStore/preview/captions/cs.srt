@@ -1,28 +1,37 @@
 1
-00:00:00,000 --> 00:00:04,000
-Filmový večer.
-Vše po ruce.
+00:00:00,000 --> 00:00:03,000
+Pozastavte Mac
+bez odemykání.
 
 2
-00:00:04,000 --> 00:00:09,000
-Ta scéna.
-Ještě jednou.
+00:00:03,000 --> 00:00:06,000
+Ovladač na filmy.
 
 3
-00:00:09,000 --> 00:00:13,000
-Pohodlně
-se usaďte.
+00:00:06,000 --> 00:00:09,000
+Hudba z Macu.
+Ve vaší ruce.
 
 4
-00:00:13,000 --> 00:00:18,000
-Další film.
-Stačí klepnout.
+00:00:09,000 --> 00:00:12,000
+Hudba nekončí.
 
 5
-00:00:18,000 --> 00:00:23,000
-Jeden kód.
-Jste připojeni.
+00:00:12,000 --> 00:00:15,000
+Fronta podle vás.
 
 6
-00:00:23,000 --> 00:00:27,000
-Vyžaduje Kinrox na Macu · Stejná místní síť
+00:00:15,000 --> 00:00:18,000
+Přehrávač pro Mac zdarma.
+
+7
+00:00:18,000 --> 00:00:21,000
+Bez účtu. Bez cloudu.
+
+8
+00:00:21,000 --> 00:00:24,000
+Přestávka se stylem.
+
+9
+00:00:24,000 --> 00:00:27,000
+Přehrávač Kinrox pro Mac zdarma · Stejná síť Wi-Fi

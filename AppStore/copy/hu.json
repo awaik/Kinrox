@@ -1,8 +1,52 @@
 {
-  "subtitle": "Távirányító a Mac filmjeihez",
-  "promotional_text": "Helyezkedj el kényelmesen. Vezéreld a Mac lejátszását és hangerejét iPhone-ról. Kinrox szükséges a Macen, ugyanazon a helyi hálózaton.",
-  "keywords": "videó,lejátszó,film,kanapé,hangerő,wifi,távirányító",
-  "description": "A film a Macen. A távirányító a kezedben.\n\nA Kinrox Remote segítségével iPhone-ról vezérelheted a Macen futó Kinrox videólejátszót. Maradj a kanapén, ha megállítanád a filmet, újranéznél egy jelenetet vagy halkítanál.\n\n• Indítsd el és szüneteltesd a lejátszást.\n• Ugorj 10 vagy 30 másodpercet előre vagy hátra, vagy válassz időpontot az idővonalon.\n• Állítsd a hangerőt és a teljes képernyőt a Macen.\n• Lépj az aktuális mappa előző vagy következő videójára.\n• Nyisd meg a Mac legutóbbi fájljainak listájából az elérhető fájlokat.\n• Keresd meg a hálózaton a Kinrox lejátszókat, és párosíts hatjegyű kóddal.\n\nA kapcsolat titkosított, és a helyi hálózaton marad. Nincs fiók, felhőszolgáltatás, hirdetés vagy használati elemzés. Az interaktív bemutatóval Mac csatlakoztatása nélkül is kipróbálhatod a vezérlést.\n\niOS 17 vagy újabb és kompatibilis Macen futó Kinrox szükséges. Csatlakoztasd mindkét eszközt ugyanahhoz a helyi hálózathoz, és engedélyezd a hozzáférést. Ez az app a Kinrox távirányítója; nem játszik le és nem streamel videót az iPhone-on.\n\nMac-lejátszó és beállítás: https://awaik.github.io/Kinrox/",
-  "screenshots": [["Filmest.\nMinden kéznél.", "Vezéreld a Kinroxot a Macen.\nKözvetlenül az iPhone-ról."],["Az a jelenet.\nMég egyszer.", "10 vagy 30 másodperccel előre vagy hátra.\nVagy válaszd ki a kívánt pillanatot."],["Helyezkedj el\nkényelmesen.", "Hangerő és teljes képernyő.\nA kanapéról vezérelve."],["A következő film.\nEgy érintésre.", "Nyiss meg egy elérhető legutóbbi fájlt\na Macen az iPhone-ról."],["Egy kód.\nMár kapcsolódtál.", "Párosítás ugyanazon a helyi hálózaton.\nFiók nélkül. Titkosított kapcsolattal."]],
-  "requirement": "Kinrox szükséges a Macen · Közös helyi hálózat"
+  "subtitle": "Filmek és zene a kanapéról",
+  "promotional_text": "Újdonság: vezéreld a Macet a zárolási képernyőről. Zene mód kedvencekkel, sorral és hasonló számokkal. Ingyenes Kinrox lejátszó Macre: kinrox.app.",
+  "keywords": "macbook,számítógép,laptop,videó,lejátszó,média,projektor,szünet,hangerő,wifi,mozi",
+  "description": "A film vagy a zene a Macen szól. A távirányító a kezedben.\n\nA Kinrox Remote az iPhone-ról vezérli a Kinroxot, a Macre készült ingyenes, nyílt forráskódú videó- és zenelejátszót. Állítsd meg, léptesd és halkítsd le úgy, hogy fel sem kelsz a kanapéról, vagy akár a zárolási képernyőről.\n\nFILMEK\n• Lejátszás és szünet, ugrás 10 vagy 30 másodperccel előre vagy hátra, vagy bármelyik pillanatra az idősávon.\n• Hangerő és teljes képernyő a Macen.\n• Ugrás a mappa előző vagy következő videójára, vagy egy legutóbbi fájl megnyitása.\n• Indítsd el a Matrix képernyővédőt, amikor szünetet tartasz.\n\nZENE\n• Lejátszás, szünet, léptetés és hangerő a Macen szóló zenéhez.\n• Add hozzá az aktuális számot a kedvencekhez, és kezeld a sort: rendezd át vagy távolítsd el a számokat.\n• Hasonlók hallgatása: a zene a mostanihoz hasonló számokkal folytatódik, a nem érdeklő számokat vagy előadókat pedig elrejtheted.\n\nZÁROLÁSI KÉPERNYŐ\n• Lejátszás közben a vezérlők megjelennek a zárolási képernyőn és a Dynamic Islandben: szünet, léptetés és hangerő az iPhone feloldása nélkül.\n\nADATVÉDELEM\n• Helyi hálózaton, titkosított kapcsolaton működik, a párosítás hatjegyű kóddal történik.\n• Nincs fiók, felhőszolgáltatás, hirdetés vagy analitika.\n• A demóval kipróbálhatod a vezérlést, mielőtt Machez csatlakoznál.\n\nAMIRE SZÜKSÉGED VAN\n• Kinrox Macre, ingyenesen: https://kinrox.app\n• iOS 17 vagy újabb rendszerű iPhone ugyanazon a helyi hálózaton, mint a Mac.\n\nA zene mód azzal a zenei könyvtárral működik, amelyet a Kinrox Mac-alkalmazásban csatlakoztatsz; a támogatott szolgáltatásokat a weboldal sorolja fel. A Kinrox Remote távirányító: nem játszik le videót vagy zenét az iPhone-on.",
+  "screenshots": [
+    [
+      "Állítsd meg a Macet.\nA zárolási képernyőről.",
+      "Filmek és zene a Macen, vezérlés az iPhone-on."
+    ],
+    [
+      "Filmes távirányító.",
+      "Szünet, ugrás, tekerés és hangerő a kanapéról."
+    ],
+    [
+      "Zene a Macen.\nA kezedben.",
+      "Lejátszás, léptetés, kedvelés és sorba állítás a Macen."
+    ],
+    [
+      "Szól tovább a zene.",
+      "Hallgass hasonló számokat. Rejtsd el, ami nem tetszik."
+    ],
+    [
+      "A sorod, ahogy szeretnéd.",
+      "Rendezd át, töröld és kedveld a számokat az iPhone-ról."
+    ],
+    [
+      "Ingyenes lejátszó Macre.",
+      "MKV, MP4, AVI és még sok más. Nyílt forráskód. kinrox.app"
+    ],
+    [
+      "Nincs fiók. Nincs felhő.",
+      "Csak helyi hálózat. Titkosítva, 6 jegyű kóddal párosítva."
+    ],
+    [
+      "Szünet stílusosan.",
+      "Indítsd el a Matrix képernyővédőt a Macen az iPhone-ról."
+    ]
+  ],
+  "requirement": "Ingyenes Kinrox lejátszó Macre · Közös Wi-Fi-hálózat",
+  "screenshot_ui": {
+    "movies": "Filmek",
+    "sec": "mp",
+    "next": "Következő",
+    "then": "Utána",
+    "from_album": "A(z) „%@” albumból",
+    "time_left": "%@ van hátra",
+    "code_valid": "A kód 2 percig érvényes · 3 próbálkozás maradt",
+    "more": "+ több"
+  },
+  "name": "Kinrox: Mac távirányító"
 }

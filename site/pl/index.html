@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — odtwarzacz wideo Mac z pilotem iPhone</title>
-  <meta name="description" content="Kinrox to bezpłatny odtwarzacz wideo na Maca z otwartym kodem i pilotem na iPhonie. Wstrzymuj, przewijaj i zmieniaj głośność bez wstawania z kanapy.">
+  <title>Kinrox — odtwarzacz wideo na Maca z pilotem na iPhonie i natywny odtwarzacz Spotify</title>
+  <meta name="description" content="Bezpłatna aplikacja na Maca: minimalistyczny odtwarzacz wideo sterowany z iPhone’a i lekki natywny odtwarzacz Spotify, który znajduje podobne utwory. Bez konta Kinrox, bez trackerów, kod źródłowy na GitHubie.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/pl/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox — przestań wstawać, aby wstrzymać film">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Bezpłatnie do użytku osobistego.">
+  <meta property="og:title" content="Kinrox — filmy z kanapy, Spotify bez zbędnego balastu">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Wideo z pilotem, Spotify z podobnymi utworami. Bezpłatnie do użytku osobistego.">
   <meta property="og:url" content="https://kinrox.app/pl/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/pl/", "inLanguage": "pl", "description": "Kinrox · Mac + iPhone. Bezpłatnie do użytku osobistego."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/pl/", "inLanguage": "pl", "description": "Kinrox · Mac + iPhone. Wideo z pilotem, Spotify z podobnymi utworami. Bezpłatnie do użytku osobistego."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Bezpłatnie do użytku osobistego · Mac + iPhone</span>
-      <h1 class="display">Nie wstawaj, żeby <span class="fire-text">wstrzymać film.</span></h1>
-      <p class="lead">Kinrox odtwarza dowolny film na Twoim Mac — i zmienia iPhone w pilota. MacBook na projektorze, ty na kanapie: pauza, cofnięcie się o 10 sekund, zmniejszenie głośności lub rozpoczęcie kolejnego odcinka bez wychodzenia z koca.</p>
+      <h1 class="display">Filmy z kanapy. <span class="fire-text">Spotify bez balastu.</span></h1>
+      <p class="lead">Dwa natywne odtwarzacze na Maca w jednej bezpłatnej aplikacji. Oglądaj dowolne wideo i steruj nim z iPhone’a — wstrzymuj, przewijaj i zmieniaj głośność bez wstawania. Słuchaj Spotify przy zamkniętym Spotify.app, a Kinrox znajdzie podobne utwory, żeby muzyka grała dalej.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Pobierz dla Mac</a>
-        <a class="btn btn-glass" href="#how">Zobacz jak to działa</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Pilot w App Store</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Bez konta Kinrox</span><span>Bez serwera Kinrox</span><span>Działa przez Wi-Fi</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Bez konta Kinrox</span><span>Bez trackerów</span><span>Kod źródłowy na GitHubie</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Spotify bez ciężkiej aplikacji desktopowej.</h2>
-        <p class="lead">Natywny tryb muzyki w SwiftUI zużywa do 200 MB pamięci — od 2 do 10 razy mniej niż sam Spotify, którego klient desktopowy potrafi zająć do 2 GB. Spotify.app może pozostać całkowicie zamknięty.</p>
+        <p class="lead">Natywny odtwarzacz Spotify w SwiftUI z własnym odkrywaniem muzyki. Gra przy całkowicie zamkniętym Spotify.app i zużywa do 200 MB pamięci — 2–10× mniej niż desktopowy klient Spotify, który potrafi zająć do 2 GB.</p>
         <p>Pomiar z 2026-11-09 po 12 godzinach odtwarzania: łącznie około 193 MB — Kinrox 161 MB, Soloist i procesy pomocnicze 32 MB. Pamięć fizyczna według macOS footprint; pomiar chwilowy, nie maksimum.</p>
+        <p>Wymaga Spotify Premium, własnego Client ID dewelopera Spotify i osobistego klucza Soloist. Kinrox przeprowadzi Cię przez konfigurację.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Podobne utwory, które grają dalej</h3>
+          <p>Zacznij od utworu, wykonawcy, albumu lub playlisty. Kinrox pokazuje, dlaczego każda propozycja pasuje — słuchane razem, współpracownicy, Twoja biblioteka, gatunek — a „Słuchaj podobnych” stale dodaje pasującą muzykę do kolejki. „Nie interesuje mnie” ukrywa to, czego nie chcesz.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>Do 200 MB zamiast 2 GB</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox jest napisany w Swift 6 i SwiftUI na bazie libmpv. Każda linia odtwarzacza, pilota i protokołu jest na GitHub.</p>
           <ul class="status">
             <li>Odtwarzacz <i class="ic ic-check"></i>Mac — działa</li>
-            <li><i class="ic ic-check"></i>iPhone — kompilacja ze źródła</li>
+            <li><i class="ic ic-check"></i>Pilot na iPhone’a — w App Store</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 — podpisano i potwierdzono notarialnie DMG</li>
-            <li class="soon"><i class="ic ic-history"></i>Remote w App Store — planowane</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Pobierz dla Mac</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Pilot w App Store</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Wydania</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Bezpłatnie do użytku osobistego</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Pobierz dla Mac</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Zgłoś problem</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Pilot w App Store</a>
       </div>
     </div>
   </section>

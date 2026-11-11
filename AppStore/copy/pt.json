@@ -1,8 +1,58 @@
 {
-  "subtitle": "O controle de filmes do Mac",
-  "promotional_text": "Fique à vontade. Pause, avance e ajuste o volume do Mac pelo iPhone. Requer Kinrox para Mac na mesma rede local.",
-  "keywords": "vídeo,reprodutor,filme,sofá,volume,wifi,controle",
-  "description": "O filme está no Mac. O controle está na sua mão.\n\nCom o Kinrox Remote, você controla o reprodutor de vídeo Kinrox no Mac pelo iPhone. Fique no sofá quando quiser pausar, rever uma cena ou diminuir o volume.\n\n• Inicie e pause a reprodução.\n• Avance ou volte 10 ou 30 segundos, ou escolha um ponto na barra de reprodução.\n• Ajuste o volume e ative a tela cheia no Mac.\n• Vá para o vídeo anterior ou seguinte da pasta atual.\n• Abra os arquivos disponíveis na lista de recentes do Mac.\n• Encontre reprodutores Kinrox na rede e emparelhe com um código de seis dígitos.\n\nA conexão é criptografada e funciona na rede local. Sem conta, serviço de nuvem, anúncios ou análise de uso. Uma demonstração interativa permite explorar os controles antes de conectar um Mac.\n\nRequer iOS 17 ou posterior e Kinrox aberto em um Mac compatível. Conecte os dois dispositivos à mesma rede local e permita o acesso a ela. Este app é um controle para Kinrox: não reproduz nem transmite vídeos no iPhone.\n\nReprodutor para Mac e configuração: https://awaik.github.io/Kinrox/",
-  "screenshots": [["Noite de cinema.\nTudo à mão.", "Controle o Kinrox no Mac.\nDireto do seu iPhone."],["Aquela cena.\nMais uma vez.", "Avance ou volte 10 ou 30 segundos.\nOu escolha o momento que quiser."],["Fique\nà vontade.", "Ajuste o volume. Ative a tela cheia.\nSem sair do sofá."],["O próximo filme.\nA um toque.", "Abra um arquivo recente disponível\nno Mac pelo iPhone."],["Um código.\nTudo conectado.", "Emparelhe na mesma rede local.\nSem conta. Conexão criptografada."]],
-  "requirement": "Requer Kinrox para Mac · Mesma rede local"
+  "subtitle": "Filmes e música direto do sofá",
+  "promotional_text": "Novidade: controles do Mac na Tela Bloqueada. Modo música com favoritos, fila e faixas semelhantes. Reprodutor Kinrox gratuito para Mac em kinrox.app.",
+  "keywords": "macbook,notebook,computador,vídeo,player,reprodutor,projetor,pausar,volume,bloqueio,wifi,remoto",
+  "description": "O filme ou a música está no Mac. O controle, na sua mão.\n\nO Kinrox Remote controla pelo iPhone o Kinrox, um reprodutor de vídeo e música gratuito e de código aberto para Mac. Pause, avance e baixe o volume sem sair do sofá, ou direto da Tela Bloqueada.\n\nFILMES\n• Reproduza e pause, volte ou avance 10 ou 30 segundos, ou vá para qualquer momento.\n• Ajuste o volume e ative ou desative a tela cheia no Mac.\n• Vá para o vídeo anterior ou seguinte da pasta, ou abra um dos recentes.\n• Ative o protetor de tela Matrix quando fizer uma pausa.\n\nMÚSICA\n• Reproduza, pause, passe para a próxima faixa e ajuste o volume da música que toca no Mac.\n• Adicione a faixa atual aos favoritos e organize a fila: reordene ou remova faixas.\n• Ouvir semelhantes: a música continua com faixas parecidas com a atual, e é possível ocultar faixas ou artistas que não interessam.\n\nTELA BLOQUEADA\n• Enquanto algo é reproduzido, os controles aparecem na Tela Bloqueada e na Dynamic Island: pausa, próxima faixa e volume sem desbloquear o iPhone.\n\nPRIVADO POR NATUREZA\n• Funciona na sua rede local por um canal criptografado, com emparelhamento por um código de seis dígitos.\n• Sem conta, serviço em nuvem, publicidade ou análises.\n• Uma demonstração permite testar os controles antes de conectar um Mac.\n\nO QUE É PRECISO\n• Kinrox para Mac, gratuito em https://kinrox.app\n• Um iPhone com iOS 17 ou posterior na mesma rede local que o Mac.\n\nO modo música funciona com a biblioteca musical que conectar ao Kinrox para Mac; o site lista os serviços compatíveis. O Kinrox Remote é um controle remoto: não reproduz vídeo nem música no iPhone.",
+  "screenshots": [
+    [
+      "Pause o Mac sem\ndesbloquear o iPhone.",
+      "Filmes e música no Mac, com os controles no iPhone."
+    ],
+    [
+      "O controle dos seus filmes.",
+      "Pausa, saltos, avanço e volume, direto do sofá."
+    ],
+    [
+      "Sua música no Mac.\nNa sua mão.",
+      "Reproduza, avance, marque favoritos e monte a fila do Mac."
+    ],
+    [
+      "A música não para.",
+      "Ouça faixas semelhantes. Oculte o que não gosta."
+    ],
+    [
+      "Sua fila, do seu jeito.",
+      "Reordene, remova e marque favoritos pelo iPhone."
+    ],
+    [
+      "Reprodutor grátis para Mac.",
+      "MKV, MP4, AVI e mais. Código aberto. kinrox.app"
+    ],
+    [
+      "Sem conta. Sem nuvem.",
+      "Só rede local, criptografada e pareada com código de 6 dígitos."
+    ],
+    [
+      "Uma pausa com estilo.",
+      "Ative o Matrix como protetor de tela no Mac pelo iPhone."
+    ]
+  ],
+  "requirement": "Reprodutor Kinrox grátis para Mac · Mesma rede Wi-Fi",
+  "screenshot_ui": {
+    "movies": "Filmes",
+    "sec": "s",
+    "next": "A seguir",
+    "then": "Depois",
+    "from_album": "Do álbum “%@”",
+    "time_left": "restam %@",
+    "code_valid": "Código válido por 2 minutos · 3 tentativas restantes",
+    "more": "+ outros"
+  },
+  "name": "Kinrox: controle para Mac",
+  "locales": {
+    "pt-PT": {
+      "name": "Kinrox: comando para Mac",
+      "keywords": "macbook,portátil,computador,vídeo,leitor,multimédia,projetor,pausa,volume,bloqueio,wifi,remoto"
+    }
+  }
 }

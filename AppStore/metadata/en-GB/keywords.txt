@@ -1,1 +1,1 @@
-video,player,movie,sofa,volume,playback,local,wifi,controller
+mac,movie,film,media,laptop,computer,couch,sofa,projector,pause,volume,lockscreen,wifi,home,cinema

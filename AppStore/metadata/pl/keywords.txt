@@ -1,1 +1,1 @@
-wideo,odtwarzacz,film,sofa,dźwięk,wifi,pilot
+macbook,komputera,laptopa,wideo,odtwarzacz,sterowanie,projektor,pauza,głośność,wifi,kino,sofa

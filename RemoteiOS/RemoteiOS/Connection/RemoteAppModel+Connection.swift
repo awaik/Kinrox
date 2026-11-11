@@ -309,6 +309,14 @@ extension RemoteAppModel {
     }
 
     func enterBackground() {
+        sceneActive = false
+        guard !lockScreenSession else { return }
+        suspendNetwork()
+    }
+
+    /// Shared by leaving the app and by the end of a Lock Screen session.
+    func suspendNetwork() {
+        lockScreen?.didEnterBackground()
         guard foreground else { return }
         foreground = false
         cancelConnection(gracefully: true)
@@ -321,6 +329,8 @@ extension RemoteAppModel {
     }
 
     func enterForeground() {
+        sceneActive = true
+        claimLockScreenSession()
         guard started else {
             start()
             return
@@ -341,6 +351,8 @@ extension RemoteAppModel {
     }
 
     func stop() {
+        lockScreen?.end()
+        claimLockScreenSession()
         foreground = false
         cancelConnection()
         hintTimer?.cancel()

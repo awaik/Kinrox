@@ -1,8 +1,52 @@
 {
-  "subtitle": "Điều khiển phim trên Mac",
-  "promotional_text": "Ngồi thật thoải mái. Tạm dừng, tua và chỉnh âm lượng Mac từ iPhone. Cần Kinrox trên Mac trong cùng mạng nội bộ.",
-  "keywords": "video,phim,âm lượng,điều khiển,wifi,phát",
-  "description": "Phim trên Mac. Điều khiển trong tay bạn.\n\nKinrox Remote cho phép bạn điều khiển trình phát video Kinrox trên Mac từ iPhone. Không cần rời ghế sofa để tạm dừng, xem lại một cảnh hay giảm âm lượng.\n\n• Phát và tạm dừng.\n• Tua tiến hoặc lùi 10 hay 30 giây, hoặc chọn thời điểm trên thanh phát.\n• Điều chỉnh âm lượng và chuyển chế độ toàn màn hình trên Mac.\n• Chuyển sang video trước hoặc tiếp theo trong thư mục hiện tại.\n• Mở các tệp còn khả dụng trong danh sách gần đây trên Mac.\n• Tìm trình phát Kinrox trong mạng và ghép đôi bằng mã sáu chữ số.\n\nCác thiết bị giao tiếp qua kết nối được mã hóa trong mạng nội bộ. Không tài khoản, dịch vụ đám mây, quảng cáo hay phân tích sử dụng. Bản demo tương tác giúp bạn thử các nút điều khiển trước khi kết nối Mac.\n\nCần iOS 17 trở lên và Kinrox đang chạy trên Mac tương thích. Kết nối hai thiết bị vào cùng mạng nội bộ và cho phép truy cập Mạng cục bộ. Đây là ứng dụng điều khiển Kinrox; không phát hay truyền video trên iPhone.\n\nTrình phát Mac và thiết lập: https://awaik.github.io/Kinrox/",
-  "screenshots": [["Đêm xem phim.\nTrong tầm tay.", "Điều khiển Kinrox trên Mac.\nNgay từ iPhone của bạn."],["Khoảnh khắc ấy.\nXem thêm lần nữa.", "Tua tiến hoặc lùi 10 hay 30 giây.\nHoặc chọn đúng thời điểm bạn muốn."],["Ngồi thật\nthoải mái.", "Chỉnh âm lượng. Bật toàn màn hình.\nKhông cần rời ghế sofa."],["Phim tiếp theo.\nChỉ một chạm.", "Mở tệp gần đây còn khả dụng\ntrên Mac từ iPhone."],["Một mã.\nKết nối xong.", "Ghép đôi trong cùng mạng nội bộ.\nKhông tài khoản. Kết nối được mã hóa."]],
-  "requirement": "Cần Kinrox trên Mac · Cùng mạng nội bộ"
+  "subtitle": "Phim và nhạc ngay trên sofa",
+  "promotional_text": "Mới: điều khiển Mac ngay trên Màn hình khóa. Chế độ nhạc với mục yêu thích, hàng đợi và nhạc tương tự. Trình phát Kinrox miễn phí cho Mac tại kinrox.app.",
+  "keywords": "macbook,máy tính,laptop,video,trình phát,máy chiếu,âm lượng,màn hình khóa,wifi,remote",
+  "description": "Phim hay nhạc đang phát trên Mac. Điều khiển nằm trong tay bạn.\n\nKinrox Remote điều khiển Kinrox, trình phát video và nhạc miễn phí, mã nguồn mở cho Mac, ngay từ iPhone. Tạm dừng, chuyển bài và giảm âm lượng mà không cần rời ghế sofa, hoặc ngay trên Màn hình khóa.\n\nPHIM\n• Phát và tạm dừng, tua lùi hoặc tiến 10 hay 30 giây, hoặc kéo đến bất kỳ thời điểm nào.\n• Chỉnh âm lượng và bật/tắt toàn màn hình trên Mac.\n• Chuyển sang video trước hoặc tiếp theo trong thư mục, hoặc mở một tệp gần đây.\n• Bật trình bảo vệ màn hình Matrix khi bạn nghỉ giải lao.\n\nNHẠC\n• Phát, tạm dừng, chuyển bài và chỉnh âm lượng nhạc đang phát trên Mac.\n• Thêm bài đang phát vào mục yêu thích và quản lý hàng đợi: sắp xếp lại hoặc xóa bài.\n• Nghe nhạc tương tự: nhạc tiếp tục với những bài giống bài đang phát, và ẩn các bài hát hoặc nghệ sĩ bạn không quan tâm.\n\nMÀN HÌNH KHÓA\n• Khi đang phát, các nút điều khiển xuất hiện trên Màn hình khóa và trong Dynamic Island: tạm dừng, chuyển bài và chỉnh âm lượng mà không cần mở khóa iPhone.\n\nRIÊNG TƯ NGAY TỪ THIẾT KẾ\n• Hoạt động qua mạng nội bộ với kết nối được mã hóa, ghép đôi bằng mã sáu chữ số.\n• Không tài khoản, dịch vụ đám mây, quảng cáo hay phân tích.\n• Bản dùng thử cho phép bạn thử các nút điều khiển trước khi kết nối Mac.\n\nBẠN CẦN GÌ\n• Kinrox cho Mac, miễn phí tại https://kinrox.app\n• iPhone chạy iOS 17 trở lên, kết nối cùng mạng nội bộ với Mac.\n\nChế độ nhạc hoạt động với thư viện nhạc bạn kết nối trong Kinrox cho Mac; trang web liệt kê các dịch vụ được hỗ trợ. Kinrox Remote là bộ điều khiển: ứng dụng không phát video hay nhạc trên iPhone.",
+  "screenshots": [
+    [
+      "Tạm dừng Mac\ntừ Màn hình khóa.",
+      "Phim và nhạc trên Mac, nút điều khiển ngay trên iPhone."
+    ],
+    [
+      "Điều khiển phim trên Mac.",
+      "Tạm dừng, tua, kéo và chỉnh âm lượng ngay trên sofa."
+    ],
+    [
+      "Nhạc trên Mac,\nngay trong tay bạn.",
+      "Phát, bỏ qua, yêu thích và thêm vào hàng đợi nhạc đang phát trên Mac."
+    ],
+    [
+      "Âm nhạc không ngừng.",
+      "Nghe nhạc tương tự. Ẩn những gì bạn không thích."
+    ],
+    [
+      "Hàng đợi theo ý bạn.",
+      "Sắp xếp lại, xóa và yêu thích bài hát từ iPhone."
+    ],
+    [
+      "Trình phát miễn phí cho Mac.",
+      "MKV, MP4, AVI và hơn thế nữa. Mã nguồn mở. kinrox.app"
+    ],
+    [
+      "Không tài khoản. Không đám mây.",
+      "Chỉ mạng nội bộ. Mã hóa, ghép nối bằng mã 6 chữ số."
+    ],
+    [
+      "Nghỉ ngơi thật phong cách.",
+      "Bật trình bảo vệ màn hình Matrix trên Mac từ iPhone."
+    ]
+  ],
+  "requirement": "Trình phát Kinrox miễn phí cho Mac · Cùng mạng Wi-Fi",
+  "screenshot_ui": {
+    "movies": "Phim",
+    "sec": "giây",
+    "next": "Tiếp theo",
+    "then": "Sau đó",
+    "from_album": "Từ album “%@”",
+    "time_left": "còn %@",
+    "code_valid": "Mã có hiệu lực 2 phút · còn 3 lần thử",
+    "more": "+ khác"
+  },
+  "name": "Kinrox: Điều khiển Mac từ xa"
 }

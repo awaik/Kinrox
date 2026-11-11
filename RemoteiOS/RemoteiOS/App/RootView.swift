@@ -3,8 +3,8 @@ import SwiftUI
 /// Navigation belongs to model: delayed callback cannot revert previous screen.
 struct RootView: View {
     @Environment(\.scenePhase) private var scenePhase
-    @State private var store = RemoteAppModel(
-        isDemo: ProcessInfo.processInfo.arguments.contains("-KinroxDemo"))
+    @State private var host = RemoteAppHost.shared
+    private var store: RemoteAppModel { host.store }
 
     var body: some View {
         NavigationStack(
@@ -29,7 +29,9 @@ struct RootView: View {
         .tint(Palette.ember)
         .task {
             guard NSClassFromString("XCTestCase") == nil else { return }
-            store.start()
+            guard UIApplication.shared.applicationState != .background else { return }
+            // A window opened after a background Lock Screen launch takes over its session.
+            store.enterForeground()
             openDebugScreen()
         }
         .onChange(of: scenePhase) { _, phase in
@@ -39,12 +41,7 @@ struct RootView: View {
         }
     }
 
-    private func switchMode() {
-        let demo = !store.isDemo
-        store.stop()
-        store = RemoteAppModel(isDemo: demo)
-        store.start()
-    }
+    private func switchMode() { host.switchMode() }
 
     private func openDebugScreen() {
         #if DEBUG
@@ -52,7 +49,7 @@ struct RootView: View {
             switch UserDefaults.standard.string(forKey: "KinroxScreen") {
             case "pairing": store.select(store.players[1])
             case "remote", "recents": store.select(store.players[0])
-            case "music", "music-queue", "music-like":
+            case "music", "music-queue", "music-like", "music-similar", "music-similar-queue":
                 store.select(store.players[0])
                 store.enableMusicDemo()
             default: break

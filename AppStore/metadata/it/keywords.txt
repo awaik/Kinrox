@@ -1,1 +1,1 @@
-video,lettore,film,divano,volume,wifi,riproduzione
+macbook,portatile,computer,pc,video,lettore,player,proiettore,pausa,volume,blocco,wifi,remoto

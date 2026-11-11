@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — Mac ビデオプレーヤー（iPhone リモコン付き）</title>
-  <meta name="description" content="Kinroxは、iPhoneをリモコンにできる無料・オープンソースのMac用動画プレーヤーです。ソファから立ち上がらずに、一時停止、再生位置の移動、音量調整ができます。">
+  <title>Kinrox — iPhone リモコン付き Mac ビデオプレーヤーとネイティブ Spotify プレーヤー</title>
+  <meta name="description" content="無料の Mac アプリ：iPhone から操作できるミニマルなビデオプレーヤーと、似た曲を見つけてくれる軽量なネイティブ Spotify プレーヤー。Kinrox アカウント不要、トラッカーなし、ソースコードは GitHub で公開。">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/ja/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox — 映画を一時停止するために立ち上がるのをやめてください">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. 個人利用は無料.">
+  <meta property="og:title" content="Kinrox — 映画はソファから、Spotify は軽やかに">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. リモコンで操作するビデオ、似た曲が見つかる Spotify。個人利用は無料。">
   <meta property="og:url" content="https://kinrox.app/ja/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/ja/", "inLanguage": "ja", "description": "Kinrox · Mac + iPhone. 個人利用は無料."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/ja/", "inLanguage": "ja", "description": "Kinrox · Mac + iPhone. リモコンで操作するビデオ、似た曲が見つかる Spotify。個人利用は無料。"}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>個人利用は無料 · Mac + iPhone</span>
-      <h1 class="display">立ち上がらずに、<span class="fire-text">映画を一時停止。</span></h1>
-      <p class="lead">Kinrox は、Mac であらゆる動画を再生し、iPhone をリモコンに変えます。 MacBook プロジェクターで、あなたはソファで、毛布から出ずに、一時停止したり、10 秒前に戻ったり、音量を下げるか、次のエピソードを開始したりできます。</p>
+      <h1 class="display">映画はソファから。<span class="fire-text">Spotify は軽やかに。</span></h1>
+      <p class="lead">ネイティブな Mac プレーヤー 2 つを、1 つの無料アプリに。どんなビデオも iPhone から操作でき、一時停止、スキップ、音量調整も座ったまま。Spotify.app を閉じたまま Spotify を再生し、Kinrox が似た曲を見つけて音楽を途切れさせません。</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">ダウンロード:Mac</a>
-        <a class="btn btn-glass" href="#how">どのように機能するか見てみましょう</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">App Store のリモコン</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Kinrox アカウント不要</span><span>Kinrox サーバーなし</span><span>Wi-Fi 経由で動作します</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Kinrox アカウント不要</span><span>トラッカーなし</span><span>ソースコードは GitHub で公開</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">重いデスクトップアプリ不要の Spotify。</h2>
-        <p class="lead">ネイティブ SwiftUI のミュージックモードはメモリ使用量が最大 200 MB。最大 2 GB 消費することもある Spotify 公式クライアントの 2〜10 分の 1 に収まり、Spotify.app を完全に終了したまま再生できます。</p>
+        <p class="lead">独自の音楽ディスカバリーを備えたネイティブ SwiftUI 製 Spotify プレーヤー。Spotify.app を完全に終了したまま再生でき、メモリ使用量は最大 200 MB。最大 2 GB 消費することもあるデスクトップ版 Spotify の 2〜10 分の 1 です。</p>
         <p>2026-11-09、12 時間再生後の測定：合計約 193 MB（Kinrox 161 MB、Soloist と補助プロセス 32 MB）。macOS footprint による物理メモリ使用量です。単発の測定値であり、上限ではありません。</p>
+        <p>Spotify Premium、ご自身の Spotify 開発者 Client ID、個人用の Soloist キーが必要です。セットアップは Kinrox が案内します。</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>再生が途切れない、似た曲</h3>
+          <p>曲、アーティスト、アルバム、プレイリストから始められます。Kinrox は各候補が合う理由（一緒に聴かれている、共演者、あなたのライブラリ、ジャンル）を示し、「似た曲を聴く」で合う音楽をキューに追加し続けます。「興味なし」で聴きたくないものを非表示にできます。</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>2 GB ではなく最大 200 MB</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox は、Swift 6 と libmpv の上の SwiftUI に書き込まれます。プレーヤー、リモコン、プロトコルのすべての行は GitHub にあります。</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac プレーヤー — 動作します</li>
-            <li><i class="ic ic-check"></i>iPhone リモート - ソースからビルドする</li>
+            <li><i class="ic ic-check"></i>iPhone リモコン — App Store で配信中</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 - 署名および公証された DMG</li>
-            <li class="soon"><i class="ic ic-history"></i>リモートでApp Store — 計画中</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">ダウンロード:Mac</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">App Store のリモコン</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">リリース</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">個人利用は無料</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">ダウンロード:Mac</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">問題を報告</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">App Store のリモコン</a>
       </div>
     </div>
   </section>

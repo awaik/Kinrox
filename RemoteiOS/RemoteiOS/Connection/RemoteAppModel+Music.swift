@@ -181,5 +181,7 @@ extension RemoteAppModel {
         showsLikeOptions = false
         likeOptionsTrackID = nil
         pendingLikeTrackID = nil
+        similarRequestPending = false
+        clearSimilarFeedback()
     }
 }

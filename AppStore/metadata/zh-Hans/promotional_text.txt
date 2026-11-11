@@ -1,1 +1,1 @@
-安心坐好，用 iPhone 暂停、快进或调节 Mac 音量。需在同一本地网络中的 Mac 上运行 Kinrox。
+新功能：在锁定屏幕上控制 Mac。音乐模式支持收藏、队列和相似推荐。免费的 Mac 版 Kinrox 播放器：kinrox.app。

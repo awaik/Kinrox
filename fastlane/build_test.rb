@@ -13,7 +13,9 @@ class BuildLaneTest < Minitest::Test
   def test_build_generates_projects_before_provisioning_and_archiving
     @lane.run
     assert_equal([[:generate, File.expand_path("../Scripts/generate.sh", __dir__)],
-                  :api_key, :profile, [:archive, "RemoteiOS"]], @lane.events)
+                  :api_key, :bundle_ids, :profile, :profile, [:archive, "RemoteiOS"]], @lane.events)
+    profiles = @lane.build_options.fetch(:export_options).fetch(:provisioningProfiles)
+    assert_equal(%w[app.kinrox.remote app.kinrox.remote.lockscreen], profiles.keys)
   end
 
   def test_generation_failure_stops_before_provisioning_and_archiving

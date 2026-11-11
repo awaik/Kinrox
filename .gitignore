@@ -41,5 +41,5 @@ fastlane/report.xml
 *.keychain-db
 
 # Local research execution logs, state, and validation artifacts
-.tmp/scratch/research-execute/
+.tmp/
 

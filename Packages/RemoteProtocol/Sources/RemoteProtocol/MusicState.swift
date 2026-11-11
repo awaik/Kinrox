@@ -47,12 +47,14 @@ public struct MusicState: Codable, Sendable, Equatable {
     public var positionAge: Double?
     /// Nil preserves older Macs' behavior; false requires a disabled, zero-valued wire volume.
     public var volumeKnown: Bool?
+    /// Nil identifies a Mac without remote Similar control.
+    public var similar: RemoteSimilarState?
     public init(
         track: RemoteMusicTrack?, nextTrack: RemoteMusicTrack?, liked: Bool, shuffle: Bool,
         repeatMode: RemoteMusicRepeat, queueCount: Int, queueRevision: UUID, libraryRevision: UUID,
         outputName: String, status: String? = nil, disallowedActions: [String]? = nil,
         favoriteFeedback: RemoteFavoriteFeedback? = nil, positionAge: Double? = nil,
-        volumeKnown: Bool? = nil
+        volumeKnown: Bool? = nil, similar: RemoteSimilarState? = nil
     ) {
         self.track = track
         self.nextTrack = nextTrack
@@ -68,6 +70,7 @@ public struct MusicState: Codable, Sendable, Equatable {
         self.favoriteFeedback = favoriteFeedback
         self.positionAge = positionAge
         self.volumeKnown = volumeKnown
+        self.similar = similar
     }
 }
 

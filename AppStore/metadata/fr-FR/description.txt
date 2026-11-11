@@ -1,16 +1,28 @@
-Le film est sur le Mac. La télécommande est dans votre main.
+Votre film ou votre musique est sur le Mac. La télécommande est dans votre main.
 
-Kinrox Remote vous permet de piloter le lecteur vidéo Kinrox sur votre Mac depuis votre iPhone. Restez sur le canapé pour mettre en pause, revoir une scène ou baisser le son.
+Kinrox Remote pilote depuis votre iPhone Kinrox, un lecteur vidéo et musique gratuit et open source pour Mac. Mettez en pause, passez à la suite et baissez le son sans quitter le canapé, ou directement depuis l’écran verrouillé.
 
-• Lancez et mettez en pause la lecture.
-• Avancez ou reculez de 10 ou 30 secondes, ou choisissez un instant sur la barre de lecture.
-• Réglez le volume et activez le plein écran sur le Mac.
-• Passez à la vidéo précédente ou suivante du dossier actuel.
-• Ouvrez les fichiers disponibles dans la liste des fichiers récents du Mac.
-• Découvrez les lecteurs Kinrox sur le réseau et associez-les avec un code à six chiffres.
+FILMS
+• Lecture et pause, retour ou avance de 10 ou 30 secondes, ou accès direct à n’importe quel instant.
+• Réglez le volume et activez ou quittez le plein écran sur le Mac.
+• Passez à la vidéo précédente ou suivante du dossier, ou ouvrez un fichier récent.
+• Lancez l’économiseur d’écran Matrix quand vous faites une pause.
 
-La connexion est chiffrée et reste sur le réseau local. Sans compte, service cloud, publicité ni analyse d’utilisation. Une démo interactive permet de découvrir les commandes avant de connecter un Mac.
+MUSIQUE
+• Lecture, pause, titre suivant et volume pour la musique qui joue sur votre Mac.
+• Ajoutez le titre en cours aux favoris et gérez la file d’attente : réordonnez ou retirez des titres.
+• Écouter des titres similaires : la musique continue avec des titres proches de celui en cours, et vous masquez les titres ou artistes qui ne vous intéressent pas.
 
-Nécessite iOS 17 ou version ultérieure et Kinrox ouvert sur un Mac compatible. Connectez les deux appareils au même réseau local et autorisez son accès. Cette app est une télécommande pour Kinrox : elle ne lit ni ne diffuse de vidéos sur l’iPhone.
+ÉCRAN VERROUILLÉ
+• Pendant la lecture, les commandes apparaissent sur l’écran verrouillé et dans la Dynamic Island : pause, titre suivant et volume sans déverrouiller votre iPhone.
 
-Lecteur Mac et configuration : https://awaik.github.io/Kinrox/
+CONFIDENTIALITÉ INTÉGRÉE
+• Fonctionne sur votre réseau local avec une connexion chiffrée, après jumelage avec un code à six chiffres.
+• Aucun compte, service cloud, publicité ni analyse.
+• Une démo vous permet d’essayer les commandes avant de connecter un Mac.
+
+CE QU’IL VOUS FAUT
+• Kinrox pour Mac, gratuit sur https://kinrox.app
+• Un iPhone sous iOS 17 ou version ultérieure, sur le même réseau local que le Mac.
+
+Le mode musique fonctionne avec la bibliothèque musicale que vous connectez dans Kinrox pour Mac ; le site web indique les services pris en charge. Kinrox Remote est une télécommande : elle ne lit ni vidéo ni musique sur votre iPhone.

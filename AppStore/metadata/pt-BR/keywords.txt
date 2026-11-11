@@ -1,1 +1,1 @@
-vídeo,reprodutor,filme,sofá,volume,wifi,controle
+macbook,notebook,computador,vídeo,player,reprodutor,projetor,pausar,volume,bloqueio,wifi,remoto

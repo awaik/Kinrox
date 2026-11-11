@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — Mac videospelare med en iPhone fjärrkontroll</title>
-  <meta name="description" content="Kinrox är en gratis videospelare med öppen källkod för Mac, med fjärrkontroll på iPhone. Pausa, spola och ändra volymen utan att resa dig från soffan.">
+  <title>Kinrox — videospelare för Mac med fjärrkontroll på iPhone och en inbyggd Spotify-spelare</title>
+  <meta name="description" content="Gratis Mac-app: en minimalistisk videospelare som du styr från din iPhone och en lätt, inbyggd Spotify-spelare som hittar liknande låtar. Inget Kinrox-konto, inga spårare, källkod på GitHub.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/sv/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox — sluta resa dig för att pausa filmen">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Gratis för personligt bruk.">
+  <meta property="og:title" content="Kinrox — film från soffan, Spotify utan onödig vikt">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Video med fjärrkontroll, Spotify med liknande låtar. Gratis för personligt bruk.">
   <meta property="og:url" content="https://kinrox.app/sv/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/sv/", "inLanguage": "sv", "description": "Kinrox · Mac + iPhone. Gratis för personligt bruk."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/sv/", "inLanguage": "sv", "description": "Kinrox · Mac + iPhone. Video med fjärrkontroll, Spotify med liknande låtar. Gratis för personligt bruk."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Gratis för personligt bruk · Mac + iPhone</span>
-      <h1 class="display">Slipp resa dig för att <span class="fire-text">pausa filmen.</span></h1>
-      <p class="lead">Kinrox spelar upp vilken video som helst på din Mac — och förvandlar din iPhone till sin fjärrkontroll. MacBook på projektorn, du i soffan: pausa, hoppa tillbaka 10 sekunder, sänk volymen eller starta nästa avsnitt utan att lämna filten.</p>
+      <h1 class="display">Film från soffan. <span class="fire-text">Spotify utan onödig vikt.</span></h1>
+      <p class="lead">Två inbyggda Mac-spelare i en gratis app. Titta på vilken video som helst och styr den från din iPhone — pausa, hoppa och ändra volymen utan att resa dig. Spela Spotify med Spotify.app stängd och låt Kinrox hitta liknande låtar så att musiken fortsätter.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Ladda ner för Mac</a>
-        <a class="btn btn-glass" href="#how">Se hur det fungerar</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Fjärrkontrollen på App Store</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Inget Kinrox-konto</span><span>Ingen Kinrox-server</span><span>Fungerar över ditt Wi-Fi</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Inget Kinrox-konto</span><span>Inga spårare</span><span>Källkod på GitHub</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Spotify utan den tunga datorappen.</h2>
-        <p class="lead">Det inbyggda musikläget i SwiftUI använder upp till 200 MB minne — 2 till 10 gånger mindre än Spotify självt, vars skrivbordsklient kan ta upp till 2 GB. Håll Spotify.app helt stängt.</p>
+        <p class="lead">En inbyggd Spotify-spelare i SwiftUI med egen musikupptäckt. Den spelar med Spotify.app helt stängd och använder upp till 200 MB minne — 2 till 10× mindre än Spotifys skrivbordsklient, som kan ta upp till 2 GB.</p>
         <p>Mätt 2026-11-09 efter 12 timmars uppspelning: totalt cirka 193 MB — 161 MB för Kinrox och 32 MB för Soloist och hjälpprocesser. Fysiskt minne enligt macOS footprint; en ögonblicksbild, inget maxvärde.</p>
+        <p>Kräver Spotify Premium, ett eget Client ID för Spotify-utvecklare och en personlig Soloist-nyckel. Kinrox guidar dig genom installationen.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Liknande låtar som fortsätter spela</h3>
+          <p>Börja från en låt, artist, ett album eller en spellista. Kinrox visar varför varje förslag passar — lyssnade tillsammans, samarbeten, ditt bibliotek, genre — och ”Lyssna på liknande” fortsätter lägga till matchande musik i kön. ”Inte intresserad” döljer det du inte vill ha.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>Upp till 200 MB istället för 2 GB</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox är skrivet i Swift 6 och SwiftUI ovanpå libmpv. Varje rad på spelaren, fjärrkontrollen och protokollet finns på GitHub.</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac-spelare — fungerar</li>
-            <li><i class="ic ic-check"></i>iPhone fjärrkontroll — bygg från källan</li>
+            <li><i class="ic ic-check"></i>Fjärrkontroll för iPhone — på App Store</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 — signerad och attesterad DMG</li>
-            <li class="soon"><i class="ic ic-history"></i>Remote på App Store — planerad</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Ladda ner för Mac</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Fjärrkontrollen på App Store</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Släpps</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Gratis för personligt bruk</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Ladda ner för Mac</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Rapportera ett problem</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Fjärrkontrollen på App Store</a>
       </div>
     </div>
   </section>

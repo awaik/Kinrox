@@ -1,16 +1,28 @@
-O filme está no Mac. O comando está na sua mão.
+O filme ou a música está no Mac. O comando, na sua mão.
 
-Com o Kinrox Remote, pode controlar o reprodutor de vídeo Kinrox no Mac pelo iPhone. Fique no sofá quando quiser pausar, rever uma cena ou diminuir o volume.
+O Kinrox Remote controla pelo iPhone o Kinrox, um reprodutor de vídeo e música gratuito e de código aberto para Mac. Pause, avance e baixe o volume sem sair do sofá, ou direto da Ecrã Bloqueado.
 
-• Inicie e pause a reprodução.
-• Avance ou volte 10 ou 30 segundos, ou escolha um ponto na barra de reprodução.
-• Ajuste o volume e ative o ecrã inteiro no Mac.
-• Vá para o vídeo anterior ou seguinte da pasta atual.
-• Abra os arquivos disponíveis na lista de recentes do Mac.
-• Encontre reprodutores Kinrox na rede e emparelhe com um código de seis dígitos.
+FILMES
+• Reproduza e pause, volte ou avance 10 ou 30 segundos, ou vá para qualquer momento.
+• Ajuste o volume e ative ou desative o ecrã inteiro no Mac.
+• Vá para o vídeo anterior ou seguinte da pasta, ou abra um dos recentes.
+• Ative o proteção de ecrã Matrix quando fizer uma pausa.
 
-A conexão é cifrada e funciona na rede local. Sem conta, serviço de nuvem, anúncios ou análise de uso. Uma demonstração interativa permite explorar os comandos antes de ligar um Mac.
+MÚSICA
+• Reproduza, pause, passe para a próxima faixa e ajuste o volume da música que toca no Mac.
+• Adicione a faixa atual aos favoritos e organize a fila: reordene ou remova faixas.
+• Ouvir semelhantes: a música continua com faixas parecidas com a atual, e é possível ocultar faixas ou artistas que não interessam.
 
-Requer iOS 17 ou posterior e Kinrox aberto num Mac compatível. Ligue os dois dispositivos à mesma rede local e permita o acesso a ela. Esta aplicação é um comando para Kinrox: não reproduz nem transmite vídeos no iPhone.
+TELA BLOQUEADA
+• Enquanto algo é reproduzido, os comandos aparecem na Ecrã Bloqueado e na Dynamic Island: pausa, próxima faixa e volume sem desbloquear o iPhone.
 
-Reprodutor para Mac e configuração: https://awaik.github.io/Kinrox/
+PRIVADO POR NATUREZA
+• Funciona na sua rede local por um canal cifrado, com emparelhamento por um código de seis dígitos.
+• Sem conta, serviço em nuvem, publicidade ou análises.
+• Uma demonstração permite testar os comandos antes de ligar um Mac.
+
+O QUE É PRECISO
+• Kinrox para Mac, gratuito em https://kinrox.app
+• Um iPhone com iOS 17 ou posterior na mesma rede local que o Mac.
+
+O modo música funciona com a biblioteca musical que ligar ao Kinrox para Mac; o site lista os serviços compatíveis. O Kinrox Remote é um comando remoto: não reproduz vídeo nem música no iPhone.

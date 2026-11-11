@@ -1,16 +1,28 @@
-Film běží na Macu. Ovladač máte v ruce.
+Film nebo hudba jsou na Macu. Ovladač máte v ruce.
 
-Kinrox Remote ovládá přehrávač videa Kinrox na Macu z vašeho iPhonu. Zůstaňte na pohovce, když chcete film pozastavit, zopakovat scénu nebo ztlumit zvuk.
+Kinrox Remote ovládá z iPhonu Kinrox – bezplatný přehrávač videa a hudby pro Mac s otevřeným zdrojovým kódem. Pozastavujte, přeskakujte a ztlumte zvuk, aniž byste vstávali z gauče, nebo rovnou ze zamčené obrazovky.
 
-• Spusťte a pozastavte přehrávání.
-• Přeskočte o 10 nebo 30 sekund vpřed či zpět nebo vyberte místo na časové ose.
-• Upravte hlasitost a přepněte Mac na celou obrazovku.
-• Přejděte na předchozí nebo další video v aktuální složce.
-• Otevřete dostupné soubory ze seznamu posledních souborů na Macu.
-• Najděte přehrávače Kinrox v síti a spárujte je šestimístným kódem.
+FILMY
+• Přehrávejte a pozastavujte, přeskakujte o 10 nebo 30 sekund zpět či vpřed, nebo přejděte na libovolné místo na časové ose.
+• Nastavte hlasitost a přepněte Mac na celou obrazovku.
+• Přejděte na předchozí nebo další video ve složce, nebo otevřete nedávný soubor.
+• Když si dáte pauzu, spusťte spořič obrazovky Matrix.
 
-Spojení je šifrované a probíhá v místní síti. Bez účtu, cloudu, reklam a analýzy používání. Interaktivní ukázka umožňuje vyzkoušet ovládání před připojením Macu.
+HUDBA
+• Přehrávejte, pozastavujte, přeskakujte a nastavujte hlasitost hudby, která hraje na Macu.
+• Přidejte aktuální skladbu do oblíbených a spravujte frontu: měňte pořadí nebo odebírejte skladby.
+• Poslouchat podobné: hudba pokračuje skladbami podobnými té, která právě hraje, a skladby či interprety, které vás nezajímají, můžete skrýt.
 
-Vyžaduje iOS 17 nebo novější a spuštěný Kinrox na kompatibilním Macu. Připojte obě zařízení ke stejné místní síti a povolte k ní přístup. Aplikace je ovladač pro Kinrox; na iPhonu nepřehrává ani nestreamuje video.
+ZAMČENÁ OBRAZOVKA
+• Když něco hraje, ovládání se objeví na zamčené obrazovce a v Dynamic Island: pauza, přeskakování a hlasitost bez odemykání iPhonu.
 
-Přehrávač pro Mac a nastavení: https://awaik.github.io/Kinrox/
+SOUKROMÍ
+• Funguje v místní síti přes šifrované připojení, párování probíhá šestimístným kódem.
+• Žádný účet, cloud, reklamy ani analytika.
+• V ukázkovém režimu si ovládání vyzkoušíte ještě před připojením Macu.
+
+CO POTŘEBUJETE
+• Kinrox pro Mac, zdarma na https://kinrox.app
+• iPhone se systémem iOS 17 nebo novějším ve stejné místní síti jako Mac.
+
+Hudební režim funguje s hudební knihovnou, kterou připojíte v Kinroxu pro Mac; podporované služby najdete na webu. Kinrox Remote je ovladač: nepřehrává video ani hudbu v iPhonu.

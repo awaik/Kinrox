@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — Mac player video cu o iPhone telecomandă</title>
-  <meta name="description" content="Kinrox este un player video gratuit și cu sursă deschisă pentru Mac, cu telecomandă pe iPhone. Pune pauză, derulează și reglează volumul fără să te ridici de pe canapea.">
+  <title>Kinrox — player video pentru Mac cu telecomandă pe iPhone și un player Spotify nativ</title>
+  <meta name="description" content="Aplicație gratuită pentru Mac: un player video minimalist pe care îl controlezi de pe iPhone și un player Spotify nativ și ușor, care găsește piese similare. Fără cont Kinrox, fără trackere, cod sursă pe GitHub.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/ro/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox — nu te mai ridica pentru a întrerupe filmul">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Gratuit pentru uz personal.">
+  <meta property="og:title" content="Kinrox — filme de pe canapea, Spotify fără balast">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Video cu telecomandă, Spotify cu piese similare. Gratuit pentru uz personal.">
   <meta property="og:url" content="https://kinrox.app/ro/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/ro/", "inLanguage": "ro", "description": "Kinrox · Mac + iPhone. Gratuit pentru uz personal."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/ro/", "inLanguage": "ro", "description": "Kinrox · Mac + iPhone. Video cu telecomandă, Spotify cu piese similare. Gratuit pentru uz personal."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Gratuit pentru uz personal · Mac + iPhone</span>
-      <h1 class="display">Nu te ridica pentru a <span class="fire-text">pune filmul pe pauză.</span></h1>
-      <p class="lead">Kinrox redă orice videoclip de pe Mac și transformă iPhone în telecomandă. MacBook pe proiector, tu pe canapea: întrerupeți, săriți înapoi cu 10 secunde, reduceți volumul sau începeți episodul următor fără a părăsi pătura.</p>
+      <h1 class="display">Filme de pe canapea. <span class="fire-text">Spotify fără balast.</span></h1>
+      <p class="lead">Două playere native pentru Mac într-o singură aplicație gratuită. Urmărește orice videoclip și controlează-l de pe iPhone — pauză, salt și volum, fără să te ridici. Ascultă Spotify cu Spotify.app închis și lasă Kinrox să găsească piese similare, ca muzica să nu se oprească.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Descărcați pentru Mac</a>
-        <a class="btn btn-glass" href="#how">Vezi cum funcționează</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Telecomanda în App Store</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Fără cont Kinrox</span><span>Fără server Kinrox</span><span>Funcționează prin Wi-Fi</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Fără cont Kinrox</span><span>Fără trackere</span><span>Cod sursă pe GitHub</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Spotify fără aplicația greoaie de desktop.</h2>
-        <p class="lead">Modul nativ de muzică în SwiftUI folosește până la 200 MB de memorie — de 2 până la 10 ori mai puțin decât Spotify în sine, al cărui client desktop poate ocupa până la 2 GB. Poți ține Spotify.app complet închis.</p>
+        <p class="lead">Un player Spotify nativ în SwiftUI, cu propria descoperire muzicală. Redă cu Spotify.app complet închis și folosește până la 200 MB de memorie — de 2 până la 10× mai puțin decât clientul desktop Spotify, care poate ocupa până la 2 GB.</p>
         <p>Măsurat la 2026-11-09 după 12 ore de redare: aproximativ 193 MB în total — 161 MB pentru Kinrox și 32 MB pentru Soloist și procesele auxiliare. Memorie fizică conform macOS footprint; măsurare punctuală, nu un maxim.</p>
+        <p>Necesită Spotify Premium, propriul Client ID de dezvoltator Spotify și o cheie Soloist personală. Kinrox te ghidează prin configurare.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Piese similare care nu se mai opresc</h3>
+          <p>Pornește de la o piesă, un artist, un album sau un playlist. Kinrox arată de ce se potrivește fiecare sugestie — ascultate împreună, colaboratori, biblioteca ta, gen — iar „Ascultă piese similare” continuă să adauge muzică potrivită în coadă. „Nu mă interesează” ascunde ce nu vrei.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>Până la 200 MB în loc de 2 GB</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox este scris în Swift 6 și SwiftUI deasupra lui libmpv. Fiecare linie a playerului, a telecomenzii și a protocolului este activată GitHub.</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac player — funcționează</li>
-            <li><i class="ic ic-check"></i>iPhone la distanță — construiți din sursă</li>
+            <li><i class="ic ic-check"></i>Telecomandă pentru iPhone — în App Store</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 — DMG semnat și legalizat</li>
-            <li class="soon"><i class="ic ic-history"></i>Telecomandă pe App Store — planificată</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Descărcați pentru Mac</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Telecomanda în App Store</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Lansări</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Gratuit pentru uz personal</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Descărcați pentru Mac</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Raportează o problemă</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Telecomanda în App Store</a>
       </div>
     </div>
   </section>

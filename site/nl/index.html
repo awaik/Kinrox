@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — Mac-videospeler met een iPhone-afstandsbediening</title>
-  <meta name="description" content="Kinrox is een gratis opensource-videospeler voor Mac met een afstandsbediening op je iPhone. Pauzeer, spoel en regel het volume zonder van de bank op te staan.">
+  <title>Kinrox — videospeler voor Mac met een iPhone-afstandsbediening en een native Spotify-speler</title>
+  <meta name="description" content="Gratis Mac-app: een minimalistische videospeler die je bedient met je iPhone, en een lichte native Spotify-speler die vergelijkbare nummers vindt. Geen Kinrox-account, geen trackers, broncode op GitHub.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/nl/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox — stop met opstaan om de film te pauzeren">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Gratis voor persoonlijk gebruik.">
+  <meta property="og:title" content="Kinrox — films vanaf de bank, Spotify zonder ballast">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Video met afstandsbediening, Spotify met vergelijkbare nummers. Gratis voor persoonlijk gebruik.">
   <meta property="og:url" content="https://kinrox.app/nl/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/nl/", "inLanguage": "nl", "description": "Kinrox · Mac + iPhone. Gratis voor persoonlijk gebruik."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/nl/", "inLanguage": "nl", "description": "Kinrox · Mac + iPhone. Video met afstandsbediening, Spotify met vergelijkbare nummers. Gratis voor persoonlijk gebruik."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Gratis voor persoonlijk gebruik · Mac + iPhone</span>
-      <h1 class="display">Blijf zitten en <span class="fire-text">pauzeer de film.</span></h1>
-      <p class="lead">Kinrox speelt elke video af op uw Mac — en verandert uw iPhone in zijn afstandsbediening. MacBook op de projector, jij op de bank: pauzeer, spring 10 seconden terug, zet het volume lager of start de volgende aflevering zonder de deken te verlaten.</p>
+      <h1 class="display">Films vanaf de bank. <span class="fire-text">Spotify zonder ballast.</span></h1>
+      <p class="lead">Twee native Mac-spelers in één gratis app. Kijk elke video en bedien hem met je iPhone — pauzeren, overslaan en het volume regelen zonder op te staan. Speel Spotify af terwijl Spotify.app gesloten is en laat Kinrox vergelijkbare nummers vinden, zodat de muziek blijft doorgaan.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Downloaden voor Mac</a>
-        <a class="btn btn-glass" href="#how">Kijk hoe het werkt</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Afstandsbediening in de App Store</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Geen Kinrox-account</span><span>Geen Kinrox-server</span><span>Werkt via uw wifi</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Geen Kinrox-account</span><span>Geen trackers</span><span>Broncode op GitHub</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Spotify zonder de zware desktop-app.</h2>
-        <p class="lead">De native SwiftUI-muziekmodus gebruikt tot 200 MB geheugen — 2 tot 10× minder dan Spotify zelf, waarvan de desktopclient tot 2 GB kan innemen. Houd Spotify.app volledig gesloten.</p>
+        <p class="lead">Een native Spotify-speler in SwiftUI met eigen muziekontdekking. Hij speelt af terwijl Spotify.app volledig gesloten is en gebruikt tot 200 MB geheugen — 2 tot 10× minder dan de desktopclient van Spotify, die tot 2 GB kan innemen.</p>
         <p>Gemeten op 2026-11-09 na 12 uur afspelen: ongeveer 193 MB totaal — 161 MB voor Kinrox en 32 MB voor Soloist en hulpprocessen. Fysiek geheugengebruik volgens macOS footprint; een momentopname, geen maximum.</p>
+        <p>Vereist Spotify Premium, je eigen Spotify-ontwikkelaars-Client ID en een persoonlijke Soloist-sleutel. Kinrox helpt je stap voor stap met de installatie.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Vergelijkbare nummers die blijven doorspelen</h3>
+          <p>Begin bij een nummer, artiest, album of playlist. Kinrox laat zien waarom elke suggestie past — samen beluisterd, samenwerkingen, je bibliotheek, genre — en “Vergelijkbaar luisteren” blijft passende muziek aan de wachtrij toevoegen. “Niet geïnteresseerd” verbergt wat je niet wilt.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>Tot 200 MB in plaats van 2 GB</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox is geschreven in Swift 6 en SwiftUI bovenop libmpv. Elke lijn van de speler, de afstandsbediening en het protocol staat op GitHub.</p>
           <ul class="status">
             <li><i class="ic ic-check"></i>Mac-speler — werkt</li>
-            <li><i class="ic ic-check"></i>iPhone op afstand — gebouwd vanaf de bron</li>
+            <li><i class="ic ic-check"></i>iPhone-afstandsbediening — in de App Store</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 - ondertekend en notarieel bekrachtigd DMG</li>
-            <li class="soon"><i class="ic ic-history"></i>Remote op de App Store — gepland</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Downloaden voor Mac</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Afstandsbediening in de App Store</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Releases</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Gratis voor persoonlijk gebruik</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Downloaden voor Mac</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Een probleem melden</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Afstandsbediening in de App Store</a>
       </div>
     </div>
   </section>

@@ -57,12 +57,12 @@ extension MusicViewModel {
         if let artist = last.artist { notInterestedArtistIDs.remove(artist) }
         persistNotInterested()
     }
-    private func persistNotInterested() {
+    func persistNotInterested(refresh: Bool = true) {
         defaults?.set(
             notInterestedTrackIDs.sorted(), forKey: "app.kinrox.music.notInterestedTracks")
         defaults?.set(
             notInterestedArtistIDs.sorted(), forKey: "app.kinrox.music.notInterestedArtists")
-        refreshDiscovery()
+        if refresh { refreshDiscovery() }
     }
 
     func refreshDiscovery() {

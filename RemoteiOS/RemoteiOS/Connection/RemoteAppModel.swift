@@ -40,6 +40,23 @@ final class RemoteAppModel {
     var queueNextOffset: Int?
     var queueRevision: UUID?
     var optionsRevision: UUID?
+    var similarFeedback: SimilarHiddenFeedback?
+    var similarRequestPending = false
+    var lockScreenControls = true {
+        didSet {
+            preferences?.lockScreenControls = lockScreenControls
+            syncLockScreen()
+        }
+    }
+    @ObservationIgnored let lockScreen: LockScreenActivityController?
+    @ObservationIgnored var lockScreenRequests = 0
+    @ObservationIgnored var lockScreenVolumeTarget: Double?
+    @ObservationIgnored var lockScreenSession = false
+    @ObservationIgnored var lockScreenIdle: (any RemoteCancellation)?
+    @ObservationIgnored var lockScreenLease: RemoteBackgroundLease?
+    @ObservationIgnored var sceneActive = false
+    @ObservationIgnored var stateRevision = 0
+    @ObservationIgnored var similarFeedbackTimer: (any RemoteCancellation)?
     @ObservationIgnored var musicPageRequests: [UUID: MusicPageRequest] = [:]
     @ObservationIgnored var musicPageTimeouts: [UUID: any RemoteCancellation] = [:]
     @ObservationIgnored var musicDemo: MusicRemoteDemo?
@@ -79,6 +96,7 @@ final class RemoteAppModel {
         isDemo: Bool = false, credentials: (any ServerCredentialStore)? = nil,
         preferences: RemotePreferences? = nil, discovery: (any RemoteDiscovery)? = nil,
         scheduler: any RemoteScheduler = LiveRemoteScheduler(), monitorNetwork: Bool = true,
+        lockScreen: LockScreenActivityController? = nil,
         factory: @escaping RemoteConnectionFactory = { server, deviceId, mode, save in
             try TransportClient(
                 server: server, deviceId: deviceId, deviceName: UIDevice.current.name,
@@ -91,6 +109,7 @@ final class RemoteAppModel {
         self.scheduler = scheduler
         self.factory = factory
         self.monitorNetwork = monitorNetwork
+        self.lockScreen = lockScreen
         if isDemo {
             demo = RemoteDemoStore()
             syncDemo()
@@ -98,6 +117,7 @@ final class RemoteAppModel {
             self.credentials = credentials ?? KeychainServerStore()
             self.preferences = preferences ?? RemotePreferences()
             self.discovery = discovery ?? BonjourBrowser()
+            lockScreenControls = self.preferences?.lockScreenControls ?? true
         }
     }
 
@@ -117,6 +137,7 @@ final class RemoteAppModel {
         guard !started else { return }
         started = true
         foreground = true
+        sceneActive = true
         guard !isDemo else { return }
         reloadSavedServers()
         if let selected = preferences?.selected {
@@ -289,6 +310,7 @@ final class RemoteAppModel {
     }
 
     func returnToPlayers() {
+        lockScreen?.end()
         cancelConnection()
         preferences?.selected = nil
         selected = nil
@@ -298,6 +320,7 @@ final class RemoteAppModel {
 
     func forgetSelected() {
         guard let selected else { return }
+        lockScreen?.end()
         cancelConnection()
         do {
             if let demo, let player = demo.players.first(where: { $0.id == selected.id }) {

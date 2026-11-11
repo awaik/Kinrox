@@ -24,6 +24,20 @@ struct SettingsView: View {
                         )
                     }
                 }
+                Section {
+                    Toggle(
+                        L10n.text("Lock Screen controls"),
+                        isOn: Binding(
+                            get: { store.lockScreenControls },
+                            set: { store.lockScreenControls = $0 })
+                    )
+                    .tint(Palette.ember)
+                } footer: {
+                    Text(
+                        L10n.text(
+                            "Shows Mac controls on the Lock Screen while something plays. Sound does not play on iPhone."
+                        ))
+                }
                 Section(L10n.text("Network")) {
                     Button(L10n.text("Open iPhone Settings")) {
                         if let url = URL(string: UIApplication.openSettingsURLString) {

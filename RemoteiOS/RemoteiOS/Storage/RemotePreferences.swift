@@ -27,6 +27,11 @@ final class RemotePreferences {
         }
         set { defaults.set(newValue.map(\.uuidString), forKey: "remote.rejectedServers") }
     }
+    /// Lock Screen card; on by default (owner decision 2026-11-11).
+    var lockScreenControls: Bool {
+        get { defaults.object(forKey: "remote.lockScreenControls") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "remote.lockScreenControls") }
+    }
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         deviceId = defaults.string(forKey: "remote.deviceId").flatMap(UUID.init) ?? UUID()

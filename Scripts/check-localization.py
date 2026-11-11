@@ -38,7 +38,10 @@ def validate():
         info = read(folder / "InfoPlist.strings")
         assert info.get("NSLocalNetworkUsageDescription", "").strip(), language
     used = set()
-    for directory in ["PlayerMac/PlayerMac", "RemoteiOS/RemoteiOS", "Shared"]:
+    for directory in [
+        "PlayerMac/PlayerMac", "RemoteiOS/RemoteiOS", "RemoteiOS/LockScreenWidget",
+        "RemoteiOS/LockScreenShared", "Shared",
+    ]:
         for path in (ROOT / directory).rglob("*.swift"):
             used.update(re.findall(r'L10n\.(?:text|format)\(\s*"([^"\\]+)"', path.read_text()))
     assert used <= source.keys(), f"Missing source keys: {used - source.keys()}"

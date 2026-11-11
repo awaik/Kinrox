@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — Lettore video Mac con telecomando iPhone</title>
-  <meta name="description" content="Kinrox è un lettore video gratuito e open source per Mac, con telecomando su iPhone. Metti in pausa, vai avanti o indietro e regola il volume senza alzarti dal divano.">
+  <title>Kinrox — Lettore video Mac con telecomando iPhone e lettore Spotify nativo</title>
+  <meta name="description" content="App gratuita per Mac: un lettore video minimalista che controlli dall’iPhone e un lettore Spotify nativo e leggero che trova brani simili. Nessun account Kinrox, nessun tracker, codice sorgente su GitHub.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/it/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox: smetti di alzarti per mettere in pausa il film">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Gratuito per uso personale.">
+  <meta property="og:title" content="Kinrox — film dal divano, Spotify senza zavorra">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Video con telecomando, Spotify con brani simili. Gratuito per uso personale.">
   <meta property="og:url" content="https://kinrox.app/it/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/it/", "inLanguage": "it", "description": "Kinrox · Mac + iPhone. Gratuito per uso personale."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/it/", "inLanguage": "it", "description": "Kinrox · Mac + iPhone. Video con telecomando, Spotify con brani simili. Gratuito per uso personale."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Gratuito per uso personale · Mac + iPhone</span>
-      <h1 class="display">Non alzarti per <span class="fire-text">mettere in pausa il film.</span></h1>
-      <p class="lead">Kinrox riproduce qualsiasi video sul tuo Mac e trasforma il tuo iPhone nel suo telecomando. MacBook sul proiettore, tu sul divano: metti in pausa, torna indietro di 10 secondi, abbassa il volume o inizia l&#x27;episodio successivo senza alzarti dalla coperta.</p>
+      <h1 class="display">Film dal divano. <span class="fire-text">Spotify senza zavorra.</span></h1>
+      <p class="lead">Due lettori nativi per Mac in un’unica app gratuita. Guarda qualsiasi video e controllalo dall’iPhone: pausa, salti e volume senza alzarti. Ascolta Spotify con Spotify.app chiuso e lascia che Kinrox trovi brani simili per non fermare la musica.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Scarica per Mac</a>
-        <a class="btn btn-glass" href="#how">Guarda come funziona</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Telecomando sull’App Store</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Nessun account Kinrox</span><span>Nessun server Kinrox</span><span>Funziona tramite Wi‑Fi</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Nessun account Kinrox</span><span>Nessun tracker</span><span>Codice sorgente su GitHub</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Spotify senza la pesante app desktop.</h2>
-        <p class="lead">La modalità musica nativa in SwiftUI usa fino a 200 MB di memoria: da 2 a 10 volte meno rispetto a Spotify stesso, il cui client desktop può arrivare a 2 GB. Puoi tenere Spotify.app completamente chiuso.</p>
+        <p class="lead">Un lettore Spotify nativo in SwiftUI con una propria scoperta musicale. Riproduce con Spotify.app completamente chiuso e usa fino a 200 MB di memoria: da 2 a 10 volte meno del client desktop di Spotify, che può arrivare a 2 GB.</p>
         <p>Misurazione del 2026-11-09 dopo 12 ore di riproduzione: circa 193 MB totali — 161 MB per Kinrox e 32 MB per Soloist e processi ausiliari. Memoria fisica secondo macOS footprint; una misurazione istantanea, non un massimo.</p>
+        <p>Richiede Spotify Premium, un tuo Client ID sviluppatore Spotify e una chiave Soloist personale. Kinrox ti guida nella configurazione.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Brani simili che continuano a suonare</h3>
+          <p>Parti da un brano, un artista, un album o una playlist. Kinrox mostra perché ogni suggerimento è adatto — ascoltati insieme, collaborazioni, la tua libreria, genere — e «Ascolta simili» continua ad aggiungere musica in sintonia alla coda. «Non mi interessa» nasconde ciò che non vuoi.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>Fino a 200 MB invece di 2 GB</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox è scritto in Swift 6 e SwiftUI sopra libmpv. Ogni linea del lettore, del telecomando e del protocollo è su GitHub.</p>
           <ul class="status">
             <li>Lettore <i class="ic ic-check"></i>Mac: funziona</li>
-            <li>Telecomando <i class="ic ic-check"></i>iPhone: creato dal codice sorgente</li>
+            <li><i class="ic ic-check"></i>Telecomando per iPhone — sull’App Store</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 — firmato e autenticato DMG</li>
-            <li class="soon"><i class="ic ic-history"></i>Remote sullo App Store — pianificato</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Scarica per Mac</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Telecomando sull’App Store</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Rilasci</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Gratuito per uso personale</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Scarica per Mac</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Segnala un problema</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Telecomando sull’App Store</a>
       </div>
     </div>
   </section>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — відеоплеєр Mac з пультом iPhone</title>
-  <meta name="description" content="Kinrox — безкоштовний відеопрогравач для Mac з відкритим кодом і пультом на iPhone. Ставте на паузу, перемотуйте й регулюйте гучність, не встаючи з дивана.">
+  <title>Kinrox — відеоплеєр для Mac з пультом на iPhone і нативний плеєр Spotify</title>
+  <meta name="description" content="Безкоштовний застосунок для Mac: мінімалістичний відеоплеєр із пультом на iPhone і легкий нативний плеєр Spotify, що знаходить схожі треки. Без облікового запису Kinrox, без трекерів, вихідний код на GitHub.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/uk/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox — перестаньте вставати, щоб поставити фільм на паузу">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Безкоштовно для особистого використання.">
+  <meta property="og:title" content="Kinrox — кіно з дивана, Spotify без зайвої ваги">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Відео з пультом, Spotify зі схожими треками. Безкоштовно для особистого використання.">
   <meta property="og:url" content="https://kinrox.app/uk/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/uk/", "inLanguage": "uk", "description": "Kinrox · Mac + iPhone. Безкоштовно для особистого використання."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/uk/", "inLanguage": "uk", "description": "Kinrox · Mac + iPhone. Відео з пультом, Spotify зі схожими треками. Безкоштовно для особистого використання."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Безкоштовно для особистого використання · Mac + iPhone</span>
-      <h1 class="display">Не вставайте, щоб <span class="fire-text">поставити фільм на паузу.</span></h1>
-      <p class="lead">Kinrox відтворює будь-яке відео на вашому Mac — і перетворює iPhone на пульт дистанційного керування. MacBook на проекторі, ви на дивані: зробіть паузу, перейдіть на 10 секунд назад, зменшіть гучність або почніть наступну серію, не відриваючись від ковдри.</p>
+      <h1 class="display">Кіно — з дивана. <span class="fire-text">Spotify — без зайвої ваги.</span></h1>
+      <p class="lead">Два нативні плеєри для Mac в одному безкоштовному застосунку. Дивіться будь-яке відео й керуйте ним з iPhone — пауза, перемотка й гучність, не встаючи з дивана. Слухайте Spotify із закритим Spotify.app, а Kinrox підбере схожі треки, щоб музика не закінчувалася.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Завантажити для Mac</a>
-        <a class="btn btn-glass" href="#how">Подивіться, як це працює</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Пульт в App Store</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Без облікового запису Kinrox</span><span>Без сервера Kinrox</span><span>Працює через Wi‑Fi</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Без облікового запису Kinrox</span><span>Без трекерів</span><span>Вихідний код на GitHub</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Spotify без важкого клієнта для Mac.</h2>
-        <p class="lead">Нативний музичний режим на SwiftUI займає до 200 МБ пам’яті — у 2–10 разів менше, ніж сам Spotify, десктопний клієнт якого може займати до 2 ГБ. Програму Spotify.app можна повністю закрити.</p>
+        <p class="lead">Нативний плеєр Spotify на SwiftUI з власним пошуком схожої музики. Грає з повністю закритим Spotify.app і займає до 200 МБ пам’яті — у 2–10 разів менше, ніж десктопний клієнт Spotify, якому буває потрібно до 2 ГБ.</p>
         <p>Вимірювання 2026-11-09 після 12 годин відтворення: близько 193 МБ загалом — 161 МБ у Kinrox і 32 МБ у Soloist та допоміжних процесів. Фізична пам’ять за macOS footprint; разовий вимір, а не верхня межа.</p>
+        <p>Потрібні Spotify Premium, власний Client ID розробника Spotify і особистий ключ Soloist. Kinrox проведе вас через налаштування.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Схожі треки, які не закінчуються</h3>
+          <p>Почніть із треку, виконавця, альбому чи плейлиста. Kinrox показує, чому підходить кожна рекомендація, — слухають разом, спільні роботи, ваша медіатека, жанр, — а «Слухати схоже» продовжує додавати відповідну музику в чергу. «Не цікавить» приховує те, що вам не потрібно.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>До 200 МБ замість 2 ГБ</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox написано в Swift 6 і SwiftUI поверх libmpv. Кожен рядок плеєра, пульта дистанційного керування та протоколу на GitHub.</p>
           <ul class="status">
             <li>Плеєр <i class="ic ic-check"></i>Mac — працює</li>
-            <li><i class="ic ic-check"></i>iPhone віддалений — збірка з джерела</li>
+            <li><i class="ic ic-check"></i>Пульт для iPhone — в App Store</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 — підписане та нотаріально завірене DMG</li>
-            <li class="soon"><i class="ic ic-history"></i>Пульт на App Store — планується</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Завантажити для Mac</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Пульт в App Store</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Релізи</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Безкоштовно для особистого використання</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Завантажити для Mac</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Повідомити про помилку</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Пульт в App Store</a>
       </div>
     </div>
   </section>

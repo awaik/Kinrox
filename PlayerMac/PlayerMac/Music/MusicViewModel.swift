@@ -81,6 +81,8 @@ final class MusicViewModel {
     var listenBrainzStatus = MusicListenBrainzStatus.off
     var isDiscoveryRadioActive = false
     var isRefillingRadio = false
+    /// A remote-initiated Similar start is looking for its first tracks.
+    var isStartingSimilar = false
     @ObservationIgnored var radioSessionID = UUID()
     @ObservationIgnored var radioRefillTask: Task<Void, Never>?
     @ObservationIgnored var radioSeenTrackIDs: Set<String> = []

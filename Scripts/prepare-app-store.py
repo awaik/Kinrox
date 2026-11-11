@@ -2,6 +2,7 @@
 """Validate authored copy and prepare App Store Connect metadata files."""
 import argparse
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +15,13 @@ LOCALES = {
     'nl-NL':'nl', 'ro':'ro', 'el':'el', 'cs':'cs', 'sv':'sv', 'hu':'hu', 'he':'he',
 }
 FIELDS = {'name':30, 'subtitle':30, 'promotional_text':170, 'description':4000, 'keywords':100}
+# Owner decision 2026-11-11: no third-party app or service names anywhere in the listing.
+FORBIDDEN = ('spotify', 'vlc', 'iina', 'mpv', 'plex', 'netflix', 'youtube', 'soloist')
+SCREENSHOTS = 8  # Figma 14 · App Store — Screenshots v2 (229:304)
+# Mock-only UI strings inside the screenshot devices that have no app localization key.
+SCREENSHOT_UI = ('movies', 'sec', 'next', 'then', 'from_album', 'time_left', 'code_valid', 'more')
+# Optional: a shorter "Next" for the narrow label column of the music deck.
+SCREENSHOT_UI_OPTIONAL = ('next_label',)
 
 
 def regionalize(value, locale):
@@ -25,6 +33,8 @@ def regionalize(value, locale):
                               ('você','si'), ('a tela cheia','o ecrã inteiro'), ('tela cheia','ecrã inteiro'), ('criptografada','cifrada'),
                               ('criptografado','cifrado'), ('conectar','ligar'), ('Conecte','Ligue'),
                               ('conectado','ligado'),
+                              ('Tela Bloqueada','Ecrã Bloqueado'),
+                              ('protetor de tela','proteção de ecrã'),
                               ('Este app','Esta aplicação'), ('em um Mac','num Mac')]:
             value = value.replace(before, after)
     return value
@@ -37,11 +47,27 @@ def validate(copy, lang):
         assert len(value) <= limit, (lang, field, len(value), limit)
         if field == 'keywords':
             assert len(value.encode()) <= 100, (lang, field, 'UTF-8 limit')
-    assert len(copy['screenshots']) == 5, lang
+    assert len(copy['screenshots']) == SCREENSHOTS, lang
     assert 'iOS 17' in copy['description'] and 'Mac' in copy['description'], lang
     for title, detail in copy['screenshots']:
         assert title.strip() and detail.strip(), lang
+        assert title.count('\n') <= 1, (lang, 'headline has more than two lines', title)
     assert copy['requirement'].strip(), lang
+    ui = copy['screenshot_ui']
+    assert set(SCREENSHOT_UI) <= set(ui) <= set(SCREENSHOT_UI + SCREENSHOT_UI_OPTIONAL), (lang, 'screenshot_ui')
+    assert all(v.strip() for v in ui.values()), (lang, 'screenshot_ui')
+    for key in ('from_album', 'time_left'):
+        assert ui[key].count('%@') == 1, (lang, key)
+    shown = [copy[field] for field in FIELDS] + [copy['requirement'], *ui.values()]
+    shown += [text for pair in copy['screenshots'] for text in pair]
+    for text in shown:
+        lowered = text.lower()
+        assert not any(name in lowered for name in FORBIDDEN), (lang, text, 'third-party name')
+    # Name and subtitle words are indexed already; repeating them wastes keyword bytes.
+    indexed = set(re.findall(r'\w+', (copy['name'] + ' ' + copy['subtitle']).lower()))
+    repeated = [k for k in copy['keywords'].lower().split(',') if k.strip() in indexed]
+    assert not repeated, (lang, 'keywords repeat name or subtitle', repeated)
+    assert ' ,' not in copy['keywords'] and ', ' not in copy['keywords'], (lang, 'keyword spaces')
 
 
 def main():
@@ -54,27 +80,28 @@ def main():
     copies = {}
     for path in sorted((ROOT / 'AppStore/copy').glob('*.json')):
         copy = json.loads(path.read_text())
-        copy['name'] = 'Kinrox Remote'
+        overrides = copy.pop('locales', {})
+        copy.setdefault('name', 'Kinrox Remote')
         validate(copy, path.stem)
+        copy['locales'] = overrides
         copies[path.stem] = copy
     expected = {p.stem for p in (ROOT / 'Resources/Localization').glob('*.lproj')}
     assert set(copies) == expected, ('App language coverage', set(copies) ^ expected)
     localized = {}
     for locale, lang in {**LOCALES, 'fa': 'fa'}.items():
         copy = json.loads(regionalize(json.dumps(copies[lang], ensure_ascii=False), locale))
-        if locale == 'es-MX':
-            copy['subtitle'] = 'Control de películas en Mac'
-        if locale == 'pt-PT':
-            copy['subtitle'] = 'O comando de filmes do Mac'
+        # Storefronts index other localizations too (en-GB in most of them), so a locale
+        # may carry its own name, subtitle and keywords instead of a duplicate.
+        copy.update(copy.pop('locales', {}).get(locale, {}))
         validate(copy, locale)
         localized[locale] = copy
         if locale == 'fa':
             continue
         target = ROOT / 'AppStore/metadata' / locale
         urls = {
-            'marketing_url':'https://awaik.github.io/Kinrox/',
-            'support_url':'https://awaik.github.io/Kinrox/support/',
-            'privacy_url':'https://awaik.github.io/Kinrox/privacy/',
+            'marketing_url':'https://kinrox.app/',
+            'support_url':'https://kinrox.app/support/',
+            'privacy_url':'https://kinrox.app/privacy/',
         }
         if args.check:
             for field in FIELDS:
@@ -100,7 +127,7 @@ def main():
     manifest.update({'app_name':'Kinrox Remote', 'primary_locale':'en-US', 'bundle_id':'app.kinrox.remote',
                 'locales':LOCALES,
                 'unsupported_store_languages':{'fa':'No Persian metadata locale in Apple’s published list; app and screenshot translations retained.'},
-                'screenshots_per_locale':10, 'screenshots_per_locale_per_size':5,
+                'screenshots_per_locale':2 * SCREENSHOTS, 'screenshots_per_locale_per_size':SCREENSHOTS,
                 'screenshot_sizes':[[1206,2622],[1320,2868]],
                 'language_review':'Authored translations; native-language editorial review pending.',
                 'source':'https://developer.apple.com/documentation/appstoreconnectapi/managing-metadata-in-your-app-by-using-locale-shortcodes'})

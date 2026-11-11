@@ -10,41 +10,57 @@ The gallery is offline-capable: all metadata is embedded and all screenshots are
 
 ## Contents
 
-- `copy/`: 30 authored language packs, including five screenshot headlines/descriptions per language.
+- `copy/`: 30 authored language packs: store fields, eight screenshot headlines/details, the footer
+  offer (`requirement`) and `screenshot_ui`, mock-only device strings that have no app key.
 - `localized-copy.json`: generated regional copy shared by screenshot rendering,
   the gallery and SRT guides. Regenerate it with metadata after editing copy.
 - `metadata/`: 35 App Store localizations, ready to paste or import field by field. `manifest.json` maps each store locale to its UI language.
-- `screenshots/export-20261028-regional/`: 350 upload PNGs for 35 store locales plus ten Persian PNGs for non-App Store use. Each locale has five images at both 1206×2622 and 1320×2868. The manifest records `screenshots_per_locale_per_size: 5` and `screenshots_per_locale: 10`. The previous export is preserved locally.
-- `screenshots/raw/`: 90 real localized UI captures and provenance. Demo content uses fictional titles; helper strings were changed only in a copied capture bundle.
-- `screenshots/overview-ru.jpg` and `overview-en.jpg`: quick contact sheets, not upload files.
+- `screenshot-strings.json`: per-locale text replacements for the screenshot set v2, generated
+  by `Scripts/app-store/screenshot-strings.py`.
+- `screenshots/export-20261111-v2/`: set v2 for Remote 0.2.2 — eight images per locale at both
+  1206×2622 and 1320×2868 (560 upload PNGs for 35 store locales plus 16 Persian PNGs), with
+  `SHA256SUMS`, `provenance.json` and a `contact-sheet.png` per locale (not an upload file).
+  The manifest records `screenshots_per_locale_per_size: 8`.
+- `screenshots/export-20261028-regional/`: the five-screen 0.1.0 set, preserved locally; it was
+  rendered by `Scripts/render-app-store.swift` from the simulator captures in `screenshots/raw/`.
+- `screenshots/overview-ru.jpg` and `overview-en.jpg`: 0.1.0 contact sheets, not upload files.
 - `preview/STORYBOARD.md`: 27-second App Preview script, production specification and references.
 - `preview/captions/`: 36 localized SRT timing guides, including Persian; script assets only.
 - `review/notes.txt`: finalized reviewer instructions used by fastlane, including the public Mac 0.1.0 download. `review/REVIEW-NOTES.md` retains the original preparation draft.
 - `RELEASE-CHECKLIST.md`: current readiness, release steps, account decisions and Apple references.
-- [Editable Figma masters](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U?node-id=23-304): English and Russian plus a Settings/About link specification. Other language artwork is rendered reproducibly with native font fallback from the same geometry and design tokens; it is not a set of individual Figma text frames.
+- [Editable Figma masters v2](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U?node-id=229-304): English and Russian rows for Remote 0.2.2. Other languages are temporary copies rendered by the scripts below and removed after export; they are not kept as Figma frames. The 0.1.0 masters are on [page 03](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U?node-id=23-304).
 
 ## Regeneration
 
 ```sh
-python3 Scripts/prepare-app-store.py
+python3 Scripts/prepare-app-store.py              # metadata + localized-copy.json
 python3 Scripts/prepare-app-store.py --check
-swift -swift-version 6 Scripts/render-app-store.swift \
-  AppStore/screenshots/raw /absolute/path/to/a-new-output-directory "$PWD"
+python3 Scripts/app-store/screenshot-strings.py   # AppStore/screenshot-strings.json
 python3 Scripts/build-app-store-gallery.py
 ```
 
-Metadata regeneration preserves the manifest's recorded submission status and
-delivery fields; it does not query or update App Store Connect.
+Screenshots v2 come from Figma page `14 · App Store — Screenshots v2` (`229:304`). English
+and Russian are the editable masters; every other locale is a temporary copy of the English
+row whose texts are replaced and fitted by `Scripts/app-store/figma-localize-screenshots.js`:
 
-The renderer refuses an existing output directory and writes opaque RGB PNGs. If a new export directory is used, update the gallery's export path after reviewing it. Do not remove existing exports automatically.
+1. Create a hidden text node on page `229:304` for the script (the 2026-11-11 export used
+   `246:1539`; update `ENGINE_NODE` in `figma-row-call.py` if it changes).
+2. For each locale, run the output of
+   `python3 Scripts/app-store/figma-row-call.py <locale> [--engine]` with the Figma MCP
+   `use_figma` tool (`--engine` stores the current script first). It builds a
+   `TMP export <locale>` row and reports shrunk or overflowing labels.
+3. Export that row with `get_screenshot` at `maxDimension` 10560 and split it:
+   `swift Scripts/app-store/split-screenshots.swift <row.png> AppStore/screenshots/<export> <locale>`.
+   The splitter refuses to overwrite files.
+4. Review the contact sheet, then delete the `TMP` nodes from Figma.
 
-`screenshots/` is ignored by Git: retain captures and exports locally or in release
-asset storage. A fresh clone needs local captures and a rendered export to display
-the gallery images; metadata, copy, scripts and review documents remain in Git.
-The current export has its own `SHA256SUMS`. Earlier exports and the older
-top-level checksum file remain preserved and do not describe the current export.
+Regional variants with identical strings reuse a row: en-CA = en-US, en-AU = en-GB,
+fr-CA = fr-FR. es-MX and pt-PT differ only in header copy. Headline copy must fit two lines
+at 86 px; shorten the copy rather than shrinking the whole row.
 
-To recapture UI, build Debug for the simulator, create a dedicated simulator, then use `Scripts/capture-app-store.py --device <UDID> --output <new-directory>`. This changes only that simulator and a copied app bundle; it restores the original build and clears the status bar even after capture failure. It never patches app source or deletes previous output. Keep the capture app, simulator and logs until the owner decides whether to archive or remove them.
+The 0.1.0 pipeline (`Scripts/capture-app-store.py` simulator captures and
+`Scripts/render-app-store.swift`) is kept for that export only. Do not run the simulator for
+screenshots without the owner's explicit permission (AGENTS.md §9 rule 11).
 
 ## Submission status
 

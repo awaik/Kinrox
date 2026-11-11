@@ -14,6 +14,9 @@ final class RemoteMusicBridge {
     private var confirmedLibrary: LibrarySnapshot
     private(set) var queueRevision = UUID()
     private(set) var libraryRevision = UUID()
+    /// Track ID → hidden primary artist, for Undo after the track left the queue.
+    private var hiddenArtists: [String: String] = [:]
+    private var hiddenTracks: Set<String> = []
 
     init(
         music: MusicViewModel, coordinator: PlaybackCoordinator,
@@ -60,7 +63,11 @@ final class RemoteMusicBridge {
             disallowedActions: music.effectiveDisallowedActions.sorted(),
             favoriteFeedback: music.favoriteFeedbackID.flatMap { id in
                 music.favoriteFeedbackLiked.map { .init(id: id, liked: $0) }
-            }, positionAge: music.positionAge, volumeKnown: music.volumeKnown)
+            }, positionAge: music.positionAge, volumeKnown: music.volumeKnown,
+            similar: .init(
+                active: music.isDiscoveryRadioActive && !music.isStartingSimilar,
+                finding: music.isStartingSimilar,
+                available: music.canStartSimilarFromCurrent))
     }
     func snapshot(fullscreen: Bool, screensaver: Screensaver) -> PlayerState {
         let hasMedia = confirmedQueue.current != nil
@@ -177,8 +184,46 @@ final class RemoteMusicBridge {
                 music.queue.upcoming.contains(where: { $0.id == target })
             else { return .itemNotFound }
             music.moveQueue(id, before: target)
+        case .setSimilar(let active):
+            if !active {
+                music.stopSimilar()
+            } else if !music.startSimilarFromCurrent() {
+                return music.hasTrack ? .internal : .noMedia
+            }
+        case .setNotInterested(let id, let scope, let excluded):
+            return excluded ? hide(trackID: id, scope: scope) : unhide(trackID: id, scope: scope)
         default: return executeFavorite(command)
         }
+        return nil
+    }
+
+    private func hide(trackID: String, scope: RemoteNotInterestedScope) -> ProtocolError.Code? {
+        guard let track = findTrack(trackID) else { return .itemNotFound }
+        guard scope == .artist else {
+            if hiddenTracks.count >= 64 { hiddenTracks.removeAll() }
+            if music.hideFromSimilar(track, artist: nil) {
+                hiddenTracks.insert(trackID)
+            } else {
+                hiddenTracks.remove(trackID)
+            }
+            return nil
+        }
+        guard let artist = track.artists.first else { return .itemNotFound }
+        if hiddenArtists.count >= 64 { hiddenArtists.removeAll() }
+        hiddenArtists[trackID] = music.hideFromSimilar(track, artist: artist) ? artist.id : nil
+        return nil
+    }
+
+    /// Undo may arrive after the hidden track has left the queue, so it needs only the ID.
+    private func unhide(trackID: String, scope: RemoteNotInterestedScope) -> ProtocolError.Code? {
+        guard scope == .artist else {
+            if hiddenTracks.remove(trackID) != nil {
+                music.unhideFromSimilar(trackID: trackID, artistID: nil)
+            }
+            return nil
+        }
+        guard let artist = hiddenArtists.removeValue(forKey: trackID) else { return nil }
+        music.unhideFromSimilar(trackID: nil, artistID: artist)
         return nil
     }
 
@@ -216,7 +261,9 @@ final class RemoteMusicBridge {
 
     private func findTrack(_ id: String) -> MusicTrack? {
         music.catalog.track(id: id)
-            ?? (confirmedQueue.items + music.queue.items).first { $0.track.id == id }?.track
+            ?? (confirmedQueue.items + music.queue.items + music.queue.history).first {
+                $0.track.id == id
+            }?.track
     }
 
     private func findArtist(_ id: String) -> MusicArtist? {

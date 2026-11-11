@@ -1,28 +1,37 @@
 1
-00:00:00,000 --> 00:00:04,000
-Malam filem.
-Semuanya dekat.
+00:00:00,000 --> 00:00:03,000
+Jeda Mac anda
+dari Skrin Kunci.
 
 2
-00:00:04,000 --> 00:00:09,000
-Adegan itu.
-Sekali lagi.
+00:00:03,000 --> 00:00:06,000
+Alat kawalan filem Mac.
 
 3
-00:00:09,000 --> 00:00:13,000
-Duduk
-dengan selesa.
+00:00:06,000 --> 00:00:09,000
+Muzik di Mac.
+Dalam genggaman.
 
 4
-00:00:13,000 --> 00:00:18,000
-Filem seterusnya.
-Satu ketikan.
+00:00:09,000 --> 00:00:12,000
+Muzik terus berkumandang.
 
 5
-00:00:18,000 --> 00:00:23,000
-Satu kod.
-Terus tersambung.
+00:00:12,000 --> 00:00:15,000
+Baris gilir, cara anda.
 
 6
-00:00:23,000 --> 00:00:27,000
-Memerlukan Kinrox pada Mac · Rangkaian setempat sama
+00:00:15,000 --> 00:00:18,000
+Pemain percuma untuk Mac.
+
+7
+00:00:18,000 --> 00:00:21,000
+Tiada akaun. Tiada awan.
+
+8
+00:00:21,000 --> 00:00:24,000
+Berehat dengan bergaya.
+
+9
+00:00:24,000 --> 00:00:27,000
+Pemain Kinrox percuma untuk Mac · Rangkaian Wi-Fi sama

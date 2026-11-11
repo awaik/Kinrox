@@ -22,11 +22,14 @@ struct MusicRemoteView: View {
                             seek(position: store.position)
                         }
                     }
-                    if let feedback = music?.favoriteFeedback {
+                    if let feedback = store.similarFeedback {
+                        MusicSimilarFeedbackView(store: store, feedback: feedback)
+                    } else if let feedback = music?.favoriteFeedback {
                         SpotifyFavoriteFeedback(liked: feedback.liked)
                     }
                     transport
                     switches
+                    MusicSimilarControl(store: store)
                     HStack(spacing: 12) {
                         Image(systemName: "speaker.wave.2.fill").font(.system(size: 16))
                         MusicSlider(
@@ -78,7 +81,11 @@ struct MusicRemoteView: View {
         .task {
             #if DEBUG
                 guard store.isDemo else { return }
-                if UserDefaults.standard.string(forKey: "KinroxScreen") == "music-queue" {
+                let screen = UserDefaults.standard.string(forKey: "KinroxScreen")
+                if screen == "music-similar" || screen == "music-similar-queue" {
+                    store.setSimilar(true)
+                }
+                if screen == "music-queue" || screen == "music-similar-queue" {
                     store.showsMusicQueue = true
                 }
                 if UserDefaults.standard.string(forKey: "KinroxScreen") == "music-like",

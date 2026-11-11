@@ -30,6 +30,8 @@
     </array>
     <key>NSLocalNetworkUsageDescription</key>
     <string>Kinrox discovers Kinrox players on Mac computers on your local network to control playback.</string>
+    <key>NSSupportsLiveActivities</key>
+    <true/>
     <key>NSBonjourServices</key>
     <array>
         <string>_kinrox._tcp</string>

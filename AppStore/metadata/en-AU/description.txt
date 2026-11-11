@@ -1,16 +1,28 @@
-Your movie is on the Mac. Your remote is in your hand.
+Your movie or music is on the Mac. The remote is in your hand.
 
-Kinrox Remote lets you control the Kinrox video player on your Mac from your iPhone. Stay on the sofa when you need to pause, replay a moment or turn the volume down.
+Kinrox Remote controls Kinrox, a free, open-source video and music player for Mac, from your iPhone. Pause, skip and turn the volume down without leaving the couch, or right from the Lock Screen.
 
-• Play and pause.
-• Jump backward or forward by 10 or 30 seconds, or scrub to a specific moment.
-• Adjust volume and toggle fullscreen on your Mac.
-• Move to the previous or next video in the current folder.
-• Open available files from your Mac’s recent list.
-• Discover nearby Kinrox players and pair with a six-digit code.
+MOVIES
+• Play and pause, jump back or ahead by 10 or 30 seconds, or scrub to any moment.
+• Set the volume and toggle fullscreen on your Mac.
+• Move to the previous or next video in the folder, or open a recent file.
+• Start the Matrix screensaver when you take a break.
 
-Your devices communicate over the local network through an encrypted connection. No account, cloud service, advertising or analytics. An interactive demo lets you explore the controls before connecting a Mac.
+MUSIC
+• Play, pause, skip and set the volume of the music playing on your Mac.
+• Add the current track to favorites and manage the queue: reorder or remove tracks.
+• Listen to similar: keep the music going with tracks like the one playing, and hide tracks or artists you are not interested in.
 
-Requires an iPhone with iOS 17 or later and Kinrox running on a compatible Mac. Connect both devices to the same local network and allow Local Network access. This app is a remote for Kinrox; it does not play or stream video on your iPhone.
+LOCK SCREEN
+• While something plays, controls appear on the Lock Screen and in the Dynamic Island: pause, skip and volume without unlocking your iPhone.
 
-Mac player and setup: https://awaik.github.io/Kinrox/
+PRIVATE BY DESIGN
+• Works over your local network with an encrypted connection, paired with a six-digit code.
+• No account, cloud service, advertising or analytics.
+• A demo lets you try the controls before connecting a Mac.
+
+WHAT YOU NEED
+• Kinrox for Mac, free at https://kinrox.app
+• An iPhone with iOS 17 or later on the same local network as the Mac.
+
+Music mode works with the music library you connect in Kinrox for Mac; the website lists supported services. Kinrox Remote is a remote: it does not play video or music on your iPhone.

@@ -1,1 +1,1 @@
-video,pemain,filem,sofa,bunyi,wifi,kawalan
+remote,macbook,komputer,laptop,video,pemain,media,projektor,jeda,kelantangan,wifi,wayang,pawagam

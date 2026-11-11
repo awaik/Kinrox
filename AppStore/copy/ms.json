@@ -1,8 +1,53 @@
 {
-  "subtitle": "Alat kawalan filem untuk Mac",
-  "promotional_text": "Duduk dengan selesa. Jeda, main dan laraskan kelantangan Mac daripada iPhone. Memerlukan Kinrox pada Mac dalam rangkaian setempat yang sama.",
-  "keywords": "video,pemain,filem,sofa,bunyi,wifi,kawalan",
-  "description": "Filem pada Mac. Alat kawalan di tangan anda.\n\nKinrox Remote membolehkan anda mengawal pemain video Kinrox pada Mac daripada iPhone. Kekal di sofa apabila mahu menjeda, menonton semula adegan atau memperlahankan bunyi.\n\n• Main dan jeda video.\n• Langkau ke depan atau belakang sebanyak 10 atau 30 saat, atau pilih masa pada bar main balik.\n• Laraskan kelantangan dan tukar mod skrin penuh pada Mac.\n• Pergi ke video sebelumnya atau seterusnya dalam folder semasa.\n• Buka fail yang tersedia dalam senarai terkini pada Mac.\n• Temui pemain Kinrox dalam rangkaian dan gandingkan dengan kod enam digit.\n\nPeranti berkomunikasi melalui sambungan disulitkan dalam rangkaian setempat. Tanpa akaun, perkhidmatan awan, iklan atau analisis penggunaan. Demo interaktif membolehkan anda mencuba kawalan sebelum menyambungkan Mac.\n\nMemerlukan iOS 17 atau lebih baharu dan Kinrox yang berjalan pada Mac serasi. Sambungkan kedua-dua peranti ke rangkaian setempat yang sama dan benarkan akses. Aplikasi ini ialah alat kawalan untuk Kinrox; ia tidak memainkan atau menstrim video pada iPhone.\n\nPemain Mac dan persediaan: https://awaik.github.io/Kinrox/",
-  "screenshots": [["Malam filem.\nSemuanya dekat.", "Kawal Kinrox pada Mac.\nTerus daripada iPhone."],["Adegan itu.\nSekali lagi.", "Ke depan atau belakang 10 atau 30 saat.\nAtau pilih detik yang anda mahu."],["Duduk\ndengan selesa.", "Laraskan kelantangan. Aktifkan skrin penuh.\nTanpa bangun dari sofa."],["Filem seterusnya.\nSatu ketikan.", "Buka fail terkini yang tersedia\npada Mac daripada iPhone."],["Satu kod.\nTerus tersambung.", "Gandingkan dalam rangkaian setempat sama.\nTanpa akaun. Sambungan disulitkan."]],
-  "requirement": "Memerlukan Kinrox pada Mac · Rangkaian setempat sama"
+  "subtitle": "Filem & muzik dari sofa",
+  "promotional_text": "Baharu: kawal Mac anda dari Skrin Kunci. Mod muzik dengan kegemaran, baris gilir dan lagu serupa. Pemain Kinrox percuma untuk Mac di kinrox.app.",
+  "keywords": "remote,macbook,komputer,laptop,video,pemain,media,projektor,jeda,kelantangan,wifi,wayang,pawagam",
+  "description": "Filem atau muzik anda ada pada Mac. Alat kawalan jauh ada di tangan anda.\n\nKinrox Remote mengawal Kinrox, pemain video dan muzik percuma bersumber terbuka untuk Mac, daripada iPhone anda. Jeda, langkau dan perlahankan kelantangan tanpa bangun dari sofa, atau terus dari Skrin Kunci.\n\nFILEM\n• Main dan jeda, undur atau maju 10 atau 30 saat, atau seret ke mana-mana detik.\n• Laraskan kelantangan dan hidupkan atau matikan skrin penuh pada Mac.\n• Pergi ke video sebelumnya atau seterusnya dalam folder, atau buka fail terkini.\n• Mulakan penyelamat skrin Matrix apabila anda berehat.\n\nMUZIK\n• Main, jeda, langkau dan laraskan kelantangan muzik yang dimainkan pada Mac.\n• Tambah lagu semasa ke kegemaran dan urus baris gilir: susun semula atau alih keluar lagu.\n• Dengar yang serupa: muzik terus dimainkan dengan lagu seperti yang sedang dimainkan, dan sembunyikan lagu atau artis yang tidak anda minati.\n\nSKRIN KUNCI\n• Semasa sesuatu dimainkan, kawalan muncul pada Skrin Kunci dan dalam Dynamic Island: jeda, langkau dan kelantangan tanpa membuka kunci iPhone.\n\nPRIVASI SEJAK AWAL\n• Berfungsi melalui rangkaian setempat anda dengan sambungan disulitkan, dipasangkan dengan kod enam digit.\n• Tiada akaun, perkhidmatan awan, iklan atau analitis.\n• Demo membolehkan anda mencuba kawalan sebelum menyambungkan Mac.\n\nAPA YANG ANDA PERLUKAN\n• Kinrox untuk Mac, percuma di https://kinrox.app\n• iPhone dengan iOS 17 atau lebih baharu dalam rangkaian setempat yang sama dengan Mac.\n\nMod muzik berfungsi dengan pustaka muzik yang anda sambungkan dalam Kinrox untuk Mac; tapak web menyenaraikan perkhidmatan yang disokong. Kinrox Remote ialah alat kawalan jauh: ia tidak memainkan video atau muzik pada iPhone anda.",
+  "screenshots": [
+    [
+      "Jeda Mac anda\ndari Skrin Kunci.",
+      "Filem dan muzik di Mac, kawalan terus di iPhone."
+    ],
+    [
+      "Alat kawalan filem Mac.",
+      "Jeda, langkau, tatal dan laraskan kelantangan dari sofa."
+    ],
+    [
+      "Muzik di Mac.\nDalam genggaman.",
+      "Main, langkau, suka dan beratur apa yang dimainkan di Mac."
+    ],
+    [
+      "Muzik terus berkumandang.",
+      "Dengar lagu serupa. Sembunyikan yang anda tidak suka."
+    ],
+    [
+      "Baris gilir, cara anda.",
+      "Susun semula, buang dan tandakan kegemaran dari iPhone."
+    ],
+    [
+      "Pemain percuma untuk Mac.",
+      "MKV, MP4, AVI dan banyak lagi. Sumber terbuka. kinrox.app"
+    ],
+    [
+      "Tiada akaun. Tiada awan.",
+      "Rangkaian setempat sahaja. Disulitkan, dipasangkan dengan kod 6 digit."
+    ],
+    [
+      "Berehat dengan bergaya.",
+      "Mulakan penyelamat skrin Matrix di Mac dari iPhone."
+    ]
+  ],
+  "requirement": "Pemain Kinrox percuma untuk Mac · Rangkaian Wi-Fi sama",
+  "screenshot_ui": {
+    "movies": "Filem",
+    "sec": "saat",
+    "next": "Seterusnya",
+    "next_label": "Berikut",
+    "then": "Kemudian",
+    "from_album": "Daripada album “%@”",
+    "time_left": "tinggal %@",
+    "code_valid": "Kod sah selama 2 minit · tinggal 3 percubaan",
+    "more": "+ lagi"
+  },
+  "name": "Kinrox: Kawalan Jauh untuk Mac"
 }

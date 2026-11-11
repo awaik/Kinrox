@@ -48,7 +48,7 @@
   "unsupported_store_languages": {
     "fa": "No Persian metadata locale in Apple’s published list; app and screenshot translations retained."
   },
-  "screenshots_per_locale": 10,
+  "screenshots_per_locale": 16,
   "screenshot_sizes": [
     [
       1206,
@@ -61,5 +61,5 @@
   ],
   "language_review": "Authored translations; native-language editorial review pending.",
   "source": "https://developer.apple.com/documentation/appstoreconnectapi/managing-metadata-in-your-app-by-using-locale-shortcodes",
-  "screenshots_per_locale_per_size": 5
+  "screenshots_per_locale_per_size": 8
 }

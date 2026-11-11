@@ -1,1 +1,1 @@
-video,phim,âm lượng,điều khiển,wifi,phát
+macbook,máy tính,laptop,video,trình phát,máy chiếu,âm lượng,màn hình khóa,wifi,remote

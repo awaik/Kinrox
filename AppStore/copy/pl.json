@@ -1,8 +1,52 @@
 {
-  "subtitle": "Pilot do filmów na Macu",
-  "promotional_text": "Usiądź wygodnie. Pauzuj, przewijaj i zmieniaj głośność na Macu z iPhone’a. Wymaga Kinrox na Macu w tej samej sieci lokalnej.",
-  "keywords": "wideo,odtwarzacz,film,sofa,dźwięk,wifi,pilot",
-  "description": "Film jest na Macu. Pilot — w Twojej dłoni.\n\nKinrox Remote pozwala sterować odtwarzaczem wideo Kinrox na Macu z iPhone’a. Zostań na kanapie, gdy chcesz wstrzymać film, powtórzyć scenę lub ściszyć dźwięk.\n\n• Uruchamiaj i wstrzymuj odtwarzanie.\n• Przeskakuj o 10 lub 30 sekund w przód i w tył lub wybieraj moment na osi czasu.\n• Zmieniaj głośność i włączaj pełny ekran na Macu.\n• Przechodź do poprzedniego lub następnego filmu w bieżącym folderze.\n• Otwieraj dostępne pliki z listy ostatnio używanych na Macu.\n• Wyszukuj odtwarzacze Kinrox w sieci i paruj je sześciocyfrowym kodem.\n\nPołączenie jest szyfrowane i działa w sieci lokalnej. Bez konta, chmury, reklam i analityki. Interaktywne demo pozwala poznać sterowanie przed podłączeniem Maca.\n\nWymaga iOS 17 lub nowszego oraz Kinrox uruchomionego na zgodnym Macu. Połącz oba urządzenia z tą samą siecią lokalną i zezwól na dostęp. Aplikacja jest pilotem do Kinrox — nie odtwarza ani nie przesyła wideo na iPhonie.\n\nOdtwarzacz na Maca i konfiguracja: https://awaik.github.io/Kinrox/",
-  "screenshots": [["Wieczór filmowy.\nPilot pod ręką.", "Steruj Kinrox na Macu.\nProsto z iPhone’a."],["Ta scena.\nJeszcze raz.", "Przeskakuj o 10 lub 30 sekund.\nLub wybierz moment na osi czasu."],["Usiądź\nwygodnie.", "Zmień głośność. Włącz pełny ekran.\nBez wstawania z kanapy."],["Następny film.\nJedno stuknięcie.", "Otwórz dostępny ostatni plik\nna Macu z iPhone’a."],["Jeden kod.\nGotowe.", "Parowanie w tej samej sieci lokalnej.\nBez konta. Szyfrowane połączenie."]],
-  "requirement": "Wymaga Kinrox na Macu · Ta sama sieć lokalna"
+  "subtitle": "Filmy i muzyka prosto z kanapy",
+  "promotional_text": "Nowość: steruj Maciem z ekranu blokady. Tryb muzyki z ulubionymi, kolejką i podobnymi utworami. Darmowy odtwarzacz Kinrox dla Maca na kinrox.app.",
+  "keywords": "macbook,komputera,laptopa,wideo,odtwarzacz,sterowanie,projektor,pauza,głośność,wifi,kino,sofa",
+  "description": "Film albo muzyka są na Macu. Pilot — w Twojej dłoni.\n\nKinrox Remote steruje z iPhone’a Kinrox — darmowym odtwarzaczem wideo i muzyki dla Maca z otwartym kodem źródłowym. Wstrzymuj, przełączaj i ściszaj bez wstawania z kanapy albo prosto z ekranu blokady.\n\nFILMY\n• Odtwarzaj i wstrzymuj, przeskakuj o 10 lub 30 sekund w tył lub w przód albo wybierz dowolny moment na osi czasu.\n• Zmieniaj głośność i włączaj pełny ekran na Macu.\n• Przechodź do poprzedniego lub następnego wideo w folderze albo otwórz ostatnio używany plik.\n• Włącz wygaszacz ekranu Matrix, gdy robisz przerwę.\n\nMUZYKA\n• Odtwarzaj, wstrzymuj, przełączaj utwory i ustawiaj głośność muzyki grającej na Macu.\n• Dodawaj bieżący utwór do ulubionych i zarządzaj kolejką: zmieniaj kolejność lub usuwaj utwory.\n• Słuchaj podobnych: muzyka gra dalej utworami podobnymi do bieżącego, a utwory lub wykonawców, którzy Cię nie interesują, możesz ukryć.\n\nEKRAN BLOKADY\n• Podczas odtwarzania sterowanie pojawia się na ekranie blokady i w Dynamic Island: pauza, przełączanie i głośność bez odblokowywania iPhone’a.\n\nPRYWATNOŚĆ\n• Działa w sieci lokalnej przez szyfrowane połączenie, a parowanie odbywa się sześciocyfrowym kodem.\n• Bez konta, chmury, reklam i analityki.\n• Tryb demo pozwala wypróbować sterowanie przed podłączeniem Maca.\n\nCZEGO POTRZEBUJESZ\n• Kinrox dla Maca — za darmo na https://kinrox.app\n• iPhone’a z iOS 17 lub nowszym w tej samej sieci lokalnej co Mac.\n\nTryb muzyki działa z biblioteką muzyczną, którą podłączasz w Kinrox dla Maca; obsługiwane serwisy są wymienione na stronie. Kinrox Remote to pilot: nie odtwarza wideo ani muzyki na iPhonie.",
+  "screenshots": [
+    [
+      "Pauzuj Maca.\nZ ekranu blokady.",
+      "Filmy i muzyka na Macu, przyciski prosto na iPhonie."
+    ],
+    [
+      "Pilot do filmów na Macu.",
+      "Pauza, przewijanie, skoki i głośność prosto z kanapy."
+    ],
+    [
+      "Muzyka z Maca.\nW Twojej dłoni.",
+      "Odtwarzaj, pomijaj, polub i kolejkuj to, co gra na Macu."
+    ],
+    [
+      "Muzyka gra dalej.",
+      "Słuchaj podobnych utworów. Ukryj to, czego nie lubisz."
+    ],
+    [
+      "Twoja kolejka, po Twojemu.",
+      "Zmieniaj kolejność, usuwaj i dodawaj do ulubionych z iPhone’a."
+    ],
+    [
+      "Darmowy odtwarzacz na Maca.",
+      "MKV, MP4, AVI i więcej. Open source. kinrox.app"
+    ],
+    [
+      "Bez konta. Bez chmury.",
+      "Tylko sieć lokalna. Szyfrowanie i parowanie 6-cyfrowym kodem."
+    ],
+    [
+      "Przerwa w dobrym stylu.",
+      "Włącz wygaszacz Matrix na Macu prosto z iPhone’a."
+    ]
+  ],
+  "requirement": "Darmowy odtwarzacz Kinrox na Maca · Ta sama sieć Wi-Fi",
+  "screenshot_ui": {
+    "movies": "Filmy",
+    "sec": "s",
+    "next": "Następne",
+    "then": "Potem",
+    "from_album": "Z albumu „%@”",
+    "time_left": "zostało %@",
+    "code_valid": "Kod ważny 2 minuty · pozostałe próby: 3",
+    "more": "+ więcej"
+  },
+  "name": "Kinrox: Pilot do Maca"
 }

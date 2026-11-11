@@ -1,28 +1,37 @@
 1
-00:00:00,000 --> 00:00:04,000
-Malam menonton.
-Semua terjangkau.
+00:00:00,000 --> 00:00:03,000
+Jeda Mac Anda
+dari Layar Terkunci.
 
 2
-00:00:04,000 --> 00:00:09,000
-Adegan itu.
-Sekali lagi.
+00:00:03,000 --> 00:00:06,000
+Remote film untuk Mac.
 
 3
-00:00:09,000 --> 00:00:13,000
-Duduk
-santai.
+00:00:06,000 --> 00:00:09,000
+Musik di Mac.
+Dalam genggaman.
 
 4
-00:00:13,000 --> 00:00:18,000
-Film berikutnya.
-Sekali ketuk.
+00:00:09,000 --> 00:00:12,000
+Musik terus berlanjut.
 
 5
-00:00:18,000 --> 00:00:23,000
-Satu kode.
-Langsung terhubung.
+00:00:12,000 --> 00:00:15,000
+Antrean sesuka Anda.
 
 6
-00:00:23,000 --> 00:00:27,000
-Memerlukan Kinrox di Mac · Jaringan lokal yang sama
+00:00:15,000 --> 00:00:18,000
+Pemutar gratis untuk Mac.
+
+7
+00:00:18,000 --> 00:00:21,000
+Tanpa akun. Tanpa cloud.
+
+8
+00:00:21,000 --> 00:00:24,000
+Rehat dengan gaya.
+
+9
+00:00:24,000 --> 00:00:27,000
+Pemutar Kinrox gratis untuk Mac · Jaringan Wi-Fi yang sama

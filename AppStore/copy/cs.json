@@ -1,8 +1,52 @@
 {
-  "subtitle": "Ovladač filmů na Macu",
-  "promotional_text": "Pohodlně se usaďte. Pauzu, přehrávání i hlasitost na Macu ovládejte z iPhonu. Vyžaduje Kinrox na Macu ve stejné místní síti.",
-  "keywords": "video,přehrávač,film,pohovka,hlasitost,wifi,ovladač",
-  "description": "Film běží na Macu. Ovladač máte v ruce.\n\nKinrox Remote ovládá přehrávač videa Kinrox na Macu z vašeho iPhonu. Zůstaňte na pohovce, když chcete film pozastavit, zopakovat scénu nebo ztlumit zvuk.\n\n• Spusťte a pozastavte přehrávání.\n• Přeskočte o 10 nebo 30 sekund vpřed či zpět nebo vyberte místo na časové ose.\n• Upravte hlasitost a přepněte Mac na celou obrazovku.\n• Přejděte na předchozí nebo další video v aktuální složce.\n• Otevřete dostupné soubory ze seznamu posledních souborů na Macu.\n• Najděte přehrávače Kinrox v síti a spárujte je šestimístným kódem.\n\nSpojení je šifrované a probíhá v místní síti. Bez účtu, cloudu, reklam a analýzy používání. Interaktivní ukázka umožňuje vyzkoušet ovládání před připojením Macu.\n\nVyžaduje iOS 17 nebo novější a spuštěný Kinrox na kompatibilním Macu. Připojte obě zařízení ke stejné místní síti a povolte k ní přístup. Aplikace je ovladač pro Kinrox; na iPhonu nepřehrává ani nestreamuje video.\n\nPřehrávač pro Mac a nastavení: https://awaik.github.io/Kinrox/",
-  "screenshots": [["Filmový večer.\nVše po ruce.", "Ovládejte Kinrox na Macu.\nPřímo z iPhonu."],["Ta scéna.\nJeště jednou.", "O 10 nebo 30 sekund vpřed či zpět.\nNebo přímo na vybrané místo."],["Pohodlně\nse usaďte.", "Hlasitost i celá obrazovka.\nBez vstávání z pohovky."],["Další film.\nStačí klepnout.", "Otevřete dostupný poslední soubor\nna Macu z iPhonu."],["Jeden kód.\nJste připojeni.", "Párování ve stejné místní síti.\nBez účtu. Šifrované spojení."]],
-  "requirement": "Vyžaduje Kinrox na Macu · Stejná místní síť"
+  "subtitle": "Filmy a hudba z pohodlí gauče",
+  "promotional_text": "Novinka: ovládejte Mac ze zamčené obrazovky. Hudba s oblíbenými, frontou a podobnými skladbami. Bezplatný přehrávač Kinrox pro Mac na kinrox.app.",
+  "keywords": "macbook,počítač,notebook,dálkové,ovládání,video,přehrávač,pauza,hlasitost,wifi,kino",
+  "description": "Film nebo hudba jsou na Macu. Ovladač máte v ruce.\n\nKinrox Remote ovládá z iPhonu Kinrox – bezplatný přehrávač videa a hudby pro Mac s otevřeným zdrojovým kódem. Pozastavujte, přeskakujte a ztlumte zvuk, aniž byste vstávali z gauče, nebo rovnou ze zamčené obrazovky.\n\nFILMY\n• Přehrávejte a pozastavujte, přeskakujte o 10 nebo 30 sekund zpět či vpřed, nebo přejděte na libovolné místo na časové ose.\n• Nastavte hlasitost a přepněte Mac na celou obrazovku.\n• Přejděte na předchozí nebo další video ve složce, nebo otevřete nedávný soubor.\n• Když si dáte pauzu, spusťte spořič obrazovky Matrix.\n\nHUDBA\n• Přehrávejte, pozastavujte, přeskakujte a nastavujte hlasitost hudby, která hraje na Macu.\n• Přidejte aktuální skladbu do oblíbených a spravujte frontu: měňte pořadí nebo odebírejte skladby.\n• Poslouchat podobné: hudba pokračuje skladbami podobnými té, která právě hraje, a skladby či interprety, které vás nezajímají, můžete skrýt.\n\nZAMČENÁ OBRAZOVKA\n• Když něco hraje, ovládání se objeví na zamčené obrazovce a v Dynamic Island: pauza, přeskakování a hlasitost bez odemykání iPhonu.\n\nSOUKROMÍ\n• Funguje v místní síti přes šifrované připojení, párování probíhá šestimístným kódem.\n• Žádný účet, cloud, reklamy ani analytika.\n• V ukázkovém režimu si ovládání vyzkoušíte ještě před připojením Macu.\n\nCO POTŘEBUJETE\n• Kinrox pro Mac, zdarma na https://kinrox.app\n• iPhone se systémem iOS 17 nebo novějším ve stejné místní síti jako Mac.\n\nHudební režim funguje s hudební knihovnou, kterou připojíte v Kinroxu pro Mac; podporované služby najdete na webu. Kinrox Remote je ovladač: nepřehrává video ani hudbu v iPhonu.",
+  "screenshots": [
+    [
+      "Pozastavte Mac\nbez odemykání.",
+      "Filmy a hudba na Macu, ovládání přímo na iPhonu."
+    ],
+    [
+      "Ovladač na filmy.",
+      "Pauza, přeskakování, posun a hlasitost přímo z gauče."
+    ],
+    [
+      "Hudba z Macu.\nVe vaší ruce.",
+      "Přehrávejte, přeskakujte, ukládejte a řaďte, co hraje na Macu."
+    ],
+    [
+      "Hudba nekončí.",
+      "Poslouchejte podobné skladby. Skryjte, co se vám nelíbí."
+    ],
+    [
+      "Fronta podle vás.",
+      "Měňte pořadí, odebírejte a ukládejte do oblíbených z iPhonu."
+    ],
+    [
+      "Přehrávač pro Mac zdarma.",
+      "MKV, MP4, AVI a další. Otevřený kód. kinrox.app"
+    ],
+    [
+      "Bez účtu. Bez cloudu.",
+      "Jen místní síť. Šifrování a párování 6místným kódem."
+    ],
+    [
+      "Přestávka se stylem.",
+      "Spusťte spořič Matrix na Macu přímo z iPhonu."
+    ]
+  ],
+  "requirement": "Přehrávač Kinrox pro Mac zdarma · Stejná síť Wi-Fi",
+  "screenshot_ui": {
+    "movies": "Filmy",
+    "sec": "s",
+    "next": "Další",
+    "then": "Potom",
+    "from_album": "Z alba „%@“",
+    "time_left": "zbývá %@",
+    "code_valid": "Kód platí 2 minuty · zbývají 3 pokusy",
+    "more": "+ další"
+  },
+  "name": "Kinrox: Ovladač pro Mac"
 }

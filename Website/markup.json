@@ -3,10 +3,6 @@
     "<i class=\"dot ember\">",
     "</i>"
   ],
-  "stop-getting-up-to-pause-the-movie": [
-    "<span class=\"fire-text\">",
-    "</span>"
-  ],
   "pause": [
     "<i class=\"ic ic-pause\">",
     "</i>"
@@ -84,16 +80,8 @@
     "<i class=\"ic ic-check\">",
     "</i>"
   ],
-  "iphone-remote-build-from-source": [
-    "<i class=\"ic ic-check\">",
-    "</i>"
-  ],
   "mac-v0-3-0-signed-and-notarized-dmg": [
     "<i class=\"ic ic-check\">",
-    "</i>"
-  ],
-  "remote-on-the-app-store-planned": [
-    "<i class=\"ic ic-history\">",
     "</i>"
   ],
   "build-from-source": [
@@ -120,5 +108,13 @@
   "for-privacy-questions-contact-the-maintainer-through-the-kinrox": [
     "<a href=\"https://github.com/awaik/Kinrox/issues\">",
     "</a>"
+  ],
+  "hero-title": [
+    "<span class=\"fire-text\">",
+    "</span>"
+  ],
+  "iphone-remote-app-store": [
+    "<i class=\"ic ic-check\">",
+    "</i>"
   ]
 }

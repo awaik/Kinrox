@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — Přehrávač videa Mac s dálkovým ovladačem iPhone</title>
-  <meta name="description" content="Kinrox je bezplatný přehrávač videa pro Mac s otevřeným kódem a ovladačem pro iPhone. Pozastavujte, posouvejte video a měňte hlasitost, aniž byste vstali z pohovky.">
+  <title>Kinrox — videopřehrávač pro Mac s dálkovým ovládáním z iPhonu a nativní přehrávač Spotify</title>
+  <meta name="description" content="Bezplatná aplikace pro Mac: minimalistický videopřehrávač, který ovládáte z iPhonu, a lehký nativní přehrávač Spotify, který najde podobné skladby. Bez účtu Kinrox, bez sledovacích nástrojů, zdrojový kód na GitHubu.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/cs/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox — zastavte vstávání a pozastavte film">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Zdarma pro osobní použití.">
+  <meta property="og:title" content="Kinrox — filmy z gauče, Spotify bez zbytečné zátěže">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Video s dálkovým ovládáním, Spotify s podobnými skladbami. Zdarma pro osobní použití.">
   <meta property="og:url" content="https://kinrox.app/cs/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/cs/", "inLanguage": "cs", "description": "Kinrox · Mac + iPhone. Zdarma pro osobní použití."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/cs/", "inLanguage": "cs", "description": "Kinrox · Mac + iPhone. Video s dálkovým ovládáním, Spotify s podobnými skladbami. Zdarma pro osobní použití."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Zdarma pro osobní použití · Mac + iPhone</span>
-      <h1 class="display">Nevstávejte kvůli <span class="fire-text">pozastavení filmu.</span></h1>
-      <p class="lead">Kinrox přehraje jakékoli video na vašem Mac – a promění váš iPhone v jeho dálkový ovladač. MacBook na projektoru, vy na pohovce: pozastavte se, skočte o 10 sekund zpět, snižte hlasitost nebo spusťte další epizodu, aniž byste opustili přikrývku.</p>
+      <h1 class="display">Filmy z gauče. <span class="fire-text">Spotify bez zbytečné zátěže.</span></h1>
+      <p class="lead">Dva nativní přehrávače pro Mac v jedné bezplatné aplikaci. Pusťte si jakékoli video a ovládejte ho z iPhonu — pozastavení, přeskakování i hlasitost, aniž byste vstávali. Poslouchejte Spotify se zavřenou Spotify.app a nechte Kinrox najít podobné skladby, aby hudba nepřestala hrát.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Stáhnout pro Mac</a>
-        <a class="btn btn-glass" href="#how">Podívejte se, jak to funguje</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Dálkové ovládání v App Storu</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Bez účtu Kinrox</span><span>Bez serveru Kinrox</span><span>Funguje přes vaši Wi-Fi</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Bez účtu Kinrox</span><span>Bez sledovacích nástrojů</span><span>Zdrojový kód na GitHubu</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Spotify bez těžkopádné desktopové aplikace.</h2>
-        <p class="lead">Nativní hudební režim ve SwiftUI zabírá do 200 MB paměti — 2× až 10× méně než samotné Spotify, jehož desktopový klient může spotřebovat až 2 GB. Spotify.app můžete nechat úplně zavřené.</p>
+        <p class="lead">Nativní přehrávač Spotify ve SwiftUI s vlastním objevováním hudby. Hraje i při úplně zavřené Spotify.app a zabírá do 200 MB paměti — 2× až 10× méně než desktopový klient Spotify, který si může vzít až 2 GB.</p>
         <p>Měření z 2026-11-09 po 12 hodinách přehrávání: celkem přibližně 193 MB — Kinrox 161 MB, Soloist a pomocné procesy 32 MB. Fyzická paměť podle macOS footprint; okamžitý snímek, nikoli maximum.</p>
+        <p>Vyžaduje Spotify Premium, vlastní vývojářský Client ID pro Spotify a osobní klíč Soloist. Kinrox vás nastavením provede.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Podobné skladby, které hrají dál</h3>
+          <p>Začněte skladbou, interpretem, albem nebo playlistem. Kinrox ukáže, proč se každý návrh hodí — poslouchá se spolu, spolupráce, vaše knihovna, žánr — a „Poslouchat podobné“ průběžně přidává do fronty další vhodnou hudbu. „Nezajímá mě“ skryje, co nechcete.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>Do 200 MB místo 2 GB</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox je zapsán v Swift 6 a SwiftUI nad libmpv. Každý řádek přehrávače, dálkového ovladače a protokolu je na GitHub.</p>
           <ul class="status">
             <li>Přehrávač <i class="ic ic-check"></i>Mac — funguje</li>
-            <li>Dálkové ovládání <i class="ic ic-check"></i>iPhone – sestavení ze zdroje</li>
+            <li><i class="ic ic-check"></i>Dálkové ovládání pro iPhone — v App Storu</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 — podepsané a notářsky ověřené DMG</li>
-            <li class="soon"><i class="ic ic-history"></i>Dálkové ovládání na App Store – plánované</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Stáhnout pro Mac</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Dálkové ovládání v App Storu</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Vydání</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Zdarma pro osobní použití</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Stáhnout pro Mac</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Nahlásit problém</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Dálkové ovládání v App Storu</a>
       </div>
     </div>
   </section>

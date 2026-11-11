@@ -23,6 +23,7 @@ class FastfileHarness
     path = File.join(__dir__, "Fastfile")
     instance_eval(File.read(path), path)
     define_singleton_method(:kinrox_root) { root } if root
+    define_singleton_method(:ensure_bundle_ids!) { @events << :bundle_ids }
     define_singleton_method(:kinrox_api_key) do
       @events << :api_key
       :fixture_key

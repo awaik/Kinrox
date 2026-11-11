@@ -219,7 +219,8 @@
   letter-spacing: 0.02em;
 }
 
-.cards-3.tight {
+.cards-3.tight,
+.cards-2.tight {
   margin-top: 56px;
 }
 

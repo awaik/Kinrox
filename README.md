@@ -1,61 +1,91 @@
 # Kinrox
 
-Kinrox is a minimalist video player for macOS with a native iPhone remote.
-Open a movie on your Mac and control it from the couch over your local network.
-No Kinrox backend, Kinrox accounts, analytics, or telemetry. The Mac app
-includes an optional Spotify connection; local video and the LAN remote
-continue to work without internet access.
+**Two native Mac players in one free app: a video player you control from your
+iPhone, and a lightweight Spotify player that finds similar tracks and keeps the
+music going.** No Kinrox account, no trackers, no analytics. Written in Swift 6
+and SwiftUI, with all source code on GitHub.
 
-## Features
+[Download for Mac (0.5.7, DMG)](https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg) ·
+[iPhone remote on the App Store](https://apps.apple.com/us/app/kinrox-remote/id6827926471) ·
+[Website](https://kinrox.app/) ·
+[Blog](https://kinrox.app/blog/)
 
-- Local video playback, including MP4 and MKV, powered by libmpv, OpenGL,
-  and VideoToolbox hardware acceleration.
-- Glass controls, keyboard shortcuts, native fullscreen, and drag-and-drop.
-- Recent files, naturally sorted folder playlists, and automatic next-file playback.
-- Mac audio/subtitle selection, recursive discovery of external tracks, folder search,
-  and remembered preferences for the next episode.
-- System media keys and Now Playing integration.
-- Mac update reminders through Sparkle 2 (from 0.3.0): a banner on
-  the welcome screen and a pill on pause. Scheduled checks read the public HTTPS
-  appcast daily without unique identifiers or a system profile; updates download
-  when the user chooses to install them.
-- iPhone discovery over Bonjour, six-digit PIN pairing, encrypted commands,
-  Keychain token storage, and reconnection.
-- Remote playback, seeking, volume, fullscreen, and recent-file controls.
-- Matrix screensaver on Mac, with controls in companion builds that support screensavers:
-  falling green code, movie pause on activation, and Esc to exit.
-- Shared localization in 30 languages with English fallback.
+Mac: Apple Silicon, macOS 14 or later. iPhone: iOS 17 or later.
+Signed with Developer ID and notarized by Apple; updates arrive through Sparkle.
+
+## Spotify, natively
+
+A Spotify player for people who do not want a 2 GB desktop client.
+
+- **Similar tracks that keep playing.** Start from any track, artist, album or
+  playlist. Kinrox groups suggestions by why they fit — listened together,
+  collaborators, your library, genre — and **Listen to similar** keeps adding
+  matching music to the queue. **Not interested** hides tracks or artists you
+  do not want; listening history stays on your Mac.
+- **Works with Spotify.app fully closed.** Audio plays through Spotify Soloist,
+  which Kinrox downloads from Spotify at your request.
+- **Light.** Native SwiftUI, no WebView or Electron: about 193 MB after 12 hours of
+  playback, versus up to 2 GB for the desktop Spotify client.
+- **Your library.** Albums, playlists, liked tracks, search, artist and album
+  previews, favorites with ⌘Z undo, a local queue with drag and drop, sorting.
+- **iPhone controls.** Skip tracks, browse the queue, change volume and toggle
+  favorites from the couch.
+
+Requires Spotify Premium, your own Spotify developer Client ID and a personal
+[Soloist API key](https://developer.spotify.com/dashboard/soloist). Kinrox guides
+you through setup. Similarity data from ListenBrainz/MusicBrainz is on by default
+and can be turned off in Settings → Spotify.
+
+## Video player with an iPhone remote
+
+MacBook on the projector or TV, you on the couch.
+
+- **Plays almost anything.** MKV, MP4, MOV, AVI, WebM, TS and more, on libmpv
+  (the engine behind mpv and IINA) with VideoToolbox hardware decoding.
+- **A remote made for a dark room.** [Kinrox Remote](https://apps.apple.com/us/app/kinrox-remote/id6827926471)
+  finds your Mac over Wi-Fi and pairs once with a six-digit code. Play/pause,
+  ±10/±30 s, scrubbing, volume, next/previous episode, recent files, fullscreen.
+- **Ready for a series.** The folder becomes a playlist in Finder order, and the
+  next episode starts automatically.
+- **Audio and subtitles.** Embedded and external tracks, found in nested folders,
+  with your choice remembered for the next episode.
+- **Minimal interface.** Glass controls that hide after three seconds, keyboard
+  shortcuts, media keys, Control Center / Now Playing, drag and drop.
+- **Matrix screensaver.** Falling green code over a paused movie, started from the
+  Mac or the iPhone.
+
+## Privacy
+
+- No Kinrox account, server, analytics or trackers.
+- Mac and iPhone talk directly over your local network, encrypted
+  (X25519, HKDF-SHA256, ChaCha20-Poly1305). Public addresses and cellular are refused.
+- The remote sees titles and durations, never file paths. Videos stay on the Mac.
+- Local video and the remote work offline. The internet is used only for the daily
+  update check, the optional Spotify connection and the ListenBrainz/MusicBrainz
+  similarity you can turn off. The iPhone never calls Spotify.
+- 30 languages, including right-to-left layouts.
+
+Details: [privacy policy](https://kinrox.app/privacy/).
 
 ## Project Status
 
-The Mac player and real iPhone remote are implemented through M5. The current
-standalone Mac release is **0.5.7**, for Apple Silicon and macOS 14+:
-[download the DMG](https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg)
-or read the [release notes](docs/releases/0.5.7.md).
-The installer bundles libmpv and its dependencies, is Developer ID signed, and
-is notarized by Apple. Homebrew is only needed for the default development setup.
-Users of Mac 0.2.0 or earlier install 0.3.0 manually once to enable future update reminders.
-The iPhone App Store release remains separate; the remote can be built from source.
-
-Mac release: **0.5.7, build 17**. See the [release notes](docs/releases/0.5.7.md).
-
-Music mode includes Spotify library browsing, favorites with undo, a local queue
-and iPhone controls. From **0.5.0**, playback uses Spotify Soloist and works with
-Spotify.app fully closed. Setup requires Spotify Premium, your own developer
-Client ID, a personal [Soloist API key](https://developer.spotify.com/dashboard/soloist)
-and one-time pairing from Spotify on iPhone. The engine downloads directly from
-Spotify and requires periodic updates; it is not bundled with Kinrox.
-Setup, limitations and measured performance are in the
+Current Mac release: **0.5.7, build 17** ([release notes](docs/releases/0.5.7.md)).
+The DMG bundles libmpv and its dependencies; Homebrew is only needed for development.
+Users of Mac 0.2.0 or earlier install 0.3.0 manually once to enable update reminders.
+The iPhone remote is on the [App Store](https://apps.apple.com/us/app/kinrox-remote/id6827926471)
+and can also be built from source.
+Spotify setup, limitations and measured performance are in the
 [release notes](docs/releases/0.5.7.md) and
 [Soloist Verification](docs/runbooks/SOLOIST-VERIFICATION.md).
+The Soloist engine is not bundled with Kinrox and needs periodic updates from Spotify.
 
 The `kinrox-cli` executable is a stub; its implementation is an
 [optional task](docs/TODO/05-kinrox-cli.md). Network streams,
 custom local-video playlists, and playback position memory are outside the initial scope.
 Architecture and roadmap are in [AGENTS.md](AGENTS.md).
 
-The player also updates the current folder playlist as videos appear
-or disappear, including Next/Previous availability on the iPhone. Temporary download suffixes (`.part`, `.crdownload`, `.!qB`)
+The folder playlist updates as videos appear or disappear, including Next/Previous
+on the iPhone. Temporary download suffixes (`.part`, `.crdownload`, `.!qB`)
 are excluded until renamed to a video filename. If a downloader writes directly
 to the final filename, Kinrox cannot determine whether that download is complete.
 A video arriving after the final EOF check enables Next without starting playback.
@@ -158,7 +188,8 @@ Installation and tests on a physical iPhone — [per runbook](docs/runbooks/RUNB
 Generated `.xcodeproj` files are git-ignored. After modifying `project.yml`,
 rerun `./Scripts/generate.sh`. Common configuration is in
 `Config/Shared.xcconfig`: Swift 6, complete strict concurrency, and OS versions.
-App Intents metadata extraction is disabled as no intents are present.
+App Intents metadata extraction is disabled by default and enabled for RemoteiOS and
+RemoteLockScreen to support Lock Screen buttons.
 
 Since M4.4, Mac requires Apple Development signing and a macOS provisioning profile for Data Protection
 Keychain. For iOS simulator, a developer team is not required. Personal template is
@@ -223,8 +254,8 @@ template; each developer supplies their own ignored local configuration.
 
 ## Landing Site
 
-`site/` holds the GitHub Pages landing in English and Russian: plain HTML and CSS,
-no build step, no analytics. It also includes [privacy](site/privacy/index.html)
+`site/` holds the GitHub Pages landing in 30 languages: static HTML and CSS
+generated offline from `Website/`, no analytics. It also includes [privacy](site/privacy/index.html)
 and [support](site/support/index.html) pages linked from the landing and iPhone app.
 Preview locally:
 

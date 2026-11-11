@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Kinrox — Pemutar video Mac dengan remote iPhone</title>
-  <meta name="description" content="Kinrox adalah pemutar video gratis dan bersumber terbuka untuk Mac dengan remote di iPhone. Jeda, maju, mundur, dan atur volume tanpa beranjak dari sofa.">
+  <title>Kinrox — Pemutar video Mac dengan remote iPhone dan pemutar Spotify native</title>
+  <meta name="description" content="Aplikasi Mac gratis: pemutar video minimalis yang Anda kendalikan dari iPhone, dan pemutar Spotify native yang ringan serta menemukan lagu serupa. Tanpa akun Kinrox, tanpa pelacak, kode sumber di GitHub.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kinrox.app/id/">
   <link rel="alternate" hreflang="en" href="https://kinrox.app/">
@@ -41,8 +41,8 @@
   <link rel="alternate" type="application/rss+xml" title="Kinrox Blog RSS" href="https://kinrox.app/rss.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kinrox">
-  <meta property="og:title" content="Kinrox — berhenti bangun untuk menjeda film">
-  <meta property="og:description" content="Kinrox · Mac + iPhone. Gratis untuk penggunaan pribadi.">
+  <meta property="og:title" content="Kinrox — film dari sofa, Spotify tanpa beban berlebih">
+  <meta property="og:description" content="Kinrox · Mac + iPhone. Video dengan remote, Spotify dengan lagu serupa. Gratis untuk penggunaan pribadi.">
   <meta property="og:url" content="https://kinrox.app/id/">
   <meta property="og:image" content="https://kinrox.app/assets/img/og-scene.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../assets/css/localization.css">
   <script src="../assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/id/", "inLanguage": "id", "description": "Kinrox · Mac + iPhone. Gratis untuk penggunaan pribadi."}
+  {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kinrox", "applicationCategory": "MultimediaApplication", "softwareVersion": "0.5.7", "downloadUrl": "https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg", "operatingSystem": "macOS 14+", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "url": "https://kinrox.app/id/", "inLanguage": "id", "description": "Kinrox · Mac + iPhone. Video dengan remote, Spotify dengan lagu serupa. Gratis untuk penggunaan pribadi."}
   </script>
 </head>
 <body>
@@ -120,13 +120,14 @@
     <div class="glow" aria-hidden="true"></div>
     <div class="container">
       <span class="chip"><i class="dot ember"></i>Gratis untuk penggunaan pribadi · Mac + iPhone</span>
-      <h1 class="display">Tak perlu bangun untuk <span class="fire-text">menjeda film.</span></h1>
-      <p class="lead">Kinrox memutar video apa pun di Mac Anda — dan mengubah iPhone Anda menjadi remote. MacBook di proyektor, Anda di sofa: jeda, mundur 10 detik, kecilkan volume, atau mulai episode berikutnya tanpa meninggalkan selimut.</p>
+      <h1 class="display">Film dari sofa. <span class="fire-text">Spotify tanpa beban berlebih.</span></h1>
+      <p class="lead">Dua pemutar Mac native dalam satu aplikasi gratis. Tonton video apa pun dan kendalikan dari iPhone — jeda, lompati, dan ubah volume tanpa beranjak. Putar Spotify dengan Spotify.app tertutup dan biarkan Kinrox menemukan lagu serupa agar musik terus mengalun.</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Unduh untuk Mac</a>
-        <a class="btn btn-glass" href="#how">Lihat cara kerjanya</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Remote di App Store</a>
+        <a class="btn btn-glass" href="#spotify">Spotify</a>
       </div>
-      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Tanpa akun Kinrox</span><span>Tanpa server Kinrox</span><span>Bekerja melalui Wi‑Fi Anda</span></p>
+      <p class="hero-meta"><span>v0.5.7 · macOS 14+ · Apple Silicon</span><span>Tanpa akun Kinrox</span><span>Tanpa pelacak</span><span>Kode sumber di GitHub</span></p>
 
       <div class="stage">
         <div class="stage-scene">
@@ -295,8 +296,9 @@
       <div class="section-head center" data-reveal>
         <span class="overline">Spotify</span>
         <h2 class="display" id="spotify-title">Spotify tanpa aplikasi desktop yang berat.</h2>
-        <p class="lead">Mode musik SwiftUI native memakai memori hingga 200 MB — 2 hingga 10× lebih hemat dibanding Spotify sendiri, yang klien desktopnya bisa memakan hingga 2 GB. Biarkan Spotify.app tertutup sepenuhnya.</p>
+        <p class="lead">Pemutar Spotify native berbasis SwiftUI dengan penemuan musiknya sendiri. Berjalan dengan Spotify.app tertutup sepenuhnya dan memakai memori hingga 200 MB — 2 hingga 10× lebih hemat dibanding klien desktop Spotify, yang bisa memakan hingga 2 GB.</p>
         <p>Diukur pada 2026-11-09 setelah 12 jam pemutaran: total sekitar 193 MB — 161 MB untuk Kinrox dan 32 MB untuk Soloist serta proses pendukung. Memori fisik menurut macOS footprint; pengukuran sesaat, bukan batas maksimum.</p>
+        <p>Memerlukan Spotify Premium, Client ID pengembang Spotify milik Anda sendiri, dan kunci Soloist pribadi. Kinrox memandu Anda selama penyiapan.</p>
       </div>
       <div class="player-shot" data-reveal>
         <div class="glow" aria-hidden="true"></div>
@@ -306,7 +308,12 @@
           </div>
         </div>
       </div>
-      <div class="cards-3 tight">
+      <div class="cards-2 tight">
+        <article class="card" data-reveal>
+          <div class="icon-chip"><i class="ic ic-playlist"></i></div>
+          <h3>Lagu serupa yang terus diputar</h3>
+          <p>Mulai dari lagu, artis, album, atau playlist. Kinrox menunjukkan alasan setiap saran cocok — didengarkan bersama, kolaborator, koleksi Anda, genre — dan “Dengarkan yang serupa” terus menambahkan musik yang cocok ke antrean. “Tidak tertarik” menyembunyikan yang tidak Anda inginkan.</p>
+        </article>
         <article class="card" data-reveal>
           <div class="icon-chip"><i class="ic ic-laptop"></i></div>
           <h3>Hingga 200 MB, bukan 2 GB</h3>
@@ -368,12 +375,12 @@
           <p class="lead">Kinrox ditulis dalam Swift 6 dan SwiftUI di atas libmpv. Setiap lini pemutar, remote, dan protokol ada di GitHub.</p>
           <ul class="status">
             <li>Pemutar <i class="ic ic-check"></i>Mac — berfungsi</li>
-            <li><i class="ic ic-check"></i>iPhone jarak jauh — dibuat dari sumber</li>
+            <li><i class="ic ic-check"></i>Remote iPhone — di App Store</li>
             <li><i class="ic ic-check"></i>Mac v0.5.7 — DMG yang ditandatangani dan diaktakan</li>
-            <li class="soon"><i class="ic ic-history"></i>Remote di App Store — direncanakan</li>
           </ul>
           <div class="oss-actions">
             <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Unduh untuk Mac</a>
+            <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Remote di App Store</a>
             <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/releases">Rilis</a>
           </div>
         </div>
@@ -424,7 +431,7 @@ open DerivedData/Build/Products/Debug/Kinrox.app</code></pre>
       <p class="lead">Gratis untuk penggunaan pribadi</p>
       <div class="hero-actions">
         <a class="btn btn-fire" href="https://github.com/awaik/Kinrox/releases/download/v0.5.7/Kinrox-0.5.7-arm64.dmg">Unduh untuk Mac</a>
-        <a class="btn btn-glass" href="https://github.com/awaik/Kinrox/issues">Laporkan Masalah</a>
+        <a class="btn btn-glass" href="https://apps.apple.com/app/id6827926471">Remote di App Store</a>
       </div>
     </div>
   </section>

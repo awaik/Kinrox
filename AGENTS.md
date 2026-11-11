@@ -38,6 +38,7 @@
 > Mac 0.5.5 (build 15) released at the owner's request on 2026-11-07: Spotify v3 three-column navigation with left-column drill-down (`Show all →` / `‹ Back to library`, ownership and theme filters), dynamic center workspace (`AlbumsWorkspaceView`, `DiscoveryWorkspaceView`), persistent right-hand `CompactQueueColumn` with drag-and-drop album/playlist expansion, and post-2026 Similar & Discovery engine (`09 · Spotify — v3`, `166:304`). Signed/notarized Mac app and DMG; source tag `v0.5.5`; see [release notes](docs/releases/0.5.5.md) and [research](<docs/RESEARCHES/DONE/DONE - 2026-11-07_11-12_Spotify-v3-three-column-queue-and-discovery.md>).
 > Mac 0.5.6 (build 16) released at the owner's request on 2026-11-08: Video Home & Recent navigation while media is loaded (`10 · Video — Home & Recent`, `ContinueWatchingBanner`, titlebar `‹ Recent` / `▶ Back to Video · 0:42:15`, Close Video, Folder Playlist header and clear action), Music & Video memory reductions (SQLite `mmap` streaming batch decoding, digest-based cache diff, `MusicCatalog` string/artist interning and disposable catalog pruning, conditional popovers/tooltips and lazy workspace stacks, idle `VideoLayer` OpenGL backing release in Music mode, and single `URLSession` + nanosecond-verified binary stamp caching in `SoloistProcessSupervisor`), plus Part 2 of the engineering blog. Signed/notarized Mac app and DMG; source tag `v0.5.6`; see [release notes](docs/releases/0.5.6.md) and [research](docs/RESEARCHES/2026-11-08_12-17_Kinrox-memory-reduction-research.md).
 > Mac 0.5.7 (build 17) released at the owner's request on 2026-11-10: Similar & Discovery v4 with seed history, confirmed multi-source ranking, local listening history and feedback, continuous similar-track queue additions, adaptive native UI, and default-on ListenBrainz/MusicBrainz similarity with a Settings off switch and updated 30-language privacy documents. Signed/notarized Mac app and DMG; source tag `v0.5.7`; see [release notes](docs/releases/0.5.7.md) and [verification](docs/runbooks/0.5.7-VERIFICATION.md).
+> Mac 0.5.8 (build 18) and Kinrox Remote 0.2.2 (build 4) released at the owner's request on 2026-11-11: Similar and Not interested from the iPhone, Lock Screen Live Activity controls, QR code and App Store link to the remote on Mac, new App Store listing for 35 localizations and the eight-screen screenshot set v2. Signed/notarized Mac app and DMG; source tag `v0.5.8`; remote submitted to App Store review with manual release; see [release notes](docs/releases/0.5.8.md) and [verification](docs/runbooks/0.5.8-VERIFICATION.md).
 > All design work is done in Figma file [Kinrox — Design](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U) (owner decision 2026-10-27), see Section 3.5.
 > Landing site added 2026-10-27: static GitHub Pages site in `site/` (English + Russian), deployed by `.github/workflows/pages.yml`; see Section 3.6.
 > Website localization implemented 2026-10-30 at the owner's request: landing, support and privacy pages in all 30 app locales, localized screenshots, language navigation, RTL and offline generation. Owner authorized deployment on 2026-10-30; [verification](docs/runbooks/SITE-LOCALIZATION-VERIFICATION.md).
@@ -153,7 +154,21 @@ Kinrox does not attempt to replicate IINA's feature breadth (filters, plugins, c
 
 ### 2.2. iPhone Remote
 
+The Mac links to the remote's App Store page (owner request, 2026-11-11; Figma `237:304`):
+a locally generated QR code and "Open in App Store" in the Connect iPhone sheet and
+Settings → Remote, and Help → "Kinrox Remote for iPhone…".
+
 Discovery of players on local network, PIN pairing, controls: pause, ±10/±30s, scrub to position, volume, next/previous file, open from recents, fullscreen, and Matrix screensaver start/stop. Detailed in Section 6.
+
+Lock Screen controls (owner request, 2026-11-11; Figma `212:304`): a Live Activity on
+the Lock Screen and in the Dynamic Island with volume −/+, previous/next track (music) or
+−10/+10 s (video), and play/pause. It is not the system Now Playing widget, which iOS gives
+only to apps that play audio themselves. A button press runs in the app process, reconnects
+briefly, sends one command and refreshes the card. Without a background socket, changes made
+on the Mac appear after the next press or when the remote opens. The card ends when media
+closes, the Mac is forgotten, the setting is off, or after an hour on pause. Settings →
+"Lock Screen controls", on by default. Verification —
+[Lock Screen](docs/runbooks/REMOTE-LOCK-SCREEN-VERIFICATION.md).
 
 ### 2.3. Excluded from v1
 
@@ -250,7 +265,7 @@ Kinrox/
 │   ├── project.yml
 │   ├── RemoteiOS.xcodeproj
 │   ├── RemoteiOS/
-│   │   ├── App/                  # KinroxRemoteApp, RootView
+│   │   ├── App/                  # KinroxRemoteApp, RemoteAppHost, RootView
 │   │   ├── Connection/           # RemoteAppModel, TransportClient, clocks, commands
 │   │   ├── Storage/              # ServerCredentialStore, deviceId, selected Mac
 │   │   ├── Demo/                 # isolated RemoteDemoStore
@@ -258,9 +273,12 @@ Kinrox/
 │   │   ├── Pairing/              # PIN entry
 │   │   ├── Remote/               # remote control screen, recents
 │   │   ├── Music/                # music deck, queue and favorites sheet
+│   │   ├── LockScreen/           # Live Activity controller and background button sessions
 │   │   ├── Settings/
 │   │   ├── Resources/
 │   │   └── Info.plist
+│   ├── LockScreenShared/         # Live Activity attributes and button intent (app + extension)
+│   ├── LockScreenWidget/         # WidgetKit extension: Lock Screen card and Dynamic Island
 │   └── RemoteiOSTests/
 ├── Packages/
 │   ├── KinroxMusic/              # MusicCore and Mac-only SpotifyWebAPI, with tests
@@ -341,11 +359,15 @@ The file is the source of truth for layouts, texts in mockups, components, and t
 | [08 · Music — Spotify](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=88-304) | Three-column Mac library, fixed deck, narrow window, iPhone remote/queue/favorites; official attribution and inline recovery variants approved 2026-11-01 (`116:3116`) |
 | [09 · Spotify — v3 · Навигация, Похожее и Очередь](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=166-304) | Renamed `Spotify` tab, expandable Left Column (`Show all →` + `‹ Back to library`, ownership & theme filters), dynamic Center Workspace (`TrackTable`, `AlbumsWorkspaceView`, `DiscoveryWorkspaceView`), persistent Right Column (`CompactQueueColumn` with album/playlist expansion on drop), and post-2026 Discovery Engine (`166:304`) |
 | [11 · Spotify — Discovery v4](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=191-304) | Similar & discovery v4: seed card with history, mode segmented control, results grouped by reason (listened together, collaborators, your library, genre) without technical source names, hover row actions and Not interested, real mixes, "Listen to similar" with queue banner, Settings → Spotify "Recommendations from other listeners" toggle (on by default), loading and empty states (`191:304`) |
+| [14 · App Store — Screenshots v2](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=229-304) | Eight 1320×2868 App Store screenshots in English and Russian for Remote 0.2.2: Lock Screen hero, video remote, music, Similar, queue, free Mac player, privacy, Matrix; no third-party names, fictional titles. Other locales are rendered from the English row by `Scripts/app-store/` (see `AppStore/README.md`) (`229:304`) |
+| [15 · Mac — Get the iPhone remote](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=237-304) | QR code and App Store link for Kinrox Remote in the Connect iPhone sheet and Settings → Remote, Help menu item, behaviour notes (`237:304`) |
+| [13 · Remote — Lock Screen](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=212-304) | iPhone Lock Screen Live Activity: music and video cards, paused, sending, Mac unavailable and possibly-out-of-date states, Dynamic Island compact/minimal/expanded, Settings toggle, behaviour notes and owner decisions (±10 s, volume buttons, one-hour pause limit) (`212:304`) |
+| [12 · Remote — Similar](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=205-4347) | iPhone Similar control: Listen to similar button, looking and active states, Not interested menu, hidden-track feedback with Undo, queue in Similar mode with swipe/long-press Not interested, older-Mac update hint, behaviour notes (`205:4347`) |
 
 Working with the file:
 - new screens and states are designed in this file before implementation; existing pages follow `NN · <milestone> — <topic>`;
 - mockup copy in Figma is currently Russian; app source strings stay English (Section 9);
-- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, `88:304`, `166:304`, and `191:304`; component library in section `3:2`.
+- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, `88:304`, `166:304`, `191:304`, `205:4347`, `212:304`, `229:304`, and `237:304`; component library in section `3:2`.
 
 Project information links share one destination catalog in both apps and open in
 the system browser only when activated. The license label, description and destination
@@ -540,6 +562,15 @@ music commands and paged `requestQueue` / `queue` and `requestLikeOptions` /
 Credentials, filesystem paths and Spotify API access never cross to iPhone.
 Queue pages reserve the protected-frame overhead within the 64 KiB limit.
 
+Similar control is additive v1 as well (2026-11-11): optional `state.music.similar`
+(`active`, `finding`, `available`) and two commands, `setSimilar` and
+`setNotInterested` (`trackId`, `scope` `track`/`artist`, `excluded`; `false` undoes).
+A missing `similar` field identifies an older Mac; the remote then sends nothing and
+explains the update. Starting from the remote keeps the current track and manual
+items and replaces pending source tracks with similar ones; Stop keeps added tracks.
+Not interested is offered only while Similar runs; the Mac then drops matching
+pending source tracks and skips a matching current track. Design: Figma `205:4347`.
+
 ### 6.4. PIN Pairing
 
 - 6-digit random decimal code generated via `SystemRandomNumberGenerator`.
@@ -621,6 +652,8 @@ Strictly restricted to local networks:
 - Reconnection backoff on client: 0.5s, 1s, 2s, 4s, 8s, 10s (max 120s total).
 - Backgrounding sends `bye` frame with 0.25s budget, then closes socket.
 - Foregrounding resumes connection using stored Keychain token.
+- A Lock Screen button press in the background reconnects with the stored token, sends one
+  command, keeps the connection 10 s for repeated presses, then sends `bye`.
 
 ### 6.9. Remote UI Design
 
@@ -676,8 +709,8 @@ xcodebuild -workspace Kinrox.xcworkspace -scheme PlayerMac -configuration Debug 
 # Protocol Tests
 swift test --package-path Packages/RemoteProtocol
 
-# Remote Simulator Build & Tests
-xcodebuild -workspace Kinrox.xcworkspace -scheme RemoteiOS -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath DerivedData test
+# Remote Build & Tests — physical iPhone only (rule 11; ask the owner to connect it first)
+xcodebuild -workspace Kinrox.xcworkspace -scheme RemoteiOS -configuration Debug -destination 'id=<iPhone UDID>' -derivedDataPath DerivedData -allowProvisioningUpdates test
 
 # Formatting
 xcrun swift-format lint --strict --recursive PlayerMac RemoteiOS Packages Shared
@@ -704,6 +737,11 @@ See [signing runbook](docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md#real-iphone) fo
 8. Local network operations exclusively, except the Mac player's approved Sparkle appcast check, opt-in Spotify integration, and Mac-only ListenBrainz/MusicBrainz similarity (principle 4): on by default after the Spotify connection, disclosed in the accepted Spotify privacy policy, and can be turned off in Settings → Spotify (owner decision 2026-11-10, revised the same day). No telemetry or analytics.
 9. **No WebView:** follow the critical requirements at the top of this document. Never introduce an embedded WebView or browser runtime, including a hidden one, into either application.
 10. **Standalone Spotify acceptance:** verify playback and controls with Spotify.app fully terminated, including a cold start of Kinrox in that state. Do not launch Spotify.app as a dependency or workaround. Record latency and memory measurements; tests with Spotify.app running do not establish acceptance of this requirement.
+11. **Never launch the iOS Simulator** (owner decision, 2026-11-11): it slows down the owner's
+    Mac. This covers `simctl boot`/`launch`, Simulator.app, and `xcodebuild` with an
+    `iOS Simulator` destination, including tests. Ask the owner to connect the iPhone by
+    cable, then build, install and test RemoteiOS only on that device. Mac-only checks
+    (`PlayerMac` tests, Swift packages, lint, scripts) do not need the phone.
 
 ### 9.1. Shared Project Skills
 
@@ -720,6 +758,24 @@ Available project skill:
   Kinrox's English document format and subsystem verification commands; scope is
   local implementation without release. This document and the research README
   take precedence.
+
+Agent models and roles (owner decisions, 2026-11-11; Section 11):
+
+- Of Google's models, agents use only `agy --dangerously-skip-permissions --model
+  "Gemini 4 Carbon (High)"` with a 5400 s timeout. Gemini 4 Argon and Gemini 3.8
+  Flash at any level are not used in agent loops; `research-execute` refuses them.
+- Bug without an evident cause: alongside the Codex fix on `gpt-6-astra` / `xhigh`,
+  the orchestrator launches the `investigate` role (agy, Carbon High, 5400 s) from
+  [the template](.agents/templates/investigate.md). It searches for the cause
+  independently, only reads code, and writes a report; do not pass Codex's
+  hypothesis or plan to it. It needs no agy review: the orchestrator compares the
+  report with the Codex fix. The same cause confirms the fix; a different or broader
+  cause is checked against the code, and justified findings go back to Codex.
+  `investigate` changes must stay under `.tmp/`; a code edit violates its task and
+  is reverted by Codex on assignment, not blindly. Orchestrator verification of the
+  Codex work remains mandatory.
+- These decisions do not cover product models, image-generation models, or Claude
+  and OpenAI models launched through agy.
 
 ---
 
@@ -750,6 +806,8 @@ separate; see [AppStore/LICENSE-ROLLOUT.md](AppStore/LICENSE-ROLLOUT.md).
 ### Owner Decisions
 - Update distribution mechanism — decided 2026-10-29: Sparkle 2 (Option A). EdDSA signing key created by the owner on 2026-10-29 ([runbook](docs/runbooks/RUNBOOK-RELEASE.md#update-signing-key)); first shipped in Mac 0.3.0 on 2026-10-30.
 - Target architectures: Apple Silicon (arm64) primary; Intel x86_64 deferred.
+- Agent models — decided 2026-11-11: of Google's models, agents use only Gemini 4 Carbon (High) (`agy --model "Gemini 4 Carbon (High)"`); Gemini 4 Argon and Gemini 3.8 Flash are not used in agent loops, and `research-execute` refuses them. The agy review timeout is 5400 s. Product, image-generation, Claude and OpenAI models are unaffected.
+- Bug without an evident cause — decided 2026-11-11: alongside the Codex fix, the orchestrator launches the read-only `investigate` role (agy, Gemini 4 Carbon (High), 5400 s) from `.agents/templates/investigate.md`; see Section 9.1.
 
 ### Technical Risks
 - Release builds use pinned portable libmpv dependencies. Default Homebrew development libraries still require macOS 26; do not use them in the macOS 14 distribution bundle.

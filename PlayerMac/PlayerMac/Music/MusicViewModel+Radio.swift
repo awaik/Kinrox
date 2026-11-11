@@ -30,22 +30,31 @@ extension MusicViewModel {
         radioRefillTask?.cancel()
         radioRefillTask = nil
         isRefillingRadio = false
+        isStartingSimilar = false
         radioSeenTrackIDs.removeAll()
         radioSeenDedupeKeys.removeAll()
         radioAttemptedOccurrences.removeAll()
     }
 
-    func refillDiscoveryRadioIfNeeded() {
+    /// `replacingSource` swaps the pending source list for similar tracks on its first fill.
+    func refillDiscoveryRadioIfNeeded(replacingSource: Bool = false) {
         synchronizeDiscoveryConsent()
-        guard isDiscoveryRadioActive, !isRefillingRadio, queue.source.count < 5,
-            let current = queue.current, !radioAttemptedOccurrences.contains(current.id)
+        guard isDiscoveryRadioActive, !isRefillingRadio, let current = queue.current,
+            replacingSource
+                || (queue.source.count < 5 && !radioAttemptedOccurrences.contains(current.id))
         else { return }
         isRefillingRadio = true
         let session = radioSessionID
         let store = store
         radioRefillTask = Task { [weak self] in
             guard let self else { return }
-            defer { if self.radioSessionID == session { self.isRefillingRadio = false } }
+            defer {
+                if self.radioSessionID == session {
+                    self.isRefillingRadio = false
+                    // A start that found nothing playable leaves the queue as it was.
+                    if replacingSource, self.isStartingSimilar { self.failSimilarStart() }
+                }
+            }
             do {
                 let snapshot: MusicDiscoverySnapshot
                 if let provider = self.radioDiscoveryProvider {
@@ -72,8 +81,8 @@ extension MusicViewModel {
                     self.radioSessionID == session, self.store === store
                 else { return }
                 await self.commitRadioRefill(
-                    snapshot.displayTracks, occurrenceID: current.id, session: session, store: store
-                )
+                    snapshot.displayTracks, occurrenceID: current.id, session: session,
+                    store: store, replacingSource: replacingSource)
             } catch {
                 // Discovery failure leaves the current queue playable.
             }
@@ -81,16 +90,21 @@ extension MusicViewModel {
     }
 
     private func commitRadioRefill(
-        _ candidates: [MusicTrack], occurrenceID: UUID, session: UUID, store: any MusicLibraryStore
+        _ candidates: [MusicTrack], occurrenceID: UUID, session: UUID, store: any MusicLibraryStore,
+        replacingSource: Bool
     ) async {
         // Join the playback coordinator, keeping the refill busy through the actual engine commit.
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
             let action: @MainActor () async -> Void = { [weak self] in
                 defer { continuation.resume() }
                 guard let self, self.isDiscoveryRadioActive, self.radioSessionID == session,
-                    self.store === store, self.queue.source.count < 5
+                    self.store === store, replacingSource || self.queue.source.count < 5
                 else { return }
-                let existing = self.queue.items + self.queue.history
+                // Replaced source occurrences may come back as similar tracks.
+                let kept = replacingSource ? self.queue.items.count - self.queue.source.count : 0
+                let existing =
+                    (replacingSource ? Array(self.queue.items.prefix(kept)) : self.queue.items)
+                    + self.queue.history
                 var ids = self.radioSeenTrackIDs.union(existing.map(\.track.id))
                 var keys = existing.reduce(into: self.radioSeenDedupeKeys) {
                     $0.formUnion(MusicDiscoveryIdentity.keys($1.track))
@@ -113,7 +127,7 @@ extension MusicViewModel {
                     return
                 }
                 var next = self.queue
-                next.appendSource(refill)
+                if replacingSource { next.replaceSource(refill) } else { next.appendSource(refill) }
                 do {
                     if let engine = self.musicEngine {
                         try await engine.updateQueue(
@@ -125,6 +139,7 @@ extension MusicViewModel {
                     self.queue = next
                     self.radioSeenTrackIDs = ids
                     self.radioSeenDedupeKeys = keys
+                    self.isStartingSimilar = false
                     if self.isQueue { self.refreshContents() }
                     self.notifyPlayback()
                 } catch {

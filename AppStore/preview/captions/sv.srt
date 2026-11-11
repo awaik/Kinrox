@@ -1,28 +1,37 @@
 1
-00:00:00,000 --> 00:00:04,000
-Filmkväll.
-Allt inom räckhåll.
+00:00:00,000 --> 00:00:03,000
+Pausa din Mac.
+Från låsskärmen.
 
 2
-00:00:04,000 --> 00:00:09,000
-Den där scenen.
-En gång till.
+00:00:03,000 --> 00:00:06,000
+Din filmfjärrkontroll.
 
 3
-00:00:09,000 --> 00:00:13,000
-Sätt dig
-bekvämt.
+00:00:06,000 --> 00:00:09,000
+Musiken på din Mac.
+I din hand.
 
 4
-00:00:13,000 --> 00:00:18,000
-Nästa film.
-Ett tryck bort.
+00:00:09,000 --> 00:00:12,000
+Musiken fortsätter.
 
 5
-00:00:18,000 --> 00:00:23,000
-En kod.
-Sedan är du ansluten.
+00:00:12,000 --> 00:00:15,000
+Din kö, ditt sätt.
 
 6
-00:00:23,000 --> 00:00:27,000
-Kräver Kinrox på Mac · Samma lokala nätverk
+00:00:15,000 --> 00:00:18,000
+Gratis spelare för Mac.
+
+7
+00:00:18,000 --> 00:00:21,000
+Inget konto. Inget moln.
+
+8
+00:00:21,000 --> 00:00:24,000
+En paus med stil.
+
+9
+00:00:24,000 --> 00:00:27,000
+Gratis Kinrox-spelare för Mac · Samma wifi-nätverk
