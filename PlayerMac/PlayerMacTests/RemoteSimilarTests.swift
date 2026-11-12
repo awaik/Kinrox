@@ -27,8 +27,10 @@ struct RemoteSimilarTests {
         )
     }
 
-    @Test func startKeepsCurrentAndManualTracksAndReplacesSource() async throws {
+    @Test(arguments: [false, true])
+    func startKeepsCurrentAndManualTracksAndReplacesSource(workspaceActive: Bool) async throws {
         let (music, coordinator, bridge, tracks) = try await playing(3)
+        music.setWorkspaceActive(workspaceActive)
         let current = try #require(music.queue.current)
         let manual = tracks[3]
         music.addToQueue(manual)

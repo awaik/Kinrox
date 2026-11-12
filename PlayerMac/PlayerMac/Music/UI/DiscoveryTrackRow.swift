@@ -86,7 +86,7 @@ struct DiscoveryTrackRow: View {
     private var trailing: some View {
         ZStack(alignment: .trailing) {
             if let reason = item.primaryReason {
-                DiscoveryReasonLabel(reason: reason).opacity(showsActions ? 0 : 1)
+                DiscoveryReasonLabel(reason: reason, hovered: hovered).opacity(showsActions ? 0 : 1)
             }
             actions
                 .opacity(showsActions ? 1 : 0)
@@ -139,15 +139,16 @@ struct DiscoveryTrackRow: View {
             } label: {
                 Image(systemName: "ellipsis")
                     .font(.system(size: 11, weight: .semibold))
+                    .hoverHelp(L10n.text("More"), active: showsActions)
                     .frame(width: 26, height: 26)
                     .background(Palette.glassStrong, in: RoundedRectangle(cornerRadius: 6))
             }
             .menuStyle(.button)
             .buttonStyle(.plain)
             .menuIndicator(.hidden)
+            .accessibilityLabel(L10n.text("More"))
             .fixedSize()
             .foregroundStyle(Palette.textPrimary)
-            .help(L10n.text("More"))
         }
     }
 
@@ -161,9 +162,9 @@ struct DiscoveryTrackRow: View {
                 .frame(width: 26, height: 26)
                 .background(Palette.glassStrong, in: RoundedRectangle(cornerRadius: 6))
                 .contentShape(Rectangle())
+                .hoverHelp(label, active: showsActions)
         }
         .buttonStyle(.plain)
-        .help(label)
         .accessibilityLabel(label)
     }
 
@@ -189,6 +190,7 @@ struct DiscoveryTrackRow: View {
 /// Grey, icon-led explanation of why a track was recommended.
 struct DiscoveryReasonLabel: View {
     let reason: MusicDiscoveryReason
+    var hovered = false
 
     var body: some View {
         HStack(spacing: 4) {
@@ -199,7 +201,7 @@ struct DiscoveryReasonLabel: View {
         .font(.system(size: 11))
         .foregroundStyle(Palette.textTertiary)
         .fixedSize()
-        .help(Self.text(for: reason, shortened: false))
+        .hoverHelp(Self.text(for: reason, shortened: false), active: hovered)
     }
 
     static func symbol(for kind: MusicDiscoveryReasonKind) -> String {

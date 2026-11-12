@@ -3,6 +3,7 @@ import SwiftUI
 
 struct SourceColumn: View {
     @Bindable var model: MusicViewModel
+    @State private var hoveredRow = MusicRowHoverState()
 
     var body: some View {
         VStack(spacing: 0) {
@@ -242,7 +243,9 @@ struct SourceColumn: View {
                 Image(systemName: "plus.circle").font(.system(size: 13))
                     .foregroundStyle(Palette.textSecondary).frame(width: 24, height: 24)
                     .contentShape(Rectangle())
-            }.buttonStyle(.plain).help(L10n.text("Add to queue"))
+                    .hoverHelp(
+                        L10n.text("Add to queue"), active: hoveredRow.id == "album:" + album.id)
+            }.buttonStyle(.plain).accessibilityLabel(L10n.text("Add to queue"))
         }
         .padding(.horizontal, 10)
         .background(
@@ -250,6 +253,7 @@ struct SourceColumn: View {
                 ? Palette.glassStrong : .clear,
             in: RoundedRectangle(cornerRadius: 6)
         )
+        .onHover { hoveredRow.update("album:" + album.id, hovering: $0) }
         .draggable("album:\(album.id)")
         .contextMenu {
             Button(L10n.text("Play album")) { model.playAlbum(album) }
@@ -281,10 +285,11 @@ struct SourceColumn: View {
                     } else {
                         Image(systemName: "lock.fill").font(.system(size: 9))
                             .foregroundStyle(Palette.textTertiary)
-                            .help(
+                            .hoverHelp(
                                 L10n.text(
                                     "Spotify only provides tracks for playlists you own or collaborate on."
-                                ))
+                                ),
+                                active: hoveredRow.id == "playlist:" + playlist.id)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading).frame(height: 30)
@@ -297,17 +302,21 @@ struct SourceColumn: View {
                 Image(systemName: "plus").font(.system(size: 10, weight: .semibold))
                     .foregroundStyle(Palette.textTertiary).frame(width: 22, height: 22)
                     .contentShape(Rectangle())
+                    .hoverHelp(
+                        playlist.itemsAvailable
+                            ? L10n.text("Add to queue")
+                            : L10n.text(
+                                "Spotify only provides tracks for playlists you own or collaborate on."
+                            ),
+                        active: hoveredRow.id == "playlist:" + playlist.id)
             }
             .buttonStyle(.plain)
             .disabled(!playlist.itemsAvailable)
-            .help(
-                playlist.itemsAvailable
-                    ? L10n.text("Add to queue")
-                    : L10n.text(
-                        "Spotify only provides tracks for playlists you own or collaborate on."))
+            .accessibilityLabel(L10n.text("Add to queue"))
         }
         .padding(.horizontal, 10)
         .background(selected ? Palette.glassStrong : .clear, in: RoundedRectangle(cornerRadius: 6))
+        .onHover { hoveredRow.update("playlist:" + playlist.id, hovering: $0) }
         .draggable("playlist:\(playlist.id)")
         .contextMenu {
             Button(L10n.text("Add to queue")) { model.insertPlaylistInQueue(playlist) }

@@ -33,7 +33,21 @@ final class MusicViewModel {
     var store: any MusicLibraryStore
     var library: LibrarySnapshot
     var catalog: MusicCatalog
-    var selection = BrowserSelection(source: .albums, albumID: "evening")
+    var selection = BrowserSelection(source: .albums, albumID: "evening") {
+        didSet {
+            if oldValue.source == .similar, selection.source != .similar {
+                releaseDiscoveryWorkspace()
+            }
+        }
+    }
+    private(set) var isWorkspaceActive = true
+    @ObservationIgnored var discoveryNeedsRefresh = false
+
+    func setWorkspaceActive(_ active: Bool) {
+        guard isWorkspaceActive != active else { return }
+        isWorkspaceActive = active
+        workspaceActivityChanged()
+    }
     var contents: BrowserContents
     @ObservationIgnored let focus = MusicFocusState()
     @ObservationIgnored let popovers = MusicPopoverState()
@@ -75,7 +89,7 @@ final class MusicViewModel {
             defaults?.set(listenBrainzEnabled, forKey: ListenBrainzPreference.key)
             (store as? SpotifyLibraryStore)?.setListenBrainzEnabled(listenBrainzEnabled)
             listenBrainzStatus = listenBrainzEnabled ? .ready : .off
-            if selection.source == .similar { refreshDiscovery() }
+            if selection.source == .similar { refreshAutomaticDiscovery() }
         }
     }
     var listenBrainzStatus = MusicListenBrainzStatus.off
@@ -203,7 +217,11 @@ final class MusicViewModel {
     var acceptsPlayback = true
     var beforeDemoPlayback: () -> Void = {}
 
-    init(store: any MusicLibraryStore = DemoMusicLibraryStore(), defaults: UserDefaults? = nil) {
+    init(
+        store: any MusicLibraryStore = DemoMusicLibraryStore(), defaults: UserDefaults? = nil,
+        workspaceActive: Bool = true
+    ) {
+        isWorkspaceActive = workspaceActive
         self.store = store
         self.defaults = defaults
         trackSortOrders = Self.loadPersistedSortOrders(from: defaults)
@@ -243,7 +261,7 @@ final class MusicViewModel {
         refreshContents()
         observeDiscoveryPreferences()
         observeDiscoveryStore()
-        if selection.source == .similar { refreshDiscovery() }
+        if selection.source == .similar { refreshAutomaticDiscovery() }
     }
 
     var isDemo: Bool { store is DemoMusicLibraryStore }

@@ -58,7 +58,7 @@ final class MusicHTTPStub: URLProtocol, @unchecked Sendable {
             captured.httpBody = data
         }
         let reply = Self.state.take(captured)
-        loading = Task {
+        loading = Task { @Sendable [self] in
             await reply.gate?.wait()
             guard !Task.isCancelled else { return }
             respond(reply)

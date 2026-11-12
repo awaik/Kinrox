@@ -243,7 +243,13 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
         desiredFullscreen = nil
     }
 
+    override func showWindow(_ sender: Any?) {
+        session?.music.setWorkspaceActive(session?.mode == .music)
+        super.showWindow(sender)
+    }
+
     func windowWillClose(_ notification: Notification) {
+        session?.music.setWorkspaceActive(false)
         if let escapeMonitor { NSEvent.removeMonitor(escapeMonitor) }
         escapeMonitor = nil
         if let pointerMonitor { NSEvent.removeMonitor(pointerMonitor) }

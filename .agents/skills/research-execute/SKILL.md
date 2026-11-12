@@ -13,12 +13,19 @@ result, and report. Reading or copying this skill does not authorize a run.
 | Stage | Agent | Output |
 |---|---|---|
 | Plan review | `agy --dangerously-skip-permissions --model "Gemini 4 Carbon (High)"`, timeout 5400 s | Updated plan, `REVIEWED - <name>.md` |
-| Implementation | `codex exec --yolo --model gpt-6-astra -c model_reasoning_effort="xhigh"` | Local changes and verification, `DONE/DONE - <name>.md` |
-| Verification | Orchestrator | Independent inspection and report |
+| Implementation | `codex exec --yolo --model gpt-6-astra -c model_reasoning_effort="high" -c project_doc_max_bytes=65536` | Local changes and functional checks, `DONE/DONE - <name>.md` |
+| Verification | Orchestrator | Independent inspection, performance measurements, and report |
 
 `run.sh` uses `prompts/review.md`, `prompts/execute.md`, and, on continuation,
 `prompts/resume.md`. Keep the inherited model defaults; change `AGY_MODEL`,
 `AGY_TIMEOUT`, `CODEX_MODEL`, or `CODEX_EFFORT` only at the user's request.
+Codex limits run out quickly, so the defaults save tokens (owner decision
+2026-11-12): implementation runs at `high`; use `CODEX_EFFORT=xhigh` only for a
+plan the owner marks as hard or after a `high` run fails on reasoning, not on
+environment. `CODEX_DOC_BYTES` (default 65536) makes Codex load `AGENTS.md`
+whole, so prompts never ask it to re-read the file; `run.sh` warns when
+`AGENTS.md` outgrows it. Keep `AGENTS.md` lean: history goes to
+`docs/releases/HISTORY.md`, not the top of `AGENTS.md`.
 Of Google's models, only `Gemini 4 Carbon (High)` is allowed (owner decision
 2026-11-11): `run.sh` refuses Gemini 4 Argon, Gemini 3.8 Flash, and lower Carbon
 levels, even with `--dry-run`. A review that exceeds `AGY_TIMEOUT` (default
@@ -95,8 +102,12 @@ Inspect the actual document and diff, not just the agents' conclusions:
   subsystem. Use Swift package tests, relevant Xcode scheme builds/tests, or
   targeted Python script tests; this repository has no Node task-test runner or
   MCP contract suites. Do not repeat successful checks without a reason.
-- For Spotify performance changes, inspect physical-footprint and CPU/latency
-  evidence in startup, playback, pause, and sustained use. Spotify.app must be
+- Performance measurements are yours, not Codex's (owner decision 2026-11-12).
+  Run the document's `Orchestrator measurements` section (or derive the
+  measurements from the plan when it is missing): physical footprint, CPU and
+  command latency in startup, playback, pause, and sustained use, against the
+  stated baseline and `AGENTS.md` limits. Record the numbers in the document. A
+  failed limit reopens the work under the rule below. Spotify.app must be
   fully terminated for standalone acceptance. Kinrox test volume is zero; never
   change system volume. Do not claim unperformed manual checks passed or request
   a separate macOS 14 runtime check; preserve the owner's sleep/reboot waiver.

@@ -79,6 +79,7 @@ final class SpotifyLibraryStore: MusicLibraryStore {
             let waiters = restoreWaiters
             restoreWaiters.removeAll()
             for waiter in waiters { waiter.resume() }
+            if !isClosed, session == sessionGeneration { onChange?() }
         }
         do {
             await cache.activate(session)
@@ -87,16 +88,17 @@ final class SpotifyLibraryStore: MusicLibraryStore {
             install(preview)
             let restored = try await cache.restore()
             guard !isClosed, session == sessionGeneration else { return }
-            install(restored)
+            install(restored, notify: false)
             let history = try await cache.playHistory()
             guard !isClosed, session == sessionGeneration else { return }
+            let restoredIDs = Set(history.map(\.id))
             playHistory = MusicPlayHistoryEntry.retained(
-                history + playHistory.filter { item in !history.contains { $0.id == item.id } },
+                history + playHistory.filter { !restoredIDs.contains($0.id) },
                 now: now())
         } catch is CancellationError {} catch { cacheFailure() }
     }
 
-    func install(_ snapshot: SpotifyCachedLibrary) {
+    func install(_ snapshot: SpotifyCachedLibrary, notify: Bool = true) {
         library = snapshot.library
         catalog = snapshot.catalog
         resources = snapshot.resources
@@ -110,7 +112,7 @@ final class SpotifyLibraryStore: MusicLibraryStore {
             for id in excludedIDs { resources["playlist:" + id] = nil }
         }
         rebuildIndex()
-        onChange?()
+        if notify { onChange?() }
     }
     func awaitRestore() async {
         if isRestoring { await withCheckedContinuation { restoreWaiters.append($0) } }

@@ -477,3 +477,16 @@ struct ArtistPreviewPopover: View {
         }
     }
 }
+
+/// A delayed exit from the previous row must not clear the newly hovered row.
+struct MusicRowHoverState {
+    private(set) var id: String?
+
+    mutating func update(_ row: String, hovering: Bool) {
+        if hovering {
+            id = row
+        } else if id == row {
+            id = nil
+        }
+    }
+}

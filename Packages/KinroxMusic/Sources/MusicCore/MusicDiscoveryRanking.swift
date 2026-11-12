@@ -14,20 +14,22 @@ public enum MusicDiscoveryEngine {
         history: [MusicPlayHistoryEntry] = [], notInterestedTrackIDs: Set<String> = [],
         notInterestedArtistIDs: Set<String> = [], now: Date = Date()
     ) -> MusicDiscoverySnapshot {
+        var identities = DiscoveryIdentityIndex()
         let seedIDs =
             seedTrackIDs.isEmpty && seedArtistIDs.isEmpty ? library.likedTrackIDs : seedTrackIDs
         let seeds = seedIDs.sorted().compactMap { catalog.track(id: $0) }
+        let seedTokens = Set(seeds.flatMap { identities.identity($0).recordingTokens })
         let artistIDs =
             seedArtistIDs.isEmpty
             ? Set(seeds.flatMap(\.artists).map(\.id)).union(
                 seedTrackIDs.isEmpty ? library.followedArtistIDs : [])
             : seedArtistIDs
         let artistNames = Set(
-            seeds.flatMap(\.artists).map { MusicDiscoveryIdentity.normalized($0.name) }
+            seeds.flatMap(\.artists).map { identities.normalized($0.name) }
         )
         .union(
             artistIDs.compactMap { catalog.artist(id: $0) }.map {
-                MusicDiscoveryIdentity.normalized($0.name)
+                identities.normalized($0.name)
             }
         )
         .union(seedArtistName.isEmpty ? [] : [MusicDiscoveryIdentity.normalized(seedArtistName)])
@@ -36,7 +38,8 @@ public enum MusicDiscoveryEngine {
         var inputs = signals + local.signals
         for (album, tracks) in compilationAlbums {
             inputs += tracks.filter {
-                !isSeedArtist($0, ids: artistIDs, names: artistNames) && !isVarious($0)
+                !identities.identity($0).sharesArtist(ids: artistIDs, names: artistNames)
+                    && !identities.identity($0).isVarious
             }
             .map { .init(track: $0, kind: .compilation, detail: album.title) }
         }
@@ -50,30 +53,37 @@ public enum MusicDiscoveryEngine {
             }
         }
         if let genre = selectedGenre ?? genres.first {
+            let normalizedGenre = MusicDiscoveryIdentity.normalized(genre)
+            let genreArtists = Set(
+                artistGenres.compactMap { id, genres in
+                    genres.contains { MusicDiscoveryIdentity.normalized($0) == normalizedGenre }
+                        ? id : nil
+                })
             inputs += operatorTracks.enumerated().map {
                 .init(
                     track: $0.element, kind: .sharedGenre, detail: genre,
                     strength: max(0.5, 1 - Double($0.offset) * 0.03))
             }
             inputs += catalog.tracks.filter { track in
-                track.artists.contains {
-                    artistGenres[$0.id, default: []].contains {
-                        MusicDiscoveryIdentity.normalized($0)
-                            == MusicDiscoveryIdentity.normalized(genre)
-                    }
-                }
+                track.artists.contains { genreArtists.contains($0.id) }
             }.map { .init(track: $0, kind: .sharedGenre, detail: genre) }
         }
         let retainedHistory = MusicPlayHistoryEntry.retained(history, now: now)
+        struct CompletedTrack: Hashable {
+            let session: UUID
+            let track: String
+        }
+        let completed = Set(
+            retainedHistory.filter(\.completed).map {
+                CompletedTrack(session: $0.sessionID, track: $0.trackID)
+            })
         for row in retainedHistory where row.completed {
             if let previous = row.previousTrackID, seedIDs.contains(previous),
                 let track = catalog.track(id: row.trackID)
             {
                 inputs.append(.init(track: track, kind: .playHistory))
             } else if seedIDs.contains(row.trackID), let previous = row.previousTrackID,
-                retainedHistory.contains(where: {
-                    $0.sessionID == row.sessionID && $0.trackID == previous && $0.completed
-                }),
+                completed.contains(CompletedTrack(session: row.sessionID, track: previous)),
                 let track = catalog.track(id: previous)
             {
                 inputs.append(.init(track: track, kind: .playHistory))
@@ -91,9 +101,9 @@ public enum MusicDiscoveryEngine {
             guard signal.strength > 0, track.isPlayable != false, !seedIDs.contains(track.id),
                 !(hideLiked && library.likedTrackIDs.contains(track.id)),
                 !notInterestedTrackIDs.contains(track.id),
-                notInterestedArtistIDs.isDisjoint(with: track.artists.map(\.id)),
+                !track.artists.contains(where: { notInterestedArtistIDs.contains($0.id) }),
                 skipped[track.id, default: []].count < 2,
-                !seeds.contains(where: { MusicDiscoveryIdentity.sameRecording(track, $0) })
+                seedTokens.isDisjoint(with: identities.identity(track).recordingTokens)
             else { continue }
             candidates[track.id, default: []].append(signal)
         }
@@ -105,12 +115,14 @@ public enum MusicDiscoveryEngine {
             .union(
                 catalog.albums.filter { library.savedAlbumIDs.contains($0.id) }.flatMap(\.artists)
                     .map(\.id))
-        var scored: [(item: MusicDiscoveryItem, signals: [MusicDiscoverySignal])] = candidates
+        let scored: [(item: MusicDiscoveryItem, signals: [MusicDiscoverySignal])] = candidates
             .values.map { values in
                 let merged = mergeSignals(values)
                 let track = merged[0].track
                 var score = merged.reduce(0) { $0 + $1.contribution }
-                if isSeedArtist(track, ids: artistIDs, names: artistNames) { score *= 0.35 }
+                if identities.identity(track).sharesArtist(ids: artistIDs, names: artistNames) {
+                    score *= 0.35
+                }
                 if recent.contains(track.id) { score *= 0.5 }
                 if mode == .underground, knownArtists.isDisjoint(with: track.artists.map(\.id)),
                     values.contains(where: { $0.lowerHalf || $0.reason.kind == .underground })
@@ -128,67 +140,19 @@ public enum MusicDiscoveryEngine {
                     merged
                 )
             }
-        scored.sort { precedes($0.item, $1.item) }
-        var deduped: [(item: MusicDiscoveryItem, signals: [MusicDiscoverySignal])] = []
-        for candidate in scored {
-            let matches = deduped.indices.filter {
-                MusicDiscoveryIdentity.sameRecording(deduped[$0].item.track, candidate.item.track)
-            }
-            guard let first = matches.first else {
-                deduped.append(candidate)
-                continue
-            }
-            let best = deduped[first].item
-            let merged = mergeSignals(candidate.signals + matches.flatMap { deduped[$0].signals })
-            deduped[first] = (
-                MusicDiscoveryItem(
-                    track: best.track, reasons: merged.map(\.reason), score: best.score), merged
-            )
-            for index in matches.dropFirst().reversed() { deduped.remove(at: index) }
+        // Sort compact indices instead of repeatedly copying full tracks and signal arrays.
+        let scores = scored.map { $0.item.score }
+        let ids = scored.map { $0.item.id }
+        let hashes = scored.map { identities.identity($0.item.track).stableHash }
+        let sorted = scored.indices.sorted { lhs, rhs in
+            if scores[lhs] != scores[rhs] { return scores[lhs] > scores[rhs] }
+            let a = hashes[lhs]
+            let b = hashes[rhs]
+            return a == b ? ids[lhs] < ids[rhs] : a < b
         }
-        var remaining = deduped.map(\.item)
-        var ordered: [MusicDiscoveryItem] = []
-        var primaryCounts: [String: Int] = [:]
-        var seedCounts: [String: Int] = [:]
-        while !remaining.isEmpty {
-            let seedEligible = remaining.indices.filter { index in
-                let track = remaining[index].track
-                let seedNames = track.artists.filter {
-                    artistIDs.contains($0.id)
-                        || artistNames.contains(MusicDiscoveryIdentity.normalized($0.name))
-                }.map { MusicDiscoveryIdentity.normalized($0.name) }
-                return seedNames.allSatisfy { seedCounts[$0, default: 0] < 3 }
-            }
-            func primaryCount(_ index: Int) -> Int {
-                let track = remaining[index].track
-                return primaryCounts[
-                    MusicDiscoveryIdentity.normalized(track.artists.first?.name ?? track.id),
-                    default: 0]
-            }
-            var eligible = seedEligible.filter { ordered.count >= 30 || primaryCount($0) < 2 }
-            if eligible.isEmpty, let least = seedEligible.map(primaryCount).min() {
-                // Diversity is a first pass; a small artist pool must not lose valid tracks.
-                eligible = seedEligible.filter { primaryCount($0) == least }
-            }
-            guard
-                let index = eligible.max(by: { lhs, rhs in
-                    let a = marginal(remaining[lhs], selected: ordered)
-                    let b = marginal(remaining[rhs], selected: ordered)
-                    return a == b ? !precedes(remaining[lhs], remaining[rhs]) : a < b
-                })
-            else { break }
-            let item = remaining.remove(at: index)
-            ordered.append(item)
-            primaryCounts[
-                MusicDiscoveryIdentity.normalized(item.track.artists.first?.name ?? item.track.id),
-                default: 0] += 1
-            for artist in item.track.artists
-            where artistIDs.contains(artist.id)
-                || artistNames.contains(MusicDiscoveryIdentity.normalized(artist.name))
-            {
-                seedCounts[MusicDiscoveryIdentity.normalized(artist.name), default: 0] += 1
-            }
-        }
+        let deduped = deduplicate(sorted.map { scored[$0] }, identities: &identities)
+        let ordered = diversify(
+            deduped, identities: &identities, seedIDs: artistIDs, seedNames: artistNames)
         var mixes = local.playlists.filter { !$0.trackIDs.allSatisfy { !seedIDs.contains($0) } }.map
         {
             MusicDiscoveryMix(
@@ -198,7 +162,7 @@ public enum MusicDiscoveryEngine {
         for (album, tracks) in compilationAlbums {
             let ids = tracks.filter { candidate in
                 candidate.isPlayable != false
-                    && !seeds.contains { MusicDiscoveryIdentity.sameRecording(candidate, $0) }
+                    && seedTokens.isDisjoint(with: identities.identity(candidate).recordingTokens)
             }.map(\.id)
             if ids.count >= 2 {
                 mixes.append(
@@ -216,20 +180,49 @@ public enum MusicDiscoveryEngine {
     }
 
     static func mergeSignals(_ values: [MusicDiscoverySignal]) -> [MusicDiscoverySignal] {
-        Dictionary(grouping: values, by: { $0.reason.kind }).values.compactMap { group in
-            let sorted = group.sorted {
-                $0.contribution == $1.contribution
-                    ? $0.reason.detail < $1.reason.detail : $0.contribution > $1.contribution
+        if values.count < 2 { return values }
+        struct Aggregate {
+            var best: MusicDiscoverySignal
+            var detail: String
+            var detailLength: Int
+            var matchCount: Int
+            var lowerHalf: Bool
+        }
+        // There are only eleven reason kinds. Aggregate each once without allocating
+        // and sorting an array of complete track values for every reason group.
+        var groups: [Aggregate] = []
+        for signal in values {
+            if let index = groups.firstIndex(where: { $0.best.reason.kind == signal.reason.kind }) {
+                let best = groups[index].best
+                if signal.contribution > best.contribution
+                    || (signal.contribution == best.contribution
+                        && signal.reason.detail < best.reason.detail)
+                {
+                    groups[index].best = signal
+                }
+                let length = signal.reason.detail.count
+                if length > groups[index].detailLength
+                    || (length == groups[index].detailLength
+                        && signal.reason.detail < groups[index].detail)
+                {
+                    groups[index].detail = signal.reason.detail
+                    groups[index].detailLength = length
+                }
+                groups[index].matchCount = max(groups[index].matchCount, signal.reason.matchCount)
+                groups[index].lowerHalf = groups[index].lowerHalf || signal.lowerHalf
+            } else {
+                groups.append(
+                    Aggregate(
+                        best: signal, detail: signal.reason.detail,
+                        detailLength: signal.reason.detail.count,
+                        matchCount: signal.reason.matchCount,
+                        lowerHalf: signal.lowerHalf))
             }
-            guard let best = sorted.first else { return nil }
-            let details: [String] = group.map { $0.reason.detail }
-            let detail =
-                details.sorted { a, b in a.count == b.count ? a < b : a.count > b.count }.first
-                ?? ""
-            return MusicDiscoverySignal(
-                track: best.track, kind: best.reason.kind, detail: detail,
-                matchCount: group.map(\.reason.matchCount).max() ?? 1, strength: best.strength,
-                lowerHalf: group.contains(where: \.lowerHalf))
+        }
+        return groups.map {
+            MusicDiscoverySignal(
+                track: $0.best.track, kind: $0.best.reason.kind, detail: $0.detail,
+                matchCount: $0.matchCount, strength: $0.best.strength, lowerHalf: $0.lowerHalf)
         }.sorted {
             $0.contribution == $1.contribution
                 ? $0.reason.kind.rawValue < $1.reason.kind.rawValue
@@ -237,26 +230,6 @@ public enum MusicDiscoveryEngine {
         }
     }
 
-    static func isSeedArtist(_ track: MusicTrack, ids: Set<String>, names: Set<String>) -> Bool {
-        track.artists.contains {
-            ids.contains($0.id) || names.contains(MusicDiscoveryIdentity.normalized($0.name))
-        }
-    }
-    static func isVarious(_ track: MusicTrack) -> Bool {
-        track.artists.first.map(MusicDiscoveryIdentity.isVariousArtists) ?? false
-    }
-    static func precedes(_ lhs: MusicDiscoveryItem, _ rhs: MusicDiscoveryItem) -> Bool {
-        if lhs.score != rhs.score { return lhs.score > rhs.score }
-        let a = MusicDiscoveryIdentity.stableHash(lhs.id)
-        let b = MusicDiscoveryIdentity.stableHash(rhs.id)
-        return a == b ? lhs.id < rhs.id : a < b
-    }
-    static func marginal(_ item: MusicDiscoveryItem, selected: [MusicDiscoveryItem]) -> Double {
-        let sharesArtist = selected.contains {
-            MusicDiscoveryIdentity.sharesArtist(item.track, $0.track)
-        }
-        return item.score * (sharesArtist ? 0.8 : 1)
-    }
     static func isFresh(_ track: MusicTrack, catalog: MusicCatalog, now: Date) -> Bool {
         guard
             let raw = track.releaseDate ?? catalog.album(id: track.albumID)?.releaseDate

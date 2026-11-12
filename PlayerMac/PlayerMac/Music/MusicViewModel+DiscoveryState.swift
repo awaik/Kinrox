@@ -62,12 +62,21 @@ extension MusicViewModel {
             notInterestedTrackIDs.sorted(), forKey: "app.kinrox.music.notInterestedTracks")
         defaults?.set(
             notInterestedArtistIDs.sorted(), forKey: "app.kinrox.music.notInterestedArtists")
-        if refresh { refreshDiscovery() }
+        if refresh, selection.source == .similar { refreshAutomaticDiscovery() }
     }
 
     func refreshDiscovery() {
+        guard isWorkspaceActive, selection.source == .similar else {
+            discoveryNeedsRefresh = selection.source == .similar
+            return
+        }
+        discoveryNeedsRefresh = false
         // The setter refreshes Similar itself; avoid launching a second request when it changes.
-        if synchronizeDiscoveryConsent(), selection.source == .similar { return }
+        if synchronizeDiscoveryConsent(), selection.source == .similar, isWorkspaceActive,
+            (store as? SpotifyLibraryStore)?.isRestoring != true
+        {
+            return
+        }
         browsingTask?.cancel()
         let requestID = UUID()
         discoveryRequestID = requestID
@@ -88,66 +97,52 @@ extension MusicViewModel {
         if !listenBrainzEnabled, discoverySnapshot?.genreSource == .musicBrainz {
             discoverySelectedGenre = nil
         }
-        let cached = (store as? SpotifyLibraryStore)?.cachedDiscovery(
-            seedTitle: seedTitle, seedTrack: seedTrack, seedArtist: seedArtist,
-            mode: discoveryMode, selectedGenre: discoverySelectedGenre,
-            hideLiked: discoveryHideLiked,
-            notInterestedTrackIDs: notInterestedTrackIDs,
-            notInterestedArtistIDs: notInterestedArtistIDs,
-            previous: sameSeed ? discoverySnapshot : nil)
-        let previous = sameSeed && store is SpotifyLibraryStore ? discoverySnapshot : nil
-        discoverySnapshot =
-            cached
-            ?? MusicDiscoveryEngine.build(
-                seedTitle: seedTitle, seedTrackIDs: seedTrack.map { [$0.id] } ?? [],
-                seedArtistIDs: seedArtist.map { [$0.id] } ?? [],
-                seedArtistName: seedArtist?.name ?? "",
-                mode: discoveryMode, genres: sameSeed ? discoverySnapshot?.genres ?? [] : [],
-                genreSource: sameSeed ? discoverySnapshot?.genreSource ?? .none : .none,
-                selectedGenre: discoverySelectedGenre, hideLiked: discoveryHideLiked,
-                catalog: catalog,
-                library: library,
-                history: (store as? SpotifyLibraryStore)?.playHistory ?? playHistory,
-                notInterestedTrackIDs: notInterestedTrackIDs,
-                notInterestedArtistIDs: notInterestedArtistIDs)
-        if cached == nil, let previous {
-            discoverySnapshot = .init(
-                seed: previous.seed, mode: discoveryMode, genres: previous.genres,
-                genreSource: previous.genreSource, selectedGenre: discoverySelectedGenre,
-                hideLiked: discoveryHideLiked,
-                items: previous.items.filter {
-                    !(discoveryHideLiked && library.likedTrackIDs.contains($0.id))
-                        && !notInterestedTrackIDs.contains($0.id)
-                        && notInterestedArtistIDs.isDisjoint(with: $0.track.artists.map(\.id))
-                }, mixes: previous.mixes)
-        }
-        discoverySnapshotConsent = listenBrainzEnabled
-        if let genre = discoverySelectedGenre, discoverySnapshot?.genres.contains(genre) != true {
-            discoverySelectedGenre = nil
-            discoverySnapshot?.selectedGenre = nil
+        let buildPreview = discoveryPreviewBuilder(
+            seedTitle: seedTitle, seedTrack: seedTrack, seedArtist: seedArtist, sameSeed: sameSeed)
+        // Small standalone/demo stores retain immediate results. Large libraries yield before
+        // ranking so its work cannot join the first SwiftUI update into one long main turn.
+        let deferredPreview = catalog.tracks.count > 1_000
+        if deferredPreview {
+            if !sameSeed {
+                discoverySnapshot = .init(
+                    seed: .init(
+                        title: seedTitle,
+                        artistNames: seedTrack?.artistNames ?? seedArtist?.name ?? "",
+                        trackID: seedTrack?.id, artistID: seedArtist?.id),
+                    mode: discoveryMode, hideLiked: discoveryHideLiked)
+            }
+        } else {
+            applyDiscoveryPreview(autoreleasepool(invoking: buildPreview))
         }
         refreshContents()
-        guard let store = store as? SpotifyLibraryStore, store.isConnected else {
-            discoveryHasConnectedRefresh = false
-            isDiscovering = false
-            return
-        }
-        store.setListenBrainzEnabled(listenBrainzEnabled)
-        isDiscovering = true
-        discoveryHasConnectedRefresh = true
+        let sourceStore = store
+        let connectedStore = (store as? SpotifyLibraryStore).flatMap { $0.isConnected ? $0 : nil }
+        discoveryHasConnectedRefresh = connectedStore != nil
+        isDiscovering = deferredPreview || connectedStore != nil
+        guard isDiscovering else { return }
+        connectedStore?.setListenBrainzEnabled(listenBrainzEnabled)
         let mode = discoveryMode
-        let genre = discoverySelectedGenre
         let hideLiked = discoveryHideLiked
         let excludedTracks = notInterestedTrackIDs
         let excludedArtists = notInterestedArtistIDs
         browsingTask = Task { [weak self] in
             guard let self else { return }
             defer {
-                if self.store === store, self.discoveryRequestID == requestID {
+                if self.store === sourceStore, self.discoveryRequestID == requestID {
                     self.isDiscovering = false
                 }
             }
             do {
+                if deferredPreview {
+                    let preview = try await MusicDiscoveryComputation.run(buildPreview)
+                    guard !Task.isCancelled, self.store === sourceStore,
+                        self.discoveryRequestID == requestID, self.selection.source == .similar
+                    else { return }
+                    self.applyDiscoveryPreview(preview)
+                    self.refreshContents()
+                }
+                guard let store = connectedStore else { return }
+                let genre = self.discoverySelectedGenre
                 try await self.loadDiscoverySeed(store: store, requestID: requestID)
                 guard !Task.isCancelled, self.store === store, self.discoveryRequestID == requestID
                 else { return }
@@ -169,10 +164,62 @@ extension MusicViewModel {
                 self.listenBrainzStatus = store.listenBrainzStatus
                 self.refreshContents()
             } catch is CancellationError {} catch {
-                guard !Task.isCancelled, self.store === store, self.discoveryRequestID == requestID
+                guard !Task.isCancelled, self.store === sourceStore,
+                    self.discoveryRequestID == requestID
                 else { return }
                 self.statusMessage = SpotifyStatus.message(error)
             }
         }
     }
+
+    private func applyDiscoveryPreview(_ snapshot: MusicDiscoverySnapshot) {
+        discoverySnapshot = snapshot
+        discoverySnapshotConsent = listenBrainzEnabled
+        if let genre = discoverySelectedGenre, !snapshot.genres.contains(genre) {
+            discoverySelectedGenre = nil
+            discoverySnapshot?.selectedGenre = nil
+        }
+    }
+
+    private func discoveryPreviewBuilder(
+        seedTitle: String, seedTrack: MusicTrack?, seedArtist: MusicArtist?, sameSeed: Bool
+    ) -> @Sendable () -> MusicDiscoverySnapshot {
+        let previous = sameSeed && store is SpotifyLibraryStore ? discoverySnapshot : nil
+        let cached = (store as? SpotifyLibraryStore)?.cachedDiscoveryBuilder(
+            seedTitle: seedTitle, seedTrack: seedTrack, seedArtist: seedArtist,
+            mode: discoveryMode, selectedGenre: discoverySelectedGenre,
+            hideLiked: discoveryHideLiked, notInterestedTrackIDs: notInterestedTrackIDs,
+            notInterestedArtistIDs: notInterestedArtistIDs, previous: previous)
+        let mode = discoveryMode
+        let genre = discoverySelectedGenre
+        let hideLiked = discoveryHideLiked
+        let catalog = catalog
+        let library = library
+        let history = (store as? SpotifyLibraryStore)?.playHistory ?? playHistory
+        let excludedTracks = notInterestedTrackIDs
+        let excludedArtists = notInterestedArtistIDs
+        let genres = sameSeed ? discoverySnapshot?.genres ?? [] : []
+        let genreSource = sameSeed ? discoverySnapshot?.genreSource ?? .none : .none
+        return {
+            if let cached { return cached() }
+            if let previous {
+                return .init(
+                    seed: previous.seed, mode: mode, genres: previous.genres,
+                    genreSource: previous.genreSource, selectedGenre: genre, hideLiked: hideLiked,
+                    items: previous.items.filter {
+                        !(hideLiked && library.likedTrackIDs.contains($0.id))
+                            && !excludedTracks.contains($0.id)
+                            && !$0.track.artists.contains { excludedArtists.contains($0.id) }
+                    }, mixes: previous.mixes)
+            }
+            return MusicDiscoveryEngine.build(
+                seedTitle: seedTitle, seedTrackIDs: seedTrack.map { [$0.id] } ?? [],
+                seedArtistIDs: seedArtist.map { [$0.id] } ?? [],
+                seedArtistName: seedArtist?.name ?? "", mode: mode, genres: genres,
+                genreSource: genreSource, selectedGenre: genre, hideLiked: hideLiked,
+                catalog: catalog, library: library, history: history,
+                notInterestedTrackIDs: excludedTracks, notInterestedArtistIDs: excludedArtists)
+        }
+    }
+
 }

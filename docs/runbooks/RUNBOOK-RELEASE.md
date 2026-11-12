@@ -75,6 +75,12 @@ key matches it before notarization.
 
 Set `APPLE_TEAM_ID`, `APPLE_SIGNING_IDENTITY` (the certificate's SHA-1 from
 `security find-identity -v -p codesigning`), and `NOTARYTOOL_PROFILE` locally.
+On the owner's release Mac they are kept outside the repository in
+`~/.config/kinrox/release.env` (identifiers only; the notary password stays in the
+Keychain profile). Load them with `set -a; . ~/.config/kinrox/release.env; set +a`
+and never print the values. Two Developer ID Application certificates exist; the file
+names the one that signed the previous releases. If a certificate is renewed, update
+that file.
 Then run:
 
 ```sh

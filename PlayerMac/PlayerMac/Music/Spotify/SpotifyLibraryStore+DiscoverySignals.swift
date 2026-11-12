@@ -87,8 +87,13 @@ extension SpotifyLibraryStore {
         }
         let artistIDs: Set<String> = Set(seedTrack?.artists.map(\.id) ?? []).union(
             artist.map { [$0.id] } ?? [])
-        let collaborators = MusicDiscoveryEngine.collaborators(
-            seedIDs: seedTrack.map { [$0.id] } ?? [], artistIDs: artistIDs, catalog: harvest)
+        let collaboratorCatalog = harvest
+        let collaborators = try await MusicDiscoveryComputation.run {
+            MusicDiscoveryEngine.collaborators(
+                seedIDs: seedTrack.map { [$0.id] } ?? [], artistIDs: artistIDs,
+                catalog: collaboratorCatalog)
+        }
+        try checkDiscoverySession(session, consent: consent)
         try await withThrowingTaskGroup(of: ([MusicDiscoverySignal], [MusicAlbum]).self) { group in
             for (name, kind) in collaborators.prefix(4) {
                 group.addTask {
@@ -122,9 +127,14 @@ extension SpotifyLibraryStore {
         }
         try checkDiscoverySession(session, consent: consent)
         // Local two-hop signals discovered while harvesting must survive catalog pruning and cache hits.
-        let harvestedSignals = MusicDiscoveryEngine.localDiscoverySignals(
-            seedIDs: seedTrack.map { [$0.id] } ?? [], artistIDs: artistIDs, catalog: harvest,
-            library: library)
+        let harvestedCatalog = harvest
+        let library = library
+        let harvestedSignals = try await MusicDiscoveryComputation.run {
+            MusicDiscoveryEngine.localDiscoverySignals(
+                seedIDs: seedTrack.map { [$0.id] } ?? [], artistIDs: artistIDs,
+                catalog: harvestedCatalog, library: library)
+        }
+        try checkDiscoverySession(session, consent: consent)
         data.signals += harvestedSignals.filter {
             [.collaborator, .remixer].contains($0.reason.kind)
         }

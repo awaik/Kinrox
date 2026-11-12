@@ -81,7 +81,7 @@ extension MusicViewModel {
                     albumID: catalog.albums.first { library.savedAlbumIDs.contains($0.id) }?.id)
             }
             refreshContents()
-            if selection.source == .similar { refreshDiscovery() }
+            if selection.source == .similar { refreshAutomaticDiscovery() }
             if case .artist(let id) = selection.source {
                 loadSelection(artistID: id)
             } else if case .playlist(let id) = selection.source {
@@ -121,7 +121,7 @@ extension MusicViewModel {
         if selection.source == .similar, !isDiscovering,
             discoverySnapshot == nil || !discoveryHasConnectedRefresh
         {
-            refreshDiscovery()
+            refreshAutomaticDiscovery()
         }
         notifyPlayback()
     }
@@ -146,7 +146,7 @@ extension MusicViewModel {
                 if let id = self.selection.albumID { try await store.loadAlbum(id) }
                 self.statusMessage = nil
                 if self.selection.source == .similar, !self.isDiscovering {
-                    self.refreshDiscovery()
+                    self.refreshAutomaticDiscovery()
                 }
             } catch is CancellationError {} catch {
                 if self.store === store { self.statusMessage = SpotifyStatus.message(error) }

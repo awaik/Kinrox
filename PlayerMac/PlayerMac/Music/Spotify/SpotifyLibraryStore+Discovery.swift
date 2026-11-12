@@ -4,6 +4,11 @@ import MusicCore
 import SpotifyWebAPI
 
 extension SpotifyLibraryStore {
+    func trimDiscoveryMemory(keeping key: String?) {
+        searchCache.removeAll()
+        discoveryCache = discoveryCache.filter { $0.key == key }
+    }
+
     func searchPlaylists(_ query: String) async throws -> [MusicPlaylist] {
         try requireConnection()
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -74,17 +79,28 @@ extension SpotifyLibraryStore {
         listenBrainzStatus = listenBrainzEnabled ? value.listenBrainzStatus : .off
         await publish()
         try checkDiscoverySession(session, consent: consent)
-        return buildDiscovery(
-            value, seedTitle: seedTitle, seedTrack: seedTrack, artist: artist, mode: mode,
-            selectedGenre: selectedGenre, hideLiked: hideLiked,
-            notInterestedTrackIDs: notInterestedTrackIDs,
-            notInterestedArtistIDs: notInterestedArtistIDs)
+        let catalog = catalog
+        let library = library
+        let history = playHistory
+        let date = now()
+        let data = value
+        let result = try await MusicDiscoveryComputation.run {
+            Self.buildDiscovery(
+                data, seedTitle: seedTitle, seedTrack: seedTrack, artist: artist, mode: mode,
+                selectedGenre: selectedGenre, hideLiked: hideLiked,
+                notInterestedTrackIDs: notInterestedTrackIDs,
+                notInterestedArtistIDs: notInterestedArtistIDs,
+                catalog: catalog, library: library, history: history, now: date)
+        }
+        try checkDiscoverySession(session, consent: consent)
+        return result
     }
 
-    private func buildDiscovery(
+    nonisolated private static func buildDiscovery(
         _ value: SpotifyDiscoveryData, seedTitle: String, seedTrack: MusicTrack?,
         artist: MusicArtist?, mode: MusicDiscoveryMode, selectedGenre: String?, hideLiked: Bool,
-        notInterestedTrackIDs: Set<String>, notInterestedArtistIDs: Set<String>
+        notInterestedTrackIDs: Set<String>, notInterestedArtistIDs: Set<String>,
+        catalog: MusicCatalog, library: LibrarySnapshot, history: [MusicPlayHistoryEntry], now: Date
     ) -> MusicDiscoverySnapshot {
         var restored = catalog
         restored.merge(tracks: value.tracks, albums: value.albums)
@@ -96,16 +112,16 @@ extension SpotifyLibraryStore {
             selectedGenre: selectedGenre, hideLiked: hideLiked, catalog: restored, library: library,
             compilationAlbums: value.compilations.map { ($0.album, $0.tracks) },
             signals: value.signals,
-            history: playHistory, notInterestedTrackIDs: notInterestedTrackIDs,
-            notInterestedArtistIDs: notInterestedArtistIDs, now: now())
+            history: history, notInterestedTrackIDs: notInterestedTrackIDs,
+            notInterestedArtistIDs: notInterestedArtistIDs, now: now)
     }
 
-    func cachedDiscovery(
+    func cachedDiscoveryBuilder(
         seedTitle: String, seedTrack: MusicTrack?, seedArtist: MusicArtist?,
         mode: MusicDiscoveryMode, selectedGenre: String?, hideLiked: Bool,
         notInterestedTrackIDs: Set<String>, notInterestedArtistIDs: Set<String>,
         previous: MusicDiscoverySnapshot? = nil
-    ) -> MusicDiscoverySnapshot? {
+    ) -> (@Sendable () -> MusicDiscoverySnapshot)? {
         let artist = seedArtist ?? seedTrack?.artists.first
         let seedKey = discoverySeedKey(track: seedTrack, artist: artist)
         guard var value = memoryDiscovery("seed-v2|\(seedKey)|\(listenBrainzEnabled ? 1 : 0)")
@@ -123,11 +139,19 @@ extension SpotifyLibraryStore {
             value.albums += search.albums
             value.signals += search.signals
         }
-        return buildDiscovery(
-            value, seedTitle: seedTitle, seedTrack: seedTrack, artist: artist, mode: mode,
-            selectedGenre: selectedGenre, hideLiked: hideLiked,
-            notInterestedTrackIDs: notInterestedTrackIDs,
-            notInterestedArtistIDs: notInterestedArtistIDs)
+        let data = value
+        let catalog = catalog
+        let library = library
+        let history = playHistory
+        let date = now()
+        return {
+            Self.buildDiscovery(
+                data, seedTitle: seedTitle, seedTrack: seedTrack, artist: artist, mode: mode,
+                selectedGenre: selectedGenre, hideLiked: hideLiked,
+                notInterestedTrackIDs: notInterestedTrackIDs,
+                notInterestedArtistIDs: notInterestedArtistIDs,
+                catalog: catalog, library: library, history: history, now: date)
+        }
     }
 
     func discoverySeedKey(track: MusicTrack?, artist: MusicArtist?) -> String {
@@ -158,7 +182,7 @@ extension SpotifyLibraryStore {
             discoveryCache = discoveryCache.filter {
                 now().timeIntervalSince($0.value.date) < 86400
             }
-            if discoveryCache.count >= 40,
+            if discoveryCache.count >= 12,
                 let oldest = discoveryCache.min(by: { $0.value.date < $1.value.date })
             {
                 discoveryCache[oldest.key] = nil

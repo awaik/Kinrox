@@ -47,6 +47,9 @@ with (root / 'calls.txt').open('a') as calls:
     calls.write(stage + '\\n')
 args = sys.argv[1:]
 prompt = args[-1]
+if stage == 'execute':
+    with (root / 'codex-args.txt').open('a') as log:
+        log.write(' '.join(args[:-1]) + '\\n')
 run = Path(re.search(r'Run directory: (.+)', prompt).group(1)) if 'Run directory:' in prompt else (root / '.tmp/scratch/research-execute/latest').resolve()
 doc = next((root / 'docs/RESEARCHES').glob('*.md'))
 mode = (root / 'mode.txt').read_text()
@@ -139,6 +142,14 @@ class RunnerTests(unittest.TestCase):
         self.assertFalse(self.doc.exists())
         self.assertEqual(list((self.latest().parents[1] / 'locks').iterdir()), [])
         self.assertIn('no changes since startup', (self.latest() / 'summary.md').read_text())
+
+    def test_codex_defaults_save_tokens(self):
+        self.env.pop('CODEX_EFFORT', None)
+        self.env.pop('CODEX_DOC_BYTES', None)
+        self.run_pipeline(self.doc)
+        args = (self.root / 'codex-args.txt').read_text()
+        self.assertIn('model_reasoning_effort="high"', args)
+        self.assertIn('project_doc_max_bytes=65536', args)
 
     def test_review_uses_carbon_high_with_5400_second_timeout(self):
         self.run_pipeline(self.doc)

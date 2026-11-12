@@ -311,9 +311,9 @@ private struct CompactQueueRow: View {
                             in: RoundedRectangle(cornerRadius: 5)
                         )
                         .contentShape(Rectangle())
+                        .hoverHelp(L10n.text("Remove from queue"), active: hovered)
                 }
                 .buttonStyle(.plain)
-                .help(L10n.text("Remove from queue"))
                 .accessibilityLabel(L10n.text("Remove from queue"))
             }
         }

@@ -27,6 +27,52 @@ final class MusicDefaultsObservation: @unchecked Sendable {
 }
 
 extension MusicViewModel {
+    func refreshAutomaticDiscovery() {
+        guard isWorkspaceActive, (store as? SpotifyLibraryStore)?.isRestoring != true else {
+            discoveryNeedsRefresh = true
+            return
+        }
+        refreshDiscovery()
+    }
+
+    func workspaceActivityChanged() {
+        if isWorkspaceActive {
+            if selection.source == .similar,
+                discoveryNeedsRefresh || discoverySnapshot == nil
+                    || (!discoveryHasConnectedRefresh
+                        && (store as? SpotifyLibraryStore)?.isConnected == true)
+            {
+                refreshAutomaticDiscovery()
+            }
+        } else {
+            let seed = currentDiscoverySeed
+            releaseDiscoveryWorkspace()
+            if selectedPlaylistTheme == nil { discoveredThemePlaylists = [] }
+            if selection.source != .albums { expandedAlbumCardIDs = [] }
+            if let spotify = store as? SpotifyLibraryStore {
+                let key = "track:\(seed.trackID ?? "")|artist:\(seed.artistID ?? "")"
+                spotify.trimDiscoveryMemory(
+                    keeping: "seed-v2|\(key)|\(listenBrainzEnabled ? 1 : 0)")
+            }
+        }
+    }
+
+    func releaseDiscoveryWorkspace() {
+        // browsingTask also hosts album/search work; retire only a Discovery request.
+        if isDiscovering || discoverySnapshot != nil {
+            browsingTask?.cancel()
+            browsingTask = nil
+            discoveryRequestID = UUID()
+        }
+        isDiscovering = false
+        discoverySnapshot = nil
+        discoveryHasConnectedRefresh = false
+        discoveryNeedsRefresh = selection.source == .similar
+        if selection.source == .similar {
+            contents = BrowserContents(albums: [], artists: [], tracks: [])
+        }
+    }
+
     func observeDiscoveryPreferences() {
         guard defaults != nil else { return }
         discoveryDefaultsObservation = MusicDefaultsObservation { [weak self] in

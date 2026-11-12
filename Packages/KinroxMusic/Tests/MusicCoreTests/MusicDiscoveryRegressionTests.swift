@@ -31,10 +31,12 @@ struct MusicDiscoveryRegressionTests {
                 track("\(artist)-\($0)", title: "Song \($0)", artist: "other\(artist)")
             }
         }
+        let start = ContinuousClock.now
         let result = MusicDiscoveryEngine.build(
             seedTrackIDs: [seed.id], hideLiked: false,
             catalog: MusicCatalog(tracks: [seed]), library: LibrarySnapshot(userID: "u"),
             freshTracks: candidates + [remix])
+        #expect(start.duration(to: .now) < .milliseconds(15))
         #expect(!result.tracks.contains { $0.id == remix.id })
         let groups = Dictionary(grouping: result.tracks.prefix(30), by: { $0.artists.first?.id })
         #expect(result.tracks.count == 64)

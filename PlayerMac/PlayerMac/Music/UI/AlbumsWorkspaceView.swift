@@ -125,6 +125,7 @@ struct AlbumsWorkspaceView: View {
 private struct AlbumWorkspaceCard: View {
     @Bindable var model: MusicViewModel
     let album: MusicAlbum
+    @State private var hoveredTrack = MusicRowHoverState()
 
     private var isExpanded: Bool {
         model.expandedAlbumCardIDs.contains(album.id)
@@ -232,6 +233,8 @@ private struct AlbumWorkspaceCard: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel(
+                    isExpanded ? L10n.text("Collapse") : L10n.text("Tracks"))
             }
             .padding(12)
 
@@ -259,9 +262,12 @@ private struct AlbumWorkspaceCard: View {
                                 Image(systemName: "plus.circle")
                                     .font(.system(size: 12))
                                     .foregroundStyle(Palette.textSecondary)
+                                    .hoverHelp(
+                                        L10n.text("Add to queue"),
+                                        active: hoveredTrack.id == track.id)
                             }
                             .buttonStyle(.plain)
-                            .help(L10n.text("Add to queue"))
+                            .accessibilityLabel(L10n.text("Add to queue"))
                             Text(TimeFormat.string(track.duration))
                                 .font(KinroxFont.monoDigits(11))
                                 .foregroundStyle(Palette.textTertiary)
@@ -273,6 +279,7 @@ private struct AlbumWorkspaceCard: View {
                         .onTapGesture(count: 2) {
                             model.play(tracks, at: index)
                         }
+                        .onHover { hoveredTrack.update(track.id, hovering: $0) }
                         .draggable("track:\(track.id)")
                     }
                 }

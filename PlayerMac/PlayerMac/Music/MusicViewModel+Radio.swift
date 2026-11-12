@@ -45,6 +45,7 @@ extension MusicViewModel {
         else { return }
         isRefillingRadio = true
         let session = radioSessionID
+        let consent = listenBrainzEnabled
         let store = store
         radioRefillTask = Task { [weak self] in
             guard let self else { return }
@@ -71,18 +72,27 @@ extension MusicViewModel {
                         notInterestedTrackIDs: self.notInterestedTrackIDs,
                         notInterestedArtistIDs: self.notInterestedArtistIDs)
                 } else {
-                    snapshot = MusicDiscoveryEngine.build(
-                        seedTrackIDs: [current.track.id], hideLiked: self.discoveryHideLiked,
-                        catalog: self.catalog, library: self.library, history: self.playHistory,
-                        notInterestedTrackIDs: self.notInterestedTrackIDs,
-                        notInterestedArtistIDs: self.notInterestedArtistIDs)
+                    let catalog = self.catalog
+                    let library = self.library
+                    let history = self.playHistory
+                    let hideLiked = self.discoveryHideLiked
+                    let excludedTracks = self.notInterestedTrackIDs
+                    let excludedArtists = self.notInterestedArtistIDs
+                    snapshot = try await MusicDiscoveryComputation.run {
+                        MusicDiscoveryEngine.build(
+                            seedTrackIDs: [current.track.id], hideLiked: hideLiked,
+                            catalog: catalog, library: library, history: history,
+                            notInterestedTrackIDs: excludedTracks,
+                            notInterestedArtistIDs: excludedArtists)
+                    }
                 }
                 guard !Task.isCancelled, self.isDiscoveryRadioActive,
-                    self.radioSessionID == session, self.store === store
+                    self.radioSessionID == session, self.store === store,
+                    self.listenBrainzEnabled == consent
                 else { return }
                 await self.commitRadioRefill(
                     snapshot.displayTracks, occurrenceID: current.id, session: session,
-                    store: store, replacingSource: replacingSource)
+                    store: store, replacingSource: replacingSource, consent: consent)
             } catch {
                 // Discovery failure leaves the current queue playable.
             }
@@ -91,14 +101,15 @@ extension MusicViewModel {
 
     private func commitRadioRefill(
         _ candidates: [MusicTrack], occurrenceID: UUID, session: UUID, store: any MusicLibraryStore,
-        replacingSource: Bool
+        replacingSource: Bool, consent: Bool
     ) async {
         // Join the playback coordinator, keeping the refill busy through the actual engine commit.
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
             let action: @MainActor () async -> Void = { [weak self] in
                 defer { continuation.resume() }
                 guard let self, self.isDiscoveryRadioActive, self.radioSessionID == session,
-                    self.store === store, replacingSource || self.queue.source.count < 5
+                    self.store === store, self.listenBrainzEnabled == consent,
+                    replacingSource || self.queue.source.count < 5
                 else { return }
                 // Replaced source occurrences may come back as similar tracks.
                 let kept = replacingSource ? self.queue.items.count - self.queue.source.count : 0
@@ -134,7 +145,7 @@ extension MusicViewModel {
                             next, position: self.displayedPosition, paused: self.paused)
                     }
                     guard self.isDiscoveryRadioActive, self.radioSessionID == session,
-                        self.store === store
+                        self.store === store, self.listenBrainzEnabled == consent
                     else { return }
                     self.queue = next
                     self.radioSeenTrackIDs = ids

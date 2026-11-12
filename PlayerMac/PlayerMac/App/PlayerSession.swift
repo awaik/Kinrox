@@ -7,7 +7,12 @@ enum AppMode { case video, music }
 /// Shared application state upon which menus and player window depend.
 @MainActor @Observable
 final class PlayerSession {
-    var mode = AppMode.video { didSet { remote?.modeChanged() } }
+    var mode = AppMode.video {
+        didSet {
+            music.setWorkspaceActive(mode == .music && model != nil)
+            remote?.modeChanged()
+        }
+    }
     let music: MusicViewModel
     let spotify = SpotifyAccount()
     let soloist = SoloistSetup()
@@ -42,7 +47,8 @@ final class PlayerSession {
         self.recents = recents
         music = MusicViewModel(
             store: demoMusic ? DemoMusicLibraryStore() : DisconnectedMusicLibraryStore(),
-            defaults: musicDefaults)
+            defaults: musicDefaults, workspaceActive: false)
+        music.setWorkspaceActive(mode == .music)
         spotify.onInteractiveConnection = { [weak self] in
             guard let self, !demoMusic else { return }
             (self.music.store as? SpotifyLibraryStore)?.retire()

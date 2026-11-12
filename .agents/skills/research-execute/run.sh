@@ -15,7 +15,10 @@ STATE_ROOT="$REPO/.tmp/scratch/research-execute"
 AGY_MODEL="${AGY_MODEL:-Gemini 4 Carbon (High)}"
 AGY_TIMEOUT="${AGY_TIMEOUT:-5400}"
 CODEX_MODEL="${CODEX_MODEL:-gpt-6-astra}"
-CODEX_EFFORT="${CODEX_EFFORT:-xhigh}"
+# Owner decision 2026-11-12: implementation defaults to high; pass CODEX_EFFORT=xhigh for hard tasks.
+CODEX_EFFORT="${CODEX_EFFORT:-high}"
+# Codex auto-loads AGENTS.md but truncates it at 32 KiB by default; load it whole so agents never re-read it.
+CODEX_DOC_BYTES="${CODEX_DOC_BYTES:-65536}"
 STAGE_ONLY=""; RESUME_DIR=""; DRY_RUN=0; DOC_ARG=""
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -121,14 +124,14 @@ run_execute() {
   if [ -n "${CODEX_SESSION:-}" ] && [ -n "${ANSWERS_TEXT:-}" ]; then
     ( cd "$REPO" && RESEARCH_EXECUTE_STAGE=execute codex exec resume "$CODEX_SESSION" \
       --dangerously-bypass-approvals-and-sandbox --model "$CODEX_MODEL" \
-      --config "model_reasoning_effort=\"$CODEX_EFFORT\"" -o "$last" \
+      --config "model_reasoning_effort=\"$CODEX_EFFORT\"" --config "project_doc_max_bytes=$CODEX_DOC_BYTES" -o "$last" \
       "$(render "$PROMPTS_DIR/resume.md")" </dev/null ) >"$STAGE_LOG" 2>&1
     rc=$?
     [ "$rc" = 0 ] && [ -s "$last" ] || log "Session could not resume (exit $rc); retrying with the full prompt."
   fi
   if [ "$rc" != 0 ] || [ ! -s "$last" ]; then
     ( cd "$REPO" && RESEARCH_EXECUTE_STAGE=execute codex exec --yolo --model "$CODEX_MODEL" \
-      --config "model_reasoning_effort=\"$CODEX_EFFORT\"" -C "$REPO" -o "$last" \
+      --config "model_reasoning_effort=\"$CODEX_EFFORT\"" --config "project_doc_max_bytes=$CODEX_DOC_BYTES" -C "$REPO" -o "$last" \
       "$prompt" </dev/null ) >>"$STAGE_LOG" 2>&1
     rc=$?
   fi
@@ -211,6 +214,7 @@ if [ "$DRY_RUN" = 0 ]; then
     else command -v codex >/dev/null || fail "Missing command: codex"; fi
   done
   [ "$(git -C "$REPO" rev-parse --abbrev-ref HEAD)" = main ] || fail "Checkout must be on main; branch switching is prohibited."
+  [ ! -f "$REPO/AGENTS.md" ] || [ "$(wc -c <"$REPO/AGENTS.md")" -le "$CODEX_DOC_BYTES" ] || echo "Warning: AGENTS.md exceeds CODEX_DOC_BYTES ($CODEX_DOC_BYTES); Codex will see it truncated." >&2
 fi
 mkdir -p "$STATE_ROOT/runs" "$STATE_ROOT/locks" || exit 1
 if [ "$DRY_RUN" = 0 ]; then

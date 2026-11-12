@@ -118,3 +118,19 @@ are observed on the next Kinrox command or expected track boundary. Duplicate UR
 inherently ambiguous after missed external transitions because Spotify does not expose the
 current occurrence index. macOS 14 and iOS 17 were not separately exercised; development libmpv
 retains the existing newer-macOS linker warning.
+
+
+## Discovery memory follow-up — 2026-11-12, not released
+
+The [local implementation and live evidence](<../RESEARCHES/DONE/DONE - 2026-11-12_07-05_Kinrox-memory-peak-and-improvement-plan.md>)
+replaces pairwise Discovery scans with indexed equivalent ranking, defers large preview builds
+off MainActor, bounds disposable caches and lazily installs row help. The 20k optimized ranking
+medians are 173/76 ms (seeded/unseeded); measured Mac MainActor occupancies are 99/90 ms.
+
+Two local Release cold starts on the real library peaked at 123.3/120.8 MiB, compared with the
+installed build's 848–849 MiB reproduced peak. The longer interaction session peaked at 212.2 MiB.
+This is not a long-session or full standalone playback acceptance run: Similar retained elevated
+SwiftUI CPU work, accessibility diagnostics reported 23.3 KiB of leaked allocations, and playback
+was not attempted because the UI could not confirm zero volume. The report preserves these limits,
+provider-unavailable results and earlier test failures alongside the final passing 369-test Mac run.
+No release or installed-app replacement occurred.

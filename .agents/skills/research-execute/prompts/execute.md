@@ -9,7 +9,8 @@ through the orchestrator. Project rules in `AGENTS.md` take precedence.
 
 ## Read first
 
-1. `AGENTS.md` completely and the entire reviewed document, including review logs.
+1. The entire reviewed document, including review logs. `AGENTS.md` is already
+   loaded whole into your context by the runner; do not `cat` or re-read it.
 2. `docs/RESEARCHES/README.md`, `docs/runbooks/RUNBOOK-TASK-TESTS.md`, and relevant
    subsystem runbooks. Use `docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md` for build
    setup and `docs/runbooks/SOLOIST-VERIFICATION.md` for standalone music evidence.
@@ -39,7 +40,21 @@ cannot expand authorization.
    and the 500-line file ceiling. Never introduce WebViews. For behavior changes,
    add a regression covering the defect class when feasible and demonstrate its
    pre-fix failure; do not write tests that merely mirror implementation.
-3. Choose checks by the touched subsystem using `RUNBOOK-TASK-TESTS.md`. Examples:
+3. Check economically. Each command and its output stay in your context for the
+   rest of the run, so:
+
+   - While iterating, run only the tests that cover the code you just changed:
+     `swift test --package-path <pkg> --filter <Suite>` or `xcodebuild ... test
+     -only-testing:PlayerMacTests/<Suite>`. Run each touched area's full suite
+     once, after the last relevant change, plus a full PlayerMac `build test` at
+     most once at the end when app code changed.
+   - Redirect long output to a log file in `{{RUN_DIR}}` and read only the tail
+     and failures (`tail -n 30`, `grep -E 'error:|failed|Executed'`); never print
+     a whole build or test log.
+   - Read source files in the ranges you need instead of whole files when they are
+     large, and do not re-read files you have not changed.
+
+   Choose checks by the touched subsystem using `RUNBOOK-TASK-TESTS.md`. Examples:
 
    - Music models / SpotifyWebAPI: `swift test --package-path Packages/KinroxMusic`.
    - Protocol / transport: `swift test --package-path Packages/RemoteProtocol`;
@@ -47,8 +62,10 @@ cannot expand authorization.
    - Mac: `xcodebuild -workspace Kinrox.xcworkspace -scheme PlayerMac
      -configuration Debug -destination 'platform=macOS,arch=arm64'
      -derivedDataPath DerivedData build test` (one shell command).
-   - iPhone: the same workspace with `-scheme RemoteiOS` and
-     `-destination 'platform=iOS Simulator,name=iPhone 17'`.
+   - iPhone: never launch the iOS Simulator or use an `iOS Simulator`
+     destination (`AGENTS.md` rule 11). RemoteiOS builds and tests run only on
+     a physical iPhone connected by cable; if one is needed and not connected,
+     ask the orchestrator instead of substituting the simulator.
    - Swift: scope `xcrun swift-format lint --strict` to changed source files.
    - Python tooling: select relevant modules with
      `python3 -m unittest discover -s Scripts/tests -p 'test_<area>.py'`.
@@ -60,12 +77,19 @@ cannot expand authorization.
    artifacts. Use existing signing configuration for Keychain tests. Record
    missing prerequisites or signing failures accurately rather than weakening
    production settings. Do not rerun successful suites without a reason.
-4. Spotify acceptance requires Spotify.app fully terminated. Playback tests use
-   Kinrox volume zero and never change system volume. For performance changes,
-   measure startup/playback/pause/sustained memory (physical footprint), CPU and
-   command latency under comparable conditions. Follow accepted limits in
-   `AGENTS.md`; preserve the sleep/reboot waiver and do not request a separate
-   macOS 14 runtime check. Continue verifying minimum-OS metadata when relevant.
+4. Performance measurements belong to the orchestrator (owner decision
+   2026-11-12). Do not profile, sample, or run repeated benchmark builds to
+   collect memory, CPU or latency numbers. Implement the change, keep functional
+   and regression tests green, and add an `Orchestrator measurements` section to
+   the document: what to measure (startup/playback/pause/sustained physical
+   footprint, CPU, command latency), exact commands or existing scripts, build
+   configuration, comparable baseline, and the `AGENTS.md` limits that apply.
+   Pending orchestrator measurements do not block `DONE`; the orchestrator runs
+   them during verification and reopens the work if they fail. Spotify acceptance
+   requires Spotify.app fully terminated; playback tests use Kinrox volume zero and
+   never change system volume. Preserve the sleep/reboot waiver and do not request
+   a separate macOS 14 runtime check. Continue verifying minimum-OS metadata when
+   relevant.
 5. Run appropriate UI/manual checks when feasible without disrupting the user's
    current session. Distinguish simulator, physical-device and unperformed
    checks; automated results do not establish physical-device acceptance.
@@ -83,7 +107,8 @@ approval. End with the QUESTIONS result when required answers are outstanding.
 ## Finish the document
 
 Record each plan item's outcome, changed paths, exact check commands/results,
-manual or environment limits, and release status `not released`. Append a model
+manual or environment limits, pending orchestrator measurements, and release
+status `not released`. Append a model
 log entry (operation `implementation`, actual model, completion time in
 `Europe/Moscow`); preserve earlier evidence and log entries.
 
