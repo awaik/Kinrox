@@ -5,7 +5,7 @@ iPhone, and a lightweight Spotify player that finds similar tracks and keeps the
 music going.** No Kinrox account, no trackers, no analytics. Written in Swift 6
 and SwiftUI, with all source code on GitHub.
 
-[Download for Mac (0.5.8, DMG)](https://github.com/awaik/Kinrox/releases/download/v0.5.8/Kinrox-0.5.8-arm64.dmg) ·
+[Download for Mac (0.5.9, DMG)](https://github.com/awaik/Kinrox/releases/download/v0.5.9/Kinrox-0.5.9-arm64.dmg) ·
 [iPhone remote on the App Store](https://apps.apple.com/us/app/kinrox-remote/id6827926471) ·
 [Website](https://kinrox.app/) ·
 [Blog](https://kinrox.app/blog/)
@@ -69,13 +69,13 @@ Details: [privacy policy](https://kinrox.app/privacy/).
 
 ## Project Status
 
-Current Mac release: **0.5.8, build 18** ([release notes](docs/releases/0.5.8.md)).
+Current Mac release: **0.5.9, build 19** ([release notes](docs/releases/0.5.9.md)).
 The DMG bundles libmpv and its dependencies; Homebrew is only needed for development.
 Users of Mac 0.2.0 or earlier install 0.3.0 manually once to enable update reminders.
 The iPhone remote is on the [App Store](https://apps.apple.com/us/app/kinrox-remote/id6827926471)
 and can also be built from source.
 Spotify setup, limitations and measured performance are in the
-[release notes](docs/releases/0.5.8.md) and
+[release notes](docs/releases/0.5.9.md) and
 [Soloist Verification](docs/runbooks/SOLOIST-VERIFICATION.md).
 The Soloist engine is not bundled with Kinrox and needs periodic updates from Spotify.
 

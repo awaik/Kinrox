@@ -88,7 +88,7 @@
   "kinrox-is-written-in-swift-6-and-swiftui-on": "Kinrox は、Swift 6 と libmpv の上の SwiftUI に書き込まれます。プレーヤー、リモコン、プロトコルのすべての行は GitHub にあります。",
   "mac-player-works": "{0}{1}Mac プレーヤー — 動作します",
   "iphone-remote-app-store": "{0}{1}iPhone リモコン — App Store で配信中",
-  "mac-v0-3-0-signed-and-notarized-dmg": "{0}{1}Mac v0.5.8 - 署名および公証された DMG",
+  "mac-v0-3-0-signed-and-notarized-dmg": "{0}{1}Mac v0.5.9 - 署名および公証された DMG",
   "releases": "リリース",
   "build-from-source": "{0}ソースからビルドする",
   "faq": "よくある質問",
