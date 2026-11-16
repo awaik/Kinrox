@@ -1,3 +1,5 @@
+Demo video (physical iPhone with the Mac, initial pairing and full workflow): <DEMO_VIDEO_URL>
+
 Kinrox Remote is a companion remote for the free Kinrox video and music player on Mac. It does not play or stream video or music on iPhone; it only controls what plays on the Mac. It uses the local network only; there is no cloud account, subscription, advertising SDK or analytics service.
 
 You can inspect the interface without a Mac:
@@ -11,7 +13,7 @@ You can inspect the interface without a Mac:
 
 For real functionality:
 
-1. Download the signed Kinrox Mac player from https://github.com/awaik/Kinrox/releases/download/v0.5.8/Kinrox-0.5.8-arm64.dmg and launch it on a Mac with Apple Silicon running macOS 14 or later. The download is public and free.
+1. Download the signed Kinrox Mac player from https://github.com/awaik/Kinrox/releases/download/v0.5.9/Kinrox-0.5.9-arm64.dmg and launch it on a Mac with Apple Silicon running macOS 14 or later. The download is public and free.
 2. Keep Mac and iPhone on the same normal local network. Allow Local Network access on both devices; guest-network client isolation must be disabled for the devices to reach each other.
 3. Enable the remote in the Mac player's settings and open Connect iPhone.
 4. On iPhone, select the Mac and enter the six-digit code currently shown by that Mac. Codes expire after two minutes; request a new one if necessary.

@@ -490,3 +490,9 @@
 "%@ tracks · Recommendations from other listeners are unavailable right now" = "%@ 曲 · ほかのリスナーからのおすすめは現在利用できません";
 "Recommendations from other listeners" = "ほかのリスナーからのおすすめ";
 "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library." = "「類似曲とディスカバリー」では、オープンな音楽データベース ListenBrainz と MusicBrainz を使い、あなたの曲と一緒によく聴かれている曲を Kinrox が提案します。送信されるのはアーティスト名、曲名、曲のコード（ISRC）だけで、アカウント、メールアドレス、再生履歴は送信されません。Spotify とライブラリだけを使う場合はオフにしてください。";
+"Default Video Player" = "デフォルトのビデオプレーヤー";
+"Videos open in Kinrox with a double-click in Finder." = "Finder でビデオをダブルクリックすると Kinrox で開きます。";
+"Make Kinrox Default" = "Kinrox をデフォルトにする";
+"Kinrox opens your videos" = "Kinrox がビデオを開きます";
+"Open in other apps: %@" = "ほかのアプリで開く形式：%@";
+"Couldn’t change the default app. Please try again." = "デフォルトのアプリを変更できませんでした。もう一度お試しください。";

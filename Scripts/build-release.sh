@@ -142,4 +142,6 @@ tar -czf "$RELEASE_DIR/Kinrox-$VERSION-dependency-sources.tar.gz" \
 python3 Scripts/update-appcast.py --appcast site/appcast.xml --output "$RELEASE_DIR/appcast.xml" \
     --version "$VERSION" --build "$BUILD_NUMBER" --dmg "$DMG" \
     --sign-update "$SPARKLE_TOOLS/bin/sign_update" --notes "docs/releases/$VERSION.md"
+# Staging copies share the bundle identifier; keep them out of Finder's "Open With".
+Scripts/unregister-dev-copies.sh > /dev/null
 echo "Prepared notarized release in $RELEASE_DIR; publication is a separate step."

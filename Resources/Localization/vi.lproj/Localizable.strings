@@ -490,3 +490,9 @@
 "%@ tracks · Recommendations from other listeners are unavailable right now" = "%@ bài hát · Gợi ý từ người nghe khác hiện không khả dụng";
 "Recommendations from other listeners" = "Gợi ý từ người nghe khác";
 "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library." = "Trong “Tương tự & khám phá”, Kinrox gợi ý những bài mà mọi người thường nghe cùng với bài của bạn, dựa trên cơ sở dữ liệu âm nhạc mở ListenBrainz và MusicBrainz. Chỉ tên nghệ sĩ, tên bài và mã bài hát (ISRC) được gửi đi — không có tài khoản, email hay lịch sử nghe. Tắt để chỉ dùng Spotify và thư viện của bạn.";
+"Default Video Player" = "Trình phát video mặc định";
+"Videos open in Kinrox with a double-click in Finder." = "Video mở trong Kinrox khi bấm đúp trong Finder.";
+"Make Kinrox Default" = "Đặt Kinrox làm mặc định";
+"Kinrox opens your videos" = "Kinrox mở video của bạn";
+"Open in other apps: %@" = "Mở trong ứng dụng khác: %@";
+"Couldn’t change the default app. Please try again." = "Không thể thay đổi ứng dụng mặc định. Vui lòng thử lại.";

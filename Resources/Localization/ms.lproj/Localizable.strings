@@ -490,3 +490,9 @@
 "%@ tracks · Recommendations from other listeners are unavailable right now" = "%@ lagu · Cadangan daripada pendengar lain tidak tersedia sekarang";
 "Recommendations from other listeners" = "Cadangan daripada pendengar lain";
 "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library." = "Dalam “Serupa & penemuan”, Kinrox mencadangkan lagu yang sering didengar orang bersama lagu anda, menggunakan pangkalan data muzik terbuka ListenBrainz dan MusicBrainz. Hanya nama artis, tajuk lagu dan kod lagu (ISRC) dihantar — tiada akaun, e-mel atau sejarah pendengaran. Matikan untuk menggunakan Spotify dan pustaka anda sahaja.";
+"Default Video Player" = "Pemain video lalai";
+"Videos open in Kinrox with a double-click in Finder." = "Video dibuka dalam Kinrox dengan klik dua kali dalam Finder.";
+"Make Kinrox Default" = "Jadikan Kinrox lalai";
+"Kinrox opens your videos" = "Kinrox membuka video anda";
+"Open in other apps: %@" = "Dibuka dalam app lain: %@";
+"Couldn’t change the default app. Please try again." = "Tidak dapat menukar app lalai. Sila cuba lagi.";

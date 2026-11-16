@@ -490,3 +490,9 @@
 "%@ tracks · Recommendations from other listeners are unavailable right now" = "%@ κομμάτια · Οι προτάσεις από άλλους ακροατές δεν είναι διαθέσιμες τώρα";
 "Recommendations from other listeners" = "Προτάσεις από άλλους ακροατές";
 "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library." = "Στα «Παρόμοια & ανακάλυψη», το Kinrox προτείνει κομμάτια που άλλοι ακούν συχνά μαζί με τα δικά σας, με βάση τις ανοιχτές μουσικές βάσεις ListenBrainz και MusicBrainz. Αποστέλλονται μόνο ονόματα καλλιτεχνών, τίτλοι και κωδικοί κομματιών (ISRC) — χωρίς λογαριασμό, email ή ιστορικό ακρόασης. Απενεργοποιήστε το για να χρησιμοποιείτε μόνο το Spotify και τη βιβλιοθήκη σας.";
+"Default Video Player" = "Προεπιλεγμένο πρόγραμμα αναπαραγωγής βίντεο";
+"Videos open in Kinrox with a double-click in Finder." = "Τα βίντεο ανοίγουν στο Kinrox με διπλό κλικ στο Finder.";
+"Make Kinrox Default" = "Ορισμός του Kinrox ως προεπιλογής";
+"Kinrox opens your videos" = "Το Kinrox ανοίγει τα βίντεό σας";
+"Open in other apps: %@" = "Ανοίγουν σε άλλες εφαρμογές: %@";
+"Couldn’t change the default app. Please try again." = "Δεν ήταν δυνατή η αλλαγή της προεπιλεγμένης εφαρμογής. Δοκιμάστε ξανά.";

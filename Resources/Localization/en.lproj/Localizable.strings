@@ -490,3 +490,9 @@
 "%@ tracks · Recommendations from other listeners are unavailable right now" = "%@ tracks · Recommendations from other listeners are unavailable right now";
 "Recommendations from other listeners" = "Recommendations from other listeners";
 "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library." = "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library.";
+"Default Video Player" = "Default Video Player";
+"Videos open in Kinrox with a double-click in Finder." = "Videos open in Kinrox with a double-click in Finder.";
+"Make Kinrox Default" = "Make Kinrox Default";
+"Kinrox opens your videos" = "Kinrox opens your videos";
+"Open in other apps: %@" = "Open in other apps: %@";
+"Couldn’t change the default app. Please try again." = "Couldn’t change the default app. Please try again.";

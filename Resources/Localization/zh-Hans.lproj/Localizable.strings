@@ -490,3 +490,9 @@
 "%@ tracks · Recommendations from other listeners are unavailable right now" = "%@ 首歌曲 · 其他听众的推荐暂时不可用";
 "Recommendations from other listeners" = "其他听众的推荐";
 "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library." = "在“相似与发现”中，Kinrox 会借助开放音乐数据库 ListenBrainz 和 MusicBrainz，推荐人们常与你的歌曲一起收听的曲目。只会发送艺人名、曲名和曲目代码（ISRC），不发送账户、电子邮件或收听记录。关闭后仅使用 Spotify 和你的资料库。";
+"Default Video Player" = "默认视频播放器";
+"Videos open in Kinrox with a double-click in Finder." = "在访达中连按视频即可用 Kinrox 打开。";
+"Make Kinrox Default" = "将 Kinrox 设为默认";
+"Kinrox opens your videos" = "Kinrox 会打开你的视频";
+"Open in other apps: %@" = "在其他 App 中打开：%@";
+"Couldn’t change the default app. Please try again." = "无法更改默认 App。请重试。";

@@ -490,3 +490,9 @@
 "%@ tracks · Recommendations from other listeners are unavailable right now" = "%@ قطعه · پیشنهادهای شنوندگان دیگر اکنون در دسترس نیست";
 "Recommendations from other listeners" = "پیشنهادهای شنوندگان دیگر";
 "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library." = "در «مشابه و اکتشاف»، Kinrox با استفاده از پایگاه‌های داده موسیقی باز ListenBrainz و MusicBrainz قطعه‌هایی را پیشنهاد می‌کند که دیگران اغلب همراه با قطعه‌های شما گوش می‌دهند. فقط نام هنرمندان، عنوان قطعه‌ها و کد آن‌ها (ISRC) ارسال می‌شود؛ بدون حساب، ایمیل یا سابقه شنیدن. برای استفاده فقط از Spotify و کتابخانه خود، آن را خاموش کنید.";
+"Default Video Player" = "پخش‌کنندهٔ پیش‌فرض ویدیو";
+"Videos open in Kinrox with a double-click in Finder." = "ویدیوها با دوبار کلیک در Finder در Kinrox باز می‌شوند.";
+"Make Kinrox Default" = "Kinrox را پیش‌فرض کنید";
+"Kinrox opens your videos" = "Kinrox ویدیوهای شما را باز می‌کند";
+"Open in other apps: %@" = "در برنامه‌های دیگر باز می‌شوند: %@";
+"Couldn’t change the default app. Please try again." = "تغییر برنامهٔ پیش‌فرض ممکن نشد. دوباره امتحان کنید.";

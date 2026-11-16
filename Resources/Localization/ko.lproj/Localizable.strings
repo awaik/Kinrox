@@ -490,3 +490,9 @@
 "%@ tracks · Recommendations from other listeners are unavailable right now" = "%@곡 · 다른 청취자의 추천을 지금 사용할 수 없습니다";
 "Recommendations from other listeners" = "다른 청취자의 추천";
 "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library." = "‘유사곡 및 탐색’에서 Kinrox는 공개 음악 데이터베이스 ListenBrainz와 MusicBrainz를 이용해 사람들이 내 곡과 함께 자주 듣는 곡을 추천합니다. 아티스트 이름, 곡 제목, 곡 코드(ISRC)만 전송되며 계정, 이메일, 청취 기록은 전송되지 않습니다. Spotify와 보관함만 사용하려면 끄세요.";
+"Default Video Player" = "기본 비디오 플레이어";
+"Videos open in Kinrox with a double-click in Finder." = "Finder에서 비디오를 이중 클릭하면 Kinrox에서 열립니다.";
+"Make Kinrox Default" = "Kinrox를 기본으로 설정";
+"Kinrox opens your videos" = "Kinrox가 비디오를 엽니다";
+"Open in other apps: %@" = "다른 앱에서 열림: %@";
+"Couldn’t change the default app. Please try again." = "기본 앱을 변경할 수 없습니다. 다시 시도하세요.";

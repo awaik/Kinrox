@@ -490,3 +490,9 @@
 "%@ tracks · Recommendations from other listeners are unavailable right now" = "%@ szám · Más hallgatók ajánlásai most nem érhetők el";
 "Recommendations from other listeners" = "Más hallgatók ajánlásai";
 "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library." = "A „Hasonlók és felfedezés” részben a Kinrox olyan számokat ajánl, amelyeket mások gyakran hallgatnak a tieiddel együtt, a nyílt ListenBrainz és MusicBrainz zenei adatbázisok alapján. Csak az előadók neve, a számok címe és kódja (ISRC) kerül elküldésre – fiók, e-mail és hallgatási előzmények nélkül. Kikapcsolva csak a Spotify és a saját könyvtár használható.";
+"Default Video Player" = "Alapértelmezett videolejátszó";
+"Videos open in Kinrox with a double-click in Finder." = "A videók dupla kattintásra a Kinroxban nyílnak meg a Finderben.";
+"Make Kinrox Default" = "Kinrox legyen az alapértelmezett";
+"Kinrox opens your videos" = "A Kinrox nyitja meg a videóit";
+"Open in other apps: %@" = "Más appokban nyílnak meg: %@";
+"Couldn’t change the default app. Please try again." = "Nem sikerült módosítani az alapértelmezett appot. Próbálja újra.";

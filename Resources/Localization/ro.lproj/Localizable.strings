@@ -490,3 +490,9 @@
 "%@ tracks · Recommendations from other listeners are unavailable right now" = "%@ piese · Recomandările de la alți ascultători nu sunt disponibile acum";
 "Recommendations from other listeners" = "Recomandări de la alți ascultători";
 "In Similar & discovery, Kinrox suggests tracks that people often play together with yours, using the open music databases ListenBrainz and MusicBrainz. Only artist names, track titles and track codes (ISRC) are sent — no account, email or listening history. Turn off to use only Spotify and your library." = "În „Similare și descoperire”, Kinrox propune piese pe care alți oameni le ascultă des împreună cu ale tale, folosind bazele de date muzicale deschise ListenBrainz și MusicBrainz. Se trimit doar numele artiștilor, titlurile și codurile pieselor (ISRC) — fără cont, e-mail sau istoric de ascultare. Dezactivează pentru a folosi doar Spotify și biblioteca ta.";
+"Default Video Player" = "Player video implicit";
+"Videos open in Kinrox with a double-click in Finder." = "Videoclipurile se deschid în Kinrox cu dublu clic în Finder.";
+"Make Kinrox Default" = "Setează Kinrox ca implicit";
+"Kinrox opens your videos" = "Kinrox îți deschide videoclipurile";
+"Open in other apps: %@" = "Se deschid în alte aplicații: %@";
+"Couldn’t change the default app. Please try again." = "Aplicația implicită nu a putut fi schimbată. Încearcă din nou.";

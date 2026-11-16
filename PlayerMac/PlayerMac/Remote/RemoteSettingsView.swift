@@ -18,6 +18,7 @@ struct RemoteSettingsView: View {
             Divider().overlay(Palette.hairline)
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    DefaultPlayerCard()
                     if let spotify { SpotifySettingsSection(account: spotify) }
                     if let soloist, soloist.configured { SoloistSettingsSection(setup: soloist) }
                     serverCard

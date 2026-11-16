@@ -13,7 +13,7 @@
 >
 > These requirements supersede earlier decisions that require Spotify.app or permit an embedded web player. The historical Connect-only releases in the [release history](docs/releases/HISTORY.md) do **not** establish standalone acceptance. The default production path now uses separately downloaded Soloist; live evidence and accepted limits are in [Soloist Verification](docs/runbooks/SOLOIST-VERIFICATION.md).
 >
-> **Status:** M0–M6 complete. Current release: Mac 0.5.9 (build 19) and Kinrox Remote 0.2.2 (build 4).
+> **Status:** M0–M6 complete. Current release: Mac 0.5.10 (build 20) and Kinrox Remote 0.2.2 (build 4).
 > Milestone and release history with links to verification reports — [release history](docs/releases/HISTORY.md);
 > contributor tasks — [docs/TODO](docs/TODO/). Design: Section 3.5; landing site: Section 3.6; licensing: Section 10.
 > Open questions are compiled in Section 11. Until closed, proposals marked "proposal" are non-final.
@@ -121,6 +121,7 @@ Kinrox does not attempt to replicate IINA's feature breadth (filters, plugins, c
 | System Media Keys | `MPRemoteCommandCenter` + `MPNowPlayingInfoCenter` (Section 5) |
 | Screensaver | `Screensaver → Matrix`: falling green code replaces the video after mpv confirms pause. Esc exits without resuming or leaving fullscreen. The hint appears only for the first 3 seconds; mouse movement does not restore it. Also works without media. Owner approved 2026-10-29. |
 | Remote Control | Protocol server (Section 6) |
+| Default Player | Settings card “Default Video Player” makes Kinrox the system-wide default for MOV, MP4, M4V, MKV, WebM, AVI and TS with `NSWorkspace.setDefaultApplication(at:toOpen:)`, only on the user's click. A system default avoids per-file “Open with” bindings, which macOS refuses for quarantined files. Owner request 2026-11-16; Figma `312:454`. |
 | Updates | Sparkle 2: a daily background check; reminder banner on the welcome screen, compact pill only on pause, "Check for Updates…" with a version badge; Sparkle's windows download, verify, and install. Owner approved 2026-10-29; see [verification](docs/runbooks/UPDATES-VERIFICATION.md). |
 | Audio and Subtitles | Embedded and external tracks, subtitles Off, native Audio/Subtitles menus, and control-bar selector. Recursive discovery under the video folder by default; selectable common root, searchable full list, manual file loading, and per-folder preferences. Owner approved 2026-10-29; see [verification](docs/runbooks/TRACKS-VERIFICATION.md). |
 
@@ -276,6 +277,7 @@ Kinrox/
 │   ├── generate.sh               # project generator
 │   ├── capture-landing-screenshots.sh # remote screenshots for site/
 │   ├── bundle-libmpv.py          # verified dylib packaging in .app (M6)
+│   ├── unregister-dev-copies.sh  # drops build/staging Kinrox.app copies from Finder "Open With"
 │   └── update-appcast.py         # EdDSA-signed appcast item for a Mac release
 └── Vendor/                       # compiled dylibs for M6, in .gitignore
 ```
@@ -333,13 +335,14 @@ The file is the source of truth for layouts, texts in mockups, components, and t
 | [11 · Spotify — Discovery v4](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=191-304) | Similar & discovery v4: seed card with history, mode segmented control, results grouped by reason (listened together, collaborators, your library, genre) without technical source names, hover row actions and Not interested, real mixes, "Listen to similar" with queue banner, Settings → Spotify "Recommendations from other listeners" toggle (on by default), loading and empty states (`191:304`) |
 | [14 · App Store — Screenshots v2](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=229-304) | Eight 1320×2868 App Store screenshots in English and Russian for Remote 0.2.2: Lock Screen hero, video remote, music, Similar, queue, free Mac player, privacy, Matrix; no third-party names, fictional titles. Other locales are rendered from the English row by `Scripts/app-store/` (see `AppStore/README.md`) (`229:304`) |
 | [15 · Mac — Get the iPhone remote](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=237-304) | QR code and App Store link for Kinrox Remote in the Connect iPhone sheet and Settings → Remote, Help menu item, behaviour notes (`237:304`) |
+| [16 · Mac — Default video player](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=312-387) | Settings card “Default Video Player” in four states (not default, partial, default, failed), Settings windows before/after, behaviour notes (`312:387`) |
 | [13 · Remote — Lock Screen](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=212-304) | iPhone Lock Screen Live Activity: music and video cards, paused, sending, Mac unavailable and possibly-out-of-date states, Dynamic Island compact/minimal/expanded, Settings toggle, behaviour notes and owner decisions (±10 s, volume buttons, one-hour pause limit) (`212:304`) |
 | [12 · Remote — Similar](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=205-4347) | iPhone Similar control: Listen to similar button, looking and active states, Not interested menu, hidden-track feedback with Undo, queue in Similar mode with swipe/long-press Not interested, older-Mac update hint, behaviour notes (`205:4347`) |
 
 Working with the file:
 - new screens and states are designed in this file before implementation; existing pages follow `NN · <milestone> — <topic>`;
 - mockup copy in Figma is currently Russian; app source strings stay English (Section 9);
-- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, `88:304`, `166:304`, `191:304`, `205:4347`, `212:304`, `229:304`, and `237:304`; component library in section `3:2`.
+- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, `88:304`, `166:304`, `191:304`, `205:4347`, `212:304`, `229:304`, `237:304`, and `312:387`; component library in section `3:2`.
 
 Project information links share one destination catalog in both apps and open in
 the system browser only when activated. The license label, description and destination
