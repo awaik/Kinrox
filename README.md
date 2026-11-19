@@ -60,9 +60,14 @@ MacBook on the projector or TV, you on the couch.
 - Mac and iPhone talk directly over your local network, encrypted
   (X25519, HKDF-SHA256, ChaCha20-Poly1305). Public addresses and cellular are refused.
 - The remote sees titles and durations, never file paths. Videos stay on the Mac.
-- Local video and the remote work offline. The internet is used only for the daily
-  update check, the optional Spotify connection and the ListenBrainz/MusicBrainz
-  similarity you can turn off. The iPhone never calls Spotify.
+- Local playback and the remote work offline. The released Mac app uses the
+  internet for the daily update check, the optional Spotify connection and
+  ListenBrainz/MusicBrainz similarity. The iPhone never calls Spotify.
+- Starting with Mac 0.5.11, watched-folder lookups for ratings, genres and
+  artwork are enabled by default. The Folders sheet and Settings share a toggle.
+  Lookups send clean media titles, album artist names when needed, and public
+  catalog IDs to Cinemeta, TVMaze, MusicBrainz, and Cover Art Archive.
+  The catalog, cached artwork, and watch history stay on the Mac.
 - 30 languages, including right-to-left layouts.
 
 Details: [privacy policy](https://kinrox.app/privacy/).
@@ -80,8 +85,9 @@ Spotify setup, limitations and measured performance are in the
 The Soloist engine is not bundled with Kinrox and needs periodic updates from Spotify.
 
 The `kinrox-cli` executable is a stub; its implementation is an
-[optional task](docs/TODO/05-kinrox-cli.md). Network streams,
-custom local-video playlists, and playback position memory are outside the initial scope.
+[optional task](docs/TODO/05-kinrox-cli.md). Network streams and
+custom local-video playlists are outside the initial scope.
+Mac 0.5.11 adds a Home library for watched folders, local music, and video resume.
 Architecture and roadmap are in [AGENTS.md](AGENTS.md).
 
 The folder playlist updates as videos appear or disappear, including Next/Previous

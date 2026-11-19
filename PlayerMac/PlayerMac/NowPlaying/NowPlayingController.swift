@@ -101,7 +101,15 @@ final class NowPlayingController {
                 : MPNowPlayingInfoMediaType.video.rawValue,
         ]
         if let album = updated.album { info[MPMediaItemPropertyAlbumTitle] = album }
-        if !updated.isMusic, let artwork { info[MPMediaItemPropertyArtwork] = artwork }
+        if let data = updated.artworkData, metadata?.artworkData == data,
+            let current = center.nowPlayingInfo?[MPMediaItemPropertyArtwork]
+        {
+            info[MPMediaItemPropertyArtwork] = current
+        } else if let data = updated.artworkData, let image = NSImage(data: data) {
+            info[MPMediaItemPropertyArtwork] = NowPlayingArtwork.make(data: data, size: image.size)
+        } else if !updated.isMusic || updated.usesDefaultArtwork, let artwork {
+            info[MPMediaItemPropertyArtwork] = artwork
+        }
         center.nowPlayingInfo = info
         let state: MPNowPlayingPlaybackState = updated.paused ? .paused : .playing
         if center.playbackState != state { center.playbackState = state }

@@ -32,9 +32,9 @@ STATE_ROOT="$REPO/.tmp/scratch/general-release"
 # Owner decision 2026-11-11: of Google's models, agents use only Gemini 4 Carbon (High).
 AGY_MODEL="${AGY_MODEL:-Gemini 4 Carbon (High)}"
 AGY_TIMEOUT="${AGY_TIMEOUT:-5400}"
-CODEX_MODEL="${CODEX_MODEL:-gpt-6-astra}"
-# Owner decision 2026-11-12: Codex limits run out quickly. Apply defaults to high (APPLY_EFFORT=xhigh
-# for a hard package), and the orchestrator performs the release unless RELEASE_AGENT=codex.
+CODEX_MODEL="${CODEX_MODEL:-gpt-6.2-sol}"
+# Owner decisions 2026-11-12, 2026-11-18: Codex limits run out quickly. Apply defaults to gpt-6.2-sol
+# at high (CODEX_MODEL=gpt-6.2-astra or APPLY_EFFORT=xhigh for hard packages); orchestrator releases.
 APPLY_EFFORT="${APPLY_EFFORT:-high}"
 RELEASE_EFFORT="${RELEASE_EFFORT:-medium}"
 RELEASE_AGENT="${RELEASE_AGENT:-orchestrator}"

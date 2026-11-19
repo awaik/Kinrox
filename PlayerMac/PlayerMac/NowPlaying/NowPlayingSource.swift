@@ -8,6 +8,8 @@ struct NowPlayingMetadata: Equatable {
     let duration: Double
     let paused: Bool
     let isMusic: Bool
+    var artworkData: Data? = nil
+    var usesDefaultArtwork = false
 }
 
 @MainActor
@@ -18,6 +20,39 @@ protocol NowPlayingSource: AnyObject {
     func performNowPlaying(_ command: NowPlayingCommand, position: Double?) -> Bool
     func observePlayback(_ observer: @escaping (PlaybackEvent?) -> Void) -> UUID
     func removePlaybackObserver(_ id: UUID)
+}
+
+extension LocalAudioViewModel: NowPlayingSource {
+    var nowPlayingMetadata: NowPlayingMetadata? {
+        guard let track = currentTrack else { return nil }
+        return NowPlayingMetadata(
+            identity: queue.current?.id.uuidString ?? "", title: track.title,
+            artist: track.artist, album: track.album, duration: duration, paused: paused,
+            isMusic: true, artworkData: artworkData, usesDefaultArtwork: true)
+    }
+
+    var nowPlayingPosition: Double { position }
+
+    var nowPlayingCommands: Set<NowPlayingCommand> {
+        guard currentTrack != nil else { return [] }
+        var commands = Set(NowPlayingCommand.allCases)
+        if !canNext { commands.remove(.nextTrack) }
+        if !canPrevious { commands.remove(.previousTrack) }
+        return commands
+    }
+
+    func performNowPlaying(_ command: NowPlayingCommand, position: Double?) -> Bool {
+        switch command {
+        case .togglePlayPause: togglePause()
+        case .play: setPaused(false)
+        case .pause: setPaused(true)
+        case .nextTrack: next()
+        case .previousTrack: previous()
+        case .skipForward: seek(self.position + 10)
+        case .skipBackward: seek(self.position - 10)
+        case .changePlaybackPosition: position.map(seek) ?? false
+        }
+    }
 }
 
 extension PlayerViewModel: NowPlayingSource {

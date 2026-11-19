@@ -77,8 +77,8 @@ class RunnerTests(unittest.TestCase):
             'GIT_COMMITTER_NAME': 'Test', 'GIT_COMMITTER_EMAIL': 'test@example.invalid',
         })
         for var in ('GENERAL_RELEASE_STAGE', 'RESEARCH_EXECUTE_STAGE', 'AGY_MODEL', 'APPLE_TEAM_ID',
-                    'APPLE_SIGNING_IDENTITY', 'NOTARYTOOL_PROFILE', 'RELEASE_AGENT', 'APPLY_EFFORT',
-                    'CODEX_DOC_BYTES'):
+                    'APPLE_SIGNING_IDENTITY', 'NOTARYTOOL_PROFILE', 'RELEASE_AGENT', 'CODEX_MODEL',
+                    'APPLY_EFFORT', 'CODEX_DOC_BYTES'):
             self.env.pop(var, None)
         write_exec(self.bin / 'agy', AGY)
         write_exec(self.bin / 'codex', CODEX)
@@ -264,6 +264,7 @@ class RunnerTests(unittest.TestCase):
     def test_codex_defaults_save_tokens(self):
         self.new_run()
         args = (self.base / 'codex-args.txt').read_text()
+        self.assertIn('--model gpt-6.2-sol', args)
         self.assertIn('model_reasoning_effort="high"', args)
         self.assertIn('project_doc_max_bytes=65536', args)
 

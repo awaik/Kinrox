@@ -23,6 +23,9 @@ final class RemoteServer {
     @ObservationIgnored let recents: RecentFilesStore
     @ObservationIgnored let pairing: PairingCenter
     @ObservationIgnored private(set) var model: PlayerViewModel?
+    @ObservationIgnored private weak var localAudio: LocalAudioViewModel?
+    @ObservationIgnored private var localAudioObserver: UUID?
+    @ObservationIgnored private var localAudioIsActive: (() -> Bool)?
     @ObservationIgnored var musicBridge: RemoteMusicBridge?
     @ObservationIgnored private var modelObserver: UUID?
     @ObservationIgnored private var recentObserver: UUID?
@@ -229,6 +232,23 @@ final class RemoteServer {
         }
     }
 
+    func connectLocalAudio(_ player: LocalAudioViewModel, isActive: @escaping () -> Bool) {
+        if let localAudioObserver { localAudio?.removePlaybackObserver(localAudioObserver) }
+        localAudio = player
+        localAudioIsActive = isActive
+        localAudioObserver = player.observePlayback { [weak self] _ in
+            guard let self, self.activeLocalAudio != nil else { return }
+            self.publisher.update(self.snapshot)
+        }
+    }
+
+    var activeLocalAudio: LocalAudioViewModel? {
+        guard model != nil, localAudio?.currentTrack != nil, localAudioIsActive?() == true else {
+            return nil
+        }
+        return localAudio
+    }
+
     func modeChanged() {
         musicBridge?.update()
         publisher.update(snapshot, immediate: true)
@@ -330,6 +350,14 @@ final class RemoteServer {
     }
 
     var snapshot: PlayerState {
+        if let audio = activeLocalAudio, let track = audio.currentTrack {
+            return PlayerState(
+                title: track.title, position: audio.position, duration: audio.duration,
+                paused: audio.paused, volume: audio.volume,
+                fullscreen: model?.isFullscreen ?? false,
+                hasMedia: true, canNext: audio.canNext, canPrevious: audio.canPrevious,
+                screensaver: model?.screensaver ?? .off, source: .video, music: nil)
+        }
         if let musicBridge, musicBridge.active, model != nil {
             return musicBridge.snapshot(
                 fullscreen: model?.isFullscreen ?? false, screensaver: model?.screensaver ?? .off)

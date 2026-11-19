@@ -92,7 +92,10 @@ public actor MetaBrainzClient {
             } else {
                 let response: MusicBrainzArtists? = try await read(
                     host: "musicbrainz.org", path: "/ws/2/artist/",
-                    query: ["query": "artist:\"\(artistName)\"", "fmt": "json", "limit": "3"])
+                    query: [
+                        "query": "artist:\(Self.lucenePhrase(artistName))", "fmt": "json",
+                        "limit": "3",
+                    ])
                 result.artists = Array(
                     (response?.artists ?? []).filter {
                         Self.normalized($0.name) == Self.normalized(artistName)
@@ -158,7 +161,7 @@ public actor MetaBrainzClient {
         return result
     }
 
-    private func cached<T: Decodable>(_ key: String) async throws -> T? {
+    func cached<T: Decodable>(_ key: String) async throws -> T? {
         try Task.checkCancellation()
         if let (expiry, data) = memory[key], expiry > now() {
             return try? JSONDecoder().decode(T.self, from: data)
@@ -168,7 +171,7 @@ public actor MetaBrainzClient {
         }
         return nil
     }
-    private func save<T: Encodable>(_ key: String, value: T, ttl: TimeInterval) async throws {
+    func save<T: Encodable>(_ key: String, value: T, ttl: TimeInterval) async throws {
         try Task.checkCancellation()
         let data = try JSONEncoder().encode(value)
         memory = memory.filter { $0.value.0 > now() }
@@ -178,13 +181,13 @@ public actor MetaBrainzClient {
         memory[key] = (now().addingTimeInterval(ttl), data)
         try? await cache?.writeMetaBrainz(key, data: data, ttl: ttl)
     }
-    private func read<T: Decodable>(host: String, path: String, query: [String: String])
+    func read<T: Decodable>(host: String, path: String, query: [String: String])
         async throws -> T?
     {
         guard let data = try await request(host: host, path: path, query: query) else { return nil }
         return try JSONDecoder().decode(T.self, from: data)
     }
-    private func request(
+    func request(
         host: String, path: String, query: [String: String] = [:], body: Data? = nil
     ) async throws -> Data? {
         var parts = URLComponents()
@@ -194,12 +197,14 @@ public actor MetaBrainzClient {
         parts.queryItems = query.sorted { $0.key < $1.key }.map {
             URLQueryItem(name: $0.key, value: $0.value)
         }
-        guard let url = parts.url, ["musicbrainz.org", "labs.api.listenbrainz.org"].contains(host)
+        guard let url = parts.url,
+            ["musicbrainz.org", "labs.api.listenbrainz.org", "coverartarchive.org"].contains(host)
         else { throw Failure.invalidURL }
         var request = URLRequest(url: url, timeoutInterval: 10)
         request.httpMethod = body == nil ? "GET" : "POST"
         request.httpBody = body
         if body != nil { request.setValue("application/json", forHTTPHeaderField: "Content-Type") }
+        if host == "coverartarchive.org" { return try await readCoverArtIndex(request) }
         let captured = request
         for attempt in 0...1 {
             try Task.checkCancellation()
@@ -223,6 +228,24 @@ public actor MetaBrainzClient {
         }
         throw Failure.unavailable
     }
+
+    private func readCoverArtIndex(_ request: URLRequest) async throws -> Data? {
+        let maximumBytes = 8 << 20
+        let (bytes, response) = try await session.bytes(for: request)
+        defer { bytes.task.cancel() }
+        guard let response = response as? HTTPURLResponse else { throw Failure.unavailable }
+        if response.statusCode == 404 { return nil }
+        guard response.statusCode == 200, response.expectedContentLength <= maximumBytes else {
+            throw Failure.unavailable
+        }
+        var data = Data()
+        for try await byte in bytes {
+            guard data.count < maximumBytes else { throw Failure.unavailable }
+            data.append(byte)
+        }
+        return data
+    }
+
     static func retryDelay(_ raw: String?, now: Date) -> TimeInterval {
         if let raw, let seconds = Double(raw) { return min(5, max(0, seconds)) }
         let formatter = DateFormatter()
@@ -247,12 +270,28 @@ public actor MetaBrainzClient {
     }
 }
 
-private final class MetaBrainzRedirectPolicy: NSObject, URLSessionTaskDelegate {
+final class MetaBrainzRedirectPolicy: NSObject, URLSessionTaskDelegate {
     func urlSession(
         _ session: URLSession, task: URLSessionTask,
         willPerformHTTPRedirection response: HTTPURLResponse,
         newRequest request: URLRequest, completionHandler: @escaping @Sendable (URLRequest?) -> Void
     ) {
-        completionHandler(nil)
+        completionHandler(Self.redirect(from: response.url, to: request))
+    }
+
+    static func redirect(from origin: URL?, to request: URLRequest) -> URLRequest? {
+        guard origin?.scheme == "https", let source = origin?.host?.lowercased(),
+            let url = request.url, url.scheme == "https", url.user == nil, url.password == nil,
+            url.port == nil || url.port == 443,
+            let host = url.host?.lowercased(),
+            (source == "coverartarchive.org" && host == "archive.org")
+                || (["coverartarchive.org", "archive.org"].contains(source)
+                    && host.hasSuffix(".archive.org")),
+            let method = request.httpMethod, method == "GET" || method == "HEAD"
+        else { return nil }
+        var clean = URLRequest(url: url, timeoutInterval: request.timeoutInterval)
+        clean.httpMethod = method
+        clean.httpShouldHandleCookies = false
+        return clean
     }
 }

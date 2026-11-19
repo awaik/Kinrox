@@ -7,6 +7,9 @@ struct PlayerActions {
     var openFile: () -> Void = {}
     var openRecent: (RecentItem) -> Void = { _ in }
     var open: (URL) -> Void = { _ in }
+    var openMedia: (([URL]) -> Void)?
+    var chooseFolders: () -> Void = {}
+    var addFolders: ([URL]) -> Void = { _ in }
 }
 
 /// SwiftUI integration with AppKit window: window traffic lights hide with controls.
@@ -76,6 +79,7 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
             rootView: PlayerRootView(
                 session: session,
                 video: PlayerView(
+                    session: session,
                     model: model, recents: recents, pairing: pairing, remote: remote,
                     updates: updates, videoLayer: engine.videoLayer, actions: actions,
                     chrome: chrome, overlay: overlay),
@@ -157,6 +161,14 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
             model.trackController.presentation == nil,
             !model.trackController.isChoosingFile
         else { return false }
+        if let session, session.isLibrarySheetShown {
+            session.isLibrarySheetShown = false
+            return true
+        }
+        if let session, session.isHomeSearchFocused || session.isHomeSearchShown {
+            session.leaveHomeSearch()
+            return true
+        }
         if model.isShowingConnectPhone {
             model.isShowingConnectPhone = false
             return true

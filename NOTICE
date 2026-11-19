@@ -33,3 +33,12 @@ its own attribution and modification terms. The shared-code exception is in
 SHARED-LICENSE-EXCEPTION.md.
 
 Verbatim copying and redistribution of this notice are permitted.
+
+Media library metadata attribution
+
+Kinrox may retrieve series metadata and episode descriptions from TVMaze
+(https://www.tvmaze.com/). TVMaze data is licensed under Creative Commons
+Attribution-ShareAlike 4.0 International
+(https://creativecommons.org/licenses/by-sa/4.0/). Kinrox displays TVMaze as the
+source and converts HTML summaries to plain text. See https://www.tvmaze.com/api
+for attribution details.

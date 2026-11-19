@@ -144,10 +144,12 @@ class RunnerTests(unittest.TestCase):
         self.assertIn('no changes since startup', (self.latest() / 'summary.md').read_text())
 
     def test_codex_defaults_save_tokens(self):
+        self.env.pop('CODEX_MODEL', None)
         self.env.pop('CODEX_EFFORT', None)
         self.env.pop('CODEX_DOC_BYTES', None)
         self.run_pipeline(self.doc)
         args = (self.root / 'codex-args.txt').read_text()
+        self.assertIn('--model gpt-6.2-sol', args)
         self.assertIn('model_reasoning_effort="high"', args)
         self.assertIn('project_doc_max_bytes=65536', args)
 

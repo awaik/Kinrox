@@ -8,9 +8,11 @@ final class MPVPlayer: PlayerEngine {
     private var isClosing = false
     private static let configureLocale: Void = { setlocale(LC_NUMERIC, "C") }()
 
+    static func ensureNumericLocale() { _ = configureLocale }
+
     init() throws {
         // Executes sequentially on MainActor, prior to creating any mpv core.
-        _ = Self.configureLocale
+        Self.ensureNumericLocale()
         guard let handle = mpv_create() else { throw MPVError("Failed to create libmpv player.") }
         let stream = AsyncStream<PlaybackEvent>.makeStream()
         events = stream.stream
@@ -56,12 +58,17 @@ final class MPVPlayer: PlayerEngine {
 
     deinit { lifetime.beginShutdown() }
 
-    func load(url: URL) throws {
+    var reportsLoadedPath: Bool { true }
+
+    func load(url: URL) throws { try load(url: url, paused: false) }
+
+    func load(url: URL, paused: Bool) throws {
         guard url.isFileURL else { throw MPVError("Only local files can be opened.") }
         let values = try url.resourceValues(forKeys: [.isRegularFileKey])
         guard values.isRegularFile == true else { throw MPVError("Select a video file.") }
+        if paused { try setPaused(true) }
         try command(["loadfile", url.path, "replace", "-1", "aid=auto,sid=auto"])
-        try setPaused(false)
+        if !paused { try setPaused(false) }
     }
 
     func setPaused(_ paused: Bool) throws { try command(["set", "pause", paused ? "yes" : "no"]) }

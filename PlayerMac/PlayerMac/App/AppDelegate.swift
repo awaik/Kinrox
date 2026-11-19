@@ -65,9 +65,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// "Open With", drag and drop onto Dock icon, and `open -a Kinrox file`.
     func application(_ application: NSApplication, open urls: [URL]) {
         guard !isRunningTests, !isTerminating else { return }
-        guard let url = urls.first(where: VideoFiles.isVideo) ?? urls.first else { return }
+        guard !urls.isEmpty else { return }
         receivedOpenRequest = true
-        open(url)
+        openMedia(urls)
     }
 
     @discardableResult
@@ -75,7 +75,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard !isRunningTests, !isTerminating else { return false }
         showPlayer()
         session.mode = .video
+        if LocalAudioFiles.isAudio(url) {
+            return session.localAudio.play([url], using: session.mediaLibrary)
+        }
         return playerWindow?.model.open(url: url) ?? false
+    }
+
+    private func openMedia(_ urls: [URL]) {
+        guard
+            let first = urls.first(where: { LocalAudioFiles.isAudio($0) || VideoFiles.isVideo($0) })
+        else {
+            if let url = urls.first { open(url) }
+            return
+        }
+        if LocalAudioFiles.isAudio(first) {
+            showPlayer()
+            session.mode = .video
+            session.localAudio.play(urls, using: session.mediaLibrary)
+        } else {
+            open(first)
+        }
     }
 
     @discardableResult
@@ -97,19 +116,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSDocumentController.shared.clearRecentDocuments(nil)
     }
 
-    func openFile() {
+    func openFile() { chooseFiles(folders: false) }
+
+    private func chooseFiles(folders: Bool) {
         guard !isRunningTests, !isTerminating, openPanel == nil,
             session.model?.trackController.isChoosingFile != true
         else { return }
         showPlayer()
-        guard let window = playerWindow?.window, window.attachedSheet == nil else { return }
+        guard let player = playerWindow?.window else { return }
+        let window = folders ? player.attachedSheet ?? player : player
+        guard window.attachedSheet == nil else { return }
         session.model?.trackController.presentation = nil
         let panel = NSOpenPanel()
-        panel.title = L10n.text("Open Video")
-        panel.prompt = L10n.text("Open")
-        panel.canChooseDirectories = false
-        panel.allowsMultipleSelection = false
-        panel.allowedContentTypes = VideoFiles.contentTypes
+        panel.title = folders ? L10n.text("Add Folder…") : L10n.text("Open File…")
+        panel.prompt = folders ? L10n.text("Add") : L10n.text("Open")
+        panel.canChooseDirectories = folders
+        panel.canChooseFiles = !folders
+        panel.allowsMultipleSelection = true
+        if !folders {
+            panel.allowedContentTypes = VideoFiles.contentTypes + LocalAudioFiles.contentTypes
+        }
         openPanel = panel
         session.isOpenPanelShown = true
         panel.beginSheetModal(for: window) { [weak self] response in
@@ -118,7 +144,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 self.openPanel = nil
                 self.session.isOpenPanelShown = false
             }
-            if response == .OK, let url = panel.url { self.open(url) }
+            guard response == .OK else { return }
+            if folders {
+                self.session.mediaLibrary.addFolders(panel.urls)
+            } else {
+                self.openMedia(panel.urls)
+            }
         }
     }
 
@@ -133,7 +164,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     actions: PlayerActions(
                         openFile: { [weak self] in self?.openFile() },
                         openRecent: { [weak self] item in self?.openRecent(item) },
-                        open: { [weak self] url in self?.open(url) })
+                        open: { [weak self] url in self?.open(url) },
+                        openMedia: { [weak self] urls in self?.openMedia(urls) },
+                        chooseFolders: { [weak self] in self?.chooseFiles(folders: true) },
+                        addFolders: { [weak self] urls in
+                            self?.session.mediaLibrary.addFolders(urls)
+                        })
                 ) { [weak self] model in
                     self?.playerWindow = nil
                     self?.session.model = nil
@@ -170,6 +206,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         closingTasks[id] = Task { [weak self] in
             await closingPlayback.value
             await model.shutdown()
+            await self?.session.mediaLibrary.flushProgress()
             self?.closingTasks[id] = nil
         }
     }

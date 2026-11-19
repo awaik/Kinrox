@@ -13,16 +13,19 @@ result, and report. Reading or copying this skill does not authorize a run.
 | Stage | Agent | Output |
 |---|---|---|
 | Plan review | `agy --dangerously-skip-permissions --model "Gemini 4 Carbon (High)"`, timeout 5400 s | Updated plan, `REVIEWED - <name>.md` |
-| Implementation | `codex exec --yolo --model gpt-6-astra -c model_reasoning_effort="high" -c project_doc_max_bytes=65536` | Local changes and functional checks, `DONE/DONE - <name>.md` |
+| Implementation | `codex exec --yolo --model gpt-6.2-sol -c model_reasoning_effort="high" -c project_doc_max_bytes=65536` | Local changes and functional checks, `DONE/DONE - <name>.md` |
 | Verification | Orchestrator | Independent inspection, performance measurements, and report |
 
 `run.sh` uses `prompts/review.md`, `prompts/execute.md`, and, on continuation,
 `prompts/resume.md`. Keep the inherited model defaults; change `AGY_MODEL`,
 `AGY_TIMEOUT`, `CODEX_MODEL`, or `CODEX_EFFORT` only at the user's request.
-Codex limits run out quickly, so the defaults save tokens (owner decision
-2026-11-12): implementation runs at `high`; use `CODEX_EFFORT=xhigh` only for a
-plan the owner marks as hard or after a `high` run fails on reasoning, not on
-environment. `CODEX_DOC_BYTES` (default 65536) makes Codex load `AGENTS.md`
+Codex limits run out quickly, so the defaults save tokens (owner decisions
+2026-11-12, 2026-11-18): implementation runs on `gpt-6.2-sol` at `high`; use
+`CODEX_MODEL=gpt-6.2-astra` at `high` for complex architectural, concurrency,
+C-API, or protocol plans, and `CODEX_EFFORT=xhigh` only for a plan the owner
+marks as hard or after a `high` run fails on reasoning, not on environment
+(avoid `max`/`ultra` and `Fast`/`Ultrafast` service tiers). `CODEX_DOC_BYTES`
+(default 65536) makes Codex load `AGENTS.md`
 whole, so prompts never ask it to re-read the file; `run.sh` warns when
 `AGENTS.md` outgrows it. Keep `AGENTS.md` lean: history goes to
 `docs/releases/HISTORY.md`, not the top of `AGENTS.md`.

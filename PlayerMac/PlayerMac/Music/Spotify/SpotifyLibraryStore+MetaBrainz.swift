@@ -17,7 +17,7 @@ extension SpotifyLibraryStore {
                 metaBrainzFactory?()
                 ?? MetaBrainzClient(
                     version: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-                        ?? "development", cache: adapter)
+                        ?? "development", cache: adapter, limiter: musicBrainzLimiter)
         }
         guard let meta = metaBrainzClient else { return }
         data.listenBrainzStatus = .unavailable

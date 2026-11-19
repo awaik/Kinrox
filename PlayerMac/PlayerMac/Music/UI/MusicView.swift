@@ -90,7 +90,9 @@ struct MusicTitleBar: View {
                         maxWidth: 110)
             }.buttonStyle(.plain)
         }.padding(.trailing, 12).frame(height: 52).background(Palette.elevated)
-            .overlay { AppModePicker(session: session).frame(width: 198) }
+            .overlay {
+                AppModePicker(session: session).frame(width: PlayerRootView.modePickerWidth)
+            }
             .onChange(of: model.searchRequested) { _, requested in
                 if requested {
                     searchFocused = true

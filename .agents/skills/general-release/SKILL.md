@@ -17,7 +17,7 @@ are not carried into the chat. Reading or copying this skill does not authorize 
 |---|---|---|
 | 0. Single tree | you | one main checkout on `main`, no extra branches or worktrees |
 | 1. Review | `agy --dangerously-skip-permissions --model "Gemini 4 Carbon (High)"`, timeout 5400 s, [`prompts/review.md`](prompts/review.md) | `review.md`: CRITICAL / MAJOR / MINOR and release readiness |
-| 2. Apply | `codex exec --dangerously-bypass-approvals-and-sandbox --model gpt-6-astra -c model_reasoning_effort="high" -c project_doc_max_bytes=65536`, [`prompts/apply.md`](prompts/apply.md) | justified findings fixed locally, targeted checks green |
+| 2. Apply | `codex exec --dangerously-bypass-approvals-and-sandbox --model gpt-6.2-sol -c model_reasoning_effort="high" -c project_doc_max_bytes=65536`, [`prompts/apply.md`](prompts/apply.md) | justified findings fixed locally, targeted checks green |
 | 3. Control | you | `control.md` with the verdict, including performance measurements |
 | 4. Release | you, from the rendered [`prompts/release-orchestrator.md`](prompts/release-orchestrator.md) + [`prompts/release.md`](prompts/release.md); `RELEASE_AGENT=codex` hands it to codex (`medium`) | version bump, notes, full checks, `build-release.sh`, commit, tag, push, GitHub Release, site and appcast, Pages check |
 | 5. Verify and report | you | independent check of Git, GitHub, and the live site; report to the owner |
@@ -25,9 +25,10 @@ are not carried into the chat. Reading or copying this skill does not authorize 
 [`run.sh`](run.sh) runs the agent stages from this directory. Keep the inherited model
 defaults; change `AGY_MODEL`, `AGY_TIMEOUT`, `CODEX_MODEL`, `APPLY_EFFORT`,
 `RELEASE_AGENT`, or `RELEASE_EFFORT` only at the owner's request.
-Codex limits run out quickly, so the defaults save tokens (owner decision 2026-11-12): apply
-runs at `high` (`APPLY_EFFORT=xhigh` only for a package the owner marks as hard or after a `high`
-round fails on reasoning); the release is yours; `CODEX_DOC_BYTES` (default 65536) makes Codex
+Codex limits run out quickly, so the defaults save tokens (owner decisions 2026-11-12, 2026-11-18): apply
+runs on `gpt-6.2-sol` at `high` (`CODEX_MODEL=gpt-6.2-astra` for complex architectural packages,
+`APPLY_EFFORT=xhigh` only for a package the owner marks as hard or after a `high`
+round fails on reasoning; avoid `max`/`ultra` and `Fast`/`Ultrafast` service tiers); the release is yours; `CODEX_DOC_BYTES` (default 65536) makes Codex
 load `AGENTS.md` whole, so prompts never ask it to re-read the file. Keep `AGENTS.md` lean:
 release history goes to `docs/releases/HISTORY.md`. Of Google's models only
 `Gemini 4 Carbon (High)` is allowed (owner decision 2026-11-11); `run.sh` refuses Gemini 4

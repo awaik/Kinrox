@@ -52,7 +52,9 @@ struct LocalizationTests {
     @Test("Bundle lookup returns translated values and unknown keys fall back safely")
     func lookupAndFallback() throws {
         let french = try localizedBundle("fr")
-        #expect(L10n.text("Open File", bundle: french) == "Ouvrir un fichier")
+        #expect(L10n.text("Open File…", bundle: french) == "Ouvrir un fichier")
+        #expect(L10n.text("Home", bundle: french) == "Accueil")
+        #expect(L10n.text("Media Library", bundle: french) == "Médiathèque")
         #expect(
             L10n.text("Unregistered localization key", bundle: french)
                 == "Unregistered localization key")

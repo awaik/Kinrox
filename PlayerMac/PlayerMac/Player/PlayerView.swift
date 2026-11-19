@@ -2,6 +2,7 @@ import SwiftUI
 
 /// Root window view: video, glass control bar overlay, empty welcome screen.
 struct PlayerView: View {
+    let session: PlayerSession
     @Bindable var model: PlayerViewModel
     let recents: RecentFilesStore?
     let pairing: PairingCenter?
@@ -91,11 +92,25 @@ struct PlayerView: View {
             }
         }
         .dropDestination(for: URL.self) { urls, _ in
-            guard let url = urls.first(where: VideoFiles.isVideo) else {
-                model.errorMessage = L10n.text("Kinrox opens video files only.")
+            let folders =
+                session.isOnHome
+                ? urls.filter {
+                    $0.isFileURL
+                        && (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true
+                } : []
+            let media = urls.filter { LocalAudioFiles.isAudio($0) || VideoFiles.isVideo($0) }
+            if !folders.isEmpty { actions.addFolders(folders) }
+            if let first = media.first {
+                if let openMedia = actions.openMedia {
+                    openMedia(media)
+                } else {
+                    actions.open(first)
+                }
+            }
+            guard !media.isEmpty || !folders.isEmpty else {
+                model.errorMessage = L10n.text("Choose a video or local audio file.")
                 return false
             }
-            actions.open(url)
             return true
         } isTargeted: {
             isDropTargeted = $0
@@ -139,9 +154,8 @@ struct PlayerView: View {
                 .padding(.vertical, 12)
                 .kinroxGlass(in: Capsule())
         } else {
-            WelcomeView(
-                model: model, recents: recents, actions: actions, remote: remote, updates: updates,
-                connectPhone: { model.isShowingConnectPhone = true }
+            HomeWorkspaceView(
+                session: session, model: model, actions: actions, remote: remote, updates: updates
             )
             .transition(.opacity)
         }

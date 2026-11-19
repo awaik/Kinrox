@@ -16,18 +16,19 @@ private struct TrackMenuContent: View {
     let session: PlayerSession
     let kind: MediaTrackKind
     private var controller: TrackController? { session.model?.trackController }
-    private var enabled: Bool {
+    private var panelEnabled: Bool {
         controller?.isReady == true && controller?.isChoosingFile == false
             && !session.isOpenPanelShown && session.pairing.prompt == nil
             && session.model?.isScreensaverEngaged != true
     }
 
     var body: some View {
+        Button(L10n.text("Audio & Subtitles")) {
+            session.mode = .video
+            session.model?.openTrackPanel(kind: kind)
+        }
+        .disabled(!panelEnabled || session.isLibrarySheetShown || session.isHomeSearchFocused)
         Group {
-            Button(L10n.text("Audio & Subtitles")) {
-                controller?.selectedKind = kind
-                controller?.presentation = .quick
-            }
             Divider()
             if kind == .subtitle {
                 Toggle(
@@ -66,6 +67,6 @@ private struct TrackMenuContent: View {
                 isOn: Binding(
                     get: { controller?.settings?.remember ?? true },
                     set: { controller?.setRemember($0) }))
-        }.disabled(!enabled)
+        }.disabled(!panelEnabled || session.model?.isShowingHome == true)
     }
 }

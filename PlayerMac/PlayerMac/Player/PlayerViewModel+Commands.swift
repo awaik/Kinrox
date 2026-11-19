@@ -55,9 +55,8 @@ extension PlayerViewModel {
 
     @discardableResult
     func showHome() -> Bool {
-        guard hasMedia, !isClosing, !isLoading else { return false }
+        guard hasMedia, !isClosing, !isLoading, !isScreensaverEngaged else { return false }
         cancelPendingPlayback?()
-        stopScreensaver()
         cancelEOFRefresh()
         trackController.presentation = nil
         if paused, requestedPause != false {
@@ -103,6 +102,7 @@ extension PlayerViewModel {
     func seek(by seconds: Double) -> Bool {
         cancelEOFRefresh()
         guard canControl, !isScreensaverEngaged else { return false }
+        watchProgress.pending = nil
         return perform { try engine.seek(relative: seconds) }
     }
 
@@ -110,6 +110,7 @@ extension PlayerViewModel {
     func seek(to seconds: Double) -> Bool {
         cancelEOFRefresh()
         guard canControl, !isScreensaverEngaged else { return false }
+        watchProgress.pending = nil
         let upper = duration > 0 ? duration : seconds
         return perform { try engine.seek(absolute: min(max(0, seconds), upper)) }
     }

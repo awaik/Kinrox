@@ -89,18 +89,21 @@
 </details></nav>
 
 <h1>Integritetspolicy</h1>
-<p class="muted">2026-11-01</p>
+<p class="muted">2026-11-19</p>
 
 <p>Kinrox spelar lokala videor på Mac och erbjuder en iPhone-fjärrkontroll. Utvecklaren får inga personuppgifter, ingen uppspelningshistorik eller användningsanalys.</p>
 
 <h2>Data på dina enheter</h2>
-<p>Mac-spelaren lagrar de senaste filernas bokmärken och inställningar på din Mac. Fjärrkontrollen iPhone lagrar en slumpmässig enhetsidentifierare, den valda Mac och anslutningsinställningar på din iPhone. Parningsuppgifterna lagras i varje enhets nyckelring. Fjärrkontrollen tar emot uppspelningsstatus och senaste filtitlar och varaktigheter från din Mac. Fullständiga filsystemsökvägar och videofiler överförs inte till iPhone.</p>
+<p>Mac-spelaren lagrar de senaste filernas bokmärken och inställningar på din Mac. Fjärrkontrollen iPhone lagrar en slumpmässig enhetsidentifierare, den valda Mac och anslutningsinställningar på din iPhone. Parningsuppgifterna lagras i varje enhets nyckelring. Fjärrkontrollen tar emot uppspelningsstatus och senaste filtitlar och varaktigheter från din Mac. Katalogen över bevakade mappar, cachelagrade omslag och videornas visningsförlopp stannar på Macen. Kinrox skickar aldrig fullständiga filsökvägar eller mediefiler till iPhone.</p>
 
 <h2>Lokal nätverkskommunikation</h2>
 <p>Med din tillåtelse upptäcker Kinrox spelare som använder Bonjour och utbyter kontrollkommandon och uppspelningsinformation över ditt lokala nätverk. Ihopkopplade sessioner använder kryptering. Enhets- och tjänstnamn är synliga under upptäckt av lokalt nätverk; upptäckten i sig är inte en krypterad kanal. Apparna använder inte en utvecklarstyrd reläserver.</p>
 
 <h2>Mac uppdateringskontroller</h2>
-<p>Från och med version 0.3.0 använder Mac-spelaren Sparkle för att läsa det offentliga uppdateringsflödet på GitHub Pages en gång om dagen och när du väljer Sök efter uppdateringar. Kontroller inkluderar inte unika enhetsidentifierare, uppspelningshistorik eller en systemprofil. När du väljer att installera en uppdatering, laddar Sparkle ned det signerade installationsprogrammet från GitHub Releases. GitHub kan behandla begäranden information såsom IP-adresser enligt sin integritetspolicy. Lokal video och LAN-fjärrkontroll fungerar offline. Uppdateringar och valfritt Spotify kräver internet.</p>
+<p>Från och med version 0.3.0 använder Mac-spelaren Sparkle för att läsa det offentliga uppdateringsflödet på GitHub Pages en gång om dagen och när du väljer Sök efter uppdateringar. Kontroller inkluderar inte unika enhetsidentifierare, uppspelningshistorik eller en systemprofil. När du väljer att installera en uppdatering, laddar Sparkle ned det signerade installationsprogrammet från GitHub Releases. GitHub kan behandla begäranden information såsom IP-adresser enligt sin integritetspolicy. Uppspelning av lokal video och lokalt ljud och fjärrstyrning via det lokala nätverket fungerar offline. Uppdateringar, den valfria Spotify-anslutningen och sökning efter metadata och omslag för bevakade mappar använder internet.</p>
+
+<h2>Mediebibliotek</h2>
+<p>Från och med version 0.5.11 för Mac söker Kinrox som standard efter betyg, genrer, avsnittsinformation och omslag för bevakade mappar. Samma reglage, ”Hämta betyg, genrer och omslag”, finns både i panelen Mappar och i Inställningar. Kinrox skickar rensade medietitlar, vid behov albumartisternas namn och offentliga katalog-ID:n via HTTPS till Cinemeta, TVMaze, MusicBrainz och Cover Art Archive (archive.org). Förfrågningarna innehåller inga kakor, inloggningsuppgifter, filsökvägar eller användaridentifierare. Om reglaget stängs av avbryts pågående sökningar och inga nya förfrågningar skickas.</p>
 
 <h2>Spotify</h2>
 <p>Anslutningen är valfri. Använd din egen Spotify-utvecklarapp och ett behörigt Spotify Premium-konto. Spotify styr API-åtkomst och kvoter; åtkomsten kan ändras eller upphöra. Spotifys egna villkor gäller fortfarande. Ljud spelas upp via Spotify Soloist, som på din begäran hämtas direkt från Spotify till din Mac. Varje användare anger en personlig Soloist-API-nyckel. Engångsparkopplingen använder Spotify på iPhone; därefter fungerar uppspelningen med Spotify stängt på både Mac och iPhone. Soloist sköter avkodning och sin ljudcache; Kinrox spelar inte in eller exporterar ljud. Soloist-versioner upphör att gälla efter 90 dagar och måste uppdateras.</p>

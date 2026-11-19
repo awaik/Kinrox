@@ -39,7 +39,9 @@ enum PlaybackEvent: Sendable, Equatable {
 @MainActor
 protocol PlayerEngine: AnyObject {
     var events: AsyncStream<PlaybackEvent> { get }
+    var reportsLoadedPath: Bool { get }
     func load(url: URL) throws
+    func load(url: URL, paused: Bool) throws
     func setPaused(_ paused: Bool) throws
     func seek(relative seconds: Double) throws
     func seek(absolute seconds: Double) throws
@@ -49,4 +51,13 @@ protocol PlayerEngine: AnyObject {
     func cancelTrackCommand(id: UInt64)
     func stop() throws
     func shutdown() async
+}
+
+extension PlayerEngine {
+    var reportsLoadedPath: Bool { false }
+
+    func load(url: URL, paused: Bool) throws {
+        try load(url: url)
+        if paused { try setPaused(true) }
+    }
 }

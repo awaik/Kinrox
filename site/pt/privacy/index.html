@@ -89,18 +89,21 @@
 </details></nav>
 
 <h1>Política de Privacidade</h1>
-<p class="muted">2026-11-01</p>
+<p class="muted">2026-11-19</p>
 
 <p>Kinrox reproduz vídeos locais no Mac e oferece um controle para iPhone. O desenvolvedor não recebe dados pessoais, histórico de reprodução nem análise de uso.</p>
 
 <h2>Dados em seus dispositivos</h2>
-<p>O player Mac armazena marcadores e preferências de arquivos recentes em seu Mac. O controle remoto iPhone armazena um identificador de dispositivo aleatório, o Mac selecionado e preferências de conexão em seu iPhone. As credenciais de emparelhamento são armazenadas nas chaves de cada dispositivo. O controle remoto recebe o estado de reprodução e títulos e durações de arquivos recentes de seu Mac. Caminhos completos do sistema de arquivos e arquivos de vídeo não são transmitidos para o iPhone.</p>
+<p>O player Mac armazena marcadores e preferências de arquivos recentes em seu Mac. O controle remoto iPhone armazena um identificador de dispositivo aleatório, o Mac selecionado e preferências de conexão em seu iPhone. As credenciais de emparelhamento são armazenadas nas chaves de cada dispositivo. O controle remoto recebe o estado de reprodução e títulos e durações de arquivos recentes de seu Mac. O catálogo das pastas monitoradas, as capas em cache e o progresso de exibição dos vídeos ficam no Mac. O Kinrox nunca envia caminhos completos nem arquivos de mídia ao iPhone.</p>
 
 <h2>Comunicação em rede local</h2>
 <p>Com sua permissão, Kinrox descobre reprodutores usando Bonjour e troca comandos de controle e informações de reprodução pela sua rede local. Sessões pareadas usam criptografia. Os nomes de dispositivos e serviços ficam visíveis durante a descoberta da rede local; a descoberta em si não é um canal criptografado. Os aplicativos não usam um servidor de retransmissão operado pelo desenvolvedor.</p>
 
 <h2>Verificações de atualização Mac</h2>
-<p>A partir da versão 0.3.0, o player Mac usa Sparkle para ler o feed de atualização público em GitHub Pages uma vez por dia e quando você escolhe Verificar atualizações. As verificações não incluem identificadores exclusivos de dispositivos, histórico de reprodução ou perfil do sistema. Quando você opta por instalar uma atualização, Sparkle baixa o instalador assinado de GitHub Releases. GitHub pode processar informações solicitadas, como endereços IP, de acordo com sua política de privacidade. Vídeos locais e controle pela LAN funcionam offline. Atualizações e Spotify opcional precisam de internet.</p>
+<p>A partir da versão 0.3.0, o player Mac usa Sparkle para ler o feed de atualização público em GitHub Pages uma vez por dia e quando você escolhe Verificar atualizações. As verificações não incluem identificadores exclusivos de dispositivos, histórico de reprodução ou perfil do sistema. Quando você opta por instalar uma atualização, Sparkle baixa o instalador assinado de GitHub Releases. GitHub pode processar informações solicitadas, como endereços IP, de acordo com sua política de privacidade. A reprodução local de vídeo e áudio e o controle remoto pela rede local funcionam offline. As atualizações, a conexão opcional com o Spotify e a busca por metadados e capas para pastas monitoradas usam a internet.</p>
+
+<h2>Biblioteca de mídia</h2>
+<p>A partir da versão 0.5.11 para Mac, o Kinrox busca por padrão avaliações, gêneros, detalhes de episódios e capas para as pastas monitoradas. O mesmo controle “Carregar avaliações, gêneros e capas” está disponível no painel Pastas e nos Ajustes. O Kinrox envia títulos de mídia tratados, nomes de artistas dos álbuns quando necessário e IDs públicos de catálogo por HTTPS ao Cinemeta, TVMaze, MusicBrainz e Cover Art Archive (archive.org). As solicitações não incluem cookies, credenciais, caminhos de arquivos nem identificadores de usuário. Desativar o controle cancela as buscas em andamento e impede novas solicitações.</p>
 
 <h2>Spotify</h2>
 <p>A ligação é opcional. Utilize a sua própria aplicação de programador Spotify e uma conta Spotify Premium autorizada. O Spotify controla o acesso à API e as quotas; o acesso pode mudar ou terminar. Os termos do próprio Spotify continuam a aplicar-se. O áudio é reproduzido pelo Spotify Soloist, descarregado diretamente do Spotify para o Mac a seu pedido. Cada utilizador fornece uma chave API pessoal do Soloist. O emparelhamento inicial utiliza o Spotify no iPhone; depois, a reprodução funciona com o Spotify fechado no Mac e no iPhone. O Soloist gere a descodificação e a cache de áudio; o Kinrox não grava nem exporta áudio. As compilações do Soloist expiram após 90 dias e exigem atualização.</p>

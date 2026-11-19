@@ -14,8 +14,8 @@ STATE_ROOT="$REPO/.tmp/scratch/research-execute"
 # Owner decision 2026-11-11: of Google's models, agents use only Gemini 4 Carbon (High).
 AGY_MODEL="${AGY_MODEL:-Gemini 4 Carbon (High)}"
 AGY_TIMEOUT="${AGY_TIMEOUT:-5400}"
-CODEX_MODEL="${CODEX_MODEL:-gpt-6-astra}"
-# Owner decision 2026-11-12: implementation defaults to high; pass CODEX_EFFORT=xhigh for hard tasks.
+CODEX_MODEL="${CODEX_MODEL:-gpt-6.2-sol}"
+# Owner decisions 2026-11-12, 2026-11-18: implementation defaults to gpt-6.2-sol at high; use CODEX_MODEL=gpt-6.2-astra (and CODEX_EFFORT=xhigh if needed) for hard architectural tasks.
 CODEX_EFFORT="${CODEX_EFFORT:-high}"
 # Codex auto-loads AGENTS.md but truncates it at 32 KiB by default; load it whole so agents never re-read it.
 CODEX_DOC_BYTES="${CODEX_DOC_BYTES:-65536}"

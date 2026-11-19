@@ -1,11 +1,15 @@
 import SwiftUI
 
 struct PlayerRootView: View {
-    static let modePickerWidth: CGFloat = 198
+    static let modePickerWidth: CGFloat = 216
     static let navLeadingPadding: CGFloat = 92
 
     static func leftNavBudget(for width: CGFloat) -> CGFloat {
         max(0, (width - modePickerWidth) / 2 - navLeadingPadding - 12)
+    }
+
+    static func rightNavBudget(for width: CGFloat) -> CGFloat {
+        max(0, (width - modePickerWidth) / 2 - 20)
     }
 
     @Bindable var session: PlayerSession
@@ -20,14 +24,24 @@ struct PlayerRootView: View {
                         let leftBudget = Self.leftNavBudget(for: proxy.size.width)
                         ZStack {
                             AppModePicker(session: session).frame(width: Self.modePickerWidth)
-                            if video.model.hasMedia, !video.model.isScreensaverEngaged {
-                                HStack {
+                            HStack {
+                                if video.model.hasMedia, !video.model.isScreensaverEngaged {
                                     TitlebarVideoNavButton(
                                         model: video.model, availableWidth: leftBudget)
-                                    Spacer(minLength: 0)
+                                } else if leftBudget >= 60 {
+                                    Text("Kinrox").font(KinroxFont.bodyStrong)
                                 }
-                                .padding(.leading, Self.navLeadingPadding)
+                                Spacer(minLength: 0)
+                                if session.isOnHome {
+                                    HomeTitlebarControls(
+                                        session: session,
+                                        budget: Self.rightNavBudget(for: proxy.size.width),
+                                        iconOnly: proxy.size.width < 720,
+                                        connect: { video.model.isShowingConnectPhone = true })
+                                }
                             }
+                            .padding(.leading, Self.navLeadingPadding)
+                            .padding(.trailing, 12)
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
@@ -54,6 +68,9 @@ struct PlayerRootView: View {
             if session.mode == .music { MusicView(session: session, model: session.music) }
         }.ignoresSafeArea().preferredColorScheme(.dark)
             .onChange(of: session.mode, initial: true) { _, mode in modeChanged(mode) }
+            .onChange(of: session.isOnHome) { _, home in
+                if !home { session.leaveHomeSearch() }
+            }
     }
 }
 
@@ -61,7 +78,7 @@ struct AppModePicker: View {
     @Bindable var session: PlayerSession
     var body: some View {
         HStack(spacing: 2) {
-            modeButton(.video, title: L10n.text("Video"))
+            modeButton(.video, title: L10n.text("Home"), icon: "square.grid.2x2.fill")
             modeButton(.music, title: "Spotify")
         }.padding(2).frame(height: 30)
             .background(Palette.glass, in: RoundedRectangle(cornerRadius: 8))
@@ -69,22 +86,20 @@ struct AppModePicker: View {
             .accessibilityLabel(L10n.text("Playback mode"))
     }
 
-    private func modeButton(_ mode: AppMode, title: String) -> some View {
+    private func modeButton(_ mode: AppMode, title: String, icon: String? = nil) -> some View {
         Button {
-            if mode == .video, session.mode == .video,
-                let player = session.model, player.hasMedia, !player.isScreensaverEngaged
-            {
-                _ = player.toggleHome()
-            } else {
-                session.mode = mode
-            }
+            if mode == .video { session.selectHome() } else { session.mode = mode }
         } label: {
-            Text(title).font(.system(size: 12, weight: .medium))
-                .foregroundStyle(session.mode == mode ? Palette.textPrimary : Palette.textSecondary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity).contentShape(Rectangle())
-                .background(
-                    session.mode == mode ? Palette.glassStrong : .clear,
-                    in: RoundedRectangle(cornerRadius: 6))
+            HStack(spacing: 5) {
+                if let icon { Image(systemName: icon).foregroundStyle(Palette.flame) }
+                Text(title).lineLimit(1)
+            }
+            .font(.system(size: 12, weight: .medium))
+            .foregroundStyle(session.mode == mode ? Palette.textPrimary : Palette.textSecondary)
+            .frame(maxWidth: .infinity, maxHeight: .infinity).contentShape(Rectangle())
+            .background(
+                session.mode == mode ? Palette.glassStrong : .clear,
+                in: RoundedRectangle(cornerRadius: 6))
         }.buttonStyle(.plain).accessibilityAddTraits(session.mode == mode ? .isSelected : [])
     }
 }

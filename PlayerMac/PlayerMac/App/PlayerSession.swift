@@ -1,4 +1,5 @@
 import Foundation
+import MetaBrainzAPI
 import Observation
 import SpotifyWebAPI
 
@@ -14,21 +15,57 @@ final class PlayerSession {
         }
     }
     let music: MusicViewModel
+    let localAudio: LocalAudioViewModel
+    let mediaLibrary: MediaLibraryStore
+    let musicBrainzLimiter: MusicBrainzRateLimiter
+    var homeSection = HomeSection.overview
+    var homeSelectedSeries: String?
+    var homeSelectedAlbum: String?
+    var homeFilter = HomeFilterState()
+    var isHomeSearchFocused = false
+    var isHomeSearchShown = false
+    var isLibrarySheetShown = false
+    var searchFocusRequest = 0
     let spotify = SpotifyAccount()
     let soloist = SoloistSetup()
     let playback = PlaybackCoordinator()
+
+    func selectHome() {
+        if mode != .video { mode = .video }
+        if model?.isShowingHome == false { model?.showHome() }
+    }
+
     var model: PlayerViewModel? {
         didSet {
             remote?.connect(to: model)
-            if model != nil { playback.connect(video: model, music: music) }
+            if let model {
+                playback.connect(video: model, music: music, localAudio: localAudio)
+                model.writeWatchProgress = { [weak self] in self?.mediaLibrary.record($0) }
+            } else {
+                isHomeSearchFocused = false
+                isHomeSearchShown = false
+                isLibrarySheetShown = false
+            }
         }
     }
     var remote: RemoteServer? {
         didSet {
             if let model { remote?.connect(to: model) }
+            remote?.connectLocalAudio(
+                localAudio,
+                isActive: { [weak self] in
+                    guard let self else { return false }
+                    return self.playback.activeSource == .localAudio
+                        || (self.playback.activeSource != .music && self.mode == .video
+                            && self.model?.canControl != true)
+                })
             remote?.connectMusic(
                 music, coordinator: playback,
-                isActive: { [weak self] in self?.controlsMusic == true })
+                isActive: { [weak self] in
+                    guard let self else { return false }
+                    return self.mode == .music && self.model?.canControl != true
+                        && self.localAudio.currentTrack == nil
+                })
         }
     }
     /// While file open panel is displayed, unmodified keys belong to it.
@@ -45,6 +82,10 @@ final class PlayerSession {
             ? .standard : nil
     ) {
         self.recents = recents
+        let limiter = MusicBrainzRateLimiter()
+        musicBrainzLimiter = limiter
+        mediaLibrary = MediaLibraryStore(limiter: limiter)
+        localAudio = LocalAudioViewModel(artwork: mediaLibrary.artwork)
         music = MusicViewModel(
             store: demoMusic ? DemoMusicLibraryStore() : DisconnectedMusicLibraryStore(),
             defaults: musicDefaults, workspaceActive: false)
@@ -58,7 +99,9 @@ final class PlayerSession {
         }
         spotify.onRestore = { [weak self] client, binding, cache in
             guard let self, !demoMusic else { return }
-            let store = SpotifyLibraryStore(client: client, cache: cache, connected: false)
+            let store = SpotifyLibraryStore(
+                client: client, cache: cache, connected: false,
+                musicBrainzLimiter: self.musicBrainzLimiter)
             self.excludeLegacyQueue(from: store, clientID: binding.clientID, userID: binding.userID)
             self.music.replaceStore(store, accountName: binding.accountName)
             self.music.acceptsPlayback = false
@@ -81,7 +124,9 @@ final class PlayerSession {
                 store.isConnected = true
             } else {
                 (self.music.store as? SpotifyLibraryStore)?.retire()
-                store = SpotifyLibraryStore(client: client, profile: profile, cache: cache)
+                store = SpotifyLibraryStore(
+                    client: client, profile: profile, cache: cache,
+                    musicBrainzLimiter: self.musicBrainzLimiter)
                 self.excludeLegacyQueue(
                     from: store, clientID: self.spotify.clientID, userID: profile.id)
                 self.music.replaceStore(store, accountName: self.spotify.accountName)
@@ -110,37 +155,63 @@ final class PlayerSession {
             self.music.browsingTask?.cancel()
             (self.music.store as? SpotifyLibraryStore)?.retire()
         }
-        playback.connect(video: nil, music: music)
+        playback.connect(video: nil, music: music, localAudio: localAudio)
         if !demoMusic { configureSoloist() }
     }
 
-    var canControl: Bool {
-        if controlsMusic {
-            return !isOpenPanelShown && pairing.prompt == nil && music.currentTrack != nil
+    var isOnHome: Bool {
+        mode == .video && (model?.isShowingHome == true || model?.hasMedia != true)
+            && model?.isLoading != true && model?.isScreensaverEngaged != true
+    }
+
+    var activeControlTarget: PlaybackCoordinator.Source {
+        if mode == .music { return .music }
+        if model?.hasMedia == true, model?.isShowingHome == false { return .video }
+        if localAudio.currentTrack != nil,
+            playback.activeSource == .localAudio
+                || (playback.activeSource != .music && model?.canControl != true)
+        {
+            return .localAudio
         }
-        return !isOpenPanelShown && pairing.prompt == nil
-            && model?.trackController.presentation == nil
+        if playback.activeSource == .music { return .music }
+        return .video
+    }
+
+    var unmodifiedShortcutsAllowed: Bool {
+        !isOpenPanelShown && !isHomeSearchFocused && !isLibrarySheetShown && pairing.prompt == nil
+            && model?.isShowingConnectPhone != true && model?.trackController.presentation == nil
             && model?.trackController.isChoosingFile != true && model?.isScreensaverEngaged != true
-            && (model?.canControl ?? false)
     }
 
-    var controlsMusic: Bool {
-        playback.activeSource == .music || (mode == .music && model?.canControl != true)
+    var canControl: Bool {
+        guard unmodifiedShortcutsAllowed else { return false }
+        switch activeControlTarget {
+        case .music: return music.currentTrack != nil
+        case .localAudio: return localAudio.currentTrack != nil
+        case .video: return model?.canControl == true
+        }
     }
 
-    var musicShortcutsAllowed: Bool {
-        mode == .music && !isOpenPanelShown && pairing.prompt == nil
-            && model?.trackController.isChoosingFile != true
+    var controlsMusic: Bool { activeControlTarget == .music }
+    var controlsLocalAudio: Bool { activeControlTarget == .localAudio }
+
+    var musicShortcutsAllowed: Bool { mode == .music && unmodifiedShortcutsAllowed }
+    var trackShortcutsAllowed: Bool { mode == .video && unmodifiedShortcutsAllowed }
+
+    func focusHomeSearch() {
+        guard isOnHome else { return }
+        isHomeSearchShown = true
+        searchFocusRequest += 1
     }
 
-    var trackShortcutsAllowed: Bool {
-        mode == .video && !isOpenPanelShown && model?.trackController.presentation == nil
-            && model?.trackController.isChoosingFile != true
-            && model?.isScreensaverEngaged != true
+    func leaveHomeSearch() {
+        homeFilter.query = ""
+        isHomeSearchFocused = false
+        isHomeSearchShown = false
     }
 
     var videoNavigationAllowed: Bool {
-        mode == .video && !isOpenPanelShown && pairing.prompt == nil
+        mode == .video && unmodifiedShortcutsAllowed && pairing.prompt == nil
             && model?.trackController.presentation == nil
             && model?.trackController.isChoosingFile != true
             && model?.isScreensaverEngaged != true

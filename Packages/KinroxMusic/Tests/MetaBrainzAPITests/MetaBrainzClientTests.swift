@@ -36,6 +36,133 @@ struct MetaBrainzClientTests {
         await client.close()
     }
 
+    @Test func artistLookupEscapesQuotedLuceneTerms() async throws {
+        MetaStub.state.reset([(200, "[]"), (404, "")])
+        let client = client()
+        _ = try await client.resolve(
+            trackID: nil, isrc: nil, title: "Song", artistID: nil,
+            artistName: #"A"B\C"#, needsGenres: false)
+        let url = try #require(MetaStub.state.requests.last?.url)
+        let query = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?
+            .first { $0.name == "query" }?.value
+        #expect(query == #"artist:"A\"B\\C""#)
+        await client.close()
+    }
+
+    @Test func releaseGroupMatchesNormalizedArtistAndReturnsRatingGenresAndCover() async throws {
+        let id = "77d7c506-8d47-4d68-9615-f25db638bbea"
+        MetaStub.state.reset([
+            (
+                200,
+                """
+                {"release-groups":[
+                  {"id":"\(id)","title":"Album","artist-credit":[{"name":"Other"}]},
+                  {"id":"\(id)","title":"Album","artist-credit":[{"name":"Sèed"}],"first-release-date":"2013-07-01"}
+                ]}
+                """
+            ),
+            (200, #"{"rating":{"value":4.35},"genres":[{"name":"ambient"}]}"#),
+            (
+                200,
+                #"{"images":[{"front":true,"thumbnails":{"large":"http://ia.example.archive.org/cover.jpg"}}]}"#
+            ),
+        ])
+        let client = client()
+        let result = try #require(try await client.resolveAlbum(album: "Album", artist: "Seed"))
+        #expect(result.releaseGroupMBID == id)
+        #expect(result.rating == 4.35)
+        #expect(result.genres == ["ambient"])
+        #expect(result.year == "2013")
+        #expect(result.coverArtURL?.absoluteString == "https://ia.example.archive.org/cover.jpg")
+        _ = try await client.resolveAlbum(album: "Album", artist: "Seed")
+        #expect(MetaStub.state.requests.count == 3)
+        await client.close()
+    }
+
+    @Test func coverArtRedirectOnlyPermitsHTTPSArchiveAndStripsCredentials() throws {
+        let archive = try #require(URL(string: "https://coverartarchive.org/release-group/id"))
+        let download = try #require(URL(string: "https://archive.org/download/mbid-id/index.json"))
+        let target = try #require(URL(string: "https://ia.example.archive.org/art.jpg"))
+        let first = try #require(
+            MetaBrainzRedirectPolicy.redirect(from: archive, to: URLRequest(url: download)))
+        var request = URLRequest(url: target)
+        request.setValue("private", forHTTPHeaderField: "Authorization")
+        request.setValue("private", forHTTPHeaderField: "Cookie")
+        let clean = try #require(MetaBrainzRedirectPolicy.redirect(from: archive, to: request))
+        #expect(clean.url == target)
+        #expect(clean.value(forHTTPHeaderField: "Authorization") == nil)
+        #expect(clean.value(forHTTPHeaderField: "Cookie") == nil)
+        let second = MetaBrainzRedirectPolicy.redirect(from: first.url, to: request)
+        #expect(second?.url == target)
+        #expect(second?.value(forHTTPHeaderField: "Authorization") == nil)
+        #expect(second?.httpShouldHandleCookies == false)
+        for destination in [
+            "http://archive.org/art", "https://archive.org.example/art",
+            "https://archive.org:1234/art",
+        ] {
+            let url = try #require(URL(string: destination))
+            #expect(
+                MetaBrainzRedirectPolicy.redirect(from: archive, to: URLRequest(url: url)) == nil)
+            #expect(
+                MetaBrainzRedirectPolicy.redirect(from: download, to: URLRequest(url: url)) == nil)
+        }
+        let brainz = try #require(URL(string: "https://musicbrainz.org/ws/2/release-group/id"))
+        #expect(MetaBrainzRedirectPolicy.redirect(from: brainz, to: request) == nil)
+        #expect(MetaBrainzRedirectPolicy.redirect(from: target, to: request) == nil)
+    }
+
+    @Test func coverArtFailureDoesNotCacheAnAlbumWithoutItsCover() async throws {
+        let search = (
+            200,
+            """
+            {"release-groups":[{"id":"77d7c506-8d47-4d68-9615-f25db638bbea",
+            "title":"Album","artist-credit":[{"name":"Seed"}]}]}
+            """
+        )
+        let details = (200, #"{"rating":{"value":4.35}}"#)
+        MetaStub.state.reset([
+            search, details, (503, ""), search, details,
+            (200, #"{"images":[{"thumbnails":{"large":"https://archive.org/cover.jpg"}}]}"#),
+        ])
+        let client = client()
+        await #expect(throws: MetaBrainzClient.Failure.self) {
+            _ = try await client.resolveAlbum(album: "Album", artist: "Seed")
+        }
+        let recovered = try await client.resolveAlbum(album: "Album", artist: "Seed")
+        #expect(recovered?.coverArtURL?.host == "archive.org")
+        #expect(MetaStub.state.requests.count == 6)
+        await client.close()
+    }
+
+    @Test func coverArtIndexRejectsOversizeResponsesAndTreats404AsMissing() async throws {
+        MetaStub.state.reset([(200, String(repeating: " ", count: (8 << 20) + 1)), (404, "")])
+        let client = client()
+        await #expect(throws: MetaBrainzClient.Failure.self) {
+            _ = try await client.request(host: "coverartarchive.org", path: "/release-group/id")
+        }
+        let missing = try await client.request(
+            host: "coverartarchive.org", path: "/release-group/id")
+        #expect(missing == nil)
+        await client.close()
+    }
+
+    @Test func separateClientsShareTheMusicBrainzRequestSchedule() async throws {
+        MetaStub.state.reset([(404, ""), (404, "")])
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MetaStub.self]
+        let clock = RateLimiterTests.Clock()
+        let shared = MusicBrainzRateLimiter(now: { clock.now() }, sleep: { clock.sleep($0) })
+        let local = MetaBrainzClient(version: "test", configuration: config, limiter: shared)
+        let spotify = MetaBrainzClient(version: "test", configuration: config, limiter: shared)
+        async let a = local.resolveAlbum(album: "Album", artist: "Artist")
+        async let b = spotify.resolveAlbum(album: "Another", artist: "Artist")
+        _ = try await (a, b)
+        #expect(MetaStub.state.requests.count == 2)
+        #expect(clock.now().timeIntervalSince1970 == 1)
+        await local.close()
+        await spotify.close()
+    }
+
     func client() -> MetaBrainzClient {
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [MetaStub.self]

@@ -26,3 +26,16 @@ for name in h264.mp4 h264.mkv hevc.mkv; do
         "$MEDIA_DIR/$name"
     printf 'Created %s\n' "$MEDIA_DIR/$name"
 done
+
+# Include embedded tags in a tiny silent MP3 so the production AVAsset reader
+# can be tested without external media or a system audio change.
+name=tagged.mp3
+if [[ -e "$MEDIA_DIR/$name" ]]; then
+    printf 'Already exists: %s\n' "$MEDIA_DIR/$name"
+else
+    ffmpeg -hide_banner -loglevel error -n \
+        -f lavfi -i 'anullsrc=r=44100:cl=mono' -t 0.25 -c:a libmp3lame \
+        -id3v2_version 3 -metadata title='Fixture title' -metadata artist='Fixture artist' \
+        -metadata album='Fixture album' -metadata track='3/9' -metadata genre='Ambient' "$MEDIA_DIR/$name"
+    printf 'Created %s\n' "$MEDIA_DIR/$name"
+fi

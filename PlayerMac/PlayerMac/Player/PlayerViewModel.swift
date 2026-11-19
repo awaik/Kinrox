@@ -31,11 +31,15 @@ final class PlayerViewModel {
     private(set) var isStartingScreensaver = false
     let screensaverPresentation = ScreensaverPresentation()
     @ObservationIgnored private var screensaverPauseTask: Task<Void, Never>?
+    @ObservationIgnored private var screensaverPreparation: UUID?
     @ObservationIgnored private var screensaverStartCompletions: [(Bool) -> Void] = []
     var isScreensaverEngaged: Bool { screensaver != .off || isStartingScreensaver }
     /// Auto-advance to next folder file at video end.
     @ObservationIgnored var autoAdvance = true
     @ObservationIgnored var beforeStartingPlayback: ((@escaping @MainActor () -> Void) -> Bool)?
+    @ObservationIgnored var beforeStartingMatrix: ((@escaping (Bool) -> Void) -> Bool)?
+    @ObservationIgnored var writeWatchProgress: ((WatchProgress) -> Void)?
+    @ObservationIgnored var watchProgress = VideoWatchProgress()
     @ObservationIgnored var cancelPendingPlayback: (() -> Void)?
     @ObservationIgnored var onToggleFullscreen: (() -> Void)?
     @ObservationIgnored var onSetFullscreen: ((Bool) -> Void)?
@@ -110,15 +114,24 @@ final class PlayerViewModel {
     }
 
     @discardableResult
-    func open(url: URL) -> Bool {
+    func open(
+        url: URL, startPosition: Double? = nil, startPaused: Bool = false,
+        showTracks: MediaTrackKind? = nil
+    ) -> Bool {
         guard !isClosing else { return false }
         if let beforeStartingPlayback {
-            return beforeStartingPlayback { [weak self] in _ = self?.loadForPlayback(url) }
+            return beforeStartingPlayback { [weak self] in
+                _ = self?.loadForPlayback(
+                    url, startPosition: startPosition, paused: startPaused, tracks: showTracks)
+            }
         }
-        return loadForPlayback(url)
+        return loadForPlayback(
+            url, startPosition: startPosition, paused: startPaused, tracks: showTracks)
     }
 
-    private func loadForPlayback(_ url: URL) -> Bool {
+    private func loadForPlayback(
+        _ url: URL, startPosition: Double?, paused: Bool, tracks: MediaTrackKind?
+    ) -> Bool {
         guard !isClosing else { return false }
         stopScreensaver()
         cancelEOFRefresh()
@@ -126,8 +139,10 @@ final class PlayerViewModel {
         isShowingHome = false
         isShowingConnectPhone = false
         errorMessage = nil
+        recordWatchProgress(force: true)
         do {
-            try engine.load(url: url)
+            try engine.load(url: url, paused: paused)
+            setVideoStart(url, at: startPosition, showTracks: tracks)
             trackController.prepare(for: url)
             isLoading = true
             currentURL = url
@@ -193,6 +208,7 @@ final class PlayerViewModel {
         case .loaded:
             hasMedia = true
             isLoading = false
+            if !engine.reportsLoadedPath { applyVideoStart() }
             if !isShowingHome { isShowingConnectPhone = false }
             if let currentURL {
                 recents?.noteOpened(currentURL)
@@ -204,11 +220,14 @@ final class PlayerViewModel {
             // New time-pos may arrive after seek confirmation.
             lastPositionUpdate = -Double.infinity
         case .ended(let error):
+            if error != nil { watchProgress = VideoWatchProgress() }
             trackController.stop()
             resetMedia()
             errorMessage = error
             if error != nil { clearCurrentFile() }
         case .failure(let error):
+            watchProgress.pending = nil
+            watchProgress.panel = nil
             if isStartingScreensaver { stopScreensaver() }
             isStartingHome = false
             if !paused {
@@ -228,6 +247,7 @@ final class PlayerViewModel {
             apply(property, value)
         case .tracksLoaded(let path, let tracks):
             trackController.loaded(path: path, tracks: tracks)
+            applyVideoStart(path: path)
         case .trackCommandCompleted(let id, let error):
             trackController.completed(id: id, error: error)
         }
@@ -241,6 +261,7 @@ final class PlayerViewModel {
             self.paused = paused
             if requestedPause == paused { requestedPause = nil }
             if paused {
+                recordWatchProgress(force: true)
                 position = latestPosition
                 if isStartingHome {
                     isStartingHome = false
@@ -252,16 +273,23 @@ final class PlayerViewModel {
                 isShowingHome = false
                 isShowingConnectPhone = false
             }
-            if paused, isStartingScreensaver { activateMatrix() }
+            if paused, isStartingScreensaver, screensaverPreparation == nil { activateMatrix() }
             if !paused, screensaver == .matrix { setPaused(true) }
         case (.endReached, .flag(let reached)):
             let wasReached = endReached
             endReached = reached
             if !reached { replayPending = false }
             if reached { position = latestPosition }
-            if reached, !wasReached { advanceAfterEnd() }
+            if reached, !wasReached, !isLoading {
+                recordWatchProgress(force: true, completed: true)
+                advanceAfterEnd()
+            }
         case (.position, .number(let seconds)) where seconds.isFinite:
             latestPosition = max(0, seconds)
+            if !isLoading {
+                observeResumedPosition(seconds)
+                recordWatchProgress()
+            }
             let now = ProcessInfo.processInfo.systemUptime
             if now - lastPositionUpdate >= 0.1 || paused || endReached {
                 position = latestPosition
@@ -352,12 +380,14 @@ final class PlayerViewModel {
     }
 
     func clearMedia() {
+        recordWatchProgress(force: true)
         resetMedia()
         clearCurrentFile()
         notifyPlayback()
     }
 
     func shutdown() async {
+        recordWatchProgress(force: true)
         stopScreensaver()
         trackController.close()
         isClosing = true
@@ -375,6 +405,7 @@ final class PlayerViewModel {
         cancelEOFRefresh()
         stopFolderMonitor()
         currentURL = nil
+        watchProgress = VideoWatchProgress()
         playlist = nil
     }
 
@@ -391,16 +422,30 @@ final class PlayerViewModel {
         }
         if let completion { screensaverStartCompletions.append(completion) }
         guard !isStartingScreensaver else { return true }
+        isStartingScreensaver = true
         cancelEOFRefresh()
         isStartingHome = false
         isShowingHome = false
         isShowingConnectPhone = false
         trackController.presentation = nil
+        let preparation = UUID()
+        screensaverPreparation = preparation
+        if beforeStartingMatrix?({ [weak self] paused in
+            guard let self, self.screensaverPreparation == preparation else { return }
+            self.screensaverPreparation = nil
+            if paused { _ = self.waitForMatrixPause() } else { self.stopScreensaver() }
+        }) == true {
+            return true
+        }
+        screensaverPreparation = nil
+        return waitForMatrixPause()
+    }
+
+    private func waitForMatrixPause() -> Bool {
         if !hasMedia || (paused && requestedPause != false) {
             activateMatrix()
             return true
         }
-        isStartingScreensaver = true
         guard setPaused(true) else {
             stopScreensaver()
             return false
@@ -430,6 +475,7 @@ final class PlayerViewModel {
         screensaverPauseTask?.cancel()
         screensaverPauseTask = nil
         let changed = isScreensaverEngaged
+        screensaverPreparation = nil
         isStartingScreensaver = false
         screensaver = .off
         screensaverPresentation.stop()

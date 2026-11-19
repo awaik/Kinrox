@@ -89,18 +89,21 @@
 </details></nav>
 
 <h1>Zásady ochrany soukromí</h1>
-<p class="muted">2026-11-01</p>
+<p class="muted">2026-11-19</p>
 
 <p>Kinrox přehrává místní videa na Macu a nabízí ovladač pro iPhone. Vývojář nedostává osobní údaje, historii přehrávání ani analýzy používání.</p>
 
 <h2>Data na vašich zařízeních</h2>
-<p>Přehrávač Mac ukládá záložky a předvolby posledních souborů do vašeho Mac. Dálkové ovládání iPhone ukládá náhodný identifikátor zařízení, vybrané Mac a předvolby připojení na váš iPhone. Přihlašovací údaje pro párování jsou uloženy v Keychain každého zařízení. Dálkové ovládání přijímá stav přehrávání a poslední tituly a trvání souborů z vašeho Mac. Úplné cesty k souborovému systému a video soubory se do iPhone nepřenášejí.</p>
+<p>Přehrávač Mac ukládá záložky a předvolby posledních souborů do vašeho Mac. Dálkové ovládání iPhone ukládá náhodný identifikátor zařízení, vybrané Mac a předvolby připojení na váš iPhone. Přihlašovací údaje pro párování jsou uloženy v Keychain každého zařízení. Dálkové ovládání přijímá stav přehrávání a poslední tituly a trvání souborů z vašeho Mac. Katalog sledovaných složek, uložené obaly a průběh sledování videí zůstávají na Macu. Kinrox nikdy neposílá do iPhonu úplné cesty k souborům ani samotné mediální soubory.</p>
 
 <h2>Místní síťová komunikace</h2>
 <p>S vaším svolením Kinrox objeví přehrávače používající Bonjour a vymění si ovládací příkazy a informace o přehrávání přes vaši místní síť. Spárované relace používají šifrování. Názvy zařízení a služeb jsou viditelné během zjišťování místní sítě; samotný objev není šifrovaný kanál. Aplikace nepoužívají přenosový server provozovaný vývojářem.</p>
 
 <h2>Kontroly aktualizací Mac</h2>
-<p>Počínaje verzí 0.3.0 používá přehrávač Mac Sparkle ke čtení veřejného kanálu aktualizací na GitHub Pages jednou denně a když vyberete možnost Zkontrolovat aktualizace. Kontroly nezahrnují jedinečné identifikátory zařízení, historii přehrávání ani systémový profil. Když se rozhodnete nainstalovat aktualizaci, Sparkle stáhne podepsaný instalační program ze GitHub Releases. GitHub může zpracovávat informace o požadavku, jako jsou IP adresy, v rámci svých zásad ochrany osobních údajů. Místní video a ovladač LAN fungují offline. Aktualizace a volitelné Spotify potřebují internet.</p>
+<p>Počínaje verzí 0.3.0 používá přehrávač Mac Sparkle ke čtení veřejného kanálu aktualizací na GitHub Pages jednou denně a když vyberete možnost Zkontrolovat aktualizace. Kontroly nezahrnují jedinečné identifikátory zařízení, historii přehrávání ani systémový profil. Když se rozhodnete nainstalovat aktualizaci, Sparkle stáhne podepsaný instalační program ze GitHub Releases. GitHub může zpracovávat informace o požadavku, jako jsou IP adresy, v rámci svých zásad ochrany osobních údajů. Přehrávání místního videa a zvuku i dálkové ovládání přes místní síť fungují offline. Aktualizace, volitelná integrace Spotify a vyhledávání metadat a obalů pro sledované složky využívají internet.</p>
+
+<h2>Knihovna médií</h2>
+<p>Od verze 0.5.11 pro Mac Kinrox ve výchozím nastavení vyhledává hodnocení, žánry, podrobnosti o epizodách a obaly pro sledované složky. Stejný přepínač „Načítat hodnocení, žánry a obaly“ najdete v panelu Složky i v nastavení. Kinrox odesílá přes HTTPS očištěné názvy médií, podle potřeby jména interpretů alb a veřejná katalogová ID službám Cinemeta, TVMaze, MusicBrainz a Cover Art Archive (archive.org). Požadavky neobsahují soubory cookie, přihlašovací údaje, cesty k souborům ani identifikátory uživatelů. Vypnutím přepínače se zruší probíhající vyhledávání a zastaví se nové požadavky.</p>
 
 <h2>Spotify</h2>
 <p>Připojení je volitelné. Používejte vlastní vývojářskou aplikaci Spotify a oprávněný účet Spotify Premium. Spotify řídí přístup k API a kvóty; přístup se může změnit nebo skončit. Vlastní podmínky Spotify platí i nadále. Zvuk přehrává Spotify Soloist, který se na vaši žádost stáhne přímo ze Spotify do Macu. Každý uživatel poskytne vlastní API klíč Soloist. Jednorázové spárování proběhne přes Spotify na iPhonu; poté přehrávání funguje i se zavřeným Spotify na Macu i iPhonu. Soloist zajišťuje dekódování a vlastní zvukovou mezipaměť; Kinrox zvuk nenahrává ani neexportuje. Sestavení Soloist vyprší po 90 dnech a vyžadují aktualizaci.</p>

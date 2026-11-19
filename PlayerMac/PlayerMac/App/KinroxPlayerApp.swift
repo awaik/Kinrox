@@ -9,7 +9,7 @@ struct KinroxPlayerApp: App {
             if let remote = delegate.session.remote {
                 RemoteSettingsView(
                     remote: remote, spotify: delegate.session.spotify,
-                    soloist: delegate.session.soloist)
+                    soloist: delegate.session.soloist, mediaLibrary: delegate.session.mediaLibrary)
             }
         }
         .commands { PlayerCommands(delegate: delegate) }

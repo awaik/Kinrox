@@ -6,6 +6,44 @@ import Testing
 @Suite("Player commands and folder playlist", .timeLimit(.minutes(1)))
 @MainActor
 struct PlayerCommandsTests {
+    @Test func homeNavigationKeepsMatrixOverTheLoadedMovie() async {
+        let engine = FakePlayerEngine()
+        let model = makeModel(engine)
+        await open(URL(fileURLWithPath: "/tmp/Movie.mkv"), in: model)
+        model.receive(.property(.paused, .flag(true)))
+        #expect(model.startMatrix())
+        #expect(!model.showHome())
+        let session = PlayerSession(
+            recents: RecentFilesStore(
+                fileURL: FileManager.default.temporaryDirectory.appendingPathComponent(
+                    "\(UUID()).json")))
+        session.model = model
+        session.mode = .music
+        session.selectHome()
+        #expect(session.mode == .video)
+        #expect(model.screensaver == .matrix)
+        #expect(!model.isShowingHome)
+        await model.shutdown()
+    }
+
+    @Test func matrixPreparationCanBeCancelledBeforeSourcesPause() async throws {
+        let model = makeModel(FakePlayerEngine())
+        var finishPreparation: ((Bool) -> Void)?
+        model.beforeStartingMatrix = {
+            finishPreparation = $0
+            return true
+        }
+        var results: [Bool] = []
+        #expect(model.startMatrix { results.append($0) })
+        #expect(model.isStartingScreensaver)
+        #expect(model.stopScreensaver())
+        let finish = try #require(finishPreparation)
+        finish(true)
+        #expect(model.screensaver == .off)
+        #expect(results == [false])
+        await model.shutdown()
+    }
+
     private let folder = URL(fileURLWithPath: "/tmp/Series")
     private var episodes: [URL] { (1...3).map { folder.appendingPathComponent("E\($0).mkv") } }
 

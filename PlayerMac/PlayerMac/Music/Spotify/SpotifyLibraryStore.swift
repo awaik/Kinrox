@@ -46,6 +46,7 @@ final class SpotifyLibraryStore: MusicLibraryStore {
     var discoveryCache: [String: (date: Date, value: SpotifyDiscoveryData)] = [:]
     var playHistory: [MusicPlayHistoryEntry] = []
     var listenBrainzStatus = MusicListenBrainzStatus.off
+    let musicBrainzLimiter: MusicBrainzRateLimiter
     var metaBrainzClient: MetaBrainzClient?
     var metaBrainzFactory: (() -> MetaBrainzClient)?
     var listenBrainzEnabled = false
@@ -53,11 +54,14 @@ final class SpotifyLibraryStore: MusicLibraryStore {
 
     init(
         client: SpotifyClient, profile: SpotifyProfile? = nil, cache: SpotifyCacheStore? = nil,
-        connected: Bool = true, now: @escaping @Sendable () -> Date = { Date() }
+        connected: Bool = true,
+        musicBrainzLimiter: MusicBrainzRateLimiter = MusicBrainzRateLimiter(),
+        now: @escaping @Sendable () -> Date = { Date() }
     ) {
         self.client = client
         self.cache = cache
         self.now = now
+        self.musicBrainzLimiter = musicBrainzLimiter
         self.isConnected = connected
         library = LibrarySnapshot(userID: profile?.id ?? "")
         favorites = FavoritesService(client: client)

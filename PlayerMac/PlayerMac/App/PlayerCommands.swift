@@ -33,7 +33,7 @@ struct PlayerCommands: Commands {
         }
         TrackCommands(session: session)
         CommandGroup(after: .toolbar) {
-            Button(L10n.text("Video")) { session.mode = .video }
+            Button(L10n.text("Home"), action: session.selectHome)
                 .keyboardShortcut("1", modifiers: .command)
             Button("Spotify") { session.mode = .music }
                 .keyboardShortcut("2", modifiers: .command)
@@ -41,6 +41,13 @@ struct PlayerCommands: Commands {
                 Button(L10n.text("Refresh list")) { session.music.syncLibrary() }
                     .keyboardShortcut("r", modifiers: .command)
                     .disabled(session.music.isLoading || session.music.isMutating)
+            } else if session.isOnHome {
+                Button(L10n.text("Check Now")) {
+                    session.mediaLibrary.rescanAll(refreshMetadata: true)
+                }
+                .keyboardShortcut("r", modifiers: .command)
+                Button(L10n.text("Search Library")) { session.focusHomeSearch() }
+                    .keyboardShortcut("f", modifiers: .command)
             }
         }
         CommandMenu(L10n.text("Screensaver")) {
@@ -64,13 +71,12 @@ struct PlayerCommands: Commands {
         }
         CommandMenu(L10n.text("Playback")) {
             Button(
-                (session.controlsMusic ? !session.music.paused : model?.paused == false)
-                    ? L10n.text("Pause") : L10n.text("Play")
+                transportPaused ? L10n.text("Play") : L10n.text("Pause")
             ) {
-                if session.controlsMusic {
-                    session.music.togglePause()
-                } else {
-                    model?.togglePause()
+                switch session.activeControlTarget {
+                case .music: session.music.togglePause()
+                case .localAudio: session.localAudio.togglePause()
+                case .video: model?.togglePause()
                 }
             }
             .keyboardShortcut(.space, modifiers: [])
@@ -83,35 +89,33 @@ struct PlayerCommands: Commands {
             seekButton(L10n.text("Forward 30s"), PlayerViewModel.longSeek, .rightArrow, .shift)
             Divider()
             Button(
-                session.controlsMusic ? L10n.text("Previous track") : L10n.text("Previous File")
+                session.activeControlTarget == .video
+                    ? L10n.text("Previous File") : L10n.text("Previous track")
             ) {
-                if session.controlsMusic { session.music.previous() } else { model?.previous() }
+                moveTrack(next: false)
             }
             .keyboardShortcut(.leftArrow, modifiers: .command)
-            .disabled(
-                session.controlsMusic
-                    ? (!session.musicShortcutsAllowed || !session.music.canPrevious)
-                    : (!session.trackShortcutsAllowed || !(model?.canPrevious ?? false)))
-            Button(session.controlsMusic ? L10n.text("Next track") : L10n.text("Next File")) {
-                if session.controlsMusic { session.music.next() } else { model?.next() }
+            .disabled(!canMoveTrack(next: false))
+            Button(
+                session.activeControlTarget == .video
+                    ? L10n.text("Next File") : L10n.text("Next track")
+            ) {
+                moveTrack(next: true)
             }
             .keyboardShortcut(.rightArrow, modifiers: .command)
-            .disabled(
-                session.controlsMusic
-                    ? (!session.musicShortcutsAllowed || !session.music.canNext)
-                    : (!session.trackShortcutsAllowed || !(model?.canNext ?? false)))
+            .disabled(!canMoveTrack(next: true))
             Divider()
             Button(L10n.text("Louder")) { changeVolume(by: PlayerViewModel.volumeStep) }
                 .keyboardShortcut(.upArrow, modifiers: [])
                 .disabled(
                     session.controlsMusic
-                        ? (!session.musicShortcutsAllowed || !session.music.canAdjustVolume)
+                        ? (!session.unmodifiedShortcutsAllowed || !session.music.canAdjustVolume)
                         : !session.canControl)
             Button(L10n.text("Quieter")) { changeVolume(by: -PlayerViewModel.volumeStep) }
                 .keyboardShortcut(.downArrow, modifiers: [])
                 .disabled(
                     session.controlsMusic
-                        ? (!session.musicShortcutsAllowed || !session.music.canAdjustVolume)
+                        ? (!session.unmodifiedShortcutsAllowed || !session.music.canAdjustVolume)
                         : !session.canControl)
             Divider()
             Button(
@@ -140,11 +144,39 @@ struct PlayerCommands: Commands {
         }
     }
 
+    private var transportPaused: Bool {
+        switch session.activeControlTarget {
+        case .music: session.music.paused
+        case .localAudio: session.localAudio.paused
+        case .video: model?.paused != false
+        }
+    }
+
+    private func canMoveTrack(next: Bool) -> Bool {
+        guard session.unmodifiedShortcutsAllowed else { return false }
+        switch session.activeControlTarget {
+        case .music: return next ? session.music.canNext : session.music.canPrevious
+        case .localAudio: return next ? session.localAudio.canNext : session.localAudio.canPrevious
+        case .video: return (next ? model?.canNext : model?.canPrevious) == true
+        }
+    }
+
+    private func moveTrack(next: Bool) {
+        switch session.activeControlTarget {
+        case .music:
+            if next { session.music.next() } else { session.music.previous() }
+        case .localAudio:
+            if next { session.localAudio.next() } else { session.localAudio.previous() }
+        case .video:
+            if next { model?.next() } else { model?.previous() }
+        }
+    }
+
     private func changeVolume(by delta: Double) {
-        if session.controlsMusic {
-            session.music.setVolume(session.music.volume + delta)
-        } else {
-            model?.changeVolume(by: delta)
+        switch session.activeControlTarget {
+        case .music: session.music.setVolume(session.music.volume + delta)
+        case .localAudio: session.localAudio.setVolume(session.localAudio.volume + delta)
+        case .video: model?.changeVolume(by: delta)
         }
     }
 
@@ -152,10 +184,10 @@ struct PlayerCommands: Commands {
         _ title: String, _ seconds: Double, _ key: KeyEquivalent, _ modifiers: EventModifiers
     ) -> some View {
         Button(title) {
-            if session.controlsMusic {
-                session.music.seek(session.music.displayedPosition + seconds)
-            } else {
-                model?.seek(by: seconds)
+            switch session.activeControlTarget {
+            case .music: session.music.seek(session.music.displayedPosition + seconds)
+            case .localAudio: session.localAudio.seek(session.localAudio.position + seconds)
+            case .video: model?.seek(by: seconds)
             }
         }
         .keyboardShortcut(key, modifiers: modifiers)

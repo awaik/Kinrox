@@ -13,7 +13,7 @@
 >
 > These requirements supersede earlier decisions that require Spotify.app or permit an embedded web player. The historical Connect-only releases in the [release history](docs/releases/HISTORY.md) do **not** establish standalone acceptance. The default production path now uses separately downloaded Soloist; live evidence and accepted limits are in [Soloist Verification](docs/runbooks/SOLOIST-VERIFICATION.md).
 >
-> **Status:** M0–M6 complete. Current release: Mac 0.5.10 (build 20) and Kinrox Remote 0.2.2 (build 4).
+> **Status:** M0–M6 complete. Current release: Mac 0.5.11 (build 21) and Kinrox Remote 0.2.2 (build 4).
 > Milestone and release history with links to verification reports — [release history](docs/releases/HISTORY.md);
 > contributor tasks — [docs/TODO](docs/TODO/). Design: Section 3.5; landing site: Section 3.6; licensing: Section 10.
 > Open questions are compiled in Section 11. Until closed, proposals marked "proposal" are non-final.
@@ -89,6 +89,13 @@ ls /opt/homebrew/include/mpv             # client.h render.h render_gl.h stream_
    Requests send artist names, track titles, ISRCs and MBIDs to MetaBrainz services,
    without user identifiers or cookies; disabled integration sends no requests.
    Listening history remains local to Mac and is deleted on Disconnect.
+   Owner decision (2026-11-18): the Mac media library can fetch ratings, genres,
+   episode details and artwork from Cinemeta, TVMaze, MusicBrainz and Cover Art
+   Archive. The Folders sheet and Settings disclose the lookup and provide the
+   same toggle, on by default for watched folders. Requests send clean media
+   titles, needed album artist names and public catalog IDs without cookies,
+   credentials, file paths or user identifiers. Turning the toggle off cancels
+   active lookups. The catalog, artwork and watch history stay on this Mac.
    The iPhone sends controls over the LAN and never calls Spotify’s API. Owner decision
    2026-11-01 additionally permits user-initiated contextual links to Spotify on iPhone.
 
@@ -111,7 +118,8 @@ Kinrox does not attempt to replicate IINA's feature breadth (filters, plugins, c
 
 | Feature | Implementation |
 |---|---|
-| Open File | `NSOpenPanel`, drag-and-drop into window or Dock icon, "Open With" (document types in `Info.plist`: mkv, mp4, m4v, mov, avi, webm, ts, and "any video" via UTI `public.movie`) |
+| Home & Media Library | Home and Spotify are separate modes. Add local or external folders to index movies, series and local audio in the background. Offline drives retain their index, artwork and watch progress. Continue Watching resumes videos and advances to the next unwatched episode. |
+| Open File | `NSOpenPanel` and drag-and-drop support video and local audio without folder setup. Finder document declarations and the Default Video Player card remain video-only. |
 | Play / Pause | Space, on-screen button, media keys, remote. Controls overlay displays on mouse move and auto-hides after 3s while video plays |
 | Seeking | Position scrubber (seeks on release, hover time indicator); ←/→ for 5s, ⇧←/⇧→ for 30s; remote ±10/±30s |
 | Volume | Slider, ↑/↓ with step 5; range 0–100 (no amplification beyond 100 in v1) |
@@ -145,7 +153,7 @@ closes, the Mac is forgotten, the setting is off, or after an hour on pause. Set
 
 ### 2.3. Excluded from v1
 
-Playback position memory, custom playlists, network streams and URLs, YouTube (`ytdl` disabled), video filters and custom shaders, custom cover art, picture-in-picture, iPad/Apple Watch remote targets, multi-player simultaneous routing. Track selection is currently a Mac feature; remote protocol track commands are not included.
+Custom playlists, network streams and URLs, YouTube (`ytdl` disabled), video filters and custom shaders, custom cover art, picture-in-picture, iPad/Apple Watch remote targets, multi-player simultaneous routing. Track selection is currently a Mac feature; remote protocol track commands are not included.
 
 ---
 
@@ -214,7 +222,8 @@ Kinrox/
 │   │   ├── App/                  # KinroxPlayerApp, AppDelegate, PlayerSession, PlayerCommands
 │   │   ├── Player/               # PlayerViewModel(+Commands), PlayerView, window, OverlayController
 │   │   │   ├── Controls/         # ControlsBar, Scrubber, VolumeControl, buttons, popovers
-│   │   │   └── Welcome/          # splash screen, recent cards, placeholder artwork
+│   │   │   ├── Home/             # library workspace, watched folders and mini-player
+│   │   │   └── Welcome/          # shared recent cards and paused-video banner
 │   │   ├── MPVKit/               # libmpv wrapper
 │   │   │   ├── PlayerMac-Bridging-Header.h
 │   │   │   ├── MPVPlayer.swift          # mpv_handle, commands, properties
@@ -228,6 +237,8 @@ Kinrox/
 │   │   ├── NowPlaying/           # MPRemoteCommandCenter, MPNowPlayingInfoCenter
 │   │   ├── Remote/               # PairingCodeView, PairingCenter, RemoteServer, Keychain store
 │   │   ├── Library/              # RecentFilesStore, FolderPlaylist, VideoFiles
+│   │   ├── MediaLibrary/         # folder scanning, SQLite, tags, metadata, artwork
+│   │   ├── LocalAudio/           # local queue and headless playback adapter interface
 │   │   ├── Music/                # domain model adapter, coordinator, Spotify services and UI
 │   │   ├── Updates/              # UpdateCenter, SparkleUpdater, update banner and pill
 │   │   ├── Resources/            # Assets.xcassets, Localizable.xcstrings
@@ -338,11 +349,12 @@ The file is the source of truth for layouts, texts in mockups, components, and t
 | [16 · Mac — Default video player](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=312-387) | Settings card “Default Video Player” in four states (not default, partial, default, failed), Settings windows before/after, behaviour notes (`312:387`) |
 | [13 · Remote — Lock Screen](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=212-304) | iPhone Lock Screen Live Activity: music and video cards, paused, sending, Mac unavailable and possibly-out-of-date states, Dynamic Island compact/minimal/expanded, Settings toggle, behaviour notes and owner decisions (±10 s, volume buttons, one-hour pause limit) (`212:304`) |
 | [12 · Remote — Similar](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=205-4347) | iPhone Similar control: Listen to similar button, looking and active states, Not interested menu, hidden-track feedback with Undo, queue in Similar mode with swipe/long-press Not interested, older-Mac update hint, behaviour notes (`205:4347`) |
+| [17 · Home — Media Library](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=319-304) | Mac Home, watched folders, movies and series, local music and mini-player (`319:304`) |
 
 Working with the file:
 - new screens and states are designed in this file before implementation; existing pages follow `NN · <milestone> — <topic>`;
 - mockup copy in Figma is currently Russian; app source strings stay English (Section 9);
-- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, `88:304`, `166:304`, `191:304`, `205:4347`, `212:304`, `229:304`, `237:304`, and `312:387`; component library in section `3:2`.
+- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, `88:304`, `166:304`, `191:304`, `205:4347`, `212:304`, `229:304`, `237:304`, `312:387`, and `319:304`; component library in section `3:2`.
 
 Project information links share one destination catalog in both apps and open in
 the system browser only when activated. The license label, description and destination
@@ -709,7 +721,7 @@ See [signing runbook](docs/runbooks/RUNBOOK-BUILD-AND-SIGNING.md#real-iphone) fo
 5. Max file length is 500 lines. Split large files logically.
 6. Verify changes with unit and integration tests before handoff.
 7. Set playback volume to 0 within Kinrox during test media verifications; do not touch Mac system volume.
-8. Local network operations exclusively, except the Mac player's approved Sparkle appcast check, opt-in Spotify integration, and Mac-only ListenBrainz/MusicBrainz similarity (principle 4): on by default after the Spotify connection, disclosed in the accepted Spotify privacy policy, and can be turned off in Settings → Spotify (owner decision 2026-11-10, revised the same day). No telemetry or analytics.
+8. Local network operations exclusively, with the Mac exceptions in Principle 4: Sparkle update checks, optional Spotify integration, ListenBrainz/MusicBrainz similarity, and watched-folder metadata and artwork lookups. Both lookup features have Settings toggles. No telemetry or analytics.
 9. **No WebView:** follow the critical requirements at the top of this document. Never introduce an embedded WebView or browser runtime, including a hidden one, into either application.
 10. **Standalone Spotify acceptance:** verify playback and controls with Spotify.app fully terminated, including a cold start of Kinrox in that state. Do not launch Spotify.app as a dependency or workaround. Record latency and memory measurements; tests with Spotify.app running do not establish acceptance of this requirement.
 11. **Never launch the iOS Simulator** (owner decision, 2026-11-11): it slows down the owner's
@@ -749,7 +761,7 @@ Agent models and roles (owner decisions, 2026-11-11; Section 11):
 - Of Google's models, agents use only `agy --dangerously-skip-permissions --model
   "Gemini 4 Carbon (High)"` with a 5400 s timeout. Gemini 4 Argon and Gemini 3.8
   Flash at any level are not used in agent loops; `research-execute` refuses them.
-- Bug without an evident cause: alongside the Codex fix on `gpt-6-astra` / `xhigh`,
+- Bug without an evident cause: alongside the Codex fix on `gpt-6.2-astra` / `xhigh`,
   the orchestrator launches the `investigate` role (agy, Carbon High, 5400 s) from
   [the template](.agents/templates/investigate.md). It searches for the cause
   independently, only reads code, and writes a report; do not pass Codex's
@@ -792,7 +804,7 @@ separate; see [AppStore/LICENSE-ROLLOUT.md](AppStore/LICENSE-ROLLOUT.md).
 - Update distribution mechanism — decided 2026-10-29: Sparkle 2 (Option A). EdDSA signing key created by the owner on 2026-10-29 ([runbook](docs/runbooks/RUNBOOK-RELEASE.md#update-signing-key)); first shipped in Mac 0.3.0 on 2026-10-30.
 - Target architectures: Apple Silicon (arm64) primary; Intel x86_64 deferred.
 - Agent models — decided 2026-11-11: of Google's models, agents use only Gemini 4 Carbon (High) (`agy --model "Gemini 4 Carbon (High)"`); Gemini 4 Argon and Gemini 3.8 Flash are not used in agent loops, and `research-execute` refuses them. The agy review timeout is 5400 s. Product, image-generation, Claude and OpenAI models are unaffected.
-- Codex token economy — decided 2026-11-12: Codex limits run out quickly. `research-execute` implementation and `general-release` apply default to `gpt-6-astra` / `high` (`xhigh` only for hard tasks or a bug without an evident cause); the orchestrator performs the release stage and all performance measurements itself; Codex loads this document whole (`project_doc_max_bytes`), so prompts never ask it to re-read it; milestone and release history lives in `docs/releases/HISTORY.md`; agents check with targeted tests while iterating and run full suites once.
+- Codex token economy — decided 2026-11-12, updated 2026-11-18: Codex limits run out quickly. `research-execute` implementation and `general-release` apply default to `gpt-6.2-sol` / `high`; use `gpt-6.2-astra` / `high` for complex architectural, concurrency, C-API, or protocol work, and `gpt-6.2-astra` / `xhigh` only for hard tasks or a bug without an evident cause (avoid `gpt-6-astra`, `max`/`ultra` reasoning, and `Fast`/`Ultrafast` service tiers); the orchestrator performs the release stage and all performance measurements itself; Codex loads this document whole (`project_doc_max_bytes`), so prompts never ask it to re-read it; milestone and release history lives in `docs/releases/HISTORY.md`; agents check with targeted tests while iterating and run full suites once.
 - Bug without an evident cause — decided 2026-11-11: alongside the Codex fix, the orchestrator launches the read-only `investigate` role (agy, Gemini 4 Carbon (High), 5400 s) from `.agents/templates/investigate.md`; see Section 9.1.
 
 ### Technical Risks

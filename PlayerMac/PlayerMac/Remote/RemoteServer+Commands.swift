@@ -22,6 +22,28 @@ extension RemoteServer {
             return openRecent(id)
         }
         guard let model, !model.isClosing else { return .noMedia }
+        if let audio = activeLocalAudio {
+            let accepted: Bool
+            switch command {
+            case .togglePause: accepted = audio.togglePause()
+            case .setPaused(let paused): accepted = audio.setPaused(paused)
+            case .seekRelative(let seconds): accepted = audio.seek(audio.position + seconds)
+            case .seekAbsolute(let seconds): accepted = audio.seek(seconds)
+            case .setVolume(let volume): accepted = audio.setVolume(volume)
+            case .next:
+                guard audio.canNext else { return .itemNotFound }
+                accepted = audio.next()
+            case .previous:
+                guard audio.canPrevious else { return .itemNotFound }
+                accepted = audio.previous()
+            case .toggleFullscreen: return model.toggleFullscreen() ? nil : .internal
+            case .setFullscreen(let value): return model.setFullscreen(value) ? nil : .internal
+            case .setScreensaver(let value):
+                accepted = value == .matrix ? model.startMatrix() : model.stopScreensaver()
+            default: return .unknownMessage
+            }
+            return accepted ? nil : .internal
+        }
         if musicBridge?.active == true {
             switch command {
             case .toggleFullscreen, .setFullscreen, .setScreensaver: break

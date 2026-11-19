@@ -5,6 +5,7 @@ struct RemoteSettingsView: View {
     @Bindable var remote: RemoteServer
     var spotify: SpotifyAccount? = nil
     var soloist: SoloistSetup? = nil
+    var mediaLibrary: MediaLibraryStore? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -19,6 +20,7 @@ struct RemoteSettingsView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     DefaultPlayerCard()
+                    if let mediaLibrary { MediaLibrarySettingsCard(store: mediaLibrary) }
                     if let spotify { SpotifySettingsSection(account: spotify) }
                     if let soloist, soloist.configured { SoloistSettingsSection(setup: soloist) }
                     serverCard

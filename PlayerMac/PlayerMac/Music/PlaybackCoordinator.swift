@@ -5,10 +5,11 @@ import Observation
 /// allowed to settle before its successor pauses it, preventing late double audio.
 @MainActor @Observable
 final class PlaybackCoordinator {
-    enum Source { case video, music }
+    enum Source { case video, localAudio, music }
     private(set) var activeSource = Source.video
     @ObservationIgnored private weak var video: PlayerViewModel?
     @ObservationIgnored private weak var music: MusicViewModel?
+    @ObservationIgnored private weak var localAudio: LocalAudioViewModel?
     @ObservationIgnored private var transition: Task<Void, Never>?
     @ObservationIgnored private var generation = UUID()
     @ObservationIgnored private var pendingSource: Source?
@@ -22,18 +23,26 @@ final class PlaybackCoordinator {
     }
 
     private func publishSource() {
-        if activeSource == .music, let music {
-            nowPlaying?.connect(to: music)
-        } else if let video {
-            nowPlaying?.connect(to: video)
+        switch activeSource {
+        case .music:
+            if let music { nowPlaying?.connect(to: music) }
+        case .localAudio:
+            if let localAudio { nowPlaying?.connect(to: localAudio) }
+        case .video:
+            if let video { nowPlaying?.connect(to: video) }
         }
     }
 
-    func connect(video: PlayerViewModel?, music: MusicViewModel) {
+    func connect(
+        video: PlayerViewModel?, music: MusicViewModel, localAudio: LocalAudioViewModel? = nil
+    ) {
+        self.video?.beforeStartingMatrix = nil
         self.video?.beforeStartingPlayback = nil
         self.video?.cancelPendingPlayback = nil
         self.video = video
         self.music = music
+        self.localAudio = localAudio
+        localAudio?.coordinator = self
         music.coordinator = self
         video?.beforeStartingPlayback = { [weak self] action in
             guard let self else { return false }
@@ -41,6 +50,24 @@ final class PlaybackCoordinator {
             return true
         }
         video?.cancelPendingPlayback = { [weak self] in self?.cancelPending(.video) }
+        video?.beforeStartingMatrix = { [weak self, weak video] action in
+            guard let self,
+                self.localAudio?.currentTrack != nil || self.pendingSource == .localAudio
+            else {
+                return false
+            }
+            self.cancelPending(.localAudio)
+            self.perform(.video) { [weak self, weak video] in
+                do {
+                    try self?.localAudio?.pauseForSourceChange()
+                    action(true)
+                } catch {
+                    video?.errorMessage = error.localizedDescription
+                    action(false)
+                }
+            }
+            return true
+        }
     }
 
     func start(_ source: Source, action: @escaping @MainActor () async throws -> Void) {
@@ -60,27 +87,30 @@ final class PlaybackCoordinator {
         transition = Task { [weak self] in
             await previous?.value
             guard let self, !startsPlayback || self.generation == generation else { return }
+            defer {
+                if startsPlayback, self.generation == generation { self.pendingSource = nil }
+            }
             do {
                 if startsPlayback {
-                    if source == .music {
-                        try await self.pauseVideo()
-                    } else {
-                        try await self.music?.pauseForSourceChange()
-                    }
+                    if source == .localAudio, self.blocksLocalAudioTransport { return }
+                    if source != .video { try await self.pauseVideo() }
+                    if source != .localAudio { try self.localAudio?.pauseForSourceChange() }
+                    if source != .music { try await self.music?.pauseForSourceChange() }
                     guard self.generation == generation else { return }
+                    if source == .localAudio { self.video?.showHome() }
                 }
                 try await action()
-                if startsPlayback {
+                if startsPlayback, self.generation == generation {
                     self.activeSource = source
                     self.publishSource()
                     self.sourceChanged?(source)
                 }
-                if self.generation == generation { self.pendingSource = nil }
             } catch {
-                if source == .music {
-                    self.music?.statusMessage = SpotifyStatus.message(error)
-                } else {
-                    self.video?.errorMessage = SpotifyStatus.message(error)
+                switch source {
+                case .music: self.music?.statusMessage = SpotifyStatus.message(error)
+                case .video: self.video?.errorMessage = SpotifyStatus.message(error)
+                case .localAudio:
+                    self.localAudio?.errorMessage = LocalAudioFailure.alertMessage(for: error)
                 }
             }
         }
@@ -115,6 +145,16 @@ final class PlaybackCoordinator {
         }
     }
 
+    func allowsPendingStart(_ source: Source) -> Bool { pendingSource == source }
+
+    var blocksLocalAudioTransport: Bool { video?.isScreensaverEngaged == true }
+
+    var mayAdvanceLocalAudio: Bool {
+        pendingSource == nil && activeSource == .localAudio && !blocksLocalAudioTransport
+    }
+
+    func exitScreensaverForLocalAudioOpen() { video?.stopScreensaver() }
+
     func settle() async { await transition?.value }
 
     func close() async { await beginClose().value }
@@ -126,14 +166,20 @@ final class PlaybackCoordinator {
         pendingSource = nil
         let video = video
         let music = music
+        let localAudio = localAudio
+        try? localAudio?.pauseForSourceChange()
+        activeSource = .video
         nowPlaying?.disconnect()
         nowPlaying = nil
         video?.beforeStartingPlayback = nil
         video?.cancelPendingPlayback = nil
+        video?.beforeStartingMatrix = nil
         let previous = transition
         let closing = Task { [weak self] in
             await previous?.value
-            await music?.shutdownPlayback()
+            async let musicStopped: Void? = music?.shutdownPlayback()
+            async let localStopped: Void? = localAudio?.shutdownPlayback()
+            _ = await (musicStopped, localStopped)
             if self?.video === video { self?.video = nil }
         }
         transition = closing
