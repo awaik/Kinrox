@@ -6,6 +6,21 @@
     <description>Kinrox for Mac releases. Sparkle reads this feed; it sends no identifiers.</description>
     <language>en</language>
     <item>
+      <title>Kinrox 0.5.12</title>
+      <pubDate>Fri, 20 Nov 2026 17:08:22 +0000</pubDate>
+      <sparkle:version>22</sparkle:version>
+      <sparkle:shortVersionString>0.5.12</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+      <sparkle:fullReleaseNotesLink>https://github.com/awaik/Kinrox/releases/tag/v0.5.12</sparkle:fullReleaseNotesLink>
+      <description>&lt;p&gt;Mac player release for Apple Silicon (arm64), macOS 14 or newer.&lt;/p&gt;
+&lt;h3&gt;What's New&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;b&gt;Your Mac library, ready for the iPhone remote.&lt;/b&gt; Kinrox on the Mac can now share its Home media library with Kinrox Remote: Continue Watching, movies and series, local albums and tracks, search, posters and album covers, and starting or resuming playback from the phone. Videos started from the remote open in the normal player window, not fullscreen, and pause whatever else is playing. Items on a disconnected drive stay visible but cannot be started. Only opaque identifiers, titles and catalog details are sent; file paths never leave your Mac. A Kinrox Remote update will use this; the current remote keeps working exactly as before.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Local music for newer remotes.&lt;/b&gt; For remotes that support the media library, local music on your Mac appears as music with its queue, shuffle and repeat, track format and cover, instead of looking like a video.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Steadier remote connection.&lt;/b&gt; An iPhone connection is no longer dropped when a network update reports the Mac's Bonjour service name instead of a resolved address; the address approved when the phone connected is checked instead.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Lighter when no phone is connected.&lt;/b&gt; The library is indexed for the remote only while a remote is connected and released when it disconnects, so Kinrox uses no extra memory when you don't use the remote.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Requirements and Notes&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;macOS 14.0 or newer on Apple Silicon (arm64).&lt;/li&gt;&lt;li&gt;The remote protocol gains an additive extension (&lt;code&gt;library.v1&lt;/code&gt;). Kinrox Remote 0.2.2 and older remotes, including Lock Screen controls, keep working unchanged with this release; for them local music on Mac is still shown as before.&lt;/li&gt;&lt;li&gt;Standalone Spotify playback continues to use separately downloaded Spotify Soloist, with Spotify.app fully closed. Spotify Premium, your own Client ID, a Soloist API key and one-time phone pairing are required; Soloist is not bundled with Kinrox.&lt;/li&gt;&lt;li&gt;Runtime verification is limited to macOS 26.5.2 (Apple Silicon). Minimum-OS metadata is checked for bundled binaries; no separate macOS 14 runtime test was performed.&lt;/li&gt;&lt;li&gt;Automated checks, performance measurements, notarization and mounted-app evidence are recorded in &lt;a href="https://github.com/awaik/Kinrox/blob/v0.5.12/docs/runbooks/0.5.12-VERIFICATION.md"&gt;Mac 0.5.12 Verification&lt;/a&gt;.&lt;/li&gt;&lt;li&gt;To install manually, open &lt;code&gt;Kinrox-0.5.12-arm64.dmg&lt;/code&gt; and drag &lt;code&gt;Kinrox.app&lt;/code&gt; to &lt;code&gt;Applications&lt;/code&gt;. Existing installations of Kinrox 0.3.0 or newer can also update through &lt;code&gt;Kinrox → Check for Updates…&lt;/code&gt;.&lt;/li&gt;&lt;li&gt;&lt;code&gt;Kinrox-0.5.12-dependency-sources.tar.gz&lt;/code&gt; contains corresponding sources, build recipes, patches and license texts for bundled open-source libraries. &lt;code&gt;SHA256SUMS.txt&lt;/code&gt; lists release-asset checksums.&lt;/li&gt;&lt;/ul&gt;</description>
+      <enclosure url="https://github.com/awaik/Kinrox/releases/download/v0.5.12/Kinrox-0.5.12-arm64.dmg" length="34563740" type="application/octet-stream" sparkle:edSignature="8EYvVxEIRLWSpORUsQ/Y7tFDzhQdHfR4KckIfAnfUIK2XLdre4ev+BTWLI5tFlYLwBGJEEn+HIRgwNOZZnqyAQ==" />
+    </item>
+    <item>
       <title>Kinrox 0.5.11</title>
       <pubDate>Thu, 19 Nov 2026 07:33:52 +0000</pubDate>
       <sparkle:version>21</sparkle:version>
