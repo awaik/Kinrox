@@ -37,8 +37,9 @@ elif 'status' in args:
 else:
     raise SystemExit('Unexpected Git operation: ' + repr(args))
 '''
+# The fixture plays agy. Implementation answers with one JSON object (`--output-format json`).
 AGENT = '''#!/usr/bin/env python3
-import os
+import json, os
 from pathlib import Path
 import re, subprocess, sys, time
 stage = os.environ['RESEARCH_EXECUTE_STAGE']
@@ -48,8 +49,12 @@ with (root / 'calls.txt').open('a') as calls:
 args = sys.argv[1:]
 prompt = args[-1]
 if stage == 'execute':
-    with (root / 'codex-args.txt').open('a') as log:
-        log.write(' '.join(args[:-1]) + '\\n')
+    with (root / 'exec-args.txt').open('a') as log:
+        log.write('agy ' + ' '.join(args[:-1]) + '\\n')
+    with (root / 'exec-prompts.txt').open('a') as log:
+        log.write(prompt + '\\n----\\n')
+def answer(text):
+    print(json.dumps({'conversation_id': 'fixture-conv', 'status': 'SUCCESS', 'response': text}))
 run = Path(re.search(r'Run directory: (.+)', prompt).group(1)) if 'Run directory:' in prompt else (root / '.tmp/scratch/research-execute/latest').resolve()
 doc = next((root / 'docs/RESEARCHES').glob('*.md'))
 mode = (root / 'mode.txt').read_text()
@@ -70,18 +75,24 @@ if stage == 'review':
     doc.rename(doc.with_name('REVIEWED - ' + doc.name))
     print('RESULT: REVIEWED - ready')
     raise SystemExit(1 if mode == 'failed-review' else 0)
+if mode == 'execute-hang':
+    child = subprocess.Popen(['sleep', '60'])
+    (root / 'pids.txt').write_text(f'{os.getpid()} {child.pid}')
+    time.sleep(60)
 if mode == 'execute-question':
     (run / 'questions.md').write_text('1. Which threshold applies?')
-    Path(args[args.index('-o') + 1]).write_text('RESULT: QUESTIONS - threshold')
-    print('session id: fixture-session')
+    answer('RESULT: QUESTIONS - threshold')
     raise SystemExit(0)
 if mode == 'partial':
-    Path(args[args.index('-o') + 1]).write_text('RESULT: PARTIAL - pending check')
+    answer('RESULT: PARTIAL - pending check')
+    raise SystemExit(0)
+if mode == 'agy-failed':
+    print(json.dumps({'conversation_id': 'fixture-conv', 'status': 'ERROR', 'response': 'quota'}))
     raise SystemExit(0)
 (root / 'docs/RESEARCHES/DONE').mkdir(exist_ok=True)
 doc.write_text('Status: Implemented locally; not released.\\n')
 doc.rename(root / 'docs/RESEARCHES/DONE' / ('DONE - ' + doc.name.removeprefix('REVIEWED - ')))
-Path(args[args.index('-o') + 1]).write_text('RESULT: DONE - verified locally')
+answer('RESULT: DONE - verified locally')
 '''
 
 
@@ -98,12 +109,13 @@ class RunnerTests(unittest.TestCase):
         self.mode('complete')
         self.bin = self.root / 'bin'
         self.bin.mkdir()
-        for name, content in [('git', GIT), ('agy', AGENT), ('codex', AGENT)]:
+        for name, content in [('git', GIT), ('agy', AGENT)]:
             path = self.bin / name
             path.write_text(content)
             path.chmod(0o755)
         self.env = {**os.environ, 'PATH': str(self.bin) + os.pathsep + os.environ['PATH']}
-        self.env.pop('RESEARCH_EXECUTE_STAGE', None)
+        for var in ('RESEARCH_EXECUTE_STAGE', 'EXEC_EFFORT', 'AGY_MODEL'):
+            self.env.pop(var, None)
 
     def mode(self, value):
         (self.root / 'mode.txt').write_text(value)
@@ -143,15 +155,34 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(list((self.latest().parents[1] / 'locks').iterdir()), [])
         self.assertIn('no changes since startup', (self.latest() / 'summary.md').read_text())
 
-    def test_codex_defaults_save_tokens(self):
-        self.env.pop('CODEX_MODEL', None)
-        self.env.pop('CODEX_EFFORT', None)
-        self.env.pop('CODEX_DOC_BYTES', None)
+    def exec_args(self):
+        return (self.root / 'exec-args.txt').read_text().splitlines()
+
+    def test_implementation_defaults_to_agy_neon_high(self):
         self.run_pipeline(self.doc)
-        args = (self.root / 'codex-args.txt').read_text()
-        self.assertIn('--model gpt-6.2-sol', args)
-        self.assertIn('model_reasoning_effort="high"', args)
-        self.assertIn('project_doc_max_bytes=65536', args)
+        args = self.exec_args()
+        self.assertEqual(len(args), 1)
+        self.assertTrue(args[0].startswith('agy --dangerously-skip-permissions --model Gemini 4 Neon (High)'), args)
+        self.assertIn('--output-format json', args[0])
+        run = self.latest()
+        self.assertIn('RESULT: DONE', (run / 'execute-1.last.md').read_text())
+        self.assertIn('implementation: agy Gemini 4 Neon (High)', (run / 'summary.md').read_text())
+        self.assertIn("EXEC_SESSION=agy:fixture-conv", (run / 'state.env').read_text())
+
+    def test_effort_selects_matching_neon_level(self):
+        for effort, model in (('medium', 'Gemini 4 Neon (Medium)'), ('xhigh', 'Gemini 4 Neon (XHigh)')):
+            with self.subTest(effort=effort):
+                result = self.run_pipeline('--dry-run', self.doc, env={'EXEC_EFFORT': effort})
+                self.assertIn(f'agy implementation ({model})', result.stderr)
+        for effort in ('max', 'ultra'):
+            with self.subTest(effort=effort):
+                result = self.run_pipeline('--dry-run', self.doc, expected=1, env={'EXEC_EFFORT': effort})
+                self.assertIn('EXEC_EFFORT', result.stderr)
+
+    def test_failed_agy_status_is_not_complete(self):
+        self.mode('agy-failed')
+        self.run_pipeline(self.doc, expected=12)
+        self.assertIn('Exit code: 1', (self.latest() / 'summary.md').read_text())
 
     def test_review_uses_carbon_high_with_5400_second_timeout(self):
         self.run_pipeline(self.doc)
@@ -182,6 +213,17 @@ class RunnerTests(unittest.TestCase):
                 os.kill(pid, 0)
         self.assertEqual(list((self.latest().parents[1] / 'locks').iterdir()), [])
         self.run_pipeline('--dry-run', self.doc, expected=1, env={'AGY_TIMEOUT': '0'})
+
+    def test_execute_timeout_stops_agent_process_group(self):
+        self.mode('execute-hang')
+        self.run_pipeline(self.doc, expected=12, env={'EXEC_TIMEOUT': '1'})
+        self.assertEqual(self.calls(), ['review', 'execute'])
+        self.assertIn('Timed out after 1s', (self.latest() / 'execute-1.log').read_text())
+        for pid in map(int, (self.root / 'pids.txt').read_text().split()):
+            with self.assertRaises(ProcessLookupError):
+                os.kill(pid, 0)
+        self.assertEqual(list((self.latest().parents[1] / 'locks').iterdir()), [])
+        self.run_pipeline('--dry-run', self.doc, expected=1, env={'EXEC_TIMEOUT': '0'})
 
     def test_owner_status_stops_then_resumes_implementation(self):
         self.mode('owner')
@@ -215,9 +257,15 @@ class RunnerTests(unittest.TestCase):
         self.run_pipeline('--resume', run)
         self.assertEqual(self.calls(), ['review', 'execute', 'execute'])
         self.assertTrue((run / 'execute-2.last.md').exists())
+        first, second = self.exec_args()
+        self.assertNotIn('--conversation', first)
+        self.assertIn('--conversation fixture-conv', second)
+        # agy starts a new conversation for an unknown id, so the full prompt goes along.
+        resumed = (self.root / 'exec-prompts.txt').read_text().split('----')[1]
+        self.assertIn(str(self.doc.with_name('REVIEWED - ' + self.doc.name)), resumed)
+        self.assertIn('owner: accepted threshold.', resumed)
 
-    def test_review_only_needs_only_review_cli(self):
-        (self.bin / 'codex').rename(self.bin / 'codex-disabled')
+    def test_review_only_stage_skips_implementation(self):
         self.run_pipeline('--stage', 'review', self.doc)
         self.assertEqual(self.calls(), ['review'])
         self.assertTrue(self.doc.with_name('REVIEWED - ' + self.doc.name).exists())

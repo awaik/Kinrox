@@ -16,6 +16,7 @@ public enum Message: Codable, Sendable, Equatable {
         case hello, pairRequest, pairProof, auth, command, requestState, bye
         case helloAck, pairChallenge, paired, authOk, state, recent, ack, error
         case requestQueue, queue, requestLikeOptions, likeOptions
+        case requestLibrary, library, requestLibraryItem, libraryItem, requestArtwork, artwork
     }
 
     case hello(Header, Hello)
@@ -27,7 +28,13 @@ public enum Message: Codable, Sendable, Equatable {
     case queue(Header, QueuePage)
     case requestLikeOptions(Header, LikeOptionsRequest)
     case likeOptions(Header, LikeOptionsPage)
-    case requestState(Header)
+    case requestLibrary(Header, LibraryRequest)
+    case library(Header, LibraryPage)
+    case requestLibraryItem(Header, LibraryItemRequest)
+    case libraryItem(Header, LibraryItemResponse)
+    case requestArtwork(Header, ArtworkRequest)
+    case artwork(Header, ArtworkResponse)
+    case requestState(Header, StateRequest)
     case bye(Header)
     case helloAck(Header, HelloAck)
     case pairChallenge(Header)
@@ -38,14 +45,20 @@ public enum Message: Codable, Sendable, Equatable {
     case ack(Header, Acknowledgement)
     case error(Header, ProtocolError)
 
+    public static func requestState(_ header: Header) -> Self {
+        .requestState(header, .init())
+    }
+
     public var header: Header {
         switch self {
         case .hello(let header, _), .pairRequest(let header, _), .pairProof(let header, _),
-            .auth(let header, _), .command(let header, _), .requestState(let header),
+            .auth(let header, _), .command(let header, _), .requestState(let header, _),
             .bye(let header), .helloAck(let header, _), .pairChallenge(let header),
             .paired(let header, _), .authOk(let header, _), .state(let header, _),
             .requestQueue(let header, _), .queue(let header, _), .requestLikeOptions(let header, _),
-            .likeOptions(let header, _),
+            .likeOptions(let header, _), .requestLibrary(let header, _), .library(let header, _),
+            .requestLibraryItem(let header, _), .libraryItem(let header, _),
+            .requestArtwork(let header, _), .artwork(let header, _),
             .recent(let header, _), .ack(let header, _), .error(let header, _):
             header
         }
@@ -62,6 +75,12 @@ public enum Message: Codable, Sendable, Equatable {
         case .queue: .queue
         case .requestLikeOptions: .requestLikeOptions
         case .likeOptions: .likeOptions
+        case .requestLibrary: .requestLibrary
+        case .library: .library
+        case .requestLibraryItem: .requestLibraryItem
+        case .libraryItem: .libraryItem
+        case .requestArtwork: .requestArtwork
+        case .artwork: .artwork
         case .requestState: .requestState
         case .bye: .bye
         case .helloAck: .helloAck
@@ -120,6 +139,23 @@ public enum Message: Codable, Sendable, Equatable {
             case .likeOptions:
                 self = .likeOptions(
                     header, try container.decode(LikeOptionsPage.self, forKey: .body))
+            case .requestLibrary:
+                self = .requestLibrary(
+                    header, try container.decode(LibraryRequest.self, forKey: .body))
+            case .library:
+                self = .library(header, try container.decode(LibraryPage.self, forKey: .body))
+            case .requestLibraryItem:
+                self = .requestLibraryItem(
+                    header, try container.decode(LibraryItemRequest.self, forKey: .body))
+            case .libraryItem:
+                self = .libraryItem(
+                    header, try container.decode(LibraryItemResponse.self, forKey: .body))
+            case .requestArtwork:
+                self = .requestArtwork(
+                    header, try container.decode(ArtworkRequest.self, forKey: .body))
+            case .artwork:
+                self = .artwork(
+                    header, try container.decode(ArtworkResponse.self, forKey: .body))
             case .hello: self = .hello(header, try container.decode(Hello.self, forKey: .body))
             case .pairRequest:
                 self = .pairRequest(header, try container.decode(PairRequest.self, forKey: .body))
@@ -128,13 +164,12 @@ public enum Message: Codable, Sendable, Equatable {
             case .auth: self = .auth(header, try container.decode(Auth.self, forKey: .body))
             case .command:
                 self = .command(header, try container.decode(Command.self, forKey: .body))
-            case .requestState, .bye, .pairChallenge:
+            case .requestState:
+                self = .requestState(
+                    header, try container.decode(StateRequest.self, forKey: .body))
+            case .bye, .pairChallenge:
                 _ = try container.decode(EmptyBody.self, forKey: .body)
-                switch type {
-                case .requestState: self = .requestState(header)
-                case .bye: self = .bye(header)
-                default: self = .pairChallenge(header)
-                }
+                self = type == .bye ? .bye(header) : .pairChallenge(header)
             case .helloAck:
                 self = .helloAck(header, try container.decode(HelloAck.self, forKey: .body))
             case .paired: self = .paired(header, try container.decode(Paired.self, forKey: .body))
@@ -150,6 +185,7 @@ public enum Message: Codable, Sendable, Equatable {
             }
             try validateHandshakeFields()
             try validateMusicFields()
+            try validateLibraryFields()
         } catch {
             let failure =
                 error as? ProtocolError
@@ -162,6 +198,7 @@ public enum Message: Codable, Sendable, Equatable {
         try Self.validateVersion(header.v)
         try validateHandshakeFields()
         try validateMusicFields()
+        try validateLibraryFields()
         try header.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(type, forKey: .type)
@@ -170,6 +207,13 @@ public enum Message: Codable, Sendable, Equatable {
         case .queue(_, let body): try container.encode(body, forKey: .body)
         case .requestLikeOptions(_, let body): try container.encode(body, forKey: .body)
         case .likeOptions(_, let body): try container.encode(body, forKey: .body)
+        case .requestLibrary(_, let body): try container.encode(body, forKey: .body)
+        case .library(_, let body): try container.encode(body, forKey: .body)
+        case .requestLibraryItem(_, let body): try container.encode(body, forKey: .body)
+        case .libraryItem(_, let body): try container.encode(body, forKey: .body)
+        case .requestArtwork(_, let body): try container.encode(body, forKey: .body)
+        case .artwork(_, let body): try container.encode(body, forKey: .body)
+        case .requestState(_, let body): try container.encode(body, forKey: .body)
         case .hello(_, let body): try container.encode(body, forKey: .body)
         case .pairRequest(_, let body): try container.encode(body, forKey: .body)
         case .pairProof(_, let body): try container.encode(body, forKey: .body)
@@ -182,7 +226,7 @@ public enum Message: Codable, Sendable, Equatable {
         case .recent(_, let body): try container.encode(body, forKey: .body)
         case .ack(_, let body): try container.encode(body, forKey: .body)
         case .error(_, let body): try container.encode(body, forKey: .body)
-        case .requestState, .bye, .pairChallenge:
+        case .bye, .pairChallenge:
             try container.encode(EmptyBody(), forKey: .body)
         }
     }

@@ -71,6 +71,13 @@ actor ArtworkCache {
         return data
     }
 
+    /// Reads an already-cached thumbnail or loads from disk without populating the Mac UI cache.
+    func thumbnailForRemote(_ key: String) -> Data? {
+        guard key.wholeMatch(of: /[a-f0-9]{64}\.jpg/) != nil else { return nil }
+        if let cached = thumbnails.object(forKey: key as NSString) { return cached as Data }
+        return try? Data(contentsOf: directory.appendingPathComponent(key))
+    }
+
     static func allows(_ url: URL) -> Bool {
         guard url.scheme == "https", url.user == nil, url.password == nil,
             url.port == nil || url.port == 443, let host = url.host?.lowercased()

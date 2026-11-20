@@ -12,7 +12,7 @@ enum LocalAudioTagReader {
             tags.artist = raw["ARTIST"]
             tags.album = raw["ALBUM"]
             tags.albumArtist = raw["ALBUMARTIST"] ?? raw["ALBUM ARTIST"]
-            tags.year = raw["DATE"].flatMap { Int($0.prefix(4)) }
+            tags.year = parseYear(raw["DATE"])
             tags.track = number(raw["TRACKNUMBER"])
             tags.disc = number(raw["DISCNUMBER"])
             tags.isrc = raw["ISRC"]
@@ -53,7 +53,7 @@ enum LocalAudioTagReader {
                 case .commonKeyAlbumName: tags.album = await string(item)
                 case .commonKeyType: tags.genres = genres(await string(item))
                 case .commonKeyCreationDate:
-                    tags.year = await string(item).flatMap { Int($0.prefix(4)) }
+                    tags.year = parseYear(await string(item))
                 case .commonKeyArtwork:
                     if let data = try? await item.load(.dataValue), data.count <= 16 << 20 {
                         tags.artworkPath = try? await artwork.store(data)
@@ -120,8 +120,17 @@ enum LocalAudioTagReader {
         return trimmed.isEmpty ? nil : trimmed
     }
 
+    private static func parseYear(_ value: String?) -> Int? {
+        guard let value, let parsed = Int(value.prefix(4)), (0...9999).contains(parsed) else {
+            return nil
+        }
+        return parsed
+    }
+
     private static func number(_ value: String?) -> Int? {
-        value?.split(separator: "/").first.flatMap { Int($0) }
+        guard let parsed = value?.split(separator: "/").first.flatMap({ Int($0) }), parsed >= 0
+        else { return nil }
+        return parsed
     }
 
     private static func metadataNumber(_ item: AVMetadataItem) async -> Int? {

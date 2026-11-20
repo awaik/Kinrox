@@ -2,18 +2,18 @@
 # General Kinrox Mac release: everything on `main` above origin/main (local commits and
 # uncommitted changes) ships as one signed, notarized release.
 #   1) review of the whole package - agy (Gemini), report review.md;
-#   2) assessment and application of justified findings - codex (high), locally; stop for
+#   2) assessment and application of justified findings - agy Gemini 4 Neon (High), locally; stop for
 #      the orchestrator's control (exit 11);
 #   3) release: version bump, release notes, full checks, build-release.sh, mounted-DMG
 #      verification, source commit, tag, push, GitHub Release, website and appcast commit,
 #      Pages verification. Only via --release and only with the line "VERDICT: RELEASE" in
 #      control.md. By default the orchestrator performs it from release-N.prompt.md (exit 14)
-#      and reports with --finish; RELEASE_AGENT=codex hands it to codex (medium) instead.
+#      and reports with --finish; RELEASE_AGENT=agy hands it to agy Gemini 4 Neon (Medium) instead.
 # Agent questions land in questions.md (exit 10); after answers.md run --resume.
 #
 # Usage:
 #   run.sh --version X.Y.Z --build N [--dry-run]   stages 1-2 in a new run
-#   run.sh --resume "<run>"                         continue a codex stage after answers.md
+#   run.sh --resume "<run>"                         continue an agent stage after answers.md
 #   run.sh --release "<run>"                        stage 3 after control
 #   run.sh --finish "<run>"                         record the orchestrator's release result
 #
@@ -29,17 +29,16 @@ REPO="$(git -C "$SKILL_DIR" rev-parse --show-toplevel 2>/dev/null)" || fail "The
 # The working-tree fingerprint is shared with research-execute.
 FINGERPRINT="$REPO/.agents/skills/research-execute/fingerprint.mjs"
 STATE_ROOT="$REPO/.tmp/scratch/general-release"
-# Owner decision 2026-11-11: of Google's models, agents use only Gemini 4 Carbon (High).
+# Owner decision 2026-11-11: the review uses only Gemini 4 Carbon (High); Argon and 3.8 Flash are refused.
 AGY_MODEL="${AGY_MODEL:-Gemini 4 Carbon (High)}"
 AGY_TIMEOUT="${AGY_TIMEOUT:-5400}"
-CODEX_MODEL="${CODEX_MODEL:-gpt-6.2-sol}"
-# Owner decisions 2026-11-12, 2026-11-18: Codex limits run out quickly. Apply defaults to gpt-6.2-sol
-# at high (CODEX_MODEL=gpt-6.2-astra or APPLY_EFFORT=xhigh for hard packages); orchestrator releases.
+AGENT_TIMEOUT="${AGENT_TIMEOUT:-$AGY_TIMEOUT}"
+# Owner decision 2026-11-20: Codex is no longer used. Agent stages run on agy Gemini 4 Neon at the
+# level of their effort: apply high (xhigh for complex architectural or hard packages), an agent
+# release medium. The orchestrator performs the release by default.
 APPLY_EFFORT="${APPLY_EFFORT:-high}"
 RELEASE_EFFORT="${RELEASE_EFFORT:-medium}"
 RELEASE_AGENT="${RELEASE_AGENT:-orchestrator}"
-# Codex auto-loads AGENTS.md but truncates it at 32 KiB by default; load it whole so agents never re-read it.
-CODEX_DOC_BYTES="${CODEX_DOC_BYTES:-65536}"
 
 MODE=new; RUN_ARG=""; DRY_RUN=0; VERSION=""; BUILD=""
 while [ $# -gt 0 ]; do
@@ -71,8 +70,18 @@ case "$(printf '%s' "$AGY_MODEL" | tr '[:upper:]' '[:lower:]')" in
   *gemini*) [ "$AGY_MODEL" = "Gemini 4 Carbon (High)" ] || \
     fail "Forbidden agy model: $AGY_MODEL. Only Gemini 4 Carbon (High) is allowed (owner decision 2026-11-11)." ;;
 esac
-case "$RELEASE_AGENT" in orchestrator|codex) ;; *) fail "RELEASE_AGENT must be orchestrator or codex." ;; esac
+case "$RELEASE_AGENT" in orchestrator|agy) ;; *) fail "RELEASE_AGENT must be orchestrator or agy." ;; esac
+# agy model names carry the reasoning level; Neon has no max/ultra level.
+neon_model() {
+  case "$1" in
+    low) echo "Gemini 4 Neon (Low)" ;; medium) echo "Gemini 4 Neon (Medium)" ;;
+    high) echo "Gemini 4 Neon (High)" ;; xhigh) echo "Gemini 4 Neon (XHigh)" ;; *) return 1 ;;
+  esac
+}
+neon_model "$APPLY_EFFORT" >/dev/null || fail "APPLY_EFFORT must be low, medium, high, or xhigh."
+[ "$RELEASE_AGENT" != agy ] || neon_model "$RELEASE_EFFORT" >/dev/null || fail "RELEASE_EFFORT must be low, medium, high, or xhigh."
 case "$AGY_TIMEOUT" in ""|*[!0-9]*|0*) fail "AGY_TIMEOUT must be a positive number of seconds." ;; esac
+case "$AGENT_TIMEOUT" in ""|*[!0-9]*|0*) fail "AGENT_TIMEOUT must be a positive number of seconds." ;; esac
 if [ -n "${GENERAL_RELEASE_STAGE:-}${RESEARCH_EXECUTE_STAGE:-}" ]; then
   fail "Nested pipeline execution is prohibited (stage: ${GENERAL_RELEASE_STAGE:-${RESEARCH_EXECUTE_STAGE:-}})."
 fi
@@ -206,42 +215,52 @@ run_review() {
   [ -s "$RUN_DIR/review.md" ]
 }
 
-# $1 - stage (apply | release), $2 - reasoning effort, $3 - name of the variable holding the codex session id.
-run_codex() {
-  local stage="$1" effort="$2" sid_var="$3" log_file last prompt start rc sid
+# agy prints one JSON object: its response from $1 goes to $2, the conversation id to stdout.
+agy_result() {
+  node -e '
+    const fs = require("fs"); const [src, dst] = process.argv.slice(1);
+    const lines = fs.readFileSync(src, "utf8").split("\n").reverse();
+    let o; for (const l of lines) { try { o = JSON.parse(l); break; } catch {} }
+    if (!o) process.exit(3);
+    fs.writeFileSync(dst, o.response || "");
+    process.stdout.write(o.conversation_id || "");
+    process.exit(o.status === "SUCCESS" ? 0 : 4);
+  ' "$1" "$2"
+}
+
+# $1 - stage (apply | release), $2 - reasoning effort, $3 - name of the variable holding the agy
+# conversation id. A continued conversation still gets the full prompt: agy silently starts a new one
+# for an unknown id.
+run_agent() {
+  local stage="$1" effort="$2" sid_var="$3" log_file last json prompt start rc sid model conv=()
   log_file="$RUN_DIR/$stage-$ROUND.log"
   last="$RUN_DIR/$stage-$ROUND.last.md"
+  json="$RUN_DIR/$stage-$ROUND.json"
+  model="$(neon_model "$effort")"
   prompt="$(render "$PROMPTS_DIR/$stage.md")"
   if [ -n "${ANSWERS_TEXT:-}" ]; then prompt="$prompt
 
 $(render "$PROMPTS_DIR/resume.md")"; fi
   printf '%s\n' "$prompt" >"$RUN_DIR/$stage-$ROUND.prompt.md"
-  if [ "$DRY_RUN" = 1 ]; then log "(dry-run) codex exec --model $CODEX_MODEL ($effort) <$stage-$ROUND.prompt.md>"; return 0; fi
-  log "Stage $stage (codex, $CODEX_MODEL, $effort), round $ROUND"
+  if [ "$DRY_RUN" = 1 ]; then log "(dry-run) agy --model \"$model\" -p <$stage-$ROUND.prompt.md>"; return 0; fi
+  log "Stage $stage (agy, $model), round $ROUND"
   node "$FINGERPRINT" snapshot "$REPO" "$RUN_DIR/fingerprint-before-$stage-$ROUND.json"
   start=$(date +%s)
-  rc=1
-  sid="${!sid_var:-}"
-  if [ -n "$sid" ] && [ -n "${ANSWERS_TEXT:-}" ]; then
-    # Continue the same session: the context exists, so send only the answers.
-    ( cd "$REPO" && GENERAL_RELEASE_STAGE="$stage" codex exec resume "$sid" \
-        --dangerously-bypass-approvals-and-sandbox --model "$CODEX_MODEL" \
-        --config "model_reasoning_effort=\"$effort\"" --config "project_doc_max_bytes=$CODEX_DOC_BYTES" -o "$last" \
-        "$(render "$PROMPTS_DIR/resume.md")" </dev/null ) >"$log_file" 2>&1
-    rc=$?
-    { [ $rc -eq 0 ] && [ -s "$last" ]; } || log "  session $sid could not resume (exit $rc); retrying with the full prompt"
+  if [ -n "${ANSWERS_TEXT:-}" ]; then
+    case "${!sid_var:-}" in agy:?*) sid="${!sid_var}"; conv=(--conversation "${sid#agy:}") ;; esac
   fi
-  if [ $rc -ne 0 ] || [ ! -s "$last" ]; then
-    ( cd "$REPO" && GENERAL_RELEASE_STAGE="$stage" codex exec --dangerously-bypass-approvals-and-sandbox \
-        --model "$CODEX_MODEL" --config "model_reasoning_effort=\"$effort\"" --config "project_doc_max_bytes=$CODEX_DOC_BYTES" -C "$REPO" -o "$last" \
-        "$prompt" </dev/null ) >>"$log_file" 2>&1
-    rc=$?
-  fi
-  sid="$(grep -a -i -m1 'session id:' "$log_file" | sed 's/.*[Ss]ession id:[[:space:]]*//' | tr -d '[:space:]')"
-  if [ -n "$sid" ]; then printf -v "$sid_var" '%s' "$sid"; fi
+  ( cd "$REPO" && export GENERAL_RELEASE_STAGE="$stage" && with_timeout "$AGENT_TIMEOUT" \
+      agy --dangerously-skip-permissions --model "$model" \
+      --output-format json ${conv[@]+"${conv[@]}"} -p "$prompt" </dev/null ) >"$json" 2>"$log_file"
+  rc=$?
+  [ "$rc" != 124 ] || log "Stage $stage timed out after ${AGENT_TIMEOUT}s."
+  sid="$(agy_result "$json" "$last")" || { [ $rc -ne 0 ] || rc=1; }
+  cat "$last" >>"$log_file" 2>/dev/null
+  if [ -n "$sid" ]; then printf -v "$sid_var" 'agy:%s' "$sid"; fi
+  STAGE_RC=$rc
   STAGE_RESULT="$(result_line "$last" "$log_file" || true)"
   {
-    echo "### Stage $stage (codex, $effort), round $ROUND"
+    echo "### Stage $stage (agy, $model), round $ROUND"
     echo "- Exit code: $rc, duration: $(minutes_since "$start") min"
     echo "- Result: ${STAGE_RESULT:-no RESULT line}"
     echo "- Answer: $stage-$ROUND.last.md; log: $stage-$ROUND.log"
@@ -250,6 +269,16 @@ $(render "$PROMPTS_DIR/resume.md")"; fi
     node "$FINGERPRINT" diff "$REPO" "$RUN_DIR/fingerprint-before-$stage-$ROUND.json"
     echo
   } >>"$SUMMARY"
+}
+
+finish_apply() {
+  [ -s "$RUN_DIR/questions.md" ] && stop_for_questions apply
+  if [ "$STAGE_RC" != 0 ]; then
+    PENDING_STAGE=apply; save_state; summary_tail
+    log "Review application did not finish (exit $STAGE_RC). Summary: $SUMMARY"; exit 1
+  fi
+  PENDING_STAGE=control; save_state; summary_tail
+  log "$1 Summary: $SUMMARY"; exit 11
 }
 
 # Default release path: the orchestrator performs the release itself from the rendered prompt.
@@ -309,7 +338,7 @@ validate_version() {
 # ---------- preparation ----------
 [ -f "$FINGERPRINT" ] || fail "Missing $FINGERPRINT (shared with research-execute)."
 if [ "$DRY_RUN" = 0 ]; then
-  for cmd in agy codex; do command -v "$cmd" >/dev/null || fail "Missing command: $cmd"; done
+  command -v agy >/dev/null || fail "Missing command: agy"
   [ "$(git -C "$REPO" rev-parse --abbrev-ref HEAD)" = main ] || fail "The main checkout is not on main; branches are never switched (AGENTS.md, rule 3)."
   [ "$MODE" = resume ] || check_single_tree
   mkdir -p "$STATE_ROOT/runs"
@@ -352,8 +381,9 @@ if [ "$MODE" = new ]; then
     echo "- origin/main ${ORIGIN_SHA:0:12}; HEAD ${HEAD_BEFORE:0:12}; package base (merge-base) ${BASE_SHA:0:12}"
     echo "- Package: local commits outside origin/main $UNPUSHED_COUNT (unpushed-commits.txt), uncommitted paths $DIRTY_COUNT (git-status-before.txt)"
     echo "- origin/main commits missing locally: $BEHIND_COUNT (origin-ahead-commits.txt) - merged into main during the release"
-    if [ "$RELEASE_AGENT" = codex ]; then release_desc="codex $CODEX_MODEL ($RELEASE_EFFORT)"; else release_desc="orchestrator"; fi
-    echo "- Models: review agy $AGY_MODEL; apply codex $CODEX_MODEL ($APPLY_EFFORT); release $release_desc"
+    if [ "$RELEASE_AGENT" = orchestrator ]; then release_desc="orchestrator"
+    else release_desc="agy $(neon_model "$RELEASE_EFFORT")"; fi
+    echo "- Models: review agy $AGY_MODEL; apply agy $(neon_model "$APPLY_EFFORT"); release $release_desc"
     echo
   } >"$SUMMARY"
   log "Run: $RUN_DIR"
@@ -363,20 +393,15 @@ if [ "$MODE" = new ]; then
     [ "$DRY_RUN" = 1 ] || { save_state; summary_tail; log "The review produced no report. Log: $RUN_DIR/review.log"; exit 1; }
   fi
   CUR_STAGE=apply
-  run_codex apply "$APPLY_EFFORT" APPLY_SESSION
+  run_agent apply "$APPLY_EFFORT" APPLY_SESSION
   if [ "$DRY_RUN" = 1 ]; then
     CUR_STAGE=release
-    if [ "$RELEASE_AGENT" = codex ]; then run_codex release "$RELEASE_EFFORT" RELEASE_SESSION
+    if [ "$RELEASE_AGENT" = agy ]; then run_agent release "$RELEASE_EFFORT" RELEASE_SESSION
     else hand_release_to_orchestrator; fi
     log "dry-run: prompts saved in $RUN_DIR"
     exit 0
   fi
-  [ -s "$RUN_DIR/questions.md" ] && stop_for_questions apply
-  PENDING_STAGE=control
-  save_state
-  summary_tail
-  log "Review and application finished - the orchestrator's control is needed. Summary: $SUMMARY"
-  exit 11
+  finish_apply "Review and application finished - the orchestrator's control is needed."
 fi
 
 # ---------- continuation and release: an existing run ----------
@@ -390,7 +415,7 @@ RELEASE_RUNNER="${RELEASE_RUNNER:-}"
 # The orchestrator reports its release: release-N.last.md must end with the RESULT line.
 if [ "$MODE" = finish ]; then
   [ "$PENDING_STAGE" = release ] && [ "$RELEASE_RUNNER" = orchestrator ] || \
-    fail "--finish applies only to an orchestrator release in progress (stage: $PENDING_STAGE, runner: ${RELEASE_RUNNER:-codex})."
+    fail "--finish applies only to an orchestrator release in progress (stage: $PENDING_STAGE, runner: ${RELEASE_RUNNER:-agent})."
   last="$RUN_DIR/release-$ROUND.last.md"
   [ -s "$last" ] || fail "No answer: $last (write the release report ending with the RESULT line)."
   STAGE_RESULT="$(result_line "$last" || true)"
@@ -436,13 +461,8 @@ ln -sfn "$RUN_DIR" "$STATE_ROOT/latest"
 
 if [ "$CUR_STAGE" = apply ]; then
   log "Continuing the review application, round $ROUND"
-  run_codex apply "$APPLY_EFFORT" APPLY_SESSION
-  [ -s "$RUN_DIR/questions.md" ] && stop_for_questions apply
-  PENDING_STAGE=control
-  save_state
-  summary_tail
-  log "Application finished - repeat the orchestrator's control. Summary: $SUMMARY"
-  exit 11
+  run_agent apply "$APPLY_EFFORT" APPLY_SESSION
+  finish_apply "Application finished - repeat the orchestrator's control."
 fi
 
 # Release stage. On continuation the agent may already have built, committed, pushed, or published,
@@ -460,8 +480,10 @@ if [ "$MODE" = release ]; then
     exit 14
   fi
 fi
-run_codex release "$RELEASE_EFFORT" RELEASE_SESSION
+run_agent release "$RELEASE_EFFORT" RELEASE_SESSION
 [ -s "$RUN_DIR/questions.md" ] && stop_for_questions release
+# A failed agy turn is never a release, whatever its text says.
+[ "$STAGE_RC" = 0 ] || STAGE_RESULT="RESULT: FAILED - agy exit $STAGE_RC (${STAGE_RESULT:-no RESULT line})"
 case "$STAGE_RESULT" in
   "RESULT: RELEASED"*)
     PENDING_STAGE=done; save_state; summary_tail

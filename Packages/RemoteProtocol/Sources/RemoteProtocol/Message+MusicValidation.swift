@@ -45,8 +45,9 @@ extension Message {
             && track.album.utf8.count <= 2048 && track.year.utf8.count <= 32
             && track.artists.count <= 100 && track.artists.allSatisfy { $0.utf8.count <= 2048 }
             && track.duration.isFinite && track.duration >= 0
+            && (track.format?.utf8.count ?? 0) <= 64
     }
-    private static func validPage(offset: Int, count: Int, total: Int, next: Int?) -> Bool {
+    static func validPage(offset: Int, count: Int, total: Int, next: Int?) -> Bool {
         guard (0...100_000).contains(total), (0...total).contains(offset), count <= 50,
             offset + count <= total
         else { return false }

@@ -30,11 +30,17 @@ extension MediaLibraryStore {
         guard !jobs.isEmpty else { return }
         let generation = enrichmentGeneration
         enrichmentTask = Task { [weak self] in
+            var updatedVisible = false
+            defer {
+                if updatedVisible { self?.notifyMetadataFinished() }
+            }
             for (key, file) in jobs {
                 guard let self, self.enrichMetadata, !Task.isCancelled,
                     self.enrichmentGeneration == generation
                 else { return }
-                await self.enrich(file, key: key, generation: generation, refresh: refresh)
+                if await self.enrich(file, key: key, generation: generation, refresh: refresh) {
+                    updatedVisible = true
+                }
             }
             guard let self, self.enrichmentGeneration == generation else { return }
             self.enrichmentTask = nil
@@ -46,7 +52,7 @@ extension MediaLibraryStore {
     }
 
     private func enrich(_ file: MediaLibraryFile, key: String, generation: UUID, refresh: Bool)
-        async
+        async -> Bool
     {
         do {
             try Task.checkCancellation()
@@ -72,15 +78,22 @@ extension MediaLibraryStore {
                 metadata = result
             }
             try Task.checkCancellation()
-            guard enrichMetadata, enrichmentGeneration == generation else { return }
+            guard enrichMetadata, enrichmentGeneration == generation else { return false }
             let result = metadata ?? MediaEnrichment(notFound: true)
             try await database.save(result, key: key, kind: file.kind)
-            guard enrichMetadata, enrichmentGeneration == generation else { return }
+            guard enrichMetadata, enrichmentGeneration == generation else { return false }
+            let hadVisible = snapshot.metadata[key].map { !$0.notFound } ?? false
             snapshot.metadata[key] = result
+            if !result.notFound || hadVisible {
+                notifyMetadataChanged()
+                return true
+            }
+            return false
         } catch {
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled else { return false }
             Self.logger.debug(
                 "Metadata lookup unavailable: \(error.localizedDescription, privacy: .private)")
+            return false
         }
     }
 }

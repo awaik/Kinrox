@@ -37,15 +37,21 @@ enum MediaFolderScanner {
             volumeUUID: volume.uuid, isRemovable: volume.removable || path.hasPrefix("/Volumes/"))
     }
 
+    static func isAvailable(_ folder: WatchedFolder, dependencies: Dependencies = Dependencies())
+        -> Bool
+    {
+        guard let volume = dependencies.volume(folder.url),
+            isMounted(folder.url, volume: volume)
+        else { return false }
+        return folder.volumeUUID == nil || volume.uuid == folder.volumeUUID
+    }
+
     static func scan(
         _ folder: WatchedFolder, database: MediaLibraryDatabase, artwork: ArtworkCache,
         dependencies: Dependencies = Dependencies(), progress: @Sendable (Int) async -> Void
     ) async throws -> Result {
         let validate: @Sendable () -> Bool = {
-            guard let volume = dependencies.volume(folder.url),
-                isMounted(folder.url, volume: volume)
-            else { return false }
-            return folder.volumeUUID == nil || volume.uuid == folder.volumeUUID
+            Self.isAvailable(folder, dependencies: dependencies)
         }
         guard validate() else {
             try await database.markOffline(folder.id)

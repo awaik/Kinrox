@@ -66,6 +66,7 @@ final class PlayerSession {
                     return self.mode == .music && self.model?.canControl != true
                         && self.localAudio.currentTrack == nil
                 })
+            remote?.connectLibrary(mediaLibrary)
         }
     }
     /// While file open panel is displayed, unmodified keys belong to it.
@@ -79,13 +80,19 @@ final class PlayerSession {
         demoMusic: Bool = ProcessInfo.processInfo.environment["KINROX_MUSIC_DEMO"] == "1",
         musicDefaults: UserDefaults? =
             ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil
-            ? .standard : nil
+            ? .standard : nil,
+        initialLocalAudioVolume: Double = 100,
+        localAudioEngineFactory: @escaping @MainActor (Double) throws -> any LocalAudioEngine = {
+            try MPVAudioEngine(initialVolume: $0)
+        }
     ) {
         self.recents = recents
         let limiter = MusicBrainzRateLimiter()
         musicBrainzLimiter = limiter
         mediaLibrary = MediaLibraryStore(limiter: limiter)
-        localAudio = LocalAudioViewModel(artwork: mediaLibrary.artwork)
+        localAudio = LocalAudioViewModel(
+            artwork: mediaLibrary.artwork, initialVolume: initialLocalAudioVolume,
+            engineFactory: localAudioEngineFactory)
         music = MusicViewModel(
             store: demoMusic ? DemoMusicLibraryStore() : DisconnectedMusicLibraryStore(),
             defaults: musicDefaults, workspaceActive: false)

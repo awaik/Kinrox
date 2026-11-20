@@ -4,6 +4,7 @@ import RemoteProtocol
 /// Regular position progress throttled to 2 Hz; confirmed transitions sent immediately.
 @MainActor
 final class RemoteStatePublisher {
+    private(set) var lastPublishWasImmediate = false
     private var last: PlayerState?
     private var lastTime = -Double.infinity
     private var pending: PlayerState?
@@ -27,13 +28,9 @@ final class RemoteStatePublisher {
         let time = now()
         let positionOnly =
             last.map { previous in
-                PlayerState(
-                    title: state.title, position: previous.position, duration: state.duration,
-                    paused: state.paused, volume: state.volume, fullscreen: state.fullscreen,
-                    hasMedia: state.hasMedia, canNext: state.canNext,
-                    canPrevious: state.canPrevious,
-                    screensaver: state.screensaver, source: state.source, music: state.music
-                ) == previous
+                var candidate = state
+                candidate.position = previous.position
+                return candidate == previous
             } ?? false
         if immediate || !positionOnly || time - lastTime >= 0.5 {
             timer?.cancel()
@@ -41,6 +38,7 @@ final class RemoteStatePublisher {
             pending = nil
             last = state
             lastTime = time
+            lastPublishWasImmediate = immediate
             publish(state)
         } else {
             pending = state

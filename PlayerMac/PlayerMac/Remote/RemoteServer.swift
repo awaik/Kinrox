@@ -18,20 +18,28 @@ final class RemoteServer {
     var errorMessage: String?
     @ObservationIgnored var onPairingRequested: (() -> Void)?
     @ObservationIgnored var openRecent: ((UUID) -> ProtocolError.Code?)?
-    @ObservationIgnored private let defaults: UserDefaults
+    @ObservationIgnored var playLibrary:
+        ((String, RemotePlaybackStart, Bool?) -> ProtocolError.Code?)?
+    @ObservationIgnored var resumeSource: ((RemoteControllableSource) -> ProtocolError.Code?)?
+    @ObservationIgnored let defaults: UserDefaults
     @ObservationIgnored private let store: any PairedDeviceStore
     @ObservationIgnored let recents: RecentFilesStore
     @ObservationIgnored let pairing: PairingCenter
     @ObservationIgnored private(set) var model: PlayerViewModel?
-    @ObservationIgnored private weak var localAudio: LocalAudioViewModel?
-    @ObservationIgnored private var localAudioObserver: UUID?
+    @ObservationIgnored weak var localAudio: LocalAudioViewModel?
+    @ObservationIgnored var localAudioObserver: UUID?
     @ObservationIgnored private var localAudioIsActive: (() -> Bool)?
     @ObservationIgnored var musicBridge: RemoteMusicBridge?
+    @ObservationIgnored var libraryBridge: RemoteLibraryBridge?
+    @ObservationIgnored var localMusicBridge: RemoteLocalMusicBridge?
+    @ObservationIgnored var artworkScheduler: RemoteArtworkScheduler?
     @ObservationIgnored private var modelObserver: UUID?
     @ObservationIgnored private var recentObserver: UUID?
     @ObservationIgnored private var transport: TransportServer?
     @ObservationIgnored private var connections: [UUID: Message.Hello] = [:]
-    @ObservationIgnored private var outboxes: [UUID: RemoteOutbox] = [:]
+    @ObservationIgnored var outboxes: [UUID: RemoteOutbox] = [:]
+    @ObservationIgnored var connectionFeatures: [UUID: Set<String>] = [:]
+    @ObservationIgnored var lastSentState: [UUID: PlayerState] = [:]
     @ObservationIgnored private var pairingConnection: UUID?
     @ObservationIgnored private var lifecycle: RemoteServerLifecycle?
     @ObservationIgnored private var running = false
@@ -41,8 +49,10 @@ final class RemoteServer {
     @ObservationIgnored private var seekPositionPending = false
     @ObservationIgnored private let logger = Logger(
         subsystem: "app.kinrox.player", category: "remote")
-    @ObservationIgnored private lazy var publisher = RemoteStatePublisher { [weak self] state in
-        self?.broadcast(.state(.init(), state))
+    @ObservationIgnored lazy var publisher: RemoteStatePublisher = RemoteStatePublisher {
+        [weak self] state in
+        guard let self else { return }
+        self.broadcastState(state, force: self.publisher.lastPublishWasImmediate)
     }
 
     init(
@@ -129,6 +139,7 @@ final class RemoteServer {
                     self.recentTask?.cancel()
                     self.recentTask = nil
                     self.publisher.reset()
+                    if self.outboxes.isEmpty { self.libraryBridge?.releaseIndex() }
                     self.transport = nil
                     self.logger.error("Remote server stopped due to network error")
                 }
@@ -149,12 +160,16 @@ final class RemoteServer {
         transport = nil
         previous?.onStateChange = nil
         previous?.stop()
+        artworkScheduler?.cancelAll()
         for outbox in outboxes.values { outbox.close() }
         outboxes.removeAll()
         connections.removeAll()
+        connectionFeatures.removeAll()
+        lastSentState.removeAll()
         connectedDevices.removeAll()
         dismissPairing()
         publisher.reset()
+        libraryBridge?.releaseIndex()
         state = .stopped
     }
 
@@ -197,6 +212,11 @@ final class RemoteServer {
             if self.model?.canControl != true || self.model?.isLoading == true {
                 self.seekPositionPending = false
             }
+            if self.model?.canControl != true || self.model?.paused == true
+                || self.model?.isAtEnd == true
+            {
+                self.libraryBridge?.flushPendingProgressRevision()
+            }
             if case .playbackRestarted = event {
                 // SEEK halted old ticks. time-pos may arrive after RESTART.
                 guard !self.seekPositionPending else { return }
@@ -208,10 +228,11 @@ final class RemoteServer {
                 immediate = true
                 self.seekPositionPending = false
             }
-            self.publisher.update(self.snapshot, immediate: immediate)
+            self.publishSnapshot(immediate: immediate)
         }
+        if model == nil { libraryBridge?.flushPendingProgressRevision() }
         musicBridge?.update()
-        publisher.update(snapshot, immediate: true)
+        publishSnapshot(immediate: true)
     }
 
     func connectMusic(
@@ -222,24 +243,24 @@ final class RemoteServer {
         let bridge = RemoteMusicBridge(music: music, coordinator: coordinator, isActive: isActive)
         bridge.changed = { [weak self] in
             guard let self else { return }
-            self.publisher.update(self.snapshot)
+            self.publishSnapshot()
         }
         musicBridge = bridge
         coordinator.sourceChanged = { [weak self] _ in
             guard let self else { return }
             self.musicBridge?.update()
-            self.publisher.update(self.snapshot, immediate: true)
+            self.publishSnapshot(immediate: true)
         }
     }
 
     func connectLocalAudio(_ player: LocalAudioViewModel, isActive: @escaping () -> Bool) {
         if let localAudioObserver { localAudio?.removePlaybackObserver(localAudioObserver) }
+        localAudioObserver = nil
         localAudio = player
         localAudioIsActive = isActive
-        localAudioObserver = player.observePlayback { [weak self] _ in
-            guard let self, self.activeLocalAudio != nil else { return }
-            self.publisher.update(self.snapshot)
-        }
+        libraryBridge?.localAudio = player
+        syncLocalMusicBridge()
+        publishSnapshot(immediate: true)
     }
 
     var activeLocalAudio: LocalAudioViewModel? {
@@ -251,7 +272,7 @@ final class RemoteServer {
 
     func modeChanged() {
         musicBridge?.update()
-        publisher.update(snapshot, immediate: true)
+        publishSnapshot(immediate: true)
     }
 
     func windowClosed() { declinePairing() }
@@ -304,11 +325,18 @@ final class RemoteServer {
             publishRecents()
             connections[id] = device
             connectedDevices[device.deviceId] = device.deviceName
-            outboxes[id] = RemoteOutbox(
+            let outbox = RemoteOutbox(
                 send: { try await transport.send($0, to: id) },
                 failed: { transport.disconnect(connectionId: id) })
-            outboxes[id]?.enqueue(.state(.init(), snapshot))
-            outboxes[id]?.enqueue(.recent(.init(), lastRecents))
+            outbox.onDrained = { [weak self] in
+                self?.artworkScheduler?.notifyDrained(connectionId: id)
+            }
+            outboxes[id] = outbox
+            libraryBridge?.clientConnected()
+            let initial = projectedState(snapshot, for: id)
+            lastSentState[id] = initial
+            outbox.enqueue(.state(.init(), initial))
+            outbox.enqueue(.recent(.init(), lastRecents))
         case .message(let id, let message):
             guard connections[id] != nil else { return }
             switch message {
@@ -327,52 +355,65 @@ final class RemoteServer {
                     }
                     outbox?.enqueue(response)
                 }
-            case .requestQueue(let header, let request):
-                if let bridge = musicBridge {
-                    outboxes[id]?.enqueue(bridge.queuePage(request, replyTo: header.id))
-                }
-            case .requestLikeOptions(let header, let request):
-                if let bridge = musicBridge {
-                    outboxes[id]?.enqueue(bridge.likeOptionsPage(request, replyTo: header.id))
-                }
-            case .requestState:
-                outboxes[id]?.enqueue(.state(.init(), snapshot))
-            default: break
+            default:
+                handleLibraryOrMusicMessage(id: id, message: message)
             }
         case .disconnected(let id, _):
             if pairingConnection == id { dismissPairing() }
+            artworkScheduler?.cancel(connectionId: id)
             outboxes.removeValue(forKey: id)?.close()
             connections[id] = nil
+            connectionFeatures[id] = nil
+            lastSentState[id] = nil
             connectedDevices = connections.values.reduce(into: [:]) {
                 $0[$1.deviceId] = $1.deviceName
+            }
+            if outboxes.isEmpty {
+                publisher.reset()
+                libraryBridge?.releaseIndex()
             }
         }
     }
 
     var snapshot: PlayerState {
+        var result: PlayerState
         if let audio = activeLocalAudio, let track = audio.currentTrack {
-            return PlayerState(
-                title: track.title, position: audio.position, duration: audio.duration,
-                paused: audio.paused, volume: audio.volume,
-                fullscreen: model?.isFullscreen ?? false,
-                hasMedia: true, canNext: audio.canNext, canPrevious: audio.canPrevious,
-                screensaver: model?.screensaver ?? .off, source: .video, music: nil)
-        }
-        if let musicBridge, musicBridge.active, model != nil {
-            return musicBridge.snapshot(
+            if let localMusicBridge, libraryBridge != nil {
+                result = localMusicBridge.snapshot(
+                    fullscreen: model?.isFullscreen ?? false,
+                    screensaver: model?.screensaver ?? .off)
+            } else {
+                result = PlayerState(
+                    title: track.title, position: audio.position, duration: audio.duration,
+                    paused: audio.paused, volume: audio.volume,
+                    fullscreen: model?.isFullscreen ?? false,
+                    hasMedia: true, canNext: audio.canNext, canPrevious: audio.canPrevious,
+                    screensaver: model?.screensaver ?? .off, source: .video, music: nil)
+            }
+        } else if let musicBridge, musicBridge.active, model != nil {
+            result = musicBridge.snapshot(
                 fullscreen: model?.isFullscreen ?? false, screensaver: model?.screensaver ?? .off)
+        } else {
+            let hasMedia = model?.canControl ?? false
+            result = PlayerState(
+                title: hasMedia ? model?.displayTitle ?? "" : "",
+                position: hasMedia ? model?.playbackPosition ?? 0 : 0,
+                duration: hasMedia ? model?.duration ?? 0 : 0,
+                paused: !hasMedia || model?.paused == true || model?.isAtEnd == true,
+                volume: model?.playbackVolume ?? 100, fullscreen: model?.isFullscreen ?? false,
+                hasMedia: hasMedia, canNext: hasMedia && model?.canNext == true,
+                canPrevious: hasMedia && model?.canPrevious == true,
+                screensaver: model?.screensaver ?? .off,
+                source: musicBridge == nil ? nil : .video, music: nil)
         }
-        let hasMedia = model?.canControl ?? false
-        return PlayerState(
-            title: hasMedia ? model?.displayTitle ?? "" : "",
-            position: hasMedia ? model?.playbackPosition ?? 0 : 0,
-            duration: hasMedia ? model?.duration ?? 0 : 0,
-            paused: !hasMedia || model?.paused == true || model?.isAtEnd == true,
-            volume: model?.playbackVolume ?? 100, fullscreen: model?.isFullscreen ?? false,
-            hasMedia: hasMedia, canNext: hasMedia && model?.canNext == true,
-            canPrevious: hasMedia && model?.canPrevious == true,
-            screensaver: model?.screensaver ?? .off, source: musicBridge == nil ? nil : .video,
-            music: nil)
+        if let libraryBridge {
+            result.library = libraryBridge.state
+            result.sources = RemoteSources(
+                video: libraryBridge.videoSourceSummary(model: model),
+                localMusic: libraryBridge.localMusicSourceSummary(audio: localAudio),
+                spotify: libraryBridge.spotifySourceSummary(music: musicBridge?.music))
+        }
+        return result
     }
 
     private var recentSnapshot: [RemoteProtocol.RecentItem] {

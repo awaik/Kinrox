@@ -1,7 +1,7 @@
 # Orchestrator release checklist
 
-You, the orchestrator, perform this release stage yourself, without Codex (owner decision
-2026-11-12: Codex limits run out quickly, and the release is mostly mechanical). The checklist
+You, the orchestrator, perform this release stage yourself, without a stage agent (owner
+decision 2026-11-12: the release is mostly mechanical). The checklist
 below was written for a release agent; read it with these substitutions:
 
 - "Questions for the orchestrator": resolve what you can establish from code, documents, and

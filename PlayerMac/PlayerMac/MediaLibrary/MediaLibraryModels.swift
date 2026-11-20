@@ -6,7 +6,7 @@ enum FolderScanState: Equatable {
     case offline, failed
 }
 
-struct WatchedFolder: Identifiable, Sendable {
+struct WatchedFolder: Identifiable, Equatable, Sendable {
     let id: UUID
     let path: String
     let displayName: String
@@ -48,7 +48,7 @@ struct LocalAudioTags: Codable, Equatable, Sendable {
     var artworkPath: String?
 }
 
-struct MediaLibraryFile: Identifiable, Codable, Sendable {
+struct MediaLibraryFile: Identifiable, Codable, Equatable, Sendable {
     enum Kind: String, Codable, Sendable { case video, audio }
     var id: String { path }
     let path: String
@@ -190,13 +190,13 @@ enum MediaRatingScale {
     }
 }
 
-struct MediaEnrichment: Codable, Sendable {
+struct MediaEnrichment: Codable, Equatable, Sendable {
     enum Source: String, Codable, Sendable {
         case imdb = "IMDb"
         case tvmaze = "TVMaze"
         case musicBrainz = "MusicBrainz"
     }
-    struct Episode: Codable, Sendable {
+    struct Episode: Codable, Equatable, Sendable {
         let season: Int
         let number: Int
         let title: String

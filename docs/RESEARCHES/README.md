@@ -142,7 +142,7 @@ An explicit request to execute a research document (for example, `Execute
 docs/RESEARCHES/<document>.md` or the equivalent request in the user's language)
 authorizes both independent plan review and local implementation through
 [research-execute](../../.agents/skills/research-execute/SKILL.md). The
-orchestrator launches Gemini review followed by Codex implementation, handles
+orchestrator launches Gemini review followed by Gemini 4 Neon implementation (agy), handles
 questions, and verifies the result. This exception applies to the requested
 document only; it does not authorize publication, release, or a separate
 post-implementation code review. Creating a plan or adapting the skill does not

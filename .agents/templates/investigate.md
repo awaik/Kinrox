@@ -2,7 +2,8 @@
 
 Role: `investigate` (owner decision 2026-11-11). Do not repeat the model here.
 The orchestrator copies this template to `.tmp/scratch/<task>/investigate.md`,
-fills it in, and launches it in the background in parallel with the Codex fix:
+fills it in, and launches it in the background in parallel with the agy fix
+(`Gemini 4 Neon (XHigh)`):
 
 ```sh
 # Portable process-group timeout; macOS includes Perl.
@@ -28,7 +29,7 @@ with_timeout 5400 agy --dangerously-skip-permissions --model "Gemini 4 Carbon (H
 <What the user or system observes, verbatim: error text, report, steps, time,
 macOS/app version, Mac or iPhone, video or Spotify mode. Links to logs, crash
 reports, or verification runbooks. No hypothesis about the cause and no fix
-plan: the investigation must stay independent of Codex.>
+plan: the investigation must stay independent of the fix.>
 
 Repository: Kinrox, main checkout, local `main`. Read `AGENTS.md` completely,
 `docs/runbooks/RUNBOOK-TASK-TESTS.md`, and the verification runbook in
@@ -48,7 +49,7 @@ Repository: Kinrox, main checkout, local `main`. Read `AGENTS.md` completely,
 - Read only. Do not change code, tests, documents, `project.yml`, configs,
   localization, generated projects, or `Kinrox.xcworkspace`. Write only under
   `.tmp/scratch/<task>/` and to the report file.
-- Codex may be editing files for this bug at the same time. If a file changes
+- The fixing agent may be editing files for this bug at the same time. If a file changes
   under you, rely on `git show HEAD:<path>` and note it in the report.
 - No commits, push, PR, release, signing, notarization, installing over the
   user's app, `git checkout/reset/stash/restore/clean`, branches, or worktrees.

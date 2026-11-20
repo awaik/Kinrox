@@ -5,6 +5,14 @@ import Observation
 
 @MainActor @Observable
 final class MediaLibraryStore {
+    enum LibraryChange: Sendable {
+        case catalog
+        case metadata
+        case metadataFinished
+        case scanning(Bool)
+        case progress(WatchProgress)
+    }
+
     static let autoWatchKey = "mediaLibrary.autoWatchFolders"
     static let enrichKey = "mediaLibrary.enrichMetadata"
     static let logger = Logger(subsystem: "app.kinrox.player", category: "MediaLibrary")
@@ -30,6 +38,46 @@ final class MediaLibraryStore {
     @ObservationIgnored var pendingEnrichment = false
     @ObservationIgnored private var progressWrites: Task<Void, Never>?
     @ObservationIgnored var enrichmentGeneration = UUID()
+    @ObservationIgnored private var observers: [UUID: (LibraryChange) -> Void] = [:]
+    @ObservationIgnored private var lastReportedScanning = false
+
+    var isScanning: Bool {
+        scanTask != nil
+            || states.values.contains {
+                if case .scanning = $0 { true } else { false }
+            }
+    }
+
+    func observeChanges(_ observer: @escaping (LibraryChange) -> Void) -> UUID {
+        let id = UUID()
+        observers[id] = observer
+        return id
+    }
+
+    func removeObserver(_ id: UUID) { observers[id] = nil }
+
+    func notifyCatalogChanged() {
+        notifyChanges(.catalog)
+    }
+
+    func notifyMetadataChanged() {
+        notifyChanges(.metadata)
+    }
+
+    func notifyMetadataFinished() {
+        notifyChanges(.metadataFinished)
+    }
+
+    private func notifyScanningIfChanged() {
+        let scanning = isScanning
+        guard scanning != lastReportedScanning else { return }
+        lastReportedScanning = scanning
+        notifyChanges(.scanning(scanning))
+    }
+
+    private func notifyChanges(_ change: LibraryChange) {
+        for observer in Array(observers.values) { observer(change) }
+    }
 
     init(
         limiter: MusicBrainzRateLimiter,
@@ -141,7 +189,11 @@ final class MediaLibraryStore {
     }
 
     private func runScans() async {
-        defer { scanTask = nil }
+        notifyScanningIfChanged()
+        defer {
+            scanTask = nil
+            notifyScanningIfChanged()
+        }
         while pendingScan {
             pendingScan = false
             let refresh = pendingRefresh
@@ -157,6 +209,7 @@ final class MediaLibraryStore {
 
     private func scan(_ folder: WatchedFolder) async {
         states[folder.id] = .scanning(0)
+        notifyScanningIfChanged()
         let database = database
         let artwork = artwork
         do {
@@ -179,6 +232,7 @@ final class MediaLibraryStore {
                     "Folder scan failed: \(error.localizedDescription, privacy: .private)")
             }
         }
+        notifyScanningIfChanged()
     }
 
     private func updateScan(_ folder: UUID, count: Int) {
@@ -191,11 +245,16 @@ final class MediaLibraryStore {
         where progress.updated > (next.progress[path]?.updated ?? .distantPast) {
             next.progress[path] = progress
         }
+        let catalogChanged =
+            next.folders != snapshot.folders || next.files != snapshot.files
+            || next.offlinePaths != snapshot.offlinePaths || next.metadata != snapshot.metadata
         snapshot = next
         let ids = Set(folders.map(\.id))
         states = states.filter { ids.contains($0.key) }
         updateWatcher()
         storageFailed = false
+        if catalogChanged { notifyCatalogChanged() }
+        notifyScanningIfChanged()
     }
 
     private func updateWatcher() {
@@ -204,6 +263,7 @@ final class MediaLibraryStore {
 
     func record(_ progress: WatchProgress) {
         snapshot.progress[progress.path] = progress
+        notifyChanges(.progress(progress))
         let database = database
         let previous = progressWrites
         progressWrites = Task { [weak self] in

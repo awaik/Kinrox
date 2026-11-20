@@ -112,6 +112,20 @@ struct MusicQueueTests {
         #expect(queue == original)
     }
 
+    @Test func shuffledStartPinnedToSelectedTrackKeepsSelectedCurrentAndShufflesRest() {
+        var random = SeededQueueRandom()
+        var queue = MusicQueue()
+        queue.startShuffled(tracks, startingAt: 2, using: &random)
+        #expect(queue.shuffled)
+        #expect(queue.current?.track == tracks[2])
+        #expect(queue.current?.sourceOrder == 2)
+        #expect(queue.history.isEmpty)
+        #expect(queue.source.count == tracks.count - 1)
+        #expect(Set(queue.source.map(\.sourceOrder)) == Set([0, 1, 3, 4]))
+        queue.setShuffle(false, using: &random)
+        #expect(queue.source.map(\.sourceOrder) == [0, 1, 3, 4])
+    }
+
     @Test func emptyAndInvalidStartsAreSafe() {
         var queue = MusicQueue()
         queue.start([])

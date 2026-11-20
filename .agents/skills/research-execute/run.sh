@@ -11,14 +11,14 @@ PROMPTS_DIR="$SKILL_DIR/prompts"
 REPO="$(git -C "$SKILL_DIR" rev-parse --show-toplevel 2>/dev/null)" || fail "The skill must be inside the Kinrox checkout."
 RES_DIR="$REPO/docs/RESEARCHES"
 STATE_ROOT="$REPO/.tmp/scratch/research-execute"
-# Owner decision 2026-11-11: of Google's models, agents use only Gemini 4 Carbon (High).
+# Owner decision 2026-11-11: the review uses only Gemini 4 Carbon (High); Argon and 3.8 Flash are refused.
 AGY_MODEL="${AGY_MODEL:-Gemini 4 Carbon (High)}"
 AGY_TIMEOUT="${AGY_TIMEOUT:-5400}"
-CODEX_MODEL="${CODEX_MODEL:-gpt-6.2-sol}"
-# Owner decisions 2026-11-12, 2026-11-18: implementation defaults to gpt-6.2-sol at high; use CODEX_MODEL=gpt-6.2-astra (and CODEX_EFFORT=xhigh if needed) for hard architectural tasks.
-CODEX_EFFORT="${CODEX_EFFORT:-high}"
-# Codex auto-loads AGENTS.md but truncates it at 32 KiB by default; load it whole so agents never re-read it.
-CODEX_DOC_BYTES="${CODEX_DOC_BYTES:-65536}"
+EXEC_TIMEOUT="${EXEC_TIMEOUT:-$AGY_TIMEOUT}"
+# Owner decision 2026-11-20: Codex is no longer used. Implementation runs on agy Gemini 4 Neon at the
+# level of EXEC_EFFORT: high by default, xhigh for complex architectural, concurrency, C-API, or
+# protocol plans and for hard ones.
+EXEC_EFFORT="${EXEC_EFFORT:-high}"
 STAGE_ONLY=""; RESUME_DIR=""; DRY_RUN=0; DOC_ARG=""
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -40,6 +40,15 @@ case "$(printf '%s' "$AGY_MODEL" | tr '[:upper:]' '[:lower:]')" in
     *) fail "Forbidden agy model: $AGY_MODEL. Only Gemini 4 Carbon (High) is allowed (owner decision 2026-11-11)." ;; esac ;;
 esac
 case "$AGY_TIMEOUT" in ""|*[!0-9]*|0*) fail "AGY_TIMEOUT must be a positive number of seconds." ;; esac
+case "$EXEC_TIMEOUT" in ""|*[!0-9]*|0*) fail "EXEC_TIMEOUT must be a positive number of seconds." ;; esac
+# agy model names carry the reasoning level; Neon has no max/ultra level.
+neon_model() {
+  case "$1" in
+    low) echo "Gemini 4 Neon (Low)" ;; medium) echo "Gemini 4 Neon (Medium)" ;;
+    high) echo "Gemini 4 Neon (High)" ;; xhigh) echo "Gemini 4 Neon (XHigh)" ;; *) return 1 ;;
+  esac
+}
+EXEC_MODEL="$(neon_model "$EXEC_EFFORT")" || fail "EXEC_EFFORT must be low, medium, high, or xhigh."
 [ -z "${RESEARCH_EXECUTE_STAGE:-}" ] || fail "Nested pipeline execution is prohibited (stage: $RESEARCH_EXECUTE_STAGE)."
 for cmd in git perl node; do command -v "$cmd" >/dev/null || fail "Missing command: $cmd"; done
 
@@ -74,7 +83,7 @@ save_state() {
     printf 'STAGE_ONLY=%q\n' "$STAGE_ONLY"
     printf 'HEAD_BEFORE=%q\n' "$HEAD_BEFORE"
     printf 'ROUND=%q\n' "$ROUND"
-    printf 'CODEX_SESSION=%q\n' "${CODEX_SESSION:-}"
+    printf 'EXEC_SESSION=%q\n' "${EXEC_SESSION:-}"
   } >"$RUN_DIR/state.env"
 }
 # Values come from the environment, not shell evaluation of rendered text.
@@ -113,30 +122,38 @@ run_review() {
   STAGE_RC=$?; STAGE_MIN=$(( ($(date +%s) - start) / 60 )); STAGE_RESULT="$(result_line "$STAGE_LOG")"
   [ "$STAGE_RC" != 124 ] || log "Review timed out after ${AGY_TIMEOUT}s."
 }
+# agy prints one JSON object: its response from $1 goes to $2, the conversation id to stdout.
+agy_result() {
+  node -e '
+    const fs = require("fs"); const [src, dst] = process.argv.slice(1);
+    const lines = fs.readFileSync(src, "utf8").split("\n").reverse();
+    let o; for (const l of lines) { try { o = JSON.parse(l); break; } catch {} }
+    if (!o) process.exit(3);
+    fs.writeFileSync(dst, o.response || "");
+    process.stdout.write(o.conversation_id || "");
+    process.exit(o.status === "SUCCESS" ? 0 : 4);
+  ' "$1" "$2"
+}
+# A continued conversation still gets the full prompt: agy silently starts a new one for an unknown id.
 run_execute() {
-  local prompt start rc=1 last="$RUN_DIR/execute-$ROUND.last.md" sid
+  local prompt start rc last="$RUN_DIR/execute-$ROUND.last.md" json="$RUN_DIR/execute-$ROUND.json" sid conv=()
   STAGE_LOG="$RUN_DIR/execute-$ROUND.log"
   prompt="$(stage_prompt execute)"
   printf '%s\n' "$prompt" >"$RUN_DIR/execute-$ROUND.prompt.md"
-  if [ "$DRY_RUN" = 1 ]; then log "dry-run: codex implementation ($CODEX_MODEL, $CODEX_EFFORT)"; return; fi
-  log "Stage 2 - implementation (codex, $CODEX_MODEL, $CODEX_EFFORT), round $ROUND"
+  if [ "$DRY_RUN" = 1 ]; then log "dry-run: agy implementation ($EXEC_MODEL)"; return; fi
+  log "Stage 2 - implementation (agy, $EXEC_MODEL), round $ROUND"
   start=$(date +%s)
-  if [ -n "${CODEX_SESSION:-}" ] && [ -n "${ANSWERS_TEXT:-}" ]; then
-    ( cd "$REPO" && RESEARCH_EXECUTE_STAGE=execute codex exec resume "$CODEX_SESSION" \
-      --dangerously-bypass-approvals-and-sandbox --model "$CODEX_MODEL" \
-      --config "model_reasoning_effort=\"$CODEX_EFFORT\"" --config "project_doc_max_bytes=$CODEX_DOC_BYTES" -o "$last" \
-      "$(render "$PROMPTS_DIR/resume.md")" </dev/null ) >"$STAGE_LOG" 2>&1
-    rc=$?
-    [ "$rc" = 0 ] && [ -s "$last" ] || log "Session could not resume (exit $rc); retrying with the full prompt."
+  if [ -n "${ANSWERS_TEXT:-}" ]; then
+    case "${EXEC_SESSION:-}" in agy:?*) conv=(--conversation "${EXEC_SESSION#agy:}") ;; esac
   fi
-  if [ "$rc" != 0 ] || [ ! -s "$last" ]; then
-    ( cd "$REPO" && RESEARCH_EXECUTE_STAGE=execute codex exec --yolo --model "$CODEX_MODEL" \
-      --config "model_reasoning_effort=\"$CODEX_EFFORT\"" --config "project_doc_max_bytes=$CODEX_DOC_BYTES" -C "$REPO" -o "$last" \
-      "$prompt" </dev/null ) >>"$STAGE_LOG" 2>&1
-    rc=$?
-  fi
-  sid="$(grep -a -i -m1 'session id:' "$STAGE_LOG" | sed 's/.*[Ss]ession id:[[:space:]]*//' | tr -d '[:space:]')"
-  [ -z "$sid" ] || CODEX_SESSION="$sid"
+  ( cd "$REPO" && export RESEARCH_EXECUTE_STAGE=execute && with_timeout "$EXEC_TIMEOUT" \
+      agy --dangerously-skip-permissions --model "$EXEC_MODEL" \
+      --output-format json ${conv[@]+"${conv[@]}"} -p "$prompt" </dev/null ) >"$json" 2>"$STAGE_LOG"
+  rc=$?
+  [ "$rc" != 124 ] || log "Implementation timed out after ${EXEC_TIMEOUT}s."
+  sid="$(agy_result "$json" "$last")" || { [ "$rc" != 0 ] || rc=1; }
+  cat "$last" >>"$STAGE_LOG" 2>/dev/null
+  [ -z "$sid" ] || EXEC_SESSION="agy:$sid"
   STAGE_RC=$rc; STAGE_MIN=$(( ($(date +%s) - start) / 60 )); STAGE_RESULT="$(result_line "$last" "$STAGE_LOG")"
 }
 summary_stage() {
@@ -205,16 +222,12 @@ else
   if [ "$STAGE_ONLY" = review ] && [ "$(doc_stage "$DOC")" != review ]; then fail "Review already completed: $DOC"; fi
   if [ "$STAGE_ONLY" = execute ] && [ "$(doc_stage "$DOC")" != execute ]; then fail "Review required first: missing REVIEWED - prefix."; fi
   [ -z "$STAGE_ONLY" ] || STAGES="$STAGE_ONLY"
-  ROUND=1; CODEX_SESSION=""
+  ROUND=1; EXEC_SESSION=""
 fi
 
 if [ "$DRY_RUN" = 0 ]; then
-  for stage in $STAGES; do
-    if [ "$stage" = review ]; then command -v agy >/dev/null || fail "Missing command: agy"
-    else command -v codex >/dev/null || fail "Missing command: codex"; fi
-  done
+  command -v agy >/dev/null || fail "Missing command: agy"
   [ "$(git -C "$REPO" rev-parse --abbrev-ref HEAD)" = main ] || fail "Checkout must be on main; branch switching is prohibited."
-  [ ! -f "$REPO/AGENTS.md" ] || [ "$(wc -c <"$REPO/AGENTS.md")" -le "$CODEX_DOC_BYTES" ] || echo "Warning: AGENTS.md exceeds CODEX_DOC_BYTES ($CODEX_DOC_BYTES); Codex will see it truncated." >&2
 fi
 mkdir -p "$STATE_ROOT/runs" "$STATE_ROOT/locks" || exit 1
 if [ "$DRY_RUN" = 0 ]; then
@@ -243,7 +256,7 @@ else
   {
     echo "# Research execution - $(date '+%Y-%m-%d %H:%M %Z')"
     echo "- Document: ${DOC#"$REPO"/}"
-    echo "- Stages: $STAGES; review: agy $AGY_MODEL (timeout ${AGY_TIMEOUT}s); implementation: codex $CODEX_MODEL ($CODEX_EFFORT)"
+    echo "- Stages: $STAGES; review: agy $AGY_MODEL (timeout ${AGY_TIMEOUT}s); implementation: agy $EXEC_MODEL"
     echo "- Initial uncommitted paths: $(wc -l <"$RUN_DIR/git-status-before.txt" | tr -d ' ') (see git-status-before.txt)"
   } >"$RUN_DIR/summary.md"
 fi
@@ -280,7 +293,7 @@ for CUR_STAGE in $STAGES; do
     run_execute
     [ "$DRY_RUN" = 0 ] || continue
     DOC="$(find_doc "$DOC_KEY")" || fail "Document missing or conflicting after implementation."
-    summary_stage "Implementation (codex)"
+    summary_stage "Implementation (agy)"
     ANSWERS_TEXT=""
     [ ! -s "$RUN_DIR/questions.md" ] || stop_for_questions execute
     PENDING_STAGE=execute

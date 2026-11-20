@@ -14,7 +14,15 @@ final class LocalAudioViewModel {
     var errorMessage: String?
 
     var currentTrack: LocalAudioTrack? { queue.current.flatMap { tracks[$0.track.id] } }
+    func track(for id: String) -> LocalAudioTrack? { tracks[id] }
     func title(for track: MusicTrack) -> String { tracks[track.id]?.title ?? track.title }
+
+    @discardableResult
+    func mutateQueue(_ mutate: (inout MusicQueue) -> Bool) -> Bool {
+        guard mutate(&queue) else { return false }
+        notify()
+        return true
+    }
     var canNext: Bool {
         !queue.upcoming.isEmpty || (!queue.context.isEmpty && queue.repeatMode == .all)
     }
@@ -75,13 +83,18 @@ final class LocalAudioViewModel {
     }
 
     @discardableResult
-    func play(_ tracks: [LocalAudioTrack], at index: Int = 0, shuffled: Bool = false) -> Bool {
-        guard tracks.indices.contains(index), !tracks[index].isOffline || shuffled else {
-            return false
-        }
+    func play(
+        _ tracks: [LocalAudioTrack], at index: Int = 0, shuffled: Bool = false,
+        pinSelected: Bool = false
+    ) -> Bool {
+        guard tracks.indices.contains(index),
+            !tracks[index].isOffline || (shuffled && !pinSelected)
+        else { return false }
         let available = tracks.filter { !$0.isOffline }
         guard !available.isEmpty else { return false }
-        let selected = shuffled ? 0 : available.firstIndex { $0.id == tracks[index].id } ?? 0
+        let selected =
+            shuffled && !pinSelected
+            ? 0 : available.firstIndex { $0.id == tracks[index].id } ?? 0
         coordinator?.exitScreensaverForLocalAudioOpen()
         start { player in
             player.tracks = Dictionary(
@@ -89,7 +102,11 @@ final class LocalAudioViewModel {
             let items = available.map(Self.queueTrack)
             if shuffled {
                 var random = SystemRandomNumberGenerator()
-                player.queue.startShuffled(items, using: &random)
+                if pinSelected {
+                    player.queue.startShuffled(items, startingAt: selected, using: &random)
+                } else {
+                    player.queue.startShuffled(items, using: &random)
+                }
             } else {
                 player.queue.start(items, at: selected)
             }

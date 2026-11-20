@@ -54,6 +54,29 @@ extension PlayerViewModel {
     }
 
     @discardableResult
+    func restartFromBeginning() -> Bool {
+        cancelEOFRefresh()
+        guard canControl else { return false }
+        let run: @MainActor () -> Bool = { [weak self] in
+            guard let self, self.canControl else { return false }
+            self.stopScreensaver()
+            return self.perform {
+                self.isStartingHome = false
+                self.isShowingConnectPhone = false
+                self.setShowingHome(false)
+                self.watchProgress.pending = nil
+                try self.engine.seek(absolute: 0)
+                try self.engine.setPaused(false)
+                self.requestedPause = false
+            }
+        }
+        if let beforeStartingPlayback {
+            return beforeStartingPlayback { _ = run() }
+        }
+        return run()
+    }
+
+    @discardableResult
     func showHome() -> Bool {
         guard hasMedia, !isClosing, !isLoading, !isScreensaverEngaged else { return false }
         cancelPendingPlayback?()

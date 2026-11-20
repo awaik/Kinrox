@@ -94,7 +94,8 @@ import Foundation
             let envelope = try Codec.decodeEnvelope(frame)
             replyTo = envelope.header.id
             switch envelope.type {
-            case .command, .requestState, .requestQueue, .requestLikeOptions, .bye:
+            case .command, .requestState, .requestQueue, .requestLikeOptions,
+                .requestLibrary, .requestLibraryItem, .requestArtwork, .bye:
                 throw SessionFailure(.notPaired, replyTo: replyTo, close: false)
             case .error:
                 throw SessionFailure(.invalidPayload, respond: false)

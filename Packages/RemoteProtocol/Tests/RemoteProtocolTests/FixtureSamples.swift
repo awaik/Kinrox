@@ -28,7 +28,7 @@ enum FixtureSamples {
             .seekAbsolute(seconds: 1234.5), .setVolume(volume: 40), .next, .previous,
             .openRecent(itemId: itemId), .toggleFullscreen, .setFullscreen(fullscreen: false),
             .setScreensaver(screensaver: .matrix),
-        ] + musicCommands
+        ] + musicCommands + libraryCommands
 
     static let all: [FixtureSample] =
         [
@@ -90,6 +90,7 @@ enum FixtureSamples {
                 message: .error(header, .init(code: .notPaired, message: "Pairing required."))),
         ]
         + musicSamples
+        + librarySamples
         + commands.map {
             FixtureSample(name: "command-\($0.kind.rawValue)", message: .command(header, $0))
         }

@@ -1,6 +1,6 @@
 ---
 name: general-release
-description: "General Kinrox Mac release at the owner's explicit request ('release', '/general-release', and equivalents in their language): reviews everything accumulated on main above origin/main through agy (Gemini), assesses and applies findings through codex (high), the orchestrator's control, then the orchestrator itself bumps the version, runs the checks, builds the signed notarized DMG with Scripts/build-release.sh, commits, tags, pushes, publishes the GitHub Release, updates the website and Sparkle appcast, and verifies Pages and the live feed. Do not use inside stage agents. The iPhone Remote App Store release is separate."
+description: "General Kinrox Mac release at the owner's explicit request ('release', '/general-release', and equivalents in their language): reviews everything accumulated on main above origin/main through agy (Gemini), assesses and applies findings through agy (Gemini 4 Neon High), the orchestrator's control, then the orchestrator itself bumps the version, runs the checks, builds the signed notarized DMG with Scripts/build-release.sh, commits, tags, pushes, publishes the GitHub Release, updates the website and Sparkle appcast, and verifies Pages and the live feed. Do not use inside stage agents. The iPhone Remote App Store release is separate."
 ---
 
 # General Kinrox Mac release
@@ -17,23 +17,25 @@ are not carried into the chat. Reading or copying this skill does not authorize 
 |---|---|---|
 | 0. Single tree | you | one main checkout on `main`, no extra branches or worktrees |
 | 1. Review | `agy --dangerously-skip-permissions --model "Gemini 4 Carbon (High)"`, timeout 5400 s, [`prompts/review.md`](prompts/review.md) | `review.md`: CRITICAL / MAJOR / MINOR and release readiness |
-| 2. Apply | `codex exec --dangerously-bypass-approvals-and-sandbox --model gpt-6.2-sol -c model_reasoning_effort="high" -c project_doc_max_bytes=65536`, [`prompts/apply.md`](prompts/apply.md) | justified findings fixed locally, targeted checks green |
+| 2. Apply | `agy --dangerously-skip-permissions --model "Gemini 4 Neon (High)" --output-format json`, [`prompts/apply.md`](prompts/apply.md) | justified findings fixed locally, targeted checks green |
 | 3. Control | you | `control.md` with the verdict, including performance measurements |
-| 4. Release | you, from the rendered [`prompts/release-orchestrator.md`](prompts/release-orchestrator.md) + [`prompts/release.md`](prompts/release.md); `RELEASE_AGENT=codex` hands it to codex (`medium`) | version bump, notes, full checks, `build-release.sh`, commit, tag, push, GitHub Release, site and appcast, Pages check |
+| 4. Release | you, from the rendered [`prompts/release-orchestrator.md`](prompts/release-orchestrator.md) + [`prompts/release.md`](prompts/release.md); `RELEASE_AGENT=agy` hands it to agy `Gemini 4 Neon (Medium)` | version bump, notes, full checks, `build-release.sh`, commit, tag, push, GitHub Release, site and appcast, Pages check |
 | 5. Verify and report | you | independent check of Git, GitHub, and the live site; report to the owner |
 
 [`run.sh`](run.sh) runs the agent stages from this directory. Keep the inherited model
-defaults; change `AGY_MODEL`, `AGY_TIMEOUT`, `CODEX_MODEL`, `APPLY_EFFORT`,
-`RELEASE_AGENT`, or `RELEASE_EFFORT` only at the owner's request.
-Codex limits run out quickly, so the defaults save tokens (owner decisions 2026-11-12, 2026-11-18): apply
-runs on `gpt-6.2-sol` at `high` (`CODEX_MODEL=gpt-6.2-astra` for complex architectural packages,
-`APPLY_EFFORT=xhigh` only for a package the owner marks as hard or after a `high`
-round fails on reasoning; avoid `max`/`ultra` and `Fast`/`Ultrafast` service tiers); the release is yours; `CODEX_DOC_BYTES` (default 65536) makes Codex
-load `AGENTS.md` whole, so prompts never ask it to re-read the file. Keep `AGENTS.md` lean:
-release history goes to `docs/releases/HISTORY.md`. Of Google's models only
-`Gemini 4 Carbon (High)` is allowed (owner decision 2026-11-11); `run.sh` refuses Gemini 4
-Argon, Gemini 3.8 Flash, and lower Carbon levels. A review longer than `AGY_TIMEOUT` is
-stopped with its process group.
+defaults; change `AGY_MODEL`, `AGY_TIMEOUT`, `APPLY_EFFORT`, `RELEASE_AGENT`, or
+`RELEASE_EFFORT` only at the owner's request.
+Codex is no longer used (owner decision 2026-11-20). Agent stages run on agy `Gemini 4 Neon`
+at the level of their effort: apply at `high` (`Gemini 4 Neon (High)`), and
+`APPLY_EFFORT=xhigh` (`Gemini 4 Neon (XHigh)`) for complex architectural packages, a package
+the owner marks as hard, or after a `high` round fails on reasoning; an agent release
+(`RELEASE_AGENT=agy`, owner's request only) at `medium` (`Gemini 4 Neon (Medium)`). Neon has no
+`max`/`ultra` level, and `run.sh` refuses any other value. The release is yours by default.
+agy loads `AGENTS.md` through `GEMINI.md`, so prompts never ask it to re-read the file. Keep
+`AGENTS.md` lean: release history goes to `docs/releases/HISTORY.md`. The review uses only
+`Gemini 4 Carbon (High)` (owner decision 2026-11-11); `run.sh` refuses Gemini 4 Argon,
+Gemini 3.8 Flash, and lower Carbon levels for `AGY_MODEL`. A review longer than `AGY_TIMEOUT`
+is stopped with its process group.
 
 ## Authority
 
@@ -87,7 +89,7 @@ fully merged. Then rerun.
    directory without starting agents.
 
 A run directory holds `summary.md` (stages, changed paths per stage, tree state), `review.md`,
-`review.log`, `apply-N.last.md`, `apply-N.log`, `release-N.last.md`, `release-N.log`,
+`review.log`, `apply-N.json` (raw agy answer), `apply-N.last.md`, `apply-N.log`, `release-N.last.md`, `release-N.log`,
 `*.prompt.md`, `questions.md` / `answers.md`, `control.md`, `release.env`, `state.env`,
 `git-status-before.txt`, `git-status-release.txt`, `unpushed-commits.txt`,
 `origin-ahead-commits.txt`, and `fingerprint-*.json` snapshots.
@@ -108,7 +110,8 @@ A run directory holds `summary.md` (stages, changed paths per stage, tree state)
 3. Write `answers.md` into the run directory: question number -> answer, source
    (`orchestrator: <evidence>` or `owner: <wording>`).
 4. Continue in the background: `.agents/skills/general-release/run.sh --resume "<run>"`.
-   Codex continues the same session when it survives.
+   agy continues the same conversation (`--conversation`) and still receives the full prompt
+   with the answers, because it silently starts a new conversation for an unknown id.
 
 ## 3. Control (exit 11)
 
@@ -128,7 +131,7 @@ beyond the stage-2 edits.
 4. **Whole package.** `git status --short --untracked-files=all`: no credentials, `.env*`,
    keys, profiles, dumps, logs, test media, or local artifacts. List what must not ship in
    `control.md` as excluded (the release agent adds masks to `.gitignore`).
-5. **Checks.** Performance measurements are yours, not Codex's (owner decision 2026-11-12):
+5. **Checks.** Performance measurements are yours, not the agent's (owner decision 2026-11-12):
    when the package touches Spotify playback, Music memory, or startup, measure physical
    footprint, CPU, and command latency in startup, playback, pause, and sustained use against
    the previous release and the `AGENTS.md` limits (Spotify.app fully terminated, Kinrox
@@ -166,7 +169,7 @@ beyond the stage-2 edits.
 3. Write the answer from the checklist's "Answer" section to `release-N.last.md`, ending with
    the `RESULT:` line, and run `run.sh --finish "<run>"`: exit 0 means released; exit 12 means
    not finished, so continue and run `--finish` again. `--resume` does not apply to your release.
-   With `RELEASE_AGENT=codex` (owner's request only) the old path applies: codex runs the
+   With `RELEASE_AGENT=agy` (owner's request only) the agent path applies: agy runs the
    checklist, exit 10 questions are answered as in section 2 and continued with `--resume`.
 4. After exit 0 or 12 verify yourself:
    - `release.env`; `git log --oneline -5`; `git rev-parse HEAD origin/main` are equal;
@@ -189,7 +192,7 @@ beyond the stage-2 edits.
      report and ask; a package fix means a **new run** (a new build number) after the fix,
      because `build-release.sh` never reuses a release directory;
    - pushed but the release assets are missing or wrong: finish the missing step in the same
-     run (with `RELEASE_AGENT=codex`: `--resume`); never delete or edit a published release or tag without the owner;
+     run (with `RELEASE_AGENT=agy`: `--resume`); never delete or edit a published release or tag without the owner;
    - the release is public but a verification step failed (Pages, feed, links): finish it
      yourself, saying what remains. Never publish the appcast before the
      DMG is public.
@@ -223,7 +226,8 @@ Remote (App Store) is not part of this release.
   `--release`.
 - `--release` works only from the post-control state, and the same run cannot be released
   twice. An unfinished orchestrator release continues by hand and is recorded with `--finish`;
-  a codex release continues with `--resume` and answers. The lock covers the script only, not
+  an agy release continues with `--resume` and answers; a failed agy turn (`status` other than
+  `SUCCESS`) never counts as released. The lock covers the script only, not
   the orchestrator's manual release steps: do not start a second release meanwhile.
 - The working-tree fingerprint is the shared `fingerprint.mjs` of
   `.agents/skills/research-execute/`.

@@ -1,7 +1,7 @@
 """Exercise the release runner's state transitions without live agents, signing, or publication.
 
 Each test builds a throwaway Git repository (with a bare origin) inside the ignored scratch
-directory, copies the runner into it, and puts fake `agy`, `codex`, `gh`, and build tools first on
+directory, copies the runner into it, and puts fake `agy`, `gh`, and build tools first on
 PATH. The Kinrox checkout itself is never touched. Fixtures stay in the scratch directory for
 inspection.
 """
@@ -15,39 +15,38 @@ SKILL = Path(__file__).resolve().parents[1]
 PROJECT = SKILL.parents[2]
 ARTIFACTS = PROJECT / '.tmp/scratch/general-release/validation'
 
+# The fake agy answers the review in text and the apply and release stages with one JSON object
+# (`--output-format json`), like the real CLI.
 AGY = '''#!/usr/bin/env python3
-import os, sys
+import json, os, subprocess, sys, time
 from pathlib import Path
-with (Path(os.environ['FAKE_LOG'])).open('a') as log:
-    log.write('agy ' + os.environ.get('GENERAL_RELEASE_STAGE', '') + ' ' + sys.argv[sys.argv.index('--model') + 1] + '\\n')
-print('RESULT: CRITICAL 0 / MAJOR 0 / MINOR 0 - ready')
-'''
-CODEX = '''#!/usr/bin/env python3
-import os, sys
-from pathlib import Path
-stage = os.environ['GENERAL_RELEASE_STAGE']
 args = sys.argv[1:]
-resume = 'resume' in args[:2]
+stage = os.environ.get('GENERAL_RELEASE_STAGE', '')
+resume = '--conversation' in args
 with Path(os.environ['FAKE_LOG']).open('a') as log:
-    log.write('codex ' + stage + (' resume' if resume else '') + '\\n')
-with (Path(os.environ['FAKE_LOG']).parent / 'codex-args.txt').open('a') as log:
-    log.write(' '.join(args) + '\\n')
+    log.write('agy ' + stage + (' resume' if resume else '') + ' ' + args[args.index('--model') + 1] + '\\n')
+if stage == 'review':
+    print('RESULT: CRITICAL 0 / MAJOR 0 / MINOR 0 - ready')
+    raise SystemExit(0)
+with (Path(os.environ['FAKE_LOG']).parent / 'agy-args.txt').open('a') as log:
+    log.write(' '.join(args[:-1]) + '\\n')
 mode = Path(os.environ['FAKE_MODE']).read_text().strip()
 run = (Path.cwd() / '.tmp/scratch/general-release/latest').resolve()
-last = Path(args[args.index('-o') + 1])
-print('session id: fake-session')
 if stage == 'apply':
+    if mode == 'apply-hang':
+        child = subprocess.Popen(['sleep', '60'])
+        (Path(os.environ['FAKE_LOG']).parent / 'pids.txt').write_text(f'{os.getpid()} {child.pid}')
+        time.sleep(60)
     if mode == 'apply-question' and not resume:
         (run / 'questions.md').write_text('1. Which behavior is intended?')
-        last.write_text('RESULT: QUESTIONS - one question')
+        text = 'RESULT: QUESTIONS - one question'
     else:
-        last.write_text('RESULT: APPLIED 0 / REJECTED 0 - checks green')
+        text = 'RESULT: APPLIED 0 / REJECTED 0 - checks green'
 else:
     (run / 'release.env').write_text('FINALIZED=1\\n')
-    if mode == 'release-partial':
-        last.write_text('RESULT: PARTIAL - Pages run not verified')
-    else:
-        last.write_text('RESULT: RELEASED - published')
+    text = 'RESULT: PARTIAL - Pages run not verified' if mode == 'release-partial' else 'RESULT: RELEASED - published'
+status = 'ERROR' if mode in ('agy-error', 'apply-error') else 'SUCCESS'
+print(json.dumps({'conversation_id': 'fake-conv', 'status': status, 'response': text}))
 '''
 GH = '#!/bin/sh\nexit 0\n'
 APPCAST_STUB = '#!/usr/bin/env python3\nraise SystemExit(0)\n'
@@ -77,11 +76,10 @@ class RunnerTests(unittest.TestCase):
             'GIT_COMMITTER_NAME': 'Test', 'GIT_COMMITTER_EMAIL': 'test@example.invalid',
         })
         for var in ('GENERAL_RELEASE_STAGE', 'RESEARCH_EXECUTE_STAGE', 'AGY_MODEL', 'APPLE_TEAM_ID',
-                    'APPLE_SIGNING_IDENTITY', 'NOTARYTOOL_PROFILE', 'RELEASE_AGENT', 'CODEX_MODEL',
-                    'APPLY_EFFORT', 'CODEX_DOC_BYTES'):
+                    'APPLE_SIGNING_IDENTITY', 'NOTARYTOOL_PROFILE', 'RELEASE_AGENT', 'APPLY_EFFORT',
+                    'RELEASE_EFFORT'):
             self.env.pop(var, None)
         write_exec(self.bin / 'agy', AGY)
-        write_exec(self.bin / 'codex', CODEX)
         write_exec(self.bin / 'gh', GH)
         for tool in ('xcodebuild', 'xcrun', 'xcodegen', 'hdiutil', 'codesign'):
             write_exec(self.bin / tool, '#!/bin/sh\nexit 0\n')
@@ -130,9 +128,12 @@ class RunnerTests(unittest.TestCase):
     def calls(self):
         return (self.base / 'calls.txt').read_text().splitlines() if (self.base / 'calls.txt').exists() else []
 
-    def release_env(self, agent='codex'):
+    def release_env(self, agent='agy'):
         return {'APPLE_TEAM_ID': 'TEAM', 'APPLE_SIGNING_IDENTITY': 'IDENTITY', 'NOTARYTOOL_PROFILE': 'PROFILE',
                 'RELEASE_AGENT': agent}
+
+    def agent_released(self):
+        return any(call.startswith('agy release') for call in self.calls())
 
     def approve(self, run):
         (run / 'control.md').write_text('Checked.\nVERDICT: RELEASE\n')
@@ -145,7 +146,7 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(self.state(run)['PENDING_STAGE'], 'control')
         self.assertEqual(self.state(run)['VERSION'], '0.5.9')
         self.assertIn('agy review Gemini 4 Carbon (High)', self.calls())
-        self.assertIn('codex apply', self.calls())
+        self.assertIn('agy apply Gemini 4 Neon (High)', self.calls())
         rendered = (run / 'apply-1.prompt.md').read_text()
         self.assertIn('Kinrox Mac 0.5.9 (build 19)', rendered)
         self.assertNotIn('{{', rendered)
@@ -204,7 +205,10 @@ class RunnerTests(unittest.TestCase):
         (run / 'answers.md').write_text('1. owner: the first behavior.\n')
         result = self.run_script('--resume', str(run))
         self.assertEqual(result.returncode, 11, result.stderr)
-        self.assertIn('codex apply resume', self.calls())
+        self.assertIn('agy apply resume Gemini 4 Neon (High)', self.calls())
+        resumed = (run / 'apply-2.prompt.md').read_text()
+        self.assertIn('Kinrox Mac 0.5.9 (build 19)', resumed)  # full prompt, not only the answers
+        self.assertIn('owner: the first behavior.', resumed)
         self.assertTrue((run / 'answers-1.md').is_file())
         self.assertTrue((run / 'questions-1.md').is_file())
         self.assertEqual(self.state(run)['ROUND'], '2')
@@ -214,7 +218,7 @@ class RunnerTests(unittest.TestCase):
         result = self.run_script('--release', str(run), env=self.release_env())
         self.assertEqual(result.returncode, 1)
         self.assertIn('VERDICT: RELEASE', result.stderr)
-        self.assertNotIn('codex release', self.calls())
+        self.assertFalse(self.agent_released())
 
     def test_release_needs_signing_environment(self):
         _, run = self.new_run()
@@ -222,7 +226,7 @@ class RunnerTests(unittest.TestCase):
         result = self.run_script('--release', str(run))
         self.assertEqual(result.returncode, 1)
         self.assertIn('APPLE_TEAM_ID', result.stderr)
-        self.assertNotIn('codex release', self.calls())
+        self.assertFalse(self.agent_released())
 
     def test_release_refuses_new_commits_after_review(self):
         _, run = self.new_run()
@@ -238,7 +242,7 @@ class RunnerTests(unittest.TestCase):
         self.approve(run)
         result = self.run_script('--release', str(run), env=self.release_env())
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('codex release', self.calls())
+        self.assertIn('agy release Gemini 4 Neon (Medium)', self.calls())
         self.assertEqual(self.state(run)['PENDING_STAGE'], 'done')
         self.assertTrue((run / 'git-status-release.txt').is_file())
         self.assertIn('user-change.txt', (run / 'git-status-release.txt').read_text())
@@ -257,16 +261,36 @@ class RunnerTests(unittest.TestCase):
         (run / 'answers.md').write_text('1. orchestrator: Pages run verified manually.\n')
         result = self.run_script('--resume', str(run))
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('codex release resume', self.calls())
+        self.assertIn('agy release resume Gemini 4 Neon (Medium)', self.calls())
         self.assertEqual(self.state(run)['PENDING_STAGE'], 'done')
 
 
-    def test_codex_defaults_save_tokens(self):
-        self.new_run()
-        args = (self.base / 'codex-args.txt').read_text()
-        self.assertIn('--model gpt-6.2-sol', args)
-        self.assertIn('model_reasoning_effort="high"', args)
-        self.assertIn('project_doc_max_bytes=65536', args)
+    def test_apply_defaults_to_agy_neon_high(self):
+        _, run = self.new_run()
+        args = (self.base / 'agy-args.txt').read_text()
+        self.assertTrue(args.startswith('--dangerously-skip-permissions --model Gemini 4 Neon (High) --output-format json'), args)
+        self.assertIn('RESULT: APPLIED', (run / 'apply-1.last.md').read_text())
+        self.assertEqual(self.state(run)['APPLY_SESSION'], 'agy:fake-conv')
+        self.assertIn('apply agy Gemini 4 Neon (High); release orchestrator', (run / 'summary.md').read_text())
+
+    def test_effort_selects_matching_neon_level(self):
+        result = self.run_script('--version', '0.5.9', '--build', '19', '--dry-run',
+                                 env={'APPLY_EFFORT': 'xhigh', 'RELEASE_AGENT': 'agy'})
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('agy --model "Gemini 4 Neon (XHigh)" -p <apply-1.prompt.md>', result.stderr)
+        self.assertIn('agy --model "Gemini 4 Neon (Medium)" -p <release-1.prompt.md>', result.stderr)
+        for env in ({'APPLY_EFFORT': 'max'}, {'RELEASE_AGENT': 'agy', 'RELEASE_EFFORT': 'ultra'}):
+            result = self.run_script('--version', '0.5.9', '--build', '19', '--dry-run', env=env)
+            self.assertEqual(result.returncode, 1, env)
+            self.assertIn('_EFFORT must be', result.stderr)
+
+    def test_failed_agy_status_is_not_released(self):
+        _, run = self.new_run()
+        self.approve(run)
+        (self.base / 'mode.txt').write_text('agy-error')
+        result = self.run_script('--release', str(run), env=self.release_env())
+        self.assertEqual(result.returncode, 12, result.stderr)
+        self.assertIn('Exit code: 1', (run / 'summary.md').read_text())
 
     def test_dry_run_renders_orchestrator_release_checklist(self):
         result = self.run_script('--version', '0.5.9', '--build', '19', '--dry-run')
@@ -281,7 +305,7 @@ class RunnerTests(unittest.TestCase):
         self.approve(run)
         result = self.run_script('--release', str(run), env=self.release_env('orchestrator'))
         self.assertEqual(result.returncode, 14, result.stderr)
-        self.assertNotIn('codex release', self.calls())
+        self.assertFalse(self.agent_released())
         state = self.state(run)
         self.assertEqual((state['PENDING_STAGE'], state['RELEASE_RUNNER']), ('release', 'orchestrator'))
         prompt = (run / 'release-2.prompt.md').read_text()
@@ -303,7 +327,7 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(self.state(run)['PENDING_STAGE'], 'done')
         self.assertEqual(self.run_script('--finish', str(run)).returncode, 1)
-        self.assertNotIn('codex release', self.calls())
+        self.assertFalse(self.agent_released())
 
     def test_default_release_agent_is_orchestrator(self):
         _, run = self.new_run()
@@ -312,10 +336,32 @@ class RunnerTests(unittest.TestCase):
         del env['RELEASE_AGENT']
         self.assertEqual(self.run_script('--release', str(run), env=env).returncode, 14)
 
+    def test_failed_apply_does_not_advance_to_control(self):
+        (self.base / 'mode.txt').write_text('apply-error')
+        result, run = self.new_run()
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertEqual(self.state(run)['PENDING_STAGE'], 'apply')
+        self.assertIn('Exit code: 1', (run / 'summary.md').read_text())
+
+    def test_apply_timeout_stops_agent_process_group(self):
+        (self.base / 'mode.txt').write_text('apply-hang')
+        result = self.run_script('--version', '0.5.9', '--build', '19', env={'AGENT_TIMEOUT': '1'})
+        run = (self.repo / '.tmp/scratch/general-release/latest').resolve()
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertEqual(self.state(run)['PENDING_STAGE'], 'apply')
+        self.assertIn('Timed out after 1s', (run / 'apply-1.log').read_text())
+        for pid in map(int, (self.base / 'pids.txt').read_text().split()):
+            with self.assertRaises(ProcessLookupError):
+                os.kill(pid, 0)
+        self.assertEqual(
+            self.run_script('--version', '0.5.9', '--build', '19', '--dry-run', env={'AGENT_TIMEOUT': '0'}).returncode,
+            1)
+
     def test_unknown_release_agent_is_refused(self):
-        result = self.run_script('--version', '0.5.9', '--build', '19', '--dry-run', env={'RELEASE_AGENT': 'gemini'})
-        self.assertEqual(result.returncode, 1)
-        self.assertIn('RELEASE_AGENT', result.stderr)
+        for agent in ('gemini', 'codex'):
+            result = self.run_script('--version', '0.5.9', '--build', '19', '--dry-run', env={'RELEASE_AGENT': agent})
+            self.assertEqual(result.returncode, 1)
+            self.assertIn('RELEASE_AGENT', result.stderr)
 
 
 if __name__ == '__main__':

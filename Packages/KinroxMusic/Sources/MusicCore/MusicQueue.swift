@@ -58,6 +58,19 @@ public struct MusicQueue: Equatable, Sendable {
         shuffled = true
     }
 
+    /// Shuffle the collection while starting from the chosen track and
+    /// shuffling all remaining tracks into the upcoming source queue.
+    public mutating func startShuffled<R: RandomNumberGenerator>(
+        _ tracks: [MusicTrack], startingAt index: Int, using random: inout R
+    ) {
+        guard tracks.indices.contains(index) else { return }
+        start(tracks)
+        current = context[index]
+        source = (Array(context.prefix(index)) + Array(context.dropFirst(index + 1)))
+            .shuffled(using: &random)
+        shuffled = true
+    }
+
     public mutating func add(_ track: MusicTrack) {
         guard track.isPlayable != false else { return }
         manual.append(MusicQueueItem(track: track, origin: .manual))

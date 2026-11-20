@@ -17,12 +17,29 @@ extension RemoteServer {
 
     /// ack signals accepted command. Confirmed state arrives from engine later.
     func execute(_ command: Command) -> ProtocolError.Code? {
-        if case .openRecent(let id) = command {
+        switch command {
+        case .openRecent(let id):
             guard let openRecent else { return .itemNotFound }
             return openRecent(id)
+        case .playLibrary(let itemId, let from, let shuffle):
+            guard let playLibrary else { return .itemNotFound }
+            return playLibrary(itemId, from, shuffle)
+        case .resumeSource(let source):
+            guard let resumeSource else { return .noMedia }
+            return resumeSource(source)
+        default: break
         }
         guard let model, !model.isClosing else { return .noMedia }
         if let audio = activeLocalAudio {
+            switch command {
+            case .toggleFullscreen: return model.toggleFullscreen() ? nil : .internal
+            case .setFullscreen(let value): return model.setFullscreen(value) ? nil : .internal
+            case .setScreensaver(let value):
+                let ok = value == .matrix ? model.startMatrix() : model.stopScreensaver()
+                return ok ? nil : .internal
+            default: break
+            }
+            if let localMusicBridge { return localMusicBridge.execute(command) }
             let accepted: Bool
             switch command {
             case .togglePause: accepted = audio.togglePause()
@@ -36,10 +53,6 @@ extension RemoteServer {
             case .previous:
                 guard audio.canPrevious else { return .itemNotFound }
                 accepted = audio.previous()
-            case .toggleFullscreen: return model.toggleFullscreen() ? nil : .internal
-            case .setFullscreen(let value): return model.setFullscreen(value) ? nil : .internal
-            case .setScreensaver(let value):
-                accepted = value == .matrix ? model.startMatrix() : model.stopScreensaver()
             default: return .unknownMessage
             }
             return accepted ? nil : .internal
@@ -80,6 +93,7 @@ extension RemoteServer {
         switch code {
         case .noMedia: "Nothing is playing on Mac."
         case .itemNotFound: "File not found."
+        case .unavailable: "The drive with this file is not connected."
         default: "Failed to execute command."
         }
     }

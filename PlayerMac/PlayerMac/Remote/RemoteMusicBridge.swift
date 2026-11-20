@@ -67,7 +67,8 @@ final class RemoteMusicBridge {
             similar: .init(
                 active: music.isDiscoveryRadioActive && !music.isStartingSimilar,
                 finding: music.isStartingSimilar,
-                available: music.canStartSimilarFromCurrent))
+                available: music.canStartSimilarFromCurrent),
+            origin: .spotify)
     }
     func snapshot(fullscreen: Bool, screensaver: Screensaver) -> PlayerState {
         let hasMedia = confirmedQueue.current != nil

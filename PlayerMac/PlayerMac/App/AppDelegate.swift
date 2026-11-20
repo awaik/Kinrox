@@ -30,6 +30,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             else { return .itemNotFound }
             return self.openRecent(item)
         }
+        session.wireRemoteLibraryCommands(
+            ensurePlayer: { [weak self] in self?.showPlayer() },
+            isTerminating: { [weak self] in self?.isTerminating ?? true })
         showPlayer()
         if ProcessInfo.processInfo.environment["KINROX_MUSIC_DEMO"] == "1" { session.mode = .music }
         session.spotify.restore()

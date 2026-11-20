@@ -13,6 +13,7 @@ public struct ProtocolError: Error, Codable, Sendable, Equatable {
         case invalidPayload
         case noMedia
         case itemNotFound
+        case unavailable
         case `internal`
     }
 

@@ -64,15 +64,17 @@ import Testing
         #expect(peer.isClosed)
     }
 
+    static let unresolvedEndpoints: [NWEndpoint?] = [
+        nil,
+        .service(name: "Mac", type: "_kinrox._tcp", domain: "local.", interface: nil),
+        .hostPort(host: .name("mac.local", nil), port: 1234),
+    ]
+
     @Test(
-        "Missing or unresolved route closes as a retryable network loss",
-        arguments: [NWPath.Status.satisfied, .unsatisfied, .requiresConnection])
+        "Unavailable route without a resolved address closes as a retryable network loss",
+        arguments: [NWPath.Status.unsatisfied, .requiresConnection])
     func missingRoute(_ status: NWPath.Status) async throws {
-        for endpoint: NWEndpoint? in [
-            nil,
-            .service(name: "Mac", type: "_kinrox._tcp", domain: "local.", interface: nil),
-            .hostPort(host: .name("mac.local", nil), port: 1234),
-        ] {
+        for endpoint in Self.unresolvedEndpoints {
             let h = try WireHarness(role: .client)
             defer { h.stop() }
             try await h.start(role: .client)
@@ -81,6 +83,39 @@ import Testing
             #expect(h.peerFailure == .notConnected)
             #expect(peer.isClosed)
         }
+    }
+
+    // Real Bonjour connections report the service endpoint in later path updates.
+    @Test("A usable path without a resolved address keeps the approved socket")
+    func unresolvedUsableRoute() async throws {
+        for endpoint in Self.unresolvedEndpoints {
+            let h = try WireHarness(role: .client)
+            defer { h.stop() }
+            try await h.start(role: .client)
+            let peer = try #require(h.peer)
+            peer.pathChanged(status: .satisfied, endpoint: endpoint)
+            #expect(h.peerFailure == nil)
+            #expect(!peer.isClosed)
+            try await h.wire?.send(Data([42]))
+            try await eventually { h.received == [Data([42])] }
+        }
+    }
+
+    @Test("A usable unresolved path still re-checks the approved address")
+    func unresolvedRouteLostSubnet() async throws {
+        var permitted = true
+        let h = try WireHarness(role: .client) { endpoint in
+            permitted && LocalNetworkPolicy.permits(endpoint)
+        }
+        defer { h.stop() }
+        try await h.start(role: .client)
+        let peer = try #require(h.peer)
+        permitted = false
+        peer.pathChanged(
+            status: .satisfied,
+            endpoint: .service(name: "Mac", type: "_kinrox._tcp", domain: "local.", interface: nil))
+        #expect(h.peerFailure == .notConnected)
+        #expect(peer.isClosed)
     }
 
     @Test("An unavailable path is retryable even if it retains an old address")

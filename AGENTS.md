@@ -13,7 +13,7 @@
 >
 > These requirements supersede earlier decisions that require Spotify.app or permit an embedded web player. The historical Connect-only releases in the [release history](docs/releases/HISTORY.md) do **not** establish standalone acceptance. The default production path now uses separately downloaded Soloist; live evidence and accepted limits are in [Soloist Verification](docs/runbooks/SOLOIST-VERIFICATION.md).
 >
-> **Status:** M0–M6 complete. Current release: Mac 0.5.11 (build 21) and Kinrox Remote 0.2.2 (build 4).
+> **Status:** M0–M6 complete. Current release: Mac 0.5.12 (build 22) and Kinrox Remote 0.2.2 (build 4).
 > Milestone and release history with links to verification reports — [release history](docs/releases/HISTORY.md);
 > contributor tasks — [docs/TODO](docs/TODO/). Design: Section 3.5; landing site: Section 3.6; licensing: Section 10.
 > Open questions are compiled in Section 11. Until closed, proposals marked "proposal" are non-final.
@@ -350,11 +350,12 @@ The file is the source of truth for layouts, texts in mockups, components, and t
 | [13 · Remote — Lock Screen](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=212-304) | iPhone Lock Screen Live Activity: music and video cards, paused, sending, Mac unavailable and possibly-out-of-date states, Dynamic Island compact/minimal/expanded, Settings toggle, behaviour notes and owner decisions (±10 s, volume buttons, one-hour pause limit) (`212:304`) |
 | [12 · Remote — Similar](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=205-4347) | iPhone Similar control: Listen to similar button, looking and active states, Not interested menu, hidden-track feedback with Undo, queue in Similar mode with swipe/long-press Not interested, older-Mac update hint, behaviour notes (`205:4347`) |
 | [17 · Home — Media Library](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=319-304) | Mac Home, watched folders, movies and series, local music and mini-player (`319:304`) |
+| [18 · Remote — Медиатека на пульте](https://www.figma.com/design/vvWQ5IQdSuOFw2BebZkS8U/Kinrox?node-id=334-304) | iPhone remote media library browsing, video/music tab switcher, local music deck, details, search, offline and older-Mac states (`334:304`) |
 
 Working with the file:
 - new screens and states are designed in this file before implementation; existing pages follow `NN · <milestone> — <topic>`;
 - mockup copy in Figma is currently Russian; app source strings stay English (Section 9);
-- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, `88:304`, `166:304`, `191:304`, `205:4347`, `212:304`, `229:304`, `237:304`, `312:387`, and `319:304`; component library in section `3:2`.
+- for the Figma MCP server: page ids `0:1`, `13:352`, `30:304`, `48:304`, `60:304`, `63:304`, `88:304`, `166:304`, `191:304`, `205:4347`, `212:304`, `229:304`, `237:304`, `312:387`, `319:304`, and `334:304`; component library in section `3:2`.
 
 Project information links share one destination catalog in both apps and open in
 the system browser only when activated. The license label, description and destination
@@ -558,6 +559,19 @@ items and replaces pending source tracks with similar ones; Stop keeps added tra
 Not interested is offered only while Similar runs; the Mac then drops matching
 pending source tracks and skips a matching current track. Design: Figma `205:4347`.
 
+Remote media library support is additive v1 (2026-11-20): `requestState` accepts an optional
+`features` list (e.g. `["library.v1"]`; empty `{}` remains valid), `PlayerState` adds optional
+`library` (`revision`, `progressRevision`, counts, `scanning`) and `sources` (`video`,
+`localMusic`, `spotify` summaries), `MusicState` adds optional `origin` (`spotify`/`local`),
+and `RemoteMusicTrack` adds optional `format`. Six application messages browse the Mac catalog
+and fetch thumbnails (`requestLibrary`/`library`, `requestLibraryItem`/`libraryItem`,
+`requestArtwork`/`artwork`), and two commands start or resume playback (`playLibrary`,
+`resumeSource`), with `ProtocolError.Code.unavailable` for offline drives. Active local audio
+projects as `source: .music` (`origin: .local`) for connections declaring `"library.v1"` and
+retains the legacy `source: .video, music: nil` projection for older clients. All library and
+artwork identifiers are opaque HMAC tokens; filesystem paths, bookmarks, volume UUIDs, and
+`<sha256>.jpg` cache filenames never cross the wire. Design: Figma `334:304`.
+
 ### 6.4. PIN Pairing
 
 - 6-digit random decimal code generated via `SystemRandomNumberGenerator`.
@@ -740,7 +754,7 @@ Both `CLAUDE.md` and `GEMINI.md` import this document.
 Available project skill:
 
 - [research-execute](.agents/skills/research-execute/SKILL.md): orchestrates Gemini
-  plan review, Codex implementation, and result verification when the user asks
+  plan review, Gemini 4 Neon implementation through agy, and result verification when the user asks
   to execute a document in `docs/RESEARCHES/`. Read the skill before use. It uses
   Kinrox's English document format and subsystem verification commands; scope is
   local implementation without release. This document and the research README
@@ -748,7 +762,7 @@ Available project skill:
 
 - [general-release](.agents/skills/general-release/SKILL.md): orchestrates a general
   Mac release when the owner explicitly asks for one in the current conversation.
-  Agy reviews everything above `origin/main`, Codex applies justified findings, the
+  Agy reviews everything above `origin/main`, agy on Gemini 4 Neon applies justified findings, the
   orchestrator controls the package, then the orchestrator itself bumps the version, runs the checks,
   builds the signed and notarized DMG with `Scripts/build-release.sh`, commits, tags,
   pushes, publishes the GitHub Release, and updates the website and Sparkle appcast
@@ -756,21 +770,24 @@ Available project skill:
   before use. This document and the runbook take precedence; the iPhone Remote App
   Store release is separate.
 
-Agent models and roles (owner decisions, 2026-11-11; Section 11):
+Agent models and roles (owner decisions, 2026-11-11 and 2026-11-20; Section 11):
 
-- Of Google's models, agents use only `agy --dangerously-skip-permissions --model
-  "Gemini 4 Carbon (High)"` with a 5400 s timeout. Gemini 4 Argon and Gemini 3.8
-  Flash at any level are not used in agent loops; `research-execute` refuses them.
-- Bug without an evident cause: alongside the Codex fix on `gpt-6.2-astra` / `xhigh`,
+- Codex is not used. Review and `investigate` run on `agy --dangerously-skip-permissions
+  --model "Gemini 4 Carbon (High)"` with a 5400 s timeout. Implementation and fixes run
+  on agy `Gemini 4 Neon` at the effort's level: `Gemini 4 Neon (High)` by default,
+  `Gemini 4 Neon (XHigh)` for complex or hard work, `Gemini 4 Neon (Medium)` for an
+  agent release. Gemini 4 Argon and Gemini 3.8 Flash at any level are not used in
+  agent loops; `research-execute` and `general-release` refuse them.
+- Bug without an evident cause: alongside the agy fix on `Gemini 4 Neon (XHigh)`,
   the orchestrator launches the `investigate` role (agy, Carbon High, 5400 s) from
   [the template](.agents/templates/investigate.md). It searches for the cause
-  independently, only reads code, and writes a report; do not pass Codex's
+  independently, only reads code, and writes a report; do not pass the fixing agent's
   hypothesis or plan to it. It needs no agy review: the orchestrator compares the
-  report with the Codex fix. The same cause confirms the fix; a different or broader
-  cause is checked against the code, and justified findings go back to Codex.
+  report with the fix. The same cause confirms the fix; a different or broader
+  cause is checked against the code, and justified findings go back to the fixing agent.
   `investigate` changes must stay under `.tmp/`; a code edit violates its task and
-  is reverted by Codex on assignment, not blindly. Orchestrator verification of the
-  Codex work remains mandatory.
+  is reverted by the fixing agent on assignment, not blindly. Orchestrator verification
+  of the fix remains mandatory.
 - These decisions do not cover product models, image-generation models, or Claude
   and OpenAI models launched through agy.
 
@@ -803,9 +820,9 @@ separate; see [AppStore/LICENSE-ROLLOUT.md](AppStore/LICENSE-ROLLOUT.md).
 ### Owner Decisions
 - Update distribution mechanism — decided 2026-10-29: Sparkle 2 (Option A). EdDSA signing key created by the owner on 2026-10-29 ([runbook](docs/runbooks/RUNBOOK-RELEASE.md#update-signing-key)); first shipped in Mac 0.3.0 on 2026-10-30.
 - Target architectures: Apple Silicon (arm64) primary; Intel x86_64 deferred.
-- Agent models — decided 2026-11-11: of Google's models, agents use only Gemini 4 Carbon (High) (`agy --model "Gemini 4 Carbon (High)"`); Gemini 4 Argon and Gemini 3.8 Flash are not used in agent loops, and `research-execute` refuses them. The agy review timeout is 5400 s. Product, image-generation, Claude and OpenAI models are unaffected.
-- Codex token economy — decided 2026-11-12, updated 2026-11-18: Codex limits run out quickly. `research-execute` implementation and `general-release` apply default to `gpt-6.2-sol` / `high`; use `gpt-6.2-astra` / `high` for complex architectural, concurrency, C-API, or protocol work, and `gpt-6.2-astra` / `xhigh` only for hard tasks or a bug without an evident cause (avoid `gpt-6-astra`, `max`/`ultra` reasoning, and `Fast`/`Ultrafast` service tiers); the orchestrator performs the release stage and all performance measurements itself; Codex loads this document whole (`project_doc_max_bytes`), so prompts never ask it to re-read it; milestone and release history lives in `docs/releases/HISTORY.md`; agents check with targeted tests while iterating and run full suites once.
-- Bug without an evident cause — decided 2026-11-11: alongside the Codex fix, the orchestrator launches the read-only `investigate` role (agy, Gemini 4 Carbon (High), 5400 s) from `.agents/templates/investigate.md`; see Section 9.1.
+- Agent models — decided 2026-11-11, updated 2026-11-20: reviews and `investigate` use Gemini 4 Carbon (High) (`agy --model "Gemini 4 Carbon (High)"`); implementation and fixes use Gemini 4 Neon (see the agy decision below); Gemini 4 Argon and Gemini 3.8 Flash are not used in agent loops, and the runners refuse them. The agy review timeout is 5400 s. Product, image-generation, Claude and OpenAI models are unaffected.
+- Implementation agent — decided 2026-11-20 (replaces the 2026-11-12/2026-11-18 Codex token economy): Codex is no longer used. `research-execute` implementation and `general-release` apply run on agy `Gemini 4 Neon` at the effort's level: `Gemini 4 Neon (High)` by default; `Gemini 4 Neon (XHigh)` (former `gpt-6.2-astra`) for complex architectural, concurrency, C-API, or protocol work, hard tasks, or a bug without an evident cause; an agent release (`RELEASE_AGENT=agy`, owner's request only) uses `Gemini 4 Neon (Medium)`. Neon has no `max`/`ultra` level. The orchestrator performs the release stage and all performance measurements itself; agy loads this document through `GEMINI.md`, so prompts never ask it to re-read it; milestone and release history lives in `docs/releases/HISTORY.md`; agents check with targeted tests while iterating and run full suites once.
+- Bug without an evident cause — decided 2026-11-11, updated 2026-11-20: alongside the agy fix on `Gemini 4 Neon (XHigh)`, the orchestrator launches the read-only `investigate` role (agy, Gemini 4 Carbon (High), 5400 s) from `.agents/templates/investigate.md`; see Section 9.1.
 
 ### Technical Risks
 - Release builds use pinned portable libmpv dependencies. Default Homebrew development libraries still require macOS 26; do not use them in the macOS 14 distribution bundle.

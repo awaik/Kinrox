@@ -103,8 +103,23 @@ import os
 
     func pathChanged(status: NWPath.Status, endpoint: NWEndpoint?) {
         guard isReady, !isClosed else { return }
-        if let failure = pathFailure(status: status, endpoint: endpoint) {
+        // A connection made to a Bonjour service reports the unresolved service
+        // endpoint in later path updates. A TCP peer cannot change its address,
+        // so a usable path without a resolved address re-checks the approved one.
+        var current = endpoint
+        if status == .satisfied, !Self.isResolvedAddress(endpoint) {
+            current = approvedEndpoint
+        }
+        if let failure = pathFailure(status: status, endpoint: current) {
             close(failure)
+        }
+    }
+
+    private static func isResolvedAddress(_ endpoint: NWEndpoint?) -> Bool {
+        guard case .hostPort(let host, _) = endpoint else { return false }
+        switch host {
+        case .ipv4, .ipv6: return true
+        default: return false
         }
     }
 

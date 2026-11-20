@@ -14,9 +14,11 @@ public struct RemoteMusicTrack: Codable, Sendable, Equatable {
     public var albumID: String?
     public var explicit: Bool?
     public var isPlayable: Bool?
+    public var format: String?
     public init(
         id: String, title: String, artists: [String], album: String, year: String, duration: Double,
-        albumID: String? = nil, explicit: Bool? = nil, isPlayable: Bool? = nil
+        albumID: String? = nil, explicit: Bool? = nil, isPlayable: Bool? = nil,
+        format: String? = nil
     ) {
         self.id = id
         self.title = title
@@ -27,6 +29,7 @@ public struct RemoteMusicTrack: Codable, Sendable, Equatable {
         self.albumID = albumID
         self.explicit = explicit
         self.isPlayable = isPlayable
+        self.format = format
     }
 }
 
@@ -49,12 +52,15 @@ public struct MusicState: Codable, Sendable, Equatable {
     public var volumeKnown: Bool?
     /// Nil identifies a Mac without remote Similar control.
     public var similar: RemoteSimilarState?
+    /// Nil means Spotify (older Macs).
+    public var origin: RemoteMusicOrigin?
     public init(
         track: RemoteMusicTrack?, nextTrack: RemoteMusicTrack?, liked: Bool, shuffle: Bool,
         repeatMode: RemoteMusicRepeat, queueCount: Int, queueRevision: UUID, libraryRevision: UUID,
         outputName: String, status: String? = nil, disallowedActions: [String]? = nil,
         favoriteFeedback: RemoteFavoriteFeedback? = nil, positionAge: Double? = nil,
-        volumeKnown: Bool? = nil, similar: RemoteSimilarState? = nil
+        volumeKnown: Bool? = nil, similar: RemoteSimilarState? = nil,
+        origin: RemoteMusicOrigin? = nil
     ) {
         self.track = track
         self.nextTrack = nextTrack
@@ -71,6 +77,7 @@ public struct MusicState: Codable, Sendable, Equatable {
         self.positionAge = positionAge
         self.volumeKnown = volumeKnown
         self.similar = similar
+        self.origin = origin
     }
 }
 

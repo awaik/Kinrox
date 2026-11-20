@@ -55,7 +55,8 @@ extension Message.MessageType {
     var isApplicationMessage: Bool {
         switch self {
         case .command, .requestState, .requestQueue, .requestLikeOptions, .queue, .likeOptions,
-            .bye, .state, .recent, .ack, .error:
+            .requestLibrary, .library, .requestLibraryItem, .libraryItem, .requestArtwork,
+            .artwork, .bye, .state, .recent, .ack, .error:
             true
         default: false
         }

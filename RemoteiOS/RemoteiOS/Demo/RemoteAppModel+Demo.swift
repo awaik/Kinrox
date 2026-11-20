@@ -64,7 +64,8 @@ extension RemoteAppModel {
         case .setFullscreen(let value):
             if demo.state.fullscreen != value { demo.toggleFullscreen() }
         case .setTrackLiked, .setPlaylistMembership, .setArtistFollowed, .createPlaylist,
-            .setShuffle, .setRepeat, .queueMove, .queueRemove, .setSimilar, .setNotInterested:
+            .setShuffle, .setRepeat, .queueMove, .queueRemove, .setSimilar, .setNotInterested,
+            .playLibrary, .resumeSource:
             break
         }
         syncDemo()

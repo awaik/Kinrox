@@ -24,6 +24,8 @@ public enum Command: Codable, Sendable, Equatable {
     case queueRemove(itemId: UUID)
     case setSimilar(active: Bool)
     case setNotInterested(trackId: String, scope: RemoteNotInterestedScope, excluded: Bool)
+    case playLibrary(itemId: String, from: RemotePlaybackStart, shuffle: Bool?)
+    case resumeSource(source: RemoteControllableSource)
 
     public enum Kind: String, Codable, Sendable, CaseIterable {
         case togglePause, setPaused, seekRelative, seekAbsolute, setVolume
@@ -32,6 +34,7 @@ public enum Command: Codable, Sendable, Equatable {
         case setTrackLiked, setPlaylistMembership, setArtistFollowed, createPlaylist
         case setShuffle, setRepeat, queueMove, queueRemove
         case setSimilar, setNotInterested
+        case playLibrary, resumeSource
     }
 
     public var kind: Kind {
@@ -57,13 +60,15 @@ public enum Command: Codable, Sendable, Equatable {
         case .queueRemove: .queueRemove
         case .setSimilar: .setSimilar
         case .setNotInterested: .setNotInterested
+        case .playLibrary: .playLibrary
+        case .resumeSource: .resumeSource
         }
     }
 
     private enum CodingKeys: String, CodingKey {
         case kind, paused, seconds, volume, itemId, fullscreen, screensaver
         case trackId, liked, playlistId, included, artistId, followed, title, shuffle, repeatMode,
-            beforeId, active, scope, excluded
+            beforeId, active, scope, excluded, from, source
     }
 
     public init(from decoder: any Decoder) throws {
@@ -108,6 +113,14 @@ public enum Command: Codable, Sendable, Equatable {
                 trackId: try container.decode(String.self, forKey: .trackId),
                 scope: try container.decode(RemoteNotInterestedScope.self, forKey: .scope),
                 excluded: try container.decode(Bool.self, forKey: .excluded))
+        case .playLibrary:
+            self = .playLibrary(
+                itemId: try container.decode(String.self, forKey: .itemId),
+                from: try container.decode(RemotePlaybackStart.self, forKey: .from),
+                shuffle: try container.decodeIfPresent(Bool.self, forKey: .shuffle))
+        case .resumeSource:
+            self = .resumeSource(
+                source: try container.decode(RemoteControllableSource.self, forKey: .source))
         case .togglePause: self = .togglePause
         case .setPaused: self = .setPaused(paused: try container.decode(Bool.self, forKey: .paused))
         case .seekRelative:
@@ -159,6 +172,12 @@ public enum Command: Codable, Sendable, Equatable {
             try container.encode(trackId, forKey: .trackId)
             try container.encode(scope, forKey: .scope)
             try container.encode(excluded, forKey: .excluded)
+        case .playLibrary(let itemId, let from, let shuffle):
+            try container.encode(itemId, forKey: .itemId)
+            try container.encode(from, forKey: .from)
+            try container.encodeIfPresent(shuffle, forKey: .shuffle)
+        case .resumeSource(let source):
+            try container.encode(source, forKey: .source)
         case .setPaused(let paused): try container.encode(paused, forKey: .paused)
         case .seekRelative(let seconds), .seekAbsolute(let seconds):
             try container.encode(seconds, forKey: .seconds)
@@ -185,7 +204,7 @@ public enum Command: Codable, Sendable, Equatable {
         case .seekAbsolute(let seconds): valid = seconds.isFinite && seconds >= 0
         case .setVolume(let volume): valid = volume.isFinite && (0...100).contains(volume)
         case .setTrackLiked(let id, _), .setArtistFollowed(let id, _),
-            .setNotInterested(let id, _, _):
+            .setNotInterested(let id, _, _), .playLibrary(let id, _, _):
             valid = Self.validMusicID(id)
         case .setPlaylistMembership(let trackId, let playlistId, _):
             valid = Self.validMusicID(trackId) && Self.validMusicID(playlistId)

@@ -4,6 +4,8 @@ import RemoteProtocol
 /// Single bounded queue per remote: initial state/recent and replies preserve order.
 @MainActor
 final class RemoteOutbox {
+    var pendingCount: Int { messages.count }
+    var onDrained: (() -> Void)?
     private var messages: [Message] = []
     private var task: Task<Void, Never>?
     private var closed = false
@@ -28,7 +30,9 @@ final class RemoteOutbox {
             guard let self else { return }
             do {
                 while !self.closed, !self.messages.isEmpty {
-                    try await self.send(self.messages.removeFirst())
+                    let next = self.messages.removeFirst()
+                    try await self.send(next)
+                    if !self.closed { self.onDrained?() }
                 }
                 self.task = nil
             } catch {
@@ -40,6 +44,7 @@ final class RemoteOutbox {
 
     func close() {
         closed = true
+        onDrained = nil
         messages.removeAll()
         task?.cancel()
         task = nil
