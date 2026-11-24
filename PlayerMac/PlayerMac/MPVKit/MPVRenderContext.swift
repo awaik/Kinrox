@@ -3,6 +3,14 @@ import OpenGL.GL3
 import QuartzCore
 import os
 
+// libmpv 0.41.0 requires glFenceSync to be non-NULL for OpenGL 3.2 Core, then calls it
+// on every frame in ra_gl_ctx_submit_frame and only frees fences in ra_gl_ctx_swap_buffers
+// (which vo_libmpv never invokes). Returning NULL at call time takes mpv's built-in
+// `if (fence)` skip branch without leaking GLDFenceRec objects in AppleMetalOpenGLRenderer.
+private let disabledFenceSync: @convention(c) (GLenum, GLbitfield) -> OpaquePointer? = { _, _ in
+    nil
+}
+
 // CGL objects are immutable; renderContext and counters accessible under CGL lock only.
 // displayLock shared for layer and its presentation copies; client API not invoked here.
 final class MPVRenderContext: @unchecked Sendable {
@@ -39,7 +47,12 @@ final class MPVRenderContext: @unchecked Sendable {
                 try withContext {
                     var gl = mpv_opengl_init_params(
                         get_proc_address: { _, name in
-                            guard let name,
+                            guard let name else { return nil }
+                            if strcmp(name, "glFenceSync") == 0 {
+                                return unsafeBitCast(
+                                    disabledFenceSync, to: UnsafeMutableRawPointer.self)
+                            }
+                            guard
                                 let bundle = CFBundleGetBundleWithIdentifier(
                                     "com.apple.opengl" as CFString)
                             else { return nil }

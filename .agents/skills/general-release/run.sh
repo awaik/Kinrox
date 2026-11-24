@@ -28,6 +28,8 @@ PROMPTS_DIR="$SKILL_DIR/prompts"
 REPO="$(git -C "$SKILL_DIR" rev-parse --show-toplevel 2>/dev/null)" || fail "The skill must be inside the Kinrox checkout."
 # The working-tree fingerprint is shared with research-execute.
 FINGERPRINT="$REPO/.agents/skills/research-execute/fingerprint.mjs"
+[ -f "$REPO/.agents/lib/agy-watch.sh" ] || fail "Missing $REPO/.agents/lib/agy-watch.sh (agy idle watchdog)."
+. "$REPO/.agents/lib/agy-watch.sh"
 STATE_ROOT="$REPO/.tmp/scratch/general-release"
 # Owner decision 2026-11-11: the review uses only Gemini 4 Carbon (High); Argon and 3.8 Flash are refused.
 AGY_MODEL="${AGY_MODEL:-Gemini 4 Carbon (High)}"
@@ -194,9 +196,9 @@ run_review() {
   if [ "$DRY_RUN" = 1 ]; then log "(dry-run) agy --model \"$AGY_MODEL\" -p <review.prompt.md>"; return 0; fi
   log "Stage 1 - package review (agy, $AGY_MODEL, timeout ${AGY_TIMEOUT}s)"
   node "$FINGERPRINT" snapshot "$REPO" "$RUN_DIR/fingerprint-before-review.json"
-  start=$(date +%s)
-  ( cd "$REPO" && export GENERAL_RELEASE_STAGE=review && with_timeout "$AGY_TIMEOUT" \
-      agy --dangerously-skip-permissions --model "$AGY_MODEL" -p "$prompt" </dev/null ) >"$RUN_DIR/review.log" 2>&1
+  start=$(date +%s); : >"$RUN_DIR/review.log"
+  ( cd "$REPO" && export GENERAL_RELEASE_STAGE=review && with_timeout "$AGY_TIMEOUT" "${AGY_WATCHED[@]}" --log "$RUN_DIR/review.log" -- \
+      agy --dangerously-skip-permissions --model "$AGY_MODEL" -p "$prompt" </dev/null ) >>"$RUN_DIR/review.log" 2>&1
   STAGE_RC=$?
   [ "$STAGE_RC" != 124 ] || log "Review timed out after ${AGY_TIMEOUT}s."
   # The agent may print the report without writing the file.
@@ -245,13 +247,13 @@ $(render "$PROMPTS_DIR/resume.md")"; fi
   if [ "$DRY_RUN" = 1 ]; then log "(dry-run) agy --model \"$model\" -p <$stage-$ROUND.prompt.md>"; return 0; fi
   log "Stage $stage (agy, $model), round $ROUND"
   node "$FINGERPRINT" snapshot "$REPO" "$RUN_DIR/fingerprint-before-$stage-$ROUND.json"
-  start=$(date +%s)
+  start=$(date +%s); : >"$log_file"
   if [ -n "${ANSWERS_TEXT:-}" ]; then
     case "${!sid_var:-}" in agy:?*) sid="${!sid_var}"; conv=(--conversation "${sid#agy:}") ;; esac
   fi
-  ( cd "$REPO" && export GENERAL_RELEASE_STAGE="$stage" && with_timeout "$AGENT_TIMEOUT" \
+  ( cd "$REPO" && export GENERAL_RELEASE_STAGE="$stage" && with_timeout "$AGENT_TIMEOUT" "${AGY_WATCHED[@]}" --log "$log_file" -- \
       agy --dangerously-skip-permissions --model "$model" \
-      --output-format json ${conv[@]+"${conv[@]}"} -p "$prompt" </dev/null ) >"$json" 2>"$log_file"
+      --output-format json ${conv[@]+"${conv[@]}"} -p "$prompt" </dev/null ) >"$json" 2>>"$log_file"
   rc=$?
   [ "$rc" != 124 ] || log "Stage $stage timed out after ${AGENT_TIMEOUT}s."
   sid="$(agy_result "$json" "$last")" || { [ $rc -ne 0 ] || rc=1; }

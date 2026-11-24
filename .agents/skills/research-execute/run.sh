@@ -11,6 +11,8 @@ PROMPTS_DIR="$SKILL_DIR/prompts"
 REPO="$(git -C "$SKILL_DIR" rev-parse --show-toplevel 2>/dev/null)" || fail "The skill must be inside the Kinrox checkout."
 RES_DIR="$REPO/docs/RESEARCHES"
 STATE_ROOT="$REPO/.tmp/scratch/research-execute"
+[ -f "$REPO/.agents/lib/agy-watch.sh" ] || fail "Missing $REPO/.agents/lib/agy-watch.sh (agy idle watchdog)."
+. "$REPO/.agents/lib/agy-watch.sh"
 # Owner decision 2026-11-11: the review uses only Gemini 4 Carbon (High); Argon and 3.8 Flash are refused.
 AGY_MODEL="${AGY_MODEL:-Gemini 4 Carbon (High)}"
 AGY_TIMEOUT="${AGY_TIMEOUT:-5400}"
@@ -116,9 +118,9 @@ run_review() {
   printf '%s\n' "$prompt" >"$RUN_DIR/review-$ROUND.prompt.md"
   if [ "$DRY_RUN" = 1 ]; then log "dry-run: agy review ($AGY_MODEL, timeout ${AGY_TIMEOUT}s)"; return; fi
   log "Stage 1 - plan review (agy, $AGY_MODEL, timeout ${AGY_TIMEOUT}s), round $ROUND"
-  start=$(date +%s)
-  ( cd "$REPO" && export RESEARCH_EXECUTE_STAGE=review && with_timeout "$AGY_TIMEOUT" \
-      agy --dangerously-skip-permissions --model "$AGY_MODEL" -p "$prompt" </dev/null ) >"$STAGE_LOG" 2>&1
+  start=$(date +%s); : >"$STAGE_LOG"
+  ( cd "$REPO" && export RESEARCH_EXECUTE_STAGE=review && with_timeout "$AGY_TIMEOUT" "${AGY_WATCHED[@]}" --log "$STAGE_LOG" -- \
+      agy --dangerously-skip-permissions --model "$AGY_MODEL" -p "$prompt" </dev/null ) >>"$STAGE_LOG" 2>&1
   STAGE_RC=$?; STAGE_MIN=$(( ($(date +%s) - start) / 60 )); STAGE_RESULT="$(result_line "$STAGE_LOG")"
   [ "$STAGE_RC" != 124 ] || log "Review timed out after ${AGY_TIMEOUT}s."
 }
@@ -142,13 +144,13 @@ run_execute() {
   printf '%s\n' "$prompt" >"$RUN_DIR/execute-$ROUND.prompt.md"
   if [ "$DRY_RUN" = 1 ]; then log "dry-run: agy implementation ($EXEC_MODEL)"; return; fi
   log "Stage 2 - implementation (agy, $EXEC_MODEL), round $ROUND"
-  start=$(date +%s)
+  start=$(date +%s); : >"$STAGE_LOG"
   if [ -n "${ANSWERS_TEXT:-}" ]; then
     case "${EXEC_SESSION:-}" in agy:?*) conv=(--conversation "${EXEC_SESSION#agy:}") ;; esac
   fi
-  ( cd "$REPO" && export RESEARCH_EXECUTE_STAGE=execute && with_timeout "$EXEC_TIMEOUT" \
+  ( cd "$REPO" && export RESEARCH_EXECUTE_STAGE=execute && with_timeout "$EXEC_TIMEOUT" "${AGY_WATCHED[@]}" --log "$STAGE_LOG" -- \
       agy --dangerously-skip-permissions --model "$EXEC_MODEL" \
-      --output-format json ${conv[@]+"${conv[@]}"} -p "$prompt" </dev/null ) >"$json" 2>"$STAGE_LOG"
+      --output-format json ${conv[@]+"${conv[@]}"} -p "$prompt" </dev/null ) >"$json" 2>>"$STAGE_LOG"
   rc=$?
   [ "$rc" != 124 ] || log "Implementation timed out after ${EXEC_TIMEOUT}s."
   sid="$(agy_result "$json" "$last")" || { [ "$rc" != 0 ] || rc=1; }

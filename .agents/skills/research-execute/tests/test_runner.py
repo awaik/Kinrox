@@ -58,6 +58,20 @@ def answer(text):
 run = Path(re.search(r'Run directory: (.+)', prompt).group(1)) if 'Run directory:' in prompt else (root / '.tmp/scratch/research-execute/latest').resolve()
 doc = next((root / 'docs/RESEARCHES').glob('*.md'))
 mode = (root / 'mode.txt').read_text()
+# '<stage>-idle-hang' finishes and hangs on agy's idle marker with a silent cli-*.log;
+# '<stage>-idle-active' keeps writing activity lines after the marker, then completes.
+if mode.startswith(stage + '-idle'):
+    agy_log_path = root / 'antigravity-cli/log/cli-fixture.log'
+    agy_log_path.parent.mkdir(parents=True, exist_ok=True)
+    agy_log = open(agy_log_path, 'a')
+    agy_log.write('INFO started\\n'); agy_log.flush()
+    print('root agent idle; waiting for 1 background task(s) to finish', file=sys.stderr, flush=True)
+    if mode.endswith('-hang'):
+        time.sleep(30)
+    for _ in range(10):
+        time.sleep(0.3)
+        agy_log.write('INFO streamGenerateContent\\n'); agy_log.flush()
+    mode = 'complete'
 if stage == 'review':
     (root / 'models.txt').write_text(args[args.index('--model') + 1])
     if mode == 'hang':
@@ -102,6 +116,9 @@ class RunnerTests(unittest.TestCase):
         self.root = Path(tempfile.mkdtemp(prefix='runner-', dir=ARTIFACTS))
         self.skill = self.root / '.agents/skills/research-execute'
         shutil.copytree(SKILL, self.skill, ignore=shutil.ignore_patterns('tests'))
+        for part in ('lib', 'bin'):
+            shutil.copytree(PROJECT / '.agents' / part, self.root / '.agents' / part,
+                            ignore=shutil.ignore_patterns('__pycache__'))
         self.doc = self.root / 'docs/RESEARCHES/2026-11-08_12-17_Test plan.md'
         self.doc.parent.mkdir(parents=True)
         self.doc.write_text('Status: Plan awaiting implementation.\n')
@@ -224,6 +241,27 @@ class RunnerTests(unittest.TestCase):
                 os.kill(pid, 0)
         self.assertEqual(list((self.latest().parents[1] / 'locks').iterdir()), [])
         self.run_pipeline('--dry-run', self.doc, expected=1, env={'EXEC_TIMEOUT': '0'})
+
+    def test_idle_watchdog_stops_hung_review_and_execute(self):
+        for stage, expected in (('review', 1), ('execute', 12)):
+            with self.subTest(stage=stage):
+                self.mode(f'{stage}-idle-hang')
+                self.run_pipeline(self.doc, expected=expected, env={'AGY_IDLE_STOP_SECONDS': '1'})
+                log = (self.latest() / f'{stage}-1.log').read_text()
+                self.assertIn('[watchdog] agy idle for', log)
+                self.assertIn('stopped (SIGTERM)', log)
+                self.assertEqual(list((self.latest().parents[1] / 'locks').iterdir()), [])
+                for done in (self.doc.parent / 'DONE').glob('*.md'):
+                    done.unlink()
+                for reviewed in self.doc.parent.glob('REVIEWED - *.md'):
+                    reviewed.rename(self.doc)
+
+    def test_idle_watchdog_keeps_agent_with_activity(self):
+        self.mode('execute-idle-active')
+        self.run_pipeline(self.doc, env={'AGY_IDLE_STOP_SECONDS': '1'})
+        self.assertEqual(self.calls(), ['review', 'execute'])
+        self.assertNotIn('[watchdog]', (self.latest() / 'execute-1.log').read_text())
+        self.assertTrue((self.doc.parent / 'DONE' / ('DONE - ' + self.doc.name)).exists())
 
     def test_owner_status_stops_then_resumes_implementation(self):
         self.mode('owner')

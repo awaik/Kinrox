@@ -8,7 +8,7 @@ struct PlayerView: View {
     let pairing: PairingCenter?
     var remote: RemoteServer? = nil
     var updates: UpdateCenter? = nil
-    let videoLayer: VideoLayer
+    let videoLayer: () -> VideoLayer?
     let actions: PlayerActions
     let chrome: WindowChrome
     var overlay = OverlayController()
@@ -32,7 +32,7 @@ struct PlayerView: View {
         ZStack {
             Palette.base
             if isVideoMode || model.hasMedia || model.isLoading {
-                VideoView(videoLayer: videoLayer)
+                VideoView(videoLayer: videoLayer())
                 // Transparent layer catches double-click: video NSView does not forward SwiftUI gestures.
                 Color.clear
                     .contentShape(Rectangle())
@@ -120,6 +120,12 @@ struct PlayerView: View {
         .onChange(of: controlsVisible, initial: true) { _, visible in
             chrome.setControlsVisible(visible)
         }
+        .onChange(
+            of: isVideoMode && !model.isShowingHome && !model.isScreensaverEngaged, initial: true
+        ) { _, wanted in
+            chrome.setVideoSurfaceWanted(wanted)
+        }
+        .onDisappear { chrome.setVideoSurfaceWanted(false) }
         .onChange(of: model.displayTitle, initial: true) { _, title in chrome.setTitle(title) }
         .preferredColorScheme(.dark)
         .alert(

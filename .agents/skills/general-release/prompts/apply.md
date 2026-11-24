@@ -21,6 +21,7 @@ After the assessment, make all necessary fixes.
 
 ## Rules
 
+- Run commands and tests synchronously, without `&`, `nohup`, or the tool's background mode; leave no background tasks before your final answer.
 - `AGENTS.md`, `docs/runbooks/RUNBOOK-RELEASE.md`, `docs/runbooks/RUNBOOK-TASK-TESTS.md`, and the verification runbooks of the touched subsystems outrank this prompt. `AGENTS.md` is already loaded whole into your context by the runner - do not `cat` or re-read it; read the runbooks before editing. For a fixed behavioral bug, add a regression test for the class of error (Swift Testing/XCTest, a package test, or a Python script test), not a test of exact prose.
 - The boundary is local fixes and checks in the main checkout. No commit, push, tag, publication, branches, or worktrees - those belong to the release stage. No signing, notarization, `Scripts/build-release.sh`, or installation over the user's app.
 - Uncommitted changes are the release package, often someone else's work. Fix them by the substance of the findings, but do not revert them wholesale, do not stash/reset/restore/clean, and do not reformat untouched code. Parallel sessions may write files while you work.

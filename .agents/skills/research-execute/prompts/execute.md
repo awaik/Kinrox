@@ -19,6 +19,7 @@ through the orchestrator. Project rules in `AGENTS.md` take precedence.
 
 ## Boundaries
 
+Run commands and tests synchronously, without `&`, `nohup`, or the tool's background mode; leave no background tasks before your final answer.
 Work in the main checkout on `main`. Do not branch, commit, push, create PRs or
 worktrees, merge, bump versions, export/notarize/publish a release, overwrite an
 installed app, send messages, or alter credentials/accounts. Do not install

@@ -134,6 +134,12 @@ release are separate user requests.
 
 ## Runner constraints
 
+Every agy launch runs under the idle watchdog (`.agents/lib/agy-watch.sh`, AGENTS.md
+Section 9.1); a `[watchdog] agy idle` line in a stage log means agy was stopped after
+hanging (idle marker, or a step left running after a stream interruption), so read its
+answer before rerunning anything. With every background run arm the `agent-monitor` check
+(AGENTS.md Section 9.1).
+
 One active run per document; lock directories live under
 `.tmp/scratch/research-execute/locks/`. Do not remove a stale lock until its exact
 ownership and the absence of its process are established. Never clean up runs
@@ -143,7 +149,8 @@ without the user's authorization. Nested runs are blocked by
 When changing the runner, verify its state transitions without live agents:
 
 ```sh
-python3 -m unittest discover -s .agents/skills/research-execute/tests -v
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .agents/skills/research-execute/tests -v
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .agents/tests -v
 bash -n .agents/skills/research-execute/run.sh
 node --check .agents/skills/research-execute/fingerprint.mjs
 ```

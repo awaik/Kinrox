@@ -38,8 +38,17 @@ extension PlayerViewModel {
     @discardableResult
     private func setPausedForPlayback(_ paused: Bool) -> Bool {
         guard canControl, paused || !isScreensaverEngaged else { return false }
+        if parkedVideo != nil {
+            if paused {
+                requestedPause = nil
+                return true
+            }
+            return unpark(startPaused: false)
+        }
         return perform {
             if !paused {
+                cancelIdlePark()
+                watchProgress.restoredAtEndKey = nil
                 isStartingHome = false
                 isShowingConnectPhone = false
                 setShowingHome(false)
@@ -60,11 +69,16 @@ extension PlayerViewModel {
         let run: @MainActor () -> Bool = { [weak self] in
             guard let self, self.canControl else { return false }
             self.stopScreensaver()
+            if self.parkedVideo != nil {
+                return self.unpark(startPaused: false, position: 0)
+            }
             return self.perform {
+                self.cancelIdlePark()
                 self.isStartingHome = false
                 self.isShowingConnectPhone = false
                 self.setShowingHome(false)
                 self.watchProgress.pending = nil
+                self.watchProgress.restoredAtEndKey = nil
                 try self.engine.seek(absolute: 0)
                 try self.engine.setPaused(false)
                 self.requestedPause = false
@@ -82,7 +96,7 @@ extension PlayerViewModel {
         cancelPendingPlayback?()
         cancelEOFRefresh()
         trackController.presentation = nil
-        if paused, requestedPause != false {
+        if parkedVideo != nil || (paused && requestedPause != false) {
             isStartingHome = false
             recents?.refreshAvailability()
             setShowingHome(true)
@@ -99,6 +113,9 @@ extension PlayerViewModel {
     @discardableResult
     func returnToVideo() -> Bool {
         guard hasMedia, !isClosing else { return false }
+        if parkedVideo != nil {
+            return unpark(startPaused: true)
+        }
         isStartingHome = false
         isShowingConnectPhone = false
         setShowingHome(false)
@@ -113,7 +130,12 @@ extension PlayerViewModel {
     @discardableResult
     func closeVideo() -> Bool {
         guard !isClosing, hasMedia || isLoading || currentURL != nil else { return false }
-        guard perform({ try engine.stop() }) else { return false }
+        cancelIdlePark()
+        if parkedVideo == nil {
+            guard perform({ try engine.stop() }) else { return false }
+        } else {
+            parkedVideo = nil
+        }
         cancelPendingPlayback?()
         stopScreensaver()
         trackController.close()
@@ -126,7 +148,22 @@ extension PlayerViewModel {
         cancelEOFRefresh()
         guard canControl, !isScreensaverEngaged else { return false }
         watchProgress.pending = nil
-        return perform { try engine.seek(relative: seconds) }
+        watchProgress.restoredAtEndKey = nil
+        if let parked = parkedVideo {
+            let target = max(0, parked.position + seconds)
+            let clamped = duration > 0 ? min(target, duration) : target
+            if isShowingHome {
+                updateParkedPosition(clamped)
+                return true
+            }
+            return unpark(startPaused: true, position: clamped)
+        }
+        let accepted = perform { try engine.seek(relative: seconds) }
+        if accepted {
+            endReached = false
+            updateIdleParkTimer()
+        }
+        return accepted
     }
 
     @discardableResult
@@ -134,8 +171,22 @@ extension PlayerViewModel {
         cancelEOFRefresh()
         guard canControl, !isScreensaverEngaged else { return false }
         watchProgress.pending = nil
+        watchProgress.restoredAtEndKey = nil
         let upper = duration > 0 ? duration : seconds
-        return perform { try engine.seek(absolute: min(max(0, seconds), upper)) }
+        let target = min(max(0, seconds), upper)
+        if parkedVideo != nil {
+            if isShowingHome {
+                updateParkedPosition(target)
+                return true
+            }
+            return unpark(startPaused: true, position: target)
+        }
+        let accepted = perform { try engine.seek(absolute: target) }
+        if accepted {
+            endReached = false
+            updateIdleParkTimer()
+        }
+        return accepted
     }
 
     @discardableResult

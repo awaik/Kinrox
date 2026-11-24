@@ -12,6 +12,7 @@ below was written for a release agent; read it with these substitutions:
 - Run long commands (checks, `build-release.sh` with notarization) in the background with a log
   file in `{{RUN_DIR}}`, wait for completion notifications without polling, and read only the
   tail and failures of each log.
+  The synchronous-commands rule in the checklist applies to a release agent, not to you.
 - Maintain `{{RELEASE_FILE}}` as described, so an interrupted release can continue without
   repeating a finished build, commit, tag, push, or publication.
 - When you finish or stop at a blocker, write the answer described in "Answer", ending with the

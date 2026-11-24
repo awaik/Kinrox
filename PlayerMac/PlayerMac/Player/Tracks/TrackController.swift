@@ -4,6 +4,22 @@ import Observation
 /// Owns discovery and track commands, with libmpv as the selection source of truth.
 @MainActor @Observable
 final class TrackController {
+    struct SessionSelection: Equatable, Sendable {
+        enum Choice: Equatable, Sendable {
+            case disabled
+            case embedded(number: Int64, language: String, title: String)
+            case external(url: URL, language: String, title: String)
+        }
+
+        var audio: Choice?
+        var subtitle: Choice?
+
+        subscript(kind: MediaTrackKind) -> Choice? {
+            get { kind == .audio ? audio : subtitle }
+            set { if kind == .audio { audio = newValue } else { subtitle = newValue } }
+        }
+    }
+
     enum Presentation { case quick, browser, scope }
     typealias Scanner = @Sendable (URL, URL, Bool) -> AsyncStream<TrackScanUpdate>
 
@@ -33,6 +49,7 @@ final class TrackController {
     @ObservationIgnored private var restoredKinds: Set<MediaTrackKind> = []
     @ObservationIgnored private var failedRestorations: Set<MediaTrackKind> = []
     @ObservationIgnored private var manualPreferences: [MediaTrackKind: TrackPreference] = [:]
+    @ObservationIgnored private var sessionRestore: SessionSelection?
 
     private struct Request {
         let kind: MediaTrackKind
@@ -53,12 +70,36 @@ final class TrackController {
 
     deinit { scanTask?.cancel() }
 
-    func prepare(for video: URL) {
+    func captureSessionSelection() -> SessionSelection {
+        guard isReady else { return SessionSelection() }
+        var selection = SessionSelection()
+        if let audio = available(.audio).first(where: \.isSelected) {
+            selection.audio = Self.choice(for: audio)
+        }
+        if let subtitle = available(.subtitle).first(where: \.isSelected) {
+            selection.subtitle = Self.choice(for: subtitle)
+        } else {
+            selection.subtitle = .disabled
+        }
+        return selection
+    }
+
+    private static func choice(for track: MediaTrack) -> SessionSelection.Choice {
+        if let url = track.externalURL {
+            return .external(
+                url: url.standardizedFileURL.resolvingSymlinksInPath(),
+                language: track.language, title: track.title)
+        }
+        return .embedded(number: track.number, language: track.language, title: track.title)
+    }
+
+    func prepare(for video: URL, restoring selection: SessionSelection? = nil) {
         stop()
         mediaGeneration = UUID()
         presentation = nil
         self.video = video.standardizedFileURL.resolvingSymlinksInPath()
         settings = preferences.settings(for: video)
+        sessionRestore = selection
         files = []
         tracks = []
         message = nil
@@ -69,6 +110,7 @@ final class TrackController {
         isReady = true
         self.tracks = tracks
         refresh()
+        restoreSessionSelection()
         restorePreferences()
     }
 
@@ -76,6 +118,7 @@ final class TrackController {
         guard isReady else { return }
         self.tracks = tracks
         resolveLoadedFiles()
+        restoreSessionSelection()
         restorePreferences()
     }
 
@@ -96,6 +139,7 @@ final class TrackController {
 
     func close() {
         stop()
+        sessionRestore = nil
         presentation = nil
         video = nil
         files = []
@@ -277,6 +321,7 @@ final class TrackController {
 
     private func beginManual(_ kind: MediaTrackKind) {
         manualKinds.insert(kind)
+        sessionRestore?[kind] = nil
         message = nil
         for (id, request) in pending where request.kind == kind {
             engine.cancelTrackCommand(id: id)
@@ -331,6 +376,43 @@ final class TrackController {
                 }
             } else {
                 select(fallback, kind: request.kind, remember: request.remember)
+            }
+        }
+    }
+
+    private func restoreSessionSelection() {
+        guard isReady, sessionRestore != nil else { return }
+        for kind in MediaTrackKind.allCases {
+            guard !manualKinds.contains(kind), !restoredKinds.contains(kind),
+                let choice = sessionRestore?[kind]
+            else { continue }
+            sessionRestore?[kind] = nil
+            restoredKinds.insert(kind)
+            switch choice {
+            case .disabled:
+                if kind == .subtitle {
+                    if available(.subtitle).contains(where: \.isSelected) {
+                        select(nil, kind: .subtitle, remember: false)
+                    }
+                }
+            case .embedded(let number, let language, let title):
+                let items = available(kind).filter { $0.externalURL == nil }
+                let match =
+                    items.first(where: { $0.number == number })
+                    ?? items.first(where: { $0.language == language && $0.title == title })
+                if let match, !match.isSelected {
+                    select(match, kind: kind, remember: false)
+                }
+            case .external(let url, _, _):
+                let file = TrackFile(
+                    url: url, kind: kind,
+                    relativePath: TrackFile.relativePath(url, root: settings?.root),
+                    matchesVideo: true)
+                if let loaded = loadedTrack(for: file) {
+                    if !loaded.isSelected { select(loaded, kind: kind, remember: false) }
+                } else {
+                    add(file, remember: false)
+                }
             }
         }
     }

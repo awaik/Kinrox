@@ -19,6 +19,7 @@ in `AGENTS.md` take precedence over this prompt.
 
 ## Boundaries
 
+Run commands and tests synchronously, without `&`, `nohup`, or the tool's background mode; leave no background tasks before your final answer.
 Edit only this document and documentation links affected by its rename.
 Do not edit application code, tests, configuration, data, or generated projects.
 Do not commit, push, branch, create worktrees or PRs, bump versions, publish,

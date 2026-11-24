@@ -11,6 +11,8 @@ Release state file: `{{RELEASE_FILE}}` - maintain it yourself (lines `NAME=value
 
 The package passed review, application of findings, and the orchestrator's control. The owner invoked `general-release` for this package; per the skill that is the command to release `{{VERSION}}`: commit, tag, push, public GitHub Release, website, and update feed. The rules in `AGENTS.md` outrank this prompt. Write all documents, commit messages, and diagnostics in English.
 
+Run commands and tests synchronously, without `&`, `nohup`, or the tool's background mode; leave no background tasks before your final answer.
+
 ## Read first
 
 1. `AGENTS.md` is already in your context (critical requirements, rules for agents, sections 3.3, 3.6, 6, 9, 10) - do not re-read it. Read `docs/runbooks/RUNBOOK-RELEASE.md` in full, `docs/runbooks/RUNBOOK-TASK-TESTS.md`, `docs/runbooks/SOLOIST-VERIFICATION.md` (accepted limits).

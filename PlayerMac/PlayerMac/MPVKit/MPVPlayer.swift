@@ -10,18 +10,23 @@ final class MPVPlayer: PlayerEngine {
 
     static func ensureNumericLocale() { _ = configureLocale }
 
-    init() throws {
+    init(initialVolume: Double = 100) throws {
         // Executes sequentially on MainActor, prior to creating any mpv core.
         Self.ensureNumericLocale()
         guard let handle = mpv_create() else { throw MPVError("Failed to create libmpv player.") }
         let stream = AsyncStream<PlaybackEvent>.makeStream()
         events = stream.stream
+        let clampedVolume = initialVolume.isFinite ? min(100, max(0, initialVolume)) : 100
         do {
             let options = [
                 ("vo", "libmpv"), ("hwdec", "auto-safe"), ("keep-open", "yes"),
                 ("input-default-bindings", "no"), ("input-vo-keyboard", "no"),
                 ("input-media-keys", "no"), ("osc", "no"), ("ytdl", "no"),
                 ("load-scripts", "no"), ("config", "no"), ("volume-max", "100"),
+                ("volume", String(clampedVolume)),
+                // Local files do not need mpv's 150 MiB / 50 MiB streaming cache defaults.
+                ("demuxer-max-bytes", "32MiB"), ("demuxer-max-back-bytes", "8MiB"),
+                ("hwdec-extra-frames", "3"),
                 // load-scripts disables user scripts, but built-ins have separate
                 // switches. Their LuaJIT code is unnecessary for Kinrox's native UI
                 // and cannot run under Hardened Runtime without executable-memory exemptions.
@@ -60,12 +65,16 @@ final class MPVPlayer: PlayerEngine {
 
     var reportsLoadedPath: Bool { true }
 
-    func load(url: URL) throws { try load(url: url, paused: false) }
-
-    func load(url: URL, paused: Bool) throws {
+    static func validate(url: URL) throws {
         guard url.isFileURL else { throw MPVError("Only local files can be opened.") }
         let values = try url.resourceValues(forKeys: [.isRegularFileKey])
         guard values.isRegularFile == true else { throw MPVError("Select a video file.") }
+    }
+
+    func load(url: URL) throws { try load(url: url, paused: false) }
+
+    func load(url: URL, paused: Bool) throws {
+        try Self.validate(url: url)
         if paused { try setPaused(true) }
         try command(["loadfile", url.path, "replace", "-1", "aid=auto,sid=auto"])
         if !paused { try setPaused(false) }

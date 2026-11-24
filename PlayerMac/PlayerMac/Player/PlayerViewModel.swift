@@ -27,12 +27,12 @@ final class PlayerViewModel {
     private(set) var playbackVolume: Double = 100
     var errorMessage: String?
     let trackController: TrackController
-    private(set) var screensaver = Screensaver.off
-    private(set) var isStartingScreensaver = false
+    var screensaver = Screensaver.off
+    var isStartingScreensaver = false
     let screensaverPresentation = ScreensaverPresentation()
-    @ObservationIgnored private var screensaverPauseTask: Task<Void, Never>?
-    @ObservationIgnored private var screensaverPreparation: UUID?
-    @ObservationIgnored private var screensaverStartCompletions: [(Bool) -> Void] = []
+    @ObservationIgnored var screensaverPauseTask: Task<Void, Never>?
+    @ObservationIgnored var screensaverPreparation: UUID?
+    @ObservationIgnored var screensaverStartCompletions: [(Bool) -> Void] = []
     var isScreensaverEngaged: Bool { screensaver != .off || isStartingScreensaver }
     /// Auto-advance to next folder file at video end.
     @ObservationIgnored var autoAdvance = true
@@ -55,10 +55,14 @@ final class PlayerViewModel {
     @ObservationIgnored private var eofGeneration = UUID()
     @ObservationIgnored private var lastPositionUpdate = -Double.infinity
     @ObservationIgnored private var latestPosition: Double = 0
-    private var endReached = false
+    var endReached = false
     /// Command intent before pause confirmation; displayed state still provided by mpv.
     @ObservationIgnored var requestedPause: Bool?
     @ObservationIgnored var replayPending = false
+    @ObservationIgnored var idleParkDelay: Duration = PlayerViewModel.defaultIdleParkDelay
+    @ObservationIgnored var idleParkTask: Task<Void, Never>?
+    @ObservationIgnored var isVideoSurfaceVisible = false
+    var parkedVideo: ParkedVideo?
     @ObservationIgnored private(set) var isClosing = false
     @ObservationIgnored private var playbackObservers: [UUID: (PlaybackEvent?) -> Void] = [:]
 
@@ -73,7 +77,7 @@ final class PlayerViewModel {
 
     func removePlaybackObserver(_ id: UUID) { playbackObservers[id] = nil }
 
-    private func notifyPlayback(_ event: PlaybackEvent? = nil) {
+    func notifyPlayback(_ event: PlaybackEvent? = nil) {
         // Shutdown handler may unsubscribe during notification.
         for observer in Array(playbackObservers.values) { observer(event) }
     }
@@ -99,6 +103,7 @@ final class PlayerViewModel {
     }
 
     isolated deinit {
+        idleParkTask?.cancel()
         screensaverPauseTask?.cancel()
         eventTask?.cancel()
         folderMonitor?.stop()
@@ -129,31 +134,37 @@ final class PlayerViewModel {
             url, startPosition: startPosition, paused: startPaused, tracks: showTracks)
     }
 
-    private func loadForPlayback(
-        _ url: URL, startPosition: Double?, paused: Bool, tracks: MediaTrackKind?
+    func loadForPlayback(
+        _ url: URL, startPosition: Double?, paused: Bool, tracks: MediaTrackKind?,
+        preserveShortStart: Bool = false,
+        restoringTracks: TrackController.SessionSelection? = nil,
+        restoringAtEnd: Bool = false
     ) -> Bool {
         guard !isClosing else { return false }
+        recordWatchProgress(force: true)
+        do {
+            try engine.load(url: url, paused: paused)
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+        cancelIdlePark()
+        parkedVideo = nil
         stopScreensaver()
         cancelEOFRefresh()
         isStartingHome = false
         isShowingHome = false
         isShowingConnectPhone = false
         errorMessage = nil
-        recordWatchProgress(force: true)
-        do {
-            try engine.load(url: url, paused: paused)
-            setVideoStart(url, at: startPosition, showTracks: tracks)
-            trackController.prepare(for: url)
-            isLoading = true
-            currentURL = url
-            updatePlaylist(for: url)
-            notifyPlayback()
-            return true
-        } catch {
-            isLoading = false
-            errorMessage = error.localizedDescription
-            return false
-        }
+        setVideoStart(
+            url, at: startPosition, showTracks: tracks, preserveShortStart: preserveShortStart,
+            restoringAtEnd: restoringAtEnd)
+        trackController.prepare(for: url, restoring: restoringTracks)
+        isLoading = true
+        currentURL = url
+        updatePlaylist(for: url)
+        notifyPlayback()
+        return true
     }
 
     private func updatePlaylist(for url: URL) {
@@ -214,6 +225,7 @@ final class PlayerViewModel {
                 recents?.noteOpened(currentURL)
                 recents?.updateDuration(duration, for: currentURL)
             }
+            updateIdleParkTimer()
         case .seeking: break
         case .playbackRestarted:
             position = latestPosition
@@ -275,15 +287,23 @@ final class PlayerViewModel {
             }
             if paused, isStartingScreensaver, screensaverPreparation == nil { activateMatrix() }
             if !paused, screensaver == .matrix { setPaused(true) }
+            updateIdleParkTimer()
         case (.endReached, .flag(let reached)):
             let wasReached = endReached
-            endReached = reached
-            if !reached { replayPending = false }
-            if reached { position = latestPosition }
+            if !reached, let key = currentURL.map(VideoFiles.key),
+                watchProgress.restoredAtEndKey == key
+            {
+                endReached = true
+            } else {
+                endReached = reached
+            }
+            if !endReached { replayPending = false }
+            if endReached { position = latestPosition }
             if reached, !wasReached, !isLoading {
                 recordWatchProgress(force: true, completed: true)
                 advanceAfterEnd()
             }
+            updateIdleParkTimer()
         case (.position, .number(let seconds)) where seconds.isFinite:
             latestPosition = max(0, seconds)
             if !isLoading {
@@ -305,7 +325,8 @@ final class PlayerViewModel {
             playbackVolume = self.volume
         case (.hardwareDecoder, .text(let name)): hardwareDecoder = name
         case (.audioOutput, .text(let name)): audioOutput = name
-        case (.idle, .flag(true)): resetMedia()
+        case (.idle, .flag(true)):
+            if !isLoading { resetMedia() }
         case (.position, .unavailable):
             position = 0
             latestPosition = 0
@@ -343,7 +364,10 @@ final class PlayerViewModel {
             guard let items, self.autoAdvance, self.isAtEnd, !self.replayPending,
                 !self.isClosing, !self.isScreensaverEngaged, self.currentURL == url,
                 let next = FolderPlaylist(items: items, current: url).next
-            else { return }
+            else {
+                self.updateIdleParkTimer()
+                return
+            }
             self.open(url: next)
         }
     }
@@ -355,6 +379,8 @@ final class PlayerViewModel {
     }
 
     private func resetMedia() {
+        cancelIdlePark()
+        parkedVideo = nil
         cancelEOFRefresh()
         title = ""
         position = 0
@@ -373,6 +399,19 @@ final class PlayerViewModel {
         lastPositionUpdate = -Double.infinity
     }
 
+    func updateParkedPosition(_ seconds: Double) {
+        guard let parked = parkedVideo else { return }
+        let clamped = duration > 0 ? min(max(0, seconds), duration) : max(0, seconds)
+        position = clamped
+        latestPosition = clamped
+        endReached = false
+        replayPending = false
+        parkedVideo = ParkedVideo(
+            url: parked.url, position: clamped, duration: parked.duration, title: parked.title,
+            isAtEnd: false, trackSelection: parked.trackSelection)
+        notifyPlayback()
+    }
+
     func setShowingHome(_ showing: Bool) {
         guard isShowingHome != showing else { return }
         isShowingHome = showing
@@ -388,6 +427,8 @@ final class PlayerViewModel {
 
     func shutdown() async {
         recordWatchProgress(force: true)
+        cancelIdlePark()
+        parkedVideo = nil
         stopScreensaver()
         trackController.close()
         isClosing = true
@@ -407,87 +448,5 @@ final class PlayerViewModel {
         currentURL = nil
         watchProgress = VideoWatchProgress()
         playlist = nil
-    }
-
-    /// Only expose the animation after mpv confirms the pause; preserve position and fullscreen.
-    @discardableResult
-    func startMatrix(completion: ((Bool) -> Void)? = nil) -> Bool {
-        guard !isClosing, !isLoading else {
-            completion?(false)
-            return false
-        }
-        if screensaver == .matrix {
-            completion?(true)
-            return true
-        }
-        if let completion { screensaverStartCompletions.append(completion) }
-        guard !isStartingScreensaver else { return true }
-        isStartingScreensaver = true
-        cancelEOFRefresh()
-        isStartingHome = false
-        isShowingHome = false
-        isShowingConnectPhone = false
-        trackController.presentation = nil
-        let preparation = UUID()
-        screensaverPreparation = preparation
-        if beforeStartingMatrix?({ [weak self] paused in
-            guard let self, self.screensaverPreparation == preparation else { return }
-            self.screensaverPreparation = nil
-            if paused { _ = self.waitForMatrixPause() } else { self.stopScreensaver() }
-        }) == true {
-            return true
-        }
-        screensaverPreparation = nil
-        return waitForMatrixPause()
-    }
-
-    private func waitForMatrixPause() -> Bool {
-        if !hasMedia || (paused && requestedPause != false) {
-            activateMatrix()
-            return true
-        }
-        guard setPaused(true) else {
-            stopScreensaver()
-            return false
-        }
-        screensaverPauseTask = Task { [weak self] in
-            do { try await Task.sleep(for: .seconds(5)) } catch { return }
-            guard let self, !Task.isCancelled, self.isStartingScreensaver else { return }
-            self.stopScreensaver()
-            self.errorMessage = L10n.text("The movie could not be paused. Try again.")
-        }
-        return true
-    }
-
-    private func activateMatrix() {
-        screensaverPauseTask?.cancel()
-        screensaverPauseTask = nil
-        isStartingScreensaver = false
-        screensaver = .matrix
-        screensaverPresentation.start()
-        let completions = takeScreensaverStartCompletions()
-        notifyPlayback()
-        for completion in completions { completion(true) }
-    }
-
-    @discardableResult
-    func stopScreensaver() -> Bool {
-        screensaverPauseTask?.cancel()
-        screensaverPauseTask = nil
-        let changed = isScreensaverEngaged
-        screensaverPreparation = nil
-        isStartingScreensaver = false
-        screensaver = .off
-        screensaverPresentation.stop()
-        let completions = takeScreensaverStartCompletions()
-        if changed { notifyPlayback() }
-        for completion in completions { completion(false) }
-        return true
-    }
-
-    private func takeScreensaverStartCompletions() -> [(Bool) -> Void] {
-        let completions = screensaverStartCompletions
-        screensaverStartCompletions.removeAll()
-        return completions
     }
 }

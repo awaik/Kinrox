@@ -11,6 +11,7 @@ You are the independent reviewer of a general release: after the review and fixe
 
 ## Boundaries
 
+- Run commands and tests synchronously, without `&`, `nohup`, or the tool's background mode; leave no background tasks before your final answer.
 - **Do not fix code** - report only; the next agent assesses and fixes the findings. The report file is the only file you create.
 - No commit, push, tag, publication, stash, reset, restore, clean, branches, or worktrees. No signing, notarization, `Scripts/build-release.sh`, or installation over the user's app. Do not touch Mac system volume; any playback check sets Kinrox's own volume to 0 first (`AGENTS.md`, rule 7).
 - Do not launch the iOS Simulator in any form (`AGENTS.md`, rule 11). RemoteiOS tests run only on a physical iPhone that the owner connected; you cannot ask for one, so state it as a limit.

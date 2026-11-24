@@ -18,6 +18,7 @@ struct WindowChrome {
     var setControlsVisible: (Bool) -> Void = { _ in }
     var setTitle: (String) -> Void = { _ in }
     var isPointerInTitlebar: () -> Bool = { false }
+    var setVideoSurfaceWanted: (Bool) -> Void = { _ in }
 }
 
 @MainActor
@@ -33,6 +34,8 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
     private var escapeMonitor: Any?
     private var pointerMonitor: Any?
     private var controlsVisible = true
+    private var isWindowVisible = false
+    private var isVideoSurfaceWanted = false
 
     init(
         session: PlayerSession = PlayerSession(recents: RecentFilesStore()),
@@ -41,7 +44,10 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
         actions: PlayerActions = PlayerActions(),
         onClose: @escaping (PlayerViewModel) -> Void
     ) throws {
-        let engine = try MPVPlayer()
+        let engine = LazyMPVPlayer()
+        if ProcessInfo.processInfo.environment["KINROX_RELEASE_SMOKE_TEST"] == "1" {
+            try engine.verifyStartup()
+        }
         model = PlayerViewModel(engine: engine, recents: recents)
         self.session = session
         self.onClose = onClose
@@ -74,6 +80,10 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
             isPointerInTitlebar: { [weak self, weak window] in
                 guard let self, let window, window.isVisible else { return false }
                 return Self.isPointerInTitlebar(in: window, isFullscreen: self.model.isFullscreen)
+            },
+            setVideoSurfaceWanted: { [weak self] wanted in
+                self?.isVideoSurfaceWanted = wanted
+                self?.syncVideoSurfaceVisibility()
             })
         window.contentView = NSHostingView(
             rootView: PlayerRootView(
@@ -81,7 +91,7 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
                 video: PlayerView(
                     session: session,
                     model: model, recents: recents, pairing: pairing, remote: remote,
-                    updates: updates, videoLayer: engine.videoLayer, actions: actions,
+                    updates: updates, videoLayer: { engine.videoLayer }, actions: actions,
                     chrome: chrome, overlay: overlay),
                 modeChanged: { [weak self, weak window] mode in
                     guard let window else { return }
@@ -255,12 +265,29 @@ final class PlayerWindowController: NSWindowController, NSWindowDelegate {
         desiredFullscreen = nil
     }
 
+    private func syncVideoSurfaceVisibility() {
+        model.setVideoSurfaceVisible(isWindowVisible && isVideoSurfaceWanted)
+    }
+
+    private func refreshWindowVisibility() {
+        isWindowVisible =
+            window?.isVisible == true && window?.occlusionState.contains(.visible) == true
+        syncVideoSurfaceVisibility()
+    }
+
+    func windowDidChangeOcclusionState(_ notification: Notification) {
+        refreshWindowVisibility()
+    }
+
     override func showWindow(_ sender: Any?) {
         session?.music.setWorkspaceActive(session?.mode == .music)
         super.showWindow(sender)
+        refreshWindowVisibility()
     }
 
     func windowWillClose(_ notification: Notification) {
+        isWindowVisible = false
+        syncVideoSurfaceVisibility()
         session?.music.setWorkspaceActive(false)
         if let escapeMonitor { NSEvent.removeMonitor(escapeMonitor) }
         escapeMonitor = nil

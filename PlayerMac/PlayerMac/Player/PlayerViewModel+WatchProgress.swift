@@ -9,6 +9,7 @@ struct VideoWatchProgress {
 
     var pending: Start?
     var panel: (key: String, kind: MediaTrackKind)?
+    var restoredAtEndKey: String?
     var lastWrite = -Double.infinity
     var finishedAt: Double?
 }
@@ -35,13 +36,18 @@ extension PlayerViewModel {
                 completed: completed, updated: Date()))
     }
 
-    func setVideoStart(_ url: URL, at seconds: Double?, showTracks kind: MediaTrackKind?) {
+    func setVideoStart(
+        _ url: URL, at seconds: Double?, showTracks kind: MediaTrackKind?,
+        preserveShortStart: Bool = false, restoringAtEnd: Bool = false
+    ) {
         let key = VideoFiles.key(url)
         watchProgress = VideoWatchProgress()
-        if let seconds, seconds.isFinite, seconds >= 5 {
+        let threshold: Double = preserveShortStart ? 0.01 : 5
+        if let seconds, seconds.isFinite, seconds >= threshold {
             watchProgress.pending = .init(key: key, seconds: seconds)
         }
         if let kind { watchProgress.panel = (key, kind) }
+        if restoringAtEnd { watchProgress.restoredAtEndKey = key }
     }
 
     func applyVideoStart(path: String? = nil) {
@@ -56,6 +62,9 @@ extension PlayerViewModel {
                 watchProgress.pending = nil
                 errorMessage = error.localizedDescription
             }
+        }
+        if watchProgress.restoredAtEndKey == key {
+            endReached = true
         }
         if let panel = watchProgress.panel, panel.key == key {
             watchProgress.panel = nil
@@ -74,6 +83,10 @@ extension PlayerViewModel {
 
     func openTrackPanel(kind: MediaTrackKind = .audio) {
         guard canControl, !isLoading, !isScreensaverEngaged else { return }
+        if parkedVideo != nil {
+            _ = unpark(startPaused: true, tracks: kind)
+            return
+        }
         returnToVideo()
         trackController.selectedKind = kind
         trackController.presentation = .quick
@@ -83,6 +96,12 @@ extension PlayerViewModel {
     func resume(_ url: URL, from progress: WatchProgress?, showTracks: Bool = false) -> Bool {
         let position = progress.flatMap { $0.completed ? nil : $0.position }
         if hasMedia, !isLoading, currentURL.map(VideoFiles.key) == VideoFiles.key(url) {
+            if parkedVideo != nil {
+                if showTracks {
+                    return unpark(startPaused: true, tracks: .audio)
+                }
+                return setPaused(false)
+            }
             returnToVideo()
             if showTracks {
                 openTrackPanel()

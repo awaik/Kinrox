@@ -30,8 +30,11 @@ struct ControlsBar: View {
                 HStack(spacing: 4) {
                     IconButton(systemName: "captions.bubble", help: L10n.text("Audio & Subtitles"))
                     {
-                        model.trackController.presentation =
-                            model.trackController.presentation == nil ? .quick : nil
+                        if model.trackController.presentation == nil {
+                            model.openTrackPanel()
+                        } else {
+                            model.trackController.presentation = nil
+                        }
                     }
                     .accessibilityIdentifier("track-selector-button")
                     IconButton(systemName: "list.bullet", help: L10n.text("Files in folder")) {

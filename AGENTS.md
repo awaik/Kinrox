@@ -13,7 +13,7 @@
 >
 > These requirements supersede earlier decisions that require Spotify.app or permit an embedded web player. The historical Connect-only releases in the [release history](docs/releases/HISTORY.md) do **not** establish standalone acceptance. The default production path now uses separately downloaded Soloist; live evidence and accepted limits are in [Soloist Verification](docs/runbooks/SOLOIST-VERIFICATION.md).
 >
-> **Status:** M0–M6 complete. Current release: Mac 0.5.12 (build 22) and Kinrox Remote 0.2.2 (build 4).
+> **Status:** M0–M6 complete. Current release: Mac 0.5.13 (build 23) and Kinrox Remote 0.2.2 (build 4).
 > Milestone and release history with links to verification reports — [release history](docs/releases/HISTORY.md);
 > contributor tasks — [docs/TODO](docs/TODO/). Design: Section 3.5; landing site: Section 3.6; licensing: Section 10.
 > Open questions are compiled in Section 11. Until closed, proposals marked "proposal" are non-final.
@@ -790,6 +790,47 @@ Agent models and roles (owner decisions, 2026-11-11 and 2026-11-20; Section 11):
   of the fix remains mandatory.
 - These decisions do not cover product models, image-generation models, or Claude
   and OpenAI models launched through agy.
+- **agy idle watchdog** (ported from direct-mcp 2026-11-21). In `-p` mode agy sometimes
+  finishes, prints `root agent idle; waiting for N background task(s)` to stderr, and
+  waits forever for a task that no longer exists (on 2026-11-20 an implementation stage
+  hung this way). Every agy launch — both `run.sh` runners and the `investigate` template —
+  goes through `.agents/bin/agent-watchdog` (`.agents/lib/agent_watchdog.py`,
+  `agent_activity.py`), configured by `.agents/lib/agy-watch.sh`, the single place for
+  `AGY_IDLE_STOP_SECONDS=1800`. It is not a timeout: it stops agy (SIGTERM to its PID,
+  so agy still writes its JSON, then SIGKILL after 30 s and cleanup of the process group)
+  only when the marker is the last stage-log line and for the whole threshold there was
+  no stage-log change, no working descendant (`zsh`/`bash`/`sh` child or a process started
+  later than 60 s after agy; MCP servers and zombies do not count), and no
+  `streamGenerateContent` or `Monitor … FINISHED` line in agy's own
+  `~/.gemini/antigravity-cli/log/cli-*.log`. It then appends `[watchdog] agy idle for …
+  stopped (SIGTERM)` to the stage log; without `ps` or `lsof` it warns once and never stops
+  agy. agy's stderr must be appended (`2>>`) to the log passed as `--log`. Stage prompts
+  tell agents to run commands synchronously and leave no background tasks.
+- Cause of the hangs (direct-mcp analysis 2026-11-21 of agy conversation databases
+  `~/.gemini/antigravity-cli/conversations/<id>.db`, table `steps`): a stream interruption to
+  the model ("The stream was interrupted. Please continue…") during a tool call leaves that step
+  "running" (`status = 1`) forever, and at the end agy waits for it as a background task; the
+  `root agent idle` marker may be missing. On 2026-11-20/21 all 8 conversations with such a step
+  hung for 27–596 min, about 190 without one exited within 0–3 min. agy moving commands to the
+  background is normal tool behaviour (`run_command` with `WaitMsBeforeAsync: 10000` turns any
+  command longer than 10 s into a `task-N`), not a prompt violation. Hence a second signal
+  (`.agents/lib/agent_hang_signals.py`, threshold `AGY_CONFIRMED_IDLE_STOP_SECONDS=600` in
+  `agy-watch.sh`, 0 disables): the agy process's conversation database (found through its open
+  files `conversations/<id>.db` or `brain/<id>`, read-only) gains a `status = 1` step followed
+  by a stream interruption, with the same evidence of work silent for the threshold. Steps that
+  hung before the watchdog started are not counted; an unreadable database never stops agy.
+- Orchestrator rule (owner decision 2026-11-21, unconditional silence check): with every
+  background agy run, arm a Monitor for 30 minutes (re-arm on every expiry while the run is
+  going) running `.agents/bin/agent-monitor --log <current stage log>` (the agy PID is found by
+  the open log, or pass `--pid`). It does not depend on log text: every minute it looks at log
+  changes, agy working descendants and the time of the last activity line in agy's
+  `cli-*.log`. 30 minutes without any action print `QUIET <N> min: …` with a summary (last log
+  line, unclosed steps after an interruption, descendants), repeated after every further
+  30 minutes; agy exiting prints `FINISHED`. Silence is measured from file times, so re-arming
+  does not reset it. On `QUIET` check yourself: hung — `kill <agy pid>` (SIGTERM to the PID,
+  not the group) and investigate why the watchdog stayed silent; quietly working — re-arm.
+  Watchdog tests:
+  `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .agents/tests -v`.
 
 ---
 

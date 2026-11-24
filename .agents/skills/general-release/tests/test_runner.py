@@ -32,6 +32,18 @@ with (Path(os.environ['FAKE_LOG']).parent / 'agy-args.txt').open('a') as log:
     log.write(' '.join(args[:-1]) + '\\n')
 mode = Path(os.environ['FAKE_MODE']).read_text().strip()
 run = (Path.cwd() / '.tmp/scratch/general-release/latest').resolve()
+if stage == 'apply' and mode.startswith('apply-idle'):
+    # Finishes, then hangs on agy's idle marker; '-active' keeps its cli-*.log busy and completes.
+    agy_log = Path.cwd() / '.tmp/antigravity-cli/log/cli-fake.log'
+    agy_log.parent.mkdir(parents=True, exist_ok=True)
+    agy_handle = agy_log.open('a')
+    agy_handle.write('INFO started\\n'); agy_handle.flush()
+    print('root agent idle; waiting for 1 background task(s) to finish', file=sys.stderr, flush=True)
+    if mode == 'apply-idle-hang':
+        time.sleep(30)
+    for _ in range(10):
+        time.sleep(0.3)
+        agy_handle.write('INFO Monitor run_command FINISHED\\n'); agy_handle.flush()
 if stage == 'apply':
     if mode == 'apply-hang':
         child = subprocess.Popen(['sleep', '60'])
@@ -87,6 +99,9 @@ class RunnerTests(unittest.TestCase):
         skill = self.repo / '.agents/skills/general-release'
         skill.mkdir(parents=True)
         shutil.copy(SKILL / 'run.sh', skill / 'run.sh')
+        for part in ('lib', 'bin'):
+            shutil.copytree(PROJECT / '.agents' / part, self.repo / '.agents' / part,
+                            ignore=shutil.ignore_patterns('__pycache__'))
         shutil.copytree(SKILL / 'prompts', skill / 'prompts')
         fingerprint = self.repo / '.agents/skills/research-execute'
         fingerprint.mkdir(parents=True)
@@ -356,6 +371,24 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(
             self.run_script('--version', '0.5.9', '--build', '19', '--dry-run', env={'AGENT_TIMEOUT': '0'}).returncode,
             1)
+
+    def test_idle_watchdog_stops_hung_apply_without_retry(self):
+        (self.base / 'mode.txt').write_text('apply-idle-hang')
+        result = self.run_script('--version', '0.5.9', '--build', '19', env={'AGY_IDLE_STOP_SECONDS': '1'})
+        run = (self.repo / '.tmp/scratch/general-release/latest').resolve()
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertEqual(self.state(run)['PENDING_STAGE'], 'apply')
+        log = (run / 'apply-1.log').read_text()
+        self.assertIn('[watchdog] agy idle for', log)
+        self.assertIn('stopped (SIGTERM)', log)
+        self.assertEqual([c for c in self.calls() if c.startswith('agy apply')], ['agy apply Gemini 4 Neon (High)'])
+
+    def test_idle_watchdog_keeps_apply_with_activity(self):
+        (self.base / 'mode.txt').write_text('apply-idle-active')
+        result = self.run_script('--version', '0.5.9', '--build', '19', env={'AGY_IDLE_STOP_SECONDS': '1'})
+        run = (self.repo / '.tmp/scratch/general-release/latest').resolve()
+        self.assertEqual(result.returncode, 11, result.stderr)
+        self.assertNotIn('[watchdog]', (run / 'apply-1.log').read_text())
 
     def test_unknown_release_agent_is_refused(self):
         for agent in ('gemini', 'codex'):

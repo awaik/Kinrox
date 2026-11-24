@@ -229,6 +229,11 @@ Remote (App Store) is not part of this release.
   an agy release continues with `--resume` and answers; a failed agy turn (`status` other than
   `SUCCESS`) never counts as released. The lock covers the script only, not
   the orchestrator's manual release steps: do not start a second release meanwhile.
+- Every agy launch runs under the idle watchdog (`.agents/lib/agy-watch.sh`, AGENTS.md Section 9.1);
+  a `[watchdog] agy idle` line in a stage log means agy was stopped after hanging (idle
+  marker, or a step left running after a stream interruption), so read its answer before
+  rerunning anything. With every background run arm the `agent-monitor` check (AGENTS.md
+  Section 9.1).
 - The working-tree fingerprint is the shared `fingerprint.mjs` of
   `.agents/skills/research-execute/`.
 - Run directories live in `.tmp/scratch/general-release/runs/` (ignored by Git). Logs may hold
@@ -239,6 +244,7 @@ Remote (App Store) is not part of this release.
 When you change the runner, verify its state transitions without live agents:
 
 ```sh
-python3 -m unittest discover -s .agents/skills/general-release/tests -v
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .agents/skills/general-release/tests -v
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .agents/tests -v
 bash -n .agents/skills/general-release/run.sh
 ```

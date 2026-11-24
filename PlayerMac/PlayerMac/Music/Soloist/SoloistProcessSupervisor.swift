@@ -350,6 +350,10 @@ actor SoloistProcessSupervisor: SoloistDriving {
             activeSocket.cancel(with: .goingAway, reason: nil)
             (activeSocket as URLSessionTask).cancel()
         }
+        if let activeSession = session {
+            session = nil
+            activeSession.invalidateAndCancel()
+        }
         try? lifetime?.fileHandleForWriting.close()
         lifetime = nil
         let process = child

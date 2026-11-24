@@ -23,6 +23,7 @@ final class FakePlayerEngine: PlayerEngine {
     var loadError: Error?
     var commandError: Error?
     var shutdownCount = 0
+    var parkCount = 0
 
     var openedURLs: [URL] {
         commands.compactMap { if case .load(let url) = $0 { url } else { nil } }
@@ -62,6 +63,7 @@ final class FakePlayerEngine: PlayerEngine {
         commands.append(.addTrack(url, kind, requestID))
     }
     func cancelTrackCommand(id: UInt64) { commands.append(.cancelTrack(id)) }
+    func park() { parkCount += 1 }
     func shutdown() async {
         shutdownCount += 1
         continuation.finish()

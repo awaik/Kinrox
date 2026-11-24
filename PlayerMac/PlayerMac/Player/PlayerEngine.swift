@@ -50,11 +50,14 @@ protocol PlayerEngine: AnyObject {
     func addTrack(url: URL, kind: MediaTrackKind, requestID: UInt64) throws
     func cancelTrackCommand(id: UInt64)
     func stop() throws
+    func park()
     func shutdown() async
 }
 
 extension PlayerEngine {
     var reportsLoadedPath: Bool { false }
+
+    func park() {}
 
     func load(url: URL, paused: Bool) throws {
         try load(url: url)

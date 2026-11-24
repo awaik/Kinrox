@@ -34,6 +34,7 @@ final class MPVAudioEngine: LocalAudioEngine {
             for (option, value) in [
                 ("vo", "null"), ("volume-max", "100"),
                 ("volume", String(max(0, min(100, initialVolume)))), ("pause", "yes"),
+                ("demuxer-max-bytes", "8MiB"), ("demuxer-max-back-bytes", "2MiB"),
             ] {
                 try MPVError.check(mpv_set_option_string(handle, option, value), "Option \(option)")
             }

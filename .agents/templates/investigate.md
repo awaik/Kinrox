@@ -3,9 +3,12 @@
 Role: `investigate` (owner decision 2026-11-11). Do not repeat the model here.
 The orchestrator copies this template to `.tmp/scratch/<task>/investigate.md`,
 fills it in, and launches it in the background in parallel with the agy fix
-(`Gemini 4 Neon (XHigh)`):
+(`Gemini 4 Neon (XHigh)`), with bash from the repository root. The idle watchdog
+(`.agents/lib/agy-watch.sh`) stops agy if it hangs on `root agent idle; waiting for`
+after finishing; its stderr must be appended to the log passed as `--log`:
 
-```sh
+```bash
+REPO="$PWD"; . .agents/lib/agy-watch.sh
 # Portable process-group timeout; macOS includes Perl.
 with_timeout() {
   perl -e '
@@ -19,9 +22,11 @@ with_timeout() {
     exit($st & 127 ? 128 + ($st & 127) : $st >> 8);
   ' "$@"
 }
-with_timeout 5400 agy --dangerously-skip-permissions --model "Gemini 4 Carbon (High)" \
+: >.tmp/scratch/<task>/investigate.log
+with_timeout 5400 "${AGY_WATCHED[@]}" --log .tmp/scratch/<task>/investigate.log -- \
+  agy --dangerously-skip-permissions --model "Gemini 4 Carbon (High)" \
   -p "$(cat .tmp/scratch/<task>/investigate.md)" </dev/null \
-  >.tmp/scratch/<task>/investigate.log 2>&1
+  >>.tmp/scratch/<task>/investigate.log 2>&1
 ```
 
 ## Symptom
@@ -46,6 +51,8 @@ Repository: Kinrox, main checkout, local `main`. Read `AGENTS.md` completely,
 
 ## Hard rules
 
+- Run commands and tests synchronously, without `&`, `nohup`, or the tool's background
+  mode; leave no background tasks before your final answer.
 - Read only. Do not change code, tests, documents, `project.yml`, configs,
   localization, generated projects, or `Kinrox.xcworkspace`. Write only under
   `.tmp/scratch/<task>/` and to the report file.

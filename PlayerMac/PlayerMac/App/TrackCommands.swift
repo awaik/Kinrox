@@ -16,10 +16,14 @@ private struct TrackMenuContent: View {
     let session: PlayerSession
     let kind: MediaTrackKind
     private var controller: TrackController? { session.model?.trackController }
-    private var panelEnabled: Bool {
-        controller?.isReady == true && controller?.isChoosingFile == false
+    private var baseEnabled: Bool {
+        controller?.isChoosingFile == false
             && !session.isOpenPanelShown && session.pairing.prompt == nil
             && session.model?.isScreensaverEngaged != true
+    }
+    private var panelEnabled: Bool { controller?.isReady == true && baseEnabled }
+    private var canOpenPanel: Bool {
+        (controller?.isReady == true || session.model?.isParked == true) && baseEnabled
     }
 
     var body: some View {
@@ -27,7 +31,7 @@ private struct TrackMenuContent: View {
             session.mode = .video
             session.model?.openTrackPanel(kind: kind)
         }
-        .disabled(!panelEnabled || session.isLibrarySheetShown || session.isHomeSearchFocused)
+        .disabled(!canOpenPanel || session.isLibrarySheetShown || session.isHomeSearchFocused)
         Group {
             Divider()
             if kind == .subtitle {

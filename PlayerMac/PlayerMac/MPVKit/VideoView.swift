@@ -1,29 +1,56 @@
 import AppKit
+import QuartzCore
 import SwiftUI
 
 struct VideoView: NSViewRepresentable {
-    let videoLayer: VideoLayer
+    let videoLayer: VideoLayer?
 
     func makeNSView(context: Context) -> VideoHostView { VideoHostView(videoLayer: videoLayer) }
-    func updateNSView(_ nsView: VideoHostView, context: Context) {}
+
+    func updateNSView(_ nsView: VideoHostView, context: Context) {
+        nsView.setVideoLayer(videoLayer)
+    }
 }
 
 final class VideoHostView: NSView {
-    private let videoLayer: VideoLayer
+    private var videoLayer: VideoLayer?
 
-    init(videoLayer: VideoLayer) {
-        self.videoLayer = videoLayer
+    init(videoLayer: VideoLayer? = nil) {
         super.init(frame: .zero)
-        layer = videoLayer
+        let hostLayer = CALayer()
+        hostLayer.backgroundColor = NSColor.black.cgColor
+        layer = hostLayer
         wantsLayer = true
+        setVideoLayer(videoLayer)
     }
 
     required init?(coder: NSCoder) { nil }
 
+    func setVideoLayer(_ newLayer: VideoLayer?) {
+        guard videoLayer !== newLayer else { return }
+        if let previous = videoLayer {
+            previous.releaseBacking()
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            previous.removeFromSuperlayer()
+            CATransaction.commit()
+        }
+        videoLayer = newLayer
+        guard let newLayer, let hostLayer = layer else { return }
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        newLayer.autoresizingMask = []
+        hostLayer.addSublayer(newLayer)
+        CATransaction.commit()
+        if window != nil {
+            updateGeometry()
+        }
+    }
+
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
         if window == nil {
-            videoLayer.releaseBacking()
+            videoLayer?.releaseBacking()
         } else {
             updateGeometry()
         }
@@ -36,16 +63,15 @@ final class VideoHostView: NSView {
 
     override func layout() {
         super.layout()
-        videoLayer.requestDisplay()
+        videoLayer?.requestDisplay()
     }
 
     override func setFrameSize(_ newSize: NSSize) {
         super.setFrameSize(newSize)
-        // Root layer size in layer-hosting is determined by application.
         updateGeometry()
     }
 
     private func updateGeometry() {
-        videoLayer.updateGeometry(frame: bounds, scale: window?.backingScaleFactor ?? 1)
+        videoLayer?.updateGeometry(frame: bounds, scale: window?.backingScaleFactor ?? 1)
     }
 }
