@@ -1,2 +1,2 @@
-Novidade: pausa, saltos e volume sem desbloquear o iPhone.
-Semelhantes pelo controle: a música no Mac continua, e o que não agrada pode ser ocultado (requer Kinrox para Mac 0.5.8).
+Conexão mais estável com o seu Mac: corrigido um problema em que atualizações da rede local podiam encerrar uma sessão ativa.
+Compatibilidade do protocolo atualizada para as versões mais recentes do Kinrox para Mac.

@@ -1,2 +1,2 @@
-Nieuw: bediening op het toegangsscherm. Pauzeren, springen en volume zonder je iPhone te ontgrendelen.
-Vergelijkbaar vanaf de afstandsbediening: de muziek op je Mac gaat door en je verbergt wat je niet bevalt (vereist Kinrox voor Mac 0.5.8).
+Stabielere verbinding met je Mac: een probleem opgelost waarbij updates in het lokale netwerk een actieve sessie konden verbreken.
+Bijgewerkte protocolcompatibiliteit voor de nieuwste versies van Kinrox voor Mac.

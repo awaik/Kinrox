@@ -13,7 +13,7 @@
 >
 > These requirements supersede earlier decisions that require Spotify.app or permit an embedded web player. The historical Connect-only releases in the [release history](docs/releases/HISTORY.md) do **not** establish standalone acceptance. The default production path now uses separately downloaded Soloist; live evidence and accepted limits are in [Soloist Verification](docs/runbooks/SOLOIST-VERIFICATION.md).
 >
-> **Status:** M0–M6 complete. Current release: Mac 0.5.13 (build 23) and Kinrox Remote 0.2.2 (build 4).
+> **Status:** M0–M6 complete. Current release: Mac 0.5.13 (build 23) and Kinrox Remote 0.2.3 (build 5).
 > Milestone and release history with links to verification reports — [release history](docs/releases/HISTORY.md);
 > contributor tasks — [docs/TODO](docs/TODO/). Design: Section 3.5; landing site: Section 3.6; licensing: Section 10.
 > Open questions are compiled in Section 11. Until closed, proposals marked "proposal" are non-final.

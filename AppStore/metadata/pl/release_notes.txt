@@ -1,2 +1,2 @@
-Nowość: sterowanie na ekranie blokady. Pauza, przewijanie i głośność bez odblokowywania iPhone’a.
-Podobne z pilota: muzyka na Macu gra dalej, a niechciane utwory możesz ukryć (wymaga Kinrox na Maca 0.5.8).
+Stabilniejsze połączenie z Makiem: naprawiono problem, w którym aktualizacje sieci lokalnej mogły przerywać aktywną sesję pilota.
+Zaktualizowano zgodność protokołu pilota z najnowszymi wersjami Kinrox dla Maca.

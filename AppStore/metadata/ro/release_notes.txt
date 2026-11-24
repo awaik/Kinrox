@@ -1,2 +1,2 @@
-Nou: comenzi pe ecranul de blocare. Pauză, salturi și volum fără să deblochezi iPhone-ul.
-Piese similare de pe telecomandă: muzica pe Mac continuă și ascunzi ce nu îți place (necesită Kinrox pentru Mac 0.5.8).
+Conexiune mai stabilă cu Mac-ul tău: am remediat o problemă prin care actualizările rețelei locale puteau întrerupe o sesiune activă.
+Compatibilitate actualizată a protocolului pentru cele mai recente versiuni Kinrox pentru Mac.
